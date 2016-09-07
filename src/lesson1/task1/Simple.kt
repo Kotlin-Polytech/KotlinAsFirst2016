@@ -115,7 +115,11 @@ fun thirdDigit(number: Int): Int {
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = TODO()
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+   val hoursDepart = hoursDepart*60 + minutesDepart
+    val hoursArrive = hoursArrive*60 + minutesArrive
+    return hoursArrive - hoursDepart
+}
 
 /**
  * Простая
@@ -124,7 +128,10 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
+fun accountInThreeYears(initial: Int, percent: Int): Double {
+
+return (initial*(1+0.01*percent))*(1+0.01*percent) + 0.01*percent*(initial*(1+0.01*percent))*(1+0.01*percent)
+}
 
 /**
  * Простая
@@ -132,4 +139,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = TODO()
+fun numberRevert(number: Int): Int {
+    val r1 = number / 100
+    val r3 = number % 10
+    val r2 = (number % 100)/10
+    return r3*100 + r2*10 +r1
+}

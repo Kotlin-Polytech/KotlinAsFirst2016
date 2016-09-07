@@ -35,18 +35,13 @@
  */
         fun ageDescription(age: Int): String {
 
-        String answer
-        Int last_digit = age % 10
+       // String answer
+       // Int last_digit
+        val last_digit = age % 10
 
-        if ( last_digit == 1 ) answer = "$age год"
-        if (
-        last_digit == 2 ||
-        last_digit == 3 ||
-        last_digit == 4
-        ) answer = "$age года"
-        if ( last_digit > 4 || ( age >= 10 && age <= 21 ) ) answer = "$age лет"
-        
-        return answer
+        if ( last_digit > 4 || ( age >= 10 && age <= 21 ) ) return "$age лет"
+        else if ( last_digit == 1 ) return "$age год"
+        else return "$age года"
         }
 
 /**
@@ -58,23 +53,21 @@
  */
         fun timeForHalfWay(t1: Double, v1: Double, t2: Double, v2: Double, t3: Double, v3: Double): Double {
         
-        Double answer, s1, s2, s3, half
+        // Double answer; s1; s2; s3; half
         
-        s1 = t1 * v1
-        s2 = t2 * v2
-        s3 = t3 * v3
+        val s1 = t1 * v1
+        val s2 = t2 * v2
+        val s3 = t3 * v3
         
-        half = ( s1 + s2 + s3 ) / 2
+        val half = ( s1 + s2 + s3 ) / 2
         
         // V T
         
-        if ( half <= s1 ) answer = half / v1
+        if ( half <= s1 ) return half / v1
         
-        else if ( half > s1 && half <= s1 + s2 ) answer = t1 + ( ( half - s1 ) / v2 )
+        else if ( half > s1 && half <= s1 + s2 ) return t1 + ( ( half - s1 ) / v2 )
         
-        else answer = t1 + t2 + ( half - s1 - s2 ) / v3
-        
-        return answer
+        else return t1 + t2 + ( half - s1 - s2 ) / v3
         
         }
 

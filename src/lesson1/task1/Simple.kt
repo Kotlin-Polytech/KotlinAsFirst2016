@@ -73,7 +73,11 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256). рад = 180/п , 1град = 60мин = 3600 сек, grad*n/180
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = TODO()
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
+    val a = sec*0.00027777777777778
+    val b = min*0.016666666666667
+    return (grad + b + a)/57.29578
+}
 
 /**
  * Тривиальная
@@ -81,7 +85,12 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = TODO()
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = TODO()
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
+    val a = (x2-x1)*(x2-x1)
+    val b = (y2-y1)*(y2-y1)
+    val c = sqrt(a+b)
+    return c
+}
 
 /**
  * Простая
@@ -114,7 +123,9 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double =TODO()
+fun accountInThreeYears(initial: Int, percent: Int): Double {
+    return (initial*(1+0.01*percent))*(1+0.01*percent) + 0.01*percent*(initial*(1+0.01*percent))*(1+0.01*percent)
+}
 
 /**
  * Простая

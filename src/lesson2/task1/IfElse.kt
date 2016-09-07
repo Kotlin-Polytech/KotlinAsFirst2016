@@ -56,7 +56,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if (kingX == rookX1 || kingY == rookY1) {
+        if (kingX != rookX2 && kingY != rookY2) return 1
+        if (kingX == rookX2 || kingY == rookY2) return 3
+    }
+    if (kingX == rookX2 || kingY == rookY2) return 2
+    return 0
+}
 
 /**
  * Простая
@@ -69,7 +76,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    if (kingX == rookX || kingY == rookY) {
+        if (Math.abs(kingX - bishopX) != Math.abs(kingY - bishopY)) return 1
+        if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) return 3
+    }
+    if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) return 2
+    return 0
+}
+
 
 /**
  * Простая
@@ -89,4 +104,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (c in a..b && d !in a..b) return b-c
+    if (c in a..b && d in a..b) return d-c
+    if (a in c..d && b in c..d) return b-a
+    if (a in c..d && b !in c..d) return d-a
+    return -1
+}

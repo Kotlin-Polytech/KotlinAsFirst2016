@@ -51,7 +51,12 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
+    val h=hours*3600
+    val m=minutes*60
+    val s=seconds
+    return h+m+s}
+
 
 /**
  * Тривиальная
@@ -60,11 +65,15 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = TODO()
-
-/**
- * Тривиальная
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = {
+    val s=sagenes*48*0.0445
+ val a=arshins*16*0.0445
+    val v=vershoks*0.445
  *
+
+
+
+
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */

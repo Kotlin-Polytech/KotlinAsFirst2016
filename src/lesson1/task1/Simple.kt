@@ -86,8 +86,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = TODO()
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
     val x = abs (x1 - x2)
-    val y = abs (y1 - y2)
-    return sqrt(sqr(x) + sqr(y))
+    val z = abs (y1 - y2)
+    return sqrt(sqr(x) + sqr(z))
 }
 
 /**

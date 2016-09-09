@@ -141,10 +141,10 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
         var R : Int
 
         if ( c > b || a > d ) R = -1
-        else if ( a < c && c < b && b < d ) R = b - c
-        else if ( a < c && c < d && d < b ) R = d - c
-        else if ( c < a && a < d && d < b ) R = d - a
-        else if ( c < a && a < b && b < d ) R = b - a
+        else if ( a <= c && c <= b && b <= d ) R = b - c
+        else if ( a <= c && c <= d && d <= b ) R = d - c
+        else if ( c <= a && a <= d && d <= b ) R = d - a
+        else if ( c <= a && a <= b && b <= d ) R = b - a
         else R = -1
 
         return R

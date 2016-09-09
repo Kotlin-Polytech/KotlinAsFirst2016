@@ -38,8 +38,7 @@
        // String answer
        // Int last_digit
         val last_digit = age % 10
-
-        if ( last_digit > 4 || ( age >= 10 && age <= 21 ) ) return "$age лет"
+        if ( last_digit == 0 || last_digit > 4 || ( age >= 10 && age <= 20 ) ) return "$age лет"
         else if ( last_digit == 1 ) return "$age год"
         else return "$age года"
         }
@@ -81,7 +80,23 @@
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int
+{
+        var R : Int
+
+        if
+        (       ( kingX == rookX1 || kingY == rookY1 ) &&
+                ( kingX == rookX2 || kingY == rookY2 )
+        ) R = 3
+
+        else if ( kingX == rookX2 || kingY == rookY2 ) R = 2
+
+        else if ( kingX == rookX1 || kingY == rookY1 ) R = 1
+
+        else R = 0
+
+        return R
+}
 
 /**
  * Простая
@@ -114,4 +129,23 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
+{
+        // ========[a]######[b]=======[c]######[d]=========> -
+        // ========[a]######[c]|||||||[b]######[d]=========> b - c
+        // ========[a]######[c]|||||||[d]######[b]=========> d - c
+        // ========[c]######[a]|||||||[d]######[b]=========> d - a
+        // ========[c]######[a]|||||||[b]######[d]=========> b - a
+        // ========[c]######[d]=======[a]######[b]=========> -
+
+        var R : Int
+
+        if ( c > b || a > d ) R = -1
+        else if ( a < c && c < b && b < d ) R = b - c
+        else if ( a < c && c < d && d < b ) R = d - c
+        else if ( c < a && a < d && d < b ) R = d - a
+        else if ( c < a && a < b && b < d ) R = b - a
+        else R = -1
+
+        return R
+}

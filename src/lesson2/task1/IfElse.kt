@@ -35,16 +35,21 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String = TODO()
 
-/**
- * Простая
- *
- * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
- * и t3 часов — со скоростью v3 км/час.
- * Определить, за какое время он одолел первую половину пути?
- */
-fun timeForHalfWay(t1: Double, v1: Double,
-                   t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+        /**
+         * Простая
+         *
+         * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
+         * и t3 часов — со скоростью v3 км/час.
+         * Определить, за какое время он одолел первую половину пути?
+         */
+        fun timeForHalfWay(t1: Double, v1: Double,
+                           t2: Double, v2: Double,
+                           t3: Double, v3: Double): Double {
+            var road: Double=(t1*v1+t2*v2+t3*v3)/2
+            if (t1*v1>=road) return road/v1
+            else if (t1*v1+t2*v2>=road) return t1+(road-t1*v1)/
+            else return t1+t2+(road-t1*v1-t2*v2)/v3
+        }
 
 /**
  * Простая

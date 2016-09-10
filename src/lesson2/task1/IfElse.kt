@@ -56,8 +56,16 @@ fun ageDescription(age: Int): String = if (age%10==0) "$age лет" else
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val S_half = (s1 + s2 + s3) / 2
+    if (S_half < s1) return S_half / v1 else
+        if ((S_half > s1) && (S_half < (s1 + s2))) return t1 + ((S_half - s1) / v2) else
+            if ((S_half > (s1 + s2))) return t1 + t2 + ((S_half - s1 - s2) / v3) else return 5.0
 
+}
 /**
  * Простая
  *
@@ -85,7 +93,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int =
+if((kingX!==rookX)&&(kingY!==rookY)&&(Math.abs(kingX-bishopX)!==Math.abs(kingY-bishopY)))0 else
+    if(((kingX==rookX)||(kingY==rookY))&&(Math.abs(kingX-bishopX)!==Math.abs(kingY-bishopY))) 1 else
+        if(((kingX!==rookX)&&(kingY!==rookY))&&(Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY))) 2 else
+            if(((kingX==rookX)||(kingY==rookY))&&(Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY))) 3 else 0
 
 /**
  * Простая
@@ -95,7 +107,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
+fun sqr(x:Double) :Double=x*x
+fun max(a:Double, b:Double, c:Double)= if((a>b)&&(a>c)) a else
+                                       if((b>a)&&(b>c)) b else c
 fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+
+
 
 /**
  * Средняя
@@ -105,4 +122,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+        if(((b<c)&&(a<c))||((c<a)&&(d<a))) -1 else
+        if((a<=c)&&(d<=b)) d-c else
+        if((c<=a)&&(b<=d)) b-a else
+        if((a<=c)&&(c<=b)&&(b<=d)) b-c else
+        if((c<=a)&&(a<=d)&&(d<=b)) d-a else 0

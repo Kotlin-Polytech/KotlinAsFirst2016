@@ -108,9 +108,29 @@ if((kingX!==rookX)&&(kingY!==rookY)&&(Math.abs(kingX-bishopX)!==Math.abs(kingY-b
  * Если такой треугольник не существует, вернуть -1.
  */
 fun sqr(x:Double) :Double=x*x
-fun max(a:Double, b:Double, c:Double)= if((a>b)&&(a>c)) a else
-                                       if((b>a)&&(b>c)) b else c
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if((a==b)&&(b==c)&&(c==a)) return 0
+    if((a>b)&&(a>c)){
+        if(b+c<=a) return -1 else
+        if(sqr(b)+sqr(c)>sqr(a)) return 0 else
+        if(sqr(b)+sqr(c)<sqr(a)) return 2 else
+        if(sqr(b)+sqr(c)==sqr(a)) return 1
+    }
+    if((b>a)&&(b>c)){
+        if((a+c<=b)) return -1 else
+        if(sqr(a)+sqr(c)==sqr(b)) return 1 else
+        if(sqr(a)+sqr(c)<sqr(b)) return 2 else
+        if(sqr(a)+sqr(c)>sqr(b)) return 0
+    }
+    if((c>a)&&(c>b)){
+        if(a+b<=c) return -1 else
+            if(sqr(a)+sqr(b)==sqr(c)) return 1 else
+                if(sqr(a)+sqr(b)<sqr(c)) return 2 else
+                    if(sqr(a)+sqr(b)>sqr(c)) return 0
+    }
+    return 0
+}
 
 
 

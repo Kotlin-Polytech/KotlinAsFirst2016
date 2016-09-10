@@ -47,7 +47,7 @@ fun ageDescription(age: Int): String = TODO()
                            t3: Double, v3: Double): Double {
             var road: Double=(t1*v1+t2*v2+t3*v3)/2
             if (t1*v1>=road) return road/v1
-            else if (t1*v1+t2*v2>=road) return t1+(road-t1*v1)/
+            else if (t1*v1+t2*v2>=road) return t1+(road-t1*v1)/v2
             else return t1+t2+(road-t1*v1-t2*v2)/v3
         }
 
@@ -84,7 +84,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    var longer: Double=
+}
 
 /**
  * Средняя

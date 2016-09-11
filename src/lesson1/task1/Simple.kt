@@ -84,7 +84,6 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double  {
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
     return (sqrt((sqr(x1-x2))+ sqr(y1-y2)))
-
 }
 /**
  * Простая

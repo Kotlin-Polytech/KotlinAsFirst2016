@@ -94,7 +94,6 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  */
 fun thirdDigit(number: Int): Int {
     return ((number/100)%10)
-
 }
 
 /**

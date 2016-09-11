@@ -15,8 +15,8 @@ class Tests {
         assertEquals(Double.NaN, minBiRoot(1.0, 3.0, 2.0), 1e-2)
         assertEquals(-1.41, minBiRoot(1.0, -3.0, 2.0), 1e-2)
     }
-
     @Test
+
     @Tag("Easy")
     fun ageDescription() {
         assertEquals("21 год", ageDescription(21))

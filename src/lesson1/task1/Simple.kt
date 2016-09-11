@@ -68,7 +68,7 @@
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-        fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ( grad + ( min / 60 ) + ( sec / 3600 ) ) / 180 * 3.14
+        fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ( grad + ( min / 60.0 ) + ( sec / 3600.0 ) ) / 180.0 * 3.14
 
 /**
  * Тривиальная
@@ -93,7 +93,7 @@
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-        fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = ( hoursDepart * 60 + minutesDepart ) - ( hoursArrive * 60 + minutesArrive )
+        fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = ( hoursArrive * 60 + minutesArrive ) - ( hoursDepart * 60 + minutesDepart )
 
 /**
  * Простая
@@ -102,7 +102,7 @@
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-        fun accountInThreeYears(initial: Int, percent: Int): Double = initial * ( 1 + ( percent / 100 ) ) * 1.0
+        fun accountInThreeYears(initial: Int, percent: Int): Double = initial * ( 1.0 + ( percent / 100.0 ) ) * ( 1.0 + ( percent / 100.0 ) ) * ( 1.0 + ( percent / 100.0 ) ) * 1.0
 
 /**
  * Простая

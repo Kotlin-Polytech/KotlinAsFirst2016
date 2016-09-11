@@ -1,13 +1,15 @@
 package lesson6.task3
 
-import org.junit.jupiter.api.Tag
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.assertEquals
+//import org.junit.jupiter.api.Tag
+//import org.junit.jupiter.api.Test
+//import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.Assert.*
+import org.junit.Test
 
 class Tests() {
 
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun bfs() {
         val graph = Graph()
         graph.addVertex("A")
@@ -35,7 +37,7 @@ class Tests() {
 
 
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun dfs() {
         val graph = Graph()
         graph.addVertex("A")

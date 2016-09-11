@@ -1,12 +1,14 @@
 package lesson3.task1
 
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.Tag
-import org.junit.jupiter.api.Test
+//import org.junit.jupiter.api.Assertions.*
+//import org.junit.jupiter.api.Tag
+//import org.junit.jupiter.api.Test
+import org.junit.Assert.*
+import org.junit.Test
 
 class Tests {
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun factorial() {
         assertEquals(1.0, factorial(0), 1e-5)
         assertEquals(1.0, factorial(1), 1e-5)
@@ -17,7 +19,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun isPrime() {
         assertTrue(isPrime(2))
         assertTrue(isPrime(3))
@@ -41,7 +43,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun isPerfect() {
         assertTrue(isPerfect(6))
         assertTrue(isPerfect(28))
@@ -49,7 +51,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun digitCountInNumber() {
         assertEquals(4, digitCountInNumber(5373393, 3))
         assertEquals(2, digitCountInNumber(100, 0))
@@ -57,7 +59,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Trivial")
+//    @Tag("Trivial")
     fun digitNumber() {
         assertEquals(1, digitNumber(0))
         assertEquals(1, digitNumber(7))
@@ -68,7 +70,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Simple")
+//    @Tag("Simple")
     fun fib() {
         assertEquals(1, fib(1))
         assertEquals(1, fib(2))
@@ -79,7 +81,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Easy")
+//    @Tag("Easy")
     fun lcm() {
         assertEquals(13, lcm(13, 13))
         assertEquals(8, lcm(2, 8))
@@ -88,7 +90,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Easy")
+//    @Tag("Easy")
     fun minDivisor() {
         assertEquals(2, minDivisor(2))
         assertEquals(3, minDivisor(75))
@@ -99,7 +101,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Easy")
+//    @Tag("Easy")
     fun maxDivisor() {
         assertEquals(1, maxDivisor(17))
         assertEquals(12, maxDivisor(24))
@@ -109,7 +111,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Easy")
+//    @Tag("Easy")
     fun isCoPrime() {
         assertTrue(isCoPrime(25, 49))
         assertFalse(isCoPrime(6, 8))
@@ -118,7 +120,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Easy")
+//    @Tag("Easy")
     fun squareBetweenExists() {
         assertTrue(squareBetweenExists(1, 1))
         assertTrue(squareBetweenExists(21, 28))
@@ -127,7 +129,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Easy")
+//    @Tag("Easy")
     fun sin() {
         assertEquals(0.0, sin(0.0, 1e-5), 1e-5)
         assertEquals(1.0, sin(Math.PI / 2.0, 1e-5), 1e-5)
@@ -136,7 +138,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Easy")
+//    @Tag("Easy")
     fun cos() {
         assertEquals(1.0, cos(0.0, 1e-5), 1e-5)
         assertEquals(0.0, cos(Math.PI / 2.0, 1e-5), 1e-5)
@@ -145,7 +147,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun revert() {
         assertEquals(87431, revert(13478))
         assertEquals(0, revert(0))
@@ -156,7 +158,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun isPalindrome() {
         assertTrue(isPalindrome(3))
         assertFalse(isPalindrome(3653))
@@ -165,7 +167,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun hasDifferentDigits() {
         assertTrue(hasDifferentDigits(323))
         assertTrue(hasDifferentDigits(54))
@@ -175,7 +177,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Hard")
+//    @Tag("Hard")
     fun squareSequenceDigit() {
         assertEquals(1, squareSequenceDigit(1))
         assertEquals(4, squareSequenceDigit(2))
@@ -186,7 +188,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Hard")
+//    @Tag("Hard")
     fun fibSequenceDigit() {
         assertEquals(1, fibSequenceDigit(1))
         assertEquals(1, fibSequenceDigit(2))

@@ -98,8 +98,7 @@ fun thirdDigit(number: Int):
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int):
-        Int = (hoursArrive-hoursDepart) * 60 + (minutesArrive - minutesDepart)
-
+        Int = (hoursArrive*60 + minutesArrive) - (hoursDepart*60 + minutesDepart)
 /**
  * Простая
  *
@@ -108,7 +107,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int):
-        Double = initial*sqr(1 + percent/100)*(1 + percent/100) + initial
+        Double = (percent / 100 + 1) * (percent / 100 + 1) * (percent / 100 + 1) * initial
 
 /**
  * Простая
@@ -117,3 +116,4 @@ fun accountInThreeYears(initial: Int, percent: Int):
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int= TODO()
+

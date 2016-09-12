@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
+import kotlin.reflect.jvm.internal.impl.serialization.ProtoBuf
+
 /**
  * Пример
  *
@@ -60,7 +62,29 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(' ')
+    if (parts.count() == 3) {
+        var month = when (parts[1]) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> 0
+        }
+        if (month != 0)
+            return String.format("%02d.%02d.%d", parts[0].toInt(), month, parts[2].toInt())
+        else return ""
+    } else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +93,30 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split('.')
+    var isNum: Int = 1; parts.forEach {if (it.matches(Regex("[0-9]+"))) isNum*=1 else isNum*=0 }
+    if (parts.count() == 3 && isNum == 1) {
+        var month = when (parts[1].toInt()) {
+            1 -> "января"
+            2 -> "февраля"
+            3 -> "марта"
+            4 -> "апреля"
+            5 -> "мая"
+            6 -> "июня"
+            7 -> "июля"
+            8 -> "августа"
+            9 -> "сентября"
+            10 -> "октября"
+            11 -> "ноября"
+            12 -> "декабря"
+            else -> ""
+        }
+        if (month != "")
+            return String.format("%d %s %d", parts[0].toInt(), month, parts[2].toInt())
+        else return ""
+    } else return ""
+}
 
 /**
  * Сложная
@@ -83,7 +130,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.matches(Regex("^[+]?[-()0-9 ]+"))){
+        return phone.replace(Regex("[-() ]+"),"")
+    } else return ""
+}
 
 /**
  * Средняя
@@ -95,8 +146,13 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
-
+fun bestLongJump(jumps: String): Int {
+    if(jumps.matches(Regex("[-%[0-9] ]+"))){
+        if (Regex("[0-9]+").findAll(jumps).count() > 0)
+            return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max().toString().toInt()
+        else return -1
+    } else return -1
+}
 /**
  * Сложная
  *
@@ -107,7 +163,13 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if(jumps.matches(Regex("[-+%[0-9] ]+"))){
+        if (Regex("([0-9]+) [+]").findAll(jumps).count() > 0)
+            return Regex("([0-9]+) [+]").findAll(jumps).map { it.groupValues[1].toInt() }.max().toString().toInt()
+        else return -1
+    } else return -1
+}
 
 /**
  * Сложная
@@ -118,7 +180,11 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression.matches(Regex("^([0-9]+)( [-+] [0-9]+)*"))) {
+        return Regex("[-+]?[0-9]+").findAll(expression.replace(" ","")).sumBy { it.groupValues[0].toInt() }
+    } else throw Exception("IllegalArgumentException")
+}
 
 /**
  * Сложная

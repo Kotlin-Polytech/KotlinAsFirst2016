@@ -57,7 +57,19 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int
+{
+	var digits_amount : Int
+	digits_amount = 0
+	
+	while ( n > 0 )
+	{
+		n /= 10
+		digits_amount += 1
+	}
+	
+	return digits_amount
+}
 
 /**
  * Простая
@@ -65,7 +77,23 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int
+{
+	var f; f_prev; f_temp : Int
+	
+	f = f_prev = 1
+	
+	if ( n == 1 || n == 2 ) return 1
+	
+	for ( i in 3 .. n )
+	{
+		f_temp = f
+		f = f + f_prev
+		f_prev = f_temp
+	}
+	
+	return f
+}
 
 /**
  * Простая
@@ -73,14 +101,30 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int
+{
+	var i: Int
+	
+	if ( m > n ) i = m
+	else i = n
+	
+	while ( i % m != 0 || i % n != 0 ) i ++
+	
+	return i
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int
+{
+	for ( i in 2 .. n )
+	{
+		if ( n % i == 0 ) return i
+	}
+}
 
 /**
  * Простая
@@ -114,7 +158,30 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double
+{
+	var i; part; total : Double
+	
+	i = 3
+	total = x
+	
+	part = 
+	
+	while ( true )
+	{
+		part = pow ( x, i ) / factorial ( i )
+		i += 2
+		if ( abs( eps ) > abs( part ) ) break
+		total -= part
+		
+		part = pow ( x, i ) / factorial ( i )
+		i += 2
+		if ( abs( eps ) > abs( part ) ) break
+		total += part
+	}
+	
+	return total
+}
 
 /**
  * Простая
@@ -123,7 +190,30 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double
+{
+	var i; part; total : Double
+	
+	i = 2
+	total = 1
+	
+	part = 
+	
+	while ( true )
+	{
+		part = pow ( x, i ) / factorial ( i )
+		i += 2
+		if ( abs( eps ) > abs( part ) ) break
+		total -= part
+		
+		part = pow ( x, i ) / factorial ( i )
+		i += 2
+		if ( abs( eps ) > abs( part ) ) break
+		total += part
+	}
+	
+	return total
+}
 
 /**
  * Средняя
@@ -131,7 +221,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int
+{
+	var reverted : Int
+	
+	reverted = 0
+	
+	while ( n > 0 )
+	{
+		reverted *= 10
+		reverted += n % 10
+		n /= 10
+	}
+	
+	return reverted
+}
 
 /**
  * Средняя
@@ -140,7 +244,20 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean
+{
+	var n_digits : Int
+	
+	n_digits = 1
+	
+	while ( pow ( 10, n_digits ) <= n ) ++ n_digits
+	
+	for ( i in 1 .. n_digits / 2 )
+	{
+		if ( ( n % pow ( 10, i ) ) - ( n % pow ( 10, i-1 ) ) != ( n % pow ( 10, n_digits - i ) ) - ( n % pow ( 10, n_digits - i - 1 ) ) ) return false
+	}
+	return true
+}
 
 /**
  * Средняя

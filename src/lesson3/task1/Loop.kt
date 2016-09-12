@@ -60,11 +60,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int
 {
 	var digits_amount : Int
+	var current_number : Int
+
 	digits_amount = 0
-	
-	while ( n > 0 )
+
+	current_number = n
+
+	while ( current_number > 0 )
 	{
-		n /= 10
+		current_number /= 10
 		digits_amount += 1
 	}
 	
@@ -77,11 +81,15 @@ fun digitNumber(n: Int): Int
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int
+fun fib (n: Int): Int
 {
-	var f; f_prev; f_temp : Int
-	
-	f = f_prev = 1
+	var f : Int
+	var f_prev : Int
+	var f_temp : Int
+
+	f = 1
+	f_prev = 1
+
 	
 	if ( n == 1 || n == 2 ) return 1
 	
@@ -124,6 +132,7 @@ fun minDivisor(n: Int): Int
 	{
 		if ( n % i == 0 ) return i
 	}
+	return n
 }
 
 /**
@@ -160,23 +169,23 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double
 {
-	var i; part; total : Double
+	var i : Double
+	var part : Double
+	var total : Double
 	
-	i = 3
+	i = 3.0
 	total = x
-	
-	part = 
 	
 	while ( true )
 	{
-		part = pow ( x, i ) / factorial ( i )
+		part = Math.pow(x, i) / factorial(i)
 		i += 2
-		if ( abs( eps ) > abs( part ) ) break
+		if (Math.abs(eps) > Math.abs(part)) break
 		total -= part
-		
-		part = pow ( x, i ) / factorial ( i )
+
+		part = Math.pow(x, i) / factorial(i)
 		i += 2
-		if ( abs( eps ) > abs( part ) ) break
+		if (Math.abs(eps) > Math.abs(part)) break
 		total += part
 	}
 	
@@ -192,7 +201,9 @@ fun sin(x: Double, eps: Double): Double
  */
 fun cos(x: Double, eps: Double): Double
 {
-	var i; part; total : Double
+	var i : Double
+	var part : Double
+	var total : Double
 	
 	i = 2
 	total = 1
@@ -201,14 +212,14 @@ fun cos(x: Double, eps: Double): Double
 	
 	while ( true )
 	{
-		part = pow ( x, i ) / factorial ( i )
+		part = Math.pow ( x, i ) / factorial ( i )
 		i += 2
-		if ( abs( eps ) > abs( part ) ) break
+		if ( Math.abs( eps ) > Math.abs( part ) ) break
 		total -= part
 		
-		part = pow ( x, i ) / factorial ( i )
+		part = Math.pow ( x, i ) / factorial ( i )
 		i += 2
-		if ( abs( eps ) > abs( part ) ) break
+		if ( Math.abs( eps ) > Math.abs( part ) ) break
 		total += part
 	}
 	
@@ -250,11 +261,11 @@ fun isPalindrome(n: Int): Boolean
 	
 	n_digits = 1
 	
-	while ( pow ( 10, n_digits ) <= n ) ++ n_digits
+	while ( Math.pow ( 10, n_digits ) <= n ) ++ n_digits
 	
 	for ( i in 1 .. n_digits / 2 )
 	{
-		if ( ( n % pow ( 10, i ) ) - ( n % pow ( 10, i-1 ) ) != ( n % pow ( 10, n_digits - i ) ) - ( n % pow ( 10, n_digits - i - 1 ) ) ) return false
+		if ( ( n % Math.pow ( 10, i ) ) - ( n % Math.pow ( 10, i-1 ) ) != ( n % Math.pow ( 10, n_digits - i ) ) - ( n % Math.pow ( 10, n_digits - i - 1 ) ) ) return false
 	}
 	return true
 }

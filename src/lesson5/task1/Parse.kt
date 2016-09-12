@@ -2,6 +2,7 @@
 package lesson5.task1
 
 import kotlin.reflect.jvm.internal.impl.serialization.ProtoBuf
+import java.lang.Math.*
 
 /**
  * Пример
@@ -195,7 +196,21 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var found: Boolean = false
+    var last: String = ""
+    var passed: Int = 0
+    for (w in Regex("[а-яА-Я]+").findAll(str)) {
+        if (w.groupValues[0].toLowerCase() == last) {
+            found = true
+            passed -= (w.groupValues[0].length+1)
+            break
+        }
+        passed+=w.groupValues[0].length+1
+        last = w.groupValues[0].toLowerCase()
+    }
+    return if (found) passed else -1
+}
 
 /**
  * Сложная
@@ -208,7 +223,16 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var most: String = ""
+    var value: Double = -1.0
+    if (description.matches(Regex("([а-яА-Я]+ [0-9]+.[0-9](;[ ])?)+"))) {
+        Regex("([а-яА-Я]+) ([0-9]+.[0-9]);?").findAll(description).forEach {
+            if(it.groupValues[2].toDouble() > value) { most = it.groupValues[1]; value = it.groupValues[2].toDouble() }
+        }
+    }
+    return most
+}
 
 /**
  * Сложная
@@ -221,7 +245,71 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    var count: Int = roman.length-1
+    var num: Int = 0;
+    while (count >= 0) {
+        when (roman[count]) {
+            'I' -> {num++ ; count--}
+            'V' -> {
+                if (count != 0 && roman[count-1] == 'I') {
+                    num += 4
+                    count -= 2
+                } else {
+                    num += 5
+                    count--
+                }
+            }
+            'X' -> {
+                if (count != 0 && roman[count-1] == 'I') {
+                    num += 9
+                    count -= 2
+                } else {
+                    num += 10
+                    count--
+                }
+            }
+            'L' -> {
+                if (count != 0 && roman[count-1] == 'X') {
+                    num += 40
+                    count -= 2
+                } else {
+                    num += 50
+                    count--
+                }
+            }
+            'C' -> {
+                if (count != 0 && roman[count-1] == 'X') {
+                    num += 90
+                    count -= 2
+                } else {
+                    num += 100
+                    count--
+                }
+            }
+            'D' -> {
+                if (count != 0 && roman[count-1] == 'C') {
+                    num += 400
+                    count -= 2
+                } else {
+                    num += 500
+                    count--
+                }
+            }
+            'M' -> {
+                if (count != 0 && roman[count-1] == 'C') {
+                    num += 900
+                    count -= 2
+                } else {
+                    num += 1000
+                    count--
+                }
+            }
+            else -> {count = -1; num = -1}
+        }
+    }
+    return num
+}
 
 /**
  * Сложная
@@ -253,4 +341,17 @@ fun fromRoman(roman: String): Int = TODO()
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String): List<Int> {
+    if (commands.map { if(it=='[' || it==']' || it=='{' || it=='}') '<' else it }.toString().matches(Regex("[ -+<>]"))){
+        if (commands.count { it=='[' } == commands.count { it=='[' } &&
+            commands.count { it=='{' } == commands.count { it=='}' } ) {
+
+            var point: Int = cells/2
+            var commandPoint: Int = 0
+            var commandLength: Int = commands.length
+
+
+        } else throw Exception("IllegalArgumentException")
+    } else throw Exception("IllegalArgumentException")
+    return listOf<Int>()
+}

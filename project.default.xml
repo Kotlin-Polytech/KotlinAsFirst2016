@@ -39,9 +39,8 @@
       </component>
       <component name="ProjectRootManager" version="2" languageLevel="JDK_1_3" default="true" assert-keyword="false" jdk-15="false" />
       <component name="PropertiesComponent">
-        <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+        <property name="settings.editor.selected.configurable" value="settings.github" />
         <property name="settings.editor.splitter.proportion" value="0.2" />
-        <property name="last_opened_file_path" value="$USER_HOME$" />
       </component>
       <component name="RunManager">
         <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
@@ -130,20 +129,8 @@
           <method />
         </configuration>
       </component>
-      <component name="masterDetails">
-        <states>
-          <state key="ScopeChooserConfigurable.UI">
-            <settings>
-              <splitter-proportions>
-                <option name="proportions">
-                  <list>
-                    <option value="0.2" />
-                  </list>
-                </option>
-              </splitter-proportions>
-            </settings>
-          </state>
-        </states>
+      <component name="VcsContentAnnotationSettings">
+        <option name="myLimit" value="2678400000" />
       </component>
     </defaultProject>
   </component>

@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -33,7 +34,20 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    val a = age % 10
+    if (a % 10 == 0)
+        return "$age лет"
+    if (a % 10 == 1)
+        return "$age год"
+    if (age % 100 in 5..19)
+        return "$age лет"
+    if (a % 10 in  2..4)
+        return "$age года"
+    if (a % 10 in 5..9)
+        return "$age лет"
+    else return "invalid input"
+}
 
 /**
  * Простая
@@ -44,7 +58,16 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double{
+    val s = (t1*v1 + t2*v2 + t3*v3) / 2
+    if (t1*v1 >= s){
+        return s / v1 }
+    else if (t1*v1 + t2*v2 >= s){
+        return t1 + (s - v2*t2) / v2}
+    else if (t1*v1 + t2*v2 + t3*v3 >= s){
+        return t1 + t2 + (s - v3*t3) / v3}
+    else return Double.NaN
+}
 
 /**
  * Простая
@@ -56,7 +79,18 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if ((kingX == rookX2 || kingY == rookY2) && (kingX == rookX1 || kingY == rookY1))
+        return 3
+    if ((kingX == rookX1 && kingY == rookY1)||(rookX1 == rookX2 && rookY1 == rookY2)||(kingX == rookX2 && kingY == rookY2))
+        return 0
+    if (kingX == rookX1 || kingY == rookY1)
+        return 1
+    if (kingX == rookX2 || kingY == rookY2)
+        return 2
+
+    else return 0
+}
 
 /**
  * Простая
@@ -79,8 +113,21 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
+
 fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 
+
+/*fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if (a + b < c || a + c < b || c + b < a)
+        return -1
+    if (a*a + b*b > c*c || a*a + c*c > b*b || c*c + b*b > a*a)
+        return 0
+    if (a*a + b*b < c*c || a*a + c*c < b*b || c*c + b*b < a*a)
+        return 2
+    if (a*a + b*b == c*c || a*a + c*c == b*b || c*c + b*b == a*a)
+        return 1
+    else return -1
+}*/
 /**
  * Средняя
  *

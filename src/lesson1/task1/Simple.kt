@@ -82,8 +82,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
     val a=(grad* PI)/180
     val b=(min* PI)/10800
     val c=(sec* PI)/648000
-    val d=a+b+c
-    return d
+    val e=a+b+c
+    return e
 }
 
 /**

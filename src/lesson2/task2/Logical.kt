@@ -25,7 +25,7 @@ fun isNumberHappy(number: Int): Boolean = number/1000+number/100%10==number%100/
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = x1==x2 || y1==y2 || sqr((x1-x2).toDouble())==sqr((y1-y2).toDouble())
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = x1==x2 || y1==y2 || abs(x1-x2)==abs(y1-y2)
 
 /**
  * Средняя

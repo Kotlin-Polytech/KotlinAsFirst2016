@@ -35,7 +35,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = x1==x2 || y1==
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double) = r2 >= r1+abs(x2-x1)+abs(y2-y1)
+                 x2: Double, y2: Double, r2: Double) = r2 >= r1+sqrt(sqr(x2-x1)+sqr(y2-y1))
 
 /**
  * Средняя

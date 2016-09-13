@@ -90,8 +90,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     }
 }
 
-
-
 /**
  * Простая
  *

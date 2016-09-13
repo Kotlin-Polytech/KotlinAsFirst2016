@@ -169,23 +169,23 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double
 {
-	var i : Double
+	var i : Int
 	var part : Double
 	var total : Double
 	
-	i = 3.0
+	i = 3
 	total = x
 	
 	while ( true )
 	{
-		part = Math.pow(x, i) / factorial(i)
+		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
 		i += 2
-		if (Math.abs(eps) > Math.abs(part)) break
+		if ( Math.abs ( eps ) > Math.abs ( part ) ) break
 		total -= part
 
-		part = Math.pow(x, i) / factorial(i)
+		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
 		i += 2
-		if (Math.abs(eps) > Math.abs(part)) break
+		if ( Math.abs (eps) > Math.abs ( part ) ) break
 		total += part
 	}
 	
@@ -208,18 +208,16 @@ fun cos(x: Double, eps: Double): Double
 	i = 2
 	total = 1
 	
-	part = 
-	
 	while ( true )
 	{
-		part = Math.pow ( x, i ) / factorial ( i )
+		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
 		i += 2
-		if ( Math.abs( eps ) > Math.abs( part ) ) break
+		if ( Math.abs ( eps ) > Math.abs ( part ) ) break
 		total -= part
-		
-		part = Math.pow ( x, i ) / factorial ( i )
+
+		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
 		i += 2
-		if ( Math.abs( eps ) > Math.abs( part ) ) break
+		if ( Math.abs (eps) > Math.abs ( part ) ) break
 		total += part
 	}
 	
@@ -261,7 +259,8 @@ fun isPalindrome(n: Int): Boolean
 	
 	n_digits = 1
 	
-	while ( Math.pow ( 10, n_digits ) <= n ) ++ n_digits
+	// while ( Math.pow ( 10, n_digits.toDouble() ) <= n ) ++ n_digits
+	n_digits = Math.log ( n )
 	
 	for ( i in 1 .. n_digits / 2 )
 	{
@@ -285,7 +284,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int
+{
+	var stopka : String
+	
+	for ( i in 1 .. n )
+	{
+		stopka += "$i"
+	}
+	
+	return ( '0' - stopka [ i - 1 ] ).toInt()
+}
 
 /**
  * Сложная

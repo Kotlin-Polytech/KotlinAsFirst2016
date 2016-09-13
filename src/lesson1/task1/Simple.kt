@@ -69,7 +69,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    return vershoks * 4.445 + arshins * 16 * 4.445 + sagenes * 48 * 4.445
+    return vershoks * 0.04445 + arshins * 16 * 0.04445 + sagenes * 48 * 0.04445
 }
 
 /**
@@ -79,7 +79,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    return (grad + min/60 + sec/3600) / 180 * 3.14
+    return (grad + min/60 + sec/3600) / (180 / Math.PI)
 }
 
 /**
@@ -134,7 +134,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    return ((1+percent/100)*(1+percent/100)*(1+percent/100) * initial).toDouble()
+    return ((1+percent.toDouble()/100)*(1+percent.toDouble()/100)*(1+percent.toDouble()/100) * initial.toDouble())
 }
 
 /**

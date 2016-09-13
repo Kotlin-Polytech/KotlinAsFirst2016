@@ -49,7 +49,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
 
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val newA = min(min(a,b),c)
-    val newB = min(max(a,b),c)
+    val newB = min(min(max(a,b),max(b,c)), min(max(a,b),max(a,c)))
     if ((newA<=r && newB<=s) || (newA<=s && newB<=r)){
         return true
     } else return false

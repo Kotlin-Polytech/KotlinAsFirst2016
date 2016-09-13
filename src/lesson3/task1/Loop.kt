@@ -62,6 +62,8 @@ fun digitNumber(n: Int): Int
 	var digits_amount : Int
 	var current_number : Int
 
+	if ( n == 0 ) return 1
+
 	digits_amount = 0
 
 	current_number = n
@@ -201,12 +203,12 @@ fun sin(x: Double, eps: Double): Double
  */
 fun cos(x: Double, eps: Double): Double
 {
-	var i : Double
+	var i : Int
 	var part : Double
 	var total : Double
 	
 	i = 2
-	total = 1
+	total = 1.0
 	
 	while ( true )
 	{
@@ -233,14 +235,16 @@ fun cos(x: Double, eps: Double): Double
 fun revert(n: Int): Int
 {
 	var reverted : Int
-	
+	var parameter_n : Int
+
+	parameter_n = n
 	reverted = 0
 	
-	while ( n > 0 )
+	while ( parameter_n > 0 )
 	{
 		reverted *= 10
-		reverted += n % 10
-		n /= 10
+		reverted += parameter_n % 10
+		parameter_n /= 10
 	}
 	
 	return reverted
@@ -255,18 +259,29 @@ fun revert(n: Int): Int
  */
 fun isPalindrome(n: Int): Boolean
 {
-	var n_digits : Int
+	//var n_digits : Int
 	
-	n_digits = 1
+	// n_digits = 1
 	
 	// while ( Math.pow ( 10, n_digits.toDouble() ) <= n ) ++ n_digits
-	n_digits = Math.log ( n )
-	
-	for ( i in 1 .. n_digits / 2 )
+	//n_digits = Math.log ( n.toDouble() ).toInt()
+
+	var current_number_line : String = "$n"
+
+	for ( i in 0 .. current_number_line.length - 1 )
 	{
-		if ( ( n % Math.pow ( 10, i ) ) - ( n % Math.pow ( 10, i-1 ) ) != ( n % Math.pow ( 10, n_digits - i ) ) - ( n % Math.pow ( 10, n_digits - i - 1 ) ) ) return false
+		if ( current_number_line [ i ] != current_number_line [ current_number_line.length - 1 - i ] ) return false
+	}
+
+	return true
+
+	/*
+	for ( i in 1 .. ( n_digits / 2 ).toInt() )
+	{
+		if ( ( n % Math.pow ( 10.0, i.toDouble() ) ) - ( n % Math.pow ( 10.0, ( i-1 ).toDouble() ) ) != ( n % Math.pow ( 10.0, ( n_digits - i ).toDouble() ) ) - ( n % Math.pow ( 10.0, ( n_digits - i - 1 ).toDouble() ) ) ) return false
 	}
 	return true
+	*/
 }
 
 /**
@@ -286,14 +301,14 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun squareSequenceDigit(n: Int): Int
 {
-	var stopka : String
+	var stopka : String = ""
 	
 	for ( i in 1 .. n )
 	{
-		stopka += "$i"
+		stopka += "${ i * i }"
 	}
 	
-	return ( '0' - stopka [ i - 1 ] ).toInt()
+	return ( stopka [ n - 1 ] - '0' ).toInt()
 }
 
 /**

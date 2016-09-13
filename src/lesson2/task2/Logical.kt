@@ -41,7 +41,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
     (
         x1 == x2 ||
         y1 == y2 ||
-        ( x1 - x2 ) == ( y1 - y2 )
+        Math.abs ( x1 - x2 ) == Math.abs ( y1 - y2 )
     ) return true
     else return false
 }
@@ -54,8 +54,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double, x2: Double, y2: Double, r2: Double): Boolean
-{
-    if ( Math.sqrt ( sqr ( x2 - x1 ) + sqr ( y2 - y1 ) ) + r1 < r2 ) return true
+{   // Если расстояние между центрами + радиус первого меньше радиуса второго
+    if ( Math.sqrt ( ( x2 - x1 ) * ( x2 - x1 ) + ( y2 - y1 ) * ( y2 - y1 ) ) + r1 <= r2 ) return true
     else return false
 }
 
@@ -72,9 +72,9 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean
 {
     if
     (
-		( a == r && b == s ) || ( b == r && a == s ) ||
-		( b == r && c == s ) || ( c == r && b == s ) ||
-		( c == r && a == s ) || ( a == r && c == s )
+		( a <= r && b <= s ) || ( b <= r && a <= s ) ||
+		( b <= r && c <= s ) || ( c <= r && b <= s ) ||
+		( c <= r && a <= s ) || ( a <= r && c <= s )
     ) return true
     else return false
 }

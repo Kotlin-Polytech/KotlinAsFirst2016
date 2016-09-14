@@ -57,7 +57,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number=n
+    do {
+        number /= 10
+        count += 1
+
+    } while (number > 0)
+    return count
+}
 
 /**
  * Простая
@@ -65,7 +74,10 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if((n==1)||(n==2)) return 1 else
+        return fib(n-1)+fib(n-2)
+}
 
 /**
  * Простая
@@ -80,14 +92,26 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var del=2
+    while(n%del!=0){
+        del +=1
+    }
+    return del
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var del=n-1
+    while(n%del!=0){
+        del -=1
+    }
+    return del
+}
 
 /**
  * Простая
@@ -96,7 +120,14 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var min=0
+    if(m<n)  min=m else  min=n
+    for (i in 2..min){
+        if((m%i==0)&&(n%i==0)) return false
+    }
+    return true
+}
 
 /**
  * Простая
@@ -131,7 +162,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var result=0
+    var number=n
+    while(number>0){
+        result=(result*10)+number%10
+        number /=10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -166,4 +205,4 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int =TODO()

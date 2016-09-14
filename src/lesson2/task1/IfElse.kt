@@ -56,8 +56,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
-
+                       rookX2: Int, rookY2: Int): Int {
+    var rook:Int=0; var bishop:Int=0; var ss:Int=0
+    if ((rookX1==kingX)or(rookY1==kingY)) rook = 1
+    if ((rookX2==kingX)or(rookY2==kingY)) bishop = 1
+    if ((rook==0)&&(bishop==0)) ss=0 else
+        if ((rook==1)&&(bishop==1)) ss=3 else
+            if (bishop==1) ss=2 else
+                ss=1
+    return ss
+}
 /**
  * Простая
  *
@@ -69,7 +77,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    var rook:Int=0; var bishop:Int=0; var ss:Int=0
+    if ((rookX==kingX)or(rookY==kingY)) rook = 1
+    if (Math.abs(bishopX-kingX)==Math.abs(bishopY-kingY)) bishop = 1
+    if ((rook==0)&&(bishop==0)) ss=0 else
+    if ((rook==1)&&(bishop==1)) ss=3 else
+    if (bishop==1) ss=2 else
+         ss=1
+return ss
+}
 
 /**
  * Простая
@@ -79,14 +96,30 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    var ss: Int = 0
+    if ((a + b > c) && (a + c > b) && (c + b > a)) {
+        if ((a * a + b * b < c * c) or (a * a + c * c < b * b) or (b * b + c * c < a * a)) ss = 2 else
+            if ((a * a + b * b == c * c) or (a * a + c * c == b * b) or (b * b + c * c == a * a)) ss = 1 else
+                ss = 0
+    } else ss=-1
+    return ss
+}
+
 
 /**
  * Средняя
  *
  * Даны четыре точки на одной прямой: A, B, C и D.
- * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
+ * Координаты точек a, b, c, d соответственно, a <= b, c <= d.
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int  {
+    var s : Int = 0
+     if (c<=a && d>=b) s = (b - a)  else
+          if (c<=a && d>=a && d<=b) s = (d-a)  else
+              if (c>=a && c<=b && d>=b) s = (b-c) else
+                  if (c>=a && c<=b && d<=b) s = (d-c) else s = -1
+return s
+}

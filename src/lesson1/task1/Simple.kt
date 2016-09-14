@@ -75,7 +75,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val s=sagenes*48*4.445
     val a=arshins*16*4.445
     val v=vershoks*4.445
-    return s+a+v
+    return ((s+a+v)/100)
 }
 
 /**

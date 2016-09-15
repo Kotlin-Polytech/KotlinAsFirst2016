@@ -1,6 +1,6 @@
 <application>
   <component name="GithubSettings">
-    <option name="LOGIN" value="TripleMan29" />
+    <option name="LOGIN" value="" />
     <option name="AUTH_TYPE" value="BASIC" />
   </component>
 </application>

@@ -2,6 +2,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import java.lang.Math.*
 
 /**
  * Пример
@@ -17,7 +18,14 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean {
+    val a = number / 1000
+    val b = number / 100 %  10
+    val c = number % 100 / 10
+    val d = number % 10
+    if (a + b == c + d) return true
+    else return false
+}
 
 /**
  * Простая
@@ -25,7 +33,12 @@ fun isNumberHappy(number: Int): Boolean = TODO()
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    if (abs(x1 - x2) == abs (y1 - y2) || (x1 == x2) || (y1 == y2)){
+        return true
+    }
+    else return false
+}
 
 /**
  * Средняя

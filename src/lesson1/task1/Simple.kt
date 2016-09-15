@@ -51,7 +51,6 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-@org.testng.annotations.Test
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int = (hours * 60 + minutes) * 60 + seconds
 
 /**

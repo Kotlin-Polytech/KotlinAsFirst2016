@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -34,7 +35,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if ((age in 5..19) || age%10==0 || age%10>4)
+    if ((age in 5..19) || age%10==0 || age%10>4 || (age%100 in 5..19))
     return age.toString() + " лет"
     else if (age%10 == 1) return age.toString()+" год"
     else return age.toString() + " года"}
@@ -88,9 +89,9 @@ else return(0)
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int  {
-    if (((kingX == rookX) || (kingY == rookY)) && ((kingX - bishopX) == (kingY - bishopY))) return(3) else
+    if (((kingX == rookX) || (kingY == rookY)) && ((Math.abs(kingX - bishopX)) == Math.abs(kingY - bishopY))) return(3) else
         if (((kingX != rookX) && (kingY != rookY)) && ((Math.abs(kingX - bishopX)) == Math.abs(kingY - bishopY))) return(2) else
-            if (((kingX == rookX) || (kingY == rookY)) && ((kingX - bishopX) != (kingY - bishopY))) return(1) else return(0)
+            if (((kingX == rookX) || (kingY == rookY)) && ((Math.abs(kingX - bishopX)) != Math.abs(kingY - bishopY))) return(1) else return(0)
 }
     /**
      * Простая
@@ -100,7 +101,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
      * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
      * Если такой треугольник не существует, вернуть -1.
      */
-    fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+    fun triangleKind(a: Double, b: Double, c: Double): Int {
+        if ((a>b+c || b>a+c || c>a+b)) return(-1)
+
+           if ((sqr(a) == (sqr(b) + sqr(c))) || ((sqr(b) == (sqr(a) + sqr(c))) || (sqr(c) == (sqr(a) + sqr(b))))) return(1) else
+               if ((sqr(a) < (sqr(b) + sqr(c))) || (sqr(b) < (sqr(a) + sqr(c))) || (sqr(c) < (sqr(b) + sqr(a)))) return(0) else
+                   return(2)
+    }
+
 
     /**
      * Средняя

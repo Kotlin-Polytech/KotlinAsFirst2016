@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -28,10 +29,11 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-if ((x1==x2)||(y2==y1)) return true
-    else if (Math.abs(x1-x2)==Math.abs(y1-y2)) return true
+    if ((x1 == x2) || (y2 == y1)) return true
+    else if (Math.abs(x1 - x2) == Math.abs(y1 - y2)) return true
     else return false
 }
+
 /**
  * Средняя
  *
@@ -41,7 +43,7 @@ if ((x1==x2)||(y2==y1)) return true
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if ((Math.sqrt(sqr(x2-x1)+ sqr(y2-y1))+r1)<=r2) return true else return false
+    if ((Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2) return true else return false
 }
 
 /**
@@ -54,5 +56,5 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (((a<=r)&&(b<=s))||((a<=s)&&(b<=r))||((a<=r)&&(c<=s))||((a<=s)&&(a<=r))||((c<=r)&&(b<=s))||((c<=s)&&(b<=r))) return true else return false
+    if (((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) || ((a <= r) && (c <= s)) || ((a <= s) && (a <= r)) || ((c <= r) && (b <= s)) || ((c <= s) && (b <= r))) return true else return false
 }

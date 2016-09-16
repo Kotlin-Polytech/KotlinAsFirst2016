@@ -59,12 +59,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var number = Math.abs(n)
+    var number = n
     var count = 0
     do {
         count++
         number /= 10
-    } while (number > 0)
+    } while (number != 0)
     return count
 }
 
@@ -74,8 +74,20 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int =
-        if (n in 1..2) 1 else fib(n - 2) + fib(n - 1)
+fun fib(n: Int): Int {
+    if (n in 1..2) return 1
+    else {
+        var result = 0
+        var f1 = 1
+        var f2 = 1
+        for (i in 3..n) {
+            result = f1 + f2
+            f1 = f2
+            f2 = result
+        }
+        return result
+    }
+}
 
 /**
  * Простая
@@ -129,7 +141,7 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var k = Math.min(m, n)
-    while (k > 1){
+    while (k > 1) {
         if ((m % k == 0) && (n % k == 0)) return false
         k--
     }
@@ -163,12 +175,12 @@ fun sin(x: Double, eps: Double): Double {
     var i = 1
     var result = 0.0
     var k = 1
-    while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps) {
+    do {
         if (k % 2 == 1) result += Math.pow(x, i.toDouble()) / factorial(i)
         else result -= Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
         k++
-    }
+    } while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps)
     return result
 }
 
@@ -183,12 +195,12 @@ fun cos(x: Double, eps: Double): Double {
     var i = 0
     var result = 0.0
     var k = 1
-    while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps) {
+    do {
         if (k % 2 == 1) result += Math.pow(x, i.toDouble()) / factorial(i)
         else result -= Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
         k++
-    }
+    } while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps)
     return result
 }
 

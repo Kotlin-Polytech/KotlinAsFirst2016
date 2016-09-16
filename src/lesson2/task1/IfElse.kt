@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -69,12 +70,17 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int) : Int {
-    if (((Math.abs(kingX - bishopX)) !== (Math.abs(kingY - bishopY)) &&((kingX !== rookX && kingY !== rookY)))) return 0 else
-    if ((kingX == rookX || kingY == rookY) && (Math.abs(kingX - bishopX)) !== Math.abs(kingY - bishopY)) return 1 else
-    if ((Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) && ((kingX !== rookX && kingY !== rookY))) return 2 else
-    if (((Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY)) &&((kingX == rookX || kingY == rookY)))) return 3   else return 999
+                          bishopX: Int, bishopY: Int): Int {
+    if (((Math.abs(kingX - bishopX)) !== (Math.abs(kingY - bishopY)))) {
+        if (kingX !== rookX && kingY !== rookY) return 0 else
+            if (kingX == rookX || kingY == rookY) return 1
     }
+    if ((Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))) {
+        if (kingX !== rookX && kingY !== rookY) return 2 else
+            if (kingX == rookX || kingY == rookY) return 3
+    }
+    if (kingX == 10000) return 234243 else return 1111
+}
 
 /**
  * Простая

@@ -75,8 +75,20 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    if((n==1)||(n==2)) return 1 else
-        return fib(n-1)+fib(n-2)
+    var a=1
+    var b=1
+    var result=1
+    if((n==1)||(n==2)) return 1
+    else{
+        for (i in 1..n-2){
+          result=a+b
+            a=b
+            b=result
+        }
+        return result
+     }
+
+    // return fib(n-1)+fib(n-2)
 }
 
 /**
@@ -85,7 +97,20 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    val prod=m*n
+    var M=m
+    var N=n
+    while(M!=N){
+        if(M>N){
+            M-=N
+        }
+        else{
+            N-=M
+        }
+    }
+    return prod/M
+}
 
 /**
  * Простая
@@ -136,7 +161,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var x=1
+    while(x*x<m) x++
+    if((x*x>=m)&&(x*x<=n)) return true else return false
+}
+
 
 /**
  * Простая
@@ -154,7 +184,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double =TODO()
 
 /**
  * Средняя
@@ -179,7 +209,35 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var count:Int=0
+    var number=n
+    do{
+        number/=10
+        count++
+    }while(number!=0)
+    if(count==1) return false
+    else {
+        var rightMod = 10
+        var rightDiv = 1
+        var leftMod = 1
+        var leftDiv = 1
+        for (i in 1..count) leftMod *= 10
+        for (i in 1..count - 1) leftDiv *= 10
+        for (i in 1..count / 2) {
+            if (n / rightDiv % rightMod != n % leftMod / leftDiv) return false
+            else{
+            rightMod *= 10
+            rightDiv *= 10
+            leftMod /= 10
+            leftDiv /= 10
+            }
+        }
+        return true
+    }
+    return true
+}
+
 
 /**
  * Средняя
@@ -187,7 +245,16 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    val x=n%10
+    var number=n
+    var result=false
+    do{
+        if(x !=number%10) result=true
+        number /=10
+    }while(number !=0)
+    return result
+}
 
 /**
  * Сложная

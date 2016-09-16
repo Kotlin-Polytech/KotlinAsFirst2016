@@ -59,7 +59,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var number = n
+    var number = Math.abs(n)
     var count = 0
     do {
         count++
@@ -129,10 +129,10 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var k = Math.min(m, n)
-    do {
+    while (k > 1){
         if ((m % k == 0) && (n % k == 0)) return false
         k--
-    } while (k > 1)
+    }
     return true
 }
 
@@ -163,7 +163,7 @@ fun sin(x: Double, eps: Double): Double {
     var i = 1
     var result = 0.0
     var k = 1
-    while (Math.pow(x, i.toDouble()) / factorial(i) >= Math.abs(eps)) {
+    while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps) {
         if (k % 2 == 1) result += Math.pow(x, i.toDouble()) / factorial(i)
         else result -= Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
@@ -183,7 +183,7 @@ fun cos(x: Double, eps: Double): Double {
     var i = 0
     var result = 0.0
     var k = 1
-    while (Math.pow(x, i.toDouble()) / factorial(i) >= Math.abs(eps)) {
+    while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps) {
         if (k % 2 == 1) result += Math.pow(x, i.toDouble()) / factorial(i)
         else result -= Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
@@ -226,14 +226,18 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var num = n % 10
-    var number = n / 10
-    do {
-        if (number % 10 != num) return true
-        num = number % 10
+    var number = Math.abs(n)
+    if (number < 10) return false
+    else {
+        var num = number % 10
         number /= 10
-    } while (number > 0)
-    return false
+        do {
+            if (number % 10 != num) return true
+            num = number % 10
+            number /= 10
+        } while (number > 0)
+        return false
+    }
 }
 
 /**

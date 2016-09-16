@@ -100,4 +100,30 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (b < c && b < d) return -1
+    if (a > c && a > d) return -1
+    if (b == c || a == d) return 0
+    if (c < b && b < d && c > a && a < d) {
+        val long = b - c
+        return long
+    }
+    if (a < c && d < b) {
+        val long = d - c
+        return long
+    }
+    if (c < a && a < d && d < b) {
+        val long = d - a
+        return long
+    }
+    if (a == c && d == b) {
+        val long = d - c
+        return long
+    }
+    if (a == d) return 0
+    if (c < a && b < d && a < d) {
+        val long = b - a
+        return long
+    }
+    return 1000000
+}

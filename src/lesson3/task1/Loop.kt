@@ -59,7 +59,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = n.toString().length
+fun digitNumber(n: Int): Int {
+    if (n == 0) return 1
+    else {
+        var num = n
+        var count = 0
+        while (num != 0) {
+            num /= 10
+            count ++
+        }
+        return count
+    }
+}
 /**
  * Простая
  *
@@ -79,16 +90,20 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var nok: Int = m*n
-    for (i in 2..m*n) {
-        if (i%n==0 && i%m==0) {
-            nok = i
-            break
-        }
+//Нахождение НОД, для дальнейшего поиска НОК
+fun nod(m: Int, n: Int): Int {
+    var a: Int = m; var b: Int = n
+    while (b != 0) {
+        val tmp = a % b
+        a = b
+        b = tmp
     }
-    return nok
+    return a
 }
+
+fun lcm(m: Int, n: Int): Int = n*m/nod(m,n)
+
+
 /**
  * Простая
  *
@@ -144,7 +159,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val max: Int = if (m > n) m else n
-    var i: Int = 1
+    var i: Int = 0
     while (i*i <= max) {
         if (i * i >= m && i * i <= n)
             return true
@@ -219,7 +234,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    return n == n.toString().reversed().toInt()
+    return n.toString() == n.toString().reversed()
 }
 
 /**
@@ -250,13 +265,16 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var i:Int = 1
-    var str: String = ""
-    while (str.length < n){
-        str += (i*i).toString()
+    var i: Int = 1
+    var pointer: Int = 0
+    var num: Int = 0
+    while (pointer < n){
+        if (pointer + digitNumber(i*i) >= n)
+            num = (i*i).toString()[n-pointer-1].toInt()-48
+        pointer += digitNumber(i*i)
         i++
     }
-    return str[n-1].toString().toInt()
+    return num
 }
 
 /**
@@ -267,11 +285,14 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int  {
-    var i:Int = 1
-    var str: String = ""
-    while (str.length < n){
-        str += fib(i).toString()
+    var i: Int = 1
+    var pointer: Int = 0
+    var num: Int = 0
+    while (pointer < n){
+        if (pointer + digitNumber(fib(i)) >= n)
+            num = fib(i).toString()[n-pointer-1].toInt()-48
+        pointer += digitNumber(fib(i))
         i++
     }
-    return str[n-1].toString().toInt()
+    return num
 }

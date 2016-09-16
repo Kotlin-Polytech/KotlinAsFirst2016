@@ -123,9 +123,10 @@ fun mean(list: List<Double>): Double =
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> =
-        if(list.isEmpty()) list else list.map {it-list.sum()/list.count()}.toMutableList()
-
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val c = list.sum() / list.count()
+    return if (list.isEmpty()) list else list.map { it - c}.toMutableList()
+}
 /**
  * Средняя
  *
@@ -133,7 +134,9 @@ fun center(list: MutableList<Double>): MutableList<Double> =
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = a.sumByDouble { it*b[a.indexOf(it)] }
+fun times(a: List<Double>, b: List<Double>): Double {
+    return a.zip(b, { R,T -> R*T }).sum()
+}
 /**
  * Средняя
  *
@@ -142,7 +145,9 @@ fun times(a: List<Double>, b: List<Double>): Double = a.sumByDouble { it*b[a.ind
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = p.sumByDouble { it*pow(x,p.indexOf(it).toDouble()) }
+fun polynom(p: List<Double>, x: Double): Double {
+    return p.mapIndexed { i, d -> d*pow(x,i.toDouble()) }.sum()
+}
 
 /**
  * Средняя
@@ -152,9 +157,10 @@ fun polynom(p: List<Double>, x: Double): Double = p.sumByDouble { it*pow(x,p.ind
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> =
-        list.map { it+list.subList(0,list.indexOf(it)-1).sum() }.toMutableList()
-
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    var sub: Double = 0.0
+    return list.mapIndexed { i, d -> if (i>0) sub+=list[i-1]; d + sub  }.toMutableList()
+}
 /**
  * Средняя
  *
@@ -163,7 +169,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> =
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     var num: Int = n
     while(num%2 == 0) {
         num /= 2
@@ -188,24 +194,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    var str: String = ""
-    var num: Int = n
-    while(num%2 == 0) {
-        num /= 2
-        if (str.length == 0) str += "2" else str += "*2"
-    }
-    var b: Int = 3
-    while (num > 2) {
-        if (num % b == 0) {
-            if (str.length == 0) str += b else str += "*"+b
-            num /= b
-        } else {
-            b += 2
-        }
-    }
-    return str
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString (separator = "*")
 
 /**
  * Средняя
@@ -216,7 +205,7 @@ fun factorizeToString(n: Int): String {
  */
 fun convert(n: Int, base: Int): List<Int> {
     var num: Int = n
-    var list = mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     while (num > base) {
         list.add(num%base)
         num /= base
@@ -235,20 +224,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val chars: String = "abcdefghijklmnopqrstuywxyz"
-    var num: Int = n
-    var str: String = ""
-    while (num > base) {
-        if (num%base < 10)
-            str += num%base
-        else
-            str += chars[num%base-10]
-        num /= base
-    }
-    if (num < 10)
-        str += num%base
-    else
-        str += chars[num%base-10]
-    return str.reversed()
+    return convert(n,base).joinToString(separator="", transform = {if (it>9) chars[it-10].toString() else it.toString()})
 }
 
 /**
@@ -259,8 +235,7 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var i: Int = 0
-    return digits.reversed().sumBy { it*Math.pow(base.toDouble(), i++.toDouble()).toInt() }
+    return digits.reversed().mapIndexed { i, d -> d*Math.pow(base.toDouble(), i.toDouble()).toInt() }.sum()
 }
 
 /**
@@ -273,7 +248,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val chars: String = "abcdefghijklmnopqrstuywxyz"
+    val chars: String = "abcdefghijklmnopqrstuvwxyz"
     var i: Int = 0
     return str.reversed().sumBy { (if (chars.contains(it)) chars.indexOf(it)+10 else it.toString().toInt())*
                                      Math.pow(base.toDouble(), i++.toDouble()).toInt() }
@@ -374,7 +349,7 @@ fun tens(n: Int,female: Boolean): String {
         in 50..59 -> str = "пятьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
         in 60..69 -> str = "шестьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
         in 70..79 -> str = "семьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 80..89 -> str = "восемдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
+        in 80..89 -> str = "восемьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
         in 90..99 -> str = "девяносто" + (if(n%10 > 0) " " else "") + points(n%10,female)
     }
     return str

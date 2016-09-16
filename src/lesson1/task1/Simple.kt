@@ -69,8 +69,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    var value: Double = grad + min.toDouble()/60 + sec.toDouble()/3600;
-    return value * PI / 180;
+    val value: Double = grad + min.toDouble()/60 + sec.toDouble()/3600
+    return value * PI / 180
 }
 
 /**
@@ -79,7 +79,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(abs(x2-x1) * abs(x2-x1) + abs(y2-y1) * abs(y2-y1));
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1))
 
 /**
  * Простая
@@ -87,10 +87,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(a
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    var sn: String = number.toString()
-    return sn[sn.length-3].toString().toInt()
-}
+fun thirdDigit(number: Int): Int = (number%1000-number%100)/100
 
 /**
  * Простая
@@ -111,7 +108,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    var per: Double = 1 + percent.toDouble() / 100
+    val per: Double = 1 + percent.toDouble() / 100
     return initial*per*per*per
 }
 
@@ -121,4 +118,12 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = number.toString().reversed().toInt()
+fun numberRevert(number: Int): Int {
+    var n = number
+    var result = 0
+    while (n> 0) {
+        result = result*10 + n%10
+        n /= 10
+    }
+    return result
+}

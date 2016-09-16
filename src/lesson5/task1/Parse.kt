@@ -166,9 +166,9 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     if(jumps.matches(Regex("[-+%[0-9] ]+"))){
-        if (Regex("([0-9]+) [+]").findAll(jumps).count() > 0)
-            return Regex("([0-9]+) [+]").findAll(jumps).map { it.groupValues[1].toInt() }.max().toString().toInt()
-        else return -1
+        if (Regex("([0-9]+) [+]").findAll(jumps).count() > 0) {
+            return Regex("([0-9]+) [+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: 0
+        } else return -1
     } else return -1
 }
 
@@ -226,8 +226,8 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var most: String = ""
     var value: Double = -1.0
-    if (description.matches(Regex("([а-яА-Я]+ [0-9]+.[0-9](;[ ])?)+"))) {
-        Regex("([а-яА-Я]+) ([0-9]+.[0-9]);?").findAll(description).forEach {
+    if (description.matches(Regex("""([а-яА-Я]+ [\d]+.[\d](;\s)?)+"""))) {
+        Regex("""([а-яА-Я]+)\s([\d]+.[\d]);?""").findAll(description).forEach {
             if(it.groupValues[2].toDouble() > value) { most = it.groupValues[1]; value = it.groupValues[2].toDouble() }
         }
     }
@@ -342,14 +342,13 @@ fun fromRoman(roman: String): Int {
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> {
-    if (commands.map { if(it=='[' || it==']' || it=='{' || it=='}') '<' else it }.toString().matches(Regex("[ -+<>]"))){
+    if (commands.matches(Regex("""[ -+<>\]\[\{\}]+"""))){
         if (commands.count { it=='[' } == commands.count { it=='[' } &&
             commands.count { it=='{' } == commands.count { it=='}' } ) {
 
             var point: Int = cells/2
             var commandPoint: Int = 0
             var commandLength: Int = commands.length
-
 
         } else throw Exception("IllegalArgumentException")
     } else throw Exception("IllegalArgumentException")

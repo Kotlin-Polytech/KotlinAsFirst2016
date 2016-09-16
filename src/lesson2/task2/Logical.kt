@@ -2,6 +2,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson2.task1.minBiRoot
 import java.lang.Math.*
 
 /**
@@ -19,8 +20,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    var str: String = number.toString()
-    return str[0].toString().toInt() + str[1].toString().toInt() == str[2].toString().toInt() + str[3].toString().toInt()
+    val str: String = number.toString()
+    return str[0].toInt() + str[1].toInt() == str[2].toInt() + str[3].toInt()
 }
 
 /**
@@ -56,12 +57,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if((a <= r && b <= s) || (a <= s && b <= r))
-        return true
-    else if((a <= c && c <= s) || (a <= s && c <= r))
-        return true
-    else if((b <= r && c <= s) || (b <= s && c <= r))
-        return true
-    else
-        return false
+    val values = intArrayOf(a,b,c); values.sort()
+    return (values[0] <= min(r,s) && values[1] <= max(r,s))
 }

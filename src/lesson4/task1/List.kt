@@ -206,7 +206,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString (separator = "
 fun convert(n: Int, base: Int): List<Int> {
     var num: Int = n
     val list = mutableListOf<Int>()
-    while (num > base) {
+    while (num >= base) {
         list.add(num%base)
         num /= base
     }
@@ -341,7 +341,7 @@ fun tens(n: Int,female: Boolean): String {
         15 -> str = "пятнадцать"
         16 -> str = "шестнадцать"
         17 -> str = "семнадцать"
-        18 -> str = "восенадцать"
+        18 -> str = "восемнадцать"
         19 -> str = "девятнадцать"
         in 20..29 -> str = "двадцать" + (if(n%10 > 0) " " else "") + points(n%10,female)
         in 30..39 -> str = "тридцать" + (if(n%10 > 0) " " else "") + points(n%10,female)

@@ -90,7 +90,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if (a + b <= c || a + c <= b || b + c <= a) return -1
+    if (Math.pow(c, 2.0) == Math.pow(a, 2.0) - Math.pow(b, 2.0)) return 1
+    if (Math.pow(c, 2.0) > Math.pow(a, 2.0) + Math.pow(b, 2.0)) return 2
+    if (Math.pow(c, 2.0) < Math.pow(a, 2.0) + Math.pow(b, 2.0)) return 0
+    return -1
+}
 
 /**
  * Средняя

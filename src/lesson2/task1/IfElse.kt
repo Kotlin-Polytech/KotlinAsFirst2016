@@ -125,5 +125,5 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         val long = b - a
         return long
     }
-    return 1000000
+    return 0
 }

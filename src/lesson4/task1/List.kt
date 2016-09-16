@@ -334,7 +334,7 @@ fun tens(n: Int,female: Boolean): String {
     when (n) {
         in 1..9 -> str = points(n,female)
         10 -> str = "десять"
-        11 -> str = "одинадцать"
+        11 -> str = "одиннадцать"
         12 -> str = "двенадцать"
         13 -> str = "тринадцать"
         14 -> str = "четырнадцать"

@@ -66,7 +66,7 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(' ')
     if (parts.count() == 3) {
-        var month = when (parts[1]) {
+        val month = when (parts[1]) {
             "января" -> 1
             "февраля" -> 2
             "марта" -> 3
@@ -98,7 +98,7 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split('.')
     var isNum: Int = 1; parts.forEach {if (it.matches(Regex("[0-9]+"))) isNum*=1 else isNum*=0 }
     if (parts.count() == 3 && isNum == 1) {
-        var month = when (parts[1].toInt()) {
+        val month = when (parts[1].toInt()) {
             1 -> "января"
             2 -> "февраля"
             3 -> "марта"
@@ -198,16 +198,16 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     var found: Boolean = false
-    var last: String = ""
+    var last: String = " "
     var passed: Int = 0
-    for (w in Regex("[а-яА-Я]+").findAll(str)) {
-        if (w.groupValues[0].toLowerCase() == last) {
+    for (w in str.split(" ")) {
+        if (w.toLowerCase() == last && w != " ") {
             found = true
-            passed -= (w.groupValues[0].length+1)
+            passed -= (w.length+1)
             break
         }
-        passed+=w.groupValues[0].length+1
-        last = w.groupValues[0].toLowerCase()
+        passed+=w.length+1
+        last = w.toLowerCase()
     }
     return if (found) passed else -1
 }
@@ -226,9 +226,13 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var most: String = ""
     var value: Double = -1.0
-    if (description.matches(Regex("""([а-яА-Я]+ [\d]+.[\d](;\s)?)+"""))) {
-        Regex("""([а-яА-Я]+)\s([\d]+.[\d]);?""").findAll(description).forEach {
-            if(it.groupValues[2].toDouble() > value) { most = it.groupValues[1]; value = it.groupValues[2].toDouble() }
+    for (one in description.split("; ")) {
+        if (one.isNotEmpty()) {
+            val name = one.split(" ")[0]
+            val price = one.split(" ")[1]
+            if (price.toDouble() > value) {
+                most = name; value = price.toDouble()
+            }
         }
     }
     return most
@@ -247,7 +251,7 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int {
     var count: Int = roman.length-1
-    var num: Int = 0;
+    var num: Int = 0
     while (count >= 0) {
         when (roman[count]) {
             'I' -> {num++ ; count--}

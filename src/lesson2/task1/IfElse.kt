@@ -125,5 +125,14 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         val long = b - a
         return long
     }
+    if (a == c) {
+        if (b < d) {
+            val long = b - a
+            return long
+        } else if (b > d) {
+            val long = d - c
+            return long
+        }
+    }
     return 0
 }

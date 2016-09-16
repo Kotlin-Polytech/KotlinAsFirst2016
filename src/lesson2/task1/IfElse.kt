@@ -56,9 +56,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val put: Double = ((s1 + s2 + s3) / 2.0)
     val time: Double
     if (put <= s1) {time = (put / v1)}
-    else
-        if ((put > s1) && (put <= s1 + s2)) {time = (t1 + (put - s1) / v2)}
-        else {time = (t1+t2+(put - s1 - s2) / v3)}
+    else if ((put > s1) && (put <= s1 + s2)) {time = (t1 + (put - s1) / v2)}
+    else {time = (t1+t2+(put - s1 - s2) / v3)}
     return(time)}
 /**
  * Простая
@@ -73,7 +72,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
 if (((kingX==rookX1)||(kingY==rookY1))&&(kingX==rookX2||(kingY==rookY2))) return(3)
 else if (((kingX!=rookX1)&& (kingY!=rookY1)) && ((kingX==rookX2) || (kingY==rookY2))) return(2)
-    else if (((kingX==rookX1)||(kingY==rookY1)) && ((kingX!=rookX2) && (kingY!=rookY2))) return(1)
+else if (((kingX==rookX1)||(kingY==rookY1)) && ((kingX!=rookX2) && (kingY!=rookY2))) return(1)
 else return(0)
 }
 
@@ -89,9 +88,10 @@ else return(0)
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int  {
-    if (((kingX == rookX) || (kingY == rookY)) && ((Math.abs(kingX - bishopX)) == Math.abs(kingY - bishopY))) return(3) else
-        if (((kingX != rookX) && (kingY != rookY)) && ((Math.abs(kingX - bishopX)) == Math.abs(kingY - bishopY))) return(2) else
-            if (((kingX == rookX) || (kingY == rookY)) && ((Math.abs(kingX - bishopX)) != Math.abs(kingY - bishopY))) return(1) else return(0)
+    if (((kingX == rookX) || (kingY == rookY)) && ((Math.abs(kingX - bishopX)) == Math.abs(kingY - bishopY))) return(3)
+    else if (((kingX != rookX) && (kingY != rookY)) && ((Math.abs(kingX - bishopX)) == Math.abs(kingY - bishopY))) return(2)
+    else if (((kingX == rookX) || (kingY == rookY)) && ((Math.abs(kingX - bishopX)) != Math.abs(kingY - bishopY))) return(1)
+    else return(0)
 }
     /**
      * Простая
@@ -102,13 +102,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
      * Если такой треугольник не существует, вернуть -1.
      */
     fun triangleKind(a: Double, b: Double, c: Double): Int {
-        if ((a>b+c || b>a+c || c>a+b)) return(-1)
-
-           if ((sqr(a) == (sqr(b) + sqr(c))) || ((sqr(b) == (sqr(a) + sqr(c))) || (sqr(c) == (sqr(a) + sqr(b))))) return(1) else
-               if ((sqr(a) < (sqr(b) + sqr(c))) || (sqr(b) < (sqr(a) + sqr(c))) || (sqr(c) < (sqr(b) + sqr(a)))) return(0) else
-                   return(2)
+        if (a > b + c || b > a + c || c > a + b) return (-1)
+        if (sqr(a) > sqr(b) + sqr(c)) return (2) else if (sqr(a) == sqr(b) + sqr(c)) return (1)
+        if (sqr(b)>sqr(a)+sqr(c)) return(2) else if (sqr(b)==sqr(a)+sqr(c)) return(1) else
+        if (sqr(c)>sqr(a)+sqr(b)) return(2) else if (sqr(b)==sqr(a)+sqr(c)) return(1) else return(0)
     }
-
 
     /**
      * Средняя
@@ -118,4 +116,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
      * Найти длину пересечения отрезков AB и CD.
      * Если пересечения нет, вернуть -1.
      */
-    fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+    fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int  {
+        if ((a == d) || (c == b)) return(0)
+        if (b>c && a>c && b<d) return(b-a)
+        else if (a<c && b>d) return(d-c)
+        else if (c>a && b>c && b<d) return(b-c)
+        else if (a>c && b>d && a<d) return(d-a)
+        else if (c>b) return -1 else return -1
+
+    }

@@ -185,10 +185,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     if (list.size < 2) return list
-    for (i in list.size - 1 downTo 1) {
-        var sum = list[i]
-        for (j in 0..i - 1) sum += list[j]
-        list[i] = sum
+    for (i in 1..list.size - 1) {
+        list[i] += list[i-1]
     }
     return list
 }
@@ -220,17 +218,8 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var string = ""
-    var number = n
-    var divisor = 2
-    while (number > 1) {
-        if (number % divisor == 0) {
-            if (string.length > 0) string = string + "*" + divisor.toString()
-            else string = divisor.toString()
-            number /= divisor
-        } else divisor++
-    }
-    return string
+    val list = factorize(n)
+    return list.joinToString("*")
 }
 
 /**
@@ -261,14 +250,12 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var string = ""
-    var number = n
-    while (number > 0) {
-        val oneNum = number % base
-        if (oneNum >= 10)
-            string = ('a'.toInt() + oneNum - 10).toChar() + string
-        else
-            string = oneNum.toString() + string
-        number /= base
+    val list = convert(n, base)
+
+    for (element in list) {
+        if (element > 9) {
+            string += ('a'.toInt() + element - 10).toChar()
+        } else string += element.toString()
     }
     return string
 }
@@ -298,14 +285,14 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var sum = 0
+    val list = mutableListOf<Int>()
     for (i in 0..str.length - 1) {
         var number = str[i].toInt()
         if (number > '9'.toInt()) number += -'a'.toInt() + 10
         else number += -'1'.toInt() + 1
-        sum += number * Math.pow(base.toDouble(), (str.length - i - 1).toDouble()).toInt()
+        list.add(number)
     }
-    return sum
+    return decimal(list, base)
 }
 
 /**
@@ -342,51 +329,49 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    val listStr1 = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val listStr2 = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val listStr3 = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val listStr4 = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val Thousands = listOf("тысяча", "тысячи", "тысяч")
+    val listOfHundreds = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listOfTens = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listOfSecTen = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listOfUnits = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val listOfThousands = listOf("тысяча", "тысячи", "тысяч")
     var string = ""
     var number = n
 
     if (number > 1000) {
-        if (number / 1000 % 10 == 1) {
+        if (number / 1000 % 10 == 1 && number / 1000 % 100 != 11) {
             string += russian(number / 1000 - number / 1000 % 10)
             string += " одна"
-        } else if (number / 1000 % 10 == 2) {
+        } else if (number / 1000 % 10 == 2 && number / 1000 % 100 != 12) {
             string += russian(number / 1000 - number / 1000 % 10)
             string += " две"
         } else string += russian(number / 1000)
         string += ' '
 
-        if (number / 1000 % 10 == 1) string += Thousands[0]
-        else if (number / 1000 % 10 < 5 && number / 1000 % 10 > 1) string += Thousands[1]
-        else string += Thousands[2]
+        if (number / 1000 % 10 == 1 && number / 10000 % 10 != 1) string += listOfThousands[0]
+        else if (number / 1000 % 10 < 5 && number / 1000 % 10 > 1 && number / 10000 % 10 != 1) string += listOfThousands[1]
+        else string += listOfThousands[2]
         string += ' '
 
-        number -= number / 1000 * 1000
+        number %= 1000
     }
 
     if (number >= 100) {
-        string += listStr1[number / 100 % 10 - 1]
-        number -= number / 100 * 100
+        string += listOfHundreds[number / 100 % 10 - 1]
+        number %= 100
         string += ' '
     }
 
     if (number >= 20) {
-        string += listStr2[number / 10 % 10 - 1]
+        string += listOfTens[number / 10 % 10 - 1]
         string += ' '
         if (number % 10 != 0) {
-            string += listStr4[number % 10 - 1]
+            string += listOfUnits[number % 10 - 1]
             string += ' '
         }
-    } else if (number > 10) string += listStr3[number % 10 - 1]
-    else if (number == 10) string += listStr2[0]
-    else if (number > 0) string += listStr4[number % 10 - 1]
+    } else if (number > 10) string += listOfSecTen[number % 10 - 1]
+    else if (number == 10) string += listOfTens[0]
+    else if (number > 0) string += listOfUnits[number % 10 - 1]
 
-    if (string.length > 0 && string[string.length - 1] == ' ') string = string.substring(0, string.length - 1)
-    if (string.length > 0 && string[0] == ' ') string = string.substring(1, string.length)
-
+    string.trim()
     return string
 }

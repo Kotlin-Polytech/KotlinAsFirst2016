@@ -6,7 +6,7 @@ import java.lang.Math.*
 
 /**
  * Пример
- * y
+ * t
  * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
 fun minBiRoot(a: Double, b: Double, c: Double): Double {

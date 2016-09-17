@@ -49,7 +49,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if (sqrt(sqrt(x1 - x2) + sqrt(y1 - y2)) + r1 <= r2){
+    if (sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2){
         return true
     }
     else return false
@@ -65,31 +65,22 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    var result = 0
-    if (a <= s){
-        if (b <= r || c <= r ){
-            result = 1
-        }
-        else
-            result = 0
+    var min1 = min(a, b)
+    var min2 : Int = 0
+    min1 = min (min1, c)
+    if (a <= b && a <= c && a >= min1){
+        min2 = a
     }
-    else if (b <= s){
-        if (a <= r || c <= r ){
-            result = 1
-        }
-        else
-            result = 0
+    else if (c <= b && c <= a && c >= min1){
+        min2 = c
     }
-    else if (c <= s){
-        if (b <= r || a <= r ){
-            result = 1
-        }
-        else
-            result = 0
+    else if (b <= a && b <= c && b >= min1){
+        min2 = b
     }
-
-    if (result == 0){
+    if (min1 <= r && min2 <= s || min1 <= s && min2 <= r ){
+        return true
+    }
+    else {
         return false
     }
-    else return true
 }

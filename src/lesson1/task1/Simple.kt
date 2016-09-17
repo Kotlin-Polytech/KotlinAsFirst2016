@@ -103,7 +103,6 @@ fun thirdDigit(number: Int): Int {
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     return((hoursArrive-hoursDepart)*60+minutesArrive-minutesDepart)
-
 }
 
 /**

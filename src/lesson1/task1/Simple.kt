@@ -73,7 +73,6 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double  {
     return((grad+(min+sec/60.0)/60.0)*Math.PI/180.0)
-
 }
 
 /**
@@ -83,7 +82,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double  {
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    return (sqrt((sqr(x1-x2))+ sqr(y1-y2)))
+    return sqrt(abs(x2-x1) * abs(x2-x1) + abs(y2-y1) * abs(y2-y1))
 }
 /**
  * Простая

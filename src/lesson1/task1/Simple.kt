@@ -69,7 +69,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    var s : Double = grad+min.toDouble()/60+sec.toDouble()/3600
+    val s : Double = grad+min.toDouble()/60+sec.toDouble()/3600
     return s* PI/180
 }
 
@@ -87,10 +87,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(s
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    var str: String=number.toString()
-    return str[str.length-3].toString().toInt()
-}
+fun thirdDigit(number: Int): Int = (number%1000)/100
 
 /**
  * Простая
@@ -111,7 +108,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    var per: Double = 1+ percent.toDouble()/100
+    val per: Double = 1+ percent.toDouble()/100
     return initial*per*per*per
 }
 

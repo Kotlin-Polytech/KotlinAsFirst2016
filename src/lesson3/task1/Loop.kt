@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import java.lang.Math.sqrt
+
 /**
  * Пример
  *
@@ -22,7 +24,7 @@ fun factorial(n: Int): Double {
  */
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
-    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+    for (m in 2..sqrt(n.toDouble()).toInt()) {
         if (n % m == 0) return false
     }
     return true
@@ -62,7 +64,7 @@ fun digitNumber(n: Int): Int {
     var number: Int = 0
     var n2: Int = n
     if (n2 == 0) return 1
-    else while (n2 > 0) {
+    else while (n2 != 0) {
         number++
         n2 = n2 / 10
     }
@@ -150,13 +152,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var i: Int = 0
-    var failed: Boolean = false
-    while (i * i <= n) {
-        i++
-        if ((i * i >= m) && (i * i <= n)) failed = true
-    }
-    if (failed == true) return true else return false
+    val k: Int = sqrt(n.toDouble()).toInt()
+
+    if ((k * k <= n) && (k * k >= m)) return true else return false
 }
 
 /**
@@ -166,7 +164,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = Math.sin(x)
+fun sin(x: Double, eps: Double): Double {
+    var i=0
+    var sinus:Double=x
+    var number:Double=x
+    while (Math.abs(number)>eps) {
+        i++
+        number=Math.pow(x,i*2.0+1)/factorial(i*2+1)
+       if (i%2==1) sinus=sinus-number
+        else  sinus=sinus+number
+
+    }
+    return sinus
+}
 
 
 /**
@@ -176,7 +186,19 @@ fun sin(x: Double, eps: Double): Double = Math.sin(x)
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = Math.cos(x)
+fun cos(x: Double, eps: Double): Double {
+    var i=0
+    var cosus:Double=1.0
+    var number:Double=x
+    while (Math.abs(number)>eps) {
+        i++
+        number=Math.pow(x,i*2.0)/factorial(i*2)
+        if (i%2==1) cosus=cosus-number
+        else  cosus=cosus+number
+
+    }
+    return cosus
+}
 
 /**
  * Средняя
@@ -245,14 +267,21 @@ fun quantity(n: Int): Int {
     return r
 }
 
-fun squareSequenceDigit(n: Int): Int = TODO()
-/**{
-var i:Int=1
-while (i<n) {
-i++
+fun squareSequenceDigit(n: Int): Int {
+    var i = 0
+    var number=0
+    var resalt=0
+    while (number < n) {
+        i++
+        number=number+ quantity(i*i)
+    }
+    resalt=i*i
+    for (i in n..number-1){
+        resalt=resalt/10
+    }
+    return (resalt%10)
 }
-}
- **/
+
 
 /**
  * Сложная
@@ -261,4 +290,17 @@ i++
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var i = 0
+    var number=0
+    var resalt=0
+    while (number < n) {
+        i++
+        number=number+ quantity(fib(i))
+    }
+    resalt=fib(i)
+    for (i in n..number-1){
+        resalt=resalt/10
+    }
+    return (resalt%10)
+}

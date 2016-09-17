@@ -117,11 +117,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
      * Если пересечения нет, вернуть -1.
      */
     fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int  {
-        if ((a == d) || (c == b)) return(0)
-        if (b>c && a>c && b<d) return(b-a)
-        else if (a<c && b>d) return(d-c)
-        else if (c>a && b>c && b<d) return(b-c)
-        else if (a>c && b>d && a<d) return(d-a)
+
+        if (b>=c && a>=c && b<=d) return(b-a)
+        else if (a<=c && b>=d) return(d-c)
+        else if (c>=a && b>=c && b<=d) return(b-c)
+        else if (a>=c && b>=d && a<=d) return(d-a)
         else if (c>b) return -1 else return -1
 
     }

@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import com.sun.org.apache.xpath.internal.operations.Bool
+
 /**
  * Пример
  *
@@ -63,7 +65,7 @@ fun digitNumber(n: Int): Int {
     do {
         num /= 10
         count++
-    } while (num > 0)
+    } while (Math.abs(num) > 0)
     return count
 }
 
@@ -73,7 +75,16 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n < 3) 1 else fib(n-2) + fib(n-1)
+fun fib(n: Int): Int {
+    var first = 1
+    var second = 1
+    for (i in 3..n) {
+        val temp = second
+        second += first
+        first = temp
+    }
+    return second
+}
 
 /**
  * Простая
@@ -82,15 +93,14 @@ fun fib(n: Int): Int = if (n < 3) 1 else fib(n-2) + fib(n-1)
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val max = Math.max(m, n)
-    val min = Math.min(m, n)
-    var num = min
-    var count = 1
-    while (num%max != 0){
-        count++
-        num = min*count
+    var max = Math.max(m, n)
+    var min = Math.min(m, n)
+    while (max%min != 0){
+        val temp = min
+        min = max%min
+        max = temp
     }
-    return num
+    return m*n/min
 }
 
 /**
@@ -122,12 +132,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..Math.min(m, n)){
-        if (m%i == 0 && n%i == 0) return false
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m*n
 
 /**
  * Простая
@@ -150,14 +155,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var result = x
-    var member = x
+    var value = x
+    while (Math.abs(value) > 2*Math.PI) {
+        if (value < 0) value += 2*Math.PI
+        else value -= 2*Math.PI
+    }
+
+    var result = value
+    var member = value
     var pow = 1
     var sign = 1
     while (Math.abs(member) - eps > 0) {
         pow += 2
         sign *= -1
-        member = sign*Math.pow(x, pow.toDouble())/factorial(pow)
+        member = sign*Math.pow(x, pow.toDouble())/ factorial(pow)
         result += member
     }
     return result
@@ -171,6 +182,12 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
+    var value = x
+    while (Math.abs(value) > 2*Math.PI) {
+        if (value < 0) value += 2*Math.PI
+        else value -= 2*Math.PI
+    }
+
     var result = 1.0
     var member = 1.0
     var pow = 0
@@ -178,7 +195,7 @@ fun cos(x: Double, eps: Double): Double {
     while (Math.abs(member) - eps > 0) {
         pow += 2
         sign *= -1
-        member = sign*Math.pow(x, pow.toDouble())/factorial(pow)
+        member = sign*Math.pow(value, pow.toDouble())/factorial(pow)
         result += member
     }
     return result

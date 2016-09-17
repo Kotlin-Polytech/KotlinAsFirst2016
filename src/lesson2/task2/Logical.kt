@@ -48,7 +48,12 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+                 x2: Double, y2: Double, r2: Double): Boolean {
+    if (sqrt(sqrt(x1 - x2) + sqrt(y1 - y2)) + r1 <= r2){
+        return true
+    }
+    else return false
+}
 
 /**
  * Средняя
@@ -59,4 +64,32 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    var result = 0
+    if (a <= s){
+        if (b <= r || c <= r ){
+            result = 1
+        }
+        else
+            result = 0
+    }
+    else if (b <= s){
+        if (a <= r || c <= r ){
+            result = 1
+        }
+        else
+            result = 0
+    }
+    else if (c <= s){
+        if (b <= r || a <= r ){
+            result = 1
+        }
+        else
+            result = 0
+    }
+
+    if (result == 0){
+        return false
+    }
+    else return true
+}

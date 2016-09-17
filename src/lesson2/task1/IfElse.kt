@@ -34,7 +34,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    val one = age % 10
+    val two = age % 100
+    if (one == 1 && two != 11) return "$age год"
+    if (one >= 2 && one  <= 4 && (two < 10 || two >= 20)) return "$age года"
+    else return "$age лет"
+}
+
 
 /**
  * Простая
@@ -93,8 +100,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (a + b <= c || a + c <= b || b + c <= a) return -1
     if (Math.pow(c, 2.0) == Math.pow(a, 2.0) - Math.pow(b, 2.0)) return 1
-    if (Math.pow(c, 2.0) > Math.pow(a, 2.0) + Math.pow(b, 2.0)) return 2
-    if (Math.pow(c, 2.0) < Math.pow(a, 2.0) + Math.pow(b, 2.0)) return 0
+    if (Math.pow(c, 2.0) < Math.pow(a, 2.0) - Math.pow(b, 2.0)) return 2
+    if (Math.pow(c, 2.0) < Math.pow(a, 2.0) - Math.pow(b, 2.0)) return 0
     return -1
 }
 

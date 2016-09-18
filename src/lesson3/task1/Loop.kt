@@ -161,15 +161,15 @@ fun sin(x: Double, eps: Double): Double {
         else value -= 2*Math.PI
     }
 
-    var result = value
+    var result = 0.0
     var member = value
     var pow = 1
     var sign = 1
     while (Math.abs(member) - eps > 0) {
+        result += member
         pow += 2
         sign *= -1
-        member = sign*Math.pow(x, pow.toDouble())/ factorial(pow)
-        result += member
+        member = sign*Math.pow(value, pow.toDouble())/ factorial(pow)
     }
     return result
 }
@@ -188,15 +188,15 @@ fun cos(x: Double, eps: Double): Double {
         else value -= 2*Math.PI
     }
 
-    var result = 1.0
+    var result = 0.0
     var member = 1.0
     var pow = 0
     var sign = 1
     while (Math.abs(member) - eps > 0) {
+        result += member
         pow += 2
         sign *= -1
         member = sign*Math.pow(value, pow.toDouble())/factorial(pow)
-        result += member
     }
     return result
 }

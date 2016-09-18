@@ -64,10 +64,10 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s1 = v1*t1
-    val s2 = v2*t2
-    val s3 = v3*t3
-    val s = (s1 + s2 + s3)/2
+    val s1 : (Double) = v1*t1
+    val s2 : (Double) = v2*t2
+    val s3 : (Double) = v3*t3
+    val s :  (Double) = (s1 + s2 + s3)/2
     if (s <= s1) return s/v1
     else {
         if (s > s1 && s <= s1 + s2) return t1 + (s-s1)/v2

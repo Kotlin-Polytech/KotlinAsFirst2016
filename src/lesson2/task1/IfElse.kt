@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -37,13 +38,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     val a = age % 10;
-    if (a == 0 || a >= 5 || age in 100..120 || (age >= 5 && age <= 20) ) {
+    if (a == 0 || a >= 5 || age in 105..120 || (age in 5..20)) {
         return "$age лет"
-    }
-    else if (a > 1 && a < 5) {
+    } else if (a > 1 && a < 5) {
         return "$age года"
-    }
-    else {
+    } else {
         return "$age год"
     }
 }
@@ -62,13 +61,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = t2 * v2
     val s3 = t3 * v3
     val s = (s1 + s2 + s3) / 2
-    if (s <= s1){
+    if (s <= s1) {
         return s / v1
-    }
-    else if (s <= s1 + s2){
+    } else if (s <= s1 + s2) {
         return t1 + (s - s1) / v2
-    }
-    else{
+    } else {
         return t1 + t2 + (s - s1 - s2) / v3
     }
 }
@@ -85,13 +82,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     var result = 0
-    if (kingX == rookX1 || kingY == rookY1) {
+    val condition1 = (kingX == rookX1 || kingY == rookY1)
+    val condition2 = (kingX == rookX2 || kingY == rookY2)
+    if (condition1) {
         result = 1
     }
-    if (kingX == rookX2 || kingY == rookY2) {
+    if (condition2) {
         result = 2
     }
-    if ((kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2)){
+    if (condition1 && condition2) {
         result = 3
     }
     return result
@@ -110,16 +109,16 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     var result = 0
-    if (kingX == rookX || kingY ==rookY) {
+    if (kingX == rookX || kingY == rookY) {
         result = 1
     }
-    if (abs(kingX - bishopX) == abs(kingY - bishopY)){
+    if (abs(kingX - bishopX) == abs(kingY - bishopY)) {
         result = 2
     }
-    if ((abs(kingX - bishopX) == abs(kingY - bishopY)) && (kingX == rookX || kingY ==rookY)){
+    if ((abs(kingX - bishopX) == abs(kingY - bishopY)) && (kingX == rookX || kingY == rookY)) {
         result = 3
     }
-    return  result
+    return result
 }
 
 /**
@@ -131,16 +130,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a < b + c && b < a + c && c < a + b){
-        if (sqr(a) == sqr(b) + sqr(c)|| sqr(b) == sqr(a) + sqr(c) || sqr(c) == sqr(a) + sqr(b)){
+    if (a < b + c && b < a + c && c < a + b) {
+        if (sqr(a) == sqr(b) + sqr(c) || sqr(b) == sqr(a) + sqr(c) || sqr(c) == sqr(a) + sqr(b)) {
             return 1
-        }
-        else if ((c > a && c > b && sqr(c) > sqr (a) + sqr (b)) || (a > c && a > b && sqr(a) > sqr (c) + sqr (b)) || (b > a && b > c && sqr(b) > sqr (a) + sqr (c))){
+        } else if ((c > a && c > b && sqr(c) > sqr(a) + sqr(b)) || (a > c && a > b && sqr(a) > sqr(c) + sqr(b)) || (b > a && b > c && sqr(b) > sqr(a) + sqr(c))) {
             return 2
-        }
-        else return 0
-    }
-    else{
+        } else return 0
+    } else {
         return -1
     }
 }
@@ -154,20 +150,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (b in c..d && a in c..d){
+    if (b in c..d && a in c..d) {
         return (b - a)
-    }
-    else if (d in a..b && c in a..b) {
+    } else if (d in a..b && c in a..b) {
         return d - c
-    }
-    else if (c in a..b) {
+    } else if (c in a..b) {
         return b - c
-    }
-    else if (a in c..d) {
+    } else if (a in c..d) {
         return d - a
-    }
-    else if (b == c || d == a){
+    } else if (b == c || d == a) {
         return 0
-    }
-    else return -1
+    } else return -1
 }

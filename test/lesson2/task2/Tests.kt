@@ -38,6 +38,7 @@ class Tests {
         assertFalse(brickPasses(6, 5, 4, 3, 6))
         assertTrue(brickPasses(3, 2, 1, 1, 2))
         assertTrue(brickPasses(1, 207, 648, 2, 457))
+        assertFalse(brickPasses(658, 133, 1, 1, 128))
     }
 
     @Test

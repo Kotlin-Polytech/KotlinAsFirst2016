@@ -109,10 +109,10 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val lengthAB=(b-a)
     val lengthCD=(d-c)
     return when {
-        ((d>b)  && (b>=c) && (a<c)) ->(b-c)
-        ((d>b) && (b>=c) && (a>c)) -> lengthAB
-        ((d<b) && (d>=a) && (c<a)) -> (d-a)
-        ((d<b) && (d>=a) && (c>a)) ->lengthCD
+        ((d>=b)  && (b>=c) && (a<=c)) ->(b-c)
+        ((d>=b) && (b>=c) && (a>=c)) -> lengthAB
+        ((d<=b) && (d>=a) && (c<=a)) -> (d-a)
+        ((d<=b) && (d>=a) && (c>=a)) ->lengthCD
         else -> -1
 
     }

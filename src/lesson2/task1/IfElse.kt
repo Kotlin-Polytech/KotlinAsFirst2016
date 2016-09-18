@@ -33,7 +33,6 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-//наверное правильго , проверить
 fun ageDescription(age: Int): String {
     if (age % 100 < 20) {
         if (age % 100 == 1) return age.toString() + " " + "год"
@@ -85,7 +84,6 @@ fun timeForHalfWay(t1: Double, v1: Double,
  * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
  * и 3, если угроза от обеих ладей.
  */
-//правильно
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
@@ -109,7 +107,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  * Вернуть 0, если угрозы нет, 1, если угроза только от ладьи, 2, если только от слона,
  * и 3, если угроза есть и от ладьи и от слона.
  */
-//правильно
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
@@ -132,7 +129,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такого треугольника не существует, вернуть -1.
  */
-// Правильно
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if ((a + b < c) || (a + c < b) || (b + c < a)) return -1
      else {

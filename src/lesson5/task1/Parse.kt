@@ -60,7 +60,18 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val mounths = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = str.split(" ")
+    if (parts.size < 3) return ""
+
+    val day = parts[0].toInt()
+    val mounth = mounths.indexOf(parts[1]) + 1
+    if (mounth == 0) return ""
+    val year = parts[2].toInt()
+
+    return String.format("%02d.%02d.%d", day, mounth, year)
+}
 
 /**
  * Средняя
@@ -69,7 +80,27 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val mounths = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    val day: Int
+    val mounth: Int
+    val year : Int
+
+    try {
+        day = parts[0].toInt()
+        mounth = parts[1].toInt()
+        year = parts[2].toInt()
+    }
+    catch (e: NumberFormatException) {
+        return ""
+    }
+
+    if (mounth < 1) return ""
+
+    return String.format("%d %s %d", day, mounths[mounth-1], year)
+}
 
 /**
  * Сложная
@@ -83,7 +114,19 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val allowedChars = listOf(' ', '-', '+', '(', ')')
+    val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    var newPhone = ""
+
+    for (i in phone) {
+        if (!(i in allowedChars) && !(i in intChars)) return ""
+        if (newPhone.length == 0 && i == '+') newPhone = "+"
+        if (i in intChars) newPhone += i
+    }
+
+    return newPhone
+}
 
 /**
  * Средняя
@@ -95,7 +138,25 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var result = -1
+    val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    val allowedChars =  listOf('-', ' ', '%')
+    var strNum = ""
+
+    for (i in jumps) {
+        if ( (i in intChars || i in allowedChars) == false) return -1
+        if (i in intChars) strNum += i
+        else {
+            if (strNum.length > 0) result = Math.max(result, strNum.toInt())
+            strNum = ""
+        }
+    }
+
+    if (strNum.length > 0) result = Math.max(result, strNum.toInt())
+
+    return result
+}
 
 /**
  * Сложная
@@ -107,7 +168,31 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    val allowedChars =  listOf('-', ' ', '%', '+')
+
+    var result = -1
+    var jump = -1
+    var strJump = ""
+
+    for (i in jumps) {
+        if ( (i in intChars || i in allowedChars) == false) return -1
+
+        if (i in intChars) {
+            if (jump != -1) jump = -1
+            strJump += i
+        }
+        else if (strJump.length > 0) {
+            jump = strJump.toInt()
+            strJump = ""
+        }
+
+        if (i == '+' && jump != -1) result = Math.max(result, jump)
+    }
+
+    return result
+}
 
 /**
  * Сложная
@@ -118,7 +203,38 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val allowedChars = listOf('-', '+', ' ')
+    val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+
+    var result = 0
+    var strNum = ""
+    var lastChar = '+'
+
+    for (i in expression) {
+        if ( (i in allowedChars || i in intChars) == false ) throw IllegalArgumentException()
+
+        if ( i in intChars ) strNum += i
+        else {
+            if (strNum.length > 0){
+                if (lastChar == '+') result += strNum.toInt()
+                else if (lastChar == '-') result -= strNum.toInt()
+                else throw IllegalArgumentException()
+            }
+            strNum = ""
+        }
+
+        if (i in allowedChars && i != ' ') lastChar = i
+    }
+
+    if (strNum.length > 0) {
+        if (lastChar == '+') result += strNum.toInt()
+        else if (lastChar == '-') result -= strNum.toInt()
+        else throw IllegalArgumentException()
+    }
+
+    return result
+}
 
 /**
  * Сложная
@@ -129,7 +245,19 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.split(" ")
+    var lastWord = ""
+    var count = 0
+
+    for (part in parts) {
+        if ( part.toUpperCase() == lastWord.toUpperCase() ) return count - part.length - 1
+        count += part.length + 1
+        lastWord = part
+    }
+
+    return -1
+}
 
 /**
  * Сложная
@@ -142,7 +270,33 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val parts = description.split("; ")
+    var maxPrice = 0.0
+    var curPrice: Double
+    var result = ""
+
+    if (parts.isEmpty()) return ""
+
+    for (part in parts) {
+        val couple = part.split(" ")
+
+        try {
+            curPrice = couple[1].toDouble()
+        } catch (e: NumberFormatException) {
+            return ""
+        } catch (e: IndexOutOfBoundsException){
+            return ""
+        }
+
+        if (curPrice > maxPrice) {
+            result = couple[0]
+            maxPrice = curPrice
+        }
+    }
+
+    return result
+}
 
 /**
  * Сложная
@@ -155,7 +309,38 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    val mapRoman = hashMapOf("I" to 1, "IV" to 4, "V" to 5, "IX" to 9, "X" to 10, "XL" to 40,
+            "L" to 50, "XC" to 90, "C" to 100, "CD" to 400, "D" to 500, "CM" to 900, "M" to 1000)
+
+    var i = 0
+    var result = 0
+    while (i < roman.length) {
+        if (roman.length - i - 1 > 0) {
+            val romanStr = roman.substring(i, i + 2)
+            if (romanStr in mapRoman) {
+                val mapValue = mapRoman[romanStr]
+                if (mapValue != null) {
+                    result += mapValue
+                    i += 2
+                    continue
+                }
+            }
+        }
+        val romanStr = roman[i].toString()
+        if (romanStr in mapRoman) {
+            val mapValue = mapRoman[romanStr]
+            if (mapValue != null) {
+                result += mapValue
+                i ++
+                continue
+            }
+        }
+        else return -1
+    }
+
+    return result
+}
 
 /**
  * Сложная
@@ -187,4 +372,62 @@ fun fromRoman(roman: String): Int = TODO()
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String): List<Int> {
+    val list = mutableListOf<Int>()
+    for (i in 1..cells) list.add(0)
+    var iterator = cells/2
+    var strIterator = 0
+
+    fun rightOp(iter: Int, op: Char): Int {
+        var i = iter
+        while (i < commands.length && commands[i] != op) i ++
+        if (i < commands.length - 1) return i + 1
+        else {
+            if (i == commands.length-1) throw IllegalStateException()
+            else throw IllegalArgumentException()
+        }
+    }
+
+    fun leftOp(iter: Int, op: Char): Int {
+        var i = iter
+        while (i >= 0 && commands[i] != op) i --
+        if (i > 0) return i + 1
+        else {
+            if (i == 0) throw IllegalStateException()
+            else throw IllegalArgumentException()
+        }
+    }
+
+    while (true) {
+        when (commands[strIterator]) {
+            '>' -> iterator ++
+            '<' -> iterator --
+            '+' -> list[iterator] ++
+            '-' -> list[iterator] --
+            '[' -> {
+                if (list[iterator] == 0) {
+                    strIterator = rightOp(strIterator, ']') - 1
+                }
+            }
+            ']' -> {
+                if (list[iterator] != 0) {
+                    strIterator = leftOp(strIterator, '[') - 1
+                }
+            }
+            '{' -> {
+                if (list[iterator] == 0) {
+                    strIterator = rightOp(strIterator, '}') - 1
+                }
+            }
+            '}' -> {
+                if (list[iterator] != 0) {
+                    strIterator = leftOp(strIterator, '{') - 1
+                }
+            }
+            ' ' -> {}
+            else -> throw IllegalArgumentException()
+        }
+        if (strIterator < commands.length - 1) strIterator ++
+        else return list
+    }
+}

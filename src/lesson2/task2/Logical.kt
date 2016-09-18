@@ -67,21 +67,21 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     //sorting
     var x1 = 0
     var x2 = 0
-    if (a < b && a < c) {
+    if (a <= b && a <= c) {
         x1 = a
-        if (b < c) {
+        if (b <= c) {
             x2 = b
         } else {
             x2 = c
         }
-    } else if (b < a && b < c) {
+    } else if (b <= a && b <= c) {
         x1 = b
         if (a < c) {
             x2 = a
         } else {
             x2 = c
         }
-    } else if (c < b && c < a) {
+    } else if (c <= b && c <= a) {
         x1 = c
         if (b < a) {
             x2 = b

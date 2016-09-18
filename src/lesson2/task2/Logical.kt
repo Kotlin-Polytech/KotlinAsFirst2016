@@ -30,8 +30,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if(x1==x2||y1==y2||Math.abs(x1-x2)==Math.abs(y1-y2)) return true
-    else return false
+    if(x1==x2||y1==y2||Math.abs(x1-x2)==Math.abs(y1-y2)) return true    else return false
 
 }
 

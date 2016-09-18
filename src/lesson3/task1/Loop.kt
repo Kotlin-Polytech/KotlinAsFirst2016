@@ -1,8 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
-import com.sun.org.apache.xpath.internal.operations.Bool
-
 /**
  * Пример
  *
@@ -200,14 +198,9 @@ fun cos(x: Double, eps: Double): Double {
 fun revert(n: Int): Int {
     if (n < 10) return n
     else {
-        var num = n
-        var count = 0
-        while (num >= 10){
-            count++
-            num/=10
-        }
-        num = n%10 * Math.pow(10.0, count.toDouble()).toInt()
-        return num + revert(n/10)
+        var number = 1
+        while (number * 10 <= n) number *= 10
+        return n % 10 * number + revert(n/10)
     }
 }
 

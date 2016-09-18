@@ -69,7 +69,26 @@ fun ageDescription(age: Int): String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double  {
+    val sAll = (t1*v1+t2*v2+t3*v3)/2
+    if (sAll<t1*v1){
+        val tHalf = sAll/v1
+        return(tHalf)
+    } else {
+        if (sAll<t1*v1+t2*v2) {
+            val sBalance=sAll-t1*v1
+            val tBalance=sBalance/v2
+            val tHalf=t1+tBalance
+            return(tHalf)
+        } else {
+            val sBalance=sAll-t1*v1-t2*v2
+            val tBalance=sBalance/v3
+            val tHalf=t1+t2+tBalance
+            return(tHalf)
+        }
+    }
+}
+
 
 /**
  * Простая
@@ -81,7 +100,17 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if ((rookX1 == kingX)or(rookY1 == kingY)or(rookX2 == kingX)or(rookY2 == kingY)){
+        if (((rookX1 == kingX)or(rookY1 == kingY))and((rookX2 == kingX)or(rookY2 == kingY)))
+            return(3)
+        else {
+            if ((rookX1 == kingX)or(rookY1 == kingY))
+                return(1)
+            else return(2)
+        }
+    } else return(0)
+}
 
 /**
  * Простая
@@ -94,7 +123,18 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    if(((kingX-kingY) == (bishopX-bishopY))or(bishopX-kingX == bishopY-kingY)or(bishopX-kingX == -(bishopY-kingY))){
+        if((rookX == kingX)or (rookY == kingY))
+            return(3)
+        else return(2)
+
+    } else{
+        if((rookX == kingX)or (rookY == kingY))
+            return(1)
+        else return(0)
+    }
+}
 
 /**
  * Простая
@@ -104,7 +144,21 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a+b>c)and(b+c>a)and(a+c>b)){
+        if
+        ((a*a+b*b == c*c)or(b*b+c*c == a*a)or(c*c+a*a == b*b)){
+            return(1)
+        } else {
+            val cosA=(b*b+c*c-a*a)/2*b*c
+            val cosB=(a*a+c*c-b*b)/2*a*c
+            val cosC=(b*b+a*a-c*c)/2*b*a
+            if((cosA<0)or(cosB<0)or(cosC<0)){
+                return(2)
+            } else return(0)
+        }
+    } else return(-1)
+}
 
 /**
  * Средняя
@@ -114,4 +168,18 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (a > d) return (-1)
+    else {
+        if (c > b) return (-1)
+        else {
+            if (d < b) {
+                if (c < a) return (d - a)
+                else return (d - c)
+            } else {
+                if (c < a) return (b - a)
+                else return (b - c)
+            }
+        }
+    }
+}

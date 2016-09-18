@@ -65,10 +65,19 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size < 3) return ""
 
-    val day = parts[0].toInt()
-    val mounth = mounths.indexOf(parts[1]) + 1
-    if (mounth == 0) return ""
-    val year = parts[2].toInt()
+    val day: Int
+    val mounth: Int
+    val year: Int
+
+    try {
+        day = parts[0].toInt()
+        mounth = mounths.indexOf(parts[1]) + 1
+        if (mounth == 0) return ""
+        year = parts[2].toInt()
+    }
+    catch (e: NumberFormatException) {
+        return ""
+    }
 
     return String.format("%02d.%02d.%d", day, mounth, year)
 }
@@ -144,16 +153,22 @@ fun bestLongJump(jumps: String): Int {
     val allowedChars =  listOf('-', ' ', '%')
     var strNum = ""
 
-    for (i in jumps) {
-        if ( (i in intChars || i in allowedChars) == false) return -1
-        if (i in intChars) strNum += i
-        else {
-            if (strNum.length > 0) result = Math.max(result, strNum.toInt())
-            strNum = ""
-        }
-    }
+    try {
 
-    if (strNum.length > 0) result = Math.max(result, strNum.toInt())
+        for (i in jumps) {
+            if ((i in intChars || i in allowedChars) == false) return -1
+            if (i in intChars) strNum += i
+            else {
+                if (strNum.length > 0) result = Math.max(result, strNum.toInt())
+                strNum = ""
+            }
+        }
+
+        if (strNum.length > 0) result = Math.max(result, strNum.toInt())
+    }
+    catch (e: NumberFormatException) {
+        return -1
+    }
 
     return result
 }
@@ -204,6 +219,8 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    if (expression.length == 0) throw IllegalArgumentException()
+
     val allowedChars = listOf('-', '+', ' ')
     val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
 
@@ -251,7 +268,7 @@ fun firstDuplicateIndex(str: String): Int {
     var count = 0
 
     for (part in parts) {
-        if ( part.toUpperCase() == lastWord.toUpperCase() ) return count - part.length - 1
+        if ( part.toUpperCase() == lastWord.toUpperCase() && part != "" ) return count - part.length - 1
         count += part.length + 1
         lastWord = part
     }
@@ -272,7 +289,7 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     val parts = description.split("; ")
-    var maxPrice = 0.0
+    var maxPrice = -1.0
     var curPrice: Double
     var result = ""
 
@@ -283,9 +300,11 @@ fun mostExpensive(description: String): String {
 
         try {
             curPrice = couple[1].toDouble()
-        } catch (e: NumberFormatException) {
+        }
+        catch (e: NumberFormatException) {
             return ""
-        } catch (e: IndexOutOfBoundsException){
+        }
+        catch (e: IndexOutOfBoundsException){
             return ""
         }
 
@@ -427,6 +446,8 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
             ' ' -> {}
             else -> throw IllegalArgumentException()
         }
+        if (iterator >= list.size || iterator < 0) throw IllegalStateException()
+
         if (strIterator < commands.length - 1) strIterator ++
         else return list
     }

@@ -86,6 +86,8 @@ fun fib(n: Int): Int = TODO()
  */
 fun lcm(m: Int, n: Int): Int = TODO()
 
+
+
 /**
  * Простая
  *

@@ -2,6 +2,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson4.task1.abs
 
 /**
  * Пример
@@ -33,7 +34,17 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    if (y1==y2)
+        return true
+    if (x1==x2)
+        return true
+    val y = y1-y2
+    val x = x1-x2
+    if  (Math.abs(y)==Math.abs(x))
+        return true
+        else return false
+}
 
 /**
  * Средняя
@@ -43,7 +54,12 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+                 x2: Double, y2: Double, r2: Double): Boolean {
+    val R=Math.sqrt(sqr(Math.abs(y1-y2)) + sqr(Math.abs(x1-x2)))+r1
+    if (R>r2)
+        return false
+        else return true
+}
 
 /**
  * Средняя
@@ -54,4 +70,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    if ((a*b<=r*s) || (a*c<=r*s) || (b*c<=r*s))
+        return true
+        else return false
+}

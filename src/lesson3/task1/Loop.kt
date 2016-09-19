@@ -57,7 +57,22 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var number= n
+    var k=0
+    if (n>9){
+        for (m in 1..n){
+            if (number/10!= number){
+                k=k+1
+                number=number/10
+            }
+            else break
+
+        }
+        return k
+    }
+    else return 1
+}
 
 /**
  * Простая
@@ -65,7 +80,9 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+
+}
 
 /**
  * Простая

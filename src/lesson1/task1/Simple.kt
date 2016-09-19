@@ -36,7 +36,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
     return x1 * x2 // Результат
 }
 
-/**
+/***
  * Пример главной функции
  */
 fun main(args: Array<String>) {

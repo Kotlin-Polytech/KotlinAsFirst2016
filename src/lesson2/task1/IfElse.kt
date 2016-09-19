@@ -33,7 +33,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    if ((age % 10 == 1) && (age % 100 != 11))
+        return "$age год"
+    if (((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age % 100 > 14))
+        return "$age года" else
+        return "$age лет"
+}
 
 /**
  * Простая
@@ -44,7 +50,15 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if (t1 * v1 >= s)
+        return s / v1
+    else (if (t1 * v1 + t2 * v2 >= s)
+        return t1 + (s - t1 * v1) / v2
+    else return t1 + t2 + (s - t1 * v1 - t2 * v2) / v3
+            )
+}
 
 /**
  * Простая
@@ -56,7 +70,18 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if (((rookX1 == kingX) || (rookY1 == kingY)) && ((rookX2 == kingX) || (rookY2 == kingY))) return 3
+    else
+
+
+        if ((rookX1 == kingX) || (rookY1 == kingY)) return 1
+
+
+    if ((rookX2 == kingX) || (rookY2 == kingY)) return 2
+    else return 0
+}
+
 
 /**
  * Простая
@@ -69,8 +94,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
 
+    if (((((bishopX + bishopY) == (kingX + kingY)) || ((bishopX - bishopY) == (kingX - kingY)))) && (((rookX == kingX) || (rookY == kingY)))) return 3
+    else
+
+        if (((bishopX + bishopY) == (kingX + kingY)) || ((bishopX - bishopY) == (kingX - kingY))) return 2
+
+    if ((rookX == kingX) || (rookY == kingY)) return 1
+    else return 0
+}
 /**
  * Простая
  *
@@ -79,7 +112,22 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a> b+c ) || (b> c+a) || (c>b+a))
+        return -1
+    else {
+        val a1 = Math.pow(a,2.00)
+        val b1 = Math.pow(b,2.00)
+        val c1 = Math.pow(c,2.00)
+        if ((a1 == b1 + c1) || (b1 == a1 + c1) || (c1 == a1 + b1))
+            return 1
+        if   ( (a1 > b1 + c1) || (b1 > a1+ c1) || (c1 > a1 +b1))
+            return 2
+        else ((a1 < b1 + c1) || (b1 < a1 + c1) || (c1 < a1 + b1))
+            return 0
+    }
+
+}
 
 /**
  * Средняя

@@ -208,7 +208,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
     else if (n == 2) return true
-    else for (m in 2..n/2+1) {
+    else for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
         if (n % m == 0) return false
     }
     return true
@@ -279,7 +279,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var list: List<Int>
     var string1: String = ""
-    if (n==0) string1="0"
+    if (n==0) string1=""
     list = convert(n, base)
     for (i in 0..list.size - 1) {
         if (list[i] > 9) string1 = string1 + (87 + list[i]).toChar()

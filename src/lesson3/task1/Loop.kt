@@ -76,7 +76,7 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     val sq = sqrt(5.0)
     val doubleN = n.toDouble()
-    if(n>5){
+    if(n>10){
         return (1/sq * (pow((1 + sq) / 2, doubleN))).toInt()
     } else {
         return (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN))).toInt()

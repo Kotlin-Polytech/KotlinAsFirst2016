@@ -172,15 +172,16 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
+    val x1 = x % (2 * Math.PI)
     var i = 1
     var result = 0.0
     var k = 1
     do {
-        if (k % 2 == 1) result += Math.pow(x, i.toDouble()) / factorial(i)
-        else result -= Math.pow(x, i.toDouble()) / factorial(i)
+        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial(i)
+        else result -= Math.pow(x1, i.toDouble()) / factorial(i)
         i += 2
         k++
-    } while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps)
+    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial(i)) >= eps)
     return result
 }
 
@@ -192,15 +193,16 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
+    val x1 = x % (2 * Math.PI)
     var i = 0
     var result = 0.0
     var k = 1
     do {
-        if (k % 2 == 1) result += Math.pow(x, i.toDouble()) / factorial(i)
-        else result -= Math.pow(x, i.toDouble()) / factorial(i)
+        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial(i)
+        else result -= Math.pow(x1, i.toDouble()) / factorial(i)
         i += 2
         k++
-    } while (Math.abs(Math.pow(x, i.toDouble()) / factorial(i)) >= eps)
+    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial(i)) >= eps)
     return result
 }
 

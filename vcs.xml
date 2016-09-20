@@ -26,6 +26,10 @@
           <option name="url" value="https://github.com/TripleMan29/KotlinAsFirst2016.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="http://github.com" />
+          <option name="userName" value="TripleMan29" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="D:\student\Kulagin" />

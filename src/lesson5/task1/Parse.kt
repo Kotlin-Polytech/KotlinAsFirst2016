@@ -1,5 +1,7 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
 package lesson5.task1
+
+import javax.swing.SizeRequirements
 
 /**
  * Пример
@@ -60,7 +62,39 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    var result = ""
+    val parts = str.split(" ")
+    if (parts.size==3) {
+    try {
+
+     if (parts[0].toInt() in 0..9) result = '0'+parts[0].toInt().toString()+"."
+     else result = parts[0].toInt().toString()+"."
+        result= when {
+             parts[1] == "января" ->result + "01"
+             parts[1] == "февраля" ->result + "02"
+             parts[1] == "марта" ->result + "03"
+             parts[1] == "апреля" ->result + "04"
+             parts[1] == "мая" -> result + "05"
+             parts[1] == "июня" -> result + "06"
+             parts[1] == "июля" ->result + "07"
+             parts[1] == "августа" ->result + "08"
+             parts[1] == "сентября" ->result + "09"
+             parts[1] == "октября" ->result + "10"
+             parts[1] == "ноября"  ->result + "11"
+             parts[1] == "декабря" ->result + "12"
+             else -> return ""
+         }
+
+         result = result + "." + parts[2].toInt().toString()
+     }
+     catch (e: NumberFormatException) {
+         return ""
+     }
+
+    return result
+    } else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +103,40 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var result = ""
+    val parts = digital.split(".")
+    if (parts.size==3) {
+        try {
+
+            if (parts[0].toInt() in 0..9) result = parts[0].toInt().toString()+" "
+            else result = parts[0].toInt().toString()+" "
+            result= when {
+                parts[1] == "01" ->result + "января"
+                parts[1] == "02" ->result + "февраля"
+                parts[1] == "03" ->result + "марта"
+                parts[1] == "04" ->result + "апреля"
+                parts[1] == "05" ->result + "мая"
+                parts[1] == "06" ->result + "июня"
+                parts[1] == "07" ->result + "июля"
+                parts[1] == "08" ->result + "августа"
+                parts[1] == "09" ->result + "сентября"
+                parts[1] == "10" ->result + "октября"
+                parts[1] == "11" ->result + "ноября"
+                parts[1] == "12" ->result + "декабря"
+                else -> return ""
+            }
+
+            result = result + " " + parts[2].toInt().toString()
+        }
+        catch (e: NumberFormatException) {
+            return ""
+        }
+
+        return result
+    } else return ""
+}
+
 
 /**
  * Сложная
@@ -83,7 +150,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val result = phone.filter { (it in '0'..'9')||(it == '+') }
+    for (i in 0..phone.length-1) if ((phone[i]!='(')&&(phone[i]!=')')&&(phone[i]!='-')&&(phone[i]!=' ')&&(phone[i]!='+')&&(phone[i]!in '0'..'9')) return ""
+return result
+}
 
 /**
  * Средняя
@@ -95,7 +166,16 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    for (i in 0..jumps.length-1) if ((jumps=="")||((jumps[i]!='%')&&(jumps[i]!='-')&&(jumps[i]!=' ')&&(jumps[i]!in '0'..'9'))) return -1
+    var resultJumps=jumps.filter { (it in '0'..'9')||(it == ' ') }
+    val parts=  resultJumps.split(" ")
+    var parts2= listOf<Int>()
+    for (i in 0..parts.size-1) if (parts[i]!="") parts2=parts2+parts[i].toInt()
+    var result=-1
+    for (i in 0..parts2.size-1) result=Math.max(result,parts2[i])
+    return result
+}
 
 /**
  * Сложная

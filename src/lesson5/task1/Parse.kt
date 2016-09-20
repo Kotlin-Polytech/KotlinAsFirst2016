@@ -150,12 +150,14 @@ fun flattenPhoneNumber(phone: String): String {
     val result = phone.filter { (it in '0'..'9') || (it == '+') }
 
     for (i in 0..phone.length - 1) if ((phone[i] != '(') && (phone[i] != ')') && (phone[i] != '-') && (phone[i] != ' ') && (phone[i] != '+') && (phone[i]!in '0'..'9')) return ""
-
-    if (result[0] == '+') {
-        for (i in 1..result.length - 1) if (result[i] !in '0'..'9') return ""
-    } else {
-        for (i in 0..result.length - 1) if (result[i] !in '0'..'9') return ""
+    if (result.length > 0) {
+        if (result[0] == '+') {
+            for (i in 1..result.length - 1) if (result[i] !in '0'..'9') return ""
+        } else {
+            for (i in 0..result.length - 1) if (result[i] !in '0'..'9') return ""
+        }
     }
+    else return ""
 
     return result
 }
@@ -198,7 +200,7 @@ fun chekPlus(str: String): Boolean {
 
 fun bestHighJump(jumps: String): Int {
     if (jumps == "") return -1
-    var maxMax = 0
+    var maxMax = -1
     var maxI = -1
     var string = listOf<String>()
     var stringLittle = listOf<String>()

@@ -117,4 +117,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    when {
+        (c>b) -> return -1
+        (c<=b && c>=a) -> {if (d<=b) return d-c else return b-c}
+        else -> when {
+                    d<a -> return -1
+                    (d>=a && d<=b) -> return d-a
+                    else -> return b-a
+                    }
+    }
+}

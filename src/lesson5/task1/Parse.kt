@@ -1,7 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
+
 package lesson5.task1
 
-import javax.swing.SizeRequirements
 
 /**
  * Пример
@@ -44,12 +44,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -65,34 +63,33 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     var result = ""
     val parts = str.split(" ")
-    if (parts.size==3) {
-    try {
+    if (parts.size == 3) {
+        try {
 
-     if (parts[0].toInt() in 0..9) result = '0'+parts[0].toInt().toString()+"."
-     else result = parts[0].toInt().toString()+"."
-        result= when {
-             parts[1] == "января" ->result + "01"
-             parts[1] == "февраля" ->result + "02"
-             parts[1] == "марта" ->result + "03"
-             parts[1] == "апреля" ->result + "04"
-             parts[1] == "мая" -> result + "05"
-             parts[1] == "июня" -> result + "06"
-             parts[1] == "июля" ->result + "07"
-             parts[1] == "августа" ->result + "08"
-             parts[1] == "сентября" ->result + "09"
-             parts[1] == "октября" ->result + "10"
-             parts[1] == "ноября"  ->result + "11"
-             parts[1] == "декабря" ->result + "12"
-             else -> return ""
-         }
+            if (parts[0].toInt() in 0..9) result = '0' + parts[0].toInt().toString() + "."
+            else result = parts[0].toInt().toString() + "."
+            result = when {
+                parts[1] == "января" -> result + "01"
+                parts[1] == "февраля" -> result + "02"
+                parts[1] == "марта" -> result + "03"
+                parts[1] == "апреля" -> result + "04"
+                parts[1] == "мая" -> result + "05"
+                parts[1] == "июня" -> result + "06"
+                parts[1] == "июля" -> result + "07"
+                parts[1] == "августа" -> result + "08"
+                parts[1] == "сентября" -> result + "09"
+                parts[1] == "октября" -> result + "10"
+                parts[1] == "ноября" -> result + "11"
+                parts[1] == "декабря" -> result + "12"
+                else -> return ""
+            }
 
-         result = result + "." + parts[2].toInt().toString()
-     }
-     catch (e: NumberFormatException) {
-         return ""
-     }
+            result = result + "." + parts[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
 
-    return result
+        return result
     } else return ""
 }
 
@@ -106,30 +103,29 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     var result = ""
     val parts = digital.split(".")
-    if (parts.size==3) {
+    if (parts.size == 3) {
         try {
 
-            if (parts[0].toInt() in 0..9) result = parts[0].toInt().toString()+" "
-            else result = parts[0].toInt().toString()+" "
-            result= when {
-                parts[1] == "01" ->result + "января"
-                parts[1] == "02" ->result + "февраля"
-                parts[1] == "03" ->result + "марта"
-                parts[1] == "04" ->result + "апреля"
-                parts[1] == "05" ->result + "мая"
-                parts[1] == "06" ->result + "июня"
-                parts[1] == "07" ->result + "июля"
-                parts[1] == "08" ->result + "августа"
-                parts[1] == "09" ->result + "сентября"
-                parts[1] == "10" ->result + "октября"
-                parts[1] == "11" ->result + "ноября"
-                parts[1] == "12" ->result + "декабря"
+            if (parts[0].toInt() in 0..9) result = parts[0].toInt().toString() + " "
+            else result = parts[0].toInt().toString() + " "
+            result = when {
+                parts[1] == "01" -> result + "января"
+                parts[1] == "02" -> result + "февраля"
+                parts[1] == "03" -> result + "марта"
+                parts[1] == "04" -> result + "апреля"
+                parts[1] == "05" -> result + "мая"
+                parts[1] == "06" -> result + "июня"
+                parts[1] == "07" -> result + "июля"
+                parts[1] == "08" -> result + "августа"
+                parts[1] == "09" -> result + "сентября"
+                parts[1] == "10" -> result + "октября"
+                parts[1] == "11" -> result + "ноября"
+                parts[1] == "12" -> result + "декабря"
                 else -> return ""
             }
 
             result = result + " " + parts[2].toInt().toString()
-        }
-        catch (e: NumberFormatException) {
+        } catch (e: NumberFormatException) {
             return ""
         }
 
@@ -151,9 +147,9 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val result = phone.filter { (it in '0'..'9')||(it == '+') }
-    for (i in 0..phone.length-1) if ((phone[i]!='(')&&(phone[i]!=')')&&(phone[i]!='-')&&(phone[i]!=' ')&&(phone[i]!='+')&&(phone[i]!in '0'..'9')) return ""
-return result
+    val result = phone.filter { (it in '0'..'9') || (it == '+') }
+    for (i in 0..phone.length - 1) if ((phone[i] != '(') && (phone[i] != ')') && (phone[i] != '-') && (phone[i] != ' ') && (phone[i] != '+') && (phone[i]!in '0'..'9')) return ""
+    return result
 }
 
 /**
@@ -167,13 +163,13 @@ return result
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    for (i in 0..jumps.length-1) if ((jumps=="")||((jumps[i]!='%')&&(jumps[i]!='-')&&(jumps[i]!=' ')&&(jumps[i]!in '0'..'9'))) return -1
-    var resultJumps=jumps.filter { (it in '0'..'9')||(it == ' ') }
-    val parts=  resultJumps.split(" ")
-    var parts2= listOf<Int>()
-    for (i in 0..parts.size-1) if (parts[i]!="") parts2=parts2+parts[i].toInt()
-    var result=-1
-    for (i in 0..parts2.size-1) result=Math.max(result,parts2[i])
+    for (i in 0..jumps.length - 1) if ((jumps == "") || ((jumps[i] != '%') && (jumps[i] != '-') && (jumps[i] != ' ') && (jumps[i]!in '0'..'9'))) return -1
+    var resultJumps = jumps.filter { (it in '0'..'9') || (it == ' ') }
+    val parts = resultJumps.split(" ")
+    var parts2 = listOf<Int>()
+    for (i in 0..parts.size - 1) if (parts[i] != "") parts2 = parts2 + parts[i].toInt()
+    var result = -1
+    for (i in 0..parts2.size - 1) result = Math.max(result, parts2[i])
     return result
 }
 
@@ -187,7 +183,33 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun chekPlus(str: String):Boolean{
+    for (i in 0..str.length-1) if (str[i]=='+') return true
+    return false
+}
+
+fun bestHighJump(jumps: String): Int {
+    if (jumps=="") return -1
+    var maxMax=0
+    var maxI=0
+    var string= listOf<String>()
+    var stringLittle= listOf<String>()
+    try {
+        string = jumps.split(" ")
+        if (string.size % 2==1) return -1
+        for (i in 0..string.size - 1 step 2) {
+            if ((string[i].toInt() > maxMax)&&(chekPlus(string[i+1])==true)) {
+                maxMax = string[i].toInt()
+                maxI = i
+            }
+        }
+        return string[maxI].toInt()
+    }
+    catch (e:NumberFormatException) {
+        return -1
+    }
+
+}
 
 /**
  * Сложная
@@ -198,7 +220,26 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    for (i in 0..expression.length - 1) if ((expression == "") || ((expression[i] != '+') && (expression[i] != '-') && (expression[i] != ' ') && (expression[i]!in '0'..'9'))) return throw IllegalArgumentException("Description")
+    var resultExpression = expression
+    val parts = resultExpression.split(" ")
+    var result = 0
+    try {
+        if ((parts[0] == "-") || (parts[0] == "+"))
+            for (i in 1..parts.size - 1 step 2) if (parts[i - 1] == "-") result = result - parts[i].toInt()
+            else result = result + parts[i].toInt()
+        else {
+            result = result + parts[0].toInt()
+            for (i in 2..parts.size - 1 step 2) if (parts[i - 1] == "-") result = result - parts[i].toInt()
+            else result = result + parts[i].toInt()
+        }
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException("Description")
+    }
+
+    return result
+}
 
 /**
  * Сложная
@@ -209,7 +250,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var littleReg = str.toLowerCase().split(" ")
+    var summ = 0
+    for (i in 0..littleReg.size - 2) {
+        if (littleReg[i] == littleReg[i + 1]) return summ
+        summ = summ + littleReg[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -222,7 +271,30 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description == "") return ""
+    var maxMax = 0.0
+    var maxI = 0
+    var string = listOf<String>()
+    var stringLittle = listOf<String>()
+    try {
+        string = description.split("; ")
+        for (i in 0..string.size - 1) {
+            stringLittle = string[i].split(" ")
+            if (stringLittle.size == 2) {
+                if (stringLittle[1].toDouble() > maxMax) {
+                    maxMax = stringLittle[1].toDouble()
+                    maxI = i
+                }
+            } else return ""
+
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    stringLittle = string[maxI].split(" ")
+    return stringLittle[0]
+}
 
 /**
  * Сложная

@@ -191,7 +191,7 @@ fun chekPlus(str: String):Boolean{
 fun bestHighJump(jumps: String): Int {
     if (jumps=="") return -1
     var maxMax=0
-    var maxI=0
+    var maxI=-1
     var string= listOf<String>()
     var stringLittle= listOf<String>()
     try {
@@ -203,7 +203,7 @@ fun bestHighJump(jumps: String): Int {
                 maxI = i
             }
         }
-        return string[maxI].toInt()
+       if (maxI==-1)return -1 else return string[maxI].toInt()
     }
     catch (e:NumberFormatException) {
         return -1
@@ -254,7 +254,7 @@ fun firstDuplicateIndex(str: String): Int {
     var littleReg = str.toLowerCase().split(" ")
     var summ = 0
     for (i in 0..littleReg.size - 2) {
-        if (littleReg[i] == littleReg[i + 1]) return summ
+        if ((littleReg[i] == littleReg[i + 1])&&(littleReg[i]!="")) return summ
         summ = summ + littleReg[i].length + 1
     }
     return -1

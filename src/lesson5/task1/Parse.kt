@@ -148,7 +148,15 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     val result = phone.filter { (it in '0'..'9') || (it == '+') }
+
     for (i in 0..phone.length - 1) if ((phone[i] != '(') && (phone[i] != ')') && (phone[i] != '-') && (phone[i] != ' ') && (phone[i] != '+') && (phone[i]!in '0'..'9')) return ""
+
+    if (result[0] == '+') {
+        for (i in 1..result.length - 1) if (result[i] !in '0'..'9') return ""
+    } else {
+        for (i in 0..result.length - 1) if (result[i] !in '0'..'9') return ""
+    }
+
     return result
 }
 
@@ -183,29 +191,28 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun chekPlus(str: String):Boolean{
-    for (i in 0..str.length-1) if (str[i]=='+') return true
+fun chekPlus(str: String): Boolean {
+    for (i in 0..str.length - 1) if (str[i] == '+') return true
     return false
 }
 
 fun bestHighJump(jumps: String): Int {
-    if (jumps=="") return -1
-    var maxMax=0
-    var maxI=-1
-    var string= listOf<String>()
-    var stringLittle= listOf<String>()
+    if (jumps == "") return -1
+    var maxMax = 0
+    var maxI = -1
+    var string = listOf<String>()
+    var stringLittle = listOf<String>()
     try {
         string = jumps.split(" ")
-        if (string.size % 2==1) return -1
+        if (string.size % 2 == 1) return -1
         for (i in 0..string.size - 1 step 2) {
-            if ((string[i].toInt() > maxMax)&&(chekPlus(string[i+1])==true)) {
+            if ((string[i].toInt() > maxMax) && (chekPlus(string[i + 1]) == true)) {
                 maxMax = string[i].toInt()
                 maxI = i
             }
         }
-       if (maxI==-1)return -1 else return string[maxI].toInt()
-    }
-    catch (e:NumberFormatException) {
+        if (maxI == -1) return -1 else return string[maxI].toInt()
+    } catch (e: NumberFormatException) {
         return -1
     }
 
@@ -254,7 +261,7 @@ fun firstDuplicateIndex(str: String): Int {
     var littleReg = str.toLowerCase().split(" ")
     var summ = 0
     for (i in 0..littleReg.size - 2) {
-        if ((littleReg[i] == littleReg[i + 1])&&(littleReg[i]!="")) return summ
+        if ((littleReg[i] == littleReg[i + 1]) && (littleReg[i] != "")) return summ
         summ = summ + littleReg[i].length + 1
     }
     return -1

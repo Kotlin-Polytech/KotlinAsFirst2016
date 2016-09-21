@@ -152,10 +152,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int{
             if (min*min + nor*nor == max*max){
                 return 1
             } else
-            if ((min*min + nor*nor > max* max)){
+            if ((min*min + nor*nor < max* max)){
                 return 2
             } else {
-                return 1}
+                return 0}
             }
 
 

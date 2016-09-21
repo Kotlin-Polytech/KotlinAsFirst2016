@@ -57,7 +57,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var sum = 0
+    if ((n / 10) <= 0.0) return 1 else while ((n / 10) > 0.0) {
+        sum += 1
+        n == n / 10
+    }
+ return sum
+}
+
 
 /**
  * Простая
@@ -65,7 +73,8 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int =
+ if (n == 1) 1 else if (n == 2) 1 else fib(n-2) + fib(n - 1)
 
 /**
  * Простая
@@ -73,21 +82,39 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k = Math.max(m,n)
+    while ((k % m) or (k % n) !=0) {
+        k +=1
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var k = 2
+    while ((n % k) !=0) {
+        k +=1
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k = n -1
+    while ((n % k) !=0) {
+        k -=1
+    }
+    return k
+}
 
 /**
  * Простая
@@ -96,7 +123,13 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var k = 2
+    while (((m % k) or (n % k) !=0) and (k <= m) and (k <= n)) {
+        k += 1
+    }
+    return if (k == 2) true else false
+}
 
 /**
  * Простая

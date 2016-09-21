@@ -109,35 +109,36 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    return if ((a > b) and (a > c)) when {
-        (((b * b + c * c - a * a) / (2 * b * c)) > 0) and (((b * b + c * c - a * a) / (2 * b * c)) >= -1) and (((b * b + c * c - a * a) / (2 * b * c)) <= 1) -> 0
-        (((b * b + c * c - a * a) / (2 * b * c)) == 0.0) and (((b * b + c * c - a * a) / (2 * b * c)) >= -1) and (((b * b + c * c - a * a) / (2 * b * c)) <= 1) -> 1
-        (((b * b + c * c - a * a) / (2 * b * c)) < 0) and (((b * b + c * c - a * a) / (2 * b * c)) >= -1) and (((b * b + c * c - a * a) / (2 * b * c)) <= 1) -> 2
+    return if ((a > b + c) or (b > a + c) or (c > b + a)) -1
+    else if ((a > b) and (a > c)) when {
+        ((b * b + c * c - a * a) > 0) -> 0
+        ((b * b + c * c - a * a) == 0.0)  -> 1
+        ((b * b + c * c - a * a) < 0) -> 2
         else -> -1
     } else if ((b > a) and ( b > c)) when {
-        (((- b * b + c * c + a * a) / (2 * a * c)) > 0) and (((- b * b + c * c + a * a) / (2 * a * c)) >= -1) and (((- b * b + c * c + a * a) / (2 * a * c)) <= 1) -> 0
-        (((- b * b + c * c + a * a) / (2 * a * c)) == 0.0) and (((- b * b + c *c + a * a) / (2 * a * c)) >= -1) and (((- b * b + c * c + a * a) / (2 * a * c)) <= 1) -> 1
-        (((- b * b + c * c + a * a) / (2 * a * c)) < 0) and (((- b * b + c * c + a * a) / (2 * a * c)) >= -1) and (((- b * b + c * c + a * a) / (2 * a * c)) <= 1) -> 2
+        ((- b * b + c * c + a * a) > 0) -> 0
+        ((- b * b + c * c + a * a) == 0.0)  -> 1
+        ((- b * b + c * c + a * a) < 0)  -> 2
         else -> -1
     } else if ((c > a) and ( c > b)) when {
-        ((( b * b - c * c + a * a) / (2 * a * b)) > 0) and ((( b * b - c * c + a * a) / (2 * a * b)) >= -1) and ((( b * b - c * c + a * a) / (2 * a * b)) <= 1) -> 0
-        ((( b * b - c * c + a * a) / (2 * a * b)) == 0.0) and ((( b * b - c *c + a * a) / (2 * a * b)) >= -1) and ((( b * b - c * c + a * a) / (2 * a * b)) <= 1) -> 1
-        ((( b * b - c * c + a * a) / (2 * a * b)) < 0) and ((( b * b - c * c + a * a) / (2 * a * b)) >= -1) and ((( b * b - c * c + a * a) / (2 * a * b)) <= 1) -> 2
+        (( b * b - c * c + a * a) > 0)  -> 0
+        (( b * b - c * c + a * a) == 0.0)  -> 1
+        (( b * b - c * c + a * a) < 0) -> 2
         else -> -1
     } else if (a == b) when {
-        ((( b * b - c * c + a * a) / (2 * a * b)) > 0) and ((( b * b - c * c + a * a) / (2 * a * b)) >= -1) and ((( b * b - c * c + a * a) / (2 * a * b)) <= 1) -> 0
-        ((( b * b - c * c + a * a) / (2 * a * b)) == 0.0) and ((( b * b - c *c + a * a) / (2 * a * b)) >= -1) and ((( b * b - c * c + a * a) / (2 * a * b)) <= 1) -> 1
-        ((( b * b - c * c + a * a) / (2 * a * b)) < 0) and ((( b * b - c * c + a * a) / (2 * a * b)) >= -1) and ((( b * b - c * c + a * a) / (2 * a * b)) <= 1) -> 2
+        (( b * b - c * c + a * a) > 0) -> 0
+        (( b * b - c * c + a * a) == 0.0) -> 1
+        (( b * b - c * c + a * a) < 0) -> 2
         else -> -1
     } else if (b == c) when {
-        (((b * b + c * c - a * a) / (2 * b * c)) > 0) and (((b * b + c * c - a * a) / (2 * b * c)) >= -1) and (((b * b + c * c - a * a) / (2 * b * c)) <= 1) -> 0
-        (((b * b + c * c - a * a) / (2 * b * c)) == 0.0) and (((b * b + c * c - a * a) / (2 * b * c)) >= -1) and (((b * b + c * c - a * a) / (2 * b * c)) <= 1) -> 1
-        (((b * b + c * c - a * a) / (2 * b * c)) < 0) and (((b * b + c * c - a * a) / (2 * b * c)) >= -1) and (((b * b + c * c - a * a) / (2 * b * c)) <= 1) -> 2
+        ((b * b + c * c - a * a) > 0)  -> 0
+        ((b * b + c * c - a * a) == 0.0) -> 1
+        ((b * b + c * c - a * a) < 0) -> 2
         else -> -1
     } else if (a == c) when {
-        (((- b * b + c * c + a * a) / (2 * a * c)) > 0) and (((- b * b + c * c + a * a) / (2 * a * c)) >= -1) and (((- b * b + c * c + a * a) / (2 * a * c)) <= 1) -> 0
-        (((- b * b + c * c + a * a) / (2 * a * c)) == 0.0) and (((- b * b + c *c + a * a) / (2 * a * c)) >= -1) and (((- b * b + c * c + a * a) / (2 * a * c)) <= 1) -> 1
-        (((- b * b + c * c + a * a) / (2 * a * c)) < 0) and (((- b * b + c * c + a * a) / (2 * a * c)) >= -1) and (((- b * b + c * c + a * a) / (2 * a * c)) <= 1) -> 2
+        ((- b * b + c * c + a * a) > 0) -> 0
+        ((- b * b + c * c + a * a) == 0.0) -> 1
+        ((- b * b + c * c + a * a) < 0) -> 2
         else -> -1
     } else 8
 }

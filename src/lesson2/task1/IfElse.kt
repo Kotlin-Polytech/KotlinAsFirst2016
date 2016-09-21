@@ -36,7 +36,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     if ((age % 10 == 1) && (age % 100 != 11)) return "$age год"
-    if ((age % 10 in 2..4)&& (age !in 10..19) && (age !in 110..119)) return "$age года"
+    if ((age % 10 in 2..4)&& (age%100 !in 10..19)) return "$age года"
     else return "$age лет"
 
 }
@@ -94,12 +94,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val sum_bish =  ((bishopX + bishopY) == (kingX + kingY))
-    val diff_bish = ((bishopX - bishopY) == (kingX - kingY))
+    val bish =  ((bishopX + bishopY) == (kingX + kingY))|| ((bishopX - bishopY) == (kingX - kingY))
     val eq_rook =  ((rookX == kingX) || (rookY == kingY))
 
-    if ((sum_bish || diff_bish) && eq_rook) return 3
-    else if ((sum_bish) || (diff_bish)) return 2
+    if (bish && eq_rook) return 3
+    else if (bish) return 2
     if (eq_rook) return 1
     else return 0
 }
@@ -134,11 +133,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var result = 0
     if (c > b) return -1
     if (d < a) return -1
-    else result = (min(b, d) - max(a, c))
-    return result
+    else return (min(b, d) - max(a, c))
 }
 
 

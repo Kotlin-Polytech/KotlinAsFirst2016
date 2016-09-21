@@ -108,7 +108,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for(i in 2..n) {
+    for(i in 2..n/2) {
         if(n%i==0) return i
     }
     return n
@@ -144,8 +144,9 @@ fun isCoPrime(m: Int, n: Int) = if(nod(m,n)==1) true else false
  */
 
 fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val newM = (sqrt(m.toDouble())).toInt()
     val newN = (sqrt(n.toDouble())).toInt()
-    for(i in 1..newN+1){
+    for(i in newM..newN+1){
         val sqrI = i*i
         if(m<=sqrI && n>=sqrI) return true
     }
@@ -204,7 +205,7 @@ fun revert(n: Int): Int {
     do{
         revertN = (revertN+newN%10)*10
         newN /=10
-    } while (newN!==0)
+    } while (newN!=0)
     return revertN/10
 }
 
@@ -227,10 +228,10 @@ fun hasDifferentDigits(n: Int): Boolean {
     var newN = n
     do{
         if (newN/10==0) break
-        if(newN%10!==(newN/10)%10) return true
+        if(newN%10!=(newN/10)%10) return true
         newN/=10
         if (newN/10==0) break
-    } while(newN!==0)
+    } while(newN!=0)
     return false
 }
 

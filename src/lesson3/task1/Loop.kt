@@ -62,8 +62,8 @@ fun digitNumber(n: Int): Int {
     var newN = n
     do{
         newN /= 10
-        if(newN>0) iDig++
-    } while (newN>0)
+        if(newN!=0) iDig++
+    } while (newN!=0)
     return iDig
 }
 
@@ -78,7 +78,7 @@ fun fib(n: Int): Int {
     val doubleN = n.toDouble()
     val result: Double
     if(n>10){
-        result = (1/sq * (pow((1 + sq) / 2, doubleN)))
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN)))
     } else {
         result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
     }
@@ -120,7 +120,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for(i in n-1 downTo 1){
+    for(i in n/2 downTo 2){
         if(n%i==0) return i
     }
     return 1
@@ -133,7 +133,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int) = if(nod(m,n)==1) true else false
+fun isCoPrime(m: Int, n: Int) = nod(m,n)==1
 
 /**
  * Простая
@@ -161,11 +161,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var y = 1.0
-    var z = x
+    var newX = x
+//  if(x>PI/2) newX = x%(PI/2) не работает
+    var z = newX
+
     val moduleEps = abs(eps)
     var result: Double
     do{
-        result = pow((-1.0),y) * pow(x,2*y+1) / factorial((2*y+1).toInt())
+        result = pow((-1.0),y) * pow(newX,2*y+1) / factorial((2*y+1).toInt())
         z += result
         y += 1
     } while(abs(result) >= moduleEps)
@@ -203,10 +206,10 @@ fun revert(n: Int): Int {
     var newN = n
     var revertN = 0
     do{
-        revertN = (revertN+newN%10)*10
+        revertN = (revertN*10)+newN%10
         newN /=10
     } while (newN!=0)
-    return revertN/10
+    return revertN
 }
 
 /**
@@ -216,7 +219,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int) = if(revert(n)==n) true else false
+fun isPalindrome(n: Int) = revert(n)==n
 
 /**
  * Средняя
@@ -227,7 +230,6 @@ fun isPalindrome(n: Int) = if(revert(n)==n) true else false
 fun hasDifferentDigits(n: Int): Boolean {
     var newN = n
     do{
-        if (newN/10==0) break
         if(newN%10!=(newN/10)%10) return true
         newN/=10
         if (newN/10==0) break

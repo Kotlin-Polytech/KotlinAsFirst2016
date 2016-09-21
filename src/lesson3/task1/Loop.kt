@@ -212,6 +212,8 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun squareSequenceDigit(n: Int): Int = TODO()
 
+
+
 /**
  * Сложная
  *

@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.*
 
 /**
  * Пример
@@ -52,17 +53,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
 
+    if (t1<0 || v1<0 || t2<0 || v2<0 || t3<0 || v3<0) return Double.NaN
     val s1 = t1*v1
     val s2 = t2*v2
     val s3 = t3*v3
-    val HalfS = (s1 + s2 + s3)/2
-    if (HalfS == 0.0) return Double.NaN
+    val halfS = (s1 + s2 + s3)/2
+    if (halfS == 0.0) return Double.NaN
     return when {
-        HalfS == s1 -> t1
-        HalfS == s2 -> t2
-        (HalfS < s1) && (v1 != 0.0) -> HalfS/v1
-        (HalfS < (s1+s2)) && (v2 != 0.0) -> t1 + (HalfS - s1)/v2
-        (HalfS > (s1+s2)) && (v3 != 0.0) -> t1 + t2 + (HalfS - s1 - s2)/v3
+        halfS <= s1 -> halfS/v1
+        halfS <= s1+s2 && v2 != 0.0 -> t1 + (halfS - s1)/v2
+        halfS > s1+s2 && v3 != 0.0 -> t1 + t2 + (halfS - s1 - s2)/v3
         else -> Double.NaN
     }
 
@@ -79,14 +79,27 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
+    var danger1 = false //нет угрозы первой ладьи
+    var danger2 = false //нет угрозы второй ладьи
+    if (rookX1 == kingX || rookY1 == kingY) danger1 = true // есть угроза от первой ладьи
+    if (rookX2 == kingX || rookY2 == kingY) danger2 = true //есть угроза от второй ладьи
+    if (rookX1 == rookX2) { //если две ладьи и король стоят в один ряд(по вертикали поля)
+        //если между королем и второй ладьей стоит первая ладья, то нет угрозы от второй
+        if (rookY1 in min(rookY2, kingY)..max(rookY2, kingY)) danger2= false
+        //если между королем и первой ладьей стоит вторая ладья, то нет угрозы от первой
+        else if (rookY2 in min(rookY1, kingY)..max(rookY1, kingY)) danger1= false
+    }
+    else if (rookY1 == rookY2) { //если две ладьи и король стоят в один ряд (по горизонтали)
+        //если между королем и второй ладьей стоит первая ладья, то нет угрозы от второй
+        if (rookX1 in min(rookX2, kingX)..max(rookX2, kingX)) danger2= false
+        //если между королем и первой ладьей стоит вторая ладья, то нет угрозы от первой
+        else if (rookX2 in min(rookX1, kingX)..max(rookX1, kingX)) danger1= false
+    }
     return when {
-        (kingX == rookX1) && (kingX == rookX2) -> 3
-        (kingX == rookX1) && (kingY == rookY2) -> 3
-        (kingY == rookY1) && (kingX == rookX2) -> 3
-        (kingY == rookY1) && (kingY == rookY2) -> 3
-        (kingX == rookX1) || (kingY == rookY1) -> 1
-        (kingX == rookX2) || (kingY == rookY2) -> 2
-        else -> 0
+        danger1 == true && danger2 == true -> 3 //угроза от обеих ладей
+        danger1 == true -> 1 //угроза только от первой
+        danger2 == true -> 2 //угроза только от второй
+        else -> 0 //угрозы нет вообще
     }
 }
 
@@ -101,7 +114,43 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+
+    var dangerbishop = false //нет угрозы слона
+    var dangerrook = false //нет угрозы ладьи
+    //если катеты равны по длине, то король и слон лежат на одной диагонали
+    // => король под угрозой слона
+    if (abs(bishopX - kingX) == abs(bishopY - kingY))
+    {
+        dangerbishop = true
+        //если между слоном и королем стоит ладья
+        if (abs(rookX - kingX) == abs(rookY - kingY))
+        {
+            if (rookX in min(bishopX, kingX)..max(bishopX, kingX) &&
+                    rookY in min(bishopY, kingY)..max(bishopY, kingY))
+                dangerbishop = false
+        }
+    }
+    ///////////////////////////////////
+    //угроза от ладьи
+    if (rookX == kingX || rookY == kingY)
+    {
+        dangerrook = true
+        //если между ладьей и королем стоит слон
+        if (bishopY == kingY && bishopX in min(kingX,rookX)..max(kingX,rookX))
+                    dangerrook = false
+        else if (bishopX == kingX &&
+                bishopY in min(kingY,rookY)..max(kingY,rookY))
+                    dangerrook = false
+    }
+    /////////////////
+    return when {
+        dangerbishop == true && dangerrook == true -> 3 //угроза и от слона, и от ладьи
+        dangerbishop == true -> 2 //угроза только от слона
+        dangerrook == true -> 1 //угроза только от ладьи
+        else -> 0 //нет угрозы
+    }
+}
 
 /**
  * Простая

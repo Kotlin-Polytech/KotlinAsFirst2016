@@ -24,8 +24,7 @@ fun isNumberHappy(number: Int): Boolean {
     var third : Int = number % 10
         number = number / 10
     var second : Int = number % 10
-    if ((first + second) == (third + fourth)) return true
-    else return false
+        return (first + second) == (third + fourth)
 }
 
 /**
@@ -35,8 +34,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if ((x1 == x2 || y1 == y2) || (Math.abs(x1 - x2) == (Math.abs(y1 - y2)))) return true
-    else return false
+        return (x1 == x2 || y1 == y2) || (Math.abs(x1 - x2) == (Math.abs(y1 - y2)))
 }
 
 /**
@@ -49,8 +47,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
     val d = Math.sqrt(sqr(y2-y1) + sqr(x2 - x1))
-    if (r2 >= d + r1) return true
-    else return false
+        return (r2 >= d + r1)
 
 }
 
@@ -64,6 +61,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    TODO()
+    return ((r >= a) && (s>= b)) || ((r >= b) && (s>=a)) ||
+            ((r >=a) &&(s >=c)) || ((r >= c) && (s >= a)) ||
+            ((r >= c) && (s >= b)) || ((r >= b) && (s >= c))
 }
 

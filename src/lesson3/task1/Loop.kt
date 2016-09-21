@@ -76,11 +76,13 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     val sq = sqrt(5.0)
     val doubleN = n.toDouble()
+    val result: Double
     if(n>10){
-        return (1/sq * (pow((1 + sq) / 2, doubleN))).toInt()
+        result = (1/sq * (pow((1 + sq) / 2, doubleN)))
     } else {
-        return (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN))).toInt()
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
     }
+    return round(result).toInt()
 }
 
 /**
@@ -156,21 +158,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
-/*
-{
-    var y = 3.0
+fun sin(x: Double, eps: Double): Double {
+    var y = 1.0
     var z = x
+    val moduleEps = abs(eps)
+    var result: Double
     do{
-        if(abs(pow(z,y)/factorial(y.toInt()))<abs(eps)) return z
-        z = z-pow(z,y)/factorial(y.toInt())
-        if(abs(pow(z,y+2)/factorial((y+2).toInt()))<abs(eps)) return z
-        z = z+pow(z,y+2)/factorial((y+2).toInt())
-
-        y+=4
-    } while(true)
+        result = pow((-1.0),y) * pow(x,2*y+1) / factorial((2*y+1).toInt())
+        z += result
+        y += 1
+    } while(abs(result) >= moduleEps)
+    return z
 }
-*/
+
 
 /**
  * Простая
@@ -179,7 +179,18 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var y = 1.0
+    var z = 1.0
+    val moduleEps = abs(eps)
+    var result: Double
+    do{
+        result = pow((-1.0),y) * pow(x,2*y) / factorial((2*y).toInt())
+        z += result
+        y += 1
+    } while(abs(result) >= moduleEps)
+    return z
+}
 
 /**
  * Средняя
@@ -240,7 +251,7 @@ fun squareSequenceDigit(n: Int): Int {
         if(y>=n) break
         i++
     } while (true)
-    for(i in 1..y-n){
+    for(j in 1..y-n){
         x/=10
     }
     return x%10
@@ -263,7 +274,7 @@ fun fibSequenceDigit(n: Int): Int {
         if(y>=n) break
         i++
     } while (true)
-    for(i in 1..y-n){
+    for(j in 1..y-n){
         x/=10
     }
     return x%10

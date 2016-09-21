@@ -21,12 +21,11 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 fun isPrime(n: Int): Boolean {
-    if (n < 2) return false
-    if (n == 2) return true
-    for (m in 2..n / 2) {
-        if (n % m == 0) return false
-    }
-    return true
+	if (n < 2) return false
+	for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+		if (n % m == 0) return false
+	}
+	return true
 }
 
 /**

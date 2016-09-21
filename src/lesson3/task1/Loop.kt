@@ -179,7 +179,7 @@ fun sin(x: Double, eps: Double): Double {
     var result = 0.0
     var count = 1
     var n = 1
-    while (Math.pow(x, n.toDouble()) / factorial(n) >= eps) {
+    while (Math.abs(Math.pow(x, n.toDouble()) / factorial(n)) >= Math.abs(eps)) {
         if (count % 2 != 0) {
             result += (Math.pow(x, n.toDouble()) / factorial(n))
             count++
@@ -204,7 +204,7 @@ fun cos(x: Double, eps: Double): Double {
     var result = 1.0
     var n = 2
     var count = 2
-    while (Math.pow(x, n.toDouble()) / factorial(n) >= eps) {
+    while (Math.abs(Math.pow(x, n.toDouble()) / factorial(n)) >= Math.abs(eps)) {
         if (count % 2 == 0) {
             result -= (Math.pow(x, n.toDouble()) / factorial(n))
             n += 2

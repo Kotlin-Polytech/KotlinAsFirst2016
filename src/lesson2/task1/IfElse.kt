@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -35,18 +36,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String  {
-    if (0<age && age<200){
-        return when {
-            (age % 10 == 1) and (age != 11) -> "$age год"
-            ((age % 10 == 2) or (age % 10 == 3) or (age % 10 == 4)) and (age != 12) -> "$age года"
-            else -> "$age лет"
-        }
-    }
-    else{
-        return("Введен не верный возраст")
+fun ageDescription(age: Int): String {
+    return when {
+        (age % 10 == 1) && (age != 11) -> "$age год"
+        ((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age != 12) && (age != 13) && (age != 14) -> "$age года"
+        else -> "$age лет"
     }
 }
+
 /**
  * Простая
  *
@@ -56,19 +53,17 @@ fun ageDescription(age: Int): String  {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double{
+                   t3: Double, v3: Double): Double {
     val s1 = v1 * t1
     val s2 = v2 * t2
-    val s3 = v3 *t3
+    val s3 = v3 * t3
     val s = s1 + s2 + s3
-    return when{
-        s/2 <= s1 -> s/(2*v1)
-        s/2 <= s1 + s2 -> (s/2-s1)/v2 + t1
-        else -> (s/2-(s1+s2))/v3 +t1 +t2
+    return when {
+        s / 2 <= s1 -> s / (2 * v1)
+        s / 2 <= s1 + s2 -> (s / 2 - s1) / v2 + t1
+        else -> (s / 2 - (s1 + s2)) / v3 + t1 + t2
     }
 }
-
-
 
 
 /**
@@ -82,11 +77,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return when{
-        (kingX==rookX1||kingY==rookY1)&&(kingX==rookX2||kingY==rookY2) ->3
-        (kingX==rookX2||kingY==rookY2) ->2
-        (kingX==rookX1||kingY==rookY1) ->1
-        else ->0
+    val condition = (kingX == rookX1 || kingY == rookY1)
+    val condition2 = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        condition && condition2 -> 3
+        condition2 -> 2
+        condition -> 1
+        else -> 0
     }
 }
 
@@ -102,13 +99,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    return when{
-        (abs(kingX-bishopX)==abs(kingY-bishopY))&&((kingX==rookX)||(kingY==rookY)) ->3
-        (abs(kingX-bishopX)==abs(kingY-bishopY)) ->2
-        ((kingX==rookX)||(kingY==rookY)) ->1
-        else ->0
+    val condition = (abs(kingX - bishopX) == abs(kingY - bishopY))
+    val condition2 = ((kingX == rookX) || (kingY == rookY))
+    return when {
+        condition && condition2 -> 3
+        condition -> 2
+        condition2 -> 1
+        else -> 0
     }
 }
+
 /**
  * Простая
  *
@@ -118,18 +118,16 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val maxSide=max(max(a,b),c)
-    val minSide=min(min(a,b),c)
-    val anotherSide=(a+b+c)-(minSide+maxSide)
-    if (maxSide<(minSide+anotherSide)){
-        return when{
-            maxSide==sqrt((minSide * minSide + anotherSide * anotherSide)) -> 1
-            maxSide < sqrt((minSide * minSide + anotherSide * anotherSide))-> 0
+    val maxSide = max(max(a, b), c)
+    val minSide = min(min(a, b), c)
+    val anotherSide = (a + b + c) - (minSide + maxSide)
+    if (maxSide < (minSide + anotherSide)) {
+        return when {
+            maxSide == sqrt((minSide * minSide + anotherSide * anotherSide)) -> 1
+            maxSide < sqrt((minSide * minSide + anotherSide * anotherSide)) -> 0
             else -> 2
         }
-    }
-    else return -1
-
+    } else return -1
 
 
 }
@@ -142,11 +140,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
-    if ((b>=c)&&(d>=a)){
-        if((b!=c)&&(d!=a)) return min(b,d)-max(a,c)
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if ((b >= c) && (d >= a)) {
+        if ((b != c) && (d != a)) return min(b, d) - max(a, c)
         else return 0
-    }
-    else return -1
+    } else return -1
 
 }

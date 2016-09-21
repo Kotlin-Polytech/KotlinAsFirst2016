@@ -22,7 +22,12 @@ class Tests {
         assertEquals("21 год", ageDescription(21))
         assertEquals("132 года", ageDescription(132))
         assertEquals("12 лет", ageDescription(12))
-        assertEquals("199 лет", ageDescription(199))
+        assertEquals("1 год", ageDescription(1))
+        assertEquals("2 года", ageDescription(2))
+        assertEquals("11 лет", ageDescription(11))
+        assertEquals("13 лет", ageDescription(13))
+        assertEquals("14 лет", ageDescription(14))
+        assertEquals("15 лет", ageDescription(15))
     }
 
     @Test

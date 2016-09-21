@@ -298,14 +298,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Найти n-ю цифру последовательности из квадратов целых чисел:
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+ * выравнивание кода - ctrl+alt+l
  */
 fun squareSequenceDigit(n: Int): Int
 {
 	var stopka : String = ""
+	var sequence_len : Int = 0
 	
 	for ( i in 1 .. n )
 	{
-		stopka += "${ i * i }"
+		stopka = "${ i * i }"
+		if ( sequence_len + stopka.length > n ) return ( stopka [ n - sequence_len - 1 ] - '0' ).toInt()
+		sequence_len += stopka.length
 	}
 	
 	return ( stopka [ n - 1 ] - '0' ).toInt()

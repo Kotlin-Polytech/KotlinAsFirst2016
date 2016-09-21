@@ -8,7 +8,7 @@ import java.lang.Math.*
  *
  * Вычисление квадрата вещественного числа
  */
-fun sqr(x: Double) = x * x
+fun sqr(x: Double): Double = x * x
 
 /**
  * Пример

@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -84,7 +85,16 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val s = if ((if (a > b) a else b) < c) c else (if (a > b) a else b)
+    val e = if ((if (a < b) a else b) > c) c else (if (a < b)a else b)
+    val t = if ((if (a < b) a else b) < c) c else (if (a < b) a else b)
+    return if ((e + t) <= s) -1
+    else if ((sqr(e) + sqr(t)) == sqr(s)) 1
+    else if ((sqr(e) + sqr(t)) > sqr(s)) 0
+    else 2
+
+}
 
 /**
  * Средняя

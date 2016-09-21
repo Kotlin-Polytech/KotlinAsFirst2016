@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -7,11 +8,11 @@ package lesson3.task1
  * Вычисление факториала
  */
 fun factorial(n: Int): Double {
-    var result = 1.0
-    for (i in 1..n) {
-        result = result * i // Please do not fix in master
-    }
-    return result
+	var result = 1.0
+	for (i in 1..n) {
+		result = result * i // Please do not fix in master
+	}
+	return result
 }
 
 /**
@@ -20,11 +21,12 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 fun isPrime(n: Int): Boolean {
-    if (n < 2) return false
-    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
-        if (n % m == 0) return false
-    }
-    return true
+	if (n < 2) return false
+	if (n == 2) return true
+	for (m in 2..n-1) {
+		if (n % m == 0) return false
+	}
+	return true
 }
 
 /**
@@ -33,13 +35,13 @@ fun isPrime(n: Int): Boolean {
  * Проверка числа на совершенность -- результат true, если число совершенное
  */
 fun isPerfect(n: Int): Boolean {
-    var sum = 1
-    for (m in 2..n/2) {
-        if (n % m > 0) continue
-        sum += m
-        if (sum > n) break
-    }
-    return sum == n
+	var sum = 1
+	for (m in 2..n / 2) {
+		if (n % m > 0) continue
+		sum += m
+		if (sum > n) break
+	}
+	return sum == n
 }
 
 /**
@@ -48,8 +50,8 @@ fun isPerfect(n: Int): Boolean {
  * Найти число вхождений цифры m в число n
  */
 fun digitCountInNumber(n: Int, m: Int): Int =
-        if (n == m) 1 else if (n < 10) 0
-        else digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
+		if (n == m) 1 else if (n < 10) 0
+		else digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
 
 /**
  * Тривиальная
@@ -57,23 +59,21 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int
-{
-	var digits_amount : Int
-	var current_number : Int
+fun digitNumber(n: Int): Int {
+	var digits_amount: Int
+	var current_number: Int
 
-	if ( n == 0 ) return 1
+	if (n == 0) return 1
 
 	digits_amount = 0
 
 	current_number = n
 
-	while ( current_number > 0 )
-	{
+	while (current_number > 0) {
 		current_number /= 10
 		digits_amount += 1
 	}
-	
+
 	return digits_amount
 }
 
@@ -83,25 +83,23 @@ fun digitNumber(n: Int): Int
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib (n: Int): Int
-{
-	var f : Int
-	var f_prev : Int
-	var f_temp : Int
+fun fib(n: Int): Int {
+	var f: Int
+	var f_prev: Int
+	var f_temp: Int
 
 	f = 1
 	f_prev = 1
 
-	
-	if ( n == 1 || n == 2 ) return 1
-	
-	for ( i in 3 .. n )
-	{
+
+	if (n == 1 || n == 2) return 1
+
+	for (i in 3..n) {
 		f_temp = f
 		f = f + f_prev
 		f_prev = f_temp
 	}
-	
+
 	return f
 }
 
@@ -111,15 +109,14 @@ fun fib (n: Int): Int
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int
-{
+fun lcm(m: Int, n: Int): Int {
 	var i: Int
-	
-	if ( m > n ) i = m
+
+	if (m > n) i = m
 	else i = n
-	
-	while ( i % m != 0 || i % n != 0 ) i ++
-	
+
+	while (i % m != 0 || i % n != 0) i++
+
 	return i
 }
 
@@ -128,11 +125,9 @@ fun lcm(m: Int, n: Int): Int
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int
-{
-	for ( i in 2 .. n )
-	{
-		if ( n % i == 0 ) return i
+fun minDivisor(n: Int): Int {
+	for (i in 2..n) {
+		if (n % i == 0) return i
 	}
 	return n
 }
@@ -169,28 +164,26 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double
-{
-	var i : Int
-	var part : Double
-	var total : Double
-	
+fun sin(x: Double, eps: Double): Double {
+	var i: Int
+	var part: Double
+	var total: Double
+
 	i = 3
 	total = x
-	
-	while ( true )
-	{
-		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
+
+	while (true) {
+		part = Math.pow(x, i.toDouble()) / factorial(i)
 		i += 2
-		if ( Math.abs ( eps ) > Math.abs ( part ) ) break
+		if (Math.abs(eps) > Math.abs(part)) break
 		total -= part
 
-		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
+		part = Math.pow(x, i.toDouble()) / factorial(i)
 		i += 2
-		if ( Math.abs (eps) > Math.abs ( part ) ) break
+		if (Math.abs(eps) > Math.abs(part)) break
 		total += part
 	}
-	
+
 	return total
 }
 
@@ -201,28 +194,26 @@ fun sin(x: Double, eps: Double): Double
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double
-{
-	var i : Int
-	var part : Double
-	var total : Double
-	
+fun cos(x: Double, eps: Double): Double {
+	var i: Int
+	var part: Double
+	var total: Double
+
 	i = 2
 	total = 1.0
-	
-	while ( true )
-	{
-		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
+
+	while (true) {
+		part = Math.pow(x, i.toDouble()) / factorial(i)
 		i += 2
-		if ( Math.abs ( eps ) > Math.abs ( part ) ) break
+		if (Math.abs(eps) > Math.abs(part)) break
 		total -= part
 
-		part = Math.pow ( x, i.toDouble() ) / factorial ( i )
+		part = Math.pow(x, i.toDouble()) / factorial(i)
 		i += 2
-		if ( Math.abs (eps) > Math.abs ( part ) ) break
+		if (Math.abs(eps) > Math.abs(part)) break
 		total += part
 	}
-	
+
 	return total
 }
 
@@ -232,21 +223,19 @@ fun cos(x: Double, eps: Double): Double
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int
-{
-	var reverted : Int
-	var parameter_n : Int
+fun revert(n: Int): Int {
+	var reverted: Int
+	var parameter_n: Int
 
 	parameter_n = n
 	reverted = 0
-	
-	while ( parameter_n > 0 )
-	{
+
+	while (parameter_n > 0) {
 		reverted *= 10
 		reverted += parameter_n % 10
 		parameter_n /= 10
 	}
-	
+
 	return reverted
 }
 
@@ -257,20 +246,18 @@ fun revert(n: Int): Int
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean
-{
+fun isPalindrome(n: Int): Boolean {
 	//var n_digits : Int
-	
+
 	// n_digits = 1
-	
+
 	// while ( Math.pow ( 10, n_digits.toDouble() ) <= n ) ++ n_digits
 	//n_digits = Math.log ( n.toDouble() ).toInt()
 
-	var current_number_line : String = "$n"
+	var current_number_line: String = "$n"
 
-	for ( i in 0 .. current_number_line.length - 1 )
-	{
-		if ( current_number_line [ i ] != current_number_line [ current_number_line.length - 1 - i ] ) return false
+	for (i in 0..current_number_line.length - 1) {
+		if (current_number_line [i] != current_number_line [current_number_line.length - 1 - i]) return false
 	}
 
 	return true
@@ -300,19 +287,19 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  * выравнивание кода - ctrl+alt+l
  */
-fun squareSequenceDigit(n: Int): Int
-{
-	var stopka : String = ""
-	var sequence_len : Int = 0
-	
-	for ( i in 1 .. n )
-	{
-		stopka = "${ i * i }"
-		if ( sequence_len + stopka.length > n ) return ( stopka [ n - sequence_len - 1 ] - '0' ).toInt()
+fun squareSequenceDigit(n: Int): Int {
+	var stopka: String = ""
+	var sequence_len: Int = 0
+
+//	if (n == 0) return 0
+
+	for (i in 1..n) {
+		stopka = "${i * i}"
+		if (sequence_len + stopka.length >= n) return (stopka [n - sequence_len - 1] - '0').toInt()
 		sequence_len += stopka.length
 	}
-	
-	return ( stopka [ n - 1 ] - '0' ).toInt()
+
+	return (stopka [n - 1] - '0').toInt()
 }
 
 /**

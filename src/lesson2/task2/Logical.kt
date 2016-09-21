@@ -27,7 +27,8 @@ fun isNumberHappy(number: Int): Boolean =
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+        (x1 == x2) or (y1 == y2) or (abs(x1 -x2) == abs(y2 - y1))
 
 /**
  * Средняя
@@ -49,5 +50,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+     (((r >= a) and (s >= b)) or ((r >= b) and (s >= a)) or ((r >= c) and (s >= b)) or ((r >= b) and (s >= c)) or ((r >= a) and (s >= c)) or ((r >= c) and (s >= a)))
 

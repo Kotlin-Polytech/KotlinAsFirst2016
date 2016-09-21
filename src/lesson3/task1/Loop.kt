@@ -144,12 +144,13 @@ fun isCoPrime(m: Int, n: Int) = nod(m,n)==1
  */
 
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val newM = (sqrt(m.toDouble())).toInt()
-    val newN = (sqrt(n.toDouble())).toInt()
-    for(i in newM..newN+1){
-        val sqrI = i*i
-        if(m<=sqrI && n>=sqrI) return true
-    }
+    val newM = sqrt(m.toDouble())
+    val newN = sqrt(n.toDouble())
+    val difference = newN.toInt()-newM.toInt()
+
+    if(m==n) {
+        if(newM==newM*10/10) return true
+    } else if(difference>=1) return true
     return false
 }
 /**
@@ -162,7 +163,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var y = 1.0
     var newX = x
-//  if(x>PI/2) newX = x%(PI/2) не работает
+//    if(x>PI/2) newX = x%(PI/2)
     var z = newX
 
     val moduleEps = abs(eps)
@@ -230,9 +231,9 @@ fun isPalindrome(n: Int) = revert(n)==n
 fun hasDifferentDigits(n: Int): Boolean {
     var newN = n
     do{
+        if (newN/10==0) break
         if(newN%10!=(newN/10)%10) return true
         newN/=10
-        if (newN/10==0) break
     } while(newN!=0)
     return false
 }

@@ -34,14 +34,19 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return if ((age % 100) in 10..20) "$age лет"
+       else if ((age % 10) == 1) "$age год"
+         else if ((age % 10) in 2..4) "$age года"
+            else "$age лет"
+}
 
 /**
  * Простая
  *
  * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
  * и t3 часов — со скоростью v3 км/час.
- * Определить, за какое время он одолел первую половину пути?
+ * Определить, за какое время он одолел первую половину пути?       //V2=(-V1*1t1+V2*t2+V3*t3)/2*V2
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
@@ -85,16 +90,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val s = if ((if (a > b) a else b) < c) c else (if (a > b) a else b)
-    val e = if ((if (a < b) a else b) > c) c else (if (a < b)a else b)
-    val t = if ((if (a < b) a else b) < c) c else (if (a < b) a else b)
-    return if ((e + t) <= s) -1
-    else if ((sqr(e) + sqr(t)) == sqr(s)) 1
-    else if ((sqr(e) + sqr(t)) > sqr(s)) 0
-    else 2
-
-}
+fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 
 /**
  * Средняя

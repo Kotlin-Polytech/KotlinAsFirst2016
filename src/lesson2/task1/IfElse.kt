@@ -1,31 +1,32 @@
 @file:Suppress("UNUSED_PARAMETER")
-        package lesson2.task1
 
-        import lesson1.task1.discriminant
+package lesson2.task1
+
+import lesson1.task1.discriminant
 
 /**
  * Пример
  *
  * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
-        fun minBiRoot(a: Double, b: Double, c: Double): Double {
-        // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
-        if (a == 0.0) {
+fun minBiRoot(a: Double, b: Double, c: Double): Double {
+    // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
+    if (a == 0.0) {
         if (b == 0.0) return Double.NaN // ... и ничего больше не делать
         val bc = -c / b
         if (bc < 0.0) return Double.NaN // ... и ничего больше не делать
         return -Math.sqrt(bc)
         // Дальше функция при a == 0.0 не идёт
-        }
-        val d = discriminant(a, b, c)   // 2
-        if (d < 0.0) return Double.NaN  // 3
-        // 4
-        val y1 = (-b + Math.sqrt(d)) / (2 * a)
-        val y2 = (-b - Math.sqrt(d)) / (2 * a)
-        val y3 = Math.max(y1, y2)       // 5
-        if (y3 < 0.0) return Double.NaN // 6
-        return -Math.sqrt(y3)           // 7
-        }
+    }
+    val d = discriminant(a, b, c)   // 2
+    if (d < 0.0) return Double.NaN  // 3
+    // 4
+    val y1 = (-b + Math.sqrt(d)) / (2 * a)
+    val y2 = (-b - Math.sqrt(d)) / (2 * a)
+    val y3 = Math.max(y1, y2)       // 5
+    if (y3 < 0.0) return Double.NaN // 6
+    return -Math.sqrt(y3)           // 7
+}
 
 /**
  * Простая
@@ -33,15 +34,18 @@
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-        fun ageDescription(age: Int): String {
+fun ageDescription(age: Int): String {
 
-       // String answer
-       // Int last_digit
-        val last_digit = age % 10
-        if ( last_digit == 0 || last_digit > 4 || ( age >= 10 && age <= 20 ) ) return "$age лет"
-        else if ( last_digit == 1 ) return "$age год"
-        else return "$age года"
-        }
+    // String answer
+    // Int last_digit
+    val last_digit = age % 10
+
+    return when {
+        (last_digit == 0 || last_digit > 4 || (age % 100 >= 10 && age % 100 <= 20)) -> "$age лет"
+        (last_digit == 1) -> "$age год"
+        else -> "$age года"
+    }
+}
 
 /**
  * Простая
@@ -50,25 +54,23 @@
  * и t3 часов — со скоростью v3 км/час.
  * Определить, за какое время он одолел первую половину пути?
  */
-        fun timeForHalfWay(t1: Double, v1: Double, t2: Double, v2: Double, t3: Double, v3: Double): Double {
-        
-        // Double answer; s1; s2; s3; half
-        
-        val s1 = t1 * v1
-        val s2 = t2 * v2
-        val s3 = t3 * v3
-        
-        val half = ( s1 + s2 + s3 ) / 2
-        
-        // V T
-        
-        if ( half <= s1 ) return half / v1
-        
-        else if ( half > s1 && half <= s1 + s2 ) return t1 + ( ( half - s1 ) / v2 )
-        
-        else return t1 + t2 + ( half - s1 - s2 ) / v3
-        
-        }
+fun timeForHalfWay(t1: Double, v1: Double, t2: Double, v2: Double, t3: Double, v3: Double): Double {
+
+    // Double answer; s1; s2; s3; half
+
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+
+    val half = (s1 + s2 + s3) / 2
+
+    // V T
+
+    if (half <= s1) return half / v1
+    else if (half > s1 && half <= s1 + s2) return t1 + ((half - s1) / v2)
+    else return t1 + t2 + (half - s1 - s2) / v3
+
+}
 
 /**
  * Простая
@@ -80,22 +82,17 @@
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int
-{
-        var R : Int
+                       rookX2: Int, rookY2: Int): Int {
 
-        if
-        (       ( kingX == rookX1 || kingY == rookY1 ) &&
-                ( kingX == rookX2 || kingY == rookY2 )
-        ) R = 3
+    val r1: Boolean = (kingX == rookX1 || kingY == rookY1)
+    val r2: Boolean = (kingX == rookX2 || kingY == rookY2)
 
-        else if ( kingX == rookX2 || kingY == rookY2 ) R = 2
-
-        else if ( kingX == rookX1 || kingY == rookY1 ) R = 1
-
-        else R = 0
-
-        return R
+    return when {
+        (r1 && r2) -> 3
+        r2 -> 2
+        r1 -> 1
+        else -> 0
+    }
 }
 
 /**
@@ -129,23 +126,20 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
-{
-        // ========[a]######[b]=======[c]######[d]=========> -
-        // ========[a]######[c]|||||||[b]######[d]=========> b - c
-        // ========[a]######[c]|||||||[d]######[b]=========> d - c
-        // ========[c]######[a]|||||||[d]######[b]=========> d - a
-        // ========[c]######[a]|||||||[b]######[d]=========> b - a
-        // ========[c]######[d]=======[a]######[b]=========> -
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    // ========[a]######[b]=======[c]######[d]=========> -
+    // ========[a]######[c]|||||||[b]######[d]=========> b - c
+    // ========[a]######[c]|||||||[d]######[b]=========> d - c
+    // ========[c]######[a]|||||||[d]######[b]=========> d - a
+    // ========[c]######[a]|||||||[b]######[d]=========> b - a
+    // ========[c]######[d]=======[a]######[b]=========> -
 
-        var R : Int
-
-        if ( c > b || a > d ) R = -1
-        else if ( a <= c && c <= b && b <= d ) R = b - c
-        else if ( a <= c && c <= d && d <= b ) R = d - c
-        else if ( c <= a && a <= d && d <= b ) R = d - a
-        else if ( c <= a && a <= b && b <= d ) R = b - a
-        else R = -1
-
-        return R
+    return when {
+        (c > b || a > d) -> -1
+        (a <= c && c <= b && b <= d) -> b - c
+        (a <= c && c <= d && d <= b) -> d - c
+        (c <= a && a <= d && d <= b) -> d - a
+        (c <= a && a <= b && b <= d) -> b - a
+        else -> -1
+    }
 }

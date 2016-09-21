@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +58,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var N = n
+    var count = 0
+    do {
+        count++
+        N /= 10
+    } while (N != 0)
+    return count
+}
 
 /**
  * Простая
@@ -65,7 +74,15 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var prev = 0
+    var result = 1
+    for (i in 2..n) {
+        result = prev + result
+        prev = result - prev
+    }
+    return result
+}
 
 /**
  * Простая
@@ -73,7 +90,25 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var a = 0
+    var b = 0
+    if (m>n) {
+        a = m
+        b = n
+    }
+    else {
+        a = n
+        b = m
+    }
+    var z = 1
+    while (a%b>0) {
+        z = a
+        a = b
+        b = z%b
+    }
+    return (n*m)/b
+}
 
 /**
  * Простая

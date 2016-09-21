@@ -99,8 +99,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
    /* if ((kingX==rookX)||(kingY==rookY)&&(Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)))return 3
     else if ((kingX==rookX)||(kingY==rookY)) return 1
     else if (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)) return 2
-    else return 0
-    */
+    else return 0  */
+
     var danger1=0
     var danger2=0
     if ((kingX==rookX)||(kingY==rookY)) danger1=1

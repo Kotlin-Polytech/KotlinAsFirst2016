@@ -64,7 +64,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val x1 = sagenes * 3 * 48 * 0.0445 + arshins * 16 * 0.0445 + vershoks * 0.0445
+    val x1 = sagenes * 48 * 0.04445 + arshins * 16 * 0.04445 + vershoks * 0.04445
     return x1
 }
 
@@ -135,7 +135,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-val x1 = number / 100
+    val x1 = number / 100
     val x2 = number / 10 % 10
     val x3 = number % 10
     val x = x3 * 100 + x2 * 10 + x1

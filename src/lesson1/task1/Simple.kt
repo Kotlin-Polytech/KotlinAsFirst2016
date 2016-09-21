@@ -97,8 +97,8 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    val degree: Int = 3-1
+fun thirdDigit(number: Int, digit: Int = 3): Int {
+    val degree: Int = digit-1
     return (number/ pow(10.0,degree.toDouble()).toInt())%10
 }
 

@@ -3,7 +3,6 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import java.lang.Math.*
-import java.util.*
 
 /**
  * Пример

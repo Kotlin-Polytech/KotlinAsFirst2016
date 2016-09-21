@@ -23,6 +23,8 @@ class Tests {
         assertEquals("132 года", ageDescription(132))
         assertEquals("12 лет", ageDescription(12))
         assertEquals("199 лет", ageDescription(199))
+        assertEquals("11 лет", ageDescription(11))
+        assertEquals("111 лет", ageDescription(111))
     }
 
     @Test
@@ -31,6 +33,7 @@ class Tests {
         assertEquals(2.5, timeForHalfWay(1.0, 5.0, 2.0, 4.0, 3.0, 3.0), 1e-2)
         assertEquals(3.67, timeForHalfWay(4.0, 3.0, 1.0, 4.0, 1.0, 6.0), 1e-2)
         assertEquals(4.4, timeForHalfWay(3.0, 0.0, 1.0, 6.0, 2.0, 5.0), 1e-2)
+        assertEquals(Double.NaN, timeForHalfWay(1.0666666666666667, 0.0, 0.0, 0.0, 0.0, 1.0), 1e-2)
     }
 
     @Test

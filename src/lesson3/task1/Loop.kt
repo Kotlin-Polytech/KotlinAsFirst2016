@@ -59,7 +59,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var k=0;
-    var c=n;
+    var c=Math.abs(n);
     do {c=c/10
         k++
     }

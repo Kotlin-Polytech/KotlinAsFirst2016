@@ -38,12 +38,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
 
 return when {
-    (age<111)and (age%10==1) ->"$age год"
-    (age>111) and (age%10==1) ->"$age год"
-    (age==12)and (age==13)and (age==14)-> "$age лет"
-    (age!=12) and (age%10==2) ->"$age года"
-    (age !=13) and (age%10==3) ->"$age года"
-    (age !=14) and (age%10==4) ->"$age года"
+    (age%10==1)&&(age!=111)&&(age!=11) ->"$age год"
+    (age!=12)&&(age%10==2) ->"$age года"
+    (age!=13)&&(age%10==3) ->"$age года"
+    (age!=14)&&(age%10==4) ->"$age года"
     else ->"$age лет"
 }
 }
@@ -54,6 +52,7 @@ return when {
  * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
  * и t3 часов — со скоростью v3 км/час.
  * Определить, за какое время он одолел первую половину пути?
+ *
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
@@ -61,11 +60,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s12 = (v1*t1+v2*t2+v3*t3)/2.0
     val s1 = v1*t1
     val s2 = v2*t2
+    val s3 = v3*t3
+    if ((s1!=0.0)||(s2!=0.0)||(s3!=0.0)){
     return if (s1 > s12) s12 / v1
         else if (s1 == s12) t1
         else if (s1 + s2 > s12) t1 + (s12 - s1) / v2
         else if (s1 + s2 == s12) t1 + t2
-        else t1 + t2 + (s12 - s1 - s2) / v3
+        else if ((s1==0.0) &&(s2==0.0)&&(s3==s12)) t3
+        else if ((s1==0.0)&&(s2==0.0)&&(s3>s12)) s12/v3
+        else t1 + t2 + (s12 - s1 - s2) / v3}
+    else return Double.NaN
 }
 
 /**

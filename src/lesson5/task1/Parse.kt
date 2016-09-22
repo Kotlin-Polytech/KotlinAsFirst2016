@@ -396,6 +396,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
     for (i in 1..cells) list.add(0)
     var iterator = cells/2
     var strIterator = 0
+    if (commands.isEmpty()) return list
 
     fun rightOp(iter: Int, op: Char): Int {
         var i = iter

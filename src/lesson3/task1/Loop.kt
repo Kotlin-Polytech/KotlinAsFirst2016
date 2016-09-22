@@ -79,7 +79,7 @@ fun fib(n: Int): Int = if (n == 1 || n == 2) 1 else fib(n - 1) + fib(n - 2)
  */
 fun lcm(m: Int, n: Int): Int {
     val gcd = gcd(m, n)
-    return m*n/gcd
+    return m * n / gcd
 
 
 }
@@ -110,7 +110,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i = n/2
+    var i = n / 2
     while (n % i != 0) {
         i--
     }
@@ -163,15 +163,29 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var i = digitNumber(n)
     var cn = n
-    var rn = 0.0
+    var rn = 0L
     while (i != 0) {
-        rn += (cn % 10) * Math.pow(10.0, i.toDouble()-1)
+        rn += cn % 10 * Math.pow(10.0, i.toDouble() - 1).toLong()
         cn /= 10
         i--
     }
 
     return rn.toInt()
 }
+
+fun revertLong(n: Int): Long {
+    var i = digitNumber(n)
+    var cn = n
+    var rn = 0L
+    while (i != 0) {
+        rn += cn % 10 * Math.pow(10.0, i.toDouble() - 1).toLong()
+        cn /= 10
+        i--
+    }
+
+    return rn
+}
+
 
 /**
  * Средняя
@@ -181,8 +195,8 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    val revert = revert(n)
-    if (revert == n) return true else return false
+    val revert = revertLong(n)
+    if (revert == n.toLong()) return true else return false
 }
 
 /**
@@ -192,11 +206,7 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-if (n % 10 != n / 10 % 10 && n / 10 != 0) return true else if (n / 10 == 0) return false else return hasDifferentDigits(n / 10)
-}
-
-fun main(args: Array<String>) {
-    println(squareSequenceDigit(7))
+    if (n % 10 != n / 10 % 10 && n / 10 != 0) return true else if (n / 10 == 0) return false else return hasDifferentDigits(n / 10)
 }
 
 /**
@@ -211,10 +221,10 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 0
     while (n > sequence) {
         i++
-        sequence += digitNumber(i*i)
+        sequence += digitNumber(i * i)
     }
-    val overage = sequence - n;
-    val digit = i*i
+    val overage = sequence - n
+    val digit = i * i
     return (digit / Math.pow(10.0, overage.toDouble()) % 10).toInt()
 }
 
@@ -226,13 +236,33 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var sequence = 0
-    var i = 0
-    while (n > sequence) {
-        i++
-        sequence += digitNumber(fib(i))
+/*  var sequence = 0
+  var i = 0
+  while (n > sequence) {
+      i++
+      sequence += digitNumber(fib(i))
+  }
+  val overage = sequence - n;
+  val digit = fib(i)
+  return (digit / Math.pow(10.0, overage.toDouble()) % 10).toInt()
+*/
+    val fibList = mutableListOf<Int>()
+    var fib = 1
+    var fib1 = 0
+    var fib2 = 1
+
+
+    while (n > fibList.size) {
+        if (fib < 10) fibList.add(fib)
+        else {
+            val fixDigit = digitNumber(fib)
+            for (i in 1..fixDigit) {
+                fibList.add(fib / Math.pow(10.0, fixDigit.toDouble()-i).toInt() % 10)
+            }
+        }
+        fib = fib1 + fib2
+        fib1 = fib2
+        fib2 = fib
     }
-    val overage = sequence - n;
-    val digit = fib(i)
-    return (digit / Math.pow(10.0, overage.toDouble()) % 10).toInt()
+    return fibList[n-1]
 }

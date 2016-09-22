@@ -4,9 +4,6 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 
-fun main(args: Array<String>) {
-    println(triangleKind(10.0, 15.0, 20.0));
-}
 
 /**
  * Пример
@@ -41,16 +38,18 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     if ((age > 0) && (age < 200)) {
         return when {
-            (age % 10 == 1) || (age % 100 % 10 == 1) -> "$age год";
-            (((age % 10 < 5) || (age % 100 % 10 < 5)) && (age % 10 != 0) && (age % 100 % 10 != 0)) -> "$age года"
-            (((age % 10 < 10) || (age % 100 % 10 < 10)) && (age % 10 != 0) && (age % 100 % 10 != 0)) -> "$age лет";
-            else -> "$age лет";
+            age / 10 == 1 || age % 10 == 0 ||  age / 10 == 1 || age % 10 in 5..10 -> "$age лет"
+            age % 10 == 1 -> "$age год"
+            else -> "$age года"
 
         }
     }
-    return "";
+    return ""
 }
 
+fun main(args: Array<String>) {
+    println(ageDescription(12))
+}
 /**
  * Простая
  *
@@ -61,12 +60,12 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val S = ((t1 * v1) + (t2 * v2) + (t3 * v3)) / 2;
-    if (S < t1 * v1) return (S / v1);
-    if (S < (t1 * v1) + (t2 * v2)) return (t1 + (S - v1 * t1) / v2);
-    if (S < (t1 * v1) + (t2 * v2) + (t3 * v3)) return (t1 + t2 + (S - (v1 * t1 + v2 * t2)) / v3);
+    val S = ((t1 * v1) + (t2 * v2) + (t3 * v3)) / 2
+    if (S < t1 * v1) return (S / v1)
+    if (S < (t1 * v1) + (t2 * v2)) return (t1 + (S - v1 * t1) / v2)
+    if (S < (t1 * v1) + (t2 * v2) + (t3 * v3)) return t1 + t2 + (S - (v1 * t1 + v2 * t2)) / v3
 
-    return Double.NaN;
+    return Double.NaN
 }
 
 /**
@@ -88,7 +87,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
         (XX1 && XX2) || (YY1 && YY2) || (XX1 && YY1) || (XX1 && YY2) || (XX2 && YY1) || (XX2 && YY2) == true -> 3
         XX2 || YY2 == true -> 2
         XX1 || YY1 == true -> 1
-        else -> 0;
+        else -> 0
     }
 }
 
@@ -114,7 +113,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val max = Math.max(Math.max(a, b), c);
+    val max = Math.max(Math.max(a, b), c)
     var min1 = 1.0
     var min2 = 1.0
 
@@ -134,12 +133,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (min1 + min2 > max) {
         val maxSqr = max * max
         val catheusSqr = min1 * min1 + min2 * min2
-        if (maxSqr < catheusSqr) return 0;
-        if (maxSqr == catheusSqr) return 1;
-        if (maxSqr > catheusSqr) return 2;
-    } else return -1;
+        if (maxSqr < catheusSqr) return 0
+        if (maxSqr == catheusSqr) return 1
+        if (maxSqr > catheusSqr) return 2
+    } else return -1
 
-    return -1;
+    return -1
 
 }
 
@@ -152,13 +151,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (d > b) {
-        if (c <= a) return b - a;
-        if (c <= b) return b - c;
+    if (d >= b) {
+        if (c <= a) return b - a
+        if (c <= b) return b - c
     } else if ((b > d) && (d > a)) {
-        if (c <= a) return d - a;
-        if (c <= b) return d - c;
+        if (c <= a) return d - a
+        if (c <= b) return d - c
     }
-    return -1;
+    return -1
 
 }

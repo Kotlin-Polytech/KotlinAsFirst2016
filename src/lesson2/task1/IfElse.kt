@@ -160,7 +160,18 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int
+{
+        //проверим, существует ли треугольник
+    //если сумма двух сторон больше третьей, то треугольник существует
+    if ((a + b > c) && (a + c > b) && (c + b > a))
+    {
+        if ((a*a + b*b < c*c) || (a*a + c*c < b*b) || (b*b + c*c < a*a)) return 2
+        else if ((a*a + b*b == c*c) || (a*a + c*c == b*b) || (b*b + c*c == a*a)) return 1
+        else return 0
+    }
+    else return -1 //если треугольник не существует
+}
 
 /**
  * Средняя
@@ -171,3 +182,4 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+

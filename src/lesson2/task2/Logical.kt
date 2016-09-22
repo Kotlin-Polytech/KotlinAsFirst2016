@@ -59,10 +59,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val sHole = r*s
-    val sAB = a*b
-    val sCB = c*b
-    val sAC = a*c
-    if ((sAB<=sHole)or(sCB<=sHole)or(sAC<=sHole)) return true
+
+    if (((s>=a)and(r>=b))or((s>=a)and(r>=c))or((s>=c)and(r>=b))or((s>=b)and(r>=a))or((s>=c)and(r>=a))or((s>=b)and(r>=c))) return true
     else return false
 }

@@ -66,7 +66,7 @@ fun digitNumber(n: Int): Int {
 
     digits_amount = 0
 
-    current_number = n
+    current_number = Math.abs ( n )
 
     while (current_number > 0) {
         current_number /= 10
@@ -175,13 +175,13 @@ fun sin(x: Double, eps: Double): Double {
     while (true) {
         part = Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
-        if (Math.abs(eps) > Math.abs(part)) break
         total -= part
+        if (Math.abs(eps) > Math.abs(part)) break
 
         part = Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
-        if (Math.abs(eps) > Math.abs(part)) break
         total += part
+        if (Math.abs(eps) > Math.abs(part)) break
     }
 
     return total
@@ -205,13 +205,13 @@ fun cos(x: Double, eps: Double): Double {
     while (true) {
         part = Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
-        if (Math.abs(eps) > Math.abs(part)) break
         total -= part
+        if (Math.abs(eps) > Math.abs(part)) break
 
         part = Math.pow(x, i.toDouble()) / factorial(i)
         i += 2
-        if (Math.abs(eps) > Math.abs(part)) break
         total += part
+        if (Math.abs(eps) > Math.abs(part)) break
     }
 
     return total

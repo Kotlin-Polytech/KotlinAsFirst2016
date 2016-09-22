@@ -68,7 +68,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val x1=(sagenes*48*4.445)/ 100
     val x2=(arshins*16*4.445)/ 100
-    val x3=(vershoks*4.45)/ 100
+    val x3=(vershoks*4.445)/ 100
     return x1+x2+x3
 }
 
@@ -80,8 +80,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double  {
     val x1=(grad* PI)/180
-    val x2=(min* PI)/180
-    val x3=(sec* PI)/180
+    val x2=((min/60)* PI)/180
+    val x3=((sec/360)* PI)/180
     return x1+x2+x3
 }
 
@@ -146,8 +146,8 @@ fun accountInThreeYears(initial: Int, percent: Int): Double{
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int{
-    val x1=number/100
-    val x2=number%10
-    val x3=(number%100)%10
+    val x1=(number/100)
+    val x2=(number%10)
+    val x3=((number%100)%10)
     return (x3*10)+(x2*100)+x1
 }

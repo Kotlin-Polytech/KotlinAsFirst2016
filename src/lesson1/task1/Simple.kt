@@ -79,9 +79,9 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double  {
-    val x1=(grad* PI)/180.0
-    val x2=((min/60.0)* PI)/180.0
-    val x3=((sec/3600)* PI)/180.0
+    val x1=grad/180.0* PI
+    val x2=(min/60.0)/180.0* PI
+    val x3=(sec/3600)/180.0* PI
     return x1+x2+x3
 }
 
@@ -106,7 +106,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int  {
-    (number%1000)/100
+    (number/100)%10
     return number
 
 

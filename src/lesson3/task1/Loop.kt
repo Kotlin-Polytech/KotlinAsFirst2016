@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+
 /**
  * Пример
  *
@@ -63,7 +64,7 @@ fun digitNumber(n: Int): Int {
     var number = n
     do { count++
         number/=10 }
-    while (number>0)
+    while (Math.abs(number)>0)
     return (count)
 }
 
@@ -129,7 +130,11 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     if (m < 2 || n < 2) return false
-    for (k in 2..n - 1) {
+    if (m>n)
+    for (k in 2..m - 1) {
+        if (n % k == 0 && m % k == 0) return false
+    }
+    else for (k in 2..n - 1) {
         if (n % k == 0 && m % k == 0) return false
     }
     return true
@@ -142,7 +147,6 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
-
 /**
  * Простая
  *

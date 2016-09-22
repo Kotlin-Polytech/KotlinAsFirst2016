@@ -67,8 +67,8 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(' ')
     if (parts.count() == 3) {
-        val day = parts[0]
-        val year = parts[2]
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
         val month = when (parts[1]) {
             "января" -> 1
             "февраля" -> 2
@@ -101,8 +101,8 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split('.')
     var isNum = true; parts.forEach {if (it.matches(Regex("[0-9]+")) && isNum) isNum = true else isNum = false }
     if (parts.count() == 3 && isNum) {
-        val day = parts[0]
-        val year = parts[2]
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
         val month = when (parts[1].toInt()) {
             1 -> "января"
             2 -> "февраля"
@@ -183,7 +183,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (expression.matches(Regex("""^([0-9]+)(\d+[-+]\d+[0-9]+)*"""))) {
+    if (expression.matches(Regex("""^([0-9]+)(\s+[-+]\s+[0-9]+)*"""))) {
         return Regex("[-+]?[0-9]+").findAll(expression.replace(" ","")).sumBy { it.groupValues[0].toInt() }
     } else throw java.lang.IllegalArgumentException(java.lang.NumberFormatException(expression))
 }
@@ -365,7 +365,7 @@ fun findCycles(commands: String, open: Char, close: Char): Map<Int,Int> {
         val indexClose = commands.indexOf(close,pointerClose)
         //Если сначала идет закрывающий, считаем, что у него нет пары, и возвращаем ошибку
         if (indexOpen > indexClose) {
-            throw java.lang.IllegalStateException()
+            throw java.lang.IllegalStateException("No pair for bracket")
         } else {
             //Сохраняем в массив два значения, чтобы можно было получить конец цикла по началу и наоборот
             map.put(indexOpen,indexClose)
@@ -458,5 +458,5 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
             }
         }
         return cellsArr.toList()
-    } else throw Exception("IllegalArgumentException1")
+    } else throw IllegalAccessException()
 }

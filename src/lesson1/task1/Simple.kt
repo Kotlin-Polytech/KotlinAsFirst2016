@@ -84,10 +84,10 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(s
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int  {
-    val num = number/100
-    return num%10
-    }
+fun thirdDigit(number: Int): Int {
+    val num = number / 100
+    return num % 10
+}
 /**
  * Простая
  *
@@ -105,10 +105,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double  {
-    val perc = percent + 100
-    val res = initial*perc*perc*perc
-    val result = res/1000000.0
-    return result
+    val perc = percent/100.0+1
+    return initial*perc*perc*perc
 }
 
 /**

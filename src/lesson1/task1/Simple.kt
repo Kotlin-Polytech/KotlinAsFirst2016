@@ -69,7 +69,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val value: Double = grad + min.toDouble()/60 + sec.toDouble()/3600
+    val value: Double = grad + min / 60.0 + sec / 3600.0
     return value * PI / 180
 }
 
@@ -87,7 +87,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = (number%1000-number%100)/100
+fun thirdDigit(number: Int): Int = (number%1000 - number%100) / 100
 
 /**
  * Простая
@@ -96,9 +96,9 @@ fun thirdDigit(number: Int): Int = (number%1000-number%100)/100
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    return (hoursArrive*60 + minutesArrive) - (hoursDepart*60+minutesDepart)
-}
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+    (hoursArrive*60 + minutesArrive) - (hoursDepart*60+minutesDepart)
+
 
 /**
  * Простая
@@ -108,8 +108,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val per: Double = 1 + percent.toDouble() / 100
-    return initial*per*per*per
+    val per = 1 + percent/ 100.0
+    return initial * per * per * per
 }
 
 /**

@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson4.task1
 
-import com.sun.xml.internal.fastinfoset.util.StringArray
 import lesson1.task1.discriminant
 import java.lang.Math.*
 
@@ -10,6 +9,18 @@ import java.lang.Math.*
  *
  * Найти все корни уравнения x^2 = y
  */
+fun pow (x: Int, n: Int): Int {
+    var num = 1
+    var ink = x
+    var power = n
+    while (power != 0) {
+        if (power%2 == 1)
+            num *= ink
+        ink *= ink
+        power = power.shr(1)
+    }
+    return num
+}
 fun sqRoots(y: Double) =
         if (y < 0) listOf()
         else if (y == 0.0) listOf(0.0)
@@ -158,8 +169,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var sub: Double = 0.0
-    return list.mapIndexed { i, d -> if (i>0) sub+=list[i-1]; d + sub  }.toMutableList()
+    list.forEachIndexed { i, d -> if (i != list.count()-1) list[i+1] += list[i] }
+    return list
 }
 /**
  * Средняя
@@ -170,22 +181,20 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
-    var num: Int = n
-    while(num%2 == 0) {
-        num /= 2
-        list.add(2)
-    }
-    var b: Int = 3
-    while (num > 2) {
-        if (num%b == 0) {
-            list.add(b)
+    var num = n
+    var b = 3
+    while (num > 1) {
+        if (num%2 == 0) {
+            num /= 2
+            list.add(2)
+        } else if (num%b == 0) {
             num /= b
+            list.add(b)
         } else {
-            b += 2
+            b+=2
         }
     }
-    list.sort()
-    return list
+    return list.sorted()
 }
 
 /**
@@ -223,8 +232,8 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val chars: String = "abcdefghijklmnopqrstuywxyz"
-    return convert(n,base).joinToString(separator="", transform = {if (it>9) chars[it-10].toString() else it.toString()})
+    val chars = "0123456789abcdefghijklmnopqrstuywxyz"
+    return convert(n,base).joinToString(separator="", transform = {chars[it].toString()})
 }
 
 /**
@@ -235,11 +244,10 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    return digits.reversed().mapIndexed { i, d -> d*Math.pow(base.toDouble(), i.toDouble()).toInt() }.sum()
+    return digits.reversed().mapIndexed { i, d -> d*pow(base, i) }.sum()
 }
 
-/**
- * Сложная
+/** * Сложная
  *
  * Перевести число, представленное цифровой строкой str,
  * из системы счисления с основанием base в десятичную.
@@ -248,10 +256,10 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val chars: String = "abcdefghijklmnopqrstuvwxyz"
+    val chars: String = "0123456789abcdefghijklmnopqrstuywxyz"
+    var map = (0..35).associateBy { it -> chars[it] }
     var i: Int = 0
-    return str.reversed().sumBy { (if (chars.contains(it)) chars.indexOf(it)+10 else it.toString().toInt())*
-                                     Math.pow(base.toDouble(), i++.toDouble()).toInt() }
+    return str.reversed().sumBy {(map[it] ?: 0) * pow(base, i++)}
 }
 
 /**

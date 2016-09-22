@@ -1,8 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
-import kotlin.reflect.jvm.internal.impl.serialization.ProtoBuf
+
 import java.lang.Math.*
+import java.util.*
 
 /**
  * Пример
@@ -66,6 +67,8 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(' ')
     if (parts.count() == 3) {
+        val day = parts[0]
+        val year = parts[2]
         val month = when (parts[1]) {
             "января" -> 1
             "февраля" -> 2
@@ -82,7 +85,7 @@ fun dateStrToDigit(str: String): String {
             else -> 0
         }
         if (month != 0)
-            return String.format("%02d.%02d.%d", parts[0].toInt(), month, parts[2].toInt())
+            return String.format("%02d.%02d.%d", day, month, year)
         else return ""
     } else return ""
 }
@@ -96,8 +99,10 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split('.')
-    var isNum: Int = 1; parts.forEach {if (it.matches(Regex("[0-9]+"))) isNum*=1 else isNum*=0 }
-    if (parts.count() == 3 && isNum == 1) {
+    var isNum = true; parts.forEach {if (it.matches(Regex("[0-9]+")) && isNum) isNum = true else isNum = false }
+    if (parts.count() == 3 && isNum) {
+        val day = parts[0]
+        val year = parts[2]
         val month = when (parts[1].toInt()) {
             1 -> "января"
             2 -> "февраля"
@@ -114,7 +119,7 @@ fun dateDigitToStr(digital: String): String {
             else -> ""
         }
         if (month != "")
-            return String.format("%d %s %d", parts[0].toInt(), month, parts[2].toInt())
+            return String.format("%d %s %d", day, month, year)
         else return ""
     } else return ""
 }
@@ -149,9 +154,7 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     if(jumps.matches(Regex("[-%[0-9] ]+"))){
-        if (Regex("[0-9]+").findAll(jumps).count() > 0)
-            return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max().toString().toInt()
-        else return -1
+        return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
     } else return -1
 }
 /**
@@ -166,9 +169,7 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     if(jumps.matches(Regex("[-+%[0-9] ]+"))){
-        if (Regex("([0-9]+) [+]").findAll(jumps).count() > 0) {
-            return Regex("([0-9]+) [+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: 0
-        } else return -1
+        return Regex("([0-9]+) [+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
     } else return -1
 }
 
@@ -182,9 +183,9 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (expression.matches(Regex("^([0-9]+)( [-+] [0-9]+)*"))) {
+    if (expression.matches(Regex("""^([0-9]+)(\d+[-+]\d+[0-9]+)*"""))) {
         return Regex("[-+]?[0-9]+").findAll(expression.replace(" ","")).sumBy { it.groupValues[0].toInt() }
-    } else throw Exception("IllegalArgumentException")
+    } else throw java.lang.IllegalArgumentException(java.lang.NumberFormatException(expression))
 }
 
 /**
@@ -197,16 +198,16 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var found: Boolean = false
-    var last: String = " "
-    var passed: Int = 0
+    var found = false
+    var last = " "
+    var passed = 0
     for (w in str.split(" ")) {
         if (w.toLowerCase() == last && w != " ") {
             found = true
-            passed -= (w.length+1)
+            passed -= (w.length + 1)
             break
         }
-        passed+=w.length+1
+        passed += w.length + 1
         last = w.toLowerCase()
     }
     return if (found) passed else -1
@@ -224,14 +225,16 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    var most: String = ""
-    var value: Double = -1.0
+    var most = ""
+    var value = -1.0
     for (one in description.split("; ")) {
         if (one.isNotEmpty()) {
-            val name = one.split(" ")[0]
-            val price = one.split(" ")[1]
+            val values = one.split(" ")
+            val name = values[0]
+            val price = values[1]
             if (price.toDouble() > value) {
-                most = name; value = price.toDouble()
+                most = name;
+                value = price.toDouble()
             }
         }
     }
@@ -345,16 +348,115 @@ fun fromRoman(roman: String): Int {
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
+fun findCycles(commands: String, open: Char, close: Char): Map<Int,Int> {
+    //Сдвиг для открывающего символа цикла
+    var pointerOpen = 0
+    //Сдвиг для закрывающего сивола цикла
+    var pointerClose = 0
+    //Ассоциативный массив для результатов
+    val map: MutableMap<Int,Int> = HashMap()
+    //Считаем количесво открывающих знаков, чтобы получить общее количесво циклов
+    val count = commands.count { it == open }
+    //Повторяем для каждого найденного цикла
+    for (i in 1..count) {
+        //Положение открывающего символа с учетом сдвига
+        val indexOpen = commands.indexOf(open,pointerOpen)
+        //Положение закрывающего символа с учетом сдвига
+        val indexClose = commands.indexOf(close,pointerClose)
+        //Если сначала идет закрывающий, считаем, что у него нет пары, и возвращаем ошибку
+        if (indexOpen > indexClose) {
+            throw java.lang.IllegalStateException()
+        } else {
+            //Сохраняем в массив два значения, чтобы можно было получить конец цикла по началу и наоборот
+            map.put(indexOpen,indexClose)
+            map.put(indexClose,indexOpen)
+            //Меняем сдвиги для дальнейшего поиска
+            pointerOpen = indexOpen+1
+            pointerClose = indexClose+1
+        }
+    }
+    return map
+}
 fun computeDeviceCells(cells: Int, commands: String): List<Int> {
-    if (commands.matches(Regex("""[ -+<>\]\[\{\}]+"""))){
-        if (commands.count { it=='[' } == commands.count { it=='[' } &&
+    //Проверяем, парный ли каждый цикл
+    if (commands.count { it=='[' } == commands.count { it=='[' } &&
             commands.count { it=='{' } == commands.count { it=='}' } ) {
-
-            var point: Int = cells/2
-            var commandPoint: Int = 0
-            var commandLength: Int = commands.length
-
-        } else throw Exception("IllegalArgumentException")
-    } else throw Exception("IllegalArgumentException")
-    return listOf<Int>()
+        //Если ноль ячеек сразу возвращаем ответ
+        if (cells == 0) return  listOf<Int>()
+        //Создаем массив размером cells и заполняем его нулями
+        val cellsArr = Array(cells, {i -> 0})
+        //Начальная точка
+        var point = cells/2
+        //Указатель на текущую команду
+        var commandPoint = 0
+        //Длина строки команд
+        val commandLength = commands.length
+        //Находим все циклы
+        val cycleOne = findCycles(commands,'[',']')
+        val cycleTwo = findCycles(commands,'{','}')
+        //Выполняем пока не конец командной строки
+        while (commandPoint < commandLength) {
+            when (commands[commandPoint]) {
+                ' ' -> commandPoint++ //Пустая команда, просто сдвигаем указатель
+                '>' -> {
+                    //Сдвигаем ячейку
+                    point++
+                    //Выдаем ошибку, если выходим за границы
+                    if (point > cells-1) throw java.lang.IllegalStateException()
+                    //Сдвигаем указатель
+                    commandPoint++
+                }
+                '<' -> {
+                    //Аналогично ">"
+                    point--
+                    if (point < 0) throw java.lang.IllegalStateException()
+                    commandPoint++
+                }
+                '+' -> {
+                    //Увеличиваем значение в ячейке и сдвигаем указатель
+                    cellsArr[point]++
+                    commandPoint++
+                }
+                '-' -> {
+                    //Аналогично "-"
+                    cellsArr[point]--
+                    commandPoint++
+                }
+                '[' -> {
+                    if (cellsArr[point] == 0)
+                        //Если значение в ячейке 0, то выходим из цикла
+                        commandPoint = (cycleOne[commandPoint] ?: 0) + 1
+                    else
+                        //Иначе просто сдвигаем указатель
+                        commandPoint++
+                }
+                ']' -> {
+                    if (cellsArr[point] != 0) {
+                        //Если значение в ячейке не равно 0, возвращаемся в начало цикла
+                        commandPoint = (cycleOne[commandPoint] ?: 0) + 1
+                    } else {
+                        //Сдивагаем указатель и выходи из цикла
+                        commandPoint++
+                    }
+                }
+                //Аналогично прошлому циклу
+                '{' -> {
+                    if (cellsArr[point] == 0)
+                        commandPoint = (cycleTwo[commandPoint] ?: 0) + 1
+                    else
+                        commandPoint++
+                }
+                '}' -> {
+                    if (cellsArr[point] != 0) {
+                        commandPoint = (cycleTwo[commandPoint] ?: 0) + 1
+                    } else {
+                        commandPoint++
+                    }
+                }
+                //Если сивол не предусмотрен выдаем ошибку
+                else -> throw java.lang.IllegalArgumentException()
+            }
+        }
+        return cellsArr.toList()
+    } else throw Exception("IllegalArgumentException1")
 }

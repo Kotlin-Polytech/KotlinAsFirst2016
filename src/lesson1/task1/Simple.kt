@@ -54,7 +54,8 @@ fun main(args: Array<String>) {
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
     val x1 =(hours*3600)
     val x2 =(minutes*60)
-    return x1 + x2
+    val x3 =seconds
+    return x1 + x2 + x3
 
 }
 /**
@@ -65,7 +66,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val x1=(sagenes*3*48*4.445)/ 100
+    val x1=(sagenes*48*4.445)/ 100
     val x2=(arshins*16*4.445)/ 100
     val x3=(vershoks*4.45)/ 100
     return x1+x2+x3
@@ -78,9 +79,9 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double  {
-    val x1=(grad*3.14)/180
-    val x2=(min*3.14)/180
-    val x3=(sec*3.14)/180
+    val x1=(grad* PI)/180
+    val x2=(min* PI)/180
+    val x3=(sec* PI)/180
     return x1+x2+x3
 }
 
@@ -105,7 +106,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int  {
-    number%1000/100
+    (number%1000)/100
     return number
 
 
@@ -120,8 +121,8 @@ fun thirdDigit(number: Int): Int  {
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int{
     val x1=(hoursArrive-hoursDepart)*60
-    val x2=(minutesArrive-minutesDepart)
-    return x1;x2
+    val x2=minutesArrive-minutesDepart
+    return x1+x2
 
 
 }
@@ -147,6 +148,6 @@ fun accountInThreeYears(initial: Int, percent: Int): Double{
 fun numberRevert(number: Int): Int{
     val x1=number/100
     val x2=number%10
-    val x3=number%100%10
-    return x3*100+x2*10+x1
+    val x3=(number%100)%10
+    return (x3*10)+(x2*100)+x1
 }

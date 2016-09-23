@@ -7,9 +7,6 @@ import lesson1.task1.sqr
 fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
         sqr(x - x0) + sqr(y - y0) <= sqr(r)
 
-fun main(args: Array<String>) {
-    println(isNumberHappy(1634))
-}
 
 /**
  * Простая
@@ -19,9 +16,9 @@ fun main(args: Array<String>) {
  */
 fun isNumberHappy(number: Int): Boolean {
     val fourth = number % 10
-    val third = fourth % 10
-    val second = third % 10
-    val first = second % 10
+    val third = fourth / 10 % 10
+    val second = third / 100 % 10
+    val first = second / 1000
     val secondHalf = fourth + third
     val firstHalf = second + first
 
@@ -30,6 +27,10 @@ fun isNumberHappy(number: Int): Boolean {
         return true
 
     return false
+}
+
+fun main(args: Array<String>) {
+    println(isNumberHappy(2907))
 }
 
 /**

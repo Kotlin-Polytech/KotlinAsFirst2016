@@ -36,11 +36,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if ((age > 0) && (age < 200)) {
+    if (age in 0..200) {
         return when {
-            age / 10 == 1 || age % 10 == 0 ||  age / 10 == 11 || age % 10 in 5..10 -> "$age лет"
+            !(age % 100 in 10..20) && age % 10 in 2..5 -> "$age года"
             age % 10 == 1 -> "$age год"
-            else -> "$age года"
+            else -> "$age лет"
 
         }
     }
@@ -48,8 +48,9 @@ fun ageDescription(age: Int): String {
 }
 
 fun main(args: Array<String>) {
-    println(ageDescription(111))
+    println(ageDescription(120))
 }
+
 /**
  * Простая
  *
@@ -65,7 +66,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     if (S < (t1 * v1) + (t2 * v2)) return (t1 + (S - v1 * t1) / v2)
     if (S < (t1 * v1) + (t2 * v2) + (t3 * v3)) return t1 + t2 + (S - (v1 * t1 + v2 * t2)) / v3
 
-    return Double.NaN
+    return 0.0
 }
 
 /**
@@ -136,7 +137,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         if (maxSqr < catheusSqr) return 0
         if (maxSqr == catheusSqr) return 1
         if (maxSqr > catheusSqr) return 2
-    } else return -1
+    }
 
     return -1
 

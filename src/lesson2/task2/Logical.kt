@@ -18,16 +18,16 @@ fun main(args: Array<String>) {
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val third = number % 1000 % 100 % 10
-    val fourth = (number % 1000 % 100 - third) / 10
-    val secondHalf = number % 1000 % 100
-    val secondHalfSum = third + fourth
-    val firstHalf = (number - secondHalf) / 100
-    val second = firstHalf % 10
-    val first = (firstHalf - second) / 10
-    val firstHalfSum = first + second
+    val fourth = number % 10
+    val third = fourth % 10
+    val second = third % 10
+    val first = second % 10
+    val secondHalf = fourth + third
+    val firstHalf = second + first
 
-    if (firstHalfSum == secondHalfSum) return true
+
+    if (firstHalf == secondHalf)
+        return true
 
     return false
 }
@@ -52,7 +52,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
 
 /**
  * Средняя

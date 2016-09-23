@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import javafx.scene.input.InputMethodTextRun
 
 /**
  * Пример
@@ -61,7 +60,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int =
-        if (n / 10 == 0 || n == 0) 1 else digitNumber(n / 10) + digitNumber(n % 10)
+        if (n / 10 == 0 || n == 0) 1 else digitNumber(n / 10) + 1
 
 /**
  * Простая
@@ -69,7 +68,18 @@ fun digitNumber(n: Int): Int =
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n == 1 || n == 2) 1 else fib(n - 1) + fib(n - 2)
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 0
+    var fib = 1
+    for (i in 1..n-1) {
+        fib = fib1 + fib2
+        fib2 = fib1
+        fib1 = fib
+    }
+    return fib
+}
+
 
 /**
  * Простая
@@ -114,7 +124,6 @@ fun maxDivisor(n: Int): Int {
     while (n % i != 0) {
         i--
     }
-
     return i
 }
 
@@ -163,14 +172,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var i = digitNumber(n)
     var cn = n
-    var rn = 0L
+    var rn = 0
     while (i != 0) {
-        rn += cn % 10 * Math.pow(10.0, i.toDouble() - 1).toLong()
+        rn += cn % 10 * pow(10, i - 1)
         cn /= 10
         i--
     }
 
-    return rn.toInt()
+    return rn
 }
 
 fun revertLong(n: Int): Long {
@@ -178,7 +187,7 @@ fun revertLong(n: Int): Long {
     var cn = n
     var rn = 0L
     while (i != 0) {
-        rn += cn % 10 * Math.pow(10.0, i.toDouble() - 1).toLong()
+        rn += cn % 10 * pow(10, i - 1).toLong()
         cn /= 10
         i--
     }
@@ -206,7 +215,20 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    if (n % 10 != n / 10 % 10 && n / 10 != 0) return true else if (n / 10 == 0) return false else return hasDifferentDigits(n / 10)
+    if (n % 10 != n / 10 % 10 && n / 10 != 0) return true
+    else if (n / 10 == 0) return false
+    else return hasDifferentDigits(n / 10)
+}
+
+fun pow (n: Int, p: Int): Int {
+    var np = n
+    if (p == 0) return 1
+    for (i in 2..p) np *= n
+    return np
+}
+
+fun main(args: Array<String>) {
+    println(pow(2,10))
 }
 
 /**
@@ -225,7 +247,7 @@ fun squareSequenceDigit(n: Int): Int {
     }
     val overage = sequence - n
     val digit = i * i
-    return (digit / Math.pow(10.0, overage.toDouble()) % 10).toInt()
+    return digit / pow(10, overage) % 10
 }
 
 /**
@@ -257,12 +279,12 @@ fun fibSequenceDigit(n: Int): Int {
         else {
             val fixDigit = digitNumber(fib)
             for (i in 1..fixDigit) {
-                fibList.add(fib / Math.pow(10.0, fixDigit.toDouble()-i).toInt() % 10)
+                fibList.add(fib / pow(10, fixDigit - i) % 10)
             }
         }
         fib = fib1 + fib2
         fib1 = fib2
         fib2 = fib
     }
-    return fibList[n-1]
+    return fibList[n - 1]
 }

@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -50,7 +51,15 @@ fun ageDescription(age: Int): String  {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s: Double = (v1 * t1 + v2 * t2 + v3 * t3) / 2
+    val s1: Double = v1 * t1
+    val s2: Double = v2 * t2
+    val s3: Double = v3 * t3
+    if (s1 >= s)  return s / v1
+    else if (s<=s1+s2) return (t1+(s-s1)/v2)
+    else return (t1+t2+(s-s1-s2)/v3)
+}
 
 /**
  * Простая
@@ -62,7 +71,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if (((kingX == rookX1) || (kingY == rookY1)) and ((kingX != rookX2) and (kingY != rookY2))) return 1
+    else if (((kingX != rookX1) and (kingY != rookY1)) and ((kingX == rookX2) || (kingY == rookY2))) return 2
+    else if (((kingX == rookX1) || (kingY == rookY1)) and ((kingX == rookX2) || (kingY == rookY2))) return 3
+    else return 0
+}
 
 /**
  * Простая
@@ -75,7 +89,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    if (((kingX == rookX) || (kingY == rookY)) and ((kingX/kingY != bishopX/bishopY))) return 1
+    else if (((kingX != rookX) and (kingY != rookY)) and ((kingX/kingY == bishopX/bishopY))) return 2
+    else if (((kingX == rookX) || (kingY == rookY)) and ((kingX/kingY == bishopX/bishopY))) return 3
+    else return 0
+}
 
 /**
  * Простая
@@ -85,7 +104,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((sqr(a) + sqr(b) == sqr(c)) || (sqr(a) + sqr(c) == sqr(b)) || (sqr(c) + sqr(b) == sqr(a))) return 1
+    else if ((a + b <= c) || (a + c <= b) || (c + b <= a)) return -1
+    else if ((sqr(a) + sqr(b) <= sqr(c)) || (sqr(a) + sqr(c) <= sqr(b)) || (sqr(c) + sqr(b) <= sqr(a))) return 2
+    else return 0
+}
 
 /**
  * Средняя
@@ -95,4 +119,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if ((b >= c) and (b <= d) and (a <= c)) return b - c
+    else if ((d >= a) and (d <= b) and (c <= a)) return d - a
+    else if ((b >= d) and (a <= c)) return d - c
+    else if ((d >= b) and (c <= a)) return b - a
+    else if ((b >= d) and (a >= c) and (a <= d)) return d - a
+    else if ((d >= b) and (c >= a) and (c <= b)) return b - c
+    else if ((b >= c) and (b <= d) and (a >= c)) return b - a
+    else if ((d >= a) and (d <= b) and (c >= a)) return d - c
+    else return -1
+}

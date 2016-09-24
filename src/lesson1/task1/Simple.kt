@@ -51,7 +51,7 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int = 8, minutes: Int = 20, seconds: Int = 35): Int {
+fun seconds(hours: Int, minutes: Int, seconds: Int ): Int {
 val hh = hours * 3600
     val mm = minutes * 60
     val ss = seconds

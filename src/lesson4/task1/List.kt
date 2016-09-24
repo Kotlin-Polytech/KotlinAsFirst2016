@@ -116,7 +116,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     if ( list.isEmpty() ) return 0.0
-    else return ( list.sum().toDouble() / list.size.toDouble() )
+    else return ( list.sum() / list.size )
 }
 
 /**
@@ -141,7 +141,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var qbzv : Double = 0.0
-    if ( ( a.size != b.size ) || a.isEmpty() ) return 0.0
+    if ( a.size != b.size ) return 0.0
     for( i in 0..( a.size - 1 ) ) {
         qbzv += a[i] * b[i]
     }
@@ -161,7 +161,6 @@ fun polynom(p: List<Double>, x: Double): Double {
 
     var qbzv : Double = 0.0
 
-    if( p.isEmpty() ) return 0.0
     for( i in 0..p.size - 1 ) {
         qbzv += p[i] * Math.pow( x, i.toDouble() )
     }
@@ -195,18 +194,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun number_is_prime(n: Int): Boolean {
-    if ( n == 0 || n == 1 ) return false
-    for( i in 2..Math.abs( n/2 )) if ( n % i == 0 ) return false
+    if ( n == 0 || n == 1 || n == -1 ) return false
+    for(i in 2..Math.abs( n/2 )) if ( n % i == 0 ) return false
     return true
 }
 
 fun factorize(n: Int): List<Int> {
     var current_number: Int = n
-    var prime_divisors_storage: MutableList <Int> = mutableListOf()
+    val prime_divisors_storage = mutableListOf <Int> ()
 
-    do {
+    while ( true ) {
         for (i in current_number / 2 downTo 2) {
-            if (number_is_prime(i) && current_number % i == 0) {
+            if ( current_number % i == 0 && number_is_prime(i) ) {
                 prime_divisors_storage.add(i)
                 current_number /= i
                 break
@@ -216,7 +215,7 @@ fun factorize(n: Int): List<Int> {
             prime_divisors_storage.add( current_number )
             break
         }
-    } while( ! number_is_prime( current_number ) )
+    }
 
     return prime_divisors_storage.sorted()
 }
@@ -227,7 +226,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize ( n ).toMutableList().joinToString ( "*", "", "", -1, "..." )
 
 /**
  * Средняя
@@ -236,7 +235,20 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var digit_storage = mutableListOf <Int> ()
+    var current_number : Int = n
+
+    if ( n < 1 || base < 2 ) return listOf()
+
+    while ( current_number > 0 ) {
+        digit_storage.add( current_number % base )
+        current_number /= base
+    }
+    digit_storage = digit_storage.reversed().toMutableList()
+
+    return digit_storage
+}
 
 /**
  * Сложная
@@ -246,7 +258,16 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val digit_storage = convert ( n, base )
+    var digit_line : String = ""
+
+    if ( n < 1 || base < 2 || base > 36 ) return ""
+
+    for ( element in digit_storage ) digit_line += if ( element < 10 ) "$element" else "${ ( 'a' + element - 10 ).toChar() }"
+
+    return digit_line
+}
 
 /**
  * Средняя
@@ -255,7 +276,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var target : Int = 0
+
+    for ( element in digits ) target = ( target * base ) + element
+
+    return target
+}
 
 /**
  * Сложная
@@ -266,7 +293,16 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var target : Int = 0
+
+    for ( element in str ) {
+        if ( '0' <= element && element <= '9'  ) target = ( target * base ) + ( element - '0' ).toInt()
+        else target = ( target * base ) + ( element + 10 - 'a' ).toInt()
+    }
+
+    return target
+}
 
 /**
  * Сложная
@@ -276,7 +312,21 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var target : String = ""
+
+    val digit_1 : List <String>    = listOf ( "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ) // 1 2 3 4 5 6 7 8 9
+    val digit_10 : List <String>   = listOf ( "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ) // 0 10 20 30 40 50 60 70 80 90
+    val digit_100 : List <String>  = listOf ( "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ) // 0 100 200 300 400 500 600 700 800 900
+    val digit_1000 : List <String> = listOf ( "", "M", "MM", "MMM", "Mv", "v", "vM", "vMM", "vMMM", "ix" ) // 0 1000 2000 3000 4000 5000 6000 7000 8000 9000
+
+    target += digit_1000 [ n / 1000 ]
+    target += digit_100  [ ( n % 1000 ) / 100 ]
+    target += digit_10   [ ( n % 100 ) / 10 ]
+    target += digit_1    [ n % 10 ]
+
+    return target
+}
 
 /**
  * Очень сложная

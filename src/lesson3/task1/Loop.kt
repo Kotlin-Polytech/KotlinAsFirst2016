@@ -62,16 +62,15 @@ fun digitNumber(n: Int): Int {
     var digits_amount: Int
     var current_number: Int
 
-    if (n == 0) return 1
-
     digits_amount = 0
+    current_number = n
+    //current_number = Math.abs( n )
 
-    current_number = Math.abs ( n )
-
-    while (current_number > 0) {
+    do {
+        ++ digits_amount
         current_number /= 10
-        digits_amount += 1
-    }
+
+    } while (current_number != 0)
 
     return digits_amount
 }

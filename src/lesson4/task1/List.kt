@@ -239,10 +239,11 @@ fun convert(n: Int, base: Int): List<Int> {
     var digit_storage = mutableListOf <Int> ()
     var current_number : Int = n
 
-    if ( n < 1 || base < 2 ) return listOf()
+    if ( n == 0 ) return listOf ( 0 )
+    if ( n < 0 || base < 2 ) return listOf()
 
     while ( current_number > 0 ) {
-        digit_storage.add( current_number % base )
+        digit_storage.add ( current_number % base )
         current_number /= base
     }
     digit_storage = digit_storage.reversed().toMutableList()
@@ -262,7 +263,7 @@ fun convertToString(n: Int, base: Int): String {
     val digit_storage = convert ( n, base )
     var digit_line : String = ""
 
-    if ( n < 1 || base < 2 || base > 36 ) return ""
+    if ( n < 0 || base < 2 || base > 36 ) return ""
 
     for ( element in digit_storage ) digit_line += if ( element < 10 ) "$element" else "${ ( 'a' + element - 10 ).toChar() }"
 
@@ -318,9 +319,11 @@ fun roman(n: Int): String {
     val digit_1 : List <String>    = listOf ( "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ) // 1 2 3 4 5 6 7 8 9
     val digit_10 : List <String>   = listOf ( "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ) // 0 10 20 30 40 50 60 70 80 90
     val digit_100 : List <String>  = listOf ( "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ) // 0 100 200 300 400 500 600 700 800 900
-    val digit_1000 : List <String> = listOf ( "", "M", "MM", "MMM", "Mv", "v", "vM", "vMM", "vMMM", "ix" ) // 0 1000 2000 3000 4000 5000 6000 7000 8000 9000
+//    val digit_1000 : List <String> = listOf ( "", "M", "MM", "MMM", "Mv", "v", "vM", "vMM", "vMMM", "ix" ) // 0 1000 2000 3000 4000 5000 6000 7000 8000 9000
 
-    target += digit_1000 [ n / 1000 ]
+
+    for ( i in 0 .. ( n / 1000 - 1 ) ) target += "M"
+//    target += digit_1000 [ n / 1000 ]
     target += digit_100  [ ( n % 1000 ) / 100 ]
     target += digit_10   [ ( n % 100 ) / 10 ]
     target += digit_1    [ n % 10 ]

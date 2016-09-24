@@ -64,6 +64,7 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     var m = 0
     var n = 0
     var l = 0
+
     if (a > b) {
         m = a
         n = b
@@ -77,8 +78,8 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
 
     if (m < n) {
         l = m
-        n = m
-        m = l
+        m = n
+        n = l
     }
     if (r > s) return r>=m && s>=n
     else return s>=m && r>=n

@@ -19,7 +19,7 @@ class Tests {
     @Test
     @Tag("Easy")
     fun ageDescription() {
-        assertEquals("101 год", ageDescription(101))
+        assertEquals("20 лет", ageDescription(20))
         assertEquals("111 лет", ageDescription(111))
         assertEquals("12 лет", ageDescription(12))
         assertEquals("199 лет", ageDescription(199))

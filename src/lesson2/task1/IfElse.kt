@@ -35,22 +35,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
 
-    if (age % 100 < 20)
-        if (age % 100 == 1)
-            return "$age год"
-        else if (age % 100 in 2..4)
-            return "$age года"
-        else
-            return "$age лет"
-
-    else
-        if (age % 10 == 1)
-            return "$age год"
-        else
-            if (age % 10 in 2..4)
-                return "$age года"
-            else
-                return "$age лет"
+    if (age % 100 in 10..19) return "$age лет"
+        else if (age % 100 in 2..4) return "$age года"
+    else if (age % 10 == 1) return "$age год"
+    else return "$age лет"
 }
 
 
@@ -73,13 +61,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3: (Double) = v3 * t3
     val s: (Double) = (s1 + s2 + s3) / 2
 
-    if (s <= s1)
-            return s / v1
-    else
-        if (s <= s1 + s2)
-            return t1 + (s - s1) / v2
-        else
-            return t1 + t2 + (s - s1 - s2) / v3
+    if (s <= s1) return s / v1
+    else if (s <= s1 + s2) return t1 + (s - s1) / v2
+    else return t1 + t2 + (s - s1 - s2) / v3
 
 
 }
@@ -98,18 +82,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 
     val FirstAttache = ((kingX == rookX1) || (kingY == rookY1))
     val SecondAttache = ((kingY == rookY2) || (kingX == rookX2))
-    val BothAttache = FirstAttache && SecondAttache
 
-    if (BothAttache == true)
-        return 3
-    else
-        if (FirstAttache == true)
-            return 1
-        else
-            if (SecondAttache == true)
-                return 2
-            else
-                return 0
+    if (FirstAttache && SecondAttache) return 3
+    else if (FirstAttache) return 1
+    else if (SecondAttache) return 2
+    else return 0
 }
 
 /**
@@ -128,16 +105,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     val Lad = ((kingX == rookX) || (kingY == rookY))
     val Lad1 = Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)
 
-    if ( Lad && Lad1 == true)
-        return 3
-    else
-            if (Lad == true)
-                return 1
-            else
-                if (Lad1 == true)
-                    return 2
-                else
-                    return 0
+    if (Lad && Lad1) return 3
+    else if (Lad) return 1
+    else if (Lad1) return 2
+    else return 0
 }
 
 
@@ -151,16 +122,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
 
-    if ((a + b < c) || (a + c < b) || (b + c < a))
-        return -1
-     else
-            if ((a*a + b*b == c*c) || (b*b + c*c == a*a ) || (a*a + c*c == b*b))
-                return 1
-            else
-                        if ((a*a + b*b < c*c) || (c*c + b*b < a*a) || (c*c + a*a < b*b))
-                              return 2
-                        else
-                              return 0
+    if ((a + b < c) || (a + c < b) || (b + c < a)) return -1
+    else if ((a*a + b*b == c*c) || (b*b + c*c == a*a ) || (a*a + c*c == b*b)) return 1
+    else if ((a*a + b*b < c*c) || (c*c + b*b < a*a) || (c*c + a*a < b*b)) return 2
+    else return 0
 }
 
 /**
@@ -172,22 +137,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (b == c)
-        return 0
-    else
-        if (c <= b && c >= a && b <= d)
-            return b - c
-        else
-            if (a >= c && a <= d && b >= d)
-                return d - a
-            else
-                if (a <= c && d <= b)
-                    return d - c
-                else
-                    if (c <= a && b <= d)
-                        return b - a
-                    else
-                        return -1
+    if (b == c) return 0
+    else if (c <= b && c >= a && b <= d) return b - c
+    else if (a >= c && a <= d && b >= d) return d - a
+    else if (a <= c && d <= b) return d - c
+    else if (c <= a && b <= d) return b - a
+    else return -1
 }
 
 

@@ -20,11 +20,11 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
 fun isNumberHappy(number: Int): Boolean {
     var first : Int = number / 1000
     var fourth : Int = number % 10
-      var number = number / 10
+    var number = number / 10
     var third : Int = number % 10
-        number = number / 10
+    number = number / 10
     var second : Int = number % 10
-        return (first + second) == (third + fourth)
+    return (first + second) == (third + fourth)
 }
 
 /**
@@ -61,8 +61,28 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return ((r >= a) && (s>= b)) || ((r >= b) && (s>=a)) ||
-            ((r >=a) &&(s >=c)) || ((r >= c) && (s >= a)) ||
-            ((r >= c) && (s >= b)) || ((r >= b) && (s >= c))
+    var min1 = 0
+    var min2 = 0
+
+    if (a < b) {
+        min1 = a
+        a == 0
+    }
+    else
+        min1 = b
+    b == 0
+    if (c < min1)
+        min1 = c
+    c == 0
+
+    if (a < b)
+        min2 = a
+    else
+        min2 = b
+    if (c < min2)
+        min2 = c
+
+    if (r > s) return r>=min1 && s >=min2
+    else return s>=min1 && r>=min2
 }
 

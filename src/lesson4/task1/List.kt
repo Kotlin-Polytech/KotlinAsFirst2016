@@ -129,7 +129,13 @@ fun mean(list: List<Double>): Double {
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>) = list.map { it - mean(list) }
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val m = mean(list)
+    for (i in 0..list.size - 1) {
+        list[i] -= m
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -223,15 +229,18 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var number = n
-    var result = listOf<Int>()
-    var list: List<Int>
-    while (number > 0) {
-        list = listOf(number % base)
-        result = list + result
-        number /= base
+    if (n == 0) return listOf(0)
+    else {
+        var number = n
+        var result = listOf<Int>()
+        var list: List<Int>
+        while (number > 0) {
+            list = listOf(number % base)
+            result = list + result
+            number /= base
+        }
+        return result
     }
-    return result
 }
 
 /**
@@ -246,7 +255,7 @@ fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base)
     var result = ""
     for (element in list) {
-        if (element < 9) result += element.toString()
+        if (element <= 9) result += element.toString()
         else result += (element + 87).toChar()
     }
     return result

@@ -2,6 +2,9 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
+import java.lang.Math.*
+
 /**
  * Пример
  *
@@ -92,9 +95,10 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = 1
-    val condition = ((k % m) != 0) || ((k % n) != 0)
-    while (condition) {
-        k = +1
+    for (i in m * n downTo 1) {
+        if (((k % m) != 0) || ((k % n) != 0)) {
+            k = k + 1
+        } else break
     }
     return k
 }
@@ -107,7 +111,7 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     var k = 2
     while (n % k != 0) {
-        k = +1
+        k = k + 1
     }
     return k
 }
@@ -117,7 +121,13 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k = n - 1
+    while (n % k != 0) {
+        k = k - 1
+    }
+    return k
+}
 
 /**
  * Простая
@@ -126,7 +136,17 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var k = 2
+    var bool = true
+    for (i in 2..min(m, n)) {
+        if ((n % k == 0) && (m % k == 0)) {
+            bool = false
+            break
+        } else k = k + 1
+    }
+    return bool
+}
 
 /**
  * Простая
@@ -135,7 +155,13 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var bool = false
+    for (i in m..n) {
+        if ((sqrt(i.toDouble()) % 1) == 0.0) bool = true
+    }
+    return bool
+}
 
 /**
  * Простая
@@ -161,7 +187,28 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var m = n
+    var p = n
+    var k = 0
+    var k1 = 0.0
+    var number = 0.0
+    var number1=0
+    while (m >= 1) {
+        m = m / 10
+        k = k + 1
+    }
+    if (n >= 10) {
+        for (i in k downTo 1) {
+            k1 = i.toDouble()
+            number = number + ((p % 10) * pow(10.0, k1))
+            p = p / 10
+        }
+        number1=number.toInt()/10
+    }
+    else number1=n
+    return number1
+}
 
 /**
  * Средняя

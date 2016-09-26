@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 
@@ -36,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -62,9 +63,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 0
     var number = n
-    do { count++
-        number/=10 }
-    while (Math.abs(number)>0)
+    do {
+        count++
+        number /= 10
+    } while (Math.abs(number) > 0)
     return (count)
 }
 
@@ -103,9 +105,11 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     var min: Int = 2
 
-    for (k in 2..n) {if (n%k == 0) break
-        else min++}
-    return(min)
+    for (k in 2..n) {
+        if (n % k == 0) break
+        else min++
+    }
+    return (min)
 }
 
 /**
@@ -114,11 +118,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var max: Int = n-1
-    for (k in n-1 downTo 1) {if (n%max == 0) break
+    var max: Int = n - 1
+    for (k in n - 1 downTo 1) {
+        if (n % max == 0) break
         else max--
     }
-    return(max)
+    return (max)
 }
 
 /**
@@ -130,10 +135,10 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     if (m < 2 || n < 2) return false
-    if (m>n)
-    for (k in 2..m - 1) {
-        if (n % k == 0 && m % k == 0) return false
-    }
+    if (m > n)
+        for (k in 2..m - 1) {
+            if (n % k == 0 && m % k == 0) return false
+        }
     else for (k in 2..n - 1) {
         if (n % k == 0 && m % k == 0) return false
     }
@@ -146,7 +151,16 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+
+    if (m < 0 && n < 0) return false
+    for (k in m..n) {
+        if (Math.sqrt(k.toDouble()) * 10 % 10 == 0.0) break
+        if (k == n && Math.sqrt(k.toDouble()) * 10 % 10 !== 0.0) return false
+
+    }
+    return true
+}
 /**
  * Простая
  *
@@ -154,7 +168,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var k = 0
+    var sinus: Double = x
+    var number: Double = x
+    while (Math.abs(number)*1000.0 > eps) {
+        k++
+        number = Math.pow(x, k*2.0+1)/factorial(k*2+1)
+        if (k%2 == 1) sinus -= number
+        else sinus += number
+    }
+    return sinus
+}
 
 /**
  * Простая
@@ -171,8 +196,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
-
+fun revert(n: Int): Int {
+    var number = n
+    var newnumber: Int = 0
+    if (n==0) newnumber = 0 else
+    while (number > 0) {
+        newnumber = (newnumber * 10 + number%10)
+        number/=10
+    }
+    return newnumber
+}
 /**
  * Средняя
  *
@@ -181,7 +214,6 @@ fun revert(n: Int): Int = TODO()
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean = TODO()
-
 /**
  * Средняя
  *

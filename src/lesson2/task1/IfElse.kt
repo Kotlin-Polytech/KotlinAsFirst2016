@@ -50,7 +50,15 @@ fun ageDescription(age: Int) :String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val S1 = t1*v1
+    val S2 = t2*v2
+    val S3 = t3*v3
+    val S = (S1+S2+S3) / 2
+    if (S <= S1) return S/v1
+    if ((S > S1) && (S <= S1+S2)) return (S-S1)/v2 + t1
+    else return (S-S1-S2) / v3 + t1 + t2
+}
 
 /**
  * Простая
@@ -62,7 +70,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if (kingX != rookX1 && kingY != rookY1 && kingX != rookX2 && kingY != rookY2) return 0
+    if (kingX == rookX1 || kingY == rookY1 && kingX != rookX2 && kingY != rookY2) return 1
+    if (kingX != rookX1 && kingY != rookY1 && kingX == rookX2 || kingY == rookY2) return 2
+    else return 3
+}
 
 /**
  * Простая
@@ -76,6 +89,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int = TODO()
+
 
 /**
  * Простая

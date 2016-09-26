@@ -74,7 +74,14 @@ fun fib(n: Int): Int = if ((n==1)||(n==2)) 1 else fib(n-1)+fib(n-2)
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k:Int = Math.min(n, m)
+    while (true)
+    {
+        if ((k%m==0) && (k%n==0)) return k
+        else k=k+Math.min(m,n)
+    }
+}
 
 /**
  * Простая

@@ -86,7 +86,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var l = 1
+    var l = 0
     if (kingX == rookX || kingY == rookY) l = l + 1
     if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) l = l + 2
     return l

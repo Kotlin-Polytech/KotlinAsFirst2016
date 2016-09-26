@@ -17,7 +17,14 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean{
+    val numb1=number/1000
+    val numb2=(number/100)%10
+    val numb3=((number%1000)/10)%10
+    val numb4=(((number%1000))%100)%10
+    if((numb1+numb2)==(numb3+numb4)) return true
+    else return false
+}
 
 /**
  * Простая
@@ -25,7 +32,12 @@ fun isNumberHappy(number: Int): Boolean = TODO()
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    if (x1==x2) return  true
+    if (y1==y2) return true
+    if (Math.abs(x1-x2)==Math.abs(y1-y2)) return true
+    else return false
+}
 
 /**
  * Средняя
@@ -46,4 +58,9 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean{
+    if ((a==r)&&(a==r)&&(c==r)&&(c==s)&&(b==r)&&(b==s)) return true
+    if ((a*c)==r*s) return true
+    if ((b*c)==r*s) return true
+    else return false
+}

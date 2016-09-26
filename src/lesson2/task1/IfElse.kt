@@ -1,10 +1,11 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
 
 /**
- * Пример
+ * Пример1
  *
  * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
@@ -33,30 +34,58 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String = String {
+    return when {
+        (age % 10 == 1) && (age != 11) && (age != 111) -> "$age год"
+        ((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age !in 12..14) && (age !in 112..114) -> "$age года"
+        else -> "$age лет"
 
-/**
- * Простая
- *
- * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
- * и t3 часов — со скоростью v3 км/час.
- * Определить, за какое время он одолел первую половину пути?
- */
-fun timeForHalfWay(t1: Double, v1: Double,
-                   t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+    /**
+     * Простая
+     *
+     * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
+     * и t3 часов — со скоростью v3 км/час.
+     * Определить, за какое время он одолел первую половину пути?
+     */
+        fun timeForHalfWay(t1: Double, v1: Double,
+                           t2: Double, v2: Double,
+                           t3: Double, v3: Double): Double = val s1 = v1 * t1
+            val s2 = v2 * t2
+            val s3 = v3 * t3
+            val s = s1 + s2 + s3
+        return when {
+            s / 2 <= s1 -> s / (2 * v1)
+            s / 2 <= s1 + s2 -> (s / 2 - s1) / v2 + t1
+            else -> (s / 2 - (s1 + s2)) / v3 + t1 + t2
+        }
+    }
 
-/**
- * Простая
- *
- * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
- * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
- * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
- * и 3, если угроза от обеих ладей.
- */
-fun whichRookThreatens(kingX: Int, kingY: Int,
-                       rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+    /**
+     * Простая
+     *
+     * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
+     * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
+     * Вернуть 0, если угрозы нет, 1, если угроза только  String {
+    return when {
+    (age % 10 == 1) && (age != 11) && (age != 111) -> "$age год"
+    ((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age !in 12..14) && (age !in 112..114) -> "$age года"
+    else -> "$age лет"от первой ладьи, 2, если только от второй ладьи,
+     * и 3, если угроза от обеих ладей.
+     */
+    fun whichRookThreatens(kingX: Int, kingY: Int,
+                           rookX1: Int, rookY1: Int,
+                           rookX2: Int, rookY2: Int): Int =
+
+    val variable = (kingX == rookX1 || kingY == rookY1)
+    val variable2 = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        variable && variable2 -> 3
+        variable2 -> 2
+        variable -> 1
+        else -> 0
+    }
+}
+
 
 /**
  * Простая
@@ -69,7 +98,17 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val variable= (kingX == rookX1 || kingY == rookY1)
+    val variable2 = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        variable && variable2 -> 3
+        variable2 -> 2
+        variable -> 1
+        else -> 0
+    }
+}
+
 
 /**
  * Простая
@@ -79,7 +118,17 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val variable = (kingX == rookX1 || kingY == rookY1)
+    val variable2 = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        variable && variable2 -> 3
+        variable2 -> 2
+        variable -> 1
+        else -> 0
+    }
+}
+
 
 /**
  * Средняя
@@ -89,4 +138,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
+
+val condition = (kingX == rookX1 || kingY == rookY1)
+val condition2 = (kingX == rookX2 || kingY == rookY2)
+return when {
+    condition && condition2 -> 3
+    condition2 -> 2
+    condition -> 1
+    else -> 0
+}
+}

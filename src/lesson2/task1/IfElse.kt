@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -35,13 +36,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-   if ((age in 5..20) || (age in 105..120)) return "$age лет"
-        if ((age%10) in 2..4) return "$age года"
-        if ((age%10)==1) return "$age год"
-        return "$age лет"
+    if ((age in 5..20) || (age in 105..120)) return "$age лет"
+    if ((age % 10) in 2..4) return "$age года"
+    if ((age % 10) == 1) return "$age год"
+    return "$age лет"
 
 
 }
+
 /**
  * Простая
  *
@@ -51,7 +53,14 @@ fun ageDescription(age: Int): String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val hw = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    when {
+        hw <= t1 * v1 -> return hw / v1
+        hw > t1 * v1 && hw <= t1 * v1 + t2 * v2 -> return t1 + (hw - t1 * v1) / v2
+    }
+    return t1 + t2 + (hw - t1 * v1 - t2 * v2) / v3
+}
 
 /**
  * Простая
@@ -83,10 +92,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int  {
-    if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingY - bishopY)!= Math.abs(kingX-bishopX))) return 1
-    if ((Math.abs(kingY - bishopY)== Math.abs(kingX-bishopX)) && ((kingX != rookX) && (kingY != rookY))) return 2
-    if ((Math.abs(kingY - bishopY)== Math.abs(kingX-bishopX)) && ((kingX == rookX) || (kingY == rookY))) return 3
+                          bishopX: Int, bishopY: Int): Int {
+    if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingY - bishopY) != Math.abs(kingX - bishopX))) return 1
+    if ((Math.abs(kingY - bishopY) == Math.abs(kingX - bishopX)) && ((kingX != rookX) && (kingY != rookY))) return 2
+    if ((Math.abs(kingY - bishopY) == Math.abs(kingX - bishopX)) && ((kingX == rookX) || (kingY == rookY))) return 3
     return 0
 
 }
@@ -99,13 +108,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int  {
-    if ((a+b<=c) || (a+c<=b) || (b+c<=a)) return -1
-    val cos1 = (a*a + b*b - c*c)/2*a*b
-    val cos2 = (a*a + c*c - b*b)/2*a*c
-    val cos3 = (b*b + c*c - a*a)/2*b*c
-    if ((cos1<0) || (cos2<0) || (cos3<0)) return 2
-    if ((cos1==0.0) || (cos2==0.0) || (cos3==0.0)) return 1
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a + b <= c) || (a + c <= b) || (b + c <= a)) return -1
+    val cos1 = (a * a + b * b - c * c) / 2 * a * b
+    val cos2 = (a * a + c * c - b * b) / 2 * a * c
+    val cos3 = (b * b + c * c - a * a) / 2 * b * c
+    if ((cos1 < 0) || (cos2 < 0) || (cos3 < 0)) return 2
+    if ((cos1 == 0.0) || (cos2 == 0.0) || (cos3 == 0.0)) return 1
     return 0
 
 
@@ -121,10 +130,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int  {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     when {
-        c<=b && c>=a && d>=b-> return b-c
-        c<=a && d<=b && d>=a -> return d-a
-        c<=a && d>=b -> return b-a
-        c>=a && c<=b && d<=b -> return d-c
+        c <= b && c >= a && d >= b -> return b - c
+        c <= a && d <= b && d >= a -> return d - a
+        c <= a && d >= b -> return b - a
+        c >= a && c <= b && d <= b -> return d - c
     }
-return -1
+    return -1
 }

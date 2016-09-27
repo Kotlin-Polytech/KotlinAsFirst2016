@@ -34,41 +34,19 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String{
-    if (age%10==1){
-        if (age==11) return "$age лет"
-        else return "$age год"
-    }
-    if (age%100==1){
-        if (age==111) return "$age лет"
-        else return "$age год"
-    }
-    if (age%10==2){
-        if (age==12) return "$age лет"
-        else return "$age года"
-    }
-    if (age%100==2){
-        if (age==112) return "$age лет "
-        else return "$age года"
-    }
-    if (age%10==3){
-        if (age==13) return "$age лет"
-        else return "$age года"
-    }
-    if (age%100==3){
-        if (age==113) return "$age лет"
-        else return "&age года"
-    }
-    if (age%10==4){
-        if (age==14) return "$age лет"
-        else return "$age года"
-    }
-    if (age%100==4){
-        if (age==114) return "$age лет"
-        else return "$age года"
-    }
-    return "$age лет"
-
+fun ageDescription(age: Int): String= when {
+    (age%10==0)->"$age лет"
+    ((age%10==1)&&(age%100!=11))->"$age год"
+    ((age%10==2)&&(age%100!=12))->"$age года"
+    ((age%10==3)&&(age%100!=13))->"$age года"
+    ((age%10==4)&&(age%100!=14))->"$age года"
+    (age%10==5)->"$age лет"
+    (age%10==6)->"$age лет"
+    (age%10==7)->"$age лет"
+    (age%10==8)->"$age лет"
+    (age%10==9)->"$age лет"
+    ((age%100==11)||(age%100==12)||(age%100==13)||(age%100==14))->"$age лет"
+    else ->"0.0"
 }
 
 
@@ -91,9 +69,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2=t2*v2
     val s3=t3*v3
     val s_sred=(s1+s2+s3)/2
-    return if (s_sred<=s1) s_sred/v1
-    else if((s_sred>s1)&&(s_sred<=s1+s2)) t1+((s_sred-s1)/v2)
-    else t1+t2+((s_sred-s1-s2)/v3)
+    if(s_sred<=s1) return s_sred/v1
+    else if ((s_sred>s1)&&(s_sred<=(s1+s2))) return t1+((s_sred-s1)/v2)
+    else if ((s_sred>(s1+s2))) return t1+t2+((s_sred-s1-s2)/v3)
+    else return 0.0
 }
 
 /**
@@ -107,15 +86,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((kingX==rookX1) || (kingY==rookY1)){
-        if ((kingX==rookX2)||(kingY==rookY2)) return 3
-        else return 1
-    }
-    if ((kingX==rookX2)||(kingY==rookY2)){
-        if ((kingX==rookX1)||(kingY==rookY2)) return 3
-        else return 2
-    }
-
+    if (((kingX==rookX1) || (kingY==rookY1))&&((kingX!==rookX2)&&(kingY!==rookY2))) return 1
+    if (((kingX==rookX2)||(kingY==rookY2))&&((kingX!==rookX1)&&(kingY!==rookY1))) return 2
+    if (((kingX==rookX2)||(kingY==rookY2)&&(kingX==rookX1)||(kingY==rookY1))) return 3
+    if (((kingX!=rookX1)&&(kingY!==rookY1)&&(kingX!==rookX2)&&(kingY!==rookY2))) return 0
     else return 0
 }
 
@@ -151,27 +125,26 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a + b > c) && (a + c > b) && (a < b + c)) {
+    if ((a==b)&&(b==c)&&(c==a)) return 0
         if ((a > b) && (a > c)) {
+            if (b+c<=a) return -1
             if ((sqr(b) + sqr(c)) > sqr(a)) return 0
             if ((sqr(b) + sqr(c)) < sqr(a)) return 2
             if ((sqr(b) + sqr(c)) == sqr(a)) return 1
         }
         if ((b > a) && (b > c)) {
+            if (a+c<=b) return -1
             if ((sqr(a) + sqr(c)) > sqr(b)) return 0
             if ((sqr(a) + sqr(c)) < sqr(b)) return 2
             if ((sqr(a) + sqr(c)) == sqr(b)) return 1
         }
         if ((c > a) && (c > b)) {
+            if (a+b<=c) return -1
             if ((sqr(b) + sqr(a)) > sqr(c)) return 0
             if ((sqr(b) + sqr(a)) < sqr(c)) return 2
             if ((sqr(b) + sqr(a)) == sqr(c)) return 1
         }
-        if ((a == b) && (a == c)) return 0
-        if ((a == b) && (a > c)) return 0
-        if ((b > a) && (b == c)) return 0
-        return -1
-    } else return -1
+       return 0
 }
 
 /**
@@ -183,12 +156,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
-    if((b>=c)&&(d>a)&&(c>a)&&(b<d)) return b-c
-    if ((a>c)&&(b>d)&&(d>a)) return d-a
-    if ((d>d)&&(a<c)) return d-c
-    if((c<=a)&&(d>=b)) return b-a
-    if((b>d)&&(a<c)) return d-c
-    if((b<c)&&(d>a)) return -1
-    if((a>d)&&(b>c)) return -1
- else return 0
+   if(((b<c)&&(a<c)) ||((c<a)&&(d<a))) return -1
+    else if((a<=c)&&(d<=b)) return d-c
+    else if ((c<=a)&&(b<=d)) return b-a
+    else if ((a<=c)&&(c<=b)&&(b<=d)) return b-c
+    else if ((c<=a)&&(a<=d)&&(d<=b)) return d-a
+    else return 0
+
 }

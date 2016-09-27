@@ -33,8 +33,15 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
-
+fun ageDescription(age: Int): String {
+    if ((age / 10) % 10 == 1)
+        return "$age лет"
+    return when (age % 10) {
+        1 -> "$age год"
+        in 2..4 -> "$age года"
+        else -> "$age лет"
+    }
+}
 /**
  * Простая
  *
@@ -44,8 +51,14 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
-
+                   t3: Double, v3: Double): Double {
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s = s1 + s2 + v3 * t3
+    if (s / 2 <= s1) return (s / 2) / v1
+    else if ((s / 2 > s1) && (s / 2 <= s1 + s2)) return t1 + ((s / 2 - s1) / v2)
+    else return t1 + t2 + (s / 2 - s1 - s2) / v3
+}
 /**
  * Простая
  *
@@ -56,8 +69,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
-
+                       rookX2: Int, rookY2: Int): Int {
+    return when {
+        (kingX != rookX1) && (kingX != rookX2) && (kingY != rookY1) && (kingY != rookY2) -> 0
+        ((kingX == rookX1) || (kingY == rookY1)) && (kingX != rookX2) && (kingY != rookY2) -> 1
+        ((kingX == rookX2) || (kingY == rookY2)) && (kingX != rookX1) && (kingY != rookY1) -> 2
+        ((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2)) -> 3
+        else -> -1
+    }
+}
 /**
  * Простая
  *
@@ -69,8 +89,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
-
+                          bishopX: Int, bishopY: Int): Int {
+    return if ((kingX != rookX) && (kingY != rookY)
+            && ((Math.abs(kingX - bishopX)) != (Math.abs(kingY - bishopY)))) 0
+    else if (((kingX == rookX) || (kingY == rookY)) &&
+            ((Math.abs(kingX - bishopX)) != (Math.abs(kingY - bishopY)))) 1
+    else if ((kingX != rookX) && (kingY != rookY) &&
+            ((Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY)))) 2
+    else 3
+}
 /**
  * Простая
  *
@@ -79,8 +106,21 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
-
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    return when {
+        (a + b <= c) || (a + c <= b) || (b + c <= a) -> -1
+        ((a * a + b * b > c * c) && (c >= a) && (c >= b))
+                || ((a * a + c * c > b * b) && (b >= a) && (b >= c))
+                || ((b * b + c * c > a * a) && (a >= b) && (a >= c)) -> 0
+        ((a * a + b * b == c * c) && (c >= a) && (c >= b))
+                || ((a * a + c * c == b * b) && (b >= a) && (b >= c))
+                || ((b * b + c * c == a * a) && (a >= b) && (a >= c)) -> 1
+        ((a * a + b * b < c * c) && (c >= a) && (c >= b))
+                || ((a * a + c * c < b * b) && (b >= a) && (b >= c))
+                || ((b * b + c * c < a * a) && (a >= b) && (a >= c)) -> 2
+        else -> -1
+    }
+}
 /**
  * Средняя
  *
@@ -89,4 +129,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        (d < a) || (c > b) -> -1
+        (c >= a) && (b >= d) -> d - c
+        (a >= c) && (b >= d) -> d - a
+        (a >= c) && (d >= b) -> b - a
+        else -> b - c
+    }
+}

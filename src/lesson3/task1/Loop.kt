@@ -163,7 +163,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var y = 1.0
     var newX = x
-    if(x>2*PI) newX = x%(2*PI)
+    if(abs(x)>2*PI) newX = x%(2*PI)
     var z = newX
 
     val moduleEps = abs(eps)
@@ -190,7 +190,7 @@ fun cos(x: Double, eps: Double): Double {
     val moduleEps = abs(eps)
     var result: Double
     var newX = x
-    if(x>2*PI) newX = x%(2*PI)
+    if(abs(x)>2*PI) newX = x%(2*PI)
     do{
         result = pow((-1.0),y) * pow(newX,2*y) / factorial((2*y).toInt())
         z += result

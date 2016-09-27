@@ -173,7 +173,7 @@ fun sin(x: Double, eps: Double): Double {
     var sinx = 0.0
     var n = 1
         while (true) {
-            cur = sign * Math.pow(x,n.toDouble()) / factorial(n)
+            cur = sign  / factorial(n)  * Math.pow(x,n.toDouble())
             if (Math.abs(cur) < eps)
                 break
             sign = -sign

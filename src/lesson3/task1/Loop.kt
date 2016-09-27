@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import lesson4.task1.abs
+
 /**
  * Пример
  *
@@ -90,21 +92,49 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var a = 0
+    var b = 0
+    if (m > n) {
+        a = m
+        b = n
+    } else {
+        a = n
+        b = m
+    }
+    var k = 1
+    while (a % b > 0) {
+        k = a
+        a = b
+        b = k % b
+    }
+    return (n * m) / b
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..n) {
+        if (n % i == 0) return i
+    }
+    return n
+}
+
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for (i in n - 1 downTo 1) {
+        if (n % i == 0) return i
+    }
+    return 1
+}
 
 /**
  * Простая
@@ -113,7 +143,21 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var a = 0
+    var b = 0
+    if (m > n) {
+        a = m
+        b = n
+    } else {
+        a = n
+        b = m
+    }
+    for (i in 2..b) {
+        if (a % i == 0 && b % i == 0) return false
+    }
+    return true
+}
 
 /**
  * Простая
@@ -122,7 +166,12 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (i in 0..n) {
+        if (i * i >= m && i * i <= n) return true
+    }
+    return false
+}
 
 /**
  * Простая
@@ -131,7 +180,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var a = x
+    var b = x
+    var c = 3.0
+    while (Math.abs(b) > eps) {
+        b = -b * x * x / (c * (c - 1))
+        a = a + b
+        c = c + 2
+    }
+    return a
+}
 
 /**
  * Простая
@@ -140,7 +199,17 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var a = 1.0
+    var b = 1.0
+    var c = 2.0
+    while (Math.abs(b) > eps) {
+        b = -b * x * x / (c * (c - 1))
+        a = a + b
+        c = c + 2
+    }
+    return a
+}
 
 /**
  * Средняя
@@ -148,7 +217,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var N = n
+    var count = 0
+    var r = 0
+    while (N % 10 !== 0) {
+        N = N / 10
+        count++
+    }
+    N = n
+    for (i in count downTo 1) {
+        r = r + N % 10 * (Math.pow(10.0, i - 1.toDouble()).toInt())
+        N = N / 10
+    }
+    return r
+}
 
 /**
  * Средняя
@@ -157,7 +240,24 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var N = n
+    var count = 0
+    var r = 0
+    while (N % 10 !== 0) {
+        N = N / 10
+        count++
+    }
+    N = n
+    for (i in count downTo 1) {
+        r = r + N % 10 * (Math.pow(10.0, i - 1.toDouble()).toInt())
+        N = N / 10
+    }
+    N = n
+    if (r == N) return true
+    return false
+}
+
 
 /**
  * Средняя

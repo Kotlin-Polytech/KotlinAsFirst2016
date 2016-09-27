@@ -23,6 +23,7 @@ class Tests {
         assertEquals("132 года", ageDescription(132))
         assertEquals("12 лет", ageDescription(12))
         assertEquals("199 лет", ageDescription(199))
+        assertEquals("111 лет", ageDescription(111))
     }
 
     @Test
@@ -58,6 +59,7 @@ class Tests {
         assertEquals(1, triangleKind(5.0, 3.0, 4.0))
         assertEquals(2, triangleKind(4.0, 6.0, 8.0))
         assertEquals(0, triangleKind(1.0, 1.5, 1.5))
+        assertEquals(0, triangleKind(0.1, 0.1, 0.1))
     }
 
     @Test

@@ -65,7 +65,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
         (halfway - way1 > 0.0) && (halfway - way1 - way2 < 0.0) -> ((halfway - way1) / v2) + t1
         (halfway - way1 > 0.0) && (halfway - way1 - way2 > 0.0) -> (t1 + t2 + (halfway - way1 - way2) / v3)
         (halfway - way1 < 0.0) -> (halfway / v1)
-        else -> 90.0
+        else -> 80.0
     }
 }
     /**

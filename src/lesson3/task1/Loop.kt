@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "VARIABLE_WITH_REDUNDANT_INITIALIZER", "NAME_SHADOWING")
 
 package lesson3.task1
 
@@ -66,7 +66,7 @@ fun digitNumber(n: Int): Int {
     if (n2 == 0) return 1
     else while (n2 != 0) {
         number++
-        n2 = n2 / 10
+        n2 /= 10
     }
     return number
 }
@@ -78,12 +78,12 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fib1: Int = 0
-    var fib2: Int = 1
-    var fib3: Int = 1
+    var fib1 = 0
+    var fib2 = 1
+    var fib3 = 1
     for (m in 1..(n - 1)) {
         fib3 = fib2
-        fib2 = fib1 + fib2
+        fib2 += fib1
         fib1 = fib3
     }
     return fib2
@@ -97,14 +97,9 @@ fun fib(n: Int): Int {
  */
 
 
-fun nod(x: Int, y: Int): Int {
-    if (x != 0) return nod(y % x, x) else return y;
-}
+fun nod(x: Int, y: Int): Int = if (x != 0) nod(y % x, x) else y;
 
-fun nok(x: Int, y: Int): Int = (x / nod(x, y)) * y
-
-fun lcm(m: Int, n: Int): Int = nok(m, n)
-
+fun lcm(m: Int, n: Int): Int = m / nod(m, n) * n
 /**
  * Простая
  *
@@ -136,7 +131,6 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     val nn = Math.max(m, n)
-    var i: Int = 0
     var failed: Boolean = false
     for (i in 2..nn) {
         if ((n % i == 0) && (m % i == 0)) failed = true
@@ -151,11 +145,11 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val k: Int = sqrt(n.toDouble()).toInt()
+fun sqr(x: Double) = x * x
 
-    if ((k * k <= n) && (k * k >= m)) return true else return false
-}
+fun squareBetweenExists(m: Int, n: Int): Boolean =
+        if (m <= sqr(sqrt(n.toDouble()).toInt().toDouble()) && sqr(sqrt(n.toDouble()).toInt().toDouble()) <= n) true
+        else false
 
 /**
  * Простая
@@ -165,14 +159,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i=0
-    var sinus:Double=x
-    var number:Double=x
-    while (Math.abs(number)>eps) {
+    var i = 0
+    var sinus: Double = x
+    var number: Double = x
+    while (Math.abs(number) * 1000 > eps) {
         i++
-        number=Math.pow(x,i*2.0+1)/factorial(i*2+1)
-       if (i%2==1) sinus=sinus-number
-        else  sinus=sinus+number
+        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
+        if (i % 2 == 1) sinus -= number
+        else sinus += number
 
     }
     return sinus
@@ -187,14 +181,14 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var i=0
-    var cosus:Double=1.0
-    var number:Double=x
-    while (Math.abs(number)>eps) {
+    var i = 0
+    var cosus: Double = 1.0
+    var number: Double = x
+    while (Math.abs(number) * 1000 > eps) {
         i++
-        number=Math.pow(x,i*2.0)/factorial(i*2)
-        if (i%2==1) cosus=cosus-number
-        else  cosus=cosus+number
+        number = Math.pow(x, i * 2.0) / factorial(i * 2)
+        if (i % 2 == 1) cosus -= number
+        else cosus += number
 
     }
     return cosus
@@ -207,11 +201,11 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var answer: Int = 0
-    var nn: Int = n
+    var answer = 0
+    var nn = n
     while (nn > 0) {
         answer = answer * 10 + nn % 10
-        nn = nn / 10
+        nn /= 10
     }
     return answer
 }
@@ -224,11 +218,11 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var answer: Int = 0
-    var nn: Int = n
+    var answer = 0
+    var nn = n
     while (nn > 0) {
         answer = answer * 10 + nn % 10
-        nn = nn / 10
+        nn /= 10
     }
     if (answer == n) return true else return false
 }
@@ -240,12 +234,12 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var memory: Int = n % 10
-    var nn: Int = n
-    var failed: Boolean = true
+    var memory = n % 10
+    var nn = n
+    var failed = true
     while (nn > 0) {
         if (nn % 10 != memory) failed = false
-        nn = nn / 10
+        nn /= 10
     }
     if (failed == false) return true else return false
 }
@@ -258,10 +252,10 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun quantity(n: Int): Int {
-    var r: Int = 0
-    var nn: Int = n
+    var r = 0
+    var nn = n
     while (nn > 0) {
-        nn = nn / 10
+        nn /= 10
         r++
     }
     return r
@@ -269,17 +263,15 @@ fun quantity(n: Int): Int {
 
 fun squareSequenceDigit(n: Int): Int {
     var i = 0
-    var number=0
-    var resalt=0
+    var number = 0
+    var result = 0
     while (number < n) {
         i++
-        number=number+ quantity(i*i)
+        number += quantity(i * i)
     }
-    resalt=i*i
-    for (i in n..number-1){
-        resalt=resalt/10
-    }
-    return (resalt%10)
+    result = i * i
+    (n..number - 1).forEach { i -> result /= 10 }
+    return (result % 10)
 }
 
 
@@ -292,15 +284,13 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var i = 0
-    var number=0
-    var resalt=0
+    var number = 0
+    var result = 0
     while (number < n) {
         i++
-        number=number+ quantity(fib(i))
+        number += quantity(fib(i))
     }
-    resalt=fib(i)
-    for (i in n..number-1){
-        resalt=resalt/10
-    }
-    return (resalt%10)
+    result = fib(i)
+    (n..number - 1).forEach { i -> result /= 10 }
+    return (result % 10)
 }

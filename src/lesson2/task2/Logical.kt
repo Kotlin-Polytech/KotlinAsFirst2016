@@ -27,8 +27,10 @@ fun isNumberHappy(number: Int): Boolean =
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-        (x1==y1) || (y1==y2) || ((x1+y1)==(x2+y2)) || ((x1-y1)==(x2-y2))
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+  if ((x1 == x2) || (y1 == y2) || ((x1 + y1) == (x2 + y2)) || ((x1 - y1) == (x2 - y2))) return true
+    else return false
+}
 /**
  * Средняя
  *

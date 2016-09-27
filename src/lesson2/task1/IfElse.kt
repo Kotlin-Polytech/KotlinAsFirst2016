@@ -132,50 +132,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var A = 0.0
-    var B = 0.0
-    var C = 0.0
-    //sorting
-    if (a >= b && a >= c) {
-        C = a
-        if (b >= c) {
-            B = b
-            A = c
-        } else {
-            B = c
-            A = b
-        }
-    } else if (b >= a && b >= c) {
-        C = b
-        if (a >= c) {
-            B = a
-            A = c
-        } else {
-            B = c
-            A = a
-        }
-    } else if (c >= b && c >= a) {
-        C = c
-        if (b >= a) {
-            B = b
-            A = a
-        } else {
-            B = a
-            A = b
-        }
-    }
-    //main part
-    if (A + B > C && A + C > B && B + C > A) {
-        if (sqr(C) == sqr(A) + sqr(B)) {
-            return 1
-        } else if (sqr(C) > sqr(A) + sqr(B)) {
-            return 2
-        } else{
-            return 0
-        }
-    } else {
-        return -1
-    }
+    if (a + b > c && b + c > a && a + c > b) {
+        if (sqr(a) + sqr(b) == sqr(c) || sqr(b) + sqr(c) == sqr(a) || sqr(a) + sqr(c) == sqr(b)) return 1
+        else if (sqr(a) + sqr(b) < sqr(c) || sqr(b) + sqr(c) < sqr(a) || sqr(a) + sqr(c) < sqr(b)) return 2
+        else return 0
+    } else return -1
 }
 
 

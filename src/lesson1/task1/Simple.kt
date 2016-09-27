@@ -97,9 +97,13 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int, digit: Int = 3): Int {
-    val degree: Int = digit-1
-    return (number/ pow(10.0,degree.toDouble()).toInt())%10
+fun takeDigit(number: Int, digit: Int = 1): Int {
+    if (digit < 1) return -1
+    else if (digit == 1) return number%10
+    else {
+        val shift: Int = pow(10.0,(digit-1).toDouble()).toInt()
+        return if (number >= shift) (number / shift)%10 else -1
+    }
 }
 
 /**
@@ -137,10 +141,13 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  */
 fun numberRevert(number: Int): Int {
     var result: Int = 0
-    var mutableNumber: Int = number
-    do{
-        result=result*10+mutableNumber%10
-        mutableNumber/=10
-    }while(mutableNumber!=0)
+    if (number in -9..9) result = number
+    else {
+        var mutableNumber: Int = number
+        do {
+            result = result * 10 + mutableNumber % 10
+            mutableNumber /= 10
+        } while (mutableNumber != 0)
+    }
     return result
 }

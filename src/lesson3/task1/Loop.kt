@@ -78,7 +78,7 @@ fun fib(n: Int): Int {
     var prev = 0
     var result = 1
     for (i in 2..n) {
-        result = prev + result
+        result += prev
         prev = result - prev
     }
     return result
@@ -93,21 +93,20 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var a = 0
     var b = 0
-    if (m>n) {
+    if (m > n) {
         a = m
         b = n
-    }
-    else {
+    } else {
         a = n
         b = m
     }
     var z = 1
-    while (a%b>0) {
+    while (a % b > 0) {
         z = a
         a = b
-        b = z%b
+        b = z % b
     }
-    return (n*m)/b
+    return (n * m) / b
 }
 
 /**
@@ -115,14 +114,26 @@ fun lcm(m: Int, n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var div = 2
+    while (n % div != 0) {
+        div++
+    }
+    return div
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var div = n - 1
+    while (n % div != 0) {
+        div--
+    }
+    return div
+}
 
 /**
  * Простая
@@ -131,7 +142,23 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var min: Int
+    var max: Int
+    if (m >= n) {
+        min = n
+        max = m
+    } else {
+        max = n
+        min = m
+    }
+    var div = min
+    while (max % div != 0 || min % div != 0) {
+        div--
+    }
+    if (div == 1) return true
+    return false
+}
 
 /**
  * Простая
@@ -140,7 +167,13 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    if (n < 0) return false
+    for (i in 0..n) {
+        if (i * i >= m && i * i <= n) return true
+    }
+    return false
+}
 
 /**
  * Простая
@@ -166,7 +199,20 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+
+fun revert(n: Int): Int {
+    var N = Math.abs(n)
+    /*Не было сказано, может ли число на входе
+    быть отрицательным, поэтому я решил предусмотреть это*/
+    var rvrsd = 0
+    while (N > 0) {
+        rvrsd *= 10
+        rvrsd += N % 10
+        N /= 10
+    }
+    if (n < 0) return -rvrsd
+    return rvrsd
+}
 
 /**
  * Средняя
@@ -175,7 +221,20 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var N = Math.abs(n)
+    /*Не было сказано, может ли число на входе
+    быть отрицательным, поэтому я решил предусмотреть это*/
+    var rvrsd = 0
+    while (N > 0) {
+        rvrsd *= 10
+        rvrsd += N % 10
+        N /= 10
+    }
+    if (n < 0) rvrsd = -rvrsd
+    if (n == rvrsd) return true
+    return false
+}
 
 /**
  * Средняя
@@ -183,7 +242,17 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var N = n
+    var buffer = N % 10
+    while (N > 9) {
+        buffer = N % 10
+        if ((N / 10) % 10 != buffer) return true
+        N /= 10
+    }
+    if (N != buffer) return true
+    return false
+}
 
 /**
  * Сложная
@@ -192,7 +261,16 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var line = "1"
+    var count = 2
+    while (line.length < n) {
+        line += (count * count).toString()
+        count++
+    }
+    count = line[n - 1].toInt()
+    return count
+}
 
 /**
  * Сложная

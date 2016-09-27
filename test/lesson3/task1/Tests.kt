@@ -124,6 +124,8 @@ class Tests {
         assertTrue(squareBetweenExists(21, 28))
         assertFalse(squareBetweenExists(51, 61))
         assertFalse(squareBetweenExists(999, 1001))
+        assertTrue(squareBetweenExists(-14, 0))
+        assertFalse(squareBetweenExists(-5, -1))
     }
 
     @Test
@@ -153,6 +155,10 @@ class Tests {
         assertEquals(111, revert(111))
         assertEquals(17571, revert(17571))
         assertEquals(123456789, revert(987654321))
+        assertEquals(-111, revert(-111))
+        assertEquals(-17571, revert(-17571))
+        assertEquals(-123456789, revert(-987654321))
+
     }
 
     @Test

@@ -33,7 +33,22 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String
+{
+    val a : Int = age % 10
+    if (age % 100 in 5..19)
+        return "$age лет"
+    if (a in 5..9)
+        return "$age лет"
+    if (a == 0)
+        return "$age лет"
+    if (a == 1)
+        return "$age год"
+    if (a in 2..4)
+        return "$age года"
+    return "invalid input"
+}
+
 
 /**
  * Простая
@@ -46,6 +61,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double = TODO()
 
+
+
 /**
  * Простая
  *
@@ -56,7 +73,17 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if (((kingX == rookX1)||(kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) return 3
+    else if ((kingX == rookX1)||(kingY == rookY1)) return 1
+    else if ((kingX == rookX2)||(kingY == rookY2)) return 2
+    else return 0
+    var danger1=0
+    var danger2=0
+    if ((kingX==rookX1)||(kingY==rookY1)) danger1=1
+    if ((kingX==rookX2)||(kingY == rookY2)) danger2=2
+    return danger1+danger2
+                                                      }
 
 /**
  * Простая
@@ -69,8 +96,17 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
-
+                          bishopX: Int, bishopY: Int): Int {
+    if ((kingX==rookX)||(kingY==rookY)&&(Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY))) return 3
+    else if ((kingX==rookX)||(kingY==rookY)) return 1
+    else if (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)) return 2
+    else return 0
+    var dangerRook=0
+    var dangerBishop=0
+    if ((kingX==rookX)||(kingY==rookY)) dangerRook=1
+    if (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)) dangerBishop=2
+    return dangerRook+dangerBishop
+                                                           }
 /**
  * Простая
  *

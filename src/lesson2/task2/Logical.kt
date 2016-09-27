@@ -27,10 +27,9 @@ fun isNumberHappy(number: Int): Boolean =
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-  if ((x1 == x2) || (y1 == y2) || ((x1 + y1) == (x2 + y2)) || ((x1 - y1) == (x2 - y2))) return true
-    else return false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+  ((x1 == x2) || (y1 == y2) || ((x1 + y1) == (x2 + y2)) || ((x1 - y1) == (x2 - y2)))
+
 /**
  * Средняя
  *
@@ -39,10 +38,9 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    if ((Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2) return true
-    else return false
-}
+                 x2: Double, y2: Double, r2: Double): Boolean =
+  ((Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2)
+
 /**^
  * Средняя
  *
@@ -53,11 +51,9 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val longth = max (max(a,b),c)
-    val deepth = min (min(a,b),c)
-    val width = (a+b+c) - longth - deepth
+    val longth = max(max(a, b), c)
+    val deepth = min(min(a, b), c)
+    val width = (a + b + c) - longth - deepth
 
-    if ((deepth <= r) && (width <= s)|| (deepth <=s)&&(width <= r)) return true
-    else return false
-
+    return ((deepth <= r) && (width <= s) || (deepth <= s) && (width <= r))
 }

@@ -149,7 +149,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val difference = newN.toInt()-newM.toInt()
 
     if(m==n) {
-        if(newM==newM*10/10) return true
+        if(newM==newM-newM%1) return true
     } else if(difference>=1) return true
     return false
 }

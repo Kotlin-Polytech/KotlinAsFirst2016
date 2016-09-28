@@ -193,7 +193,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 }
 
 fun main(args: Array<String>) {
-    accumulate(mutableListOf<Double>(1.0, 4.0, 5.0, 7.0))
+    factorize(802777)
 }
 
 /**
@@ -218,16 +218,17 @@ fun trueFactorize(n: Int): List<Int> {
     var i = 0
     val factorized = mutableListOf<Int>()
     val primes = primeNumbersReader().filter { n % it == 0 }
-
-    while (nCopy != 1) {
-        if (nCopy % primes[i] == 0) {
-            nCopy /= primes[i]
-            factorized.add(primes[i])
-        }
-        else {
-            i++
+    if (primes.size != 0) {
+        while (nCopy != 1) {
+            if (nCopy % primes[i] == 0) {
+                nCopy /= primes[i]
+                factorized.add(primes[i])
+            } else {
+                i++
+            }
         }
     }
+    else factorized.add(n)
     print(factorized)
     return factorized
 }

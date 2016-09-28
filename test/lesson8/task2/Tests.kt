@@ -13,8 +13,8 @@ class Tests {
         try {
             parseExpr("input/expr_in3.txt", listOf(0))
             throw AssertionError("NumberFormatException expected")
+        } catch (e: NumberFormatException) {
         }
-        catch (e: NumberFormatException) {}
         assertEquals(mapOf(-2 to 12, -1 to 2, 0 to 0, 1 to 0, 2 to -4), parseExpr("input/expr_in4.txt", listOf(-2, -1, 0, 1, 2)))
     }
 }

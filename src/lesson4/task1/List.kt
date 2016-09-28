@@ -125,13 +125,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var sum = 0.0
-
     if (list.isEmpty()) return 0.0
-
-    sum = list.sum()
-
-    return sum/list.size
+    return list.sum()/list.size
 }
 
 /**
@@ -191,14 +186,16 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var newList = mutableListOf<Double>()
-    if (list.isEmpty()) return list
-    newList.add(list[0])
-    for (i in 1..list.size - 1) {
-        newList.add(list.subList(0, i+1).sum())
+    for (i in 1..list.size-1) {
+        list[i] = list.subList(i-1, i+1).sum()
     }
-    return newList
+    return list
 }
+
+fun main(args: Array<String>) {
+    accumulate(mutableListOf<Double>(1.0, 4.0, 5.0, 7.0))
+}
+
 /**
  * Средняя
  *
@@ -231,6 +228,7 @@ fun trueFactorize(n: Int): List<Int> {
             i++
         }
     }
+    print(factorized)
     return factorized
 }
 
@@ -239,7 +237,7 @@ fun makePrimes(from: Int, to: Int) {
     val primeNumbers = primeNumbersReader()
     var numbers = mutableMapOf<Int, Boolean>()
 
-    for (i in from..to) numbers.put(i, true)
+    for (i in from..to/2) numbers.put(i, true)
 
     for (i in primeNumbers) {
             numbers = numbers.filter { it.key % i != 0} as MutableMap<Int, Boolean>
@@ -248,9 +246,6 @@ fun makePrimes(from: Int, to: Int) {
     guaranteedToWorkWriter(to)
 }
 
-fun main(args: Array<String>) {
-    factorize(650960)
-}
 
 fun guaranteedToWorkWriter(n: Int) = guaranteedToWork.writeText("$n")
 

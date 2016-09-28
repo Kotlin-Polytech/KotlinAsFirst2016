@@ -221,19 +221,15 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
+
+//Это задание ещё не доделано, скоро переработаю
 fun isPalindrome(n: Int): Boolean {
-    var N = Math.abs(n)
-    /*Не было сказано, может ли число на входе
-    быть отрицательным, поэтому я решил предусмотреть это*/
-    var rvrsd = 0
-    while (N > 0) {
-        rvrsd *= 10
-        rvrsd += N % 10
-        N /= 10
+    var count = digitNumber(n)
+    while (count >= digitNumber(n) / 2) {
+        if ((n / Math.pow(10.0, count-1))%10 != (n / Math.pow(10.0, digitNumber(n) - count))%10) return false
+        count--
     }
-    if (n < 0) rvrsd = -rvrsd
-    if (n == rvrsd) return true
-    return false
+    return true
 }
 
 /**
@@ -264,12 +260,13 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var line = "1"
     var count = 2
-    while (line.length < n) {
-        line += (count * count).toString()
+    var prevLenght = 0
+    while (prevLenght + line.length < n) {
+        prevLenght += line.length
+        line = (count * count).toString()
         count++
     }
-    count = line[n - 1].toInt()
-    return count
+    return (line[n - prevLenght - 1] - '0').toInt()
 }
 
 /**
@@ -279,4 +276,14 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var line = "1"
+    var count = 2
+    var prevLenght = 0
+    while (prevLenght + line.length < n) {
+        prevLenght += line.length
+        line = fib(count).toString()
+        count++
+    }
+    return (line[n - prevLenght - 1] - '0').toInt()
+}

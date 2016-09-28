@@ -62,11 +62,10 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var n1 = n
     if (n1 == 0) return 1
-    while (n1 > 0) {
+    while (n1 != 0) {
         count++
         n1 /= 10
     }
-    if (count >= 10) return 10
     return count
 }
 

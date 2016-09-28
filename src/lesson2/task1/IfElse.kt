@@ -36,10 +36,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String
 {
-    if (age==21) return "21 год"
-    else if(age==132) return "132 года"
-    else if(age==12) return "12 лет"
-   else return "199 лет"
+   return when {
+       ((age % 10 == 1) && (age % 10 != 11))                         -> "$age год"
+       ((age % 10 < 5) && (age % 100 !in 11..14) && (age % 10 != 0)) -> "$age года"
+       else                                                          -> "$age лет"
+   }
 }
 
 /**
@@ -51,13 +52,15 @@ fun ageDescription(age: Int): String
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double
-{
-    if(t1<0 || t2<0 || t3<0 || v1<0 || v2<0 || v3<0) return Double.NaN
-    val s=t1*v1+t2*v2+t3*v3
-    if(t1*v1>(s/2))return s/(2*v1)
-    else if((t1*v1+t2*v2)>(s/2)) return t1+(s/2-t1*v1)/v2
-    else return t1+t2+(s/2-t1*v1-t2*v2)/v3
+                   t3: Double, v3: Double): Double {
+    if (t1 < 0 || t2 < 0 || t3 < 0 || v1 < 0 || v2 < 0 || v3 < 0) return Double.NaN
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val s = s1 + s2 + s3
+    if (s1 > (s / 2)) return s / (2 * v1)
+    else if ((s1 + s2) > (s / 2)) return t1 + (s / 2 - s1) / v2
+    else return t1 + t2 + (s / 2 - s1 - s2) / v3
 }
 /**
  * Простая
@@ -94,13 +97,17 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int
 {
-    val number1=(sqr(b)+sqr(c)-sqr(a))/(2*b*c)
-    val number2=(sqr(a)+sqr(b)-sqr(c))/(2*a*b)
-    val number3=(sqr(c)+sqr(a)-sqr(b))/(2*c*a)
-    if ((number1>0.0&&number1<1.0) && (number2>0.0 && number2<1.0) && (number3>0.0 && number3<1.0)) return 0
-    else if (number1==0.0 || number2==0.0 || number3==0.0) return 1
-    else if ((number1<0.0 && number1>-1.0)|| (number2<0.0 && number2>-1.0) || (number3<0.0 && number3>-1.0)) return 2
-    else return -1
+    val x1=(sqr(b)+sqr(c)-sqr(a))/(2*b*c)
+    val x2=(sqr(a)+sqr(b)-sqr(c))/(2*a*b)
+    val x3=(sqr(c)+sqr(a)-sqr(b))/(2*c*a)
+    val y = Math.min(x1, x2)
+    val x = Math.min(y, x3)
+    return when {
+        (x > 0.0 && x < 1.0) -> 0
+        (x == 0.0)           -> 1
+        (x < 0.0 && x > -1.0)-> 2
+        else                 -> -1
+    }
 }
 
 /**
@@ -111,10 +118,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int=TODO()
-/*{
-    if(b<c || a>d) return -1
-    else if(b==c || a==d || (a==b&&b==d)|| return 0
-    else if((a+b)>(a+c))
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
+    return when {
+        (b < c || a > d)          -> -1
+        (b == c || a == d)        -> 0
+        (c < a && d > b)          -> b-a
+        (c < b && c > a && d > b) -> b-c
+        (c > a && d < b)          -> d-c
+        else                      -> d-a
+    }
 }
-*/

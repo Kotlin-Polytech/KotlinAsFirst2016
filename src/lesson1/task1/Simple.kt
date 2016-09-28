@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 
+import lesson3.task1.squareSequenceDigit
 import java.lang.Math.*
 
 /**
@@ -43,23 +44,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 fun main(args: Array<String>) {
     // Решаем x^2 - 3*x + 2 = 0
     val x1x2 = quadraticRootProduct(1.0, -3.0, 2.0)
-   /* val time_second= seconds(8,20,35)
-    val dlina_metr= lengthInMeters(8,2,11)
-    val angle_radian= angleInRadian(36,14,35)
-    val dlina_otreska= trackLength(3.0,0.0,0.0,4.0)
-    val number= thirdDigit(3801)
-    val minutes= travelMinutes(9,25,13,1)
-    val account= accountInThreeYears(100,10)
-    val number1= numberRevert(478)*/
     println("Root product: $x1x2")
-   /* println("1. time : $time_second")
-    println("2. length : $dlina_metr")
-    println("3. angle : $angle_radian")
-    println("4. tracklength : $dlina_otreska")
-    println("5. thirddigit : $number")
-    println("6. travelMinutes: $minutes")
-    println("7. account: $account")
-    println("8. number: $number1")*/
 }
 
 /**
@@ -138,8 +123,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int
-{
-    val result= (number-(number/10)*10)*100+(number/10-(number/100)*10)*10+(number/100)
+fun numberRevert(number: Int): Int {
+    val result = (number - (number / 10) * 10) * 100 + (number / 10 - (number / 100) * 10) * 10 + (number / 100)
     return result
 }

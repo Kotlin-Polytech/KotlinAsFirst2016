@@ -57,7 +57,19 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if(n == Int.MAX_VALUE) return 10
+    else if (n == 0) return 1
+    else {
+        var i=0
+        var k=n
+        while (k != 0){
+            i+=1
+            k/=10
+        }
+        return i
+    }
+}
 
 /**
  * Простая
@@ -73,21 +85,49 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    val k1 = Math.max(m, n)
+    var k = m*n
+    for (i in k1..k){
+        if (i % n==0 && i % m==0){
+            k=i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var k=0
+    for (i in 2..n){
+        if (n % i==0){
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k =1
+    for (i in n/2 downTo 1) {
+        if (n%i == 0){
+            k=i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
@@ -157,7 +197,30 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var s = 0
+    var i = 0
+    var t = 0
+    var b = 0
+    while (s < n) {
+        i+=1
+        b = i*i
+        var c = 1
+        var k = 10
+        while ((b/k) != 0){
+            k*=10
+            c+=1
+        }
+        s+=c
+    }
+    if(s==n) return b%10
+    else {
+        for (a in 1..s-n) {
+            b /= 10
+        }
+        return b%10
+    }
+}
 
 /**
  * Сложная

@@ -48,7 +48,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
         val d = Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1))
         val x = r2 - r1
         val y = r2 + r1
-        return if ((x < d && d < y) || (d == y) || (d > y)) false else true
+        return if ((x < d && d < y) || !(d<y)) false else true
     }
 }
 

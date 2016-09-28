@@ -39,9 +39,10 @@ fun ageDescription(age: Int): String {
     // String answer
     // Int last_digit
     val last_digit = age % 10
+    val last_two = age % 100
 
     return when {
-        (last_digit == 0 || last_digit > 4 || (age % 100 >= 10 && age % 100 <= 20)) -> "$age лет"
+        (last_digit == 0 || last_digit > 4 || (last_two >= 10 && last_two <= 20)) -> "$age лет"
         (last_digit == 1) -> "$age год"
         else -> "$age года"
     }

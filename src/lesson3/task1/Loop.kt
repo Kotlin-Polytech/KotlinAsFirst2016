@@ -108,15 +108,10 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var i: Int
+    val s_step = if ( m > n ) m else n
 
-    if (m > n) i = m
-    else i = n
-    val i_step: Int = i
-
-//    while (i % m != 0 || i % n != 0) i++
-    while (i % m != 0 || i % n != 0) i += i_step
-    return i
+    for ( i in s_step .. m*n step s_step ) if ( i%m == 0 && i%n == 0 ) return i
+    return m*n
 }
 
 /**
@@ -169,7 +164,7 @@ fun sin(x: Double, eps: Double): Double {
     var total: Double
 
     i = 3
-    total = x
+    total = x % ( 2.0 * Math.PI )
 
     while (true) {
         part = Math.pow(x, i.toDouble()) / factorial(i)
@@ -194,20 +189,20 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var i: Int
     var part: Double
-    var total: Double
-
-    i = 2
-    total = 1.0
+    var i = 2
+    var total = 1.0
+    val x_min = x % ( 2.0 * Math.PI )
+    
+    
 
     while (true) {
-        part = Math.pow(x, i.toDouble()) / factorial(i)
+        part = Math.pow(x_min, i.toDouble()) / factorial(i)
         i += 2
         total -= part
         if (Math.abs(eps) > Math.abs(part)) break
 
-        part = Math.pow(x, i.toDouble()) / factorial(i)
+        part = Math.pow(x_min, i.toDouble()) / factorial(i)
         i += 2
         total += part
         if (Math.abs(eps) > Math.abs(part)) break
@@ -223,11 +218,8 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var reverted: Int
-    var parameter_n: Int
-
-    parameter_n = n
-    reverted = 0
+    var parameter_n = n
+    var reverted = 0
 
     while (parameter_n > 0) {
         reverted *= 10
@@ -250,7 +242,7 @@ fun isPalindrome(n: Int): Boolean {
     // var current_number_line: String = "$n"
     val current_number_line: String = Integer.toString ( n )
 
-    for (i in 0..current_number_line.length - 1) {
+    for (i in 0..current_number_line.length / 2) {
         if (current_number_line [i] != current_number_line [current_number_line.length - 1 - i]) return false
     }
     return true

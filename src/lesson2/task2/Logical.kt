@@ -60,9 +60,30 @@ fun circleInside(x1: Double, y1: Double, r1: Double, x2: Double, y2: Double, r2:
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return (
-        (a <= r && b <= s) || (b <= r && a <= s) ||
-        (b <= r && c <= s) || (c <= r && b <= s) ||
-        (c <= r && a <= s) || (a <= r && c <= s)
-    )
+    
+	// ===
+	// Нахожу две минимальные грани
+	// Только мне не кажется, что это проще
+	// ===
+	
+	var min_1 : Int
+	var min_2 : Int
+	if ( a < b ) {
+		min_1 = a
+		if ( b < c ) min_2 = b
+		else min_2 = c
+	}
+	else {
+		min_1 = b
+		if ( a < c ) min_2 = a
+		else min_2 = c
+	}
+	
+	return (min_1 <= r && min_2 <= s) || (min_1 <= s && min_2 <= r)
+	
+// 	return (
+//         (a <= r && b <= s) || (b <= r && a <= s) ||
+//         (b <= r && c <= s) || (c <= r && b <= s) ||
+//         (c <= r && a <= s) || (a <= r && c <= s)
+//     )
 }

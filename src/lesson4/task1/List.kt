@@ -126,6 +126,7 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
+	if ( list.isEmpty() ) return list
     val ariphmetical_average : Double = list.sum() / list.size
     for( ( index, element ) in list.withIndex() ) list[index] -= ariphmetical_average
 
@@ -226,7 +227,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = factorize ( n ).toMutableList().joinToString ( "*", "", "", -1, "..." )
+fun factorizeToString(n: Int): String = factorize ( n ).joinToString ( "*", "", "", -1, "..." )
 
 /**
  * Средняя
@@ -236,7 +237,7 @@ fun factorizeToString(n: Int): String = factorize ( n ).toMutableList().joinToSt
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var digit_storage = mutableListOf <Int> ()
+    val digit_storage = mutableListOf <Int> ()
     var current_number : Int = n
 
     if ( n == 0 ) return listOf ( 0 )
@@ -246,9 +247,7 @@ fun convert(n: Int, base: Int): List<Int> {
         digit_storage.add ( current_number % base )
         current_number /= base
     }
-    digit_storage = digit_storage.reversed().toMutableList()
-
-    return digit_storage
+    return digit_storage.reversed()
 }
 
 /**
@@ -295,11 +294,12 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var target : Int = 0
-
-    for ( element in str ) {
-        if ( '0' <= element && element <= '9'  ) target = ( target * base ) + ( element - '0' ).toInt()
-        else target = ( target * base ) + ( element + 10 - 'a' ).toInt()
+	var digit_storage = mutableListOf <Int> ()
+	var target : Int = 0
+	
+	for ( element in str ) digit_storage.add ( element.toInt() )
+	
+	return decimal ( digit_storage, base )
     }
 
     return target
@@ -316,10 +316,10 @@ fun decimalFromString(str: String, base: Int): Int {
 fun roman(n: Int): String {
     var target : String = ""
 
-    val digit_1 : List <String>    = listOf ( "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ) // 1 2 3 4 5 6 7 8 9
-    val digit_10 : List <String>   = listOf ( "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ) // 0 10 20 30 40 50 60 70 80 90
-    val digit_100 : List <String>  = listOf ( "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ) // 0 100 200 300 400 500 600 700 800 900
-//    val digit_1000 : List <String> = listOf ( "", "M", "MM", "MMM", "Mv", "v", "vM", "vMM", "vMMM", "ix" ) // 0 1000 2000 3000 4000 5000 6000 7000 8000 9000
+    val digit_1 : List   = listOf ( "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ) // 1 2 3 4 5 6 7 8 9
+    val digit_10 : List  = listOf ( "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ) // 0 10 20 30 40 50 60 70 80 90
+    val digit_100 : List = listOf ( "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ) // 0 100 200 300 400 500 600 700 800 900
+//    val digit_1000 : List = listOf ( "", "M", "MM", "MMM", "Mv", "v", "vM", "vMM", "vMMM", "ix" ) // 0 1000 2000 3000 4000 5000 6000 7000 8000 9000
 
 
     for ( i in 0 .. ( n / 1000 - 1 ) ) target += "M"

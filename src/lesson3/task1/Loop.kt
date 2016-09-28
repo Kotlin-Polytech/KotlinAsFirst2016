@@ -226,6 +226,7 @@ fun isPalindrome(n: Int): Boolean = if (n == revert(n)) true else false
  */
 fun hasDifferentDigits(n: Int): Boolean {
     if (n in -9..9) return false
+    else if(n%10==0) return true
     else if (n % 10 == 9) {
         return if (n + 1 == Math.pow(10.0, digitNumber(n).toDouble()).toInt()) false else true
     } else {

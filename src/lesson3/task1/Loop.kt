@@ -90,7 +90,24 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var max = 0
+    var min = 0
+    var c = 0
+    if (m > n) {
+        max = m
+        min = n
+    } else {
+        max = n
+        min = m
+    }
+    while (max % min > 0) {
+        c = max
+        max = min
+        min = c % min
+    }
+    return n * m / min
+}
 
 /**
  * Простая
@@ -180,7 +197,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO ()
+fun revert(n: Int): Int {
+    var number = n
+    var buf = 0
+    while (number > 0) {
+        buf *= 10
+        buf += number % 10
+        number /= 10
+    }
+    return buf
+}
 
 /**
  * Средняя
@@ -189,7 +215,10 @@ fun revert(n: Int): Int = TODO ()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    if (revert(n) == n) return true
+    return false
+}
 
 /**
  * Средняя
@@ -197,7 +226,17 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var number = n
+    while (number>9){
+       if (number % 10 == (number % 100)/10)
+           number /= 10
+        else return true
+    }
+    if (number != n%10) return true
+    return false
+}
+
 
 /**
  * Сложная

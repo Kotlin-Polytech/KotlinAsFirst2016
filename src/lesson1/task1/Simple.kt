@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 
+import lesson2.task1.ageDescription
 import lesson3.task1.squareSequenceDigit
 import java.lang.Math.*
 
@@ -44,7 +45,9 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 fun main(args: Array<String>) {
     // Решаем x^2 - 3*x + 2 = 0
     val x1x2 = quadraticRootProduct(1.0, -3.0, 2.0)
+    val b = squareSequenceDigit(5)
     println("Root product: $x1x2")
+    println("b: $b")
 }
 
 /**
@@ -98,9 +101,8 @@ fun thirdDigit(number: Int): Int = number/100-(number/1000)*10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int
-{
-    val t= hoursArrive*60+minutesArrive-(hoursDepart*60+minutesDepart)
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+    val t= (hoursArrive - hoursDepart)*60 + minutesArrive - minutesDepart
     return t
 }
 
@@ -111,10 +113,9 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double
-{
-    val m = (sqr(1+percent*0.01)*(1+percent*0.01))
-    return m*initial
+fun accountInThreeYears(initial: Int, percent: Int): Double {
+    val p = pow( 1+percent*0.01,3.0)
+    return p*initial
 }
 
 /**

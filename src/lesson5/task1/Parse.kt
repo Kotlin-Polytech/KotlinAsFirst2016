@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE", "VARIABLE_WITH_REDUNDANT_INITIALIZER")
+@file:Suppress("UNUSED_PARAMETER")
 
 package lesson5.task1
 
@@ -212,9 +212,8 @@ fun bestHighJump(jumps: String): Int {
     if (jumps == "") return -1
     var maxMax = -1
     var maxI = -1
-    var string = listOf<String>()
     try {
-        string = jumps.split(" ")
+        var string = jumps.split(" ")
         if (string.size % 2 == 1) return -1
         for (i in 0..string.size - 1 step 2) {
             if ((string[i].toInt() > maxMax) && (checkPlus(string[i + 1]) == true)) {
@@ -245,7 +244,7 @@ fun plusMinus(expression: String): Int {
                 && (expression[i] != '-')
                 && (expression[i] != ' ')
                 && (expression[i] !in '0'..'9')))
-            return throw IllegalArgumentException("Description")
+            return throw IllegalArgumentException("IllegalArgumentException")
     var resultExpression = expression
     val parts = resultExpression.split(" ")
     var result = 0
@@ -260,8 +259,8 @@ fun plusMinus(expression: String): Int {
                 if (parts[i - 1] == "-") result -= parts[i].toInt()
                 else result += parts[i].toInt()
         }
-    } catch (e: IllegalArgumentException) {
-        throw IllegalArgumentException()
+    } catch (e: NumberFormatException) {
+        throw NumberFormatException("IllegalArgumentException")
     }
     return result
 }
@@ -285,17 +284,18 @@ fun firstDuplicateIndex(str: String): Int {
     return -1
 }
 
-/**
- * Сложная
- *
- * Строка содержит названия товаров и цены на них в формате вида
- * "Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9".
- * То есть, название товара отделено от цены пробелом,
- * а цена отделена от названия следующего товара точкой с запятой и пробелом.
- * Вернуть название самого дорогого товара в списке (в примере это Курица),
- * или пустую строку при нарушении формата строки.
- * Все цены должны быть положительными
- */
+@Suppress("VARIABLE_WITH_REDUNDANT_INITIALIZER")
+        /**
+         * Сложная
+         *
+         * Строка содержит названия товаров и цены на них в формате вида
+         * "Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9".
+         * То есть, название товара отделено от цены пробелом,
+         * а цена отделена от названия следующего товара точкой с запятой и пробелом.
+         * Вернуть название самого дорогого товара в списке (в примере это Курица),
+         * или пустую строку при нарушении формата строки.
+         * Все цены должны быть положительными
+         */
 fun mostExpensive(description: String): String {
     if (description == "") return ""
     var maxMax = 0.0

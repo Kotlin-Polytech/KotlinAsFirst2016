@@ -88,14 +88,26 @@ fun lcm(m: Int, n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var res:Int = 2
+    while (true){
+        if (n%res==0) return res
+        res++
+    }
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var res:Int = n-1
+    while (true){
+        if (n%res==0) return res
+        res--
+    }
+}
 
 /**
  * Простая
@@ -104,7 +116,16 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var a:Int = m
+    var b:Int = n
+    while ((a!=0) && (b!=0)){
+    if (a>b) a = a % b
+        else b = b % a
+    }
+    if (a+b == 1) return true
+    else return false
+}
 
 /**
  * Простая

@@ -115,6 +115,7 @@ class Tests {
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertFalse(isCoPrime(83648,83648))
     }
 
     @Test

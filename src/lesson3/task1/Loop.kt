@@ -108,7 +108,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = n
-    for (i in 2..n / 2) {
+    for (i in 2..n/2) {
         if (n % i == 0) {
             k = i
             break
@@ -151,7 +151,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
        else  check=true
       return check
     */
-    return lcm(m, n) == m * n
+    return lcm(m, n) == m * n&&m!=n
 }
 
 /**

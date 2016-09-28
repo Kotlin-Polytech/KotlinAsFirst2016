@@ -148,9 +148,9 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val newM = sqrt(m.toDouble())
     val newN = sqrt(n.toDouble())
     val difference = newN.toInt() - newM.toInt()
-
     if (m == n) {
-        if (abs(round(newM) - newM) < 1E-5) return true
+        val roundM = round(newM).toInt()
+        if (roundM*roundM==m) return true
     } else if (difference >= 1) return true
     return false
 }

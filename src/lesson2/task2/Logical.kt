@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -18,7 +19,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    return (number/1000)+((number/100)%10)==(number%10+(number%100)/10)
+    return (number / 1000) + ((number / 100) % 10) == (number % 10 + (number % 100) / 10)
 
 }
 
@@ -29,7 +30,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return x1==x2||y1==y2||Math.abs(x1-x2)==Math.abs(y1-y2)
+    return x1 == x2 || y1 == y2 || Math.abs(x1 - x2) == Math.abs(y1 - y2)
 
 }
 
@@ -54,11 +55,11 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean{
-    var max1=a
-    var max2=b
-    if (a>=b&&a>=c) max1=c
-    else if (b>=a&&b>=c) max2=c
-   return (r>=max1&&s>=max2)||(r>=max2&&s>=max1)
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    var max1 = a
+    var max2 = b
+    if (a >= b && a >= c) max1 = c
+    else if (b >= a && b >= c) max2 = c
+    return (r >= max1 && s >= max2) || (r >= max2 && s >= max1)
 }
 

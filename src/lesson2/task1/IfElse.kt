@@ -146,18 +146,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when{
-
-        (a < c) && (c < b) && (b < d) -> Math.abs(b) - Math.abs(c)
-        (a > c) && (a < d) && (d > b)-> Math.abs(b) - Math.abs(a)
-        (c < a) && (a < d) && (d < b)-> Math.abs(d) - Math.abs(a)
-        (a < c) && (d < b) -> Math.abs(d) - Math.abs(c)
-        (a == b) && (a == c) && (c == d)-> 0
-        (a == b) && (c < b) && (d > b)-> 0
-        (c == d) && (a < c) && (b > c)-> 0
-        (b == c)-> 0
-        (a == d)-> 0
-        else -> -1
-
-    }
+    val indicator: Int
+    if (d >= b && c <= a) indicator = (b - a) else
+        if ((d >= a) && (c <= a) && (d <= b))indicator = (d - a) else
+            if ((c >= a) && (c <= b) && (d >= b)) indicator = (b - c) else
+                if ((c >= a) && (c <= b) && (d <= b)) indicator = (d - c) else indicator = -1
+    return indicator
 }

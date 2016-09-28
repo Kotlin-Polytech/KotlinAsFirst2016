@@ -149,7 +149,23 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var min: Int = 0
+    var k: Int = 0
+    if (m < n){min = m} else {min = n}
+    for (i in 1..min){
+        if (n % i ==0 && m % i == 0){
+            k = i
+        }
+    }
+    if (k == 1){
+        return true
+    } else {
+        return false
+    }
+
+}
+
 
 /**
  * Простая
@@ -158,7 +174,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean{
+    for (i in m..n){
+        if sqrt(i) == sqrt((i/10)*10) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
 
 /**
  * Простая
@@ -167,7 +191,9 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+
+}
 
 /**
  * Простая
@@ -193,7 +219,26 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var h: Int = 10
+    var k: Int = 0
+    var l: Int = 1
+    var s: Int = n
+    while ( s > 0 ) {
+        s = s/ 10
+        k = k + 1
+        l = l * 10
+            }
+    for (i in 1 .. k/2){
+        if (n/h != n/l){
+            return false
+        } else {
+            h = h * 10
+            l / 10
+        }
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -201,7 +246,29 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var s: Int = n
+    var k: Int = 0
+    var k1: Int = 10
+    var k2: Int = 100
+    while ( s > 0 ) {
+        s = s / 10
+        k = k + 1}
+    if (k == 1) {
+        return false
+    } else {
+        s = n
+        for (i in 1..k-1){
+            if ((n%k2 - n%k1)/ 10 != n%k1 ){
+                return true
+            } else {
+                s = s / 10
+
+            }
+        }
+        return false
+    }
+}
 
 /**
  * Сложная
@@ -210,7 +277,30 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var g: Int = 0
+    var s: Int = 0
+    var k: Int = 0
+    var l: Int = 1
+    var f: Int = 10
+    if (n = 1) {
+        return 1
+    } else {
+        for(i in 1 .. n) {
+            k = sqr(i)
+            if (k / f > 0){
+                while (k>0){
+                    k = k / 10
+                    g = g + 1
+                }
+                l =
+
+            }  else continue
+        }
+
+    }
+    return k
+}
 
 
 

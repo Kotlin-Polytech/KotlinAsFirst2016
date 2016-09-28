@@ -107,18 +107,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val cosA = (b * b + c * c - a * a) / (2 * b * c)
+    val cosB = (a * a + c * c - b * b) / (2 * a * c)
+    val cosC = (a * a + b * b - c * c) / (2 * a * b)
     return when {
-        (a + b <= c) || (a + c <= b) || (b + c <= a) -> -1
-        ((a * a + b * b > c * c) && (c >= a) && (c >= b))
-                || ((a * a + c * c > b * b) && (b >= a) && (b >= c))
-                || ((b * b + c * c > a * a) && (a >= b) && (a >= c)) -> 0
-        ((a * a + b * b == c * c) && (c >= a) && (c >= b))
-                || ((a * a + c * c == b * b) && (b >= a) && (b >= c))
-                || ((b * b + c * c == a * a) && (a >= b) && (a >= c)) -> 1
-        ((a * a + b * b < c * c) && (c >= a) && (c >= b))
-                || ((a * a + c * c < b * b) && (b >= a) && (b >= c))
-                || ((b * b + c * c < a * a) && (a >= b) && (a >= c)) -> 2
-        else -> -1
+        ((a + b) <= c) || ((a + c) <= b) || ((b + c) <= a) -> -1
+        (Math.abs(cosA) < 0.00001) || (Math.abs(cosB) < 0.00001) || (Math.abs(cosC) < 0.00001) -> 1
+        (cosA < 0) || (cosB < 0) || (cosC < 0) -> 2
+        else -> 0
     }
 }
 /**

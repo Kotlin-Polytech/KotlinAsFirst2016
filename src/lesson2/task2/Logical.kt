@@ -52,7 +52,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
     }
 }
 
-
 /**
  * Средняя
  *

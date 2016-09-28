@@ -2,6 +2,8 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
+import lesson4.task1.abs
 
 /**
  * Пример
@@ -88,7 +90,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    if (kingX != rookX && kingY != rookY && Math.abs(bishopX - kingX) != Math.abs(bishopY - kingY)) return 0
+    if (kingX == rookX || kingY == rookY && Math.abs(bishopX - kingX) != Math.abs(bishopY - kingY)) return 1
+    if (kingX != rookX && kingY != rookY && Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)) return 2
+    else return 3
+}
 
 
 /**
@@ -100,10 +107,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (sqr(c)<sqr(a)+sqr(b)) return 0
-    if (sqr(c)==sqr(a)+sqr(b)) return 1
-    if (sqr(c)>sqr(a)+sqr(b)) return 2
-    else return  -1
+    if (a+b>c && a+c>b && b+c>a) {
+        val H = if (a>b && a>c) a else if (b>a && b>c) b else c
+        val L = Math.min(a,b)
+        val K = Math.min(L,c)
+        if (sqr(H) <sqr(L)+sqr(K)) return 0
+        if (sqr(H)==sqr(L)+sqr(K)) return 1
+        else return 2
+   }
+    else return -1
 }
 
 /**
@@ -114,4 +126,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if ((b<d && b==c) || (b>d && a==d) || (a==b || c==d) || (a==c && b==d)) return 0
+    if (b>d && a>c) return d-a
+    if (b>d && a<c) return d-c
+    if (b<d && c<a) return b-a
+    if (b<d && c>a) return b-c
+    else return -1
+}

@@ -151,7 +151,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
        else  check=true
       return check
     */
-    return lcm(m, n) == m * n&&m!=n
+    if (m!=n) return lcm(m, n) == m * n
+    else return m==1
 }
 
 /**

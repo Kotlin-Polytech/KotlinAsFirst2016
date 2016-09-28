@@ -3,6 +3,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson4.task1.abs
 
 /**
  * Пример
@@ -35,10 +36,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String  {
-    if (age % 100 == age % 10 + 10) return ("$age лет")
-    else if (age % 10 == 1) return ("$age год")
-    else if ((age % 10 < 5) and (age % 10 >= 2)) return ("$age года")
-    else return ("$age лет")
+    if ((age % 100 >= 10) and (age % 100 <= 20)) return "$age лет"
+    else if (age % 10 == 1) return "$age год"
+    else if ((age % 10 < 5) and (age % 10 >= 2)) return "$age года"
+    else return "$age лет"
 }
 
 
@@ -72,9 +73,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((kingX == rookX1) || (kingY == rookY1)) and ((kingX != rookX2) and (kingY != rookY2))) return 1
-    else if (((kingX != rookX1) and (kingY != rookY1)) and ((kingX == rookX2) || (kingY == rookY2))) return 2
-    else if (((kingX == rookX1) || (kingY == rookY1)) and ((kingX == rookX2) || (kingY == rookY2))) return 3
+    val AttackRockX1: Boolean = (kingX == rookX1) || (kingY == rookY1)
+    val AttackRockX2: Boolean = (kingX == rookX2) || (kingY == rookY2)
+    val NotAttackRockX1: Boolean = (kingX != rookX1) and (kingY != rookY1)
+    val NotAttackRockX2: Boolean = (kingX != rookX2) and (kingY != rookY2)
+    if ((AttackRockX1) and (NotAttackRockX2)) return 1
+    else if ((NotAttackRockX1) and (AttackRockX2)) return 2
+    else if ((AttackRockX1) and (AttackRockX2)) return 3
     else return 0
 }
 
@@ -90,9 +95,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if (((kingX == rookX) || (kingY == rookY)) and ((kingX/kingY != bishopX/bishopY))) return 1
-    else if (((kingX != rookX) and (kingY != rookY)) and ((kingX/kingY == bishopX/bishopY))) return 2
-    else if (((kingX == rookX) || (kingY == rookY)) and ((kingX/kingY == bishopX/bishopY))) return 3
+    val a: Int = (kingX - bishopX)*(kingX - bishopX)
+    val b: Int = (kingY - bishopY)*(kingY - bishopY)
+    if (((kingX == rookX) || (kingY == rookY)) and (a != b)) return 1
+    else if (((kingX != rookX) and (kingY != rookY)) and (a == b)) return 2
+    else if (((kingX == rookX) || (kingY == rookY)) and (a == b)) return 3
     else return 0
 }
 
@@ -123,10 +130,6 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if ((b >= c) and (b <= d) and (a <= c)) return b - c
     else if ((d >= a) and (d <= b) and (c <= a)) return d - a
     else if ((b >= d) and (a <= c)) return d - c
-    else if ((d >= b) and (c <= a)) return b - a
-    else if ((b >= d) and (a >= c) and (a <= d)) return d - a
-    else if ((d >= b) and (c >= a) and (c <= b)) return b - c
     else if ((b >= c) and (b <= d) and (a >= c)) return b - a
-    else if ((d >= a) and (d <= b) and (c >= a)) return d - c
     else return -1
 }

@@ -59,12 +59,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var digits_amount: Int
-    var current_number: Int
-
-    digits_amount = 0
-    current_number = n
-    //current_number = Math.abs( n )
+    var digits_amount = 0
+    var current_number = n
 
     do {
         ++ digits_amount
@@ -82,12 +78,9 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var f: Int
-    var f_prev: Int
+    var f = 1
+    var f_prev = 1
     var f_temp: Int
-
-    f = 1
-    f_prev = 1
 
 
     if (n == 1 || n == 2) return 1
@@ -159,12 +152,9 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i: Int
+    var i = 3
+    var total = x % ( 2.0 * Math.PI )
     var part: Double
-    var total: Double
-
-    i = 3
-    total = x % ( 2.0 * Math.PI )
 
     while (true) {
         part = Math.pow(x, i.toDouble()) / factorial(i)
@@ -238,9 +228,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-
-    // var current_number_line: String = "$n"
-    val current_number_line: String = Integer.toString ( n )
+    val current_number_line = Integer.toString ( n )
 
     for (i in 0..current_number_line.length / 2) {
         if (current_number_line [i] != current_number_line [current_number_line.length - 1 - i]) return false
@@ -265,8 +253,8 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * выравнивание кода - ctrl+alt+l
  */
 fun squareSequenceDigit(n: Int): Int {
-    var last_sequence_element: String = ""
-    var sequence_len: Int = 0
+    var last_sequence_element = ""
+    var sequence_len = 0
 
 //	if (n == 0) return 0
 

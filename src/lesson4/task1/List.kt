@@ -127,7 +127,7 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
 	if ( list.isEmpty() ) return list
-    val ariphmetical_average : Double = list.sum() / list.size
+    val ariphmetical_average = list.sum() / list.size.toDouble()
     for( ( index, element ) in list.withIndex() ) list[index] -= ariphmetical_average
 
     return list
@@ -141,7 +141,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var qbzv : Double = 0.0
+    var qbzv = 0.0
     if ( a.size != b.size ) return 0.0
     for( i in 0..( a.size - 1 ) ) {
         qbzv += a[i] * b[i]
@@ -160,7 +160,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
 
-    var qbzv : Double = 0.0
+    var qbzv = 0.0
 
     for( i in 0..p.size - 1 ) {
         qbzv += p[i] * Math.pow( x, i.toDouble() )
@@ -178,7 +178,7 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var previous_element : Double = 0.0
+    var previous_element = 0.0
     for ( ( index, element ) in list.withIndex() ) {
         list[index] += previous_element
         previous_element = list[index]
@@ -201,7 +201,7 @@ fun number_is_prime(n: Int): Boolean {
 }
 
 fun factorize(n: Int): List<Int> {
-    var current_number: Int = n
+    var current_number = n
     val prime_divisors_storage = mutableListOf <Int> ()
 
     while ( true ) {
@@ -238,9 +238,9 @@ fun factorizeToString(n: Int): String = factorize ( n ).joinToString ( "*", "", 
  */
 fun convert(n: Int, base: Int): List<Int> {
     val digit_storage = mutableListOf <Int> ()
-    var current_number : Int = n
+    var current_number = n
 
-    if ( n == 0 ) return listOf ( 0 )
+    if ( n == 0 ) return listOf(0)
     if ( n < 0 || base < 2 ) return listOf()
 
     while ( current_number > 0 ) {
@@ -260,7 +260,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val digit_storage = convert ( n, base )
-    var digit_line : String = ""
+    var digit_line = ""
 
     if ( n < 0 || base < 2 || base > 36 ) return ""
 
@@ -277,7 +277,7 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var target : Int = 0
+    var target = 0
 
     for ( element in digits ) target = ( target * base ) + element
 
@@ -295,14 +295,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
 	var digit_storage = mutableListOf <Int> ()
-	var target : Int = 0
+	var target = 0
 	
 	for ( element in str ) digit_storage.add ( element.toInt() )
 	
 	return decimal ( digit_storage, base )
-    }
-
-    return target
 }
 
 /**
@@ -314,12 +311,12 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var target : String = ""
+    var target = ""
 
-    val digit_1 : List   = listOf ( "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ) // 1 2 3 4 5 6 7 8 9
-    val digit_10 : List  = listOf ( "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ) // 0 10 20 30 40 50 60 70 80 90
-    val digit_100 : List = listOf ( "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ) // 0 100 200 300 400 500 600 700 800 900
-//    val digit_1000 : List = listOf ( "", "M", "MM", "MMM", "Mv", "v", "vM", "vMM", "vMMM", "ix" ) // 0 1000 2000 3000 4000 5000 6000 7000 8000 9000
+    val digit_1   = listOf ( "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ) // 1 2 3 4 5 6 7 8 9
+    val digit_10  = listOf ( "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ) // 0 10 20 30 40 50 60 70 80 90
+    val digit_100 = listOf ( "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ) // 0 100 200 300 400 500 600 700 800 900
+//    val digit_1000 = listOf ( "", "M", "MM", "MMM", "Mv", "v", "vM", "vMM", "vMMM", "ix" ) // 0 1000 2000 3000 4000 5000 6000 7000 8000 9000
 
 
     for ( i in 0 .. ( n / 1000 - 1 ) ) target += "M"

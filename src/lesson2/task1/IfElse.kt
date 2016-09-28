@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson4.task1.abs
 
 /**
  * Пример
@@ -35,10 +36,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        (age % 10 == 1)and(age % 100 == 11) -> "$age лет"
+        (age % 100 == 11) -> "$age лет"
         (age % 10 == 1)and(age % 100 !== 11) -> "$age год"
-        ((age % 10 > 1) and (age % 10 < 5) and (age % 100 < 15) and (age % 100 > 11)) -> "$age лет"
-        ((age % 10 > 1) and (age % 10 < 5) and (age % 100 > 14)) -> "$age года"
+        ((age % 100 < 15) and (age % 100 > 11)) -> "$age лет"
+        (((age % 10 > 1) and (age % 10 < 5))) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -112,7 +113,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if(((kingX-kingY) == (bishopX-bishopY))or(bishopX-kingX == bishopY-kingY)or(bishopX-kingX == -(bishopY-kingY))){
+    if(((kingX-kingY) == (bishopX-bishopY))or((bishopX-kingX) == (bishopY-kingY))or(bishopX-kingX == -(bishopY-kingY))){
         if((rookX == kingX)or (rookY == kingY))
             return(3)
         else return(2)

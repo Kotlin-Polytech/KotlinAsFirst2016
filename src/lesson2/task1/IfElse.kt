@@ -34,31 +34,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age % 10 == 1) {
-        if (age % 100 == 11) {
-            val str = "$age лет"
-            return (str)
-        } else {
-            val str = "$age год"
-            return (str)
-        }
-    } else {
-        if ((age % 10 > 1) and (age % 10 < 5)) {
-            if ((age % 100 < 15) and (age % 100 > 11)) {
-                val str = "$age лет"
-                return (str)
-            } else {
-                val str = "$age года"
-                return (str)
-            }
-
-        } else {
-            val str = "$age лет"
-            return (str)
-        }
-        }
-
+    return when {
+        (age % 10 == 1)and(age % 100 == 11) -> "$age лет"
+        (age % 10 == 1)and(age % 100 !== 11) -> "$age год"
+        ((age % 10 > 1) and (age % 10 < 5) and (age % 100 < 15) and (age % 100 > 11)) -> "$age лет"
+        ((age % 10 > 1) and (age % 10 < 5) and (age % 100 > 14)) -> "$age года"
+        else -> "$age лет"
     }
+}
 
 /**
  * Простая
@@ -71,21 +54,26 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double  {
     val sAll = (t1*v1+t2*v2+t3*v3)/2
-    if (sAll<t1*v1){
-        val tHalf = sAll/v1
-        return(tHalf)
-    } else {
-        if (sAll<t1*v1+t2*v2) {
-            val sBalance=sAll-t1*v1
-            val tBalance=sBalance/v2
-            val tHalf=t1+tBalance
-            return(tHalf)
+    if (sAll>0) {
+        if (sAll < t1 * v1) {
+            val tHalf = sAll / v1
+            return (tHalf)
         } else {
-            val sBalance=sAll-t1*v1-t2*v2
-            val tBalance=sBalance/v3
-            val tHalf=t1+t2+tBalance
-            return(tHalf)
+            if (sAll < t1 * v1 + t2 * v2) {
+                val sBalance = sAll - t1 * v1
+                val tBalance = sBalance / v2
+                val tHalf = t1 + tBalance
+                return (tHalf)
+            } else {
+                val sBalance = sAll - t1 * v1 - t2 * v2
+                val tBalance = sBalance / v3
+                val tHalf = t1 + t2 + tBalance
+                return (tHalf)
+            }
         }
+    } else{
+        val tHalf = 0.0
+        return (tHalf)
     }
 }
 

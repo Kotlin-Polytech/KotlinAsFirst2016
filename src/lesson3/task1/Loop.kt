@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
-
+import java.lang.Math.*
 /**
  * Пример
  *
@@ -59,7 +59,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int  {
     var count = 0
-    var number = n
+    var number = abs(n)
     do {
         number /=10
         count += 1

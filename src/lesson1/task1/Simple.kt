@@ -97,12 +97,14 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
+fun thirdDigit(number: Int): Int = takeDigit(number, 3)
+
 fun takeDigit(number: Int, digit: Int = 1): Int {
     if (digit < 1) return -1
-    else if (digit == 1) return number%10
+    else if (digit == 1) return number % 10
     else {
-        val shift: Int = pow(10.0,(digit-1).toDouble()).toInt()
-        return if (number >= shift) (number / shift)%10 else -1
+        val shift: Int = pow(10.0, (digit - 1).toDouble()).toInt()
+        return if (number >= shift) (number / shift) % 10 else -1
     }
 }
 

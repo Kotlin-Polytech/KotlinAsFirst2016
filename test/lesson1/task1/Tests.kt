@@ -61,14 +61,10 @@ class Tests {
     }
 
     @Test
-    fun takeDigit() {
-        assertEquals(8, takeDigit(3801,3))
-        assertEquals(1, takeDigit(100,3))
-        assertEquals(0, takeDigit(1000,3))
-        assertEquals(-1, takeDigit(3801,-2))
-        assertEquals(-1, takeDigit(1000,100))
-        assertEquals(8, takeDigit(8))
-        assertEquals(3, takeDigit(1453))
+    fun thirdDigit() {
+        assertEquals(8, thirdDigit(3801))
+        assertEquals(1, thirdDigit(100))
+        assertEquals(0, thirdDigit(1000))
     }
 
     @Test

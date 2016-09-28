@@ -2,6 +2,8 @@
 package lesson3.task1
 
 import lesson1.task1.numberRevert
+import lesson1.task1.sqr
+import lesson1.task1.takeDigit
 
 
 /**
@@ -83,7 +85,7 @@ fun fib(n: Int): Int {
     else if (n > 2) {
         for (i in 3..n) {
             val temp = result
-            result = result + last
+            result += last
             last = temp
         }
     } else result = -1
@@ -119,10 +121,10 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    if (n<=1) return -1
+    if (n <= 1) return -1
     else {
-        for(i in 2..Math.sqrt(n.toDouble()).toInt()) {
-            if (n%i==0) return i
+        for (i in 2..Math.sqrt(n.toDouble()).toInt()) {
+            if (n % i == 0) return i
         }
         return n
     }
@@ -133,7 +135,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = n/minDivisor(n)
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -142,7 +144,7 @@ fun maxDivisor(n: Int): Int = n/minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = if (gcd(m,n)==1) true else false
+fun isCoPrime(m: Int, n: Int): Boolean = if (gcd(m, n) == 1) true else false
 
 /**
  * Простая
@@ -152,8 +154,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = if (gcd(m,n)==1) true else false
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()+1) {
-        if (i*i in m..n) return true
+    for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt() + 1) {
+        if (i * i in m..n) return true
     }
     return false
 }
@@ -165,7 +167,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var element: Double = x
+    var result: Double = 0.0
+    var n: Int = 1
+    while (Math.abs(element) >= eps) {
+        result += element
+        val degree: Double = (2 * n + 1).toDouble()
+        element = (Math.pow(-1.0, n.toDouble()) * Math.pow(x, degree)) / (factorial(degree.toInt()))
+        n++
+    }
+    return result
+}
+
 
 /**
  * Простая
@@ -174,7 +188,18 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var element: Double = 1.0
+    var result: Double = 0.0
+    var n: Int = 1
+    while (Math.abs(element) >= eps) {
+        result += element
+        val degree: Double = (2 * n).toDouble()
+        element = (Math.pow(-1.0, (n).toDouble()) * Math.pow(x, degree)) / (factorial(degree.toInt()))
+        n++
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -216,7 +241,17 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var count: Int = 0
+    var number: Int = 1
+    var temp: Int = 0
+    while (n > count) {
+        temp = sqr(number.toDouble()).toInt()
+        count += digitNumber(temp)
+        number++
+    }
+    return takeDigit(temp, count - n + 1)
+}
 
 /**
  * Сложная
@@ -225,4 +260,14 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var count: Int = 0
+    var number: Int = 1
+    var temp: Int = 0
+    while (n > count) {
+        temp = fib(number)
+        count += digitNumber(temp)
+        number++
+    }
+    return takeDigit(temp, count - n + 1)
+}

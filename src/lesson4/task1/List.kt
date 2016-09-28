@@ -105,26 +105,16 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    val n = v.size
-    var length = 0.0
-    for (i in 0..n - 1) {
-        length += v[i] * v[i]
-    }
-    return Math.sqrt(length)
-}
+fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    val n: Int = list.size
-    var length: Double = 0.0
-    for (i in 0..n - 1) length += list[i]
-    if (n == 0) return 0.0 else return length / n.toDouble()
-}
+fun mean(list: List<Double>): Double =
+        if (list.size == 0) 0.0 else list.sum() / list.size.toDouble()
+
 
 /**
  * Средняя
@@ -132,11 +122,7 @@ fun mean(list: List<Double>): Double {
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> {
-    var arifm = mean(list)
-    for (i in 0..list.size - 1) list[i] = list[i] - arifm
-    return list
-}
+fun center(list: MutableList<Double>): MutableList<Double> = list.map { it - mean(list) }.toMutableList()
 
 
 /**
@@ -226,14 +212,9 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     var list: List<Int>
-    var s = ""
     list = factorize(n)
-    for (i in 0..list.size - 1) {
-        if (i != list.size - 1) s = s + (list[i]).toString() + "*"
-        else s += (list[i]).toString()
+    return list.joinToString("*")
 
-    }
-    return s
 }
 
 /**

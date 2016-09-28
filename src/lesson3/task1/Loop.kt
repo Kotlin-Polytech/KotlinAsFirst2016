@@ -129,14 +129,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val nn = Math.max(m, n)
-    var failed: Boolean = false
-    for (i in 2..nn) {
-        if ((n % i == 0) && (m % i == 0)) failed = true
-    }
-    if (failed == true) return false else return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (nod(m, n) > Math.min(m, n)) || (nod(m, n) == 1)
 
 /**
  * Простая
@@ -148,8 +141,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun sqr(x: Double) = x * x
 
 fun squareBetweenExists(m: Int, n: Int): Boolean =
-        if (m <= sqr(sqrt(n.toDouble()).toInt().toDouble()) && sqr(sqrt(n.toDouble()).toInt().toDouble()) <= n) true
-        else false
+        m <= sqr(sqrt(n.toDouble()).toInt().toDouble()) && sqr(sqrt(n.toDouble()).toInt().toDouble()) <= n
+
 
 /**
  * Простая
@@ -160,14 +153,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean =
  */
 fun sin(x: Double, eps: Double): Double {
     var i = 0
-    var sinus: Double = x
-    var number: Double = x
-    while (Math.abs(number) * 1000 > eps) {
+    val xx = x % (2 * Math.PI)
+    var sinus: Double = xx
+    var number: Double = xx
+    while (Math.abs(number) > eps) {
         i++
-        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
+        number = Math.pow(xx, i * 2.0 + 1) / factorial(i * 2 + 1)
         if (i % 2 == 1) sinus -= number
         else sinus += number
-
     }
     return sinus
 }
@@ -182,11 +175,12 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var i = 0
+    val xx = x % (2 * Math.PI)
     var cosus: Double = 1.0
-    var number: Double = x
-    while (Math.abs(number) * 1000 > eps) {
+    var number: Double = xx
+    while (Math.abs(number) > eps) {
         i++
-        number = Math.pow(x, i * 2.0) / factorial(i * 2)
+        number = Math.pow(xx, i * 2.0) / factorial(i * 2)
         if (i % 2 == 1) cosus -= number
         else cosus += number
 
@@ -224,7 +218,7 @@ fun isPalindrome(n: Int): Boolean {
         answer = answer * 10 + nn % 10
         nn /= 10
     }
-    if (answer == n) return true else return false
+    return (answer == n)
 }
 
 /**
@@ -236,12 +230,11 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean {
     var memory = n % 10
     var nn = n
-    var failed = true
     while (nn > 0) {
-        if (nn % 10 != memory) failed = false
+        if (nn % 10 != memory) return true
         nn /= 10
     }
-    if (failed == false) return true else return false
+    return false
 }
 
 /**
@@ -251,15 +244,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun quantity(n: Int): Int {
-    var r = 0
-    var nn = n
-    while (nn > 0) {
-        nn /= 10
-        r++
-    }
-    return r
-}
+fun quantity(n: Int): Int = n.toString().length
 
 fun squareSequenceDigit(n: Int): Int {
     var i = 0

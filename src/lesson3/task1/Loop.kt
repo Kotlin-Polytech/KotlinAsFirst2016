@@ -64,7 +64,8 @@ fun digitNumber(n:Int): Int  {
         number /=10
         count += 1
     }while (number > 0)
- return count
+    return if (n==-2147483648)10
+    else return count
 }
 
     /**

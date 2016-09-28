@@ -58,16 +58,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    if(n == Int.MAX_VALUE) return 10
-    else if (n == 0) return 1
-    else {
-        var i=0
-        var k=n
-        while (k != 0){
-            i+=1
-            k/=10
-        }
-        return i
+    var i = 0
+    var k = n
+    while (k != 0) {
+        i += 1
+        k /= 10
+    }
+   return when {
+        n == Int.MAX_VALUE -> 10
+        n ==  0 -> 1
+        else    -> i
     }
 }
 
@@ -200,7 +200,6 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
 fun squareSequenceDigit(n: Int): Int {
     var s = 0
     var i = 0
-    var t = 0
     var b = 0
     while (s < n) {
         i+=1

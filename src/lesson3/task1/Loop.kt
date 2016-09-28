@@ -206,7 +206,10 @@ return newNumber
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    val number:Int= revert(n)
+    if (n==number) return true else return false
+}
 
 /**
  * Средняя

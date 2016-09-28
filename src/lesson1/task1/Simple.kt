@@ -107,7 +107,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
   val p=percent/100.0 +1
-    return (initial*p*p*p)
+    return initial*p*p*p
 }
 
 /**
@@ -117,5 +117,5 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int  {
-    return(number%10*100+(number/10%10)*10+number/100)
+    return number%10*100+(number/10%10)*10+number/100
 }

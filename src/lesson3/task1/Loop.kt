@@ -142,7 +142,7 @@ fun revert(n: Int): Int = TODO()
  */
 fun isPalindrome(n: Int): Boolean = TODO()
 
-/**
+/**s
  * Средняя
  *
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.

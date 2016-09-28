@@ -161,7 +161,7 @@ fun isPalindrome(n: Int): Boolean {
         invertedNumber = ((invertedNumber*10) + (number%10))
         number /= 10
     }
-    return (invertedNumber == number)
+    return (invertedNumber == n)
 }
 
 /**

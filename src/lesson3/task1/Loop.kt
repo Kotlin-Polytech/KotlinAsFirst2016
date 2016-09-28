@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson1.task1.sqr
+
 /**
  * Пример
  *
@@ -58,10 +60,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
+
     if (n==0) return 1
     else {
         var counter: Int = 0
-        var ns: Int = n
+        var ns: Int =Math.abs(n)
         while (ns >= 1) {
             ns /= 10
             counter++
@@ -149,6 +152,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
+    if (m%n==0) return false
     for (i in 2..n-1){
         if ((m%i==0)&&(n%i==0)) return(false)
     }
@@ -163,7 +167,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in 1..n){
+    for (i in 0..n){
         if (i*i in m..n) return true
     }
     return false
@@ -178,15 +182,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 
 fun sin(x: Double, eps: Double): Double {
-    var i=0
+    var counter=0
     var sinus:Double=x
     var number:Double=x
     while (Math.abs(number)>eps) {
-        i++
-        number=Math.pow(x,i*2.0+1)/factorial(i*2+1)
-        if (i%2==1) sinus=sinus-number
-        else  sinus=sinus+number
-
+        counter++
+        number=Math.pow(x,counter*2.0+1)/factorial(counter*2+1)
+        if (counter%2==1) sinus=sinus-number
+        else  sinus+=number
     }
     return sinus
 }
@@ -238,13 +241,25 @@ fun cos(x: Double, eps: Double): Double {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
+
 fun isPalindrome(n: Int): Boolean {
     if (n/10==0) return true
     val firstnumber:Int=n%10
-    val secondnumber:Int=n%100
-    val revertnum:Int=revert(n)
-    if ((firstnumber==revertnum%10)&&(secondnumber==revertnum%100)) return true
-    else return false
+    val secondnumber:Int=n%100/10
+    var nforwhile:Int=n
+    var counter:Int=0
+    while (nforwhile>0){
+        nforwhile/=10
+        counter++
+    }
+    nforwhile=1
+    for (i in 1..counter){
+        nforwhile*=10
+    }
+    val revertnumfirst:Int=n/(nforwhile/10)
+    val revertnumsecond:Int=n/(nforwhile/100)%10
+    if ((firstnumber==revertnumfirst)&&(secondnumber==revertnumsecond)) return true
+    return false
 }
 
 /**
@@ -263,24 +278,21 @@ fun hasDifferentDigits(n: Int): Boolean = if ((n.toString().filter {it == n.toSt
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var result = "1"
-    var num: Int = 1
-    if (n == 1) return 1
-    else while (result.length <= n) {
-        num++
-        result = result + (num * num).toString()
+    var i = 0
+    var number=0
+    var resalt=0
+    while (number < n) {
+        i++
+        number=number+ quantity(i*i)
     }
-
-    return result[n-1].toString().toInt()
+    resalt=i*i
+    for (i in n..number-1){
+        resalt=resalt/10
+    }
+    return (resalt%10)
 }
-/**
- * Сложная
- *
- * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
- * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
- */
-fun placeinnumber(n: Int): Int {
+
+fun quantity(n: Int): Int {
     var r: Int = 0
     var nn: Int = n
     while (nn > 0) {
@@ -289,18 +301,30 @@ fun placeinnumber(n: Int): Int {
     }
     return r
 }
-fun fibSequenceDigit(n: Int): Int  {
+
+/**
+ * Сложная
+ *
+ * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
+ * 1123581321345589144...
+ * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
+ */
+
+
+
+fun fibSequenceDigit(n: Int): Int {
     var i = 0
     var number=0
-    var result=0
+    var resalt=0
     while (number < n) {
         i++
-        number=number+ placeinnumber(fib(i))
+        number=number+ quantity(fib(i))
     }
-    result=fib(i)
+    resalt=fib(i)
     for (i in n..number-1){
-        result=result/10
+        resalt=resalt/10
     }
-    return (result%10)
+    return (resalt%10)
 }
+
 

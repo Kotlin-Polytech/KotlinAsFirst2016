@@ -15,7 +15,7 @@ class Tests {
         assertEquals(3628800.0, factorial(10), 1e-5)
         assertEquals(2.43290200817664E18, factorial(20), 1E10)
     }
-
+/**
     @Test
     @Tag("Example")
     fun isPrime() {
@@ -39,7 +39,7 @@ class Tests {
         }
         assertEquals(665579, count)
     }
-
+*/
     @Test
     @Tag("Example")
     fun isPerfect() {
@@ -65,6 +65,8 @@ class Tests {
         assertEquals(2, digitNumber(99))
         assertEquals(3, digitNumber(123))
         assertEquals(10, digitNumber(Int.MAX_VALUE))
+        assertEquals(1, digitNumber(9))
+        assertEquals(9, digitNumber(-367788666))
     }
 
     @Test
@@ -115,6 +117,7 @@ class Tests {
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertFalse(isCoPrime(98898, 2))
     }
 
     @Test
@@ -124,6 +127,7 @@ class Tests {
         assertTrue(squareBetweenExists(21, 28))
         assertFalse(squareBetweenExists(51, 61))
         assertFalse(squareBetweenExists(999, 1001))
+        assertTrue(squareBetweenExists(0, 0))
     }
 
     @Test
@@ -162,6 +166,7 @@ class Tests {
         assertFalse(isPalindrome(3653))
         assertTrue(isPalindrome(15751))
         assertTrue(isPalindrome(24688642))
+        assertFalse(isPalindrome(2147483647))
     }
 
     @Test
@@ -183,6 +188,7 @@ class Tests {
         assertEquals(6, squareSequenceDigit(12))
         assertEquals(0, squareSequenceDigit(17))
         assertEquals(9, squareSequenceDigit(27))
+        assertEquals(6, squareSequenceDigit(361129))
     }
 
     @Test

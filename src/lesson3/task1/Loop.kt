@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 
 package lesson3.task1
-import lesson1.task1.sqr
 
 
 /**
@@ -135,15 +134,9 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (m < 2 || n < 2) return false
-    if (m > n)
-        for (k in 2..m - 1) {
-            if (n % k == 0 && m % k == 0) return false
-        }
-    else for (k in 2..n - 1) {
-        if (n % k == 0 && m % k == 0) return false
-    }
-    return true
+    val nok = lcm(m, n).toDouble()
+    if ((m * n).toDouble() / nok == 1.0) return true
+    else return false
 }
 /**
  * Простая
@@ -169,18 +162,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double {
-    var k = 0
-    var sinus: Double = x
-    var number: Double = x
-    while (Math.abs(number)*1000.0 > eps) {
-        k++
-        number = Math.pow(x, k*2.0+1)/factorial(k*2+1)
-        if (k%2 == 1) sinus -= number
-        else sinus += number
-    }
-    return sinus
-}
+fun sin(x: Double, eps: Double): Double = TODO()
 
 /**
  * Простая
@@ -200,11 +182,11 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var number = n
     var newnumber: Int = 0
-    if (n==0) newnumber = 0 else
-    while (number > 0) {
-        newnumber = (newnumber * 10 + number%10)
-        number/=10
-    }
+    if (n == 0) newnumber = 0 else
+        while (number > 0) {
+            newnumber = (newnumber * 10 + number % 10)
+            number /= 10
+        }
     return newnumber
 }
 /**
@@ -214,7 +196,10 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    val k: Int = revert(n)
+    if (n - k == 0) return true else return false
+}
 /**
  * Средняя
  *
@@ -231,12 +216,12 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var string1:String = ""
+    var string1: String = ""
 
     for (i in 1..n) {
-        string1 += (i*i).toString()
-    if (string1.length >=n) break}
-    return string1[n-1].toString().toInt()
+        string1 += (i * i).toString()
+    }
+    return string1[n - 1].toString().toInt()
 }
 
 /**

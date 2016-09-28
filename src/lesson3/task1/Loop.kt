@@ -133,7 +133,17 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var x = 0
+    if (m > n) x = m
+    else x = n
+    var s = 0
+    for (i in x downTo 1) {
+        if (m % i == 0 && n % i == 0) s++
+    }
+    if (s == 1) return true
+    else return false
+}
 
 /**
  * Простая
@@ -142,7 +152,12 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
+        if (i*i in m..n) return true
+    }
+    return false
+}
 
 /**
  * Простая
@@ -151,7 +166,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var a = x - x*x*x
+    var s = 3
+    var k = 1
+    var b = 1.0
+    while (Math.abs(a) >= eps)  {
+        for (i in 1..s+2) b *= x
+        a /= (factorial(s) + k * b)
+        s += 2
+        k *= -1
+        b = 1.0
+    }
+    return a
+}
 
 /**
  * Простая

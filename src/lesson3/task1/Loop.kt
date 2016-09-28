@@ -57,19 +57,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n:Long): Int  {
+fun digitNumber(n:Int): Int  {
     var count = 0
     var number = abs(n)
     do {
         number /=10
         count += 1
     }while (number > 0)
-return count
+ return count
 }
-fun main(args: Array<String>) {
-    val result = digitNumber(-2147483678)
-    println("Result: $result")
-}
+
     /**
      * Простая
      *

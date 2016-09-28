@@ -57,7 +57,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int  {
+    var count = 0
+    var number = n
+    do {
+        number /=10
+        count += 1
+    }while (n > 0)
+return count
+}
 
 /**
  * Простая
@@ -73,7 +81,13 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var multiple = (m*n)
+    for (i in multiple downTo 1){
+        if ((i%m == 0) && (i%n == 0)) multiple = i
+    }
+    return multiple
+}
 
 /**
  * Простая
@@ -140,7 +154,15 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var number = n
+    var invertedNumber=0
+    while (number > 0) {
+        invertedNumber = ((invertedNumber*10) + (number%10))
+        number /= 10
+    }
+    return (invertedNumber == number)
+}
 
 /**
  * Средняя

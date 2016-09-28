@@ -42,9 +42,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if ((Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2) + r1) <= r2) and (r1 <= r2)) return true
+    if ((Math.sqrt(sqr(x2 - x1)+ sqr(y2 - y1)) <= (r2-r1)) and (r1 <= r2)) return true
     else return false
-    
 }
 
 /**
@@ -57,15 +56,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val min1: Int = Math.min(Math.min(a,b),c)
-    val min2: Int = Math.min(r,s)
-    val max1: Int = Math.max(Math.max(a,b),c)
-    val max3: Int = Math.max(r,s)
-    var middle: Int = 1
-    if ((min1 < a) and (a > max1)) middle = a
-    else if ((min1 < b) and (b > max1)) middle = b
-    else middle = c
-    if (min1 <= min2) { if (middle <= max3) return true
-    else return false }
+    if ((r >= a) and ((s >= b) || (s >= c))) return true
+    else if ((r >= b) and ((s >= b) || (s >= a))) return true
+    else if ((r >= c) and ((s >= b) || (s >= a))) return true
     else return false
 }

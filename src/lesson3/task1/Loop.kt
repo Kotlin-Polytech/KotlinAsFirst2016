@@ -66,6 +66,7 @@ fun digitNumber(n: Int): Int {
         count++
         n1 /= 10
     }
+    if (count >= 10) return 10
     return count
 }
 

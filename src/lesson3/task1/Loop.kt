@@ -77,7 +77,7 @@ fun fib(n: Int): Int {
     val sq = sqrt(5.0)
     val doubleN = n.toDouble()
     val result: Double
-    if(n>10){
+    if (n > 10) {
         result = (1 / sq * (pow((1 + sq) / 2, doubleN)))
     } else {
         result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
@@ -91,15 +91,16 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun nod(m: Int, n: Int): Int = when{
-    m==0 -> n
-    n==0 -> m
-    m>=n -> nod(m%n,n)
-    n>m -> nod(n%m,m)
+fun nod(m: Int, n: Int): Int = when {
+    m == 0 -> n
+    n == 0 -> m
+    m >= n -> nod(m % n, n)
+    n > m -> nod(n % m, m)
     else -> 0
 }
+
 fun lcm(m: Int, n: Int): Int {
-    return (m*n)/nod(m,n)
+    return (m * n) / nod(m, n)
 }
 
 /**
@@ -108,8 +109,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for(i in 2..n/2) {
-        if(n%i==0) return i
+    for (i in 2..n / 2) {
+        if (n % i == 0) return i
     }
     return n
 }
@@ -120,8 +121,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for(i in n/2 downTo 2){
-        if(n%i==0) return i
+    for (i in n / 2 downTo 2) {
+        if (n % i == 0) return i
     }
     return 1
 }
@@ -133,7 +134,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int) = nod(m,n)==1
+fun isCoPrime(m: Int, n: Int) = nod(m, n) == 1
 
 /**
  * Простая
@@ -146,11 +147,11 @@ fun isCoPrime(m: Int, n: Int) = nod(m,n)==1
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val newM = sqrt(m.toDouble())
     val newN = sqrt(n.toDouble())
-    val difference = newN.toInt()-newM.toInt()
+    val difference = newN.toInt() - newM.toInt()
 
-    if(m==n) {
-        if(newM==newM-newM%1) return true
-    } else if(difference>=1) return true
+    if (m == n) {
+        if (abs(round(newM) - newM) < 1E-5) return true
+    } else if (difference >= 1) return true
     return false
 }
 /**
@@ -163,16 +164,16 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var y = 1.0
     var newX = x
-    if(abs(x)>2*PI) newX = x%(2*PI)
+    if (abs(x) > 2 * PI) newX = x % (2 * PI)
     var z = newX
 
     val moduleEps = abs(eps)
     var result: Double
-    do{
-        result = pow((-1.0),y) * pow(newX,2*y+1) / factorial((2*y+1).toInt())
+    do {
+        result = pow((-1.0), y) * pow(newX, 2 * y + 1) / factorial((2 * y + 1).toInt())
         z += result
         y += 1
-    } while(abs(result) >= moduleEps)
+    } while (abs(result) >= moduleEps)
     return z
 }
 
@@ -190,12 +191,12 @@ fun cos(x: Double, eps: Double): Double {
     val moduleEps = abs(eps)
     var result: Double
     var newX = x
-    if(abs(x)>2*PI) newX = x%(2*PI)
-    do{
-        result = pow((-1.0),y) * pow(newX,2*y) / factorial((2*y).toInt())
+    if (abs(x) > 2 * PI) newX = x % (2 * PI)
+    do {
+        result = pow((-1.0), y) * pow(newX, 2 * y) / factorial((2 * y).toInt())
         z += result
         y += 1
-    } while(abs(result) >= moduleEps)
+    } while (abs(result) >= moduleEps)
     return z
 }
 
@@ -208,10 +209,10 @@ fun cos(x: Double, eps: Double): Double {
 fun revert(n: Int): Int {
     var newN = n
     var revertN = 0
-    do{
-        revertN = (revertN*10)+newN%10
-        newN /=10
-    } while (newN!=0)
+    do {
+        revertN = (revertN * 10) + newN % 10
+        newN /= 10
+    } while (newN != 0)
     return revertN
 }
 
@@ -222,7 +223,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int) = revert(n)==n
+fun isPalindrome(n: Int) = revert(n) == n
 
 /**
  * Средняя
@@ -232,11 +233,11 @@ fun isPalindrome(n: Int) = revert(n)==n
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var newN = n
-    do{
-        if (newN/10==0) break
-        if(newN%10!=(newN/10)%10) return true
-        newN/=10
-    } while(newN!=0)
+    do {
+        if (newN / 10 == 0) break
+        if (newN % 10 != (newN / 10) % 10) return true
+        newN /= 10
+    } while (newN != 0)
     return false
 }
 
@@ -251,16 +252,16 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var x: Int //переменная для подсчета квадратов
     var y = 0//переменная для подсчета номера цифры
-    do{
-        x=i*i
+    do {
+        x = i * i
         y += digitNumber(x) //Считаем сколько цифр содержится в числе "х", вызывая метод из данного класса. Увеличиваем "y" на кол-во цифр в новом числе
-        if(y>=n) break
+        if (y >= n) break
         i++
     } while (true)
-    for(j in 1..y-n){
-        x/=10
+    for (j in 1..y - n) {
+        x /= 10
     }
-    return x%10
+    return x % 10
 }
 
 /**
@@ -274,15 +275,15 @@ fun fibSequenceDigit(n: Int): Int {
     var i = 1
     var x: Int //переменная для подсчета факториалов
     var y = 0//переменная для подсчета номера цифры
-    do{
-        x=fib(i)
+    do {
+        x = fib(i)
         y += digitNumber(x) //Считаем сколько цифр содержится в числе "х", вызывая метод из данного класса. Увеличиваем "y" на кол-во цифр в новом числе
-        if(y>=n) break
+        if (y >= n) break
         i++
     } while (true)
-    for(j in 1..y-n){
-        x/=10
+    for (j in 1..y - n) {
+        x /= 10
     }
-    return x%10
+    return x % 10
 }
 

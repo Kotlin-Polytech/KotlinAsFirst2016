@@ -63,7 +63,7 @@ fun digitNumber(n: Int): Int  {
     do {
         number /=10
         count += 1
-    }while (n > 0)
+    }while (number > 0)
 return count
 }
 

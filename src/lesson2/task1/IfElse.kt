@@ -56,8 +56,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s0=t1*v1+t2*v2+t3*v3
     val s=s0/2.0
     return if (s<=t1*v1)(s/v1)
-    else if((s<(t1*v1)+(t2*v2)) && (s>t1*v1)) (t1+((s-t1*v1)/v2))
-    else if((s<(t1*v1)+(t2*v2)+(t3*v3)) && (s>(t1*v1)+(t2*v2))) (t1+t2+((s-(t1*v1+t2*v2))/v3))
+    else if((s<=(t1*v1)+(t2*v2)) && (s>t1*v1)) (t1+((s-t1*v1)/v2))
+    else if((s<=(t1*v1)+(t2*v2)+(t3*v3)) && (s>(t1*v1)+(t2*v2))) (t1+t2+((s-(t1*v1+t2*v2))/v3))
     else (Double.NaN)
 
 }

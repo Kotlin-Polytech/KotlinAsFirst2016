@@ -58,8 +58,8 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean{
     //return(a<=r&&b<=s||b<=r&&a<=s||a<=r&&c<=s||c<=r&&a<=s||c<=r&&b<=s||b<=r&&c<=s)
     var max1=a
     var max2=b
-    if (a>b&&a>c) max1=c
-    else if (b>a&&b>c) max2=c
-   return r>=max1&&s>=max2||r>=max2&&s>=max1
+    if (a>=b&&a>=c) max1=c
+    else if (b>=a&&b>=c) max2=c
+   return (r>=max1&&s>=max2)||(r>=max2&&s>=max1)
 }
 

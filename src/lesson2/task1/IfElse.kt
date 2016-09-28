@@ -101,11 +101,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     else if (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)) return 2
     else return 0  */
 
-    var danger1=0
-    var danger2=0
-    if ((kingX==rookX)||(kingY==rookY)) danger1=1
-    if (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)) danger2=2
-    return danger1+danger2
+    var dangerRook=0
+    var dangerBishop=0
+    if ((kingX==rookX)||(kingY==rookY)) dangerRook=1
+    if (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)) dangerBishop=2
+    return dangerRook+dangerBishop
 }
 
 /**
@@ -117,9 +117,22 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a + b <= c) || (a + c <= b) || (c + b <= a)) return -1
-    else if ((a * a + b * b == c * c) || (c * c + b * b == a * a) || (a * a + c * c == b * b)) return 1
-    else if ((a * a + b * b <= c * c) || (c * c + b * b <= a * a) || (a * a + c * c <= b * b)) return 2
+    var max=a
+    var side1=b
+    var side2=c
+    if (b>=a&&b>=c){
+        max=b
+        side1=a
+        side2=c
+    }
+    else if (c>=a&&c>=b){
+        max=c
+        side1=a
+        side2=b
+    }
+    if (max>side1+side2 ) return -1
+    else if (side1*side1+side2*side2 == max*max) return 1
+    else if (side1*side1+side2*side2 <= max*max) return 2
     else return 0
 }
 

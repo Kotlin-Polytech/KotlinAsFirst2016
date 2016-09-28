@@ -90,8 +90,6 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     val gcd = gcd(m, n)
     return m * n / gcd
-
-
 }
 
 fun gcd(m: Int, n: Int): Int {
@@ -191,7 +189,6 @@ fun revertLong(n: Int): Long {
         cn /= 10
         i--
     }
-
     return rn
 }
 
@@ -223,12 +220,19 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun pow (n: Int, p: Int): Int {
     var np = n
     if (p == 0) return 1
-    for (i in 2..p) np *= n
+    for (i in 2..p) {
+        np *= n
+        if (p % 2 == 0 && p / 2 == i)
+            return np*np
+        if (p / 2 == i)
+            return np*np*n
+
+    }
     return np
 }
 
 fun main(args: Array<String>) {
-    println(pow(2,10))
+    println(pow(2, 8))
 }
 
 /**

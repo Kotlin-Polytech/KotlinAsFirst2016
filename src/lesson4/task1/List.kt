@@ -125,11 +125,11 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    val sum = 0.0
+    var sum = 0.0
 
     if (list.isEmpty()) return 0.0
 
-    list.sum()
+    sum = list.sum()
 
     return sum/list.size
 }
@@ -191,7 +191,7 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    val newList = mutableListOf<Double>()
+    var newList = mutableListOf<Double>()
     if (list.isEmpty()) return list
     newList.add(list[0])
     for (i in 1..list.size - 1) {
@@ -208,8 +208,8 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 
 fun factorize(n: Int): List<Int> {
-    if (n > guaranteedToWork.readText().toInt()) {
-        makePrimes(guaranteedToWork.readText().toInt(), n)
+    if (n/2 > guaranteedToWork.readText().toInt()/2) {
+        makePrimes(guaranteedToWork.readText().toInt(), n/2)
         return trueFactorize(n)
     } else {
         return trueFactorize(n)
@@ -249,7 +249,7 @@ fun makePrimes(from: Int, to: Int) {
 }
 
 fun main(args: Array<String>) {
-    factorize(200)
+    factorize(650960)
 }
 
 fun guaranteedToWorkWriter(n: Int) = guaranteedToWork.writeText("$n")

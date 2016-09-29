@@ -300,6 +300,7 @@ fun squareSequenceDigit(n: Int): Int {
     for (n..number-1) result/=10
 
     return (result % 10)
+
 }
 
 /**

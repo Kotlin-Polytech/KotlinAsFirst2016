@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+//import lesson1.task1.lengthInMeters
 
 /**
  * Пример
@@ -89,4 +90,18 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if ((a <= c) && (b >= c) && (b <= d)) {
+        val seg = b - c
+        return seg
+    } else if ((c <= a) && (b >= d) && (a <= d)) {
+        val seg = d - a
+        return seg
+    } else  if ((c <= a) && (b >= c) && (b <= d)) {
+        val seg = b - a
+        return seg
+    } else if ((a <= c) && (b >= d) && (a <= d)) {
+        val seg = d - c
+        return seg
+    } else return (-1)
+}

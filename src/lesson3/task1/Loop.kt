@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson8.task1.countSubstrings
+
 /**
  * Пример
  *
@@ -57,7 +59,45 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n < 100000) {
+        if (n < 100) {
+            if (n < 10) {
+                return 1
+            } else {
+                return 2
+            }
+        } else {
+            if (n < 1000) {
+                return 3
+            } else {
+                if (n < 10000) {
+                    return 4
+                } else {
+                    return 5
+                }
+            }
+        }
+    } else {
+        if (n < 10000000) {
+            if (n < 1000000) {
+                return 6
+            } else {
+                return 7
+            }
+        } else {
+            if (n < 100000000) {
+                return 8
+            } else {
+                if (n < 1000000000) {
+                    return 9
+                } else {
+                    return 10
+                }
+            }
+        }
+    }
+}
 
 /**
  * Простая

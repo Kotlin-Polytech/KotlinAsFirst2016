@@ -123,7 +123,7 @@ fun maxDivisor(n: Int): Int  {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var result = false
+    var result = true
     for (i in 2..min(m,n) step 1)
         if ((m % i == 0) && (n % i == 0))
         {
@@ -144,8 +144,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean{
     var result = false
-    var left = sqrt(m.toDouble()).toInt()
-    var right = sqrt(n.toDouble()).toInt()
+    val left = sqrt(m.toDouble()).toInt()
+    val right = sqrt(n.toDouble()).toInt()
 
     for (i in left..right  step 1 )
         if ((sqr(i.toDouble()).toInt()<= n)&&((sqr(i.toDouble()).toInt() >= m)))
@@ -166,7 +166,7 @@ fun sin(x: Double, eps: Double): Double {
 
     var result = 0.0
     var i = 0
-    while (pow(x,2.0*i +1.0)/factorial(2*i + 1) > eps)
+    while (abs(pow(x,2.0*i +1.0)/factorial(2*i + 1)) > eps)
     {
         result += pow(-1.0,i.toDouble())* pow(x,2.0*i +1.0)/factorial(2*i + 1)
         i++
@@ -187,7 +187,7 @@ fun cos(x: Double, eps: Double): Double {
 
     var result = 0.0
     var i = 0
-    while (pow(x, 2.0 * i) / factorial(2 * i) > eps) {
+    while (abs(pow(x, 2.0 * i) / factorial(2 * i)) > eps) {
         result += pow(-1.0, i.toDouble()) * pow(x, 2.0 * i) / factorial(2 * i)
         i++
     }
@@ -221,7 +221,9 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean  = if (revert (n) == n) true else false
+fun isPalindrome(n: Int): Boolean = TODO()
+
+
 
 
 /**
@@ -232,7 +234,7 @@ fun isPalindrome(n: Int): Boolean  = if (revert (n) == n) true else false
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var result = false
-    var value = n % 10
+    val value = n % 10
     var temp = n / 10
     while (temp > 0)
     {
@@ -296,39 +298,43 @@ fun squareSequenceDigit(n: Int): Int {
  * Сложная
  *
  * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
+ * 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 1597 2584  4181  6795 10946  17741 28687 47428 75115 122543
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var k = 0
-    var value = 0
+    var k = 2 // тк 1 и 2 числа равны  1
     var result = 0
-    var i = 1
-    var temp = 0
-    var j = 0
 
+    var fibon = 1 //очередное число ряда
+    var temp1 = 1
+    var temp2 = 0
     var logic = false
-
-    while (logic != true)
-    {
-        value = fib(i)
-        j = countNumber(value)
-        k += j
-        if (k >= n )
+    if (n < 3)
+        result = 1
+    else
+        while (logic != true)
         {
-            k -= j
-            value = fib(i)
-            temp = revert(value)
-            while (k != n)
+            if (k < n)
             {
-                result = temp % 10
-                temp /= 10
-                k++
+                temp2 = fibon
+                fibon += temp1
+                temp1 = temp2
+                k += countNumber(fibon)
             }
+            if (k >= n)
+            {
+                if (k == n)
+                    result = fibon % 10
+                else
+                    while (k >= n)
+                    {
+                        result = fibon % 10
+                        fibon /= 10
+                        k--
+                    }
             logic = true
+            }
         }
-        i++
-    }
     return result
 }
 

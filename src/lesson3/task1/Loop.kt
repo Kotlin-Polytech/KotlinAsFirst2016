@@ -146,15 +146,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int) {
+fun revert(n: Int):Int {
+var c=n
 var s=0
-var c=0
     do {
-        s = s * 10 + n % 10
-        c = n / 10
+        s = s * 10 + c % 10
+        c /= 10
     }
-    while (n != 0)
-println(s)
+    while (c != 0)
+return (s)
 }
 
 /**

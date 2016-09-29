@@ -61,8 +61,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var result: Int = 0
     var nn: Int = n
-    if (nn == 0) return 1 else
-        while (nn >= 1) {
+    if (nn == 0) return 1
+    else  while (Math.abs(nn) >= 1) {
             nn = nn / 10
             result++
         }
@@ -135,17 +135,14 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var indicator: Int = 0
-    if (m < n) {
-        for (i in 2..m)
-            if ((m % i == 0) && (n % i == 0)) indicator = 1
-            else {
-                for (i in 2..n)
-                    if ((m % i == 0) && (n % i == 0)) indicator = 1
-            }
+    val nn = Math.max(m, n)
+    var failed: Boolean = false
+    for (i in 2..nn) {
+        if ((n % i == 0) && (m % i == 0)) failed = true
     }
-    if (indicator == 0) return true else return false
+    if (failed == true) return false else return true
 }
+
 
 /**
  * Простая
@@ -170,18 +167,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean =
  */
 fun sin(x: Double, eps: Double): Double {
     var i = 0
-    var sin1: Double = x
-    var num: Double = x
-    while (Math.abs(num) * 1000 > eps) {
+    var sinus: Double = x
+    var number: Double = x
+    while (Math.abs(number) * 1000 > eps) {
         i++
-        num = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
-        if (i % 2 == 1) sin1 -= num
-        else sin1 += num
+        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
+        if (i % 2 == 1) sinus -= number
+        else sinus += number
 
     }
-    return sin1
+    return sinus
 }
-
 
 /**
  * Простая
@@ -191,21 +187,22 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var i = 0
-    var cosus: Double = 1.0
-    var number: Double = x
-    while (Math.abs(number) * 1000 > eps) {
-        i++
-        number = Math.pow(x, i * 2.0) / factorial(i * 2)
-        if (i % 2 == 1) cosus -= number
-        else cosus += number
+        var i = 0
+        var cosus: Double = 1.0
+        var number: Double = x
+        while (Math.abs(number) * 1000 > eps) {
+            i++
+            number = Math.pow(x, i * 2.0) / factorial(i * 2)
+            if (i % 2 == 1) cosus -= number
+            else cosus += number
 
+        }
+        return cosus
     }
-    return cosus
-}
 
 
-/**
+
+    /**
  * Средняя
  *
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.

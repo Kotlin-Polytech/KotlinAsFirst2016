@@ -101,12 +101,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a+b<=c || a+c<=b || b+c<=a) return -1
-    val cos1 = (a*a + b*b - c*c)/(2*a*b)
-    val cos2 = (c*c + b*b - a*a)/(2*c*b)
-    val cos3 = (c*c + a*a - b*b)/(2*c*a)
-    if (cos1<0 || cos2<0 || cos3<0) return 2
-    if (cos1==0.0 || cos2==0.0 || cos3==0.0) return 1
+    if (a + b <= c || a + c <= b || b + c <= a) return -1
+    val cos1 = (a * a + b * b - c * c) / (2 * a * b)
+    val cos2 = (c * c + b * b - a * a) / (2 * c * b)
+    val cos3 = (c * c + a * a - b * b) / (2 * c * a)
+    if (cos1 < 0 || cos2 < 0 || cos3 < 0) return 2
+    if (cos1 == 0.0 || cos2 == 0.0 || cos3 == 0.0) return 1
     return 0
 }
 
@@ -127,4 +127,5 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         return b - c
     if (b >= c && c >= a && b >= d)
         return d - c
-                                   else return -1 }
+    else return -1
+}

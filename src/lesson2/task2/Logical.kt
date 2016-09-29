@@ -33,7 +33,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     when {
         x1 == x2 -> return true
         y1 == y2 -> return true
-        Math.abs(x1-x2) == Math.abs(y1-y2) -> return true
+        Math.abs(x1 - x2) == Math.abs(y1 - y2) -> return true
     }
     return false
 }
@@ -47,7 +47,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if (((Math.sqrt((x1-x2) * (x1-x2) + (y1-y2) * (y1-y2))) + r1) <= r2) return true
+    if (((Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2))) + r1) <= r2) return true
     return false
 }
 
@@ -62,7 +62,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (s>=a && (r>=b || r>=c)) return true
-    if (s>=b && (r>=a || r>=c)) return true
-    if (s>=c && (r>=b || r>=a)) return true
-    return false }
+    if (s >= a && (r >= b || r >= c)) return true
+    if (s >= b && (r >= a || r >= c)) return true
+    if (s >= c && (r >= b || r >= a)) return true
+    return false
+}

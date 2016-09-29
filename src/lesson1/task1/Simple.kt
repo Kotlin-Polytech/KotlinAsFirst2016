@@ -9,32 +9,32 @@ import java.lang.Math.*
  *
  * Вычисление квадрата вещественного числа
  */
-fun sqr(x:Double) = x*x
+fun sqr(x: Double) = x * x
 
 /**
  * Пример
  *
  * Вычисление дискриминанта квадратного уравнения
  */
-fun discriminant(a:Double,b:Double,c:Double)=sqr(b) - 4 * a * c
+fun discriminant(a: Double, b: Double, c: Double) = sqr(b) - 4 * a * c
 
 /**
  * Пример
  *
  * Поиск одного из корней квадратного уравнения
  */
-fun sqRoot(a:Double,b:Double,c:Double)=(-b+sqrt(discriminant(a,b,c)))/(2*a)
+fun sqRoot(a: Double, b: Double, c: Double) = (-b + sqrt(discriminant(a, b, c))) / (2 * a)
 
 /**
  * Пример
  *ee
  * Поиск произведения корней квадратного уравнения
  */
-fun quadraticRootProduct(a:Double,b:Double,c:Double):Double {
-    val sd =sqrt(discriminant(a, b, c))
-    val x1 =(-b + sd)/(2 * a)
-    val x2 =(-b - sd)/(2 * a)
-    return x1*x2 // Результат
+fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
+    val sd = sqrt(discriminant(a, b, c))
+    val x1 = (-b + sd) / (2 * a)
+    val x2 = (-b - sd) / (2 * a)
+    return x1 * x2 // Результат
 }
 
 /**

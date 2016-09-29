@@ -62,8 +62,8 @@ fun digitNumber(n: Int): Int {
     var numb= Math.abs(n.toLong())
     if (numb == 0L) return 1
     while (numb > 0L) {
-        numb = numb/10
-        digit = digit + 1
+        numb /= 10
+        digit += 1
     }
     return digit
 }
@@ -190,7 +190,22 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var sign = -1
+    var cur = 0.0
+    var cosx = 1.0
+    var n = 2
+    while (true) {
+        cur = sign / factorial(n) * Math.pow(x,n.toDouble())
+        if (Math.abs(cur) < eps)
+            break
+        sign = -sign
+        cosx += cur
+        n += 2
+    }
+    return cosx
+}
+
 
 /**
  * Средняя
@@ -203,7 +218,7 @@ fun revert(n: Int): Int {
     var numb = n
     while (numb > 0) {
         rev = rev*10 + (numb%10)
-        numb = numb/10
+        numb /= 10
     }
     return rev
 }
@@ -215,7 +230,11 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    val revertN = revert(n)
+    return revertN == n
+}
+
 
 /**
  * Средняя
@@ -223,7 +242,18 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var numb = n
+    var prew = n%10
+    var cur = 0
+    while (numb > 0) {
+        cur = numb%10
+        if (prew != cur) return true
+        numb /= 10
+        prew = cur
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -242,27 +272,31 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var str: String = "1"
-    var cur = 1
-    var before = 1
-    var next = 0
-    if (n == 1 || n == 2) return 1
-    while (str.length <= n) {
-        str += cur.toString()
-        next = before + cur
-        before = cur
-        cur = next
-    }
-    return when {
-        str[n-1] == '0' -> 0
-        str[n-1] == '1' -> 1
-        str[n-1] == '2' -> 2
-        str[n-1] == '3' -> 3
-        str[n-1] == '4' -> 4
-        str[n-1] == '5' -> 5
-        str[n-1] == '6' -> 6
-        str[n-1] == '7' -> 7
-        str[n-1] == '8' -> 8
-        else -> 9
+
+    var call = 0 //общая длина всех "проверенных" цифр
+    var ccur = 0 //длина текущего числа
+    var cur = 0 //текущее число
+    var i = 1 //номер текущего числа
+    var ab = 0 //какая цифра(по счету) из текущего числа (при заходе числа за границу n)
+//понадобится
+    var k = 0 //последняя цифра текущего числа
+    while (true) {
+        cur = fib(i) //приравниваем текущему число число последовательности Фиб. с
+//номером i
+        ccur = digitNumber(cur) //считаем длину текущего числа(сколько в нем цифр?)
+        call += ccur //увеличиваем длину обработанной пос-ти на длину текущего числа
+        if (call == n) return cur % 10 //если длина обраб. пос-ти равна n, то
+// возвращаем последнюю цифру текущего числа
+        if (call > n) { //если обработанная длина "вышла за" n
+            ab = n - (call - ccur) //какая цифра данного числа под номером n?
+            while (cur > 0) { //поиск нужной цифры текущего числа
+                k = cur % 10
+                if (ccur == ab) return k
+                cur /= 10
+                ccur--
+            }
+        }
+        i++
     }
 }
+

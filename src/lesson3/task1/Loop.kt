@@ -60,12 +60,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-
     if (n==0) return 1
     else {
         var counter: Int = 0
-        var ns: Int =Math.abs(n)
-        while (ns >= 1) {
+        var ns: Int =n
+        while (ns != 0) {
             ns /= 10
             counter++
         }
@@ -151,13 +150,16 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
+fun isCoPrime(m: Int, n: Int): Boolean=(nod(m,n)>Math.min(m,n))||(nod(m,n)==1)
+/**
     if (m%n==0) return false
     for (i in 2..n-1){
         if ((m%i==0)&&(n%i==0)) return(false)
     }
     return true
 }
+*/
+
 
 /**
  * Простая
@@ -191,7 +193,7 @@ fun sin(x: Double, eps: Double): Double {
         if (counter%2==1) sinus=sinus-number
         else  sinus+=number
     }
-    return sinus
+    return sinus%(2*Math.PI)
 }
 
 
@@ -230,7 +232,7 @@ fun cos(x: Double, eps: Double): Double {
         else  cosus=cosus+number
 
     }
-    return cosus
+    return cosus%(2*Math.PI)
 }
 
 

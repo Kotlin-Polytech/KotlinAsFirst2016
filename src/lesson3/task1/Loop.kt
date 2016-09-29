@@ -62,9 +62,9 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     if (n == 0) return 1
     else {
+    var number = n
     var count = 0
-    var number = Math.abs(n)
-    while (number > 0) {
+    while (Math.abs(number) > 0) {
         number /= 10
         count++
     }
@@ -165,7 +165,7 @@ fun cos(x: Double, eps: Double): Double {
     var a = 2.0
     var b = 2
     var sign = 1 // Значение будет определять, с каким знаком брать очередной член ряда.
-    while (Math.pow(x,a)/ factorial(b) > eps) {
+    while (Math.abs(Math.pow(x,a)/ factorial(b)) > Math.abs(eps)) {
         if (sign == 1) {
             res -= Math.pow(x,a)/ factorial(b)
             a += 2

@@ -61,7 +61,7 @@ fun digitNumber(n: Int): Int {
     var number = n
     var k = 0
     if (n > 0) {
-        while (number != 0) {
+        while (number = 0) {
             number = number % 10
             k += 1
         }

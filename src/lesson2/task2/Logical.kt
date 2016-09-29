@@ -68,7 +68,7 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     }
     if (a <= s)
     {
-        if (b <= r)
+        if (b <=  r)
             res = true
     }
 

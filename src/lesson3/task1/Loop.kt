@@ -59,15 +59,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var result: Int = 0
-    var nn: Int = n
-    if (nn == 0) return 1
-    else  while (Math.abs(nn) >= 1) {
-            nn = nn / 10
-            result++
-        }
-    return result
+    var number: Int = 0
+    var n2: Int = n
+    if (n2 == 0) return 1
+    else while (n2 != 0) {
+        number++
+        n2 /= 10
+    }
+    return number
 }
+
 
 /**
  * Простая
@@ -167,8 +168,8 @@ fun squareBetweenExists(m: Int, n: Int): Boolean =
  */
 fun sin(x: Double, eps: Double): Double {
     var i = 0
-    var sinus: Double = x
-    var number: Double = x
+    var sinus: Double = x%(Math.PI*2)
+    var number: Double = x%(Math.PI*2)
     while (Math.abs(number) * 1000 > eps) {
         i++
         number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
@@ -189,7 +190,7 @@ fun sin(x: Double, eps: Double): Double {
 fun cos(x: Double, eps: Double): Double {
         var i = 0
         var cosus: Double = 1.0
-        var number: Double = x
+        var number: Double = x%(Math.PI*2)
         while (Math.abs(number) * 1000 > eps) {
             i++
             number = Math.pow(x, i * 2.0) / factorial(i * 2)

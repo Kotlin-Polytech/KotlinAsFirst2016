@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -36,9 +37,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return if ((age % 100) in 10..20) "$age лет"
-       else if ((age % 10) == 1) "$age год"
-         else if ((age % 10) in 2..4) "$age года"
-            else "$age лет"
+    else if ((age % 10) == 1) "$age год"
+    else if ((age % 10) in 2..4) "$age года"
+    else "$age лет"
 }
 
 /**
@@ -63,9 +64,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return if (((kingX == rookX1)|| (kingY == rookY1)) && ((kingY == rookY2)||(kingX == rookX2))) 3
-    else if ((kingX == rookX1)||(kingY == rookY1)&&(kingX != rookX2)&&(kingY != rookY2)) 1
-    else if ((kingX == rookX2)||(kingY == rookY2)&&(kingX != rookX1)&&(kingY != rookY1)) 2
+    return if (((kingX == rookX1) || (kingY == rookY1)) && ((kingY == rookY2) || (kingX == rookX2))) 3
+    else if ((kingX == rookX1) || (kingY == rookY1) && (kingX != rookX2) && (kingY != rookY2)) 1
+    else if ((kingX == rookX2) || (kingY == rookY2) && (kingX != rookX1) && (kingY != rookY1)) 2
     else 0
 }
 

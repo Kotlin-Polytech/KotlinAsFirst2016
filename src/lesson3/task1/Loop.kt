@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -67,7 +68,7 @@ fun digitNumber(n: Int): Int = if (n == 0) 1 else Math.ceil(Math.log10(Math.abs(
  */
 fun fib(n: Int): Int {
     val a = 1.6180339887 // золотое сечение
-    val b = (Math.pow(a.toDouble(), n.toDouble()) / Math.sqrt(5.0) +0.5) // a^n/sqrt(5) +0.5 - формула нахождения n-ого числа фибоначчи
+    val b = (Math.pow(a.toDouble(), n.toDouble()) / Math.sqrt(5.0) + 0.5) // a^n/sqrt(5) +0.5 - формула нахождения n-ого числа фибоначчи
     return b.toInt()
 
 }
@@ -84,12 +85,12 @@ fun lcm(m: Int, n: Int): Int {
     var k = (a * b) / 2
     val s = if (m > n) m else n
     if (((a % 2) == 0) && ((b % 2) == 0)) ((a * b) / 2)
-            else {
-                if ((a % b) == 0) (k == b) else
-                    while ((a % b) != 0)
-                    a += s
-                k = a
-            }
+    else {
+        if ((a % b) == 0) (k == b) else
+            while ((a % b) != 0)
+                a += s
+        k = a
+    }
     return k
 }
 

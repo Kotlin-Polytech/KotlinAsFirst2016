@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -22,7 +23,7 @@ fun isNumberHappy(number: Int): Boolean {
     val b = ((number / 100) % 10)
     val c = ((number / 10) % 10)
     val d = (number % 10)
-       return if ((a + b) == (c + d)) true
+    return if ((a + b) == (c + d)) true
     else false
 }
 
@@ -54,6 +55,5 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return if ((a < r) && (b < s) || (a < s) && (b <r) || (a < r) && (c < s) || (b < r) && (c < s) || (c < r) && (a < s) || (c < r) && (b < s)) true
-    else false
+    return ((a <= r) && (b <= s) || (a <= s) && (b <= r) || (a <= r) && (c <= s) || (b <= r) && (c <= s) || (c <= r) && (a <= s) || (c <= r) && (b <= s))
 }

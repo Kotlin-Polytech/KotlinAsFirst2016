@@ -284,6 +284,7 @@ fun squareSequenceDigit(n: Int): Int {
     var result = 0
     var s = 0
     var k = 0
+    var g = 0
 
 
     while (number < n) {
@@ -297,9 +298,11 @@ fun squareSequenceDigit(n: Int): Int {
         number = number + k
     }
     result = i * i
-    for (n..number-1) result/=10
+    for (g in n ..number-1)run {
+        result /= 10
 
-    return (result % 10)
+    }
+    return result % 10
 
 }
 

@@ -102,30 +102,31 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
+    var minSide1 = 0.0
+    var minSide2 = 0.0
+
     if (a + b > c && a + c > b && b + c > a) {
-        if (a >= b && a >= c) {
-            if (a * a == b * b + c * c)
-                return 1
-            if (a * a < b * b + c * c)
-                return 0
-            if (a * a > b * b + c * c)
-                return 2
+        val maxSide = Math.max(a, Math.max(b, c))
+        if (maxSide == a) {
+            minSide1 = b
+            minSide2 = c
         }
-        if (c >= b && c >= a) {
-            if (c * c == b * b + a * a)
-                return 1
-            if (c * c < b * b + a * a)
-                return 0
-            if (c * c > b * b + a * a)
-                return 2
+        if (maxSide == b) {
+            minSide1 = a
+            minSide2 = c
         }
-        if (b >= a && b >= c) {
-            if (b * b == a * a + c * c)
-                return 1
-            if (b * b < a * a + c * c)
-                return 0
-            if (b * b > a * a + c * c)
-                return 2
+        if (maxSide == c) {
+            minSide1 = a
+            minSide2 = b
+        }
+        if (maxSide * maxSide == minSide1 * minSide1 + minSide2 * minSide2) {
+            return 1
+        }
+        if (maxSide * maxSide < minSide1 * minSide1 + minSide2 * minSide2) {
+            return 0
+        }
+        if (maxSide * maxSide > minSide1 * minSide1 + minSide2 * minSide2) {
+            return 2
         }
     }
     return -1

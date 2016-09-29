@@ -110,36 +110,22 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     return if ((a > b + c) or (b > a + c) or (c > b + a)) -1
-    else if ((a > b) and (a > c)) when {
+    else if ((a >= b) and (a >= c)) when {
         ((b * b + c * c - a * a) > 0) -> 0
         ((b * b + c * c - a * a) == 0.0)  -> 1
         ((b * b + c * c - a * a) < 0) -> 2
         else -> -1
-    } else if ((b > a) and ( b > c)) when {
+    } else if ((b >= a) and ( b >= c)) when {
         ((- b * b + c * c + a * a) > 0) -> 0
         ((- b * b + c * c + a * a) == 0.0)  -> 1
         ((- b * b + c * c + a * a) < 0)  -> 2
         else -> -1
-    } else if ((c > a) and ( c > b)) when {
+    } else if ((c >= a) and ( c >= b)) when {
         (( b * b - c * c + a * a) > 0)  -> 0
         (( b * b - c * c + a * a) == 0.0)  -> 1
         (( b * b - c * c + a * a) < 0) -> 2
         else -> -1
-    } else if (a == b) when {
-        (( b * b - c * c + a * a) > 0) -> 0
-        (( b * b - c * c + a * a) == 0.0) -> 1
-        (( b * b - c * c + a * a) < 0) -> 2
-        else -> -1
-    } else if (b == c) when {
-        ((b * b + c * c - a * a) > 0)  -> 0
-        ((b * b + c * c - a * a) == 0.0) -> 1
-        ((b * b + c * c - a * a) < 0) -> 2
-        else -> -1
-    } else if (a == c) when {
-        ((- b * b + c * c + a * a) > 0) -> 0
-        ((- b * b + c * c + a * a) == 0.0) -> 1
-        ((- b * b + c * c + a * a) < 0) -> 2
-        else -> -1
+
     } else 8
 }
 

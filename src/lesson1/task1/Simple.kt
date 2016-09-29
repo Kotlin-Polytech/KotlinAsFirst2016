@@ -60,7 +60,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours*3600+minutes*60
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes.toDouble()*48.0*4.445 + arshins.toDouble()*16.0*4.445 + vershoks.toDouble()*4.445)/100
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes*48.0*4.445 + arshins*16.0*4.445 + vershoks*4.445)/100.0
 
 /**
  * Тривиальная
@@ -68,7 +68,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad*PI/180+min*PI/(180*60)+sec*PI/(3600*180)).toDouble()
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = grad*PI/180+min*PI/(180*60)+sec*PI/(3600*180)
 
 /**
  * Тривиальная
@@ -104,7 +104,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
     val years = 3.0
-    return initial.toDouble()*pow(1+percent.toDouble()/100,years)
+    return initial*pow(1+percent.toDouble()/100.0,years)
 }
 
 /**
@@ -113,4 +113,10 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = (number%10)*100+((number/10)%10)*10+number/100
+fun numberRevert(number: Int): Int {
+    val amountHundreds = number % 10
+    val amountDec = (number / 10) % 10
+    val amountUnits = number / 100
+    return amountHundreds*100 + amountDec*10 + amountUnits
+}
+

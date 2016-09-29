@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -58,13 +59,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-var result: Int = 0
-var nn: Int = n
-    if (nn == 0)return 1 else
-    while (nn >= 1) {
-        nn = nn/10
-        result++
-    }
+    var result: Int = 0
+    var nn: Int = n
+    if (nn == 0) return 1 else
+        while (nn >= 1) {
+            nn = nn / 10
+            result++
+        }
     return result
 }
 
@@ -94,9 +95,9 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 
-    fun nod(x: Int, y: Int): Int = if (x != 0) nod(y % x, x) else y;
-    fun lcm(m: Int, n: Int): Int = m / nod(m, n) * n
+fun nod(x: Int, y: Int): Int = if (x != 0) nod(y % x, x) else y;
 
+fun lcm(m: Int, n: Int): Int = m / nod(m, n) * n
 
 
 /**
@@ -105,11 +106,11 @@ fun fib(n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-        var i: Int = 2
-        while (n % i != 0) i++
-        return i
+    var i: Int = 2
+    while (n % i != 0) i++
+    return i
 
-    }
+}
 
 
 /**
@@ -120,7 +121,7 @@ fun minDivisor(n: Int): Int {
 fun maxDivisor(n: Int): Int {
     var count: Int = 1
     for (i in 2..(n - 1))
-        if (n % i == 0)count = i
+        if (n % i == 0) count = i
     return count
 
 
@@ -135,14 +136,15 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var indicator: Int = 0
-    if (m < n){
+    if (m < n) {
         for (i in 2..m)
-            if ((m % i == 0) && (n % i == 0))indicator = 1
-    else {
+            if ((m % i == 0) && (n % i == 0)) indicator = 1
+            else {
                 for (i in 2..n)
-                    if ((m % i == 0) && (n % i == 0))indicator = 1    }
+                    if ((m % i == 0) && (n % i == 0)) indicator = 1
+            }
     }
-if (indicator == 0) return true else return false
+    if (indicator == 0) return true else return false
 }
 
 /**
@@ -153,10 +155,10 @@ if (indicator == 0) return true else return false
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun sqr(x: Double) = x * x
+
 fun squareBetweenExists(m: Int, n: Int): Boolean =
         if (m <= sqr(Math.sqrt(n.toDouble()).toInt().toDouble()) && sqr(Math.sqrt(n.toDouble()).toInt().toDouble()) <= n) true
-            else false
-
+        else false
 
 
 /**
@@ -181,7 +183,6 @@ fun sin(x: Double, eps: Double): Double {
 }
 
 
-
 /**
  * Простая
  *
@@ -190,17 +191,17 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-var i = 0
-var cosus: Double = 1.0
-var number: Double = x
-while (Math.abs(number) * 1000 > eps) {
-    i++
-    number = Math.pow(x, i * 2.0) / factorial(i * 2)
-    if (i % 2 == 1) cosus -= number
-    else cosus += number
+    var i = 0
+    var cosus: Double = 1.0
+    var number: Double = x
+    while (Math.abs(number) * 1000 > eps) {
+        i++
+        number = Math.pow(x, i * 2.0) / factorial(i * 2)
+        if (i % 2 == 1) cosus -= number
+        else cosus += number
 
-}
-return cosus
+    }
+    return cosus
 }
 
 
@@ -220,7 +221,7 @@ fun revert(n: Int): Int {
     return result
 }
 
-    /**
+/**
  * Средняя
  *
  * Проверить, является ли заданное число n палиндромом:
@@ -228,13 +229,13 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-        var result = 0
-var nn = n
-while (nn > 0) {
-    result = result * 10 + nn % 10
-    nn /= 10
-}
-if (result == n) return true else return false
+    var result = 0
+    var nn = n
+    while (nn > 0) {
+        result = result * 10 + nn % 10
+        nn /= 10
+    }
+    if (result == n) return true else return false
 }
 
 /**
@@ -286,15 +287,16 @@ fun squareSequenceDigit(n: Int): Int {
  */
 
 
-fun fibSequenceDigit(n: Int): Int { n.toString().length
+fun fibSequenceDigit(n: Int): Int {
+    n.toString().length
     var i = 0
     var number = 0
     var result = 0
     while (number < n) {
         i++
-        number += quantity(fib (i))
+        number += quantity(fib(i))
     }
-    result = fib (i)
-    (n..number - 1).forEach {i -> result /= 10}
+    result = fib(i)
+    (n..number - 1).forEach { i -> result /= 10 }
     return (result % 10)
 }

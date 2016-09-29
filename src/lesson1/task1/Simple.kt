@@ -1,14 +1,13 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 
-import java.lang.Math.*
 
 /**
  * Пример
  *
  * Вычисление квадрата вещественного числа
  */
-fun sqr(x: Double) = x * x
+fun sqr(x: Double): Double = x * x
 
 /**
  * Пример
@@ -22,7 +21,7 @@ fun discriminant(a: Double, b: Double, c: Double) = sqr(b) - 4 * a * c
  *
  * Поиск одного из корней квадратного уравнения
  */
-fun sqRoot(a: Double, b: Double, c: Double) = (-b + sqrt(discriminant(a, b, c))) / (2 * a)
+fun sqRoot(a: Double, b: Double, c: Double) = (-b + Math.sqrt(discriminant(a, b, c))) / (2 * a)
 
 /**
  * Пример
@@ -30,7 +29,7 @@ fun sqRoot(a: Double, b: Double, c: Double) = (-b + sqrt(discriminant(a, b, c)))
  * Поиск произведения корней квадратного уравнения
  */
 fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
-    val sd = sqrt(discriminant(a, b, c))
+    val sd = Math.sqrt(discriminant(a, b, c))
     val x1 = (-b + sd) / (2 * a)
     val x2 = (-b - sd) / (2 * a)
     return x1 * x2 // Результат
@@ -68,7 +67,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = ((sagene
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (((grad * 60 + min) * 60 + sec) * PI) / 648000
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (((grad * 60 + min) * 60 + sec) * Math.PI) / 648000
 
 /**
  * Тривиальная
@@ -76,7 +75,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (((grad * 60 + min) *
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x1-x2) + sqr(y1-y2))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = Math.sqrt(sqr(x1-x2) + sqr(y1-y2))
 
 /**
  * Простая
@@ -102,7 +101,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = pow(1.0 + percent / 100.0, 3.0) * initial
+fun accountInThreeYears(initial: Int, percent: Int): Double = Math.pow(1.0 + percent / 100.0, 3.0) * initial
 
 /**
  * Простая

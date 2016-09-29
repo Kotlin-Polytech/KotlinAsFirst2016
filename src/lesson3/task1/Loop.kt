@@ -228,17 +228,17 @@ fun squareSequenceDigit(n: Int): Int {
     var square = 0
     var sum = 0
     var i = 1
-    var number=0.0
+    var number = 0.0
     while (sum < n) {
         square = i * i
         i++
         sum = sum + digitNumber(square)
     }
     i = sum - n
-    if (i!=0){
-    number=square.toDouble() / pow(10.0, (i).toDouble())
-    return number.toInt()%10}
-    else return square%10
+    if (i != 0) {
+        number = square.toDouble() / pow(10.0, (i).toDouble())
+        return number.toInt() % 10
+    } else return square % 10
 }
 
 /**
@@ -252,16 +252,16 @@ fun fibSequenceDigit(n: Int): Int {
     var fibonach = 0
     var sum = 0
     var i = 1
-    var number=0.0
+    var number = 0.0
     while (sum < n) {
         fibonach = fib(i)
         i++
         sum = sum + digitNumber(fibonach)
     }
     i = sum - n
-    if (i!=0){
-        number=fibonach.toDouble() / pow(10.0, (i).toDouble())
-        return number.toInt()%10}
-    else return fibonach%10
+    if (i != 0) {
+        number = fibonach.toDouble() / pow(10.0, (i).toDouble())
+        return number.toInt() % 10
+    } else return fibonach % 10
 
 }

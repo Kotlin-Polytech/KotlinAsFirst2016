@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import java.lang.Math.*
+
 /**
  * Пример
  *
@@ -22,7 +24,7 @@ fun factorial(n: Int): Double {
  */
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
-    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+    for (m in 2..sqrt(n.toDouble()).toInt()) {
         if (n % m == 0) return false
     }
     return true
@@ -58,7 +60,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = if (n == 0) 1 else Math.ceil(Math.log10(Math.abs(n) + 0.5)).toInt()
+fun digitNumber(n: Int): Int {
+    var a = 0
+    var b = abs(n)
+    if (b == 0) return 1
+    else {
+        do {
+            b = b / 10
+            a++
+        } while (b != 0)
+        return a
+    }
+}
 
 /**
  * Простая
@@ -68,7 +81,7 @@ fun digitNumber(n: Int): Int = if (n == 0) 1 else Math.ceil(Math.log10(Math.abs(
  */
 fun fib(n: Int): Int {
     val a = 1.6180339887 // золотое сечение
-    val b = (Math.pow(a.toDouble(), n.toDouble()) / Math.sqrt(5.0) + 0.5) // a^n/sqrt(5) +0.5 - формула нахождения n-ого числа фибоначчи
+    val b = (pow(a.toDouble(), n.toDouble()) / sqrt(5.0) + 0.5) // a^n/sqrt(5) +0.5 - формула нахождения n-ого числа фибоначчи
     return b.toInt()
 
 }

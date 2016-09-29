@@ -130,6 +130,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     else
         x=-1
     return x
+
 }
 
 /**

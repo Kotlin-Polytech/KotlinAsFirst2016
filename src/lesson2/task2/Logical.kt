@@ -58,4 +58,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int):Boolean {
     if (r>=c)
         if ((s>=a) or (s>=b)) x=true
     return x
+
 }

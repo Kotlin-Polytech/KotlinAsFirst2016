@@ -87,16 +87,16 @@ fun digitNumber(n: Int): Int {
             }
         } else {
             if (n < 100000000) {
-                return 8
-            } else {
-                if (n < 1000000000) {
-                    return 9
-                } else {
-                    return 10
-                }
-            }
-        }
+    return 8
+} else {
+    if (n < 1000000000) {
+        return 9
+    } else {
+        return 10
     }
+}
+}
+}
 }
 
 /**

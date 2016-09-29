@@ -57,7 +57,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var number = n
+    var count = 0
+    if (number > 0) {
+        while (number > 0) {
+            count++
+            number /= 10
+        }
+        return count
+    }
+    else return 0 // НЕ ДОДЕЛАНА !!!
+}
 
 /**
  * Простая
@@ -73,7 +84,19 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var num_m = m
+    var num_n = n
+    var multiplication = (num_m * num_n)
+    while ((num_m != 0) and (num_n != 0)) {
+        if (num_m > num_n) num_m %= num_n
+        else num_n %= num_m
+    }
+    var count = num_m + num_n
+    return multiplication/count
+
+
+}
 
 /**
  * Простая

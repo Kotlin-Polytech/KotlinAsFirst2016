@@ -115,7 +115,7 @@ fun minDivisor(n: Int): Int = TODO()
  */
 fun maxDivisor(n: Int): Int {
     var res = 0
-    for (i in n/2 downTo  1) {
+    for (i in n / 2 downTo 1) {
         if (n % i == 0) {
             res = i
             break
@@ -191,11 +191,11 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    val length= digitNumber(n)
+    val length = digitNumber(n)
     var number = n
     var result = 0.0
     for (i in 1..length) {
-        result += number%10*Math.pow(10.toDouble(), length-i.toDouble())
+        result += number % 10 * Math.pow(10.toDouble(), length - i.toDouble())
         number /= 10
     }
     return result.toInt()
@@ -226,7 +226,15 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i: Int = 1
+    var str: String = ""
+    while (str.length < n) {
+        str += (i * i).toString()
+        i++
+    }
+    return str[n - 1].toString().toInt()
+}
 
 /**
  * Сложная

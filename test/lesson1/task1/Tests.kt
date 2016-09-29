@@ -10,8 +10,8 @@ class Tests {
     fun sqr() {
         assertEquals(0.0, sqr(0.0), 1e-5)
         assertEquals(4.0, sqr(2.0), 1e-5)
-        assertEquals(9.0, sqr(-3.0), 1e-5)
-    }
+        assertEquals(9.0, sqr(3.0), 1e-5)
+    } 
 
     @Test
     @Tag("Example")

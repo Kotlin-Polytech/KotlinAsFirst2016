@@ -63,7 +63,7 @@ fun digitNumber(n: Int): Int {
     if (n == 0) return 1
     else {
     var count = 0
-    var number = n
+    var number = Math.abs(n)
     while (number > 0) {
         number /= 10
         count++

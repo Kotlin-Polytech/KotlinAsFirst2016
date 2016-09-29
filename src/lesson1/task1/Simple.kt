@@ -94,8 +94,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  */
 fun thirdDigit(number: Int): Int {
     val a = number%1000
-    val third = a/100
-    return third
+    return a/100
 }
 
 /**

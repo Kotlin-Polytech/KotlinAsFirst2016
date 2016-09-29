@@ -15,7 +15,7 @@ class Tests {
         assertEquals(3628800.0, factorial(10), 1e-5)
         assertEquals(2.43290200817664E18, factorial(20), 1E10)
     }
-/**
+
     @Test
     @Tag("Example")
     fun isPrime() {
@@ -39,7 +39,7 @@ class Tests {
         }
         assertEquals(665579, count)
     }
-*/
+
     @Test
     @Tag("Example")
     fun isPerfect() {
@@ -67,6 +67,7 @@ class Tests {
         assertEquals(10, digitNumber(Int.MAX_VALUE))
         assertEquals(1, digitNumber(9))
         assertEquals(9, digitNumber(-367788666))
+        assertEquals(10, digitNumber(-2147483648))
     }
 
     @Test

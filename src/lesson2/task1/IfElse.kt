@@ -36,10 +36,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        (age % 100 == 11) -> "$age лет"
-        (age % 10 == 1)and(age % 100 !== 11) -> "$age год"
-        ((age % 100 < 15) and (age % 100 > 11)) -> "$age лет"
-        (((age % 10 > 1) and (age % 10 < 5))) -> "$age года"
+        (age % 10 == 1) -> when { (age % 100 == 11) -> "$age лет" else -> "$age год"}
+        (age%100 in 12..14) -> "$age лет"
+        (age%10 in 2..4) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -55,18 +54,20 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double  {
     val sAll = (t1*v1+t2*v2+t3*v3)/2
+    val s1 = t1*v1
+    val s2 = t2*v2
     if (sAll>0) {
-        if (sAll < t1 * v1) {
+        if (sAll < s1) {
             val tHalf = sAll / v1
             return (tHalf)
         } else {
-            if (sAll < t1 * v1 + t2 * v2) {
-                val sBalance = sAll - t1 * v1
+            if (sAll < s1 + s2) {
+                val sBalance = sAll - s1
                 val tBalance = sBalance / v2
                 val tHalf = t1 + tBalance
                 return (tHalf)
             } else {
-                val sBalance = sAll - t1 * v1 - t2 * v2
+                val sBalance = sAll - s1 - s2
                 val tBalance = sBalance / v3
                 val tHalf = t1 + t2 + tBalance
                 return (tHalf)
@@ -90,11 +91,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((rookX1 == kingX)or(rookY1 == kingY)or(rookX2 == kingX)or(rookY2 == kingY)){
-        if (((rookX1 == kingX)or(rookY1 == kingY))and((rookX2 == kingX)or(rookY2 == kingY)))
+    val rook1Danger: Boolean =(rookX1 == kingX)or(rookY1 == kingY)
+    val rook2Danger: Boolean =(rookX2 == kingX)or(rookY2 == kingY)
+    if ((rook1Danger == true)or(rook2Danger == true)){
+        if ((rook1Danger == true)and(rook2Danger == true))
             return(3)
         else {
-            if ((rookX1 == kingX)or(rookY1 == kingY))
+            if (rook1Danger == true)
                 return(1)
             else return(2)
         }
@@ -113,13 +116,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if(((kingX-kingY) == (bishopX-bishopY))or((bishopX-kingX) == (bishopY-kingY))or(bishopX-kingX == -(bishopY-kingY))){
-        if((rookX == kingX)or (rookY == kingY))
+    val bishopDanger: Boolean = ((kingX-kingY) == (bishopX-bishopY))or((bishopX-kingX) == (bishopY-kingY))or(bishopX-kingX == -(bishopY-kingY))
+    val rookDanger: Boolean =(rookX == kingX)or (rookY == kingY)
+    if (bishopDanger == true){
+        if(rookDanger == true)
             return(3)
         else return(2)
 
     } else{
-        if((rookX == kingX)or (rookY == kingY))
+        if(rookDanger == true)
             return(1)
         else return(0)
     }

@@ -243,30 +243,14 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var count: Int = 0
+    var list = listOf<Int>()
     var number = n
     do {
+        list += number % 10
         number /= 10
-        count++
     } while (number != 0)
-    if (count == 1) return false
-    else {
-        var rightMod = 10
-        var rightDiv = 1
-        var leftMod = 1
-        var leftDiv = 1
-        for (i in 1..count) leftMod *= 10
-        for (i in 1..count - 1) leftDiv *= 10
-        for (i in 1..count / 2) {
-            if (n / rightDiv % rightMod != n % leftMod / leftDiv) return false
-            else {
-                rightMod *= 10
-                rightDiv *= 10
-                leftMod /= 10
-                leftDiv /= 10
-            }
-        }
-        return true
+    for (i in 0..list.size - 1) {
+        if (list[i] != list[list.size - i - 1]) return false
     }
     return true
 }

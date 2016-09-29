@@ -24,7 +24,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
     val y2 = (-b - Math.sqrt(d)) / (2 * a)
     val y3 = Math.max(y1, y2)       // 5
     if (y3 < 0.0) return Double.NaN // 6
-    return -Math.sqrt(y3)           // 7
+    return -Math.sqrt(y3)           //  7
 }
 
 /**

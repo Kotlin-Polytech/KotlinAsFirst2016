@@ -65,6 +65,7 @@ class Tests {
         assertEquals(2, digitNumber(99))
         assertEquals(3, digitNumber(123))
         assertEquals(10, digitNumber(Int.MAX_VALUE))
+        assertEquals(5, digitNumber(10123))
     }
 
     @Test
@@ -153,6 +154,7 @@ class Tests {
         assertEquals(111, revert(111))
         assertEquals(17571, revert(17571))
         assertEquals(123456789, revert(987654321))
+        assertEquals(999999999, revert(999999999))
     }
 
     @Test
@@ -162,6 +164,7 @@ class Tests {
         assertFalse(isPalindrome(3653))
         assertTrue(isPalindrome(15751))
         assertTrue(isPalindrome(24688642))
+        assertTrue(isPalindrome(987656789))
     }
 
     @Test
@@ -195,4 +198,13 @@ class Tests {
         assertEquals(5, fibSequenceDigit(14))
         assertEquals(2, fibSequenceDigit(20))
     }
+
+    //для функции countNumber
+    @Test
+    fun countNumber() {
+        assertEquals(2, countNumber(15))
+        assertEquals(1, countNumber(0))
+        assertEquals(5, countNumber(10000))
+    }
+
 }

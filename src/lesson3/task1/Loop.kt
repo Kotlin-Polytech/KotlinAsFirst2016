@@ -134,8 +134,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val nok = lcm(m, n).toDouble()
-    if ((m * n).toDouble() / nok == 1.0) return true
+    val nok = lcm(m, n)
+    if ((m * n) / nok == 1) return true
     else return false
 }
 /**
@@ -198,7 +198,7 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     val k: Int = revert(n)
-    if (n - k == 0) return true else return false
+    return n==k
 }
 /**
  * Средняя
@@ -217,9 +217,9 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var string1: String = ""
-
     for (i in 1..n) {
         string1 += (i * i).toString()
+        if (string1.length > n) break
     }
     return string1[n - 1].toString().toInt()
 }

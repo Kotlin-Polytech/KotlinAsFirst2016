@@ -61,11 +61,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val way2 = t2 * v2
     val way3 = t3 * v3
     val way = (way1 + way2 + way3)
-    if (way / 2 <= t1 * v1) return way / 2 / v1
-        else if (way / 2 <= (t1 * v1 + t2 * v2)) return (way / 2 - v1 * t1) / v2 + t1
-        else return (way / 2 - v1 * t1 - v2 * t2) / v3 + t1 + t2
+    return when {
+        (way / 2 <= t1 * v1) -> way / 2 / v1
+        (way / 2 <= (t1 * v1 + t2 * v2)) -> (way / 2 - v1 * t1) / v2 + t1
+        else -> (way / 2 - v1 * t1 - v2 * t2) / v3 + t1 + t2
 
-
+    }
 }
     /**
  * Простая
@@ -83,9 +84,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
         var indicator : Int = -2
         if ((rookX1 == kingX) || (rookY1 == kingY)) rook1 = 1
         if ((rookX2 == kingX) || (rookY2 == kingY)) rook2 = 1
-        if ((rook1 == -2) && (rook2 == -2)) indicator = 0 else
-            if ((rook1 == 1) && (rook2 == 1)) indicator = 3 else
-                if (rook1== 1) indicator = 1 else if (rook2 == 1) indicator = 2
+        when {
+            ((rook1 == -2) && (rook2 == -2)) -> indicator = 0
+            ((rook1 == 1) && (rook2 == 1)) -> indicator = 3
+            (rook1 == 1) -> indicator = 1
+            (rook2 == 1) -> indicator = 2
+        }
         return indicator
     }
 
@@ -146,10 +150,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    val indicator: Int
-    if (d >= b && c <= a) indicator = (b - a) else
-        if ((d >= a) && (c <= a) && (d <= b))indicator = (d - a) else
-            if ((c >= a) && (c <= b) && (d >= b)) indicator = (b - c) else
-                if ((c >= a) && (c <= b) && (d <= b)) indicator = (d - c) else indicator = -1
-    return indicator
+    return when {
+        (d >= b && c <= a) -> b - a
+        ((d >= a) && (c <= a) && (d <= b)) -> d - a
+        ((c >= a) && (c <= b) && (d >= b)) -> b - c
+        ((c >= a) && (c <= b) && (d <= b)) -> d - c
+        else -> -1
+    }
+
 }

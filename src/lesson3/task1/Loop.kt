@@ -60,9 +60,9 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var r: Int = 0
     var q: Int = n
-    if ((q == 1) || (q == 0)) return 1
+    if ((q == 1) || (q == 0) || (q == -1)) return 1
     else {
-        while (q >= 1) {
+        while (q * q >= 1) {
             q /= 10
             r += 1
         }
@@ -169,30 +169,28 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var dlina : Int = 1
+    var dlina : Int
     var obshayaDlina : Int = 1
     var sqr : Int
     var ryad: Int = 1
-    var place : Int = 1
     if (n == 1) return 1
     else
      for (i in (2..n)) {
           sqr = i * i
-          while (sqr > 1) {
-              dlina *= 10
-              obshayaDlina += 1
-              sqr /= 10
-          }
-         ryad = ryad * dlina + i * i
          dlina = 1
-}
-    if  (obshayaDlina == n) return (ryad % 10)
-    else {
-        for (i in (n..obshayaDlina)) {
-            place *= 10
+            while (sqr >= 1)
+            {
+                dlina *= 10
+                obshayaDlina += 1
+                sqr /= 10
+            }
+            ryad = ryad * dlina + i * i
         }
-        return ((ryad / place) % 10)
-    }
+    if (obshayaDlina == n ) return (ryad % 10)
+    else {
+     for (j in n..(obshayaDlina - 1)) ryad /= 10
+ }
+    return (ryad  % 10)
 }
 
 

@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson2.task1.timeForHalfWay
+
 /**
  * Пример
  *
@@ -57,7 +59,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n == 0) return 1
+    else {
+    var count = 0
+    var number = n
+    while (number > 0) {
+        number /= 10
+        count++
+    }
+    return count
+    }
+}
 
 /**
  * Простая
@@ -65,7 +78,10 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int =
+    if ((n == 1) || (n == 2)) 1
+    else fib(n-1)+fib(n-2)
+
 
 /**
  * Простая
@@ -73,7 +89,18 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var res = 0
+    val max = Math.max (m, n)
+    for (i in max..m*n) {
+        if ((i%m == 0) && (i%n == 0)) {
+            res = i
+            break
+        }
+        else continue
+    }
+    return res
+}
 
 /**
  * Простая
@@ -87,7 +114,13 @@ fun minDivisor(n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var res = 0
+    for (i in 1..n/2) {
+        if (n%i == 0) res = i
+    }
+    return res
+}
 
 /**
  * Простая
@@ -96,8 +129,12 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
-
+fun isCoPrime(m: Int, n: Int): Boolean {
+    for (i in 2..Math.max(m,n)) {
+        if ((m%i == 0) && (n%i == 0)) return false
+    }
+    return true
+}
 /**
  * Простая
  *
@@ -123,7 +160,27 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var res = 1.0
+    var a = 2.0
+    var b = 2
+    var sign = 1 // Значение будет определять, с каким знаком брать очередной член ряда.
+    while (Math.pow(x,a)/ factorial(b) > eps) {
+        if (sign == 1) {
+            res -= Math.pow(x,a)/ factorial(b)
+            a += 2
+            b += 2
+            sign = 2
+        }
+        else {
+            res += Math.pow(x,a)/ factorial(b)
+            a += 2
+            b += 2
+            sign = 1
+        }
+    }
+    return res
+}
 
 /**
  * Средняя

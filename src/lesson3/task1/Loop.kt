@@ -204,10 +204,10 @@ fun squareSequenceDigit(n: Int): Int {
     while (s < n) {
         i+=1
         b = i*i
-        var c = 1
-        var k = 10
-        while ((b/k) != 0){
-            k*=10
+        var c = 0
+        var bb = b
+        while (bb != 0){
+            bb/=10
             c+=1
         }
         s+=c

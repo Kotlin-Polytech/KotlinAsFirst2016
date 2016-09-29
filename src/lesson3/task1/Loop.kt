@@ -60,15 +60,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var nn: Int = n
     var count: Int = 0
-    if (nn == 0) return(1)
-    else {
-        while (nn >= 1) {
+    if (nn == 0) return 1
+    else
+        while (nn != 0) {
             count++
-            nn = nn / 10
+            nn /= 10
         }
-        return (count)
-    }
-
+    return count
 }
 
 /**
@@ -78,15 +76,15 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var n=n-1
+    val nn=n-1
     var row=listOf(1,1)
-    if (n<2) return 1
+    if (nn<2) return 1
     else {
-        for (i in 2..n) {
-            var x = row[i - 1] + row[i - 2]
+        for (i in 2..nn) {
+            val x = row[i - 1] + row[i - 2]
             row += x
         }
-        var result = row[n]
+        val result = row[nn]
         return (result)
     }
 }
@@ -99,7 +97,7 @@ fun fib(n: Int): Int {
  */
 fun nod(x:Int, y: Int): Int = if (x!= 0) nod(y%x,x) else y
 fun lcm(m: Int, n: Int): Int {
-    var result = m*n/nod(m,n)
+    val result = m*n/nod(m,n)
     return(result)
 }
 
@@ -150,14 +148,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var x = 0
-    for (i in m..n) {
-        x = Math.sqrt(i.toDouble()).toInt()
-        if (i==x) return true
-    }
-    return false
-}
+fun sqr(x:Int): Int = x*x
+fun squareBetweenExists(m: Int, n: Int): Boolean = ((sqr(Math.sqrt(n.toDouble()).toInt())>=m)and(sqr(Math.sqrt(n.toDouble()).toInt())<=n))
 
 /**
  * Простая
@@ -171,7 +163,7 @@ fun sin(x: Double, eps: Double): Double {
     var ind=1
     var sin=0.0
     var newElement=x
-    while (newElement>eps) {
+    while (Math.abs(newElement)>eps) {
         sin+=mark*newElement
         ind+=2
         newElement=Math.pow(x,ind.toDouble())/factorial(ind)
@@ -192,7 +184,7 @@ fun cos(x: Double, eps: Double): Double {
     var ind=0
     var cos=0.0
     var newElement=1.0
-    while (newElement>eps) {
+    while (Math.abs(newElement)>eps) {
         cos+=mark*newElement
         ind+=2
         newElement=Math.pow(x,ind.toDouble())/factorial(ind)
@@ -244,7 +236,7 @@ return (n==n2)
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var memory = n % 10
+    val memory = n % 10
     var nn = n
     while (nn > 0) {
         if (nn % 10 != memory) return true

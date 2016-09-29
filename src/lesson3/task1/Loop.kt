@@ -63,8 +63,8 @@ fun digitNumber(n: Int): Int {
     var n1 = n
     if (n1 == 0) return 1
     while (n1 != 0) {
-        count ++
-        n1 = n1 /10
+        count++
+        n1 = n1 / 10
     }
     return count
 }
@@ -80,7 +80,7 @@ fun fib(n: Int): Int {
     var fib2 = 1
     var sum = 0
     var i = 2
-    while (i <= n ){
+    while (i <= n) {
         sum = fib1 + fib2
         fib1 = fib2
         fib2 = sum
@@ -96,9 +96,8 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 0
     for (k in 1..m * n) {
-        if( k % m == 0 && k % n == 0) return k
+        if (k % m == 0 && k % n == 0) return k
     }
     return -1 // -1 -это ошибка
 }
@@ -109,9 +108,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var divisor = 1
     for (divisor in 2..n) {
-        if(n % divisor == 0) return divisor
+        if (n % divisor == 0) return divisor
     }
     return -1 // -1 - ошибка
 }
@@ -124,9 +122,9 @@ fun minDivisor(n: Int): Int {
 fun maxDivisor(n: Int): Int {
     var divisor = n
     for (divisor in n - 1 downTo 1) {
-        if(n % divisor == 0) return divisor
+        if (n % divisor == 0) return divisor
     }
-    return - 1 // -1 - ошибка
+    return -1 // -1 - ошибка
 }
 
 /**
@@ -136,12 +134,17 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean  {
-    var divisor = 1
-    for (divisor in 2..m * n) {
-        if (m % divisor == 0 && n % divisor == 0) return false
-    }
-    return true
+fun NOD(a: Int, b: Int): Int {
+    var a1 = a
+    var b1 = b
+    if (b1 == 0) return a1
+    else return NOD(b, a1%b1)
+
+}
+
+fun isCoPrime(m: Int, n: Int): Boolean {
+    if (NOD(m, n) != 1) return false
+    else return true
 }
 
 /**

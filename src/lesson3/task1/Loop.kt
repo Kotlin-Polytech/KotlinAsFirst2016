@@ -164,7 +164,7 @@ fun sin(x: Double, eps: Double): Double {
     var s = 0.0
     var e = x
     while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(x, a.toDouble()) / factorial(a.toInt())
+        e = Math.pow(x, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k += 1
@@ -185,7 +185,7 @@ fun cos(x: Double, eps: Double): Double {
     var s = 1.0
     var e = x
     while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(x, a.toDouble()) / factorial(a.toInt())
+        e = Math.pow(x, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k += 1

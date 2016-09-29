@@ -33,7 +33,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String = when {
+    age in 11..19 || age in 111..119 -> "$age лет"
+    age % 10 == 1 -> "$age год"
+    age % 10 == 2 || age % 10 == 3 || age % 10 == 4 -> "$age года"
+    else -> "$age лет"
+}
+
 
 /**
  * Простая
@@ -44,7 +50,26 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val s = s1 + s2 + s3
+    val sHalf = (s / 2.0)
+    var t =0.0
+    when {
+        sHalf <= s1 -> t = sHalf / v1
+        sHalf <= s1 + s2 -> {
+            val sh2 = sHalf - s1
+            t = t1 + (sh2 / v2)
+        }
+    }
+    if (sHalf > (s1 + s2)) {
+        val sh3 = sHalf - s1 - s2
+        t = t1 + t2 + (sh3 / v3)
+    }
+    return t
+}
 
 /**
  * Простая
@@ -79,7 +104,17 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val max1 = if ((a > b) && (a > c)) a else if (b > c) b else c
+    val max2 = if ((a > b) && (a < c)) a else if ((b > c) && (b < a)) b else c
+    val max3 = if ((a < b) && (a < c)) a else if (b < c) b else c
+    return when {
+        max1 >= max2 + max3 -> -1
+        max1 == Math.sqrt(( max2 * max2) + (max3 * max3)) -> 1
+        max1 < Math.sqrt((max2 * max2) + (max3 * max3)) -> 0
+        else -> 2
+    }
+}
 
 /**
  * Средняя
@@ -89,4 +124,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        a !in c..d && b !in c..d && c !in a..b -> -1 //не пересекаются
+        a !in c..d && b !in c..d && c in a..b -> d - c //DC внутри AB
+        a in c..d && b in c..d -> b - a //AB внутри DC
+        a in c..d && b !in c..d -> d - a // A внутри DC
+        else -> b - c
+    }
+}

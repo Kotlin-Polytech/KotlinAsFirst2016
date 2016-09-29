@@ -131,7 +131,8 @@ class Tests {
     @Test
     @Tag("Easy")
     fun sin() {
-        assertEquals(0.5877852523086501, sin(-3.7699111843077517, 1.0000022204460493e-10), 1e-5)
+        assertEquals(0.017452406459518247, sin(-18.832102629018816, 1.0000022204460493e-10), 1.0000022204460493e-10)
+        assertEquals(0.5877852523086501, sin(-3.7699111843077517, 1.0000022204460493e-10), 1.0000022204460493e-10)
         assertEquals(0.0, sin(0.0, 1e-5), 1e-5)
         assertEquals(1.0, sin(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(0.0, sin(Math.PI, 1e-5), 1e-5)
@@ -141,7 +142,8 @@ class Tests {
     @Test
     @Tag("Easy")
     fun cos() {
-        assertEquals(0.9998476951604843, cos(-18.832102629018816, 1.0000022204460493e-10), 1e-5)
+        assertEquals(1.0, cos(-18.84955592153876, 1.0E-10), 1.0E-10)
+        assertEquals(0.9998476951604843, cos(-18.832102629018816, 1.0000022204460493e-10), 1.0000022204460493e-10)
         assertEquals(1.0, cos(0.0, 1e-5), 1e-5)
         assertEquals(0.0, cos(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(-1.0, cos(Math.PI, 1e-5), 1e-5)

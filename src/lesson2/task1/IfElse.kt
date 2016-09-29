@@ -39,9 +39,9 @@ fun ageDescription(age: Int): String {
 
 return when {
     (age%10==1)&&(age!=111)&&(age!=11) ->"$age год"
-    (age!=12)&&(age%10==2) ->"$age года"
-    (age!=13)&&(age%10==3) ->"$age года"
-    (age!=14)&&(age%10==4) ->"$age года"
+    (age!=12)&&(age!=112)&&(age%10==2) ->"$age года"
+    (age!=13)&&(age!=113)&&(age%10==3) ->"$age года"
+    (age!=14)&&(age!=114)&&(age%10==4) ->"$age года"
     else ->"$age лет"
 }
 }
@@ -56,21 +56,42 @@ return when {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double {
-    val s12 = (v1*t1+v2*t2+v3*t3)/2.0
+                   t3: Double, v3: Double) {
     val s1 = v1*t1
     val s2 = v2*t2
     val s3 = v3*t3
-    if ((s1!=0.0)||(s2!=0.0)||(s3!=0.0)){
-    return if (s1 > s12) s12 / v1
-        else if (s1 == s12) t1
-        else if (s1 + s2 > s12) t1 + (s12 - s1) / v2
-        else if (s1 + s2 == s12) t1 + t2
-        else if ((s1==0.0) &&(s2==0.0)&&(s3==s12)) t3
-        else if ((s1==0.0)&&(s2==0.0)&&(s3>s12)) s12/v3
-        else t1 + t2 + (s12 - s1 - s2) / v3}
-    else return Double.NaN
-}
+    val s123 = (s1+s2+s3)/2.0
+        if (s123 != 0.0) {
+            if ((s1 == 0.0) && (s2 != 0.0) && (s3 != 0.0)) {
+                if (s2 >= s123) {
+                    s123 / v2
+                } else {
+                    t2 + (s123 - s2) / v3
+                }
+            }
+
+            if ((s2 == 0.0) && (s1 != 0.0) && (s3 != 0.0)) {
+                if (s1 >= s123) s123 / v1
+                else t1 + (s123 - s1) / t3
+            }
+
+            if ((s3 == 0.0) && (s1 != 0.0) && (s2 != 0.0)) {
+                if (s1 >= s123) s123 / v1
+                else t1 + (s123 - s1) / t2
+            }
+
+            if ((s1 == 0.0) && (s2 == 0.0) && (s3 != 0.0)) s123 / v3
+            if ((s1 != 0.0) && (s2 == 0.0) && (s3 == 0.0)) s123 / v1
+            if ((s1 == 0.0) && (s2 != 0.0) && (s3 == 0.0)) s123 / v2
+
+            if ((s1 != 0.0) && (s2 != 0.0) && (s3 != 0.0) && (s1 < s123)) t1 + (s123 - s1) / v2
+            if ((s1 != 0.0) && (s2 != 0.0) && (s3 != 0.0) && (s1 + s2 < s123)) 1 + t2 + ((s123 - s1 - s2) / v3)
+            if ((s1 != 0.0) && (s2 != 0.0) && (s3 != 0.0) && (s1 >= s123)) s123 / v1
+        }
+        else Double.NaN
+        }
+
+
 
 /**
  * Простая

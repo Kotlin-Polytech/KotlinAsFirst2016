@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson1.task1.sqr
+
 /**
  * Пример
  *
@@ -176,7 +178,27 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i=0
+    var j=0
+    var kv = 0
+    var s=0
+    var ost = 0
+    var cur = 0
+    while (s<n){
+        i++
+        kv = i*i
+        s=s+kv.toString().length
+    }
+    ost = s - n
+    if (ost==0) cur = kv%10
+    else
+    { for (j in 1..ost){
+        kv=kv/10
+    }
+        cur = kv%10}
+    return cur
+}
 
 /**
  * Сложная

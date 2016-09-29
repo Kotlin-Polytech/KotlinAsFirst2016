@@ -42,7 +42,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
 fun main(args: Array<String>) {
     // Решаем x^2 - 3*x + 2 = 0
     val x1x2 = quadraticRootProduct(1.0, -3.0, 2.0)
-    println ("Root product: $x1x2")
+    println("Root product: $x1x2")
 }
 
 /**
@@ -69,7 +69,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = grad * PI / 180 + min / 60.0 * PI / 180 + sec / 3600.0 * PI / 180
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = grad * PI / 180 + min * PI / 10800.0 + sec * PI / 648000.0
 /**
  * Тривиальная
  *
@@ -77,9 +77,9 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = grad * PI / 180 + min
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val change_x_sqr = ( x2 - x1 ) * ( x2 - x1 )
-    val change_y_sqr = ( y2 -y1 ) * (y2 - y1 )
-    val Length = sqrt( change_x_sqr + change_y_sqr )
+    val changeXSqr = ( x2 - x1 ) * ( x2 - x1 )
+    val changeYSqr = ( y2 -y1 ) * (y2 - y1 )
+    val Length = sqrt( changeXSqr + changeYSqr )
     return Length
 }
 
@@ -99,9 +99,9 @@ fun thirdDigit(number: Int): Int = number % 1000 / 100
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val starttime = hoursDepart * 60 + minutesDepart
-    val stoptime = hoursArrive * 60 + minutesArrive
-    return stoptime - starttime
+    val startTime = hoursDepart * 60 + minutesDepart
+    val stopTime = hoursArrive * 60 + minutesArrive
+    return stopTime - startTime
 }
 
 /**

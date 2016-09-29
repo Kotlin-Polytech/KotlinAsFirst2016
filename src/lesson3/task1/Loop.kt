@@ -162,11 +162,11 @@ fun sin(x: Double, eps: Double): Double {
     var mark=1
     var ind=1
     var sin=0.0
-    var newElement=x
-    while (Math.abs(newElement)>eps) {
+    var newElement=x%(Math.PI*2)
+    while (Math.abs(newElement) >=eps) {
         sin+=mark*newElement
         ind+=2
-        newElement=Math.pow(x,ind.toDouble())/factorial(ind)
+        newElement=Math.pow(x%(Math.PI*2),ind.toDouble())/factorial(ind)
         mark=0-mark
     }
     return(sin)
@@ -179,19 +179,7 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double {
-    var mark=1
-    var ind=0
-    var cos=0.0
-    var newElement=1.0
-    while (Math.abs(newElement)>eps) {
-        cos+=mark*newElement
-        ind+=2
-        newElement=Math.pow(x,ind.toDouble())/factorial(ind)
-        mark=0-mark
-    }
-    return(cos)
-}
+fun cos(x: Double, eps: Double): Double = sin(x+Math.PI/2,eps)
 
 /**
  * Средняя

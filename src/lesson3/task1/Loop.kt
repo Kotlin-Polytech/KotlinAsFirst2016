@@ -85,11 +85,10 @@ fun fib(n: Int): Int =
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = Math.max(m, n)
-    while ((k % m) or (k % n) != 0) {
-        k += 1
-    }
-    return k
+    val k = Math.max(m, n)
+    for (i in k .. m*n step k) if ((i % m == 0) and (i % n == 0)) return i
+    return m * n
+
 }
 
 /**
@@ -163,7 +162,7 @@ fun sin(x: Double, eps: Double): Double {
     var a = 1
     var k = 2
     var s = 0.0
-    var e = x % (2.0 * Math.PI)
+    var e = x
     while (Math.abs(e) >= Math.abs(eps)) {
         e = Math.pow(x, a.toDouble()) / factorial(a.toInt())
         if (k % 2 == 0) s += e else s -= e
@@ -184,7 +183,7 @@ fun cos(x: Double, eps: Double): Double {
     var a = 2
     var k = 1
     var s = 1.0
-    var e = x % (2.0 * Math.PI)
+    var e = x
     while (Math.abs(e) >= Math.abs(eps)) {
         e = Math.pow(x, a.toDouble()) / factorial(a.toInt())
         if (k % 2 == 0) s += e else s -= e
@@ -254,12 +253,12 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun squareSequenceDigit(n: Int): Int {
     var l = "1"
-    var count = 2
+    var c = 2
     var k = 0
     while (k + l.length < n) {
         k += l.length
-        l = (count * count).toString()
-        count += 1
+        l = (c * c).toString()
+        c += 1
     }
     return (l[n - k - 1] - '0').toInt()
 }
@@ -273,12 +272,12 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var l = "1"
-    var count = 2
+    var c = 2
     var k = 0
     while (k + l.length < n) {
         k += l.length
-        l = fib(count).toString()
-        count++
+        l = fib(c).toString()
+        c += 1
     }
     return (l[n - k - 1] - '0').toInt()
 }

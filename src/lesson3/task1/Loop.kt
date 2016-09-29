@@ -200,6 +200,7 @@ fun squareSequenceDigit(n: Int): Int {
     return cur
 }
 
+
 /**
  * Сложная
  *

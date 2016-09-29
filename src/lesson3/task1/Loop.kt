@@ -133,11 +133,8 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val nok = lcm(m, n)
-    if ((m * n) / nok == 1) return true
-    else return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+
 /**
  * Простая
  *
@@ -155,6 +152,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     }
     return true
 }
+
 /**
  * Простая
  *
@@ -189,6 +187,7 @@ fun revert(n: Int): Int {
         }
     return newnumber
 }
+
 /**
  * Средняя
  *
@@ -198,15 +197,28 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     val k: Int = revert(n)
-    return n==k
+    return n == k
 }
+
 /**
  * Средняя
  *
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var number = n
+    var k = number % 10
+    if (n == 0) return false else
+        while (number > 0) {
+            if (k != number % 10) {
+                return true
+            }
+            k = number % 10
+            number /= 10
+        }
+    return false
+}
 
 /**
  * Сложная
@@ -217,11 +229,13 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var string1: String = ""
+    var count: Int = 0
     for (i in 1..n) {
-        string1 += (i * i).toString()
-        if (string1.length > n) break
+        string1 = (i * i).toString()
+        count += string1.length
+        if (count >= n) break
     }
-    return string1[n - 1].toString().toInt()
+    return string1[string1.length - 1 - count + n].toString().toInt()
 }
 
 /**

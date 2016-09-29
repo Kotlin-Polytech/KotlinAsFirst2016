@@ -1,7 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
-import lesson2.task1.timeForHalfWay
 
 /**
  * Пример
@@ -36,7 +36,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -62,13 +62,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     if (n == 0) return 1
     else {
-    var number = n
-    var count = 0
-    while (Math.abs(number) > 0) {
-        number /= 10
-        count++
-    }
-    return count
+        var number = n
+        var count = 0
+        while (Math.abs(number) > 0) {
+            number /= 10
+            count++
+        }
+        return count
     }
 }
 
@@ -79,8 +79,8 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int =
-    if ((n == 1) || (n == 2)) 1
-    else fib(n-1)+fib(n-2)
+        if ((n == 1) || (n == 2)) 1
+        else fib(n - 1) + fib(n - 2)
 
 
 /**
@@ -91,13 +91,12 @@ fun fib(n: Int): Int =
  */
 fun lcm(m: Int, n: Int): Int {
     var res = 0
-    val max = Math.max (m, n)
-    for (i in max..m*n) {
-        if ((i%m == 0) && (i%n == 0)) {
+    val max = Math.max(m, n)
+    for (i in max..m * n) {
+        if ((i % m == 0) && (i % n == 0)) {
             res = i
             break
         }
-        else continue
     }
     return res
 }
@@ -117,7 +116,7 @@ fun minDivisor(n: Int): Int = TODO()
 fun maxDivisor(n: Int): Int {
     var res = 0
     for (i in 1..n/2) {
-        if (n%i == 0) res = i
+        if (n % i == 0) res = i
     }
     return res
 }
@@ -130,11 +129,12 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..Math.max(m,n)) {
-        if ((m%i == 0) && (n%i == 0)) return false
+    for (i in 2..Math.max(m, n)) {
+        if ((m % i == 0) && (n % i == 0)) return false
     }
     return true
 }
+
 /**
  * Простая
  *
@@ -165,15 +165,14 @@ fun cos(x: Double, eps: Double): Double {
     var a = 2.0
     var b = 2
     var sign = 1 // Значение будет определять, с каким знаком брать очередной член ряда.
-    while (Math.abs(Math.pow(x,a)/ factorial(b)) > Math.abs(eps)) {
+    while (Math.abs(Math.pow(x, a) / factorial(b)) > Math.abs(eps)) {
         if (sign == 1) {
-            res -= Math.pow(x,a)/ factorial(b)
+            res -= Math.pow(x, a) / factorial(b)
             a += 2
             b += 2
             sign = 2
-        }
-        else {
-            res += Math.pow(x,a)/ factorial(b)
+        } else {
+            res += Math.pow(x, a) / factorial(b)
             a += 2
             b += 2
             sign = 1
@@ -198,6 +197,7 @@ fun revert(n: Int): Int = TODO()
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean = TODO()
+
 
 /**
  * Средняя

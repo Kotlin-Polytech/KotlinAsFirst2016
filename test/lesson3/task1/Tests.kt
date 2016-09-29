@@ -145,6 +145,7 @@ class Tests {
         assertEquals(0.0, cos(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(-1.0, cos(Math.PI, 1e-5), 1e-5)
         assertEquals(0.0, cos(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(1.0, cos(-18.84955592153876, 1.0e-10), 1e-5)
     }
 
     @Test

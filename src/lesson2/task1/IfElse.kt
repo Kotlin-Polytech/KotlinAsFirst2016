@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -34,9 +35,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-   return when {
-       (age % 10 == 1)&&(age%100 != 11) -> "$age год"
-       (age % 10 in 2..4)&&(age%100 !in 12..14) -> "$age года"
+    return when {
+        (age % 10 == 1) && (age % 100 != 11) -> "$age год"
+        (age % 10 in 2..4) && (age % 100 !in 12..14) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -57,8 +58,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s = s1 + s2 + s3
     val half = s / 2
     val res = if (half <= s1) half / v1
-              else if (half <= s1 + s2) t1 + (half - s1) / v2
-              else t1 + t2 + (half - s1 - s2) / v3
+    else if (half <= s1 + s2) t1 + (half - s1) / v2
+    else t1 + t2 + (half - s1 - s2) / v3
     return res
 }
 
@@ -73,9 +74,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) return 3
-    else if ((kingX == rookX1) || (kingY == rookY1)) return 1
-    else if ((kingX == rookX2) || (kingY == rookY2)) return 2
+    var first = 0
+    var second = 0
+    if ((kingX == rookX1) || (kingY == rookY1)) first = 1
+    if ((kingX == rookX2) || (kingY == rookY2)) second = 1
+    if ((first == 1) && (second == 1)) return 3
+    else if (first == 1) return 1
+    else if (second == 1) return 2
     else return 0
 
 
@@ -113,10 +118,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return  if ((c>=a) && (d<=b)) d-c
-            else if ((a>=c) && (b<=d)) b-a
-            else if (c in a..b) b-c
-            else if (d in a..b) d-a
-            else -1
+    return when {
+        (c>=a) && (d<=b) -> d-c
+        (a>=c) && (b<=d) -> b-a
+        c in a..b -> b-c
+        d in a..b -> d-a
+        else -> -1
+    }
 
 }

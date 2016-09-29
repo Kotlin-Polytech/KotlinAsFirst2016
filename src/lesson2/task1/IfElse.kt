@@ -37,7 +37,7 @@ fun ageDescription(age: Int): String {
    return when {
        (age % 10 == 1)&&(age%100 != 11) -> "$age год"
        (age % 10 in 2..4)&&(age%100 !in 12..14) -> "$age года"
-       else -> "$age лет"
+        else -> "$age лет"
     }
 }
 
@@ -56,9 +56,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3 = v3 * t3
     val s = s1 + s2 + s3
     val half = s / 2
-    val res = if (half <= s1) half / v1 else
-        if (half <= s1 + s2) t1 + (half - s1) / v2 else
-             t1 + t2 + (half - s1 - s2) / v3
+    val res = if (half <= s1) half / v1
+              else if (half <= s1 + s2) t1 + (half - s1) / v2
+              else t1 + t2 + (half - s1 - s2) / v3
     return res
 }
 
@@ -73,9 +73,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((kingX == rookX1)or(kingY == rookY1))and((kingX == rookX2)or(kingY == rookY2))) return 3 else
-    if ((kingX == rookX1)or(kingY == rookY1)) return 1 else
-    if ((kingX == rookX2)or(kingY == rookY2)) return 2 else return 0
+    if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) return 3
+    else if ((kingX == rookX1) || (kingY == rookY1)) return 1
+    else if ((kingX == rookX2) || (kingY == rookY2)) return 2
+    else return 0
 
 
 }
@@ -112,9 +113,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return if ((c>=a) && (d<=b)) d-c else
-           if ((a>=c) && (b<=d)) b-a else
-           if (c in a..b) b-c else
-           if (d in a..b) d-a else -1
+    return  if ((c>=a) && (d<=b)) d-c
+            else if ((a>=c) && (b<=d)) b-a
+            else if (c in a..b) b-c
+            else if (d in a..b) d-a
+            else -1
 
 }

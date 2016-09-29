@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "VARIABLE_WITH_REDUNDANT_INITIALIZER")
 
 package lesson3.task1
 
@@ -91,22 +91,22 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var max = 0
-    var min = 0
+    var a = 0
+    var b = 0
     var c = 0
     if (m > n) {
-        max = m
-        min = n
+        a = m
+        b = n
     } else {
-        max = n
-        min = m
+        a = n
+        b = m
     }
-    while (max % min > 0) {
-        c = max
-        max = min
-        min = c % min
+    while (a % b > 0) {
+        c = a
+        a = b
+        b = c % b
     }
-    return n * m / min
+    return n * m / b
 }
 
 /**
@@ -182,6 +182,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double = TODO()
 
+
 /**
  * Простая
  *
@@ -228,12 +229,12 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
-    while (number>9){
-       if (number % 10 == (number % 100)/10)
-           number /= 10
+    while (number > 9) {
+        if (number % 10 == (number % 100) / 10)
+            number /= 10
         else return true
     }
-    if (number != n%10) return true
+    if (number != n % 10) return true
     return false
 }
 

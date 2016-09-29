@@ -104,8 +104,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (a+b<c||a+c<b||b+c<a) return -1
-    else if (a*a==b*b+c*c||b*(b)==a*a+c*c||c*(c)==b*(b)+a*(a)) return 1
-    else if(a*(a)>b*(b)+c*(c)||b*(b)>c*(c)+a*(a)||c*(c)>b*(b)+a*(a)) return 2
+    else if (a*a==b*b+c*c||b*b==a*a+c*c||c*c==b*b+a*a) return 1
+    else if(a*a>b*b+c*c||b*b>c*c+a*a||c*c>b*b+a*a) return 2
     else return 0
 }
 

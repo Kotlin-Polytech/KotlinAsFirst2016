@@ -162,19 +162,8 @@ fun squareBetweenExists(m: Int, n: Int): Boolean{
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double {
+fun sin(x: Double, eps: Double): Double = TODO()
 
-    var result = 0.0
-    var i = 0
-    while (abs(pow(x,2.0*i +1.0)/factorial(2*i + 1)) > eps)
-    {
-        result += pow(-1.0,i.toDouble())* pow(x,2.0*i +1.0)/factorial(2*i + 1)
-        i++
-    }
-
-    return result
-
-}
 
 /**
  * Простая
@@ -183,17 +172,8 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double {
+fun cos(x: Double, eps: Double): Double =TODO()
 
-    var result = 0.0
-    var i = 0
-    while (abs(pow(x, 2.0 * i) / factorial(2 * i)) > eps) {
-        result += pow(-1.0, i.toDouble()) * pow(x, 2.0 * i) / factorial(2 * i)
-        i++
-    }
-
-    return result
-}
 
 /**
  * Средняя
@@ -263,36 +243,8 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var k = 0
-    var value = 0
-    var result = 0
-    var i = 1
-    var j = 0
+fun squareSequenceDigit(n: Int): Int = TODO()
 
-    var logic = false
-
-    while (logic != true)
-    {
-        value = i * i
-        j = countNumber(value)
-        k += j
-        if (k >= n )
-        {
-            k -= j
-            value = revert(i*i)
-            while (k != n)
-            {
-                result = value % 10
-                value /= 10
-                k++
-            }
-            logic = true
-        }
-        i++
-    }
-    return result
-}
 
 /**
  * Сложная

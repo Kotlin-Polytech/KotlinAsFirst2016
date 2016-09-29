@@ -100,11 +100,11 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 2
-    while (n % k != 0) {
-        k++
+    var minDiv = 2
+    while (n % minDiv != 0) {
+        minDiv++
     }
-    return k
+    return minDiv
 }
 
 /**
@@ -113,11 +113,11 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k = n - 1
-    while (n % k != 0) {
-        k--
+    var maxDiv = n - 1
+    while (n % maxDiv != 0) {
+        maxDiv--
     }
-    return k
+    return maxDiv
 }
 
 /**
@@ -128,13 +128,13 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = 2
+    var devisor = 2
     var bool = true
     for (i in 2..min(m, n)) {
-        if ((n % k == 0) && (m % k == 0)) {
+        if ((n % devisor == 0) && (m % devisor == 0)) {
             bool = false
             break
-        } else k = k + 1
+        } else devisor = devisor + 1
     }
     return bool
 }
@@ -227,15 +227,15 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
 fun squareSequenceDigit(n: Int): Int {
     var square = 0
     var sum = 0
-    var i = 1
+    var count = 1
     var number = 0.0
     while (sum < n) {
-        square = i * i
-        i++
+        square = count * count
+        count++
         sum = sum + digitNumber(square)
     }
-    i = sum - n
-    if (i != 0) {
+    count = sum - n
+    if (count != 0) {
         number = square.toDouble() / pow(10.0, (i).toDouble())
         return number.toInt() % 10
     } else return square % 10
@@ -251,15 +251,15 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var fibonach = 0
     var sum = 0
-    var i = 1
+    var count = 1
     var number = 0.0
     while (sum < n) {
-        fibonach = fib(i)
-        i++
+        fibonach = fib(count)
+        count++
         sum = sum + digitNumber(fibonach)
     }
-    i = sum - n
-    if (i != 0) {
+    count = sum - n
+    if (count != 0) {
         number = fibonach.toDouble() / pow(10.0, (i).toDouble())
         return number.toInt() % 10
     } else return fibonach % 10

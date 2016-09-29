@@ -57,7 +57,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var x=0
+    var N=n
+    do {
+        x+=1
+        N /= 10
+    } while (N>0)
+    return x
+}
 
 /**
  * Простая
@@ -157,7 +165,24 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+        var N = 0
+        var x = 0
+        val answer: Int
+        while (N < n) {
+            x += 1
+            N += digitNumber(x * x)
+        }
+        if (n == N) answer = (x * x) % 10
+        else {
+            val k = Math.pow(10.0, (N - n).toDouble()).toInt()
+            answer = ((x * x) / k) % 10
+        }
+return answer
+}
+
+
+
 
 /**
  * Сложная

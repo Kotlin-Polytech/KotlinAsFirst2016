@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+
 /**
  * Пример
  *
@@ -174,7 +175,16 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean{
+    for (i in m..n){
+        if sqrt(i) == sqrt((i/10)*10) {
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
 /**
  * Простая
  *
@@ -182,7 +192,9 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+
+}
 
 /**
  * Простая
@@ -199,30 +211,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int {
-    var l: Int = 1
-    var h: Int = 10
-    var k: Int = 0
-    var s: Int = n
-    var g: Int = 0
-    var su: Int = 0
-    while ( s > 0 ) {
-        s = s / 10
-        k = k + 1
-        l = l * 10}
-    g = n
-    s = 0
-    su = n
-    l = l / 10
-    for (i in 1..k){
-        su = ((su % 10)*l)
-        s = s + su
-        su = g / h
-        l = l / 10
-        h = h *10
-    }
-    return s
-}
+fun revert(n: Int): Int = TODO()
 
 /**
  * Средняя
@@ -237,18 +226,16 @@ fun isPalindrome(n: Int): Boolean {
     var l: Int = 1
     var s: Int = n
     while ( s > 0 ) {
-        s = s / 10
+        s = s/ 10
         k = k + 1
         l = l * 10
             }
-    s = n
-    l = l/10
     for (i in 1 .. k/2){
-        if (s/l != s%h ){
+        if (n/h != n/l){
             return false
         } else {
-            s = (s - s/l*l)/10
-            l = l / 100
+            h = h * 10
+            l / 10
         }
     }
     return true
@@ -273,7 +260,7 @@ fun hasDifferentDigits(n: Int): Boolean {
     } else {
         s = n
         for (i in 1..k-1){
-            if ((s%k2 - s%k1)/ 10 != s%k1 ){
+            if ((n%k2 - n%k1)/ 10 != n%k1 ){
                 return true
             } else {
                 s = s / 10
@@ -291,7 +278,29 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i = 0
+    var number = 0
+    var result = 0
+    var s = 0
+    var k = 0
+
+
+    while (number < n) {
+        i = i + 1
+        s = i*i
+        while (s>0){
+            s = s / 10
+            k = k + 1
+        }
+
+        number = number + k
+    }
+    result = i * i
+    for (n..number-1) result/=10
+
+    return (result % 10)
+}
 
 /**
  * Сложная

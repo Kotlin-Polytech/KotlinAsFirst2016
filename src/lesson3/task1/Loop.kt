@@ -92,7 +92,7 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = m * n
-    for (i in 2..m * n) {
+    for (i in (if (m>=n) m else n)..m * n) {
         if (i % m == 0 && i % n == 0) {
             k = i
             break

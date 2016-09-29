@@ -118,6 +118,7 @@ class Tests {
         assertFalse(isCoPrime(83648,83648))
         assertTrue(isCoPrime(1,1))
         assertFalse(isCoPrime(84878,56976))
+        assertTrue(lesson3.task1.isCoPrime(60299,83648))
     }
 
     @Test

@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm
+
 /**
  * Пример
  *
@@ -57,7 +59,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): () -> Unit = {
+    var vt:String="n"
+    var size = vt.length
+    println(size)
+}
 
 /**
  * Простая
@@ -65,7 +71,16 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int  {
+var a=1
+var b=1
+    for ( i in 3..n){
+        var c=a+b
+        a=b
+        b=c
+    }
+    return b
+}
 
 /**
  * Простая
@@ -131,7 +146,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int) {
+var s=0
+var c=0
+    do {
+        s = s * 10 + n % 10
+        c = n / 10
+    }
+    while (n != 0)
+println(s)
+}
 
 /**
  * Средняя
@@ -140,7 +164,18 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int):Boolean {
+    var m = n
+    var k = 0
+
+    while (m!=0) {
+        k = k * 10 + m % 10
+        m = m / 10
+    }
+    if (k == n) return true
+    else
+        return false
+}
 
 /**
  * Средняя

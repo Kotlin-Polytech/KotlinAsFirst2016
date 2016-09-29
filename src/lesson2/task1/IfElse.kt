@@ -24,7 +24,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
     val y2 = (-b - Math.sqrt(d)) / (2 * a)
     val y3 = Math.max(y1, y2)       // 5
     if (y3 < 0.0) return Double.NaN // 6
-    return -Math.sqrt(y3)           //  7
+    return -Math.sqrt(y3)           // 7
 }
 
 /**
@@ -35,8 +35,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     if ((age in 5..20) || (age in 105..120)) return "$age лет"
-    if ((age/10 >= 2) && (age%10 in 2..4)) return "$age года"
-    if ((age/10 >= 2) && (age%10 == 1)) return "$age год"
+    if ((age / 10 >= 2) && (age % 10 in 2..4)) return "$age года"
+    if ((age / 10 < 1) && (age % 10 in 2..4)) return "$age года"
+    if ((age / 10 >= 2) && (age % 10 == 1) || (age == 1)) return "$age год"
+    if ((age / 10 < 1) && (age % 10 == 1) || (age == 1)) return "$age год"
     return "$age лет"
 }
 
@@ -50,9 +52,9 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val hS = (t1*v1 + t2*v2 + t3*v3)/2
-    if (hS <= v1*t1) return hS/v1
-    if (hS <= (v1*t1 + v2*t2)) return t1 + ((hS - v1 * t1) / v2)
+    val hS = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if (hS <= v1 * t1) return hS / v1
+    if (hS <= (v1 * t1 + v2 * t2)) return t1 + ((hS - v1 * t1) / v2)
     return t1 + t2 + (hS - v1 * t1 - v2 * t2) / v3
 }
 
@@ -113,7 +115,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 /**
  * Средняя
  *
- * Даны четыре точки на одной прямой: A, B, C и D.
+ * Даны четыре точки на одной прямой: A,  B, C и D.
  * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.

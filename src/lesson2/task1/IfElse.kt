@@ -72,7 +72,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
                 var semiT = ((semiLengthS - t1*v1 - t2*v2) / v3)+t1+t2
                 return semiT
             }
-            return 0.0
+            return  0.0
         }
 
 

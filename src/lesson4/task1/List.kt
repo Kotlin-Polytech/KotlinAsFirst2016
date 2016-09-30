@@ -103,15 +103,32 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Найти модуль заданного вектора, представленного в виде списка v,
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
- */
-fun abs(v: List<Double>): Double = TODO()
+*/
+fun q2(g:Double) = g * g
+
+fun abs(v: List<Double>): Double{
+   var sum: Double = 0.0
+    for (i in 0 .. v.size-1){
+        sum += q2(v[i])}
+    return Math.sqrt(sum)
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    var sum : Double = 0.0
+    for (i in 0 .. list.size - 1){
+        sum += list[i]
+    }
+    if (list.size == 0) {
+        return 0.0
+    } else{
+    return sum / list.size
+    }
+}
 
 /**
  * Средняя
@@ -119,7 +136,13 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val medium = mean(list)
+    for (i in 0 .. list.size-1){
+        list[i] = list[i] - medium
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -128,7 +151,19 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var min: Int = 0
+    var sum: Double = 0.0
+    if (a.size < b.size){
+        min = a.size - 1
+    } else {
+        min = b.size - 1
+    }
+    for (i in 0 .. min){
+        sum += a[i]*b[i]
+    }
+    return sum
+}
 
 /**
  * Средняя

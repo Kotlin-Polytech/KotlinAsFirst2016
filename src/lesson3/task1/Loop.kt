@@ -65,7 +65,7 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int = if (n<3) 1 else fib(n-1)+ fib(n-2)
 
 /**
  * Простая
@@ -166,4 +166,24 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var numbers = listOf<Int>()
+    for (i in 1..n) {
+        numbers = numbers+ fib(i)
+    }
+    val toString = numbers.joinToString(separator = "",prefix = "", postfix = "",limit = -1,truncated = "")
+    var c=0
+    when {
+        toString[n-1] == '0' -> c=0
+        toString[n-1] == '1' -> c=1
+        toString[n-1] == '2' -> c=2
+        toString[n-1] == '3' -> c=3
+        toString[n-1] == '4' -> c=4
+        toString[n-1] == '5' -> c=5
+        toString[n-1] == '6' -> c=6
+        toString[n-1] == '7' -> c=7
+        toString[n-1] == '8' -> c=8
+        toString[n-1] == '9' -> c=9
+    }
+    return c
+}

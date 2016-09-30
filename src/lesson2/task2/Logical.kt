@@ -30,7 +30,7 @@ fun isNumberHappy(number: Int): Boolean
     number1=number1/10
     sum2=sum2+number1%10
     if (sum1==sum2) {return true}
-    return false
+    return  false
 }
 
 /**

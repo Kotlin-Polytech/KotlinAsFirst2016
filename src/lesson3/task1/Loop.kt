@@ -63,7 +63,7 @@ fun digitNumber(n: Int): Int {
     } else {
     var kolvo = 0
     var m=n
-    while (m>0){
+    while (m!=0){
         kolvo ++;
         m= m/10
     }

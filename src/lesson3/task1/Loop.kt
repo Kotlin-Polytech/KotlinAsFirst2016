@@ -66,7 +66,7 @@ fun digitNumber(n: Int): Int {
     if (b == 0) return 1
     else {
         do {
-            b = b / 10
+            b /= 10
             a++
         } while (b != 0)
         return a
@@ -99,16 +99,19 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var a = if (m > n) m else n
     val b = if (m < n) m else n
-    var k = (a * b) / 2
+    val k = (a * b) / 4
     val s = if (m > n) m else n
-    if (((a % 2) == 0) && ((b % 2) == 0)) ((a * b) / 2)
-    else {
-        if ((a % b) == 0) (k == b) else
+    return if ((a % b) == 0) a
+    else if (((a % 2) == 0) && ((b % 2) == 0)) {
+        if (((((((a * b) / 4)) % a) == 0) && ((((a * b) / 4) % b) == 0)) && (((a * b) / 4) > a)) k
+        else k * 2
+    } else
+        if ((a % b) == 0) a
+        else {
             while ((a % b) != 0)
                 a += s
-        k = a
-    }
-    return k
+            a
+        }
 }
 
 /**

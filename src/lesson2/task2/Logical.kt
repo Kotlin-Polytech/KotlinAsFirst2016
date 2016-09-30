@@ -56,7 +56,7 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
             return true
     } else if (b<=r && (a<=s || c<=s)){
             return true
-    } else if ( c<=r && (a<=s || c<=s)){
+    } else if ( c<=r && (a<=s || b<=s)){
             return true
     } else return false
 }

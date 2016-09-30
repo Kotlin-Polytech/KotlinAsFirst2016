@@ -169,7 +169,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var sign = 1
-    var cur = 0.0
+    var cur = x%(Math.PI*2)
     var sinx = 0.0
     var n = 1
         while (true) {
@@ -192,7 +192,7 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var sign = -1
-    var cur = 0.0
+    var cur = x%(Math.PI*2)
     var cosx = 1.0
     var n = 2
     while (true) {

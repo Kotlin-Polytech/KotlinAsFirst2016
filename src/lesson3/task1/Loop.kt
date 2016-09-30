@@ -1,8 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
-
-
-
 package lesson3.task1
+
+import java.lang.Math.*
+
 
 /**
  * Пример
@@ -77,7 +77,19 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    val sq = sqrt(5.0)
+    val doubleN = n.toDouble()
+    val result: Double
+    if (n > 10) {
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN)))
+    } else {
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
+    }
+    return round(result).toInt()
+}
+
+
 
 /**
  * Простая
@@ -130,7 +142,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int) : Boolean = TODO ()
 
 /**
  * Простая
@@ -192,7 +204,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int = TODO ()
 
 /**
  * Сложная
@@ -201,4 +213,18 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var i = 1
+    var x: Int
+    var y = 0
+    do {
+        x = fib(i)
+        y += digitNumber(x)
+        if (y >= n) break
+        i++
+    } while (true)
+    for (j in 1..y - n) {
+        x /= 10
+    }
+    return x % 10
+}

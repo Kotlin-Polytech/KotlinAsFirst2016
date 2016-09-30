@@ -49,17 +49,6 @@
             <version>${junit.vintage.version}</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-js-library</artifactId>
-            <version>${kotlin.version}</version>
-        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -96,18 +85,16 @@
                 <executions>
                     <execution>
                         <id>compile</id>
-                        <phase>compile</phase>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
-                            <goal>js</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>test-compile</id>
-                        <phase>test-compile</phase>
+                        <phase>process-test-sources</phase>
                         <goals>
                             <goal>test-compile</goal>
-                            <goal>test-js</goal>
                         </goals>
                     </execution>
                 </executions>

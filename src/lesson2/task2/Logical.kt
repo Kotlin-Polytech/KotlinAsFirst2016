@@ -42,7 +42,7 @@ fun isNumberHappy(number: Int): Boolean
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
 {
     if ((x1 == x2) or (y1 == y2) or (Math.abs(x1-y1) == Math.abs(y2-x2)) or ((x1+y1) == (y2+x2))) {return true}
-    return false
+    return  false
 }
 
 /**

@@ -52,7 +52,7 @@ fun main(args: Array<String>) {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    val answer : Int = hours * 3600 + minutes * 60 + seconds
+    val answer = hours * 3600 + minutes * 60 + seconds
     return answer
 }
 
@@ -64,7 +64,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val answer : Int = sagenes * 48 + arshins * 16 + vershoks
+    val answer = sagenes * 48 + arshins * 16 + vershoks
     return answer * 0.04445
 }
 
@@ -75,7 +75,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val answer =grad * PI / 180 + min * PI / (180 * 60) + sec * PI / (180 * 60 * 60)
+    val answer = grad * PI / 180 + min * PI / (180 * 60) + sec * PI / (180 * 60 * 60)
     return answer
     }
 /**
@@ -85,7 +85,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val answer : Double = sqrt(sqr(x2 - x1) + sqr(y2 - y1))
+    val answer = sqrt(sqr(x2 - x1) + sqr(y2 - y1))
     return answer
 }
 
@@ -96,7 +96,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int {
-    val answer : Int = number / 100 % 10
+    val answer = number / 100 % 10
     return answer
 }
 
@@ -108,9 +108,9 @@ fun thirdDigit(number: Int): Int {
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val timestart : Int = hoursDepart * 60 + minutesDepart
-    val timefinish : Int = hoursArrive * 60 + minutesArrive
-    val answer : Int = timefinish - timestart
+    val timestart = hoursDepart * 60 + minutesDepart
+    val timefinish = hoursArrive * 60 + minutesArrive
+    val answer = timefinish - timestart
     return answer
 }
 
@@ -133,10 +133,10 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val Sotni : Int = number / 100
-    val Desyatki : Int = number / 10 % 10
-    val Edinitsi : Int = number % 10
-    val CreateNewNumber :Int = Edinitsi * 100 + Desyatki * 10 + Sotni
-    val answer : Int = CreateNewNumber
+    val Sotni = number / 100
+    val Desyatki = number / 10 % 10
+    val Edinitsi = number % 10
+    val CreateNewNumber = Edinitsi * 100 + Desyatki * 10 + Sotni
+    val answer = CreateNewNumber
     return answer
 }

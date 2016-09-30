@@ -1,3 +1,16 @@
+#INCLUDE <IOSTREAM >
+INT MAIN(){
+
+FOR (INT I=0;I<=10;I++){
+
+PRINTF("саня хороша раз%d",i);
+
+}
+}
+
+
+RETURN 0;
+}
 = 3. Рекурсии и циклы
 
 Почти все реальные задачи требуют для своего решения не только ветвлений,
@@ -238,7 +251,7 @@ fun isPerfect(n: Int): Boolean {
     for (m in 2..n/2) {
         if (n % m > 0) continue
         sum += m
-        if (sum > n) break
+         if (sum > n) break
     }
     return sum == n
 }

@@ -1,4 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
+
+
 package lesson3.task1
 
 /**
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +60,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n < 10) return 1
+    var count = 0
+    var m = n
+    while (m > 0) {
+        m /= 10
+        count++
+    }
+    return count
+}
 
 /**
  * Простая
@@ -73,21 +85,43 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k: Int
+    if (n > m) k = n else k = m
+    for (i in k..Int.MAX_VALUE) {
+        if (i % m == 0 && i % n == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var nok = n
+    for (i in n downTo 2) {
+        if (n % i == 0) nok = i
+    }
+    return nok
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var nok = 1
+    for (i in 1..n - 1) {
+        if (n % i == 0) nok = i
+    }
+    return nok
+}
 
 /**
  * Простая
@@ -101,7 +135,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
 /**
  * Простая
  *
- * Для заданных чисел m и n, m <= n, определить, имеется ли хотя бы один точный квадрат между m и n,
+ * Для з
+ * аданных чисел m и n, m <= n, определить, имеется ли хотя бы один точный квадрат между m и n,
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */

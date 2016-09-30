@@ -182,7 +182,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var a = x
+    var b = x
+    var c = 3.0
+    while (Math.abs(b) > eps) {
+        b = -b * x * x / (c * (c - 1))
+        a = a + b
+        c = c + 2
+    }
+    return a
+}
 
 /**
  * Простая
@@ -191,7 +201,17 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var a = 1.0
+    var b = 1.0
+    var c = 2.0
+    while (Math.abs(b) > eps) {
+        b = -b * x * x / (c * (c - 1))
+        a = a + b
+        c = c + 2
+    }
+    return a
+}
 
 /**
  * Средняя
@@ -222,7 +242,6 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 
-//Это задание ещё не доделано, скоро переработаю
 fun isPalindrome(n: Int): Boolean {
     var count = digitNumber(n)
     while (count >= digitNumber(n) / 2) {

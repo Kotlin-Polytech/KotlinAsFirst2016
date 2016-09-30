@@ -74,10 +74,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int =
-        if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX !== rookX2) && kingY !== rookY2)) 1 else
-            if (((kingX == rookX2) || (kingY == rookY2)) && ((kingX !== rookX1) && kingY !== rookY1)) 2 else
-                if (((kingX == rookX2) || (kingY == rookY2)) && ((kingX == rookX1) || kingY == rookY1)) 3 else
-                    if (((kingX !== rookX2) && (kingY !== rookY2)) && ((kingX !== rookX1) && (kingY !== rookY1))) 0 else 9
+        if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX !== rookX2) && kingY !== rookY2)) 1
+        else if (((kingX == rookX2) || (kingY == rookY2)) && ((kingX !== rookX1) && kingY !== rookY1)) 2
+        else if (((kingX == rookX2) || (kingY == rookY2)) && ((kingX == rookX1) || kingY == rookY1)) 3
+        else if (((kingX !== rookX2) && (kingY !== rookY2)) && ((kingX !== rookX1) && (kingY !== rookY1))) 0
+        else 9
 
 /**
  * Простая
@@ -91,10 +92,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int =
-        if ((kingX !== rookX) && (kingY !== rookY) && (Math.abs(kingX - bishopX) !== Math.abs(kingY - bishopY))) 0 else
-            if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingX - bishopX) !== Math.abs(kingY - bishopY))) 1 else
-                if (((kingX !== rookX) && (kingY !== rookY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) 2 else
-                    if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) 3 else 0
+        if ((kingX !== rookX) && (kingY !== rookY) && (Math.abs(kingX - bishopX) !== Math.abs(kingY - bishopY))) 0
+        else if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingX - bishopX) !== Math.abs(kingY - bishopY))) 1
+        else if (((kingX !== rookX) && (kingY !== rookY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) 2
+        else if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) 3
+        else 0
 
 /**
  * Простая
@@ -109,22 +111,22 @@ fun sqr(x: Double): Double = x * x
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if ((a == b) && (b == c) && (c == a)) return 0
     if ((a > b) && (a > c)) {
-        if (b + c <= a) return -1 else
-            if (sqr(b) + sqr(c) > sqr(a)) return 0 else
-                if (sqr(b) + sqr(c) < sqr(a)) return 2 else
-                    if (sqr(b) + sqr(c) == sqr(a)) return 1
+        if (b + c <= a) return -1
+        else if (sqr(b) + sqr(c) > sqr(a)) return 0
+        else if (sqr(b) + sqr(c) < sqr(a)) return 2
+        else if (sqr(b) + sqr(c) == sqr(a)) return 1
     }
     if ((b > a) && (b > c)) {
-        if ((a + c <= b)) return -1 else
-            if (sqr(a) + sqr(c) == sqr(b)) return 1 else
-                if (sqr(a) + sqr(c) < sqr(b)) return 2 else
-                    if (sqr(a) + sqr(c) > sqr(b)) return 0
+        if ((a + c <= b)) return -1
+        else if (sqr(a) + sqr(c) == sqr(b)) return 1
+        else if (sqr(a) + sqr(c) < sqr(b)) return 2
+        else if (sqr(a) + sqr(c) > sqr(b)) return 0
     }
     if ((c > a) && (c > b)) {
-        if (a + b <= c) return -1 else
-            if (sqr(a) + sqr(b) == sqr(c)) return 1 else
-                if (sqr(a) + sqr(b) < sqr(c)) return 2 else
-                    if (sqr(a) + sqr(b) > sqr(c)) return 0
+        if (a + b <= c) return -1
+        else if (sqr(a) + sqr(b) == sqr(c)) return 1
+        else if (sqr(a) + sqr(b) < sqr(c)) return 2
+        else if (sqr(a) + sqr(b) > sqr(c)) return 0
     }
     return 0
 }

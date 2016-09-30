@@ -1,7 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson4.task1.abs
+import lesson6.task2.kingMoveNumber
 
 /**
  * Пример
@@ -33,7 +36,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    if (age % 10 == 1 && age % 100 !== 11) return "$age года"
+    else if (age % 10 in 2..4 && age % 100 !in 10..19) return "$age года"
+    else return "$age лет"
+
+}
+
 
 /**
  * Простая
@@ -44,7 +53,18 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val s = (s1 + s2 + s3) / 2.0
+    if (s <= s1) return (s / v1)
+    else if (s <= s1 + s2) return (t1 + ((s - s1) / v2))
+    else return (t1 + t2 + ((s - s1 - s2) / v3))
+
+
+}
+
 
 /**
  * Простая
@@ -56,7 +76,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    if ((rookX1 - kingX == 1) && (rookY1 == kingY) && (rookX2 - kingX >= 1) && (rookY2 - kingY >= 1)) return 1
+    if ((rookX2 - kingX == 1) && (rookY2 == kingY) && (rookX1 - kingX >= 1) && (rookY1 - kingY >= 1)) return 2
+    if ((rookY1 - kingY == 1) && (rookX1 == kingX) && (rookX2 - kingX >= 1) && (rookY2 - kingY >= 1)) return 1
+    if ((rookY2 - kingY == 1) && (rookX2 == kingX) && (rookX1 - kingX >= 1) && (rookY1 - kingY >= 1)) return 2
+    if ((rookX1 - kingX >= 1) && (rookY1 - kingY >= 1) && (rookX2 - kingX >= 1) && (rookY2 - kingY >= 1)) return 0
+    else return 3
+
+
+}
 
 /**
  * Простая
@@ -89,4 +118,28 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (b > a && d > c) {
+        if (c > b || a > d || b == c) return -1
+        if ((b - a) < (d - c)) {
+            if (a < c && b > c) return (b - c)
+            if (a > c && b < d) return (b - a)
+            if (a > c && b > d) return (d - a)
+        }
+        if ((b - a) > (d - c)) {
+            if (c > b && b > d) return (b - c)
+            if (c < a && d > b) return (d - c)
+            if (c > a && a > d) return (d - a)
+        }
+        if ((b - a) == (d - c)) {
+            if (c > b || c == b) return -1
+            if (b > c && c > a) return (b - c)
+            if (a == c) return (b - a)
+            if (d > a && a > c) return (d - a)
+        }
+    }
+    if (a == b && c == d) return -1
+    if (a == b && c != d) return -1
+    if (c == d && a != b) return -1
+    }
+

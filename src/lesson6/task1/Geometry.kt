@@ -152,7 +152,8 @@ data class Line(val point: Point, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
     var anglee = 0.0
-    anglee = Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
+    if (s.begin == s.end) anglee = 0.0 else
+        anglee = Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
     if (((s.end.x >= s.begin.x) && (s.end.y >= s.begin.y)) || ((s.end.x <= s.begin.x) && (s.end.y <= s.begin.y)))
         return (Line(s.begin, Math.abs(anglee))) else return (Line(s.begin, -Math.abs(anglee)))
 }
@@ -186,7 +187,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     var point = PointInt(0, 1)
     for (i in 0..circles.size - 1)
         for (j in i + 1..circles.size - 1) {
-            if (circles[i].distancee(circles[j]) <= min) {
+            if ((circles[i].distancee(circles[j]) <= min) && (circles[i].center != circles[j].center)) {
                 min = circles[i].distancee(circles[j])
                 point = PointInt(i, j)
             }

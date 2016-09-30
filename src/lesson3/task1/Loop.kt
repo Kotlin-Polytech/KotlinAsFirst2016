@@ -21,11 +21,11 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 fun isPrime(n: Int): Boolean {
-	if (n < 2) return false
-	for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
-		if (n % m == 0) return false
-	}
-	return true
+    if (n < 2) return false
+    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+        if (n % m == 0) return false
+    }
+    return true
 }
 
 /**
@@ -63,7 +63,7 @@ fun digitNumber(n: Int): Int {
     var current_number = n
 
     do {
-        ++ digits_amount
+        ++digits_amount
         current_number /= 10
 
     } while (current_number != 0)
@@ -101,10 +101,10 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val s_step = if ( m > n ) m else n
+    val s_step = if (m > n) m else n
 
-    for ( i in s_step .. m*n step s_step ) if ( i%m == 0 && i%n == 0 ) return i
-    return m*n
+    for (i in s_step..m * n step s_step) if (i % m == 0 && i % n == 0) return i
+    return m * n
 }
 
 /**
@@ -113,7 +113,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n/2) {
+    for (i in 2..n / 2) {
         if (n % i == 0) return i
     }
     return n
@@ -183,7 +183,7 @@ fun cos(x: Double, eps: Double): Double {
     var i = 2
     var total = 1.0
     val x_min = x
-    
+
     while (true) {
         part = Math.pow(x_min, i.toDouble()) / factorial(i)
         i += 2
@@ -226,7 +226,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    val current_number_line = Integer.toString ( n )
+    val current_number_line = Integer.toString(n)
 
     for (i in 0..current_number_line.length / 2) {
         if (current_number_line [i] != current_number_line [current_number_line.length - 1 - i]) return false

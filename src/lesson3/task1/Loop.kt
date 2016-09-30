@@ -2,6 +2,29 @@
 
 package lesson3.task1
 
+fun pow(x: Double, y: Int): Double {
+    var result = x
+    if (y != 0) {
+        for (i in 2..y) {
+            result *= x
+        }
+    } else result = 1.0
+    return result
+}
+
+fun nLength(n: Int): Int {
+    var number = n
+    var result = 0
+    if (n == 0) result = 1
+    else {
+        while (number != 0) {
+            number /= 10
+            result += 1
+        }
+    }
+    return result
+}
+
 /**
  * Пример
  *
@@ -164,7 +187,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var result = false
-    for (k in 1..n) {
+    for (k in 0..n) {
         if (k * k in m..n) {
             result = true
             break
@@ -181,15 +204,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    val e = 100
+    /**
+     * Изначально пытался запихать "pow(x, (2 * i + 1)) / factorial(i * 2 + 1)" в переменную и использовать её далее
+     * Но результат не воводился ни в какую
+     * Словил жесточайшее желание закрыть идею и никогда больше не открывать
+     * Не подскажете, с чем это связано?
+     */
+    var i = 1
     var result = x
-    var k = 3
-    var i = 1.0
-    while (k <= e) {
-        val doubleK = k + 0.0
-        result += Math.pow(-1.0, i) * (Math.pow(x, doubleK) / factorial(k))
+    while (pow(x, (2 * i + 1)) / factorial(i * 2 + 1) > eps) {
+        if (i % 2 == 1)
+            result -= pow(x, (2 * i + 1)) / factorial(2 * i + 1)
+        else
+            result += pow(x, (2 * i + 1)) / factorial(2 * i + 1)
         i++
-        k += 2
     }
     return result
 }
@@ -202,15 +230,14 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    val e = 100
+    var i = 1
     var result = 1.0
-    var k = 2
-    var i = 1.0
-    while (k <= e) {
-        val doubleK = k + 0.0
-        result += Math.pow(-1.0, i) * (Math.pow(x, doubleK) / factorial(k))
+    while (pow(x, (2 * i)) / factorial(2 * i) > eps) {
+        if (i % 2 == 1)
+            result -= pow(x, (2 * i)) / factorial(2 * i)
+        else
+            result += pow(x, (2 * i)) / factorial(2 * i)
         i++
-        k += 2
     }
     return result
 }
@@ -221,7 +248,16 @@ fun cos(x: Double, eps: Double): Double {
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var result = 0
+    var number = n
+    while (number > 0) {
+        result *= 10
+        result += number % 10
+        number /= 10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -230,7 +266,7 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = n.toString() == n.toString().reversed()
 
 /**
  * Средняя
@@ -238,7 +274,18 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var number = n
+    var lastDigit = number % 10
+    while (number != 0) {
+        if (lastDigit != number % 10) {
+            return true
+        }
+        lastDigit = number % 10
+        number /= 10
+    }
+    return false
+}
 
 /**
  * Сложная

@@ -61,10 +61,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    if (n < 10) return 1
+    if (n < 10 && n > -10) return 1
     var count = 0
     var m = n
-    while (m > 0) {
+    while (m != 0) {
         m /= 10
         count++
     }

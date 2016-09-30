@@ -235,10 +235,9 @@ fun squareSequenceDigit(n: Int): Int {
         sum = sum + digitNumber(square)
     }
     count = sum - n
-    if (count != 0) {
-        number = square.toDouble() / pow(10.0, (i).toDouble())
-        return number.toInt() % 10
-    } else return square % 10
+    number = square.toDouble() / pow(10.0, (count).toDouble())
+    return number.toInt() % 10
+
 }
 
 /**
@@ -259,9 +258,6 @@ fun fibSequenceDigit(n: Int): Int {
         sum = sum + digitNumber(fibonach)
     }
     count = sum - n
-    if (count != 0) {
-        number = fibonach.toDouble() / pow(10.0, (i).toDouble())
-        return number.toInt() % 10
-    } else return fibonach % 10
-
+    number = fibonach.toDouble() / pow(10.0, (count).toDouble())
+    return number.toInt() % 10
 }

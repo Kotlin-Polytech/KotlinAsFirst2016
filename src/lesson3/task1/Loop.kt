@@ -221,7 +221,7 @@ fun revert(n: Int): Int {
     var N = n
     var count = 0
     var r = 0
-    while (N % 10 !== 0) {
+    while (N != 0) {
         N = N / 10
         count++
     }

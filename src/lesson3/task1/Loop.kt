@@ -258,14 +258,24 @@ fun isPalindrome(n: Int): Boolean {
     return false
 }
 
-
 /**
  * Средняя
  *
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var N = n
+    var a = 0
+    var b = 0
+    while (N / 10 != 0) {
+        a = N % 10
+        N = N / 10
+        b = N % 10
+        if (a != b) return true
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -274,7 +284,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var line = "1"
+    var count = 2
+    var prevLenght = 0
+    while (prevLenght + line.length < n) {
+        prevLenght += line.length
+        line = (count * count).toString()
+        count++
+    }
+    return (line[n - prevLenght - 1] - '0').toInt()
+}
 
 /**
  * Сложная
@@ -283,4 +303,14 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var line = "1"
+    var count = 2
+    var prevLenght = 0
+    while (prevLenght + line.length < n) {
+        prevLenght += line.length
+        line = fib(count).toString()
+        count++
+    }
+    return (line[n - prevLenght - 1] - '0').toInt()
+}

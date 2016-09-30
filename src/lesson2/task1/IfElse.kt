@@ -36,8 +36,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     if ((age % 10 == 1) && (age % 100 != 11))
         return "$age год"
-    if (((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age % 100 > 14))
-        return "$age года" else
+    if (((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && ((age % 100 > 14) || (age < 5)))
+        return "$age года"
+    else
         return "$age лет"
 }
 
@@ -54,10 +55,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     if (t1 * v1 >= s)
         return s / v1
-    else (if (t1 * v1 + t2 * v2 >= s)
+    else if (t1 * v1 + t2 * v2 >= s)
         return t1 + (s - t1 * v1) / v2
     else return t1 + t2 + (s - t1 * v1 - t2 * v2) / v3
-            )
+
 }
 
 /**
@@ -72,13 +73,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     if (((rookX1 == kingX) || (rookY1 == kingY)) && ((rookX2 == kingX) || (rookY2 == kingY))) return 3
-    else
-
-
-        if ((rookX1 == kingX) || (rookY1 == kingY)) return 1
-
-
-    if ((rookX2 == kingX) || (rookY2 == kingY)) return 2
+    else if ((rookX1 == kingX) || (rookY1 == kingY)) return 1
+         if ((rookX2 == kingX) || (rookY2 == kingY)) return 2
     else return 0
 }
 
@@ -97,11 +93,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           bishopX: Int, bishopY: Int): Int {
 
     if (((((bishopX + bishopY) == (kingX + kingY)) || ((bishopX - bishopY) == (kingX - kingY)))) && (((rookX == kingX) || (rookY == kingY)))) return 3
-    else
-
-        if (((bishopX + bishopY) == (kingX + kingY)) || ((bishopX - bishopY) == (kingX - kingY))) return 2
-
-    if ((rookX == kingX) || (rookY == kingY)) return 1
+    else if (((bishopX + bishopY) == (kingX + kingY)) || ((bishopX - bishopY) == (kingX - kingY))) return 2
+         if ((rookX == kingX) || (rookY == kingY)) return 1
     else return 0
 }
 /**
@@ -119,11 +112,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         val a1 = Math.pow(a,2.00)
         val b1 = Math.pow(b,2.00)
         val c1 = Math.pow(c,2.00)
-        if ((a1 == b1 + c1) || (b1 == a1 + c1) || (c1 == a1 + b1))
+        if ((a1==b1+c1) || (b1==a1+c1) || (c1==a1+b1))
             return 1
-        if   ( (a1 > b1 + c1) || (b1 > a1+ c1) || (c1 > a1 +b1))
+        if   ((a1>b1+c1) || (b1>a1+c1) || (c1>a1+b1))
             return 2
-        else ((a1 < b1 + c1) || (b1 < a1 + c1) || (c1 < a1 + b1))
+        else ((a1<b1+c1) || (b1<a1+c1) || (c1<a1+b1))
             return 0
     }
 

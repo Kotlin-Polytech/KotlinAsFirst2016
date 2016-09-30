@@ -49,7 +49,7 @@ fun isPerfect(n: Int): Boolean {
 /**
  * Пример
  *
- * Найти число вхождений цифры m в число n
+ * Найти число вхождений цифры m в число n.
  */
 fun digitCountInNumber(n: Int, m: Int): Int =
         if (n == m) 1 else if (n < 10) 0

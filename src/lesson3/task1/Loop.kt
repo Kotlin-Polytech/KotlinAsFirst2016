@@ -193,7 +193,7 @@ fun sin(x: Double, eps: Double): Double {
         if (counter%2==1) sinus=sinus-number
         else  sinus+=number
     }
-    return sinus%(2*Math.PI)
+    return sinus
 }
 
 

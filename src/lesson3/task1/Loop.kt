@@ -93,6 +93,17 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int = TODO()
+/*  var prod = m * n
+  var m1 = m
+  var n1 = n
+  while (n != m) {
+      if (m > n) {
+          m1 -= n1
+      } else n1 -= m1
+  }
+  var count = prod / m1
+  return count */
+
 
 /**
  * Простая"

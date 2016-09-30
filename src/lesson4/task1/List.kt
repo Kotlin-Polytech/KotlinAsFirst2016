@@ -126,8 +126,8 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-	if ( list.isEmpty() ) return list
-    val ariphmetical_average = list.sum() / list.size.toDouble()
+	if( list.isEmpty() ) return list
+    val ariphmetical_average = list.sum() / list.size
     for( ( index, element ) in list.withIndex() ) list[index] -= ariphmetical_average
 
     return list
@@ -297,7 +297,7 @@ fun decimalFromString(str: String, base: Int): Int {
 	var digit_storage = mutableListOf <Int> ()
 	var target = 0
 	
-	for ( element in str ) digit_storage.add ( element.toInt() )
+	for ( element in str ) digit_storage.add( element.toInt() - (if('0' <= element && element <= '9') '0' else 'a') )
 	
 	return decimal ( digit_storage, base )
 }
@@ -312,7 +312,7 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 fun roman(n: Int): String {
     var target = ""
-
+	
     val digit_1   = listOf ( "", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX" ) // 1 2 3 4 5 6 7 8 9
     val digit_10  = listOf ( "", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC" ) // 0 10 20 30 40 50 60 70 80 90
     val digit_100 = listOf ( "", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM" ) // 0 100 200 300 400 500 600 700 800 900

@@ -153,7 +153,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var i = 3
-    var total = x % ( 2.0 * Math.PI )
+    var total = x
     var part: Double
 
     while (true) {
@@ -182,10 +182,8 @@ fun cos(x: Double, eps: Double): Double {
     var part: Double
     var i = 2
     var total = 1.0
-    val x_min = x % ( 2.0 * Math.PI )
+    val x_min = x
     
-    
-
     while (true) {
         part = Math.pow(x_min, i.toDouble()) / factorial(i)
         i += 2

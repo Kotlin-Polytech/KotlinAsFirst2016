@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
-
+import java.lang.Math.*
 
 /**
  * Пример
@@ -175,142 +175,193 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean{
-    for (i in m..n){
-        if sqrt(i) == sqrt((i/10)*10) {
+fun sqr(g: Double) = g * g
+
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (i in m .. n){
+        if (sqrt(i.toDouble()).toInt().toDouble() == sqrt(i.toDouble())) {
+        return true
+        } else continue
+        }
+    return false
+}
+    /**
+     * Простая
+     *
+     * Для заданного x рассчитать с заданной точностью eps
+     * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
+     * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
+     */
+    fun sin(x: Double, eps: Double): Double {
+        var k: Double = 1.0
+        var sin: Double = x
+        var number: Double = x
+        while (Math.abs(number) * 1000 > eps) {
+            k = k + 2.0
+            number = Math.pow(x, k) / factorial(k.toInt())
+            if (k % 2.0 == 1.0 && k % 4.0 != 1.0) {sin = sin - number}
+            else {continue}
+
+        }
+        k = 1.0
+        number = x
+
+        while (Math.abs(number) * 1000 > eps) {
+            k = k + 2.0
+            number = Math.pow(x, k) / factorial(k.toInt())
+            if (k % 4.0 == 1.0) {sin = sin + number}
+            else {continue}
+
+        }
+        return sin
+    }
+
+
+/**
+     * Простая
+     *
+     * Для заданного x рассчитать с заданной точностью eps
+     * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
+     * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
+     */
+    fun cos(x: Double, eps: Double): Double {
+    var k: Double = 0.0
+    var cos: Double = 1.0
+    var number: Double = x
+    while (Math.abs(number) * 1000 > eps) {
+        k = k + 2.0
+        number = Math.pow(x, k) / factorial(k.toInt())
+        if (k % 2.0 == 0.0 && k % 4.0 != 0.0) {cos = cos - number}
+        else {continue}
+
+    }
+    k = 0.0
+    number = x
+
+    while (Math.abs(number) * 1000 > eps) {
+        k = k + 2.0
+        number = Math.pow(x, k) / factorial(k.toInt())
+        if (k % 4.0 == 0.0) {cos = cos + number}
+        else {continue}
+
+    }
+    return cos
+}
+
+    /**
+     * Средняя
+     *
+     * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
+     * Не использовать строки при решении задачи.
+     */
+    fun revert(n: Int): Int {
+        var revert = 0
+        var s = n
+        while (s > 0) {
+            revert = revert * 10 + s % 10
+            s = s / 10
+        }
+        return revert
+    }
+
+    /**
+     * Средняя
+     *
+     * Проверить, является ли заданное число n палиндромом:
+     * первая цифра равна последней, вторая -- предпоследней и так далее.
+     * 15751 -- палиндром, 3653 -- нет.
+     */
+    fun isPalindrome(n: Int): Boolean {
+        var revert = 0
+        var s = n
+        while (s > 0) {
+            revert = revert * 10 + s % 10
+            s = s / 10
+        }
+        if (revert != n) {
+            return false
+        } else {
             return true
-        } else {
-            return false
         }
     }
-}
 
-/**
- * Простая
- *
- * Для заданного x рассчитать с заданной точностью eps
- * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
- * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
- */
-fun sin(x: Double, eps: Double): Double {
-
-}
-
-/**
- * Простая
- *
- * Для заданного x рассчитать с заданной точностью eps
- * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
- * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
- */
-fun cos(x: Double, eps: Double): Double = TODO()
-
-/**
- * Средняя
- *
- * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
- * Не использовать строки при решении задачи.
- */
-fun revert(n: Int): Int = TODO()
-
-/**
- * Средняя
- *
- * Проверить, является ли заданное число n палиндромом:
- * первая цифра равна последней, вторая -- предпоследней и так далее.
- * 15751 -- палиндром, 3653 -- нет.
- */
-fun isPalindrome(n: Int): Boolean {
-    var h: Int = 10
-    var k: Int = 0
-    var l: Int = 1
-    var s: Int = n
-    while ( s > 0 ) {
-        s = s/ 10
-        k = k + 1
-        l = l * 10
-            }
-    for (i in 1 .. k/2){
-        if (n/h != n/l){
-            return false
-        } else {
-            h = h * 10
-            l / 10
-        }
-    }
-    return true
-}
-
-/**
- * Средняя
- *
- * Для заданного числа n определить, содержит ли оно различающиеся цифры.
- * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
- */
-fun hasDifferentDigits(n: Int): Boolean {
-    var s: Int = n
-    var k: Int = 0
-    var k1: Int = 10
-    var k2: Int = 100
-    while ( s > 0 ) {
-        s = s / 10
-        k = k + 1}
-    if (k == 1) {
-        return false
-    } else {
-        s = n
-        for (i in 1..k-1){
-            if ((n%k2 - n%k1)/ 10 != n%k1 ){
+    /**
+     * Средняя
+     *
+     * Для заданного числа n определить, содержит ли оно различающиеся цифры.
+     * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
+     */
+    fun hasDifferentDigits(n: Int): Boolean {
+        var maincipher = n % 10
+        var s = n
+        while (s > 0) {
+            if (s % 10 != maincipher) {
                 return true
             } else {
                 s = s / 10
-
             }
+
         }
         return false
     }
-}
-
-/**
- * Сложная
- *
- * Найти n-ю цифру последовательности из квадратов целых чисел:
- * 149162536496481100121144...
- * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
- */
-fun squareSequenceDigit(n: Int): Int {
-    var i = 0
-    var number = 0
-    var result = 0
-    var s = 0
-    var k = 0
-    var g = 0
 
 
-    while (number < n) {
-        i = i + 1
-        s = i*i
-        while (s>0){
-            s = s / 10
+    /**
+     * Сложная
+     *
+     * Найти n-ю цифру последовательности из квадратов целых чисел:
+     * 149162536496481100121144...
+     * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+     */
+
+    fun squareSequenceDigit(n: Int): Int {
+        var k = 0
+        var g = 0
+        var s = 0
+        var number = 0
+        var result = 0
+        while (number < n) {
             k = k + 1
+            s = k * k
+            while (s >0 ){
+                g = g + 1
+                s = s / 10
+            }
+            number = number + g
+             g = 0
         }
-
-        number = number + k
+        result = k * k
+        for (k in n..number - 1) {
+            result = result / 10
+        }
+        return (result % 10)
     }
-    result = i * i
-    for (g in n ..number-1)run {
-        result /= 10
-
+    /**
+     * Сложная
+     *
+     * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
+     * 1123581321345589144...
+     * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
+     */
+    fun fibSequenceDigit(n: Int): Int {
+        var k = 0
+        var s = 0
+        var g = 0
+        var number = 0
+        var result = 0
+        while (number < n) {
+            k = k + 1
+            s = fib(k)
+            while (s > 0 ){
+                g = g + 1
+                s = s / 10
+            }
+            number = number + g
+            g = 0
+        }
+        result = fib(k)
+        for (i in n..number - 1) {
+            result = result / 10
+        }
+        return (result % 10)
     }
-    return result % 10
-
-}
-
-/**
- * Сложная
- *
- * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
- * 1123581321345589144...
- * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
- */
-fun fibSequenceDigit(n: Int): Int = TODO()

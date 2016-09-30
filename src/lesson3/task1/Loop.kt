@@ -72,10 +72,10 @@ fun digitNumber(n: Int): Int =
  */
 fun fib(n: Int): Int {
     var number = 0
-    if (n > 2) {
-        number = fib(n - 2) + fib(n - 1)
-    } else return 1
-    return number
+    return when {
+        n > 2 -> fib(n - 2) + fib(n - 1)
+        else -> 1
+    }
 }
 
 /**
@@ -85,11 +85,9 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 1
-    for (i in m * n downTo 1) {
-        if (((k % m) != 0) || ((k % n) != 0)) {
-            k++
-        } else break
+    var k = 0
+    for (i in 1..m * n) {
+        if (((k % m) != 0) || ((k % n) != 0))k=i else break
     }
     return k
 }
@@ -149,7 +147,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var bool = false
     for (i in m..n) {
-        if ((sqrt(i.toDouble()) % 1) == 0.0) bool = true
+        if (sqrt(i.toDouble()) == 0.0) bool = true
     }
     return bool
 }

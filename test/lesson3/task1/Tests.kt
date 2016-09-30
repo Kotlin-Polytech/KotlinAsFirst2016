@@ -153,6 +153,7 @@ class Tests {
         assertEquals(111, revert(111))
         assertEquals(17571, revert(17571))
         assertEquals(123456789, revert(987654321))
+        assertEquals(982566677, revert(776665289))
     }
 
     @Test
@@ -193,6 +194,7 @@ class Tests {
         assertEquals(3, fibSequenceDigit(4))
         assertEquals(2, fibSequenceDigit(9))
         assertEquals(5, fibSequenceDigit(14))
+        assertEquals(2, fibSequenceDigit(20))
         assertEquals(2, fibSequenceDigit(20))
     }
 }

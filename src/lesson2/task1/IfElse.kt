@@ -39,7 +39,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     return when {
         (age % 10 == 1) && (age != 11) && (age != 111) -> "$age год"
-        ((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age !in 12..14) && (age !in 112..114) -> "$age года"
+        (age % 10 in 2..4) && (age !in 12..14) && (age !in 112..114) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -77,12 +77,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val condition = (kingX == rookX1 || kingY == rookY1)
-    val condition2 = (kingX == rookX2 || kingY == rookY2)
+    val hazard1 = (kingX == rookX1 || kingY == rookY1)
+    val hazard2 = (kingX == rookX2 || kingY == rookY2)
     return when {
-        condition && condition2 -> 3
-        condition2 -> 2
-        condition -> 1
+        hazard1 && hazard2 -> 3
+        hazard2 -> 2
+        hazard1 -> 1
         else -> 0
     }
 }
@@ -99,12 +99,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val condition = (abs(kingX - bishopX) == abs(kingY - bishopY))
-    val condition2 = ((kingX == rookX) || (kingY == rookY))
+    val hazardLadya = (abs(kingX - bishopX) == abs(kingY - bishopY))
+    val hazardSlon = ((kingX == rookX) || (kingY == rookY))
     return when {
-        condition && condition2 -> 3
-        condition -> 2
-        condition2 -> 1
+        hazardLadya && hazardSlon -> 3
+        hazardLadya -> 2
+        hazardSlon -> 1
         else -> 0
     }
 }
@@ -141,9 +141,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((b >= c) && (d >= a)) {
-        if ((b != c) && (d != a)) return min(b, d) - max(a, c)
-        else return 0
-    } else return -1
-
+    val condition = (b >= c) && (d >= a)
+    return when {
+        condition && (b != c) && (d != a) -> min(b, d) - max(a, c)
+        condition -> 0
+        else -> -1
+    }
 }

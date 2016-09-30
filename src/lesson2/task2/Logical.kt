@@ -40,7 +40,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean =
-        ((sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2)
+        sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2
 
 /**
  * Средняя
@@ -51,5 +51,9 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-        (((b <= r) && ((a <= s) || (c <= s))) || ((a <= r) && ((b <= s) || (c <= s))) || ((c <= r) && ((a <= s) || (b <= s))))
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val case1 = (b <= r) && ((a <= s) || (c <= s))
+    val case2 = (a <= r) && ((b <= s) || (c <= s))
+    val case3 = (c <= r) && ((a <= s) || (b <= s))
+    return case1 || case2 || case3
+}

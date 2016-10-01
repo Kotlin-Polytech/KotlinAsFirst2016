@@ -123,12 +123,11 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double {
     var result = 0.0
     var amount = 0
-    for (i in 0..list.size - 1) {
-        result += list[i]
-        amount++
+    for (i in list) {
+        result += i
     }
-    if (amount == 0) return 0.0
-    else return result / amount
+    if (list.size == 0) return 0.0
+    else return result / list.size
 }
 
 /**
@@ -174,8 +173,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
     var degree = 0.0
-    for (i in 0..p.size - 1) {
-        result += p[i] * Math.pow(x, degree)
+    for (i in p) {
+        result += i * Math.pow(x, degree)
         degree++
     }
     return result
@@ -206,7 +205,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var result = mutableListOf<Int>()
     var number = n
-    for (i in 2..9) {
+    for (i in 2..number) {
         while (number % i == 0) {
             number /= i
             result.add(result.size, i)
@@ -224,14 +223,14 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     var number = n
-    var result = mutableListOf(Int)
-    for (i in 2..9) {
+    var result = mutableListOf<Int>()
+    for (i in 2..n) {
         while (number % i == 0) {
-            result + i
+            result.add(i)
             number /= i
         }
     }
-    if (number != 1) result + number
+    //if (number != 1) result + number
     return result.joinToString(separator = "*")
 }
 
@@ -268,7 +267,44 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var number = n
+    var result = ""
+    while (number != 0) {
+        val mod = when (number % base) {
+            10 -> 'a'
+            11 -> 'b'
+            12 -> 'c'
+            13 -> 'd'
+            14 -> 'e'
+            15 -> 'f'
+            16 -> 'g'
+            17 -> 'h'
+            18 -> 'i'
+            19 -> 'j'
+            20 -> 'k'
+            21 -> 'l'
+            22 -> 'm'
+            23 -> 'n'
+            24 -> 'o'
+            25 -> 'p'
+            26 -> 'q'
+            27 -> 'r'
+            28 -> 's'
+            29 -> 't'
+            30 -> 'u'
+            31 -> 'v'
+            32 -> 'w'
+            33 -> 'x'
+            34 -> 'y'
+            35 -> 'z'
+            else -> (number % base)
+        }
+        result =mod.toString()+result
+        number /= base
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -278,11 +314,11 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var result = 0.0
+    var result = 0
     for (i in 0..digits.size - 1) {
-        result += (digits[digits.size - 1 - i] * Math.pow(base.toDouble(), i.toDouble()))
+        result += (digits[digits.size - 1 - i] * (Math.pow(base.toDouble(), i.toDouble())).toInt())
     }
-    return result.toInt()
+    return result
 }
 
 /**
@@ -294,14 +330,44 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()/* {
-    var result=0
-    for (i in 0..str.length-1){
+fun decimalFromString(str: String, base: Int): Int {
+    var result = 0.0
 
-        var number=str[str.length-1-i].toInt()
-        result+=(Math.pow(base.toDouble(),i.toDouble())*number)
+    for (i in 0..str.length - 1) {
+        var number = str[str.length - 1 - i]
+        number = when (number) {
+            'a' -> 10.toChar()
+            'b' -> 11.toChar()
+            'c' -> 12.toChar()
+            'd' -> 13.toChar()
+            'e' -> 14.toChar()
+            'f' -> 15.toChar()
+            'g' -> 16.toChar()
+            'h' -> 17.toChar()
+            'i' -> 18.toChar()
+            'j' -> 19.toChar()
+            'k' -> 20.toChar()
+            'l' -> 21.toChar()
+            'm' -> 22.toChar()
+            'n' -> 23.toChar()
+            'o' -> 24.toChar()
+            'p' -> 25.toChar()
+            'q' -> 26.toChar()
+            'r' -> 27.toChar()
+            's' -> 28.toChar()
+            't' -> 29.toChar()
+            'u' -> 30.toChar()
+            'v' -> 31.toChar()
+            'w' -> 32.toChar()
+            'x' -> 33.toChar()
+            'y' -> 34.toChar()
+            'z' -> 35.toChar()
+            else -> number - 48
+        }
+        result += (Math.pow(base.toDouble(), i.toDouble()) * number.toDouble())
     }
-}*/
+    return result.toInt()
+}
 
 /**
  * Сложная
@@ -340,7 +406,7 @@ fun russian(n: Int): String {
         5 -> "пятьдесят "
         6 -> "шестьдесят "
         7 -> "семьдесят "
-        8 -> "восемдесят "
+        8 -> "восемьдесят "
         9 -> "девяносто "
         else -> ""
     }

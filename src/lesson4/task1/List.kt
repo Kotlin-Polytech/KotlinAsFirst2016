@@ -270,7 +270,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var number = n
     var result = ""
-    while (number != 0) {
+    do {
         val mod = when (number % base) {
             10 -> 'a'
             11 -> 'b'
@@ -302,7 +302,7 @@ fun convertToString(n: Int, base: Int): String {
         }
         result = mod.toString() + result
         number /= base
-    }
+    } while (number != 0)
     return result
 }
 

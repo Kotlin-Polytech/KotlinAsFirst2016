@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -36,13 +37,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
 
     if (age % 100 in 10..19) return "$age лет"
-        else if (age % 10 in 2..4) return "$age года"
+    else if (age % 10 in 2..4) return "$age года"
     else if (age % 10 == 1) return "$age год"
     else return "$age лет"
 }
-
-
-
 
 
 /**
@@ -123,8 +121,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
 
     if ((a + b < c) || (a + c < b) || (b + c < a)) return -1
-    else if ((a*a + b*b == c*c) || (b*b + c*c == a*a ) || (a*a + c*c == b*b)) return 1
-    else if ((a*a + b*b < c*c) || (c*c + b*b < a*a) || (c*c + a*a < b*b)) return 2
+    else if ((a * a + b * b == c * c) || (b * b + c * c == a * a) || (a * a + c * c == b * b)) return 1
+    else if ((a * a + b * b < c * c) || (c * c + b * b < a * a) || (c * c + a * a < b * b)) return 2
     else return 0
 }
 

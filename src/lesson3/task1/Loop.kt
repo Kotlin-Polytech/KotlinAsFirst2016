@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -58,14 +59,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var n1=n
-    var count = 1
-    for (i in 1..Int.MAX_VALUE){
-        if (n1/10 != 0){
-            count++
-            n1 /= 10
-         }
-        else break
+    var n1 = n
+    var count = 0
+    if (n == 0) return 1
+    while (n1 > 0) {
+        n1 /= 10
+        count++
     }
     return count
 }
@@ -97,12 +96,16 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+
+//переделал
 fun lcm(m: Int, n: Int): Int {
     var k = 0
-  var l = m * n
-    for (l in l downTo 1) {
-      if (l % m == 0 && l % n == 0)
-          k = l
+    var l = m * n
+    for (i in 1..l) {
+        if (i % m == 0 && i % n == 0) {
+            k = i
+            break
+        }
     }
     return k
 }
@@ -112,14 +115,15 @@ fun lcm(m: Int, n: Int): Int {
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
+
+//переделал
 fun minDivisor(n: Int): Int {
-    var k = n
-    var l = 0
-    for (i in n downTo 1) {
-        if (n % i == 0)
-            l = n / i
-        if (l < k && l != 1)
-            k = l
+    var k = 0
+    for (i in 2..n) {
+        if (n % i == 0) {
+            k = i
+            break
+        }
     }
     return k
 }
@@ -130,14 +134,14 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
+//переделал
 fun maxDivisor(n: Int): Int {
     var k = 0
-    var l = 0
-    for (i in n downTo 1){
-        if (n % i == 0)
-            l = n / i
-        if (l > k && l < n)
-            k = l
+    for (i in n - 1 downTo 1) {
+        if (n % i == 0) {
+            k = i
+            break
+        }
     }
     return k
 }
@@ -149,8 +153,14 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
+
 fun isCoPrime(m: Int, n: Int): Boolean {
-                                        TODO()
+    for (i in 2..Math.min(m, n)) {
+        if ((m % i == 0) && (n % i == 0)) {
+            return false
+        }
+    }
+    return true
 }
 
 /**
@@ -161,7 +171,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-                                TODO()
+    TODO()
+
+
 }
 
 /**
@@ -224,5 +236,5 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-          TODO()
+    return 4 / 10
 }

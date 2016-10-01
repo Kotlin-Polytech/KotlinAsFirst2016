@@ -61,8 +61,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var n1 = n
     var count = 0
-    if (n == 0) return 1
-    while (n1 > 0) {
+    if (n1 == 0) return 1
+    while (n1 != 0) {
         n1 /= 10
         count++
     }
@@ -172,8 +172,6 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     TODO()
-
-
 }
 
 /**
@@ -236,5 +234,5 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    return 4 / 10
+    TODO()
 }

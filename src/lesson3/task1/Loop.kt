@@ -4,6 +4,8 @@ package lesson3.task1
 import lesson1.task1.numberRevert
 import lesson1.task1.sqr
 import lesson1.task1.takeDigit
+import java.math.BigDecimal
+import java.math.BigInteger
 
 
 /**
@@ -144,7 +146,7 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = if (gcd(m, n) == 1) true else false
+fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
 
 /**
  * Простая
@@ -168,13 +170,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var element: Double = x
+    val newX: Double = x.mod(2.0 * Math.PI)
+    var element: Double = newX
     var result: Double = 0.0
     var n: Int = 1
     while (Math.abs(element) >= eps) {
         result += element
         val degree: Double = (2 * n + 1).toDouble()
-        element = (Math.pow(-1.0, n.toDouble()) * Math.pow(x, degree)) / (factorial(degree.toInt()))
+        element = (Math.pow(-1.0, n.toDouble()) * Math.pow(newX, degree)) / (factorial(degree.toInt()))
         n++
     }
     return result
@@ -189,13 +192,14 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
+    val newX: Double = x.mod(2.0 * Math.PI)
     var element: Double = 1.0
     var result: Double = 0.0
     var n: Int = 1
     while (Math.abs(element) >= eps) {
         result += element
         val degree: Double = (2 * n).toDouble()
-        element = (Math.pow(-1.0, (n).toDouble()) * Math.pow(x, degree)) / (factorial(degree.toInt()))
+        element = (Math.pow(-1.0, (n).toDouble()) * Math.pow(newX, degree)) / (factorial(degree.toInt()))
         n++
     }
     return result
@@ -216,7 +220,7 @@ fun revert(n: Int): Int = numberRevert(n)
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = if (n == revert(n)) true else false
+fun isPalindrome(n: Int): Boolean = (n == revert(n))
 
 /**
  * Средняя

@@ -70,8 +70,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun rookIsAttack(rookX: Int, rookY: Int,
                  figureX: Int, figureY: Int): Boolean {
-    return if ((rookX == figureX) || (rookY == figureY)) true
-    else false
+    return (rookX == figureX) || (rookY == figureY)
 }
 
 fun whichRookThreatens(kingX: Int, kingY: Int,
@@ -102,8 +101,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun bishopIsAttack(bishopX: Int, bishopY: Int,
                    figureX: Int, figureY: Int): Boolean {
-    return if (abs(figureX - bishopX) == abs(figureY - bishopY)) true
-    else false
+    return abs(figureX - bishopX) == abs(figureY - bishopY)
 }
 
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,

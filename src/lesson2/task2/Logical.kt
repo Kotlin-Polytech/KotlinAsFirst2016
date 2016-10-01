@@ -22,7 +22,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  */
 fun isNumberHappy(number: Int): Boolean {
     val temp: Int = takeDigit(number,3) * 100 + takeDigit(number)
-    return if (((number - temp) / 10 + temp) % 101 == 0) true else false
+    return ((number - temp) / 10 + temp) % 101 == 0
 }
 
 /**
@@ -49,7 +49,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    return if (r2 >= r1 + trackLength(x1, y1, x2, y2)) true else false
+    return r2 >= r1 + trackLength(x1, y1, x2, y2)
 }
 
 /**
@@ -62,7 +62,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return if (min(min(a, b), min(max(a, b), c)) <= min(r, s) &&
-            max(min(a, b), min(max(a, b), c)) <= max(r, s)) true
-    else false
+    return min(min(a, b), min(max(a, b), c)) <= min(r, s) &&
+            max(min(a, b), min(max(a, b), c)) <= max(r, s)
 }

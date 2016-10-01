@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
 import java.lang.Math.*
 
 /**
@@ -35,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -59,8 +61,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var k: Int = 0
-    var x: Int = n
+    var k = 0
+    var x = n
     if (x != 0) {
         while (x != 0) {
             x /= 10
@@ -79,38 +81,48 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var x1: Int = 1
-    var x2: Int = 1
-    var c: Int = 0
-    var sum: Int = 0
-    for (i in 3 .. n){
-        c = x2
-        x2 = x1 + x2
-        x1 = c
+    var last = 1
+    var next = 1
+    var box = 0
+    var sum = 0
+    for (i in 3..n) {
+        box = next
+        next = last + next
+        last = box
 
     }
-    return x2
+    return next
 
 }
+
 /**
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+
+fun NOD(m: Int, n: Int): Int {
     var min: Int = 0
     var k: Int = 0
-    if (m < n){min = m} else {min = n}
-  for (i in 1..min){
-      if (n % i ==0 && m % i == 0){
-          k = i
-  }
-  }
-    return (m * n )/ k
-
+    if (m < n) {
+        min = m
+    } else {
+        min = n
     }
+    for (i in 1..min) {
+        if (n % i == 0 && m % i == 0) {
+            k = i
+        }
+    }
+    return k
+}
 
+fun lcm(m: Int, n: Int): Int {
+
+    return (m * n) / NOD(m, n)
+
+}
 
 
 /**
@@ -119,12 +131,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
-        if (n % i == 0) {
-            return i
-        }
-    }
-    return n
+    var i = 2
+    while (n % i != 0) i ++
+    return i
 }
 
 /**
@@ -133,15 +142,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k: Int = 0
-    for (i in 1..n-1) {
-        if (n % i == 0) {
-           k = i
-        }
-    }
-    return k
+    var i = n - 1
+    while (n % i != 0) i --
+    return i
 }
-
 
 /**
  * Простая
@@ -150,23 +154,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var min: Int = 0
-    var k: Int = 0
-    if (m < n){min = m} else {min = n}
-    for (i in 1..min){
-        if (n % i ==0 && m % i == 0){
-            k = i
-        }
-    }
-    if (k == 1){
-        return true
-    } else {
-        return false
-    }
-
-}
-
+fun isCoPrime(m: Int, n: Int): Boolean = NOD(m, n) == 1
 
 /**
  * Простая
@@ -177,191 +165,148 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun sqr(g: Double) = g * g
 
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in m .. n){
-        if (sqrt(i.toDouble()).toInt().toDouble() == sqrt(i.toDouble())) {
-        return true
-        } else continue
-        }
-    return false
-}
-    /**
-     * Простая
-     *
-     * Для заданного x рассчитать с заданной точностью eps
-     * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
-     * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
-     */
-    fun sin(x: Double, eps: Double): Double {
-        var k: Double = 1.0
-        var sin: Double = x
-        var number: Double = x
-        while (Math.abs(number) * 1000 > eps) {
-            k = k + 2.0
-            number = Math.pow(x, k) / factorial(k.toInt())
-            if (k % 2.0 == 1.0 && k % 4.0 != 1.0) {sin = sin - number}
-            else {continue}
+fun squareBetweenExists(m: Int, n: Int): Boolean = m <= sqr(sqrt(n.toDouble()).toInt().toDouble()) && sqr(sqrt(n.toDouble()).toInt().toDouble()) <= n
 
+/**
+ * Простая
+ *
+ * Для заданного x рассчитать с заданной точностью eps
+ * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
+ * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
+ */
+fun sin(x: Double, eps: Double): Double {
+    var k = 0
+    var sin: Double = x
+    var number: Double = x
+    while (Math.abs(number) * 1000 > eps) {
+        k = k + 1
+        number = Math.pow(x, k.toDouble() * 2 + 1) / factorial(k * 2 + 1)
+        if (k % 2 == 1) {
+            sin = sin - number
+        } else {
+            sin = sin + number
         }
-        k = 1.0
-        number = x
-
-        while (Math.abs(number) * 1000 > eps) {
-            k = k + 2.0
-            number = Math.pow(x, k) / factorial(k.toInt())
-            if (k % 4.0 == 1.0) {sin = sin + number}
-            else {continue}
-
-        }
-        return sin
     }
+    return sin
+}
 
 
 /**
-     * Простая
-     *
-     * Для заданного x рассчитать с заданной точностью eps
-     * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
-     * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
-     */
-    fun cos(x: Double, eps: Double): Double {
-    var k: Double = 0.0
+ * Простая
+ *
+ * Для заданного x рассчитать с заданной точностью eps
+ * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
+ * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
+ */
+fun cos(x: Double, eps: Double): Double {
+    var k = 0
     var cos: Double = 1.0
     var number: Double = x
     while (Math.abs(number) * 1000 > eps) {
-        k = k + 2.0
-        number = Math.pow(x, k) / factorial(k.toInt())
-        if (k % 2.0 == 0.0 && k % 4.0 != 0.0) {cos = cos - number}
-        else {continue}
-
-    }
-    k = 0.0
-    number = x
-
-    while (Math.abs(number) * 1000 > eps) {
-        k = k + 2.0
-        number = Math.pow(x, k) / factorial(k.toInt())
-        if (k % 4.0 == 0.0) {cos = cos + number}
-        else {continue}
-
+        k = k + 1
+        number = Math.pow(x, k.toDouble() * 2) / factorial(k * 2)
+        if (k % 2 == 1) {
+            cos = cos - number
+        } else cos = cos + number
     }
     return cos
 }
 
-    /**
-     * Средняя
-     *
-     * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
-     * Не использовать строки при решении задачи.
-     */
-    fun revert(n: Int): Int {
-        var revert = 0
-        var s = n
-        while (s > 0) {
-            revert = revert * 10 + s % 10
-            s = s / 10
-        }
-        return revert
+/**
+ * Средняя
+ *
+ * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
+ * Не использовать строки при решении задачи.
+ */
+fun revert(n: Int): Int {
+    var revert = 0
+    var s = n
+    while (s > 0) {
+        revert = revert * 10 + s % 10
+        s = s / 10
     }
+    return revert
+}
 
-    /**
-     * Средняя
-     *
-     * Проверить, является ли заданное число n палиндромом:
-     * первая цифра равна последней, вторая -- предпоследней и так далее.
-     * 15751 -- палиндром, 3653 -- нет.
-     */
-    fun isPalindrome(n: Int): Boolean {
-        var revert = 0
-        var s = n
-        while (s > 0) {
-            revert = revert * 10 + s % 10
-            s = s / 10
-        }
-        if (revert != n) {
-            return false
-        } else {
+/**
+ * Средняя
+ *
+ * Проверить, является ли заданное число n палиндромом:
+ * первая цифра равна последней, вторая -- предпоследней и так далее.
+ * 15751 -- палиндром, 3653 -- нет.
+ */
+fun isPalindrome(n: Int): Boolean = revert(n) == n
+
+/**
+ * Средняя
+ *
+ * Для заданного числа n определить, содержит ли оно различающиеся цифры.
+ * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
+ */
+fun hasDifferentDigits(n: Int): Boolean {
+    var maincipher = n % 10
+    var s = n
+    while (s > 0) {
+        if (s % 10 != maincipher) {
             return true
+        } else {
+            s = s / 10
         }
+
     }
+    return false
+}
 
-    /**
-     * Средняя
-     *
-     * Для заданного числа n определить, содержит ли оно различающиеся цифры.
-     * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
-     */
-    fun hasDifferentDigits(n: Int): Boolean {
-        var maincipher = n % 10
-        var s = n
-        while (s > 0) {
-            if (s % 10 != maincipher) {
-                return true
-            } else {
-                s = s / 10
-            }
 
-        }
-        return false
+/**
+ * Сложная
+ *
+ * Найти n-ю цифру последовательности из квадратов целых чисел:
+ * 149162536496481100121144...
+ * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+ */
+fun count(n: Int): Int {
+    var k = 0
+    var s = n
+    while (s > 0) {
+        s /= 10
+        k ++
     }
+    return k
+}
 
 
-    /**
-     * Сложная
-     *
-     * Найти n-ю цифру последовательности из квадратов целых чисел:
-     * 149162536496481100121144...
-     * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
-     */
-
-    fun squareSequenceDigit(n: Int): Int {
-        var k = 0
-        var g = 0
-        var s = 0
-        var number = 0
-        var result = 0
-        while (number < n) {
-            k = k + 1
-            s = k * k
-            while (s >0 ){
-                g = g + 1
-                s = s / 10
-            }
-            number = number + g
-             g = 0
-        }
-        result = k * k
-        for (k in n..number - 1) {
-            result = result / 10
-        }
-        return (result % 10)
+fun squareSequenceDigit(n: Int): Int {
+    var numberi = 0
+    var number = 0
+    var result = 0
+    while (number < n) {
+        numberi ++
+        number = number + count(numberi * numberi)
     }
-    /**
-     * Сложная
-     *
-     * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
-     * 1123581321345589144...
-     * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
-     */
-    fun fibSequenceDigit(n: Int): Int {
-        var k = 0
-        var s = 0
-        var g = 0
-        var number = 0
-        var result = 0
-        while (number < n) {
-            k = k + 1
-            s = fib(k)
-            while (s > 0 ){
-                g = g + 1
-                s = s / 10
-            }
-            number = number + g
-            g = 0
-        }
-        result = fib(k)
-        for (i in n..number - 1) {
-            result = result / 10
-        }
-        return (result % 10)
+    result = numberi * numberi
+    (n..number - 1).forEach { numberi -> result = result / 10 }
+    return (result % 10)
+}
+
+/**
+ * Сложная
+ *
+ * Найти n-ю цифру последовательности из чисел Фибоначчи (см. функцию fib выше):
+ * 1123581321345589144...
+ * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
+ */
+
+
+fun fibSequenceDigit(n: Int): Int {
+    var numberi = 0
+    var number = 0
+    var result = 0
+    while (number < n) {
+        numberi ++
+        number = number + count(fib(numberi))
     }
+    result = fib(numberi)
+    (n..number - 1).forEach { i -> result = result / 10 }
+    return (result % 10)
+}

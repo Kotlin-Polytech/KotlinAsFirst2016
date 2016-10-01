@@ -118,17 +118,7 @@ fun abs(v: List<Double>): Double{
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    var sum : Double = 0.0
-    for (i in 0 .. list.size - 1){
-        sum += list[i]
-    }
-    if (list.size == 0) {
-        return 0.0
-    } else{
-    return sum / list.size
-    }
-}
+fun mean(list: List<Double>): Double = list.sum / list.size
 
 /**
  * Средняя

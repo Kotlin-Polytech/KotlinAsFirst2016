@@ -269,8 +269,10 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var sum = 0
-    for (i in 0..digits.size - 1) {
-        sum += digits[i] * Math.pow(base.toDouble(), (digits.size - i - 1).toDouble()).toInt()
+    var pNum = 1
+    for (i in digits.size - 1 downTo 0) {
+        sum += digits[i]*pNum
+        pNum *= base
     }
     return sum
 }

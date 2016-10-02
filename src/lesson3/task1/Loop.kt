@@ -9,7 +9,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -63,7 +63,8 @@ fun digitNumber(n: Int): Int {
     } else {
     var kolvo = 0
     var m=n
-    while (m!=0){
+    while (m!=
+            0){
         kolvo ++;
         m= m/10
     }
@@ -76,7 +77,10 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (n < 3) return 1
+    else return fib(n - 1) + fib(n - 2)
+}
 
 /**
  * Простая
@@ -142,7 +146,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    if ( n < 10){
+        return n
+    }
+    else {
+        var n2 = n
+        var obr = 0
+        while (n2 != 0) {
+            obr *= 10
+            obr = obr + n2 % 10
+            n2 = n2/10
+        }
+        return obr
+    }
+}
 
 /**
  * Средняя

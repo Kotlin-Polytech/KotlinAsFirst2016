@@ -98,7 +98,7 @@ fun thirdDigit(number: Int): Int  = (number/100)%10
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     var min: Int = (hoursArrive - hoursDepart) * 60 + (minutesArrive - minutesDepart)
-    if (min <= 0){
+    if (min < 0){
         min += 24 * 60
     }
     return min

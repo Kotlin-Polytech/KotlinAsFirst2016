@@ -212,6 +212,14 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
+    fun pow(base: Int, pow: Int): Int {
+        var result = 1
+        for (i in 1..pow) {
+            result *= base
+        }
+        return result
+    }
+
     if (n < 10) return true
     else if (n < 100 && n%10 == n/10) return true
     else {
@@ -222,7 +230,7 @@ fun isPalindrome(n: Int): Boolean {
             number /= 10
             pow++
         }
-        return number == numLast && isPalindrome( (n-number*Math.pow(10.0, pow.toDouble()).toInt())/10 )
+        return number == numLast && isPalindrome( (n-number*pow(10, pow))/10 )
     }
 }
 

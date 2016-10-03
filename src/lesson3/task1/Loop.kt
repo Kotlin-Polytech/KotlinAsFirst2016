@@ -57,7 +57,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if ( n == 0) return 1
+    else {
+        var num = Math.abs(n)
+        var count = 0
+        while (Math.abs(n) > 0){
+           num /= 10
+           count++
+    }
+    return count
+   }
+}
 
 /**
  * Простая
@@ -142,6 +153,7 @@ fun revert(n: Int): Int = TODO()
  */
 fun isPalindrome(n: Int): Boolean = TODO()
 
+
 /**
  * Средняя
  *
@@ -157,7 +169,20 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var square = 0
+    var sum = 0
+    var a = 1
+    var num = 0.0
+    while (sum < n) {
+        square = a * a
+        a++
+        sum = sum + digitNumber(square)
+    }
+    a = sum - n
+    num = square.toDouble() / Math.pow(10.0, (a).toDouble())
+    return num.toInt() % 10
+}
 
 /**
  * Сложная

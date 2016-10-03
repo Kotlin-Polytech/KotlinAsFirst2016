@@ -147,7 +147,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    if (start.column % 2 != end.column % 2 || start.row % 2 != end.row % 2) return -1
+    if ((start.column - end.column) % 2 != (start.row - end.row) % 2) return -1
     if (start == end) return 0
     if (start.column - start.row == end.column - end.row) return 1
     else return 2
@@ -173,7 +173,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>()
-    if (start.column % 2 != end.column % 2 || start.row % 2 != end.row % 2) return list
+    if ((start.column - end.column) % 2 != (start.row - end.row) % 2) return list
 
     var currentColumn = start.column
     var currentRow = start.row

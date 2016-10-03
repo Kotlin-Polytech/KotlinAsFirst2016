@@ -3,7 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson1.task1.sqr
+import lesson3.task1.minDivisor
 
 /**
  * Пример
@@ -107,11 +107,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var number = 0.0
-    for (i in 0..v.size - 1) {
-        number += sqr(v[i].toString().toDouble())
-    }
-    return Math.sqrt(number)
+    return Math.abs(Math.sqrt((v.map { it * it }).sum()))
 }
 
 /**
@@ -120,12 +116,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var sum = 0.0
-    for (i in 0..list.size - 1) {
-        sum += list[i].toString().toDouble()
-    }
-    if (list.size !== 0) return sum / list.size
-    else return 0.0
+    if (list.isEmpty()) return 0.0
+    else return (list.sum() / list.size)
 }
 
 /**
@@ -135,11 +127,9 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val sum = mean(list)
-    if (list.size != 0) {
-        for (i in 0..list.size - 1) {
-            list[i] = list[i].toString().toDouble() - sum
-        }
+    val k = list.sum() / list.size
+    for ((index, elem) in list.withIndex()) {
+        list[index] = elem - k
     }
     return list
 }
@@ -153,9 +143,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var number = 0.0
-
     for (i in 0..a.size - 1) {
-        number += (a[i].toString().toDouble() * b[i].toString().toDouble())
+        number += (a[i] * b[i])
     }
     return (number)
 }
@@ -171,8 +160,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var sum = 0.0
     var k: Double = 0.0
-    for (i in 0..p.size - 1) {
-        sum += p[i] * Math.pow(x, k)
+    for (elem in p) {
+        sum += elem * Math.pow(x, k)
         k++
     }
     return sum
@@ -186,7 +175,13 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+// не работает, буду исправлять
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    for ((index, elem) in list.withIndex()) {
+        list[index] = list[index] + list[index - 1]
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -195,7 +190,17 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var a = listOf<Int>()
+    var divisor: Int
+    var number = n
+    while (number > 1) {
+        divisor = minDivisor(number)
+        number /= divisor
+        a += divisor
+    }
+    return a
+}
 
 /**
  * Сложная
@@ -203,7 +208,9 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    return factorize(n).joinToString(separator = "*")
+}
 
 /**
  * Средняя

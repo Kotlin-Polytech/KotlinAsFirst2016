@@ -62,9 +62,9 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     if (n == 0) return 1
     else {
-        var number = n
+        var number = Math.abs(n)
         var count = 0
-        while (Math.abs(number) > 0) {
+        while (number > 0) {
             number /= 10
             count++
         }
@@ -227,13 +227,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var i: Int = 1
-    var str: String = ""
-    while (str.length < n) {
-        str += (i * i).toString()
-        i++
+    var square = 0
+    var sum = 0
+    var count = 1
+    var number = 0.0
+    while (sum < n) {
+        square = count * count
+        count++
+        sum += digitNumber(square)
     }
-    return str[n - 1].toString().toInt()
+    count = sum - n
+    number = square.toDouble()/Math.pow(10.0, (count).toDouble())
+    return number.toInt() % 10
 }
 
 /**

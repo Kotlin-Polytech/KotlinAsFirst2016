@@ -91,20 +91,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var a = 0
-    var b = 0
-    if (m > n) {
-        a = m
-        b = n
-    } else {
-        a = n
-        b = m
-    }
-    var z = 1
+    var a = Math.max(m, n)
+    var b = Math.min(m, n)
+    var buffer = 1
     while (a % b > 0) {
-        z = a
+        buffer = a
         a = b
-        b = z % b
+        b = buffer % b
     }
     return (n * m) / b
 }
@@ -143,8 +136,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var min: Int
-    var max: Int
+    val min: Int
+    val max: Int
     if (m >= n) {
         min = n
         max = m
@@ -169,7 +162,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     if (n < 0) return false
-    for (i in 0..n) {
+    if (m<=0) {
+        for (i in 0..Math.sqrt(n.toDouble()).toInt()) {
+            if (i * i >= m && i * i <= n) return true
+            }
+        }
+    else for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
         if (i * i >= m && i * i <= n) return true
     }
     return false
@@ -221,14 +219,14 @@ fun cos(x: Double, eps: Double): Double {
  */
 
 fun revert(n: Int): Int {
-    var N = Math.abs(n)
+    var nMod = Math.abs(n)
     /*Не было сказано, может ли число на входе
     быть отрицательным, поэтому я решил предусмотреть это*/
     var rvrsd = 0
-    while (N > 0) {
+    while (nMod > 0) {
         rvrsd *= 10
-        rvrsd += N % 10
-        N /= 10
+        rvrsd += nMod % 10
+        nMod /= 10
     }
     if (n < 0) return -rvrsd
     return rvrsd
@@ -243,12 +241,8 @@ fun revert(n: Int): Int {
  */
 
 fun isPalindrome(n: Int): Boolean {
-    var count = digitNumber(n)
-    while (count >= digitNumber(n) / 2) {
-        if ((n / Math.pow(10.0, count-1))%10 != (n / Math.pow(10.0, digitNumber(n) - count))%10) return false
-        count--
-    }
-    return true
+    if (n == revert(n)) return true
+    return false
 }
 
 /**

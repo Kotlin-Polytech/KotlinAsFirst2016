@@ -85,9 +85,9 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 0
+    var k = 1
     for (i in 1..m * n) {
-        if (((k % m) != 0) || ((k % n) != 0))k=i else break
+        if (((k % m) != 0) || ((k % n) != 0)) k = i+1 else break
     }
     return k
 }
@@ -177,25 +177,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var m = n
-    var p = n
-    var k = 0
-    var k1 = 0.0
-    var number = 0.0
-    var number1 = 0
-    while (m >= 1) {
-        m = m / 10
-        k = k + 1
+    var number = n
+    var results = 0
+    var i = 1
+    while (number != 0) {
+        results = (results + number % 10) * 10
+        number = number / 10
     }
-    if (n >= 10) {
-        for (i in k downTo 1) {
-            k1 = i.toDouble()
-            number = number + ((p % 10) * pow(10.0, k1))
-            p = p / 10
-        }
-        number1 = number.toInt() / 10
-    } else number1 = n
-    return number1
+    results = results / 10
+    return results
 }
 
 /**

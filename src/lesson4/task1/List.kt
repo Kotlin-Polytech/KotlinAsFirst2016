@@ -3,6 +3,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import lesson3.task1.powInt
 
 /**
  * Пример
@@ -256,7 +257,7 @@ fun convertToString(n: Int, base: Int): String {
     var result = ""
     for (element in list) {
         if (element <= 9) result += element.toString()
-        else result += (element + 87).toChar()
+        else result += ('a' - 10 + element).toChar()
     }
     return result
 }
@@ -269,10 +270,10 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var p = digits.size.toDouble() - 1
+    var p = digits.size - 1
     var result = 0
     for (element in digits) {
-        result += (element * Math.pow(base.toDouble(), p)).toInt()
+        result += (element * powInt(base, p))
         p--
     }
     return result
@@ -290,8 +291,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var list = listOf<Int>()
     for (char in str) {
-        if (char.toInt() in 48..57) list += (char.toInt() - 48)
-        else list += (char.toInt() - 87)
+        if (char in '0'..'9') list += char - '0'
+        else list += char + 10 - 'a'
     }
     return decimal(list, base)
 }

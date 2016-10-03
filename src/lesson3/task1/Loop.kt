@@ -2,6 +2,12 @@
 
 package lesson3.task1
 
+fun powInt (a: Int, b: Int): Int {
+    var result = 1
+    for (i in 1..b) result *= a
+    return result
+}
+
 /**
  * Пример
  *
@@ -270,7 +276,7 @@ fun squareSequenceDigit(n: Int): Int {
     }
     if (currentN == n) return (i * i) % 10
     else {
-        val ex = Math.pow(10.0, (currentN - n).toDouble()).toInt()
+        val ex = powInt(10, currentN - n)
         return ((i * i) / ex) % 10
     }
 }
@@ -291,7 +297,7 @@ fun fibSequenceDigit(n: Int): Int {
     }
     if (currentN == n) return (fib(i)) % 10
     else {
-        val ex = Math.pow(10.0, (currentN - n).toDouble()).toInt()
+        val ex = powInt(10, currentN - n)
         return ((fib(i)) / ex) % 10
     }
 }

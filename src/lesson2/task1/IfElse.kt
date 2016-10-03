@@ -57,10 +57,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = t2 * v2
     val s3 = t3 * v3
     val s = (s1 + s2 + s3) / 2
-    if (s <= s1) return s / v1 else
-        if (s <= s1 + s2) return t1 + (s - s1) / v2 else
-            return t1 + t2 + (s - s1 - s2) / v3
+    return when {
+        s <= s1 -> s / v1
+        s <= s1 + s2 -> t1 + (s - s1) / v2
+        else -> t1 + t2 + (s - s1 - s2) / v3
+    }
 }
+
 /**
  * Простая
  *
@@ -77,6 +80,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     if ((kingX == rookX2) || (kingY == rookY2)) result += 2
     return result
 }
+
 /**
  * Простая
  *
@@ -94,6 +98,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     if ((kingX + kingY == bishopX + bishopY) || (kingX - kingY == bishopX - bishopY)) result += 2
     return result
 }
+
 /**
  * Простая
  *
@@ -107,10 +112,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         val cosa = (b * b + c * c - a * a) / (2 * b * c)
         val cosb = (a * a + c * c - b * b) / (2 * a * c)
         val cosc = (a * a + b * b - c * c) / (2 * a * b)
-        if ((Math.abs(cosa) < 0.00001) || (Math.abs(cosb) < 0.00001) || (Math.abs(cosc) < 0.00001)) return 1 else
-            if ((cosa < 0) || (cosb < 0) || (cosc < 0)) return 2 else return 0
+        if ((Math.abs(cosa) < 0.00001) || (Math.abs(cosb) < 0.00001) || (Math.abs(cosc) < 0.00001)) return 1
+        else if ((cosa < 0) || (cosb < 0) || (cosc < 0)) return 2
+        else return 0
     }
 }
+
 /**
  * Средняя
  *
@@ -119,9 +126,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((b < c) || (d < a)) return -1 else
-        if ((a <= c) && (d <= b)) return d - c else
-            if ((c <= a) && (b <= d)) return b - a else
-                if ((c <= a) && (d <= b)) return d - a else return b - c
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    ((b < c) || (d < a)) -> -1
+    ((a <= c) && (d <= b)) -> d - c
+    ((c <= a) && (b <= d)) -> b - a
+    ((c <= a) && (d <= b)) -> d - a
+    else -> b - c
 }

@@ -106,9 +106,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    return Math.abs(Math.sqrt((v.map { it * it }).sum()))
-}
+fun abs(v: List<Double>): Double = Math.abs(Math.sqrt((v.map { it * it }).sum()))
+
 
 /**
  * Простая
@@ -208,9 +207,8 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    return factorize(n).joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
+
 
 /**
  * Средняя
@@ -219,7 +217,16 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var list1 = listOf<Int>()
+    var number = n
+    while (number / base != 0) {
+        list1 += (number % base)
+        number /= base
+    }
+    list1 += number
+    return list1.reversed()
+}
 
 /**
  * Сложная
@@ -238,7 +245,12 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    val a = digits.map{it.toDouble()}.toList()
+    return polynom(a.reversed(),base.toDouble()).toInt()
+}
+
+
 
 /**
  * Сложная

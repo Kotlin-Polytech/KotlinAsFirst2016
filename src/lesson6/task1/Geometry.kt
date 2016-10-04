@@ -214,7 +214,8 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val y = zy / (2 * z)
     val r = Math.sqrt(sqr(x - a.x) + sqr(y - a.y))
     if ((x == Double.NaN) || (y == Double.NaN) || (r == Double.NaN) ||
-            (x == Double.POSITIVE_INFINITY) || (y == Double.POSITIVE_INFINITY) || (r == Double.POSITIVE_INFINITY))
+            (x == Double.POSITIVE_INFINITY) || (y == Double.POSITIVE_INFINITY) || (r == Double.POSITIVE_INFINITY)
+            || (x == Double.NEGATIVE_INFINITY) || (y == Double.NEGATIVE_INFINITY) || (z == Double.NEGATIVE_INFINITY))
         return Circle(center = Point(Double.NaN, Double.NaN), radius = Double.NaN) else
         return Circle(center = Point(x, y), radius = r)
 }

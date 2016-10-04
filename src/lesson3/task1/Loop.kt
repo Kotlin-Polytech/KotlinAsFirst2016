@@ -66,7 +66,7 @@ fun digitNumber(n: Int): Int {
     if (x != 0) {
         while (x != 0) {
             x /= 10
-            k = k + 1
+            k += 1
         }
         return k
     } else {
@@ -84,7 +84,6 @@ fun fib(n: Int): Int {
     var last = 1
     var next = 1
     var box = 0
-    var sum = 0
     for (i in 3..n) {
         box = next
         next = last + next
@@ -101,26 +100,41 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+fun NOD2(m: Int, n: Int): Int{
+    var a= n
+    var b = m
+    var shift = 0
+    if (a == 0)
+        return b
+    if (b == 0)
+        return a
+    shift = 0
+    while (a or b and 1 == 0) {
+        shift++
+        a = a shr 1
+        b = b shr 1
 
-fun NOD(m: Int, n: Int): Int {
-    var min: Int = 0
-    var k: Int = 0
-    if (m < n) {
-        min = m
-    } else {
-        min = n
     }
-    for (i in 1..min) {
-        if (n % i == 0 && m % i == 0) {
-            k = i
+    while (a and 1 == 0)
+        a = a shr 1
+    do {
+        while (b and 1 == 0)
+            b = b shr 1
+        if (a > b) {
+            val t = b
+            b = a
+            a = t
         }
-    }
-    return k
+        b -= a
+    } while (b !== 0)
+    return a shl shift
 }
+
+
 
 fun lcm(m: Int, n: Int): Int {
 
-    return (m * n) / NOD(m, n)
+    return (m * n) / NOD2(m, n)
 
 }
 
@@ -154,7 +168,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = NOD(m, n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = NOD2(m, n) == 1
 
 /**
  * Простая
@@ -165,7 +179,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = NOD(m, n) == 1
  */
 fun sqr(g: Double) = g * g
 
-fun squareBetweenExists(m: Int, n: Int): Boolean = m <= sqr(sqrt(n.toDouble()).toInt().toDouble()) && sqr(sqrt(n.toDouble()).toInt().toDouble()) <= n
+fun squareBetweenExists(m: Int, n: Int): Boolean = m <= sqr(floor(sqrt(n.toDouble()))) && sqr(floor(sqrt(n.toDouble())))  <= n
 
 /**
  * Простая
@@ -179,12 +193,12 @@ fun sin(x: Double, eps: Double): Double {
     var sin: Double = x
     var number: Double = x
     while (Math.abs(number) * 1000 > eps) {
-        k = k + 1
+        k += 1
         number = Math.pow(x, k.toDouble() * 2 + 1) / factorial(k * 2 + 1)
         if (k % 2 == 1) {
-            sin = sin - number
+            sin -= number
         } else {
-            sin = sin + number
+            sin += number
         }
     }
     return sin
@@ -203,11 +217,11 @@ fun cos(x: Double, eps: Double): Double {
     var cos: Double = 1.0
     var number: Double = x
     while (Math.abs(number) * 1000 > eps) {
-        k = k + 1
+        k += 1
         number = Math.pow(x, k.toDouble() * 2) / factorial(k * 2)
         if (k % 2 == 1) {
-            cos = cos - number
-        } else cos = cos + number
+            cos -= number
+        } else cos += number
     }
     return cos
 }
@@ -223,7 +237,7 @@ fun revert(n: Int): Int {
     var s = n
     while (s > 0) {
         revert = revert * 10 + s % 10
-        s = s / 10
+        s /= 10
     }
     return revert
 }
@@ -244,15 +258,15 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var maincipher = n % 10
+    val maincipher = n % 10
     var s = n
     while (s > 0) {
         if (s % 10 != maincipher) {
             return true
-        } else {
-            s = s / 10
         }
-
+        else {
+            s /= 10
+        }
     }
     return false
 }
@@ -282,10 +296,12 @@ fun squareSequenceDigit(n: Int): Int {
     var result = 0
     while (number < n) {
         numberi ++
-        number = number + count(numberi * numberi)
+        number += count(numberi * numberi)
     }
     result = numberi * numberi
-    (n..number - 1).forEach { numberi -> result = result / 10 }
+    for (numberi in n..number - 1) {
+        result /= 10
+    }
     return (result % 10)
 }
 
@@ -304,9 +320,11 @@ fun fibSequenceDigit(n: Int): Int {
     var result = 0
     while (number < n) {
         numberi ++
-        number = number + count(fib(numberi))
+        number += count(fib(numberi))
     }
     result = fib(numberi)
-    (n..number - 1).forEach { i -> result = result / 10 }
+    for (i in n..number - 1) {
+        result /= 10
+    }
     return (result % 10)
 }

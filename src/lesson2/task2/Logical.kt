@@ -57,7 +57,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
 fun brickPasses(a: Int , b: Int , c: Int , r: Int , s: Int): Boolean {
     var min: Int
     var max: Int
-    var nor: Int
+    val nor: Int
     if (a > b) {
         max = a
     }

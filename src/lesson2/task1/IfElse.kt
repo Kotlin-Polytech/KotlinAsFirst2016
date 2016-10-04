@@ -78,7 +78,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     val rook1 = (kingX == rookX1 || kingY == rookY1)
-    val rook2 = (kingX == rookX2 || kingX == rookY2)
+    val rook2 = (kingX == rookX2 || kingY == rookY2)
     return when {
         !rook1 && !rook2 -> 0
         rook1 && !rook2 -> 1

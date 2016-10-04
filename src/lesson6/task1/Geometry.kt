@@ -61,11 +61,6 @@ data class Circle(val center: Point, val radius: Double) {
                 (center.distance(other.center) - radius - other.radius)
             else 0.0
 
-    fun distancee(other: Circle): Double =
-            if (center.distance(other.center) > radius + other.radius)
-                (center.distance(other.center) - radius - other.radius)
-            else center.distance(other.center)
-
     /**
      * Тривиальная
      *
@@ -78,7 +73,6 @@ data class Circle(val center: Point, val radius: Double) {
 /**
  * Отрезок между двумя точками
  */
-data class PointInt(var x: Int, var y: Int)
 
 data class Segment(val begin: Point, val end: Point)
 
@@ -91,7 +85,7 @@ data class Segment(val begin: Point, val end: Point)
 
 fun diameter(vararg points: Point): Segment {
     var max = -1.0
-    var maxPoint = PointInt(0, 0)
+    var maxPoint = Pair(0, 0)
     if (points.size < 2) {
         throw IllegalArgumentException()
     }
@@ -99,9 +93,9 @@ fun diameter(vararg points: Point): Segment {
         for (j in i + 1..points.size - 1)
             if (points[i].distance(points[j]) > max) {
                 max = points[i].distance(points[j])
-                maxPoint = PointInt(i, j)
+                maxPoint = Pair(i, j)
             }
-    return Segment(points[maxPoint.x], points[maxPoint.y])
+    return Segment(points[maxPoint.first], points[maxPoint.second])
 }
 
 
@@ -129,15 +123,15 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         var x = 0.0
         var y = 0.0
-        if (Math.abs(Math.cos(angle)) <= 0.00000000001) {
+        if (Math.abs(Math.cos(angle)) <= 1e-11) {
             x = point.x
-        } else if (Math.cos(other.angle) == 0.0) {
+        } else if (Math.cos(other.angle) <= 1e-11) {
             x = other.point.x
         } else
             x = (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
                     (Math.tan(angle) - Math.tan(other.angle))
 
-        if (Math.abs(Math.cos(angle)) <= 0.00000000001) {
+        if (Math.abs(Math.cos(angle)) <= 1e-11) {
             y = (x - other.point.x) * Math.tan(other.angle) + other.point.y
         } else
             y = (x - point.x) * Math.tan(angle) + point.y
@@ -183,16 +177,15 @@ fun bisectorByPoints(a: Point, b: Point): Line =
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     if (circles.size < 2) throw IllegalArgumentException("IllegalArgumentException")
     var min = circles[0].distance(circles[1])
-
-    var point = PointInt(0, 1)
+    var point = Pair(circles[0], circles[1])
     for (i in 0..circles.size - 1)
         for (j in i + 1..circles.size - 1) {
-            if ((circles[i].distancee(circles[j]) <= min) && (circles[i].center != circles[j].center)) {
-                min = circles[i].distancee(circles[j])
-                point = PointInt(i, j)
+            if ((circles[i].distance(circles[j]) < min) && (circles[i].center != circles[j].center)) {
+                min = circles[i].distance(circles[j])
+                point = Pair(circles[i], circles[j])
             }
         }
-    return Pair(circles[point.x], circles[point.y])
+    return point
 }
 
 /**

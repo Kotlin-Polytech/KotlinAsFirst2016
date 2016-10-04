@@ -41,7 +41,7 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if ((notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8') || notation.length != 2)
+    if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8'))
         throw IllegalArgumentException("IllegalArgumentException")
     val columnArray = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
     return Square(column = columnArray.indexOf(notation[0]) + 1, row = (notation[1]).toString().toInt())
@@ -213,23 +213,24 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  */
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    var squareNow=start
-    var wait= listOf(start)
-    while (squareNow!=end) {
-        squareNow= when {
-            (squareNow.row<end.row)&&(squareNow.column<end.column)->Square(column = squareNow.column+1,row = squareNow.row+1)
-            (squareNow.row>end.row)&&(squareNow.column>end.column)->Square(column = squareNow.column-1,row = squareNow.row-1)
-            (squareNow.row<end.row)&&(squareNow.column>end.column)->Square(column = squareNow.column-1,row = squareNow.row+1)
-            (squareNow.row>end.row)&&(squareNow.column<end.column)->Square(column = squareNow.column+1,row = squareNow.row-1)
-            (squareNow.row<end.row)&&(squareNow.column==end.column)->Square(column = squareNow.column,row = squareNow.row+1)
-            (squareNow.row>end.row)&&(squareNow.column==end.column)->Square(column = squareNow.column,row = squareNow.row-1)
-            (squareNow.row==end.row)&&(squareNow.column<end.column)->Square(column = squareNow.column+1,row = squareNow.row)
-            else->Square(column = squareNow.column-1,row = squareNow.row)
+    var squareNow = start
+    var wait = listOf(start)
+    while (squareNow != end) {
+        squareNow = when {
+            (squareNow.row < end.row) && (squareNow.column < end.column) -> Square(column = squareNow.column + 1, row = squareNow.row + 1)
+            (squareNow.row > end.row) && (squareNow.column > end.column) -> Square(column = squareNow.column - 1, row = squareNow.row - 1)
+            (squareNow.row < end.row) && (squareNow.column > end.column) -> Square(column = squareNow.column - 1, row = squareNow.row + 1)
+            (squareNow.row > end.row) && (squareNow.column < end.column) -> Square(column = squareNow.column + 1, row = squareNow.row - 1)
+            (squareNow.row < end.row) && (squareNow.column == end.column) -> Square(column = squareNow.column, row = squareNow.row + 1)
+            (squareNow.row > end.row) && (squareNow.column == end.column) -> Square(column = squareNow.column, row = squareNow.row - 1)
+            (squareNow.row == end.row) && (squareNow.column < end.column) -> Square(column = squareNow.column + 1, row = squareNow.row)
+            else -> Square(column = squareNow.column - 1, row = squareNow.row)
         }
-        wait+=squareNow
+        wait += squareNow
     }
     return wait
 }
+
 /**
  * Сложная
  *

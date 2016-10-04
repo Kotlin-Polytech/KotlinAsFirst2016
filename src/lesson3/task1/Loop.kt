@@ -59,13 +59,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var N = n
-    var count = 0
-    do {
-        count++
-        N /= 10
-    } while (N != 0)
-    return count
+    if (n == 0) return 1
+    return (Math.log10(n.toDouble())).toInt() + 1
 }
 
 /**
@@ -162,12 +157,11 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     if (n < 0) return false
-    if (m<=0) {
+    if (m <= 0) {
         for (i in 0..Math.sqrt(n.toDouble()).toInt()) {
             if (i * i >= m && i * i <= n) return true
-            }
         }
-    else for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
+    } else for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
         if (i * i >= m && i * i <= n) return true
     }
     return false
@@ -241,8 +235,10 @@ fun revert(n: Int): Int {
  */
 
 fun isPalindrome(n: Int): Boolean {
-    if (n == revert(n)) return true
-    return false
+    for (i in 1..digitNumber(n) / 2) {
+        if ((n / (Math.pow(10.0, digitNumber(n) - i.toDouble())).toInt()) % 10 != (n / (Math.pow(10.0, i.toDouble() - 1)).toInt()) % 10) return false
+    }
+    return true
 }
 
 /**

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -34,9 +35,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age%100 in 5..20) return "$age лет"
-    if (age%10 == 1) return "$age год"
-    if (age%10 in 2..4) return "$age года"
+    when {
+        (age % 100 in 5..20) -> return "$age лет"
+        (age % 10 == 1) -> return "$age год"
+        (age % 10 in 2..4) -> return "$age года"
+    }
     return "$age лет"
 }
 
@@ -50,9 +53,9 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val hS = (t1*v1 + t2*v2 + t3*v3)/2
-    if (hS <= v1*t1) return hS/v1
-    if (hS <= (v1*t1 + v2*t2)) return t1 + ((hS - v1 * t1) / v2)
+    val hS = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if (hS <= v1 * t1) return hS / v1
+    if (hS <= (v1 * t1 + v2 * t2)) return t1 + ((hS - v1 * t1) / v2)
     return t1 + t2 + (hS - v1 * t1 - v2 * t2) / v3
 }
 
@@ -85,7 +88,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var l = 1
+    var l = 0
     if (kingX == rookX || kingY == rookY) l = l + 1
     if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) l = l + 2
     return l
@@ -100,12 +103,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a+b<=c || a+c<=b || b+c<=a) return -1
-    val cos1 = (a*a + b*b - c*c)/(2*a*b)
-    val cos2 = (c*c + b*b - a*a)/(2*c*b)
-    val cos3 = (c*c + a*a - b*b)/(2*c*a)
-    if (cos1<0 || cos2<0 || cos3<0) return 2
-    if (cos1==0.0 || cos2==0.0 || cos3==0.0) return 1
+    if (a + b <= c || a + c <= b || b + c <= a) return -1
+    val cos1 = (a * a + b * b - c * c) / (2 * a * b)
+    val cos2 = (c * c + b * b - a * a) / (2 * c * b)
+    val cos3 = (c * c + a * a - b * b) / (2 * c * a)
+    if (cos1 < 0 || cos2 < 0 || cos3 < 0) return 2
+    if (cos1 == 0.0 || cos2 == 0.0 || cos3 == 0.0) return 1
     return 0
 }
 
@@ -119,12 +122,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     when {
-        (c>b) -> return -1
-        (c<=b && c>=a) -> {if (d<=b) return d-c else return b-c}
+        (c > b) -> return -1
+        (c <= b && c >= a) -> {
+            if (d <= b) return d - c else return b - c
+        }
         else -> when {
-                    d<a -> return -1
-                    (d>=a && d<=b) -> return d-a
-                    else -> return b-a
-                    }
+            d < a -> return -1
+            (d >= a && d <= b) -> return d - a
+            else -> return b - a
+        }
     }
 }

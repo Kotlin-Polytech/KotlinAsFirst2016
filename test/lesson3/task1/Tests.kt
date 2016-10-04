@@ -166,8 +166,10 @@ class Tests {
     fun isPalindrome() {
         assertTrue(isPalindrome(3))
         assertFalse(isPalindrome(3653))
-        assertTrue(isPalindrome(15751))
         assertTrue(isPalindrome(24688642))
+        assertTrue(isPalindrome(121))
+        assertTrue(isPalindrome(15751))
+
     }
 
     @Test

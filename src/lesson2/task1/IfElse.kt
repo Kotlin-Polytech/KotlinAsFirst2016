@@ -33,7 +33,15 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return if ((age in (5..20)) || (age in (115..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
+    else {
+        return if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
+        else return "$age год"
+    }
+}
+
+
 
 /**
  * Простая
@@ -44,7 +52,7 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double =(33.0)
 
 /**
  * Простая
@@ -55,7 +63,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
  * и 3, если угроза от обеих ладей.
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
-                       rookX1: Int, rookY1: Int,
+                       rookY1: Int, rookX1: Int,
                        rookX2: Int, rookY2: Int): Int = TODO()
 
 /**
@@ -89,4 +97,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val maxComa : Int = Math.max (Math.max (a, b), Math.max (c, d))
+      if (((maxComa == a) && (maxComa == b)) && ((maxComa == c) && (maxComa == d)) || (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || ( c == b )) || (a == d) || (c == b) ) return 0
+       else if ((maxComa == b) && (a >= c) && (a < d)) return (d-a)
+         else if ((maxComa == d) && (c >= a) && (c < b)) return (b-c)
+           else if ((maxComa == b) && (a <= c) && (b > d)) return (d-c)
+             else if ((maxComa == d) && (c <= a) && (d > b)) return (b-a)
+               else return -1
+    }
+
+

@@ -22,8 +22,7 @@ fun isNumberHappy(number: Int): Boolean {
     val digit2 = (number % 100) / 10
     val digit3 = (number / 100) % 10
     val digit4 = number / 1000
-    if (digit1 + digit2 == digit3 + digit4) return true
-    else return false
+    return (digit1 + digit2 == digit3 + digit4)
 }
 
 /**
@@ -35,8 +34,7 @@ fun isNumberHappy(number: Int): Boolean {
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     val qtLine = (x1 == x2) || (y1 == y2)
     val qtDiag = (Math.abs(x1 - x2) == (Math.abs(y1 - y2)))
-    if (qtLine || qtDiag) return true
-    else return false
+    return(qtLine || qtDiag)
 }
 
 /**
@@ -50,8 +48,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
     val x = sqr(x2 - x1)
     val y = sqr(y2 - y1)
-    if (Math.sqrt(x + y) + r1 <= r2) return true
-    else return false
+    return(Math.sqrt(x + y) + r1 <= r2)
 }
 
 /**
@@ -70,6 +67,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val bp4 = (b <= r) && (c <= s)
     val bp5 = (c <= r) && (a <= s)
     val bp6 = (c <= r) && (b <= s)
-    if (bp1 || bp2 || bp3 || bp4 || bp5 || bp6) return true
-    else return false
+    return (bp1 || bp2 || bp3 || bp4 || bp5 || bp6)
 }

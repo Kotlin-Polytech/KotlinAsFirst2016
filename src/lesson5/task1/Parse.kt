@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -74,8 +73,7 @@ fun dateStrToDigit(str: String): String {
         mounth = mounths.indexOf(parts[1]) + 1
         if (mounth == 0) return ""
         year = parts[2].toInt()
-    }
-    catch (e: NumberFormatException) {
+    } catch (e: NumberFormatException) {
         return ""
     }
 
@@ -95,20 +93,19 @@ fun dateDigitToStr(digital: String): String {
     if (parts.size != 3) return ""
     val day: Int
     val mounth: Int
-    val year : Int
+    val year: Int
 
     try {
         day = parts[0].toInt()
         mounth = parts[1].toInt()
         year = parts[2].toInt()
-    }
-    catch (e: NumberFormatException) {
+    } catch (e: NumberFormatException) {
         return ""
     }
 
     if (mounth < 1) return ""
 
-    return String.format("%d %s %d", day, mounths[mounth-1], year)
+    return String.format("%d %s %d", day, mounths[mounth - 1], year)
 }
 
 /**
@@ -129,7 +126,7 @@ fun flattenPhoneNumber(phone: String): String {
     var newPhone = ""
 
     for (i in phone) {
-        if (!(i in allowedChars) && !(i in intChars)) return ""
+        if (i !in allowedChars && i !in intChars) return ""
         if (newPhone.length == 0 && i == '+') newPhone = "+"
         if (i in intChars) newPhone += i
     }
@@ -150,13 +147,13 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     var result = -1
     val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-    val allowedChars =  listOf('-', ' ', '%')
+    val allowedChars = listOf('-', ' ', '%')
     var strNum = ""
 
     try {
 
         for (i in jumps) {
-            if ((i in intChars || i in allowedChars) == false) return -1
+            if (i !in intChars && i !in allowedChars) return -1
             if (i in intChars) strNum += i
             else {
                 if (strNum.length > 0) result = Math.max(result, strNum.toInt())
@@ -165,8 +162,7 @@ fun bestLongJump(jumps: String): Int {
         }
 
         if (strNum.length > 0) result = Math.max(result, strNum.toInt())
-    }
-    catch (e: NumberFormatException) {
+    } catch (e: NumberFormatException) {
         return -1
     }
 
@@ -185,20 +181,19 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-    val allowedChars =  listOf('-', ' ', '%', '+')
+    val allowedChars = listOf('-', ' ', '%', '+')
 
     var result = -1
     var jump = -1
     var strJump = ""
 
     for (i in jumps) {
-        if ( (i in intChars || i in allowedChars) == false) return -1
+        if (i !in intChars && i !in allowedChars) return -1
 
         if (i in intChars) {
             if (jump != -1) jump = -1
             strJump += i
-        }
-        else if (strJump.length > 0) {
+        } else if (strJump.length > 0) {
             jump = strJump.toInt()
             strJump = ""
         }
@@ -229,11 +224,11 @@ fun plusMinus(expression: String): Int {
     var lastChar = '+'
 
     for (i in expression) {
-        if ( (i in allowedChars || i in intChars) == false ) throw IllegalArgumentException()
+        if (i !in allowedChars && i !in intChars) throw IllegalArgumentException()
 
-        if ( i in intChars ) strNum += i
+        if (i in intChars) strNum += i
         else {
-            if (strNum.length > 0){
+            if (strNum.length > 0) {
                 if (lastChar == '+') result += strNum.toInt()
                 else if (lastChar == '-') result -= strNum.toInt()
                 else throw IllegalArgumentException()
@@ -268,7 +263,7 @@ fun firstDuplicateIndex(str: String): Int {
     var count = 0
 
     for (part in parts) {
-        if ( part.toUpperCase() == lastWord.toUpperCase() && part != "" ) return count - part.length - 1
+        if (part.toUpperCase() == lastWord.toUpperCase() && part != "") return count - part.length - 1
         count += part.length + 1
         lastWord = part
     }
@@ -300,11 +295,9 @@ fun mostExpensive(description: String): String {
 
         try {
             curPrice = couple[1].toDouble()
-        }
-        catch (e: NumberFormatException) {
+        } catch (e: NumberFormatException) {
             return ""
-        }
-        catch (e: IndexOutOfBoundsException){
+        } catch (e: IndexOutOfBoundsException) {
             return ""
         }
 
@@ -351,11 +344,10 @@ fun fromRoman(roman: String): Int {
             val mapValue = mapRoman[romanStr]
             if (mapValue != null) {
                 result += mapValue
-                i ++
+                i++
                 continue
             }
-        }
-        else return -1
+        } else return -1
     }
 
     return result
@@ -394,62 +386,56 @@ fun fromRoman(roman: String): Int {
 fun computeDeviceCells(cells: Int, commands: String): List<Int> {
     val list = mutableListOf<Int>()
     for (i in 1..cells) list.add(0)
-    var iterator = cells/2
+    var iterator = cells / 2
     var strIterator = 0
     if (commands.isEmpty()) return list
 
-    fun rightOp(iter: Int, op: Char): Int {
-        var i = iter
-        while (i < commands.length && commands[i] != op) i ++
-        if (i < commands.length - 1) return i + 1
-        else {
-            if (i == commands.length-1) throw IllegalStateException()
-            else throw IllegalArgumentException()
-        }
+    val opList = listOf('{', '}', '[', ']')
+
+    fun checkOp(iter: Int, op: Char): Int {
+        val sign: Int
+        if (opList.indexOf(op) % 2 == 0) sign = 1 else sign = -1
+        var i = iter + sign
+        while (i in 0..commands.length - 1 && commands[i] != op) i += sign
+        if (i in 0..commands.length - 1) return ++i
+        else throw IllegalArgumentException()
     }
 
-    fun leftOp(iter: Int, op: Char): Int {
-        var i = iter
-        while (i >= 0 && commands[i] != op) i --
-        if (i > 0) return i + 1
-        else {
-            if (i == 0) throw IllegalStateException()
-            else throw IllegalArgumentException()
-        }
-    }
+    for (i in 0..commands.length - 1) if (commands[i] in opList) checkOp(i, commands[i])
 
     while (true) {
         when (commands[strIterator]) {
-            '>' -> iterator ++
-            '<' -> iterator --
-            '+' -> list[iterator] ++
-            '-' -> list[iterator] --
+            '>' -> iterator++
+            '<' -> iterator--
+            '+' -> list[iterator]++
+            '-' -> list[iterator]--
             '[' -> {
                 if (list[iterator] == 0) {
-                    strIterator = rightOp(strIterator, ']') - 1
+                    strIterator = checkOp(strIterator, ']') - 1
                 }
             }
             ']' -> {
                 if (list[iterator] != 0) {
-                    strIterator = leftOp(strIterator, '[') - 1
+                    strIterator = checkOp(strIterator, '[') - 1
                 }
             }
             '{' -> {
                 if (list[iterator] == 0) {
-                    strIterator = rightOp(strIterator, '}') - 1
+                    strIterator = checkOp(strIterator, '}') - 1
                 }
             }
             '}' -> {
                 if (list[iterator] != 0) {
-                    strIterator = leftOp(strIterator, '{') - 1
+                    strIterator = checkOp(strIterator, '{') - 1
                 }
             }
-            ' ' -> {}
+            ' ' -> {
+            }
             else -> throw IllegalArgumentException()
         }
         if (iterator >= list.size || iterator < 0) throw IllegalStateException()
 
-        if (strIterator < commands.length - 1) strIterator ++
+        if (strIterator < commands.length - 1) strIterator++
         else return list
     }
 }

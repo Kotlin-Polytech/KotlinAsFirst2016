@@ -2,6 +2,14 @@
 
 package lesson3.task1
 
+fun fact(n: Int): Int {
+    var result = 1
+    for (i in 1..n) {
+        result *= i
+    }
+    return result
+}
+
 fun pow(x: Double, y: Int): Double {
     var result = x
     if (y != 0) {
@@ -9,19 +17,6 @@ fun pow(x: Double, y: Int): Double {
             result *= x
         }
     } else result = 1.0
-    return result
-}
-
-fun nLength(n: Int): Int {
-    var number = n
-    var result = 0
-    if (n == 0) result = 1
-    else {
-        while (number != 0) {
-            number /= 10
-            result += 1
-        }
-    }
     return result
 }
 
@@ -187,11 +182,13 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var result = false
-    for (k in 0..n) {
+    var k = 0
+    while (k * k <= n) {
         if (k * k in m..n) {
             result = true
             break
         }
+        k++
     }
     return result
 }
@@ -204,12 +201,6 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    /**
-     * Изначально пытался запихать "pow(x, (2 * i + 1)) / factorial(i * 2 + 1)" в переменную и использовать её далее
-     * Но результат не воводился ни в какую
-     * Словил жесточайшее желание закрыть идею и никогда больше не открывать
-     * Не подскажете, с чем это связано?
-     */
     var i = 1
     var result = x
     while (pow(x, (2 * i + 1)) / factorial(i * 2 + 1) > eps) {
@@ -232,11 +223,11 @@ fun sin(x: Double, eps: Double): Double {
 fun cos(x: Double, eps: Double): Double {
     var i = 1
     var result = 1.0
-    while (pow(x, (2 * i)) / factorial(2 * i) > eps) {
+    while (pow(x, (2 * i)) / fact(2 * i) >= eps) {
         if (i % 2 == 1)
-            result -= pow(x, (2 * i)) / factorial(2 * i)
+            result -= pow(x, (2 * i)) / fact(2 * i)
         else
-            result += pow(x, (2 * i)) / factorial(2 * i)
+            result += pow(x, (2 * i)) / fact(2 * i)
         i++
     }
     return result

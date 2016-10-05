@@ -134,6 +134,7 @@ class Tests {
         assertEquals(1.0, sin(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(0.0, sin(Math.PI, 1e-5), 1e-5)
         assertEquals(-1.0, sin(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(-0.5823309979391094, sin(-18.832102629018816, 0.7107340826874597))
     }
 
     @Test

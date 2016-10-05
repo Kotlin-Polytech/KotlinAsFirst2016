@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -18,11 +19,12 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    if((number % 100 / 10 + number % 10) == (number / 1000 + (number / 100) % 10))
+    if ((number % 100 / 10 + number % 10) == (number / 1000 + (number / 100) % 10))
         return true
     else
         return false
 }
+
 /**
  * Простая
  *
@@ -30,7 +32,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if((x1 == x2) || (y1 == y2) || (Math.abs(x2 - x1) == Math.abs(y2 - y1)))
+    if ((x1 == x2) || (y1 == y2) || (Math.abs(x2 - x1) == Math.abs(y2 - y1)))
         return true
     else
         return false
@@ -60,17 +62,4 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val min1 = Math.min(a, Math.min(b, c))
-    var min2 = 1
-    when (min1) {
-       a -> min2 = Math.min(b, c)
-       b -> min2 = Math.min(a, c)
-       c -> min2 = Math.min(a, b)
-    }
-    if (min1 <= r && min2 <= s || min2 <= r && min1 <= s)
-        return true
-        else
-            return false
-
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()

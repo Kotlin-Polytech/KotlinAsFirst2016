@@ -64,13 +64,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s1 = v1 * t1
     val s2 = v2 * t2
     val s3 = v3 * t3
-    val lenght =  (s1 + s2 + s3) / 2.0
-    if(s1 > lenght)
+    val lenght = (s1 + s2 + s3) / 2.0
+    if (s1 > lenght)
         return lenght / v1
-    if(s1 + s2 > lenght)
+    if (s1 + s2 > lenght)
         return t1 + (lenght - s1) / v2
-    if(s1 + s2 + s3 > lenght)
-        return (t1 + t2 + (lenght - s1 - s2 ) / v3)
+    if (s1 + s2 + s3 > lenght)
+        return (t1 + t2 + (lenght - s1 - s2) / v3)
     return Double.NaN
 }
 
@@ -86,14 +86,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     var answer = 0
-    if(kingX == rookX1 || kingY == rookY1)
+    if (kingX == rookX1 || kingY == rookY1)
         answer++
-    if(kingX == rookX2 || kingY == rookY2)
-        answer+=2
+    if (kingX == rookX2 || kingY == rookY2)
+        answer += 2
     return answer
 
 
 }
+
 /**
  * Простая
  *
@@ -107,10 +108,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     var answer = 0
-    if(rookX == kingX || rookY == kingY)
+    if (rookX == kingX || rookY == kingY)
         answer++
-    if(Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
-        answer+=2
+    if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
+        answer += 2
     return answer
 }
 
@@ -126,13 +127,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val a2 = Math.pow(a, 2.toDouble())
     val b2 = Math.pow(b, 2.toDouble())
     val c2 = Math.pow(c, 2.toDouble())
-    if(a + b < c)
+    if (a + b < c)
         return -1
-    if(a2 + b2 > c2)
+    if (a2 + b2 > c2)
         return 0
-    if(a2 + b2 == c2)
+    if (a2 + b2 == c2)
         return 1
-    if(a2 + b2 < c2)
+    if (a2 + b2 < c2)
         return 2
     return -2
 }
@@ -147,15 +148,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     var crossing = 0
-    if((d >= a) && (d >= b) && (c >= a))
+    if ((d >= a) && (d >= b) && (c >= a))
         crossing = b - c
-    if((a >= c) && (b >= d) && (d >= a))
+    if ((a >= c) && (b >= d) && (d >= a))
         crossing = d - a
-    if((a >= c) && (b >= c) && (d >= b))
+    if ((a >= c) && (b >= c) && (d >= b))
         crossing = b - a
-    if((d >= a) && (b >= d) && (c >= a))
+    if ((d >= a) && (b >= d) && (c >= a))
         crossing = d - c
-    if(((c > a) && (c > b)) || ((a > c) && (a > d)))
+    if (((c > a) && (c > b)) || ((a > c) && (a > d)))
         crossing = -1
     return crossing
 }

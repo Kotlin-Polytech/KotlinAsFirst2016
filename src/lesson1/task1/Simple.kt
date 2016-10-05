@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -77,7 +78,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
     val answer = grad * PI / 180 + min * PI / (180 * 60) + sec * PI / (180 * 60 * 60)
     return answer
-    }
+}
+
 /**
  * Тривиальная
  *

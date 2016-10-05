@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -60,12 +61,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var counter = 0
     var N = n
-    do {
-        counter++
-        N /= 10
+    if (N == 0) return 1
+    while (N != 0) {
+        N = N / 10
+        counter += 1
     }
-        while(N > 0)
-            return counter
+    return counter
 }
 
 /**
@@ -74,7 +75,21 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var first = 1
+    var second = 1
+    var counter = 2
+    var fibbo = 0
+    while (counter <= n) {
+        fibbo = first + second
+        first = second
+        second = fibbo
+        counter += 1
+    }
+    if (n == 1 || n == 2) return 1
+    else
+        return first
+}
 
 /**
  * Простая
@@ -169,15 +184,14 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
 fun squareSequenceDigit(n: Int): Int {
     var s1 = 0
     var s2 = 0
-    val answer : Int
+    val answer: Int
     while (s1 < n) {
         s2 += 1
         s1 += digitNumber(s2 * s2)
     }
-    if(n == s1)
+    if (n == s1)
         answer = (s2 * s2) % 10
-    else
-    {
+    else {
         val s3 = Math.pow(10.0, (s1 - n).toDouble()).toInt()
         answer = ((s2 * s2) / s3) % 10
     }

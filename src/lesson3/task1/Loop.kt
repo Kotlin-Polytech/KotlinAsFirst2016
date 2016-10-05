@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -59,7 +60,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var digit = 0
-    var numb= Math.abs(n.toLong())
+    var numb = Math.abs(n.toLong())
     if (numb == 0L) return 1
     while (numb > 0L) {
         numb /= 10
@@ -95,7 +96,7 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = Math.max(m, n)
-    while (k%m != 0 || k%n != 0) {
+    while (k % m != 0 || k % n != 0) {
         k++
     }
     return k
@@ -108,7 +109,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var del = 2
-    while (n%del != 0) {
+    while (n % del != 0) {
         del++
     }
     return del
@@ -121,7 +122,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var del = n - 1
-    while (n%del != 0) {
+    while (n % del != 0) {
         del--
     }
     return del
@@ -138,7 +139,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     var del = 2 //на что делим в цикле
     val minMN = Math.min(m, n)
     while (del <= minMN) {
-        if (m%del == 0 && n%del == 0) return false
+        if (m % del == 0 && n % del == 0) return false
         del++
     }
     return true
@@ -152,13 +153,13 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k : Int = Math.sqrt(m.toDouble()).toInt()
-    while (k*k <= n) {
-        if (k*k in m..n) return true
+    var k: Int = Math.sqrt(m.toDouble()).toInt()
+    while (k * k <= n) {
+        if (k * k in m..n) return true
         k++
     }
     return false
-    }
+}
 
 /**
  * Простая
@@ -168,18 +169,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var sign = 1
-    var cur = x%(Math.PI*2)
-    var sinx = 0.0
-    var n = 1
-        while (true) {
-            cur = sign  / factorial(n)  * Math.pow(x,n.toDouble())
-            if (Math.abs(cur) < eps)
-                break
-            sign = -sign
-            sinx += cur
-            n += 2
-        }
+    var sign = 0
+    val cur: Double = x % (Math.PI * 2)
+    var sinx = cur
+    var n = cur
+    while (Math.abs(n) > eps) {
+        sign++
+        n = Math.pow(cur, sign * 2.0 + 1) / factorial(sign * 2 + 1)
+        if (sign % 2 == 1) {
+            sinx -= n
+        } else sinx += n
+    }
     return sinx
 }
 
@@ -191,17 +191,16 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var sign = -1
-    var cur = x%(Math.PI*2)
+    var sign = 0
+    var cur: Double = x % (Math.PI * 2)
     var cosx = 1.0
-    var n = 2
-    while (true) {
-        cur = sign / factorial(n) * Math.pow(x,n.toDouble())
-        if (Math.abs(cur) < eps)
-            break
-        sign = -sign
-        cosx += cur
-        n += 2
+    var n = cur
+    while (Math.abs(n) > eps) {
+        sign++
+        n = Math.pow(cur, sign * 2.0) / factorial(sign * 2)
+        if (sign % 2 == 1) {
+            cosx -= n
+        } else cosx += n
     }
     return cosx
 }
@@ -217,7 +216,7 @@ fun revert(n: Int): Int {
     var rev = 0
     var numb = n
     while (numb > 0) {
-        rev = rev*10 + (numb%10)
+        rev = rev * 10 + (numb % 10)
         numb /= 10
     }
     return rev
@@ -244,10 +243,10 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var numb = n
-    var prew = n%10
+    var prew = n % 10
     var cur = 0
     while (numb > 0) {
-        cur = numb%10
+        cur = numb % 10
         if (prew != cur) return true
         numb /= 10
         prew = cur

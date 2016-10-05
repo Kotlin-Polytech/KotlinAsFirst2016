@@ -44,7 +44,12 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val tfhw = s1 / v1 + s2 / (2 * v2)
+    return tfhw
+}
 
 /**
  * Простая
@@ -56,7 +61,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+
+    if ((kingX == rookX1) or (kingY == rookY1) and (kingX == rookX2) or (kingY == rookY2)) return 3
+    else if ((kingX != rookX1) and (kingY != rookY1)) return 0
+    else if ((kingX == rookX1) or (kingY == rookY1)) return 1
+    else return 2
+
+}
 
 /**
  * Простая

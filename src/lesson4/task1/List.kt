@@ -228,7 +228,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = factorize(n).joinToString("*", "", "", -1, "...")
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
@@ -296,8 +296,12 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val digit_storage = mutableListOf <Int>()
+    var current_digit: Int
 
-    for (element in str) digit_storage.add((element - if ('0' <= element && element <= '9') '0' else 'a' - 10).toInt())
+    for (element in str) {
+        current_digit = (element - if ('0' <= element && element <= '9') '0' else 'a' - 10).toInt()
+        digit_storage.add(current_digit)
+    }
 
     return decimal(digit_storage, base)
 }

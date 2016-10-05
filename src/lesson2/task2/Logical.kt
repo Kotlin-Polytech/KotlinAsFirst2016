@@ -31,13 +31,11 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return (
-        x1 == x2 ||
-        y1 == y2 ||
-        Math.abs(x1 - x2) == Math.abs(y1 - y2)
-    )
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = (
+	x1 == x2 ||
+	y1 == y2 ||
+	Math.abs(x1 - x2) == Math.abs(y1 - y2)
+)
 
 /**
  * Средняя
@@ -46,9 +44,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * окружности с центром в (x2, y2) и радиусом r2.
  * Вернуть true, если утверждение верно
  */
-fun circleInside(x1: Double, y1: Double, r1: Double, x2: Double, y2: Double, r2: Double): Boolean {   // Если расстояние между центрами + радиус первого меньше радиуса второго
-    return (Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1 <= r2)
-}
+fun circleInside(x1: Double, y1: Double, r1: Double, x2: Double, y2: Double, r2: Double): Boolean = (Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1 <= r2)
 
 /**
  * Средняя
@@ -66,8 +62,8 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
 	// Только мне не кажется, что это проще
 	// ===
 	
-	var min_1 : Int
-	var min_2 : Int
+	val min_1 : Int
+	val min_2 : Int
 	if ( a < b ) {
 		min_1 = a
 		if ( b < c ) min_2 = b

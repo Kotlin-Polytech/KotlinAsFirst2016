@@ -397,7 +397,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
         if (opList.indexOf(op) % 2 == 0) sign = -1 else sign = 1
         var i = iter + sign
         while (i in 0..commands.length - 1 && commands[i] != op) i += sign
-        if (commands[i] == op) return ++i
+        if (commands[i] == op) return i
         else throw IllegalArgumentException()
     }
 

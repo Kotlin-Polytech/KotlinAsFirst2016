@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -10,7 +11,7 @@ import lesson1.task1.discriminant
  */
 fun sqRoots(y: Double) =
         if (y < 0) listOf()
-        else if (y == 0.0) listOf(0.0)
+        else if (y==0.0) listOf(0.0)
         else {
             val root = Math.sqrt(y)
             // Результат!
@@ -24,13 +25,13 @@ fun sqRoots(y: Double) =
  * Вернуть список корней (пустой, если корней нет)
  */
 fun biRoots(a: Double, b: Double, c: Double): List<Double> {
-    if (a == 0.0) {
-        if (b == 0.0) return listOf()
+    if (a==0.0) {
+        if (b==0.0) return listOf()
         else return sqRoots(-c / b)
     }
     val d = discriminant(a, b, c)
     if (d < 0.0) return listOf()
-    if (d == 0.0) return sqRoots(-b / (2 * a))
+    if (d==0.0) return sqRoots(-b / (2 * a))
     val y1 = (-b + Math.sqrt(d)) / (2 * a)
     val y2 = (-b - Math.sqrt(d)) / (2 * a)
     return sqRoots(y1) + sqRoots(y2)
@@ -82,9 +83,9 @@ fun squares(list: List<Int>) = list.map { it * it }
  * "А роза упала на лапу Азора" является палиндромом.
  */
 fun isPalindrome(str: String): Boolean {
-    val lowerCase = str.toLowerCase().filter { it != ' ' }
+    val lowerCase = str.toLowerCase().filter { it!=' ' }
     for (i in 0..lowerCase.length / 2) {
-        if (lowerCase[i] != lowerCase[lowerCase.length - i - 1]) return false
+        if (lowerCase[i]!=lowerCase[lowerCase.length - i - 1]) return false
     }
     return true
 }
@@ -103,13 +104,14 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Найти модуль заданного вектора, представленного в виде списка v,
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
-*/
-fun q2(g:Double) = g * g
+ */
+fun q2(g: Double) = g * g
 
-fun abs(v: List<Double>): Double{
-   var sum: Double = 0.0
-    for (i in 0 .. v.size-1){
-        sum += q2(v[i])}
+fun abs(v: List<Double>): Double {
+    var sum: Double = 0.0
+    for (i in 0..v.size - 1) {
+        sum += q2(v[i])
+    }
     return Math.sqrt(sum)
 }
 
@@ -119,10 +121,10 @@ fun abs(v: List<Double>): Double{
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.size == 0){
+    if (list.size==0) {
         return 0.0
     } else
- return list.sum() / list.size
+        return list.sum() / list.size
 }
 
 /**
@@ -132,8 +134,8 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-        val medium = mean(list)
-    for (i in 0 .. list.size-1){
+    val medium = mean(list)
+    for (i in 0..list.size - 1) {
         list[i] = list[i] - medium
     }
     return list
@@ -149,13 +151,13 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var min: Int = 0
     var sum: Double = 0.0
-    if (a.size < b.size){
+    if (a.size < b.size) {
         min = a.size - 1
     } else {
         min = b.size - 1
     }
-    for (i in 0 .. min){
-        sum += a[i]*b[i]
+    for (i in 0..min) {
+        sum += a[i] * b[i]
     }
     return sum
 }
@@ -168,7 +170,12 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
+fun polynom(p: List<Double>, x: Double): Double {
+    var sum: Double = 0.0
+    for (i in 0..p.size - 1)
+        sum += p[i] * Math.pow(x, i.toDouble())
+    return sum
+}
 
 /**
  * Средняя
@@ -178,7 +185,23 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun sumnumb(n: Int): Double {
+    var sum: Double = 0.0
+    for (i in 1..n) {
+        sum += i
+    }
+    return sum
+}
+
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+
+    for (i in 0..list.size - 1) {
+        if ((list[i]).toInt().toDouble()==list[i]) {
+            list[i] = sumnumb(list[i].toInt())
+        } else continue
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -187,7 +210,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var s = n
+    var i = 2
+    while (s > 0) {
+        while (s % i==0) {
+            s /= i
+            list.add(i)
+        }
+        i += 1
+    }
+    return list
+}
 
 /**
  * Сложная

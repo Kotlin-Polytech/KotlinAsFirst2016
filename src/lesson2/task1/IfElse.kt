@@ -56,40 +56,20 @@ return when {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double) {
-    val s1 = v1*t1
-    val s2 = v2*t2
-    val s3 = v3*t3
-    val s123 = (s1+s2+s3)/2.0
-        if (s123 != 0.0) {
-            if ((s1 == 0.0) && (s2 != 0.0) && (s3 != 0.0)) {
-                if (s2 >= s123) {
-                    s123 / v2
-                } else {
-                    t2 + (s123 - s2) / v3
-                }
-            }
+                   t3: Double, v3: Double): Double {
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val s123 = (s1 + s2 + s3) / 2.0
+    if (s123 != 0.0) {
 
-            if ((s2 == 0.0) && (s1 != 0.0) && (s3 != 0.0)) {
-                if (s1 >= s123) s123 / v1
-                else t1 + (s123 - s1) / t3
-            }
+            if (s1 >= s123) return s123 / v1
+            if((s1<123)&&(s1!=0.0)) return t1 + (s123 - s1) / v2
+            if (s1 + s2 < s123) return t1 + t2 + (s123 - s1 - s2) / v3
 
-            if ((s3 == 0.0) && (s1 != 0.0) && (s2 != 0.0)) {
-                if (s1 >= s123) s123 / v1
-                else t1 + (s123 - s1) / t2
-            }
-
-            if ((s1 == 0.0) && (s2 == 0.0) && (s3 != 0.0)) s123 / v3
-            if ((s1 != 0.0) && (s2 == 0.0) && (s3 == 0.0)) s123 / v1
-            if ((s1 == 0.0) && (s2 != 0.0) && (s3 == 0.0)) s123 / v2
-
-            if ((s1 != 0.0) && (s2 != 0.0) && (s3 != 0.0) && (s1 < s123)) t1 + (s123 - s1) / v2
-            if ((s1 != 0.0) && (s2 != 0.0) && (s3 != 0.0) && (s1 + s2 < s123)) 1 + t2 + ((s123 - s1 - s2) / v3)
-            if ((s1 != 0.0) && (s2 != 0.0) && (s3 != 0.0) && (s1 >= s123)) s123 / v1
-        }
-        else Double.NaN
-        }
+    }
+    return Double.NaN
+}
 
 
 
@@ -145,4 +125,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+        if ((c>=a)&&(c<=b)&&(d>=b)) return Math.abs(b-c)
+        if ((c>=a)&&(d<=b)) return Math.abs(d-c)
+        if ((a>=c)&&(a<=d)&&(d<=b)) return Math.abs(d-a)
+        if ((a>=c)&&(b<=d)) return Math.abs(b-a)
+            else return -1
+}

@@ -185,10 +185,11 @@ fun sin(x: Double, eps: Double): Double {
     var it: Double
     var sin_x: Double
     var i=3.0
-    sin_x = x % (2*Math.PI)
-    it = x % (2*Math.PI)
+    var xx= x % (2*Math.PI)
+    sin_x = xx
+    it = xx
     while (Math.abs(it)>eps) {
-        it = it * x * x / i / (i - 1) * (-1)
+        it = it * xx * xx / i / (i - 1) * (-1)
         i+=2
         sin_x+=it
     }

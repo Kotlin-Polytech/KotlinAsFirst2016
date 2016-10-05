@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import jdk.nashorn.internal.ir.WhileNode
+
 /**
  * Пример
  *
@@ -57,7 +59,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var c=0
+    var nn=n
+    do{
+        nn/=10
+        c++
+    } while(nn>0)
+    return c
+}
 
 /**
  * Простая
@@ -65,29 +75,66 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
-
+fun fib(n: Int): Int {
+    var a = 1
+    var b = 1
+    var box = 0
+    if(n>2) {
+        for (i in 1..n - 2) {
+            box = b
+            b += a
+            a = box
+        }
+        return b
+    }
+    else return 1
+}
 /**
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var max= 0
+    var c =0
+    if(n>m)
+        max=n
+    else
+        max=m
+    do {
+        c += max
+    }while((c % n != 0) || (c % m != 0))
+    return c
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int{
+    var d=1
+    while (true){
+        d++
+        if(n % d ==0)
+            return d
+    }
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int{
+    var d=n/2+1
+    while(true){
+        d--
+        if(n % d ==0)
+            return d
+    }
+}
 
 /**
  * Простая
@@ -96,7 +143,19 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean{
+    var min = 0
+    if(m<n)
+        min = m
+    else
+        min = n
+    while(min>1){
+        if(m % min==0 && n % min == 0)
+            return false
+        min--
+    }
+    return true
+}
 
 /**
  * Простая
@@ -105,7 +164,15 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean{
+    var k=0
+    while (k*k <= n) {
+        if (k * k <= n && k * k >= m)
+            return true
+        k++
+    }
+    return false
+}
 
 /**
  * Простая
@@ -114,7 +181,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var it: Double
+    var sin_x: Double
+    var i=3.0
+    sin_x = x
+    it = x
+    while (Math.abs(it)>eps) {
+        it = it * x * x / i / (i - 1) * (-1)
+        i+=2
+        sin_x+=it
+    }
+    return sin_x
+}
 
 /**
  * Простая
@@ -123,7 +202,20 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var it: Double
+    var cos_x: Double
+    var i = 2.0
+    cos_x = 1.0
+    it = 1.0
+    while (Math.abs(it) > eps) {
+        it = it * x * x / i / (i - 1) * (-1)
+        i += 2
+        cos_x += it
+    }
+    return cos_x
+}
+
 
 /**
  * Средняя
@@ -131,7 +223,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int{
+    var nn = n
+    var r = 0
+    while (nn>0){
+        r = r * 10 + nn % 10
+        nn/=10
+    }
+    return r
+}
 
 /**
  * Средняя
@@ -140,7 +240,17 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean{
+    var nn =n
+    var r = revert(n)
+    while(nn>0) {
+        if (nn % 10 != r % 10)
+            return false
+        r/=10
+        nn/=10
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -148,7 +258,15 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean{
+    var nn = n
+    while(nn/10>0) {
+        if (nn % 10 != nn / 10 % 10)
+            return true
+        nn/=10
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -157,7 +275,21 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int{
+    var c =0
+    var ch=1
+    var square = 1
+    while(c!=n){
+        square = ch *ch
+        c+= digitNumber(square)
+        while(n<c) {
+            square/= 10
+            c--
+        }
+        ch++
+    }
+    return square % 10
+}
 
 /**
  * Сложная
@@ -166,4 +298,18 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int{
+    var c =0
+    var ch=1
+    var nfib = 1
+    while(c!=n){
+        nfib = fib(ch)
+        c+= digitNumber(nfib)
+        while(n<c) {
+            nfib/= 10
+            c--
+        }
+        ch++
+    }
+    return nfib % 10
+}

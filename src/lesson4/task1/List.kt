@@ -174,10 +174,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-// не работает, буду исправлять
+
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for ((index, elem) in list.withIndex()) {
-        list[index] = list[index] + list[index - 1]
+    for (i in 1..list.size - 1) {
+        list[i] = list[i] + list[i - 1]
     }
     return list
 }
@@ -236,7 +236,47 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val dogs = convert(n, base).toMutableList()
+    var string1: String = ""
+    /* Я уверен, что тут всё можно сократить на подобии для 10-35 заменить на a-z.
+    Либо я многого хочу, и задачу таким столбиком и нужно решать.
+    По крайней мере она работает
+     */
+    for (i in 0..dogs.size - 1) {
+        when {
+            dogs[i] == 10 -> string1 += "a"
+            dogs[i] == 11 -> string1 += "b"
+            dogs[i] == 12 -> string1 += "c"
+            dogs[i] == 13 -> string1 += "d"
+            dogs[i] == 14 -> string1 += "e"
+            dogs[i] == 15 -> string1 += "f"
+            dogs[i] == 16 -> string1 += "g"
+            dogs[i] == 17 -> string1 += "h"
+            dogs[i] == 18 -> string1 += "i"
+            dogs[i] == 19 -> string1 += "j"
+            dogs[i] == 20 -> string1 += "k"
+            dogs[i] == 21 -> string1 += "l"
+            dogs[i] == 22 -> string1 += "m"
+            dogs[i] == 23 -> string1 += "n"
+            dogs[i] == 24 -> string1 += "o"
+            dogs[i] == 25 -> string1 += "p"
+            dogs[i] == 26 -> string1 += "q"
+            dogs[i] == 27 -> string1 += "r"
+            dogs[i] == 28 -> string1 += "s"
+            dogs[i] == 29 -> string1 += "t"
+            dogs[i] == 30 -> string1 += "u"
+            dogs[i] == 31 -> string1 += "v"
+            dogs[i] == 32 -> string1 += "w"
+            dogs[i] == 33 -> string1 += "x"
+            dogs[i] == 34 -> string1 += "y"
+            dogs[i] == 35 -> string1 += "z"
+            else -> string1 += dogs[i].toString()
+        }
+    }
+    return string1
+}
+
 
 /**
  * Средняя
@@ -246,10 +286,9 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    val a = digits.map{it.toDouble()}.toList()
-    return polynom(a.reversed(),base.toDouble()).toInt()
+    val a = digits.map { it.toDouble() }.toList()
+    return polynom(a.reversed(), base.toDouble()).toInt()
 }
-
 
 
 /**

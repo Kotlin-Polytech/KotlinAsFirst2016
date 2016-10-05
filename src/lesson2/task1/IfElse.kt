@@ -38,7 +38,7 @@ fun ageDescription(age: Int): String = if ((age%10==2)&&(age%100!=12)) "$age г�
     else if ((age%10==3)&&(age%100!=13)) "$age года"
     else if ((age%10==4)&&(age%100!=14)) "$age года"
     else if ((age%10==5)||(age%10==6)||(age%10==7)||(age%10==8)||(age%10==9)) "$age лет"
-    else if ((age%100==11)||(age%100==12)||(age%100==13)||(age%100==14)||(age%10=0)) "$age лет"
+    else if ((age%100==11)||(age%100==12)||(age%100==13)||(age%100==14)||(age%10==0)) "$age лет"
     else "0"
 /**
  * Простая

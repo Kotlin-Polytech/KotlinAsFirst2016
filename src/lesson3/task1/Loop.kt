@@ -61,7 +61,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var c=0
-    var nn=n
+    var nn=Math.abs(n)
     do{
         nn/=10
         c++
@@ -96,12 +96,12 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var max= 0
+    //var max : Int
     var c =0
-    if(n>m)
-        max=n
+    var max = if(n>m)
+        n
     else
-        max=m
+        m
     do {
         c += max
     }while((c % n != 0) || (c % m != 0))
@@ -185,8 +185,8 @@ fun sin(x: Double, eps: Double): Double {
     var it: Double
     var sin_x: Double
     var i=3.0
-    sin_x = x
-    it = x
+    sin_x = x % (2*Math.PI)
+    it = x % (2*Math.PI)
     while (Math.abs(it)>eps) {
         it = it * x * x / i / (i - 1) * (-1)
         i+=2
@@ -208,8 +208,9 @@ fun cos(x: Double, eps: Double): Double {
     var i = 2.0
     cos_x = 1.0
     it = 1.0
+    var xx = x % (2 *Math.PI)
     while (Math.abs(it) > eps) {
-        it = it * x * x / i / (i - 1) * (-1)
+        it = it * xx * xx / i / (i - 1) * (-1)
         i += 2
         cos_x += it
     }

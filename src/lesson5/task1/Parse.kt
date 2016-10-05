@@ -394,14 +394,12 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
 
     fun checkOp(iter: Int, op: Char): Int {
         val sign: Int
-        if (opList.indexOf(op) % 2 == 0) sign = 1 else sign = -1
+        if (opList.indexOf(op) % 2 == 0) sign = -1 else sign = 1
         var i = iter + sign
         while (i in 0..commands.length - 1 && commands[i] != op) i += sign
-        if (i in 0..commands.length - 1) return ++i
+        if (commands[i] == op) return ++i
         else throw IllegalArgumentException()
     }
-
-    for (i in 0..commands.length - 1) if (commands[i] in opList) checkOp(i, commands[i])
 
     while (true) {
         when (commands[strIterator]) {
@@ -411,29 +409,29 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
             '-' -> list[iterator]--
             '[' -> {
                 if (list[iterator] == 0) {
-                    strIterator = checkOp(strIterator, ']') - 1
+                    strIterator = checkOp(strIterator, ']')
                 }
             }
             ']' -> {
                 if (list[iterator] != 0) {
-                    strIterator = checkOp(strIterator, '[') - 1
+                    strIterator = checkOp(strIterator, '[')
                 }
             }
             '{' -> {
                 if (list[iterator] == 0) {
-                    strIterator = checkOp(strIterator, '}') - 1
+                    strIterator = checkOp(strIterator, '}')
                 }
             }
             '}' -> {
                 if (list[iterator] != 0) {
-                    strIterator = checkOp(strIterator, '{') - 1
+                    strIterator = checkOp(strIterator, '{')
                 }
             }
             ' ' -> {
             }
             else -> throw IllegalArgumentException()
         }
-        if (iterator >= list.size || iterator < 0) throw IllegalStateException()
+        if (iterator !in 0..list.size-1) throw IllegalStateException()
 
         if (strIterator < commands.length - 1) strIterator++
         else return list

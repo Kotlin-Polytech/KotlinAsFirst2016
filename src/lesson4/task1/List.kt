@@ -247,7 +247,19 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var number = n
+    var cur = 0
+    var finish: String = ""
+    while (number > 0) {
+        cur = number % base
+        if (cur < 10) finish += cur.toString()
+        else finish += (cur + ('a'.toInt() - 10)).toChar()
+        number /= base
+    }
+    return finish.reversed()
+}
+
 
 /**
  * Средняя
@@ -256,7 +268,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var finish = 0
+    var mn = 1
+    for (i in digits.size - 1 downTo 0) {
+        finish += digits[i] * mn
+        mn *= base
+    }
+    return finish
+}
 
 /**
  * Сложная
@@ -267,7 +287,19 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var mn = 1
+    var finish = 0
+    for (i in str.length - 1 downTo 0) {
+        if (str[i].toInt() <= '9'.toInt()) {
+            finish += (str[i].toInt() - '0'.toInt()) * mn
+        } else {
+            finish += (str[i].toInt() - ('a'.toInt() - 10)) * mn
+        }
+        mn *= base
+    }
+    return finish
+}
 
 /**
  * Сложная

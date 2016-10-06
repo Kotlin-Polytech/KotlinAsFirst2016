@@ -101,6 +101,13 @@ class Tests {
     }
 
     @Test
+    fun stepDouble() {
+        assertEquals(1.0, stepDouble(5.0, 0))
+        assertEquals(10000.0, stepDouble(100.0, 2))
+        assertEquals(1024.0, stepDouble(2.0, 10))
+    }
+
+    @Test
     @Tag("Normal")
     fun polynom() {
         assertEquals(0.0, polynom(listOf(), 1000.0), 1e-5)
@@ -151,6 +158,13 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+    }
+    @Test
+    fun step() {
+        assertEquals(1, step(8,0))
+        assertEquals(100, step(10,2))
+        assertEquals(1024, step(2,10))
+        assertEquals(81, step(9,2))
     }
 
     @Test

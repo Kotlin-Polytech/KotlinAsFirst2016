@@ -194,11 +194,12 @@ fun polynom(p: List<Double>, x: Double): Double {
 
 
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for ( i in 1..list.size -1){
-        list[i] += list[i-1]
+    for (i in 1..list.size - 1) {
+        list[i] += list[i - 1]
     }
     return list
 }
+
 /**
  * Средняя
  *
@@ -240,7 +241,11 @@ fun convert(n: Int, base: Int): List<Int> {
         res += number % base
         number /= base
     }
-    return res.reversed()
+    return if (res.isNotEmpty()) res.reversed()
+    else {
+        res += 0
+        return res
+    }
 }
 
 /**
@@ -294,6 +299,7 @@ listRes+=list[i].toInt()
 
 }
 */
+
 /**
  * Сложная
  *

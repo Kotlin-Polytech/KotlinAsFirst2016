@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -35,10 +36,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
+    val ten = age % 10
+    val oneHundred = age % 100
     return when {
-        (age % 10 == 1) -> when { (age % 100 == 11) -> "$age лет" else -> "$age год"}
-        (age%100 in 12..14) -> "$age лет"
-        (age%10 in 2..4) -> "$age года"
+        (ten == 1) -> when { (oneHundred == 11) -> "$age лет"
+            else -> "$age год"
+        }
+        (oneHundred in 12..14) -> "$age лет"
+        (ten in 2..4) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -52,28 +57,29 @@ fun ageDescription(age: Int): String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double  {
-    val sAll = (t1*v1+t2*v2+t3*v3)/2
-    val s1 = t1*v1
-    val s2 = t2*v2
-    if (sAll>0) {
+                   t3: Double, v3: Double): Double {
+    val sAll = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s12 = s1 + s2
+    if (sAll > 0) {
         if (sAll < s1) {
             val tHalf = sAll / v1
             return (tHalf)
         } else {
-            if (sAll < s1 + s2) {
+            if (sAll < s12) {
                 val sBalance = sAll - s1
                 val tBalance = sBalance / v2
                 val tHalf = t1 + tBalance
                 return (tHalf)
             } else {
-                val sBalance = sAll - s1 - s2
+                val sBalance = sAll - s12
                 val tBalance = sBalance / v3
                 val tHalf = t1 + t2 + tBalance
                 return (tHalf)
             }
         }
-    } else{
+    } else {
         val tHalf = 0.0
         return (tHalf)
     }
@@ -91,17 +97,17 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val rook1Danger: Boolean =(rookX1 == kingX)or(rookY1 == kingY)
-    val rook2Danger: Boolean =(rookX2 == kingX)or(rookY2 == kingY)
-    if ((rook1Danger == true)or(rook2Danger == true)){
-        if ((rook1Danger == true)and(rook2Danger == true))
-            return(3)
+    val rook1Danger: Boolean = (rookX1 == kingX) or (rookY1 == kingY)
+    val rook2Danger: Boolean = (rookX2 == kingX) or (rookY2 == kingY)
+    if ((rook1Danger == true) or (rook2Danger == true)) {
+        if ((rook1Danger == true) and (rook2Danger == true))
+            return (3)
         else {
             if (rook1Danger == true)
-                return(1)
-            else return(2)
+                return (1)
+            else return (2)
         }
-    } else return(0)
+    } else return (0)
 }
 
 /**
@@ -116,17 +122,17 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val bishopDanger: Boolean = ((kingX-kingY) == (bishopX-bishopY))or((bishopX-kingX) == (bishopY-kingY))or(bishopX-kingX == -(bishopY-kingY))
-    val rookDanger: Boolean =(rookX == kingX)or (rookY == kingY)
-    if (bishopDanger == true){
-        if(rookDanger == true)
-            return(3)
-        else return(2)
+    val bishopDanger: Boolean = ((kingX - kingY) == (bishopX - bishopY)) or ((bishopX - kingX) == (bishopY - kingY)) or (bishopX - kingX == -(bishopY - kingY))
+    val rookDanger: Boolean = (rookX == kingX) or (rookY == kingY)
+    if (bishopDanger == true) {
+        if (rookDanger == true)
+            return (3)
+        else return (2)
 
-    } else{
-        if(rookDanger == true)
-            return(1)
-        else return(0)
+    } else {
+        if (rookDanger == true)
+            return (1)
+        else return (0)
     }
 }
 
@@ -139,19 +145,37 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a+b>c)and(b+c>a)and(a+c>b)){
-        if
-        ((a*a+b*b == c*c)or(b*b+c*c == a*a)or(c*c+a*a == b*b)){
-            return(1)
+    var max = 0.0
+    var min1 = 0.0
+    var min2 = 0.0
+    if (a >= b) {
+        if (a >= c) {
+            max = a
+            min1 = b
+            min2 = c
         } else {
-            val cosA=(b*b+c*c-a*a)/2*b*c
-            val cosB=(a*a+c*c-b*b)/2*a*c
-            val cosC=(b*b+a*a-c*c)/2*b*a
-            if((cosA<0)or(cosB<0)or(cosC<0)){
-                return(2)
-            } else return(0)
+            max = c
+            min1 = b
+            min2 = a
         }
-    } else return(-1)
+    } else {
+        if (b >= c) {
+            max = b
+            min1 = a
+            min2 = c
+        } else {
+            max = c
+            min1 = a
+            min2 = b
+        }
+    }
+    if (min1 + min2 > max) {
+        val cosMax = (min1 * min1 + min2 * min2 - max * max) / 2 * min1 * min2
+        if (cosMax >= 0.0) {
+            if (cosMax == 0.0) return 1
+            else return 0
+        } else return 2
+    } else return -1
 }
 
 /**
@@ -163,17 +187,18 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (a > d) return (-1)
-    else {
-        if (c > b) return (-1)
-        else {
-            if (d < b) {
-                if (c < a) return (d - a)
-                else return (d - c)
-            } else {
-                if (c < a) return (b - a)
-                else return (b - c)
+    val result = when {
+        (a > d) or ((a < d) and (c > b)) -> -1
+        else -> when {
+            (d < b) -> when { (c < a) -> (d - a)
+                else -> (d - c)
             }
+            (d > b) -> when { (c < a) -> b - a
+                else -> b - c
+            }
+            else -> 0
         }
     }
+    return (result)
 }
+

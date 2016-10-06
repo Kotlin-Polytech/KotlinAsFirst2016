@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -18,13 +19,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val sum34 = number%10+(number/10)%10
-    val sum12 = number/100%10+number/1000
-    if (sum34 == sum12) {
-        return true
-    } else {
-        return false
-    }
+    val sum34 = number % 10 + (number / 10) % 10
+    val sum12 = number / 100 % 10 + number / 1000
+    return (sum34 == sum12)
 }
 
 /**
@@ -34,9 +31,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if ((x1 == x2) or (y1 == y2) or (x1-x2 == y1-y2) or (x1-x2 == y2-y1))
-        return true
-    else return false
+    return ((x1 == x2) or (y1 == y2) or (Math.abs(x1 - x2) == Math.abs(y1 - y2)))
 }
 
 /**
@@ -47,7 +42,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean =(Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2
+                 x2: Double, y2: Double, r2: Double): Boolean = (Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2
 
 
 /**
@@ -59,4 +54,4 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = ((((s>=a)and(r>=c))or((r>=a)and(s>=c)))or(((s>=b)and(r>=a))or((r>=b)and(s>=a)))or(((s>=b)and(r>=c))or((r>=b)and(s>=c))))
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = ((((s >= a) and (r >= c)) or ((r >= a) and (s >= c))) or (((s >= b) and (r >= a)) or ((r >= b) and (s >= a))) or (((s >= b) and (r >= c)) or ((r >= b) and (s >= c))))

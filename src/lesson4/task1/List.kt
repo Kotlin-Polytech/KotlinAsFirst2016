@@ -130,14 +130,10 @@ fun mean(list: List<Double>): Double = TODO()
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val length = list.size
-    var average = 0.0
     if (length == 0) return list
     else {
-        for (i in 0..length - 1) {
-            average += list[i]
-        }
-        average /= length
-        for (i in 0..length - 1) {
+        val average = list.sum()/length
+        for (i in 0..length-1) {
             list[i] -= average
         }
         return list

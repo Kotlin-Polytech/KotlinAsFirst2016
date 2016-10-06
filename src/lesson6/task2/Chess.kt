@@ -2,8 +2,6 @@
 
 package lesson6.task2
 
-import java.util.*
-
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -149,7 +147,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (Math.abs(start.column - end.column) % 2 != Math.abs(start.row - end.row) % 2) return -1
     if (start == end) return 0
-    if (start.column - start.row == end.column - end.row) return 1
+    if (Math.abs(start.column - start.row) == Math.abs(end.column - end.row)) return 1
     else return 2
 }
 
@@ -182,15 +180,21 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
 
     if (start == end) return list
 
-    if (currentColumn - currentRow != end.column - end.row)
-    for (i in 1..8) {
-        for (j in 1..8) {
-            if ( (i-j == start.column-start.row && 9-i-j == 9-end.column-end.row) ||
-                    (i-j == end.column-end.row && 9-i-j == 9-start.column-start.row)) {
-                currentColumn = i
-                currentRow = j
-                addSquare()
-            }
+    if (currentColumn - currentRow != end.column - end.row) {
+        var log = false
+        for (i in 1..8) {
+            if (!log)
+                for (j in 1..8) {
+                    if ((i - j == start.column - start.row && 9 - i - j == 9 - end.column - end.row) ||
+                            (i - j == end.column - end.row && 9 - i - j == 9 - start.column - start.row)) {
+                        currentColumn = i
+                        currentRow = j
+                        addSquare()
+                        log = true
+                        break
+                    }
+                }
+            else break
         }
     }
 
@@ -249,12 +253,14 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     fun addSquare() = list.add(Square(currentColumn, currentRow))
     addSquare()
 
-    val signX = end.column - currentColumn
-    val signY = end.row - currentRow
+    val signX: Int
+    val signY: Int
+    if (end.column - currentColumn < 0) signX = -1 else signX = 1
+    if (end.row - currentRow < 0) signY = -1 else signY = 1
 
     while (currentColumn != end.column || currentRow != end.row) {
-        if (end.column - currentColumn != 0) currentColumn += signX
-        if (end.row - currentRow != 0) currentRow += signY
+        if (end.column != currentColumn) currentColumn += signX
+        if (end.row != currentRow) currentRow += signY
         addSquare()
     }
 
@@ -293,19 +299,21 @@ fun knightMoveNumber(start: Square, end: Square): Int {
     allList.add(start)
     prevList.add(start)
 
-    val signX = listOf(-2, -2, -1, -1, 1, 1, 2, 2)
-    val signY = listOf(-1, 1, -2, 2, -2, 2, -1, 1)
+    class Pair(val x: Int, val y: Int)
+
+    val movesList = listOf(Pair(-2, -1), Pair(-2, 1), Pair(-1, -2), Pair(-1, 2), Pair(1, -2), Pair(1, 2), Pair(2, -1), Pair(2, 1))
+
     var turnNum = 0
     var log = true
 
     while (log) {
         val nextList = mutableListOf<Square>()
-        for (element in prevList) {
+        prevList.forEach { element ->
             val curX = element.column
             val curY = element.row
 
-            for (i in 0..signX.size-1) {
-                val curSq = Square(curX + signX[i], curY + signY[i])
+            for (i in 0..movesList.size - 1) {
+                val curSq = Square(curX + movesList[i].x, curY + movesList[i].y)
                 if (curSq == end) log = false
                 if (curSq.inside() && curSq !in allList) {
                     nextList.add(curSq)
@@ -347,24 +355,27 @@ fun knightTrajectory(start: Square, end: Square): List<Square> {
     var prevList = mutableListOf<Square>()
 
     class Turn(val prev: Square, val next: Square)
+
     val turnsList = mutableListOf<Turn>()
 
     allList.add(start)
     prevList.add(start)
 
-    val signX = listOf(-2, -2, -1, -1, 1, 1, 2, 2)
-    val signY = listOf(-1, 1, -2, 2, -2, 2, -1, 1)
+    class Pair(val x: Int, val y: Int)
+
+    val movesList = listOf(Pair(-2, -1), Pair(-2, 1), Pair(-1, -2), Pair(-1, 2), Pair(1, -2), Pair(1, 2), Pair(2, -1), Pair(2, 1))
+
     var turnNum = 0
     var log = true
 
     while (log) {
         val nextList = mutableListOf<Square>()
-        for (element in prevList) {
+        prevList.forEach { element ->
             val curX = element.column
             val curY = element.row
 
-            for (i in 0..signX.size-1) {
-                val curSq = Square(curX + signX[i], curY + signY[i])
+            for (i in 0..movesList.size - 1) {
+                val curSq = Square(curX + movesList[i].x, curY + movesList[i].y)
                 if (curSq == end) log = false
                 if (curSq.inside() && curSq !in allList) {
                     turnsList.add(Turn(Square(curX, curY), curSq))
@@ -376,6 +387,13 @@ fun knightTrajectory(start: Square, end: Square): List<Square> {
         prevList = nextList
         turnNum++
     }
+
+    /**
+     * На каждой итерации цикла while перебираются все возможные ходы коня, не считая тех,
+     * при которых он попадает на те клетки, в которых он когда-то был, так как это
+     * было бы уже не кратчайшим путём. Поэтому, при нахождении пути с конца в начало
+     * будет пройден единственный путь, который и будет минимальный.
+     */
 
     var curSq = end
     while (curSq != start) {

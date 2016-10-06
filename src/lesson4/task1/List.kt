@@ -251,6 +251,7 @@ fun convertToString(n: Int, base: Int): String {
     var number = n
     var cur = 0
     var finish: String = ""
+    if (number == 0) return "0"
     while (number > 0) {
         cur = number % base
         if (cur < 10) finish += cur.toString()

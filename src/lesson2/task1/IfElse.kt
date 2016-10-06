@@ -124,10 +124,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         side1 = a
         side2 = b
     }
-    if (max > side1 + side2) return -1
-    else if (side1 * side1 + side2 * side2 == max * max) return 1
-    else if (side1 * side1 + side2 * side2 <= max * max) return 2
-    else return 0
+    return when {
+        (max > side1 + side2) -> -1
+        (side1 * side1 + side2 * side2 == max * max) -> 1
+        (side1 * side1 + side2 * side2 <= max * max) -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -139,9 +141,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (c <= b && c >= a && d >= b) return (b - c)
-    else if (c <= a && d <= b && d >= a) return (d - a)
-    else if (d <= b && d >= a && c <= b && c >= a) return (d - c)
-    else if (b <= d && b >= c && a <= d && a >= c) return (b - a)
-    else return -1
+    /* if (c <= b && c >= a && d >= b) return (b - c)
+     else if (c <= a && d <= b && d >= a) return (d - a)
+     else if (d <= b && d >= a && c <= b && c >= a) return (d - c)
+     else if (b <= d && b >= c && a <= d && a >= c) return (b - a)
+     else return -1 */
+    return when {
+        (c <= b && c >= a && d >= b) -> (b - c)
+        (c <= a && d <= b && d >= a) -> (d - a)
+        (d <= b && d >= a && c <= b && c >= a) -> (d - c)
+        (b <= d && b >= c && a <= d && a >= c) -> (b - a)
+        else -> -1
+    }
 }

@@ -77,11 +77,7 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int {
-    val k: Int
-    if (n > 2) k = (fib(n - 1) + fib(n - 2)) else k = 1
-    return k
-}
+fun fib(n: Int): Int = if (n > 2) (fib(n - 1) + fib(n - 2)) else 1
 
 
 /**
@@ -90,15 +86,15 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun lcm(m: Int, n: Int): Long {
     var k = m * n
-    for (i in (if (m>=n) m else n)..m * n) {
+    for (i in (if (m >= n) m else n)..m * n) {
         if (i % m == 0 && i % n == 0) {
             k = i
             break
         }
     }
-    return k
+    return k.toLong()
 }
 
 /**
@@ -108,12 +104,11 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = n
-    for (i in 2..n/2) {
+    for (i in 2..n) {
         if (n % i == 0) {
             k = i
             break
         }
-
     }
     return k
 }
@@ -151,8 +146,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
        else  check=true
       return check
     */
-    if (m!=n) return lcm(m, n).toLong() == m.toLong() * n.toLong()
-    else return m==1
+    if (m != n) return lcm(m, n).toLong() == m.toLong() * n.toLong()
+    else return m == 1
 }
 
 /**
@@ -217,10 +212,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    val number: Int = revert(n)
-    return n == number
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
@@ -230,10 +222,9 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
-    var check: Boolean = false
+    var check = false
     while (number >= 10) {
-        if (number % 10 == (number / 10) % 10) check = false
-        else {
+        if (number % 10 != (number / 10) % 10) {
             check = true
             break
         }

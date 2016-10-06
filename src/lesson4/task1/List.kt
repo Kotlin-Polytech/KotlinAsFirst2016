@@ -6,6 +6,16 @@ import lesson1.task1.discriminant
 import lesson3.task1.pow
 import org.jetbrains.annotations.Mutable
 
+fun pow(x: Int, y: Int): Int {
+    var result = x
+    if (y != 0) {
+        for (i in 2..y) {
+            result *= x
+        }
+    } else result = 1
+    return result
+}
+
 /**
  * Пример
  *
@@ -290,7 +300,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0
+    var power = digits.size - 1
+    for (i in digits) {
+        result += i * pow(base, power)
+        power -= 1
+    }
+    return result
+}
 
 /**
  * Сложная

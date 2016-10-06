@@ -216,36 +216,32 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     if (expression.length == 0) throw IllegalArgumentException()
 
-    val allowedChars = listOf('-', '+', ' ')
-    val intChars = listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
+    val listSigns = listOf("-", "+")
 
     var result = 0
-    var strNum = ""
-    var lastChar = '+'
+    var lastNum = -1
+    var lastSign = 1
 
-    for (i in expression) {
-        if (i !in allowedChars && i !in intChars) throw IllegalArgumentException()
+    val expList = expression.split(' ')
 
-        if (i in intChars) strNum += i
-        else {
-            if (strNum.length > 0) {
-                if (lastChar == '+') result += strNum.toInt()
-                else if (lastChar == '-') result -= strNum.toInt()
-                else throw IllegalArgumentException()
+    for (i in 0..expList.size-1) {
+        if (expList[i] !in listSigns) {
+            try {
+                lastNum = expList[i].toInt()
             }
-            strNum = ""
+            catch (e: NumberFormatException) {
+                throw IllegalArgumentException()
+            }
+            result += lastSign*lastNum
         }
-
-        if (i in allowedChars && i != ' ') lastChar = i
-    }
-
-    if (strNum.length > 0) {
-        if (lastChar == '+') result += strNum.toInt()
-        else if (lastChar == '-') result -= strNum.toInt()
+        else if (i != 0 && expList[i-1] !in listSigns) {
+            if (expList[i] == "-") lastSign = -1
+            else lastSign = 1
+        }
         else throw IllegalArgumentException()
     }
 
-    return result
+    return if (lastNum != -1) result else throw IllegalArgumentException()
 }
 
 /**
@@ -390,11 +386,9 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
     var strIterator = 0
     if (commands.isEmpty()) return list
 
-    val opList = listOf('{', '}', '[', ']')
-
     fun checkOp(iter: Int, op: Char): Int {
         val sign: Int
-        if (opList.indexOf(op) % 2 == 0) sign = -1 else sign = 1
+        if (op == '{' || op == '[') sign = -1 else sign = 1
         var i = iter + sign
         while (i in 0..commands.length - 1 && commands[i] != op) i += sign
         if (commands[i] == op) return i

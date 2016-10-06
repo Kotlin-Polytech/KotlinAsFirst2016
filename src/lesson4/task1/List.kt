@@ -136,7 +136,7 @@ fun mean(list: List<Double>): Double =
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val c = list.sum() / list.count()
-    return if (list.isEmpty()) list else list.map { it - c}.toMutableList()
+    return if (list.isEmpty()) list else list.map { it - c }.toMutableList()
 }
 /**
  * Средняя
@@ -257,7 +257,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val chars: String = "0123456789abcdefghijklmnopqrstuywxyz"
-    var map = (0..35).associateBy { it -> chars[it] }
+    val map = (0..35).associateBy { it -> chars[it] }
     var i: Int = 0
     return str.reversed().sumBy {(map[it] ?: 0) * pow(base, i++)}
 }

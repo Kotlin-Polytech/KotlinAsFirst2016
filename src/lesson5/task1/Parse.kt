@@ -2,7 +2,6 @@
 package lesson5.task1
 
 
-import java.lang.Math.*
 import java.util.*
 
 /**
@@ -233,7 +232,7 @@ fun mostExpensive(description: String): String {
             val name = values[0]
             val price = values[1]
             if (price.toDouble() > value) {
-                most = name;
+                most = name
                 value = price.toDouble()
             }
         }

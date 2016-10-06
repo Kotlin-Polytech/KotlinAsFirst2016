@@ -230,15 +230,14 @@ fun squareSequenceDigit(n: Int): Int {
     var square = 0
     var sum = 0
     var count = 1
-    var number = 0.0
     while (sum < n) {
         square = count * count
         count++
         sum += digitNumber(square)
     }
     count = sum - n
-    number = square.toDouble()/Math.pow(10.0, (count).toDouble())
-    return number.toInt() % 10
+    return ((square / (Math.pow(10.0, (count).toDouble()))) % 10).toInt()
+
 }
 
 /**

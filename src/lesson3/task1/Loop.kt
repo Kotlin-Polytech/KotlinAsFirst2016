@@ -193,12 +193,12 @@ fun cos(x: Double, eps: Double): Double {
 fun revert(n: Int): Int {
     val length = digitNumber(n)
     var number = n
-    var result = 0.0
+    var result = 0
     for (i in 1..length) {
-        result += number % 10 * Math.pow(10.toDouble(), length - i.toDouble())
+        result = result * 10 + number % 10
         number /= 10
     }
-    return result.toInt()
+    return result
 }
 
 /**

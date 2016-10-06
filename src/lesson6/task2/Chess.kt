@@ -147,7 +147,8 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (Math.abs(start.column - end.column) % 2 != Math.abs(start.row - end.row) % 2) return -1
     if (start == end) return 0
-    if (Math.abs(start.column - start.row) == Math.abs(end.column - end.row)) return 1
+    if (start.column - start.row == end.column - end.row ||
+            9 - start.column - start.row == 9 - end.column - end.row) return 1
     else return 2
 }
 
@@ -185,8 +186,9 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
         for (i in 1..8) {
             if (!log)
                 for (j in 1..8) {
-                    if ((i - j == start.column - start.row && 9 - i - j == 9 - end.column - end.row) ||
-                            (i - j == end.column - end.row && 9 - i - j == 9 - start.column - start.row)) {
+                    if ((i - j == start.column - start.row && 9 - i - j == 9 - end.column - end.row ||
+                            i - j == end.column - end.row && 9 - i - j == 9 - start.column - start.row) &&
+                            i != start.column && j != start.row && i != end.column && i != end.row) {
                         currentColumn = i
                         currentRow = j
                         addSquare()

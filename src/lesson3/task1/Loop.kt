@@ -168,7 +168,7 @@ fun cos(x: Double, eps: Double): Double {
     var a = 2.0
     var b = 2
     var sign = 1 // Значение будет определять, с каким знаком брать очередной член ряда.
-    while (Math.abs(Math.pow(x, a) / factorial(b)) > Math.abs(eps)) {
+    while (Math.abs(Math.pow(x, a) / factorial(b)) >= Math.abs(eps)) {
         if (sign == 1) {
             res -= Math.pow(x, a) / factorial(b)
             a += 2

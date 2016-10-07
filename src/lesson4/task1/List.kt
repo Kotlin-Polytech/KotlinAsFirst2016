@@ -237,44 +237,14 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val dogs = convert(n, base).toMutableList()
-    var string1: String = ""
-    /* Я уверен, что тут всё можно сократить на подобии для 10-35 заменить на a-z.
-    Либо я многого хочу, и задачу таким столбиком и нужно решать.
-    По крайней мере она работает
-     */
-    for (i in 0..dogs.size - 1) {
-        when {
-            dogs[i] == 10 -> string1 += "a"
-            dogs[i] == 11 -> string1 += "b"
-            dogs[i] == 12 -> string1 += "c"
-            dogs[i] == 13 -> string1 += "d"
-            dogs[i] == 14 -> string1 += "e"
-            dogs[i] == 15 -> string1 += "f"
-            dogs[i] == 16 -> string1 += "g"
-            dogs[i] == 17 -> string1 += "h"
-            dogs[i] == 18 -> string1 += "i"
-            dogs[i] == 19 -> string1 += "j"
-            dogs[i] == 20 -> string1 += "k"
-            dogs[i] == 21 -> string1 += "l"
-            dogs[i] == 22 -> string1 += "m"
-            dogs[i] == 23 -> string1 += "n"
-            dogs[i] == 24 -> string1 += "o"
-            dogs[i] == 25 -> string1 += "p"
-            dogs[i] == 26 -> string1 += "q"
-            dogs[i] == 27 -> string1 += "r"
-            dogs[i] == 28 -> string1 += "s"
-            dogs[i] == 29 -> string1 += "t"
-            dogs[i] == 30 -> string1 += "u"
-            dogs[i] == 31 -> string1 += "v"
-            dogs[i] == 32 -> string1 += "w"
-            dogs[i] == 33 -> string1 += "x"
-            dogs[i] == 34 -> string1 += "y"
-            dogs[i] == 35 -> string1 += "z"
-            else -> string1 += dogs[i].toString()
-        }
+    val list = convert(n, base).toMutableList()
+    var list2 = listOf<Any>()
+    for (i in 0..list.size - 1) {
+        if (list[i] >= 10) {
+            list2 += 'a' + (list[i] - 10)
+        } else list2 += list[i].toString()
     }
-    return string1
+    return list2.joinToString(separator = "")
 }
 
 
@@ -300,7 +270,15 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var list = listOf<Int>()
+    for (i in 0..str.length - 1) {
+        if (str[i].hashCode() > 57) {
+            list += 9 + str[i].hashCode() - 96
+        } else list += str[i].toString().toInt()
+    }
+    return decimal(list, base)
+}
 
 /**
  * Сложная
@@ -310,7 +288,22 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var number = n
+    var i = 0
+    val listDigit = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val listRim = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val listFin = mutableListOf<String>()
+    while (number > 0) {
+
+        if (listDigit[i] <= number) { //Сначала закончить с одним элементом, потом идти на другой
+            number -= listDigit[i]
+            listFin.add(listRim[i])
+        } else i++
+
+    }
+    return listFin.joinToString(separator = "")
+}
 
 /**
  * Очень сложная

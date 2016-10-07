@@ -122,7 +122,6 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var result = 0.0
-    var amount = 0
     for (i in list) {
         result += i
     }
@@ -138,7 +137,7 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isNotEmpty()) {
-        var listMean = mean(list)
+        val listMean = mean(list)
         for (i in 0..list.size - 1) {
             list[i] -= listMean
         }
@@ -203,7 +202,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     var number = n
     for (i in 2..number) {
         while (number % i == 0) {
@@ -223,7 +222,7 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     var number = n
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     for (i in 2..n) {
         while (number % i == 0) {
             result.add(i)
@@ -243,7 +242,7 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     if (n < base) result.add(n)
     else {
 
@@ -268,41 +267,12 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var number = n
+    val numbers = convert(n, base)
     var result = ""
-    do {
-        val mod = when (number % base) {
-            10 -> 'a'
-            11 -> 'b'
-            12 -> 'c'
-            13 -> 'd'
-            14 -> 'e'
-            15 -> 'f'
-            16 -> 'g'
-            17 -> 'h'
-            18 -> 'i'
-            19 -> 'j'
-            20 -> 'k'
-            21 -> 'l'
-            22 -> 'm'
-            23 -> 'n'
-            24 -> 'o'
-            25 -> 'p'
-            26 -> 'q'
-            27 -> 'r'
-            28 -> 's'
-            29 -> 't'
-            30 -> 'u'
-            31 -> 'v'
-            32 -> 'w'
-            33 -> 'x'
-            34 -> 'y'
-            35 -> 'z'
-            else -> (number % base)
-        }
-        result = mod.toString() + result
-        number /= base
-    } while (number != 0)
+    for (i in numbers) {
+        result += if (i > 9) 'a' + (i - 10)
+        else i
+    }
     return result
 }
 
@@ -330,43 +300,48 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
+fun sqr(n: Int, m: Int): Int {
+    var result = 1
+    for (i in 1..m) result *= n
+    return result
+}
+
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0.0
+    var result = 0
 
     for (i in 0..str.length - 1) {
-        var number = str[str.length - 1 - i]
-        number = when (number) {
-            'a' -> 10.toChar()
-            'b' -> 11.toChar()
-            'c' -> 12.toChar()
-            'd' -> 13.toChar()
-            'e' -> 14.toChar()
-            'f' -> 15.toChar()
-            'g' -> 16.toChar()
-            'h' -> 17.toChar()
-            'i' -> 18.toChar()
-            'j' -> 19.toChar()
-            'k' -> 20.toChar()
-            'l' -> 21.toChar()
-            'm' -> 22.toChar()
-            'n' -> 23.toChar()
-            'o' -> 24.toChar()
-            'p' -> 25.toChar()
-            'q' -> 26.toChar()
-            'r' -> 27.toChar()
-            's' -> 28.toChar()
-            't' -> 29.toChar()
-            'u' -> 30.toChar()
-            'v' -> 31.toChar()
-            'w' -> 32.toChar()
-            'x' -> 33.toChar()
-            'y' -> 34.toChar()
-            'z' -> 35.toChar()
-            else -> number - 48
+        val number = str[str.length - 1 - i]
+        result += when (number) {
+            'a' -> (sqr(base, i) * 10)
+            'b' -> (sqr(base, i) * 11)
+            'c' -> (sqr(base, i) * 12)
+            'd' -> (sqr(base, i) * 13)
+            'e' -> (sqr(base, i) * 14)
+            'f' -> (sqr(base, i) * 15)
+            'g' -> (sqr(base, i) * 16)
+            'h' -> (sqr(base, i) * 17)
+            'i' -> (sqr(base, i) * 18)
+            'j' -> (sqr(base, i) * 19)
+            'k' -> (sqr(base, i) * 20)
+            'l' -> (sqr(base, i) * 21)
+            'm' -> (sqr(base, i) * 22)
+            'n' -> (sqr(base, i) * 23)
+            'o' -> (sqr(base, i) * 24)
+            'p' -> (sqr(base, i) * 25)
+            'q' -> (sqr(base, i) * 26)
+            'r' -> (sqr(base, i) * 27)
+            's' -> (sqr(base, i) * 28)
+            't' -> (sqr(base, i) * 29)
+            'u' -> (sqr(base, i) * 30)
+            'v' -> (sqr(base, i) * 31)
+            'w' -> (sqr(base, i) * 32)
+            'x' -> (sqr(base, i) * 33)
+            'y' -> (sqr(base, i) * 34)
+            'z' -> (sqr(base, i) * 35)
+            else -> (sqr(base, i) * (number - 48).toInt())
         }
-        result += (Math.pow(base.toDouble(), i.toDouble()) * number.toDouble())
     }
-    return result.toInt()
+    return result
 }
 
 /**

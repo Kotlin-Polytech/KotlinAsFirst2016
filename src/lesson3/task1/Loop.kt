@@ -63,8 +63,7 @@ fun digitNumber(n: Int): Int {
     } else {
     var kolvo = 0
     var m=n
-    while (m!=
-            0){
+    while (m!= 0){
         kolvo ++;
         m= m/10
     }
@@ -186,7 +185,25 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+
+    var number = 1
+    var chislo = 1
+
+    while (chislo < n){
+        number ++
+        var number2 = number * number
+            while(number2 > 0){
+                number2 /= 10
+                chislo ++
+            }
+    }
+    var number2 = number * number
+    for (i in 1..chislo-n){
+        number2 /= 10
+    }
+    return number2%10
+    }
 
 /**
  * Сложная

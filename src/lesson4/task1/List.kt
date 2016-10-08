@@ -397,7 +397,7 @@ fun roman(n: Int): String {
     }
     number/=10
 
-    for (i in 1..number%10) result='M'+result
+    for (i in 1..number) result='M'+result
 
     return result
 }

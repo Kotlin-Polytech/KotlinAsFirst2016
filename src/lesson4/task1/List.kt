@@ -345,7 +345,7 @@ fun roman(n: Int): String {
         when {
             number == 9 -> res += "IX"
             number in 6..8 -> res += "V" + add(number - 5, "I")
-            number == 5 -> res += "X"
+            number == 5 -> res += "V"
             number == 4 -> res += "IV"
             number in 1..4 -> res += add(number, "I")
         }

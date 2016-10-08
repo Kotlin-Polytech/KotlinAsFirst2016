@@ -141,10 +141,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
     val sum = mean(list)
     if (list.isNotEmpty()) {
         for (i in 0..list.size - 1) {
-            list[i] = list[i].toString().toDouble() - sum
-
+            list[i] = list[i].toDouble() - sum
         }
-
     }
     return list
 }
@@ -237,12 +235,13 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
     var res = listOf<Int>()
-    while (number != 0) {
-        res += number % base
-        number /= base
-    }
-    return if (res.isNotEmpty()) res.reversed()
-    else {
+    if (n != 0) {
+        while (number != 0) {
+            res += number % base
+            number /= base
+        }
+        return res.reversed()
+    } else {
         res += 0
         return res
     }
@@ -275,7 +274,7 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int =
-        polynom(digits.map { it.toDouble() }.toList().reversed(), base.toDouble()).toInt()
+        polynom(digits.map { it.toDouble() }.reversed(), base.toDouble()).toInt()
 
 
 /**
@@ -287,18 +286,15 @@ fun decimal(digits: List<Int>, base: Int): Int =
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()/*{
-var listRes= listOf<Int>()
-    val list=str.toMutableList()
-    for (i in 0..list.size - 1) {
-        if (list[i].toInt() < 10) {
-listRes+=list[i].toInt()
-        } else  listRes+= (list[i].toInt() - 51).toString().toInt()
+fun decimalFromString(str: String, base: Int): Int {
+    var listRes = listOf<Int>()
+    for (i in 0..str.length - 1) {
+        if (str[i].toInt() <= '9'.hashCode()) {
+            listRes += str[i].toInt() - '9'.hashCode() + 9
+        } else listRes += str[i].hashCode() - 'a'.hashCode() + 10
     }
-   return decimal(listRes.toList(),base).toInt()
-
+    return decimal(listRes, base)
 }
-*/
 
 /**
  * Сложная
@@ -308,7 +304,54 @@ listRes+=list[i].toInt()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun add(n: Int, letter: String): String {
+    var res = ""
+    for (i in 1..n) {
+        res += letter
+    }
+    return res
+}
+
+fun roman(n: Int): String {
+    var number = n
+    var res = ""
+    if (number >= 1000) {
+        for (i in 1..number / 1000) {
+            res += "M"
+        }
+        number %= 1000
+    }
+    if (number >= 100) {
+        when {
+            number / 100 == 9 -> res += "CM"
+            number / 100 in 6..8 -> res += "D" + add(number / 100 - 5, "C")
+            number / 100 == 5 -> res += "D"
+            number / 100 == 4 -> res += "CD"
+            number / 100 in 1..4 -> res += add(number / 100, "C")
+        }
+        number %= 100
+    }
+    if (number >= 10) {
+        when {
+            number / 10 == 9 -> res += "XC"
+            number / 10 in 6..8 -> res += "L" + add(number / 10 - 5, "X")
+            number / 10 == 5 -> res += "L"
+            number / 10 == 4 -> res += "XL"
+            number / 10 in 1..4 -> res += add(number / 10, "X")
+        }
+        number %= 10
+    }
+    if (number >= 1) {
+        when {
+            number == 9 -> res += "IX"
+            number in 6..8 -> res += "V" + add(number - 5, "I")
+            number == 5 -> res += "X"
+            number == 4 -> res += "IV"
+            number in 1..4 -> res += add(number, "I")
+        }
+    }
+    return res
+}
 
 /**
  * Очень сложная

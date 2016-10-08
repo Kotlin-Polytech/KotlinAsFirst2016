@@ -168,6 +168,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun decimalFromString() {
+        assertEquals(10, decimalFromString("a", 12))
         assertEquals(1, decimalFromString("1", 2))
         assertEquals(100, decimalFromString("1210", 4))
         assertEquals(250, decimalFromString("13c", 14))
@@ -178,11 +179,17 @@ class Tests {
     @Test
     @Tag("Hard")
     fun roman() {
-        assertEquals("I", roman(1))
-        assertEquals("MMM", roman(3000))
-        assertEquals("MCMLXXVIII", roman(1978))
-        assertEquals("DCXCIV", roman(694))
-        assertEquals("XLIX", roman(49))
+          assertEquals("I", roman(1))
+          assertEquals("VII", roman(7))
+          assertEquals("MMM", roman(3000))
+          assertEquals("CM", roman(900))
+          assertEquals("MMMCM", roman(3900))
+          assertEquals("MDCC", roman(1700))
+          assertEquals("MCCC", roman(1300))
+          assertEquals("MCD", roman(1400))
+          assertEquals("MCMLXXVIII", roman(1978))
+          assertEquals("DCXCIV", roman(694))
+          assertEquals("XLIX", roman(49))
     }
 
     @Test

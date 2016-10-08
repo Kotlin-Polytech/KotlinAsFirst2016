@@ -115,9 +115,9 @@ fun mean(list: List<Double>): Double {
     if (list.size == 0) return 0.0
     var result = 0.0
     for (element in list) {
-        result = result + element
+        result+= element
     }
-    result = result / list.size
+    result /= list.size
     return result
 }
 
@@ -175,7 +175,7 @@ fun stepDouble(x:Double, s:Int):Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var result=0.0
     for (i in 0..p.size-1) {
-        result=result+p[i]*stepDouble(x,i)
+        result+=p[i]*stepDouble(x,i)
     }
     return result
 }
@@ -233,10 +233,10 @@ fun factorizeToString(n: Int): String {
     var list:MutableList<Int> = mutableListOf()
     var nMutable=n
     for (i in 2..n){
-        if (nMutable==0) break
+        if ((nMutable==0)&&(nMutable==1)) break
         for(j in 2..n)
             if (nMutable%j==0){
-                nMutable=nMutable/j
+                nMutable/=j
                 list.add(j)
                 break
             }
@@ -254,6 +254,7 @@ fun factorizeToString(n: Int): String {
 
 fun convert(n: Int, base: Int): List<Int> {
     var list : MutableList<Int> = mutableListOf()
+    if (n==0) return listOf(0)
     if (n==1) return listOf(1)
     var n1=n*base
     var mod=0
@@ -278,6 +279,7 @@ fun str(list: List<String>):String = list.joinToString(separator = "")
 
 fun convertToString(n: Int, base: Int): String {
     var list:MutableList<String> = mutableListOf()
+    if (n==0) return "0"
     if (n==1) return "1"
     var n1=n*base
     var mod=0
@@ -434,6 +436,10 @@ fun russian(n: Int): String {
             thous=(thous/10)*10
             x=0
         }
+        if (thous%10==1) {
+            thous=(thous/10)*10
+            x=2
+        }
         var str1=russian(thous)
         var str2=russian(unit)
         if ((thous%10 == 0) && (x==1)) str1+=" тысяч "
@@ -441,6 +447,7 @@ fun russian(n: Int): String {
         if (thous%10 in 2..4) str1+=" тысячи "
         if (thous%10 in 5..9) str1+=" тысяч "
         if (x == 0) str1+=" две тысячи "
+        if (x==2) str1+=" одна тысяча "
         result=str1+str2
     }
 return result.trim()

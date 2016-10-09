@@ -61,14 +61,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 0
     var number = n
-    return if (n == 0) 1
+    if (number in 0..9) return 1
     else {
         while (number > 0) {
             count++
             number /= 10
         }
-        count
     }
+    return count
 }
 
 /**
@@ -176,12 +176,12 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var n0 = n
-    var m0 = 0
+    var m = 0
     while (n0 > 0) {
-        m0 = n0 % 10 + m0 * 10
+        m = n0 % 10 + m * 10
         n0 /= 10
     }
-    return m0
+    return m
 }
 
 /**

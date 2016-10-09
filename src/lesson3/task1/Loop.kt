@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import lesson1.task1.sqr
 import java.lang.Math.*
 
 /**
@@ -13,7 +12,7 @@ import java.lang.Math.*
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -71,7 +70,6 @@ fun digitNumber(n: Int): Int =
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var number = 0
     return when {
         n > 2 -> fib(n - 2) + fib(n - 1)
         else -> 1
@@ -87,7 +85,7 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var k = 1
     for (i in 1..m * n) {
-        if (((k % m) != 0) || ((k % n) != 0)) k = i+1 else break
+        if (((k % m) != 0) || ((k % n) != 0)) k = i + 1 else break
     }
     return k
 }
@@ -132,7 +130,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
         if ((n % devisor == 0) && (m % devisor == 0)) {
             bool = false
             break
-        } else devisor = devisor + 1
+        } else devisor += 1
     }
     return bool
 }
@@ -147,7 +145,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var bool = false
     for (i in m..n) {
-        if (sqrt(i.toDouble()) == 0.0) bool = true
+        if (sqrt(i.toDouble()) % 1 == 0.0) bool = true
     }
     return bool
 }
@@ -176,15 +174,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int {
+fun revert(n: Int): Long {
     var number = n
-    var results = 0
-    var i = 1
+    var results = 0L
     while (number != 0) {
         results = (results + number % 10) * 10
-        number = number / 10
+        number /= 10
     }
-    results = results / 10
+    results /= 10
     return results
 }
 
@@ -195,7 +192,10 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    if (n.toLong() == revert(n)) return true
+    else return false
+}
 
 /**
  * Средняя
@@ -216,15 +216,15 @@ fun squareSequenceDigit(n: Int): Int {
     var square = 0
     var sum = 0
     var count = 1
-    var number = 0.0
+    var number: Double
     while (sum < n) {
         square = count * count
         count++
-        sum = sum + digitNumber(square)
+        sum += digitNumber(square)
     }
     count = sum - n
-    number = square.toDouble() / pow(10.0, (count).toDouble())
-    return number.toInt() % 10
+    number = (square / pow(10.0, count.toDouble()))
+    return (number % 10).toInt()
 
 }
 
@@ -239,13 +239,13 @@ fun fibSequenceDigit(n: Int): Int {
     var fibonach = 0
     var sum = 0
     var count = 1
-    var number = 0.0
+    var number: Double
     while (sum < n) {
         fibonach = fib(count)
         count++
-        sum = sum + digitNumber(fibonach)
+        sum += digitNumber(fibonach)
     }
     count = sum - n
-    number = fibonach.toDouble() / pow(10.0, (count).toDouble())
-    return number.toInt() % 10
+    number = (fibonach / pow(10.0, count.toDouble()))
+    return (number % 10).toInt()
 }

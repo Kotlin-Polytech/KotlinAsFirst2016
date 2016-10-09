@@ -142,8 +142,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val condition = (b >= c) && (d >= a)
+    val condition2 = (b != c) && (d != a)
     return when {
-        condition && (b != c) && (d != a) -> min(b, d) - max(a, c)
+        condition && condition2 -> min(b, d) - max(a, c)
         condition -> 0
         else -> -1
     }

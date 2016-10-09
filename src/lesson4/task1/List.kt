@@ -329,16 +329,17 @@ fun russian(n: Int): String {
     if (number > 999) {
         number /= 1000
         //трёхзначное
+        if (number % 100 == 0 || (number< 100 && number%10 == 0)) listFin.add("тысяч")
         if (number % 100 in 5..19) listFin.add(listUnits[number % 100] + " " + "тысяч") else
+            if (number %10 >4) listFin.add(listUnits[number%10] + " " + "тысяч") else
             when {
                 (number % 10 == 1) -> listFin.add("одна тысяча")
                 (number % 10 == 2) -> listFin.add("две тысячи")
                 (number % 10 == 3) -> listFin.add("три тысячи")
                 (number % 10 == 4) -> listFin.add("четыре тысячи")
-                else -> listFin.add("тысяч")
             }
-        if (number in 20..99) listFin.add(listDes[number / 10])
-        if (number > 99) listFin.add(listHundred[(number % 1000) / 100])
+        if (number%100 in 20..99) listFin.add(listDes[number %100 / 10])
+        if (number > 99) listFin.add(listHundred[number / 100])
     }
     return listFin.reversed().joinToString(separator = " ")
 }

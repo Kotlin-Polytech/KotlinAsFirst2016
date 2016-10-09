@@ -295,12 +295,10 @@ fun roman(n: Int): String {
     val listRim = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     val listFin = mutableListOf<String>()
     while (number > 0) {
-
         if (listDigit[i] <= number) { //Сначала закончить с одним элементом, потом идти на другой
             number -= listDigit[i]
             listFin.add(listRim[i])
         } else i++
-
     }
     return listFin.joinToString(separator = "")
 }
@@ -312,4 +310,35 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var number = n
+    val listUnits = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
+            "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятьнадцать",
+            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listHundred = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listDes = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listFin = mutableListOf<String>()
+    if (number % 100 == 0) Double.NaN else {
+        if (number % 100 >= 20) {
+            listFin.add(listDes[(number % 100) / 10] + " " + listUnits[number % 10])
+        } else listFin.add(listUnits[number % 100])
+    }
+
+    if (number % 1000 / 100 == 0) Double.NaN else
+        if (number > 99) listFin.add(listHundred[(number % 1000) / 100])
+    if (number > 999) {
+        number /= 1000
+        //трёхзначное
+        if (number % 100 in 5..19) listFin.add(listUnits[number % 100] + " " + "тысяч") else
+            when {
+                (number % 10 == 1) -> listFin.add("одна тысяча")
+                (number % 10 == 2) -> listFin.add("две тысячи")
+                (number % 10 == 3) -> listFin.add("три тысячи")
+                (number % 10 == 4) -> listFin.add("четыре тысячи")
+                else -> listFin.add("тысяч")
+            }
+        if (number in 20..99) listFin.add(listDes[number / 10])
+        if (number > 99) listFin.add(listHundred[(number % 1000) / 100])
+    }
+    return listFin.reversed().joinToString(separator = " ")
+}

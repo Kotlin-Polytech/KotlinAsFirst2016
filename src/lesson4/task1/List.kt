@@ -248,18 +248,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var number = n
-    var cur = 0
     var finish: String = ""
-    if (number == 0) return "0"
-    while (number > 0) {
-        cur = number % base
-        if (cur < 10) finish += cur.toString()
-        else finish += (cur + ('a'.toInt() - 10)).toChar()
-        number /= base
+    var listConvert: List<Int>
+    if (n == 0) return "0"
+    listConvert = convert(n, base)
+    for (i in 0..listConvert.size - 1) {
+        if (listConvert[i] >= 10) {
+            finish += (listConvert[i] + 87).toChar()
+        } else finish += listConvert[i].toString()
     }
-    return finish.reversed()
+    return finish
 }
+
 
 
 /**
@@ -292,10 +292,10 @@ fun decimalFromString(str: String, base: Int): Int {
     var mn = 1
     var finish = 0
     for (i in str.length - 1 downTo 0) {
-        if (str[i].toInt() <= '9'.toInt()) {
-            finish += (str[i].toInt() - '0'.toInt()) * mn
+        if (str[i] <= '9') {
+            finish += (str[i] - '0') * mn
         } else {
-            finish += (str[i].toInt() - ('a'.toInt() - 10)) * mn
+            finish += (str[i] - ('a' - 10)) * mn
         }
         mn *= base
     }

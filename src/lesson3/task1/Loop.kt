@@ -137,17 +137,14 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    /*    var check:Boolean=false
-          for (i in (if (m<=n) m else n) downTo 2)
-             if (m%i==0 && n%i==0) {
-                 check = false
-                 break
-             }
-       else  check=true
-      return check
-    */
-    if (m != n) return lcm(m, n).toLong() == m.toLong() * n.toLong()
-    else return m == 1
+
+    for (i in 2..Math.min(m, n)) {
+        if (m % i == 0 && n % i == 0) return false
+    }
+    return true
+
+    /*if (m != n) return lcm(m, n).toLong() == m * n
+    else return m == 1*/
 }
 
 /**

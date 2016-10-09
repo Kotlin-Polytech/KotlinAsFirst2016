@@ -304,7 +304,12 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun add(n: Int, letter: String): String {
+
+fun roman(n: Int): String {
+    var number = n
+    var res = ""
+    /*
+    fun add(n: Int, letter: String): String {
     var res = ""
     for (i in 1..n) {
         res += letter
@@ -312,9 +317,6 @@ fun add(n: Int, letter: String): String {
     return res
 }
 
-fun roman(n: Int): String {
-    var number = n
-    var res = ""
     if (number >= 1000) {
         for (i in 1..number / 1000) {
             res += "M"
@@ -349,8 +351,23 @@ fun roman(n: Int): String {
             number == 4 -> res += "IV"
             number in 1..4 -> res += add(number, "I")
         }
+    }*/
+
+    val listRome = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val listArab = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    if (number <= 0) return ""
+    else {
+        while (number > 0) {
+            for (i in listArab.size - 1 downTo 0) {
+                if (number - listArab[i] >= 0) {
+                    res += listRome[i]
+                    number -= listArab[i]
+                    break
+                }
+            }
+        }
+        return res
     }
-    return res
 }
 
 /**

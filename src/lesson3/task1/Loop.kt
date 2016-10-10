@@ -120,7 +120,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var k = 1
-    for (i in n / 2 downTo 1) {
+    for (i in n / 2 downTo 2) {
         if (n % i == 0) {
             k = i
             break
@@ -243,7 +243,8 @@ fun squareSequenceDigit(n: Int): Int {
         count += k.length
         if (count >= n) break
     }
-    return k[k.length - 1 - count + n].toString().toInt()
+    return k[k.length - 1 - count + n]-'0'
+    //return k[k.length - 1 - count + n].toString().toInt()
 }
 
 

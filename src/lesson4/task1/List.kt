@@ -120,16 +120,8 @@ fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    /* var number = 0.0
-     for (i in 0..list.size - 1) {
-         number += list[i].toDouble()
-
-     }
-     if (list.size != 0) return number / list.size
-     else return 0.0*/
-    if (list.isNotEmpty()) return list.sum() / list.size else return 0.0
-}
+fun mean(list: List<Double>): Double =
+    if (list.isNotEmpty())  list.sum() / list.size else  0.0
 
 /**
  * Средняя
@@ -256,7 +248,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val list = convert(n, base).toMutableList()
+    val list = convert(n, base).toList()
     var listRes = listOf<Any>()
     for (i in 0..list.size - 1) {
         if (list[i] >= 10) {
@@ -289,9 +281,9 @@ fun decimal(digits: List<Int>, base: Int): Int =
 fun decimalFromString(str: String, base: Int): Int {
     var listRes = listOf<Int>()
     for (i in 0..str.length - 1) {
-        if (str[i].toInt() <= '9'.hashCode()) {
-            listRes += str[i].toInt() - '9'.hashCode() + 9
-        } else listRes += str[i].hashCode() - 'a'.hashCode() + 10
+        if (str[i] <= '9') {
+            listRes += str[i] - '9' + 9
+        } else listRes += str[i] - 'a' + 10
     }
     return decimal(listRes, base)
 }
@@ -353,7 +345,7 @@ fun roman(n: Int): String {
         }
     }*/
 
-    val listRome = listOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val listRome = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
     val listArab = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
     if (number <= 0) return ""
     else {

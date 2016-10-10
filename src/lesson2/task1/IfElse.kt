@@ -99,12 +99,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val hazardLadya = (abs(kingX - bishopX) == abs(kingY - bishopY))
-    val hazardSlon = ((kingX == rookX) || (kingY == rookY))
+    val hazardRook = (abs(kingX - bishopX) == abs(kingY - bishopY))
+    val hazardBishop = ((kingX == rookX) || (kingY == rookY))
     return when {
-        hazardLadya && hazardSlon -> 3
-        hazardLadya -> 2
-        hazardSlon -> 1
+        hazardRook && hazardBishop -> 3
+        hazardRook -> 2
+        hazardBishop -> 1
         else -> 0
     }
 }

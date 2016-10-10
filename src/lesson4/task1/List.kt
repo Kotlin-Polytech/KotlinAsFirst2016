@@ -132,7 +132,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
     for (i in 0..list.size-1){
         center += list[i]
     }
-    center = center/list.size
+    center/=list.size
     for (i in 0..list.size-1){
         list[i]=list[i]-center
     }
@@ -208,13 +208,12 @@ fun factorize(n: Int): List<Int> {
     var list:MutableList<Int> = mutableListOf()
     var nMutable=n
     for (i in 2..n){
-        if (nMutable==0) break
-        for(j in 2..n)
-            if (nMutable%j==0){
-                nMutable=nMutable/j
-                list.add(j)
-                break
+        while(nMutable%i==0) {
+            if (nMutable % i == 0) {
+                nMutable/= i
+                list.add(i)
             }
+        }
     }
     return list
 }
@@ -233,13 +232,12 @@ fun factorizeToString(n: Int): String {
     var list:MutableList<Int> = mutableListOf()
     var nMutable=n
     for (i in 2..n){
-        if ((nMutable==0)&&(nMutable==1)) break
-        for(j in 2..n)
-            if (nMutable%j==0){
-                nMutable/=j
-                list.add(j)
-                break
+        while(nMutable%i==0) {
+            if (nMutable % i == 0) {
+                nMutable/= i
+                list.add(i)
             }
+        }
     }
     return buildExample(list)
 }
@@ -259,7 +257,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var n1=n*base
     var mod=0
     while (n1 !=0){
-        n1=n1/base
+        n1/=base
         mod=n1%base
         list.add(0,mod)
     }
@@ -284,7 +282,7 @@ fun convertToString(n: Int, base: Int): String {
     var n1=n*base
     var mod=0
     while (n1 !=0 ){
-        n1=n1/base
+        n1/=base
         mod=n1%base
         if (mod>9) {
             if (mod==10) list.add(0,"a")
@@ -338,7 +336,7 @@ fun step(x:Int, n:Int):Int {
 fun decimal(digits: List<Int>, base: Int): Int {
     var result=0
     for ( i in 0..digits.size-1) {
-        result = result + (digits[i]* step(base,digits.size-1-i))
+        result += (digits[i]* step(base,digits.size-1-i))
     }
     return result
 }
@@ -360,7 +358,7 @@ fun decimalFromString(str: String, base: Int): Int {
         if (str[i] in 'a'..'z') {
             Int=str[i]-'a'+10
         } else Int=str[i] -'0'
-        result = result + (Int*step(base,str.length-1-i))
+        result += (Int*step(base,str.length-1-i))
     }
     return result
 }

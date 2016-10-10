@@ -164,23 +164,24 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
+    val x1 = x % (2*Math.PI)
     var res = 1.0
     var a = 2.0
     var b = 2
     var sign = 1 // Значение будет определять, с каким знаком брать очередной член ряда.
-    while (Math.abs(Math.pow(x, a) / factorial(b)) >= Math.abs(eps)) {
+    do {
         if (sign == 1) {
-            res -= Math.pow(x, a) / factorial(b)
+            res -= Math.pow(x1, a) / factorial(b)
             a += 2
             b += 2
             sign = 2
         } else {
-            res += Math.pow(x, a) / factorial(b)
+            res += Math.pow(x1, a) / factorial(b)
             a += 2
             b += 2
             sign = 1
         }
-    }
+    } while (Math.abs(Math.pow(x1, a) / factorial(b)) >= eps)
     return res
 }
 

@@ -2,14 +2,6 @@
 
 package lesson3.task1
 
-fun fact(n: Int): Int {
-    var result = 1
-    for (i in 1..n) {
-        result *= i
-    }
-    return result
-}
-
 fun pow(x: Double, y: Int): Double {
     var result = x
     if (y != 0) {
@@ -18,6 +10,10 @@ fun pow(x: Double, y: Int): Double {
         }
     } else result = 1.0
     return result
+}
+
+fun gcd(a: Int, b: Int): Int {
+    return if (b == 0) a else gcd(b, a % b)
 }
 
 /**
@@ -109,15 +105,7 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k: Int
-    if (m > n) {
-        k = m
-    } else k = n
-    while (true) {
-        if (k % n == 0 && k % m == 0) break
-        else k++
-    }
-    return k
+    return m / gcd(m, n) * n
 }
 
 /**
@@ -201,14 +189,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i = 1
-    var result = x
-    while (pow(x, (2 * i + 1)) / factorial(i * 2 + 1) > eps) {
-        if (i % 2 == 1)
-            result -= pow(x, (2 * i + 1)) / factorial(2 * i + 1)
+    var k = 1
+    val currentX = x % (2 * Math.PI)
+    var result = currentX
+    var memberOfSequence = currentX
+    while (Math.abs(memberOfSequence) > eps) {
+        memberOfSequence = pow(currentX, 2 * k + 1) / factorial(2 * k + 1)
+        if (k % 2 == 1)
+            result -= memberOfSequence
         else
-            result += pow(x, (2 * i + 1)) / factorial(2 * i + 1)
-        i++
+            result += memberOfSequence
+        k++
     }
     return result
 }
@@ -221,14 +212,17 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var i = 1
+    var k = 1
+    val currentX = x % (2 * Math.PI)
     var result = 1.0
-    while (pow(x, (2 * i)) / fact(2 * i) >= eps) {
-        if (i % 2 == 1)
-            result -= pow(x, (2 * i)) / fact(2 * i)
+    var memberOfSequence = currentX
+    while (Math.abs(memberOfSequence) > eps) {
+        memberOfSequence = pow(currentX, 2 * k) / factorial(2 * k)
+        if (k % 2 == 1)
+            result -= memberOfSequence
         else
-            result += pow(x, (2 * i)) / fact(2 * i)
-        i++
+            result += memberOfSequence
+        k++
     }
     return result
 }

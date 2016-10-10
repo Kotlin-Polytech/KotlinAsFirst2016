@@ -4,7 +4,6 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.pow
-import org.jetbrains.annotations.Mutable
 
 fun pow(x: Int, y: Int): Int {
     var result = x
@@ -119,9 +118,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (i in 0..v.size - 1) {
-        val element = v[i]
-        sum += element * element
+    for (element in v) {
+        val el = element
+        sum += el * el
     }
     return Math.sqrt(sum)
 }
@@ -131,13 +130,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    var sum = 0.0
-    for (element in list) {
-        sum += element
-    }
-    return if (list.size == 0) 0.0 else sum / list.size
-}
+fun mean(list: List<Double>): Double = if (list.size == 0) 0.0 else list.sum() / list.size
 
 /**
  * Средняя
@@ -146,13 +139,9 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    //костыль :(
-    val oldList = mutableListOf<Double>()
-    for (i in list) {
-        oldList.add(i)
-    }
+    val mean = mean(list)
     for (i in 0..list.size - 1) {
-        list[i] -= mean(oldList)
+        list[i] -= mean
     }
     return list
 }
@@ -250,20 +239,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    var number = n
-    val listResult = mutableListOf<Int>()
-    var k = 2
-    while (number != 1) {
-        if (number % k == 0) {
-            number /= k
-            listResult.add(k)
-            k = 2
-        } else
-            k++
-    }
-    return listResult.joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -305,7 +281,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
     var power = digits.size - 1
     for (i in digits) {
         result += i * pow(base, power)
-        power -= 1
+        power--
     }
     return result
 }

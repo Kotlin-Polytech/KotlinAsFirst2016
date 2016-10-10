@@ -173,7 +173,7 @@ fun polynom(p: List<Double>, x: Double): Double {
         var mean = p[0]
         var sqr = 1.0
         for (i in 1..p.size - 1) {
-            sqr = sqr * x
+            sqr *= x
             mean += sqr * p[i]
         }
         return mean
@@ -189,8 +189,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.size < 2) {
-        for (i in 1..list.size) {
+    if (list.size > 1) {
+        for (i in 1..list.size - 1) {
             list[i] = list[i] + list[i - 1]
         }
         return list

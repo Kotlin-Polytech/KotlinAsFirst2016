@@ -213,7 +213,14 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    val length = digits.size
+    var res = 0
+    for (i in 0..length-1) {
+        res +=digits[i]*Math.pow(base.toDouble(),(length-i-1).toDouble()).toInt()
+    }
+    return res
+}
 
 /**
  * Сложная

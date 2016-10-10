@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -132,8 +133,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
     val length = list.size
     if (length == 0) return list
     else {
-        val average = list.sum()/length
-        for (i in 0..length-1) {
+        val average = list.sum() / length
+        for (i in 0..length - 1) {
             list[i] -= average
         }
         return list
@@ -204,7 +205,30 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val alphabet = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+    var number = n
+    val revertedNumerals = mutableListOf<Int>()
+    if (number < 10) return number.toString()
+    else {
+        while (number >= base) {
+            revertedNumerals.add(number % base)
+            number /= base
+        }
+        revertedNumerals.add(number % base)
+        val length = revertedNumerals.size
+        val numerals = mutableListOf<String>()
+        for (i in 0..length - 1) {
+            numerals.add((revertedNumerals[length - 1 - i]).toString())
+        }
+        for (i in 0..length - 1) {
+            if (numerals[i].toInt() > 9) {
+                numerals[i] = alphabet[(numerals[i].toInt() - 10)].toString()
+            }
+        }
+        return numerals.joinToString("")
+    }
+}
 
 /**
  * Средняя
@@ -216,8 +240,8 @@ fun convertToString(n: Int, base: Int): String = TODO()
 fun decimal(digits: List<Int>, base: Int): Int {
     val length = digits.size
     var res = 0
-    for (i in 0..length-1) {
-        res +=digits[i]*Math.pow(base.toDouble(),(length-i-1).toDouble()).toInt()
+    for (i in 0..length - 1) {
+        res += digits[i] * Math.pow(base.toDouble(), (length - i - 1).toDouble()).toInt()
     }
     return res
 }

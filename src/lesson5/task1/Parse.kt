@@ -60,7 +60,14 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String = TODO()/*{
+    val parts = str.split(" ")
+    for (part in parts){
+        val el =
+
+
+    }
+}*/
 
 /**
  * Средняя

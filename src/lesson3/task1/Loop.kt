@@ -87,14 +87,12 @@ fun fib(n: Int): Int = if (n > 2) (fib(n - 1) + fib(n - 2)) else 1
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = m * n
-    for (i in (if (m >= n) m else n)..m * n) {
+    for (i in Math.max(m, n)..m * n) {
         if (i % m == 0 && i % n == 0) {
-            k = i
-            break
+            return i
         }
     }
-    return k
+    return m * n
 }
 
 /**
@@ -136,15 +134,15 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
 
+fun isCoPrime(m: Int, n: Int): Boolean {
     for (i in 2..Math.min(m, n)) {
         if (m % i == 0 && n % i == 0) return false
     }
     return true
 
-    /*if (m != n) return lcm(m, n).toLong() == m * n
-    else return m == 1*/
+    //if (m != n) return lcm(m, n)==m * n
+    // else return m == 1
 }
 
 /**
@@ -157,7 +155,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val mSqrt = Math.round(Math.sqrt(m.toDouble()))
     val nSqrt = Math.round(Math.sqrt(n.toDouble()))
-    for (i in mSqrt..nSqrt + 1) {
+    for (i in mSqrt - 1..nSqrt + 1) {
         if (i * i >= m && i * i <= n) {
             return true
         }
@@ -236,14 +234,14 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var k: String = ""
+    var k = ""
     var count: Int = 0
     for (i in 1..n) {
         k = (i * i).toString()
         count += k.length
         if (count >= n) break
     }
-    return k[k.length - 1 - count + n]-'0'
+    return k[k.length - 1 - count + n] - '0'
     //return k[k.length - 1 - count + n].toString().toInt()
 }
 

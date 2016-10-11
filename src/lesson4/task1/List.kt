@@ -121,7 +121,7 @@ fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double =
-    if (list.isNotEmpty())  list.sum() / list.size else  0.0
+        if (list.isNotEmpty()) list.sum() / list.size else 0.0
 
 /**
  * Средняя
@@ -131,10 +131,8 @@ fun mean(list: List<Double>): Double =
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val sum = mean(list)
-    if (list.isNotEmpty()) {
-        for (i in 0..list.size - 1) {
-            list[i] = list[i].toDouble() - sum
-        }
+    for (i in 0..list.size - 1) {
+        list[i] = list[i] - sum
     }
     return list
 }
@@ -164,14 +162,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var px = 0.0
-    if (p.isNotEmpty()) {
-        for (i in 0..p.size - 1) {
-            px += p[i] * Math.pow(x, i.toDouble())
-
-        }
-        return px
-    } else return 0.0
-
+    for (i in 0..p.size - 1) {
+        px += p[i] * Math.pow(x, i.toDouble())
+    }
+    return px
 }
 
 /**
@@ -247,16 +241,19 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String {
-    val list = convert(n, base).toList()
+fun numberToSymbol(list: List<Int>): List<Any> {
     var listRes = listOf<Any>()
     for (i in 0..list.size - 1) {
         if (list[i] >= 10) {
             listRes += 'a' + (list[i] - 10)
         } else listRes += list[i].toString()
     }
-    return listRes.joinToString(separator = "")
+    return listRes
 }
+
+fun convertToString(n: Int, base: Int): String =
+        numberToSymbol(convert(n, base)).joinToString(separator = "")
+
 
 /**
  * Средняя
@@ -278,15 +275,17 @@ fun decimal(digits: List<Int>, base: Int): Int =
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int {
+fun symbolToNumber(str: String): List<Int> {
     var listRes = listOf<Int>()
     for (i in 0..str.length - 1) {
         if (str[i] <= '9') {
             listRes += str[i] - '9' + 9
         } else listRes += str[i] - 'a' + 10
     }
-    return decimal(listRes, base)
+    return listRes
 }
+
+fun decimalFromString(str: String, base: Int): Int = decimal(symbolToNumber(str), base)
 
 /**
  * Сложная

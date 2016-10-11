@@ -123,15 +123,13 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         var x = 0.0
         var y = 0.0
-        if (Math.abs(Math.cos(angle)) <= 1e-11) {
-            x = point.x
-        } else if (Math.cos(other.angle) <= 1e-11) {
-            x = other.point.x
-        } else
-            x = (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
+        x = when {
+            (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) -> point.x
+            (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
+            else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
                     (Math.tan(angle) - Math.tan(other.angle))
-
-        if (Math.abs(Math.cos(angle)) <= 1e-11) {
+        }
+        if (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) {
             y = (x - other.point.x) * Math.tan(other.angle) + other.point.y
         } else
             y = (x - point.x) * Math.tan(angle) + point.y
@@ -213,11 +211,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val x = -zx / (2 * z)
     val y = zy / (2 * z)
     val r = Math.sqrt(sqr(x - a.x) + sqr(y - a.y))
-    if ((x == Double.NaN) || (y == Double.NaN) || (r == Double.NaN) ||
-            (x == Double.POSITIVE_INFINITY) || (y == Double.POSITIVE_INFINITY) || (r == Double.POSITIVE_INFINITY)
-            || (x == Double.NEGATIVE_INFINITY) || (y == Double.NEGATIVE_INFINITY) || (z == Double.NEGATIVE_INFINITY))
-        return Circle(center = Point(Double.NaN, Double.NaN), radius = Double.NaN) else
-        return Circle(center = Point(x, y), radius = r)
+    return Circle(center = Point(x, y), radius = r)
 }
 
 /**

@@ -247,20 +247,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
+
 fun convertToString(n: Int, base: Int): String {
     var finish: String = ""
     var listConvert: List<Int>
-    if (n == 0) return "0"
     listConvert = convert(n, base)
-    for (i in 0..listConvert.size - 1) {
-        if (listConvert[i] >= 10) {
-            finish += (listConvert[i] + 87).toChar()
-        } else finish += listConvert[i].toString()
+    for (element in listConvert) {
+        if (element >= 10) {
+            finish += (('a' - 10) + element).toChar()
+        } else finish += element
     }
     return finish
 }
-
-
 
 /**
  * Средняя

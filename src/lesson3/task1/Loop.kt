@@ -64,7 +64,7 @@ fun digitNumber(n: Int): Int {
     do {
         s++
         num /= 10
-    } while (num > 0)
+    } while (num != 0)
     return s
 }
 
@@ -74,8 +74,17 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n > 2) fib(n - 1) + fib(n - 2)
-else 1
+fun fib(n: Int): Int {
+    var a = 1
+    var a1 = 1
+    for (i in 1..n) {
+        if (i > 2) {
+            a1 += a
+            a = a1 - a
+        }
+    }
+    return a1
+}
 
 /**
  * Простая
@@ -84,16 +93,22 @@ else 1
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var s = n
-    var x = n
+    var a: Int
+    var b: Int
+    var r = 1
     if (m > n) {
-        s = m
-        x = m
+        a = m
+        b = n
+    } else {
+        a = n
+        b = m
     }
-    while (s % n > 0 || s % m > 0) {
-        s += x
+    while (r != 0) {
+        r = a % b
+        a = b
+        b = r
     }
-    return s
+    return m * n / a
 }
 
 /**
@@ -135,17 +150,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var x = 0
-    if (m > n) x = m
-    else x = n
-    var s = 0
-    for (i in x downTo 1) {
-        if (m % i == 0 && n % i == 0) s++
-    }
-    if (s == 1) return true
-    else return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
 
 /**
  * Простая
@@ -200,7 +205,6 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var a = n
     var s = n % 10
     var x = n
     while (x > 0) {
@@ -250,16 +254,16 @@ fun squareSequenceDigit(n: Int): Int {
     var x: Int
     var p = 1
     while (k <= n) {
-        s ++
-        x = s*s
+        s++
+        x = s * s
         while (x > 0) {
             x /= 10
-            k ++
+            k++
         }
-        x = s*s
+        x = s * s
         if (k >= n) {
-            for(i in 1..k-n+1) {
-                p = x%10
+            for (i in 1..k - n + 1) {
+                p = x % 10
                 x /= 10
             }
         }

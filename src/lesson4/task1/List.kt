@@ -1,8 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import kotlin.comparisons.reverseOrder
 
 /**
  * Пример
@@ -106,11 +108,11 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var s=0.0
-    for (i in 0..v.size-1){
-        s=s+ sqr(v[i])
+    var s = 0.0
+    for (i in 0..v.size - 1) {
+        s = s + sqr(v[i])
     }
-    if (v.size!=0) return Math.sqrt(s)
+    if (v.size != 0) return Math.sqrt(s)
     else return 0.0
 }
 
@@ -121,11 +123,11 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var sum = 0.0
-    for (i in 0..list.size-1){
+    for (i in 0..list.size - 1) {
         val element = list[i]
         sum = sum + element
     }
-    if (list.size!=0)return sum/list.size
+    if (list.size != 0) return sum / list.size
     else return 0.0
 }
 
@@ -136,10 +138,10 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-     var sr=0.0
-       sr= mean(list)
-    for (i in 0..list.size-1){
-        val el = list[i]-sr
+    var sr = 0.0
+    sr = mean(list)
+    for (i in 0..list.size - 1) {
+        val el = list[i] - sr
         list[i] = el
     }
     return list
@@ -154,11 +156,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var sumpr = 0.0
-    for (i in 0..a.size-1){
-           sumpr=sumpr+(a[i]*b[i])
-        }
+    for (i in 0..a.size - 1) {
+        sumpr = sumpr + (a[i] * b[i])
+    }
 
-    if (sumpr!=0.0) return sumpr
+    if (sumpr != 0.0) return sumpr
     else return 0.0
 }
 
@@ -172,10 +174,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var znach = 0.0
-    for (i in 0..p.size-1){
-       znach = znach + p[i]*Math.pow(x, i.toDouble())
+    for (i in 0..p.size - 1) {
+        znach = znach + p[i] * Math.pow(x, i.toDouble())
     }
-    if (znach!=0.0) return znach
+    if (znach != 0.0) return znach
     else return 0.0
 }
 
@@ -224,7 +226,30 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String = TODO()/*{
+    var nat = n
+    var lat:Char
+    var res:String
+    var ost = 0
+    do {
+        ost = nat % base
+        if (ost > 9) {
+            when {
+                ost == 10 -> lat = 'a'
+                ost == 11 -> lat = 'b'
+                ost == 12 -> lat = 'c'
+                ost == 13 -> lat = 'd'
+                ost == 14 -> lat = 'e'
+                ost == 15 -> lat = 'f'
+            }
+        }
+
+    res = res + ost
+        nat = nat / 10
+    } while (nat > 0)
+    val itog = res.toString()
+    return itog.reversed()
+}*/
 
 /**
  * Средняя

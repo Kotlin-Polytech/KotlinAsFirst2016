@@ -1,8 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import lesson4.task1.abs
 import java.lang.Math.*
 
 /**
@@ -37,13 +37,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
 
-return when {
-    (age%10==1)&&(age!=111)&&(age!=11) ->"$age год"
-    (age!=12)&&(age!=112)&&(age%10==2) ->"$age года"
-    (age!=13)&&(age!=113)&&(age%10==3) ->"$age года"
-    (age!=14)&&(age!=114)&&(age%10==4) ->"$age года"
-    else ->"$age лет"
-}
+    return when {
+        (age % 10 == 1) && (age % 100 != 11) -> "$age год"
+        (age % 10 == 2) && (age % 100 != 12) -> "$age года"
+        (age % 10 == 3) && (age % 100 != 13) -> "$age года"
+        (age % 10 == 4) && (age % 100 != 14) -> "$age года"
+        else -> "$age лет"
+    }
 }
 
 /**
@@ -62,15 +62,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3 = v3 * t3
     val s123 = (s1 + s2 + s3) / 2.0
     if (s123 != 0.0) {
-
-            if (s1 >= s123) return s123 / v1
-            if((s1<123)&&(s1!=0.0)) return t1 + (s123 - s1) / v2
-            if (s1 + s2 < s123) return t1 + t2 + (s123 - s1 - s2) / v3
+        if (s1 >= s123) return s123 / v1
+        if ((s1 < 123) && (s1 != 0.0)) return t1 + (s123 - s1) / v2
+        if (s1 + s2 < s123) return t1 + t2 + (s123 - s1 - s2) / v3
 
     }
     return Double.NaN
 }
-
 
 
 /**
@@ -84,11 +82,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return if (((kingY == rookY1)||(kingX == rookX1))&&((kingY == rookY2)||(kingX == rookX2))) 3
-    else if ((kingX == rookX1)||(kingY == rookY1)&&(kingX != rookX2)&&(kingY != rookY2)) 1
-    else if ((kingX == rookX2)||(kingY == rookY2)&&(kingX != rookX1)&&(kingY != rookY1)) 2
+    return if (((kingY == rookY1) || (kingX == rookX1)) && ((kingY == rookY2) || (kingX == rookX2))) 3
+    else if ((kingX == rookX1) || (kingY == rookY1) && (kingX != rookX2) && (kingY != rookY2)) 1
+    else if ((kingX == rookX2) || (kingY == rookY2) && (kingX != rookX1) && (kingY != rookY1)) 2
     else 0
 }
+
 /**
  * Простая
  *
@@ -101,7 +100,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    return if (((kingY == rookY) || (kingX == rookX)) && (abs(bishopX - kingX)) != (abs(bishopY - kingY))) 1
+    return if (((kingY == rookY) || (kingX == rookX)) && (abs((bishopX - kingX)) != (abs(bishopY - kingY)))) 1
     else if (((kingY != rookY) && (kingX != rookX)) && (abs(bishopX - kingX)) == (abs(bishopY - kingY))) 2
     else if (((kingY == rookY) || (kingX == rookX)) && (abs(bishopX - kingX)) == (abs(bishopY - kingY))) 3
     else 0
@@ -117,6 +116,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+
 /**
  * Средняя
  *
@@ -126,9 +126,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-        if ((c>=a)&&(c<=b)&&(d>=b)) return Math.abs(b-c)
-        if ((c>=a)&&(d<=b)) return Math.abs(d-c)
-        if ((a>=c)&&(a<=d)&&(d<=b)) return Math.abs(d-a)
-        if ((a>=c)&&(b<=d)) return Math.abs(b-a)
-            else return -1
+    return when{
+    ((c >= a) && (c <= b) && (d >= b)) -> abs(b - c)
+    ((c >= a) && (d <= b)) ->  abs(d - c)
+    ((a >= c) && (a <= d) && (d <= b)) ->  abs(d - a)
+    ((a >= c) && (b <= d)) -> abs(b - a)
+    else -> -1}
 }

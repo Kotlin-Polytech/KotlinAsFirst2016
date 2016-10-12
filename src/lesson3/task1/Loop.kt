@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import lesson1.task1.sqr
@@ -36,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -60,12 +61,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var k=0;
-    var c=Math.abs(n);
-    do {c=c/10
+    var k = 0;
+    var c = Math.abs(n);
+    do {
+        c = c / 10
         k++
-    }
-        while (c>0)
+    } while (c > 0)
     return k
 }
 
@@ -76,14 +77,14 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var i=0;
-    var a=0;
-    var b=1;
-    var t=1;
-    for (i in 1..n){
-        a=b
-        b=t
-        t=a+b
+    var i = 0;
+    var a = 0;
+    var b = 1;
+    var t = 1;
+    for (i in 1..n) {
+        a = b
+        b = t
+        t = a + b
     }
     return a
 }
@@ -179,24 +180,25 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var i=0
-    var j=0
+    var i = 0
+    var j = 0
     var kv = 0
-    var s=0
+    var s = 0
     var ost = 0
     var cur = 0
-    while (s<n){
+    while (s < n) {
         i++
-        kv = i*i
-        s=s+kv.toString().length
+        kv = i * i
+        s = s + kv.toString().length
     }
     ost = s - n
-    if (ost==0) cur = kv%10
-    else
-    { for (j in 1..ost){
-        kv=kv/10
+    if (ost == 0) cur = kv % 10
+    else {
+        for (j in 1..ost) {
+            kv = kv / 10
+        }
+        cur = kv % 10
     }
-        cur = kv%10}
     return cur
 }
 

@@ -142,7 +142,16 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int) : Boolean = TODO ()
+fun isCoPrime(m: Int, n: Int) : Boolean {
+    var a = m
+    var b = n
+    while (b != 0) {
+        val c = a % b
+        a = b
+        b = c
+    }
+    return if (a == 1) true else false
+}
 
 /**
  * Простая
@@ -152,7 +161,16 @@ fun isCoPrime(m: Int, n: Int) : Boolean = TODO ()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val a = sqrt(m.toDouble())
+    val b = sqrt(n.toDouble())
+    val difference = b.toInt() - a.toInt()
+    if (m == n) {
+        val roundM = round(a).toInt()
+        if (roundM * roundM == m) return true
+    } else if (difference >= 1) return true
+    return false
+}
 
 /**
  * Простая
@@ -161,7 +179,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var a = 1
+    var k = 2
+    var s = 0.0
+    var e = x
+    while (Math.abs(e) >= Math.abs(eps)) {
+        e = Math.pow(x, a.toDouble()) / factorial(a)
+        if (k % 2 == 0) s += e else s -= e
+        a += 2
+        k += 1
+    }
+    return s
+}
 
 /**
  * Простая
@@ -170,7 +200,19 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var a = 2
+    var k = 1
+    var s = 1.0
+    var e = x
+    while (Math.abs(e) >= Math.abs(eps)) {
+        e = Math.pow(x, a.toDouble()) / factorial(a)
+        if (k % 2 == 0) s += e else s -= e
+        a += 2
+        k += 1
+    }
+    return s
+}
 
 /**
  * Средняя
@@ -178,7 +220,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var k = n
+    var rev = 0
+    while (k > 0) {
+        rev *= 10
+        rev += k % 10
+        k /= 10
+    }
+    return rev
+}
 
 /**
  * Средняя
@@ -187,7 +238,16 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var k = n
+    var rev = 0
+    while (k > 0) {
+        rev *= 10
+        rev += k % 10
+        k /= 10
+    }
+    return if (n == rev) true else false
+}
 
 /**
  * Средняя
@@ -195,7 +255,15 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var k = n
+    if (k in 0..10) return false else {
+        while (k >= 10) {
+            if (k % 10 != (k / 10) % 10) return true else k /= 10
+        }
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -204,7 +272,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO ()
+fun squareSequenceDigit(n: Int): Int {
+    var l = "1"
+    var c = 2
+    var k = 0
+    while (k + l.length < n) {
+        k += l.length
+        l = (c * c).toString()
+        c += 1
+    }
+    return (l[n - k - 1] - '0').toInt()
+}
 
 /**
  * Сложная

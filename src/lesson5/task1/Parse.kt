@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,37 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) {
+        return ""
+    }
+    val month = when (parts[1]) {
+        "января" -> ".01."
+        "февраля" -> ".02."
+        "марта" -> ".03."
+        "апреля" -> ".04."
+        "мая" -> ".05."
+        "июня" -> ".06."
+        "июля" -> ".07."
+        "августа" -> ".08."
+        "сентября" -> ".09."
+        "октября" -> ".10."
+        "ноября" -> ".11."
+        "декабря" -> ".12."
+        else -> ""
+
+    }
+    if (month.length == 0) {
+        return ""
+    } else
+        return when {
+            parts[0].length == 2 -> parts[0] + month + parts[2]
+            parts[0].length == 1 -> '0' + parts[0] + month + parts[2]
+            else -> ""
+
+        }
+}
 
 /**
  * Средняя
@@ -69,7 +98,37 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) {
+        return ""
+    }
+    val month = when (parts[1]) {
+        "01" -> " января "
+        "02" -> " февраля "
+        "03" -> " марта "
+        "04" -> " апреля "
+        "05" -> " мая "
+        "06" -> " июня "
+        "07" -> " июля "
+        "08" -> " августа "
+        "09" -> " сентября "
+        "10" -> " октября "
+        "11" -> " ноября "
+        "12" -> " декабря "
+        else -> ""
+
+    }
+    if (month.length == 0) {
+        return ""
+    } else
+        return when {
+            parts[0].length == 2 && parts[0][0] == '0' -> parts[0].removeRange(0,1) + month + parts[2]
+            parts[0].length == 2 && (parts[0][0]in '0'..'9') -> parts[0] + month + parts[2]
+            else -> ""
+
+        }
+}
 
 /**
  * Сложная

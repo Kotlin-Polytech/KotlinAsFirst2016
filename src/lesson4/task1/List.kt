@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.revert
 
 /**
  * Пример
@@ -262,7 +261,7 @@ fun convert(n: Int, base: Int): List<Int>{
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val list: MutableList<Int> = convert(n, base).toMutableList()
+    val list = convert(n, base).toMutableList()
     val list2=mutableListOf<Char>()
     for (i in 0..list.size - 1) {
         when {
@@ -270,9 +269,8 @@ fun convertToString(n: Int, base: Int): String {
             else -> list2.add('a'+ list[i] - 10)
         }
     }
-    val str = list2.joinToString("")
-    return str
-}
+    return  list2.joinToString("")
+    }
 
 /**
  * Средняя

@@ -62,9 +62,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var result = 0
     var newN = n
-
     if (newN == 0) return 1
-    while (newN>0) {
+    while (newN !== 0) {
         result ++
         newN /= 10
     }
@@ -78,13 +77,13 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fBegin = 0
-    var resultSu = 1
+    var start= 0
+    var finish = 1
     for (i in 2..n) {
-        resultSu = resultSu+fBegin
-        fBegin = resultSu- fBegin
+        finish += start
+        start = finish - start
     }
-    return resultSu
+    return finish
 }
 
 /**
@@ -166,10 +165,10 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var number = n
     var newNumber = 0
-    while (number>0) {
+    while (number > 0) {
         newNumber *= 10
-        newNumber += number%10
-        number/= 10
+        newNumber += number % 10
+        number /= 10
     }
     return newNumber
 }
@@ -192,13 +191,13 @@ fun isPalindrome(n: Int): Boolean =
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
-    while (number > 9 ) {
-        if (number%10 == (number%100)/10)
-            number/= 10
+    while (number > 9) {
+        if (number % 10 == (number % 100) / 10)
+            number /= 10
         else return true
     }
     if (number != n%10) return true
- return false
+    return false
 }
 
 /**

@@ -301,11 +301,16 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var str=""
+    var str="11"
     var number=0
+    var a = 1
+    var b = 1
+    var result = 1
     while(str.length-1<n){
-        number++
-        str+=fib(number).toString()
+        result=a+b
+        str+=result.toString()
+        a=b
+        b=result
     }
     return str[n-1].toInt()-48
 }

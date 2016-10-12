@@ -60,8 +60,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var count = 0
-    var number = n
-    if (number in 0..9) return 1
+    var number = Math.abs(n)
+    if (number == 0) return 1
     else {
         while (number > 0) {
             count++
@@ -77,9 +77,20 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int =
-        if (n in 1..2) 1
-        else fib(n - 1) + fib(n - 2)
+fun fib(n: Int): Int {
+    if (n in 1..2) return 1
+    else {
+        var result = 0
+        var f1 = 1
+        var f2 = 1
+        for (i in 3..n) {
+            result = f1 + f2
+            f1 = f2
+            f2 = result
+        }
+        return result
+    }
+}
 
 /**
  * Простая
@@ -89,7 +100,10 @@ fun fib(n: Int): Int =
  */
 fun lcm(m: Int, n: Int): Int {
     var k = Math.max(m, n)
-    while ((k % m != 0) || (k % n != 0)) k++
+    while (k <= m * n) {
+        if ((k % m == 0) && (k % n == 0)) break
+        k++
+    }
     return k
 }
 
@@ -141,13 +155,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k0 = 0
-    var k = 1
+    var k = Math.sqrt(n.toDouble()).toInt()
     while (k * k <= n) {
-        k0 = k
-        k++
+        if (k * k in m..n) return true
+        k--
     }
-    return m <= k0 * k0
+    return false
 }
 
 /**
@@ -192,13 +205,27 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean = n == revert(n)
+
 /**
  * Средняя
  *
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var num = Math.abs(n)
+    if (num < 10) return false
+    else {
+        var p = num % 10
+        num /= 10
+        while (num > 0) {
+            if (num % 10 != p) return true
+            p = num % 10
+            num /= 10
+        }
+        return false
+    }
+}
 
 /**
  * Сложная

@@ -329,7 +329,7 @@ fun russian(n: Int): String {
     if (number > 999) {
         number /= 1000
         //трёхзначное
-        if (number % 100 == 0 || (number< 100 && number%10 == 0)) listFin.add("тысяч")
+        if (number % 100 == 0 || (number< 100 && number%10 == 0) || (number%10 == 0)) listFin.add("тысяч")
         if (number % 100 in 5..19) listFin.add(listUnits[number % 100] + " " + "тысяч") else
             if (number %10 >4) listFin.add(listUnits[number%10] + " " + "тысяч") else
             when {

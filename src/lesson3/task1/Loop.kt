@@ -87,12 +87,20 @@ fun fib(n: Int): Int = if (n > 2) (fib(n - 1) + fib(n - 2)) else 1
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    for (i in Math.max(m, n)..m * n) {
+    /*for (i in Math.max(m, n)..m * n) {
         if (i % m == 0 && i % n == 0) {
             return i
         }
     }
-    return m * n
+    return m * n */
+    var max = Math.max(m, n)
+    var min = Math.min(m, n)
+    while (max % min != 0) {
+        val store = min
+        min = max % min
+        max = store
+    }
+    return m * n / min
 }
 
 /**
@@ -135,15 +143,11 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 
-fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..Math.min(m, n)) {
-        if (m % i == 0 && n % i == 0) return false
-    }
-    return true
-
-    //if (m != n) return lcm(m, n)==m * n
-    // else return m == 1
-}
+fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
+/* for (i in 2..Math.min(m, n)) {
+     if (m % i == 0 && n % i == 0) return false
+ }
+ return true */
 
 /**
  * Простая

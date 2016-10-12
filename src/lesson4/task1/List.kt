@@ -131,7 +131,6 @@ fun mean(list: List<Double>): Double {
     else return 0.0
 }
 
-
 /**
  * Средняя
  *

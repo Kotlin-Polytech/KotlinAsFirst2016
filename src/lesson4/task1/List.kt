@@ -171,7 +171,7 @@ fun polynom(p: List<Double>, x: Double): Double {
         if (i == 0) a = p[i]
         else {
             for (j in 1..i) b *= x
-            a += p[i] * b
+            a += p[i] *  b
         }
     }
     return a

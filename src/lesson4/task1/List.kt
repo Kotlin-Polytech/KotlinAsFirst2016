@@ -178,17 +178,11 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty() == true) return list
-    val result = mutableListOf<Double>(list[0])
-    var sum = 0.0
+    if (list.isEmpty()) return list
     for (i in 1..list.size - 1) {
-        for (j in 0..i) {
-            sum += list[j]
-        }
-        result.add(sum)
-        sum = 0.0
+        list [i] += list[i - 1]
     }
-    return result
+    return list
 }
 
 /**
@@ -230,18 +224,18 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
     val revResult = mutableListOf<Int>()
-    val newN = n
-    while (n >= base) {
-        revResult.add(n % base)
-        n / base
+    var newN = n
+    while (newN > base) {
+        revResult.add(newN % base)
+        newN /= base
     }
-    revResult.add(newN)
+    if (newN == base) revResult.add(0)
+    else revResult.add(newN)
     val result = mutableListOf<Int>()
     for (i in 0..revResult.size - 1) {
-        result[i] = revResult[revResult.size - 1 - i]
+        result.add(revResult[revResult.size - 1 - i])
     }
-    val final: List<Int> = result
-    return final
+    return result
 }
 
 /**
@@ -252,7 +246,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val letters = "abcdefghijklmnopqrstuvwxyz"
+    val resStr = convert(n, base).map { "$it" }
+    val result = mutableListOf<String>()
+    for (i in 0..resStr.size - 1) {
+        if (resStr[i].toInt() > 9) result.add((letters[resStr[i].toInt() - 10]).toString())
+        else result.add(resStr[i])
+    }
+    return result.joinToString(separator = "")
+}
 
 /**
  * Средняя
@@ -270,7 +273,7 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * из системы счисления с основанием base в десятичную.
  * Цифры более 9 представляются латинскими строчными буквами:
  * 10 -> a, 11 -> b, 12 -> c и так далее.
- * Например: str = "13c", base = 14 -> 250
+ * Например: str = "13c', base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int = TODO()
 
@@ -288,7 +291,7 @@ fun roman(n: Int): String = TODO()
  * Очень сложная
  *
  * Записать заданное натуральное число 1..999999 прописью по-русски.
- * Например, 375 = "триста семьдесят пять",
+ * Например, 375 = 'триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()

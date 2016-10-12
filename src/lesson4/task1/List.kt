@@ -105,10 +105,10 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var summa = 0.0
-    for (i in 0..v.size-1) {
-        summa += v[i]*v[i]
+    for (i in 0..v.size - 1) {
+        summa += v[i] * v[i]
     }
-   if (summa == 0.0) return 0.0
+    if (summa == 0.0) return 0.0
     else return Math.sqrt(summa)
 }
 
@@ -118,12 +118,12 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-  var summa = 0.0
+    var summa = 0.0
     for (i in 0..list.size - 1) {
         summa += list [i]
     }
     if (summa == 0.0) return 0.0
-    else return summa/list.size
+    else return summa / list.size
 }
 
 /**
@@ -135,7 +135,7 @@ fun mean(list: List<Double>): Double {
 fun center(list: MutableList<Double>): MutableList<Double> {
     val mid = mean (list)
     for (i in 0..list.size - 1) {
-        list[i] = list[i]-mid
+        list[i] = list[i] - mid
     }
     return list
 }
@@ -165,8 +165,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
-    for (i in 0..p.size-1) {
-        result += p[i] * Math.pow (x,i.toDouble ())
+    for (i in 0..p.size - 1) {
+        result += p[i] * Math.pow (x, i.toDouble())
     }
     return result
 }
@@ -205,9 +205,9 @@ fun factorize(n: Int): List<Int> {
     var result = mutableListOf<Int>()
     var k = n
     for (i in 2..n) {
-        if (isPrime(i) == true){
-            while (k%i == 0) {
-                k = k/i
+        if (isPrime(i)){
+            while (k % i == 0) {
+                k /= i
                 result.add(i)
             }
         }

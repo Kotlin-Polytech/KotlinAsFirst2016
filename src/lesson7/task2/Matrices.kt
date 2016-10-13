@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
+import lesson6.task1.Point
+import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -59,7 +62,43 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun turn(streamline: Int): Int {
+    return when (streamline) {
+        6 -> 2
+        2 -> 4
+        4 -> 8
+        else -> 6
+    }
+}
+
+fun edge(height: Int, width: Int, streamline: Int): Cell {
+    return when (streamline) {
+        6 -> Cell(height, width + 1)
+        2 -> Cell(height + 1, width)
+        4 -> Cell(height, width - 1)
+        else -> Cell(height - 1, width)
+    }
+
+}
+
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    var matrix = createMatrix(height, width, 1)
+    var streamline = 6
+    var road = 0
+    var cell = Cell(0, 0)
+    while (road  < height * width) {
+        if ((edge(cell.row, cell.column, streamline).row in 0..height - 1) &&
+                (edge(cell.row, cell.column, streamline).column in 0..width - 1) &&
+                (matrix[edge(cell.row, cell.column, streamline)] != 1)) {
+            streamline = turn(streamline)
+        } else {
+            matrix[cell] = road
+            road++
+            cell = edge(cell.row, cell.column, streamline)
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -75,8 +114,26 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
-
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    var matrix = createMatrix(height, width, 0)
+    var streamline = 6
+    var road = 0
+    var n=1
+    var cell = Cell(0, 0)
+    while (road < height * width) {
+        if ((edge(cell.row, cell.column, streamline).row in 0..height - 1) &&
+                (edge(cell.row, cell.column, streamline).column in 0..width - 1) &&
+                (matrix[edge(cell.row, cell.column, streamline)] != 0)) {
+            streamline = turn(streamline)
+        } else {
+            matrix[cell] = n
+            if ((cell.column==n)&&(cell.row==n-1)) n++
+            road++
+            cell = edge(cell.row, cell.column, streamline)
+        }
+    }
+    return matrix
+}
 /**
  * Сложная
  *

@@ -64,8 +64,8 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val parts = str.split(' ')
-    if (parts.count() == 3) {
+    if (str.matches(Regex("""[0-9]+\s[а-яА-Я]+\s[0-9]+"""))) {
+        val parts = str.split(' ')
         val day = parts[0].toInt()
         val year = parts[2].toInt()
         val month = when (parts[1]) {
@@ -97,9 +97,8 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val parts = digital.split('.')
-    var isNum = true; parts.forEach {if (it.matches(Regex("[0-9]+")) && isNum) isNum = true else isNum = false }
-    if (parts.count() == 3 && isNum) {
+    if (digital.matches(Regex("[0-9]{2}.[0-9]{2}.[0-9]+"))) {
+        val parts = digital.split('.')
         val day = parts[0].toInt()
         val year = parts[2].toInt()
         val month = when (parts[1].toInt()) {
@@ -168,7 +167,7 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     if(jumps.matches(Regex("[-+%[0-9] ]+"))){
-        return Regex("([0-9]+) [+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
+        return Regex("([0-9]+) [%-]*[+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
     } else return -1
 }
 
@@ -182,9 +181,12 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    //Пробелы я убираю, чтобы правильно парсить число.
+    //Как вообще работает метод trim()? Почему, когда я применяю его к строке, ничего не происходит?
+    //По идее он же должен убирать все пробельные символы.
     if (expression.matches(Regex("""^([0-9]+)(\s+[-+]\s+[0-9]+)*"""))) {
-        return Regex("[-+]?[0-9]+").findAll(expression.replace(" ","")).sumBy { it.groupValues[0].toInt() }
-    } else throw java.lang.IllegalArgumentException(java.lang.NumberFormatException(expression))
+        return Regex("[-+]?[0-9]+").findAll(expression.replace(" ","")).sumBy { it.value.toInt() }
+    } else throw java.lang.IllegalArgumentException()
 }
 
 /**
@@ -200,7 +202,7 @@ fun firstDuplicateIndex(str: String): Int {
     var found = false
     var last = " "
     var passed = 0
-    for (w in str.split(" ")) {
+    for (w in str.split(' ')) {
         if (w.toLowerCase() == last && w != " ") {
             found = true
             passed -= (w.length + 1)
@@ -347,41 +349,40 @@ fun fromRoman(roman: String): Int {
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun findCycles(commands: String, open: Char, close: Char): Map<Int,Int> {
-    //Сдвиг для открывающего символа цикла
-    var pointerOpen = 0
-    //Сдвиг для закрывающего сивола цикла
-    var pointerClose = 0
+fun findCycles(commands: String, open: Char, close: Char): MutableMap<Int,Int> {
     //Ассоциативный массив для результатов
-    val map: MutableMap<Int,Int> = HashMap()
-    //Считаем количесво открывающих знаков, чтобы получить общее количесво циклов
-    val count = commands.count { it == open }
-    //Повторяем для каждого найденного цикла
-    for (i in 1..count) {
-        //Положение открывающего символа с учетом сдвига
-        val indexOpen = commands.indexOf(open,pointerOpen)
-        //Положение закрывающего символа с учетом сдвига
-        val indexClose = commands.indexOf(close,pointerClose)
-        //Если сначала идет закрывающий, считаем, что у него нет пары, и возвращаем ошибку
-        if (indexOpen > indexClose) {
-            throw java.lang.IllegalStateException("No pair for bracket")
-        } else {
-            //Сохраняем в массив два значения, чтобы можно было получить конец цикла по началу и наоборот
-            map.put(indexOpen,indexClose)
-            map.put(indexClose,indexOpen)
-            //Меняем сдвиги для дальнейшего поиска
-            pointerOpen = indexOpen+1
-            pointerClose = indexClose+1
+    val map = mutableMapOf<Int,Int>()
+    //Лист точек открывающих знаков цикла, для того, чтобы учесть вложенность
+    val openPointQueue = mutableListOf<Int>()
+    //
+    for (i in 0..commands.length-1) {
+        when (commands[i]) {
+            //При нахождении открывающего знака, добавляем в очередь
+            open -> {
+                openPointQueue.add(i)
+            }
+            close -> {
+                //Если нет ни одного открывающего знака в очередь, выбрасываем ошибку, так как цикл будет непарным
+                if (openPointQueue.isEmpty()) throw IllegalStateException("No pair for bracket")
+                //Если же хотя бы одна точка есть, то создаем две пары, чтобы можно было найти конец по началу
+                //и наоборот. Сохраняем в ассоциативный массив и удаляем последний элемент в списке
+                else {
+                    val openPoint = openPointQueue.last()
+                    map.put(openPoint, i)
+                    map.put(i, openPoint)
+                    openPointQueue.removeAt(openPointQueue.size-1)
+                }
+            }
         }
     }
     return map
 }
 fun computeDeviceCells(cells: Int, commands: String): List<Int> {
-    //Проверяем, парный ли каждый цикл
-    if (commands.count { it=='[' } == commands.count { it=='[' } &&
+    //Первая часть проверки на парность циклов, вторая проходит уже при поиске пары для каждого
+    if (commands.count { it=='[' } == commands.count { it==']' } &&
             commands.count { it=='{' } == commands.count { it=='}' } ) {
         //Если ноль ячеек сразу возвращаем ответ
-        if (cells == 0) return  listOf<Int>()
+        if (cells == 0) return  listOf()
         //Создаем массив размером cells и заполняем его нулями
         val cellsArr = Array(cells, {i -> 0})
         //Начальная точка

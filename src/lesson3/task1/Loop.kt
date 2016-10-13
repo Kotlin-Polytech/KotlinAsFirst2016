@@ -78,13 +78,13 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var a = 1
-    var b = 0
+    var beforePrevious = 1
+    var previous = 0
     var num = 0
     for (i in 1..n) {
-        num = a + b
-        a = b
-        b = num
+        num = beforePrevious + previous
+        beforePrevious = previous
+        previous = num
     }
     return num
 }
@@ -116,7 +116,8 @@ fun lcm(m: Int, n: Int): Int = n*m/nod(m,n)
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n/2) {
+    //Не совсем понял, какая тут более точная граница?
+    for (i in 2..sqrt(n.toDouble()).toInt()) {
         if (n%i == 0) {
             return i
         }
@@ -130,12 +131,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n/2 downTo 1) {
+    for (i in n/2 downTo sqrt(n.toDouble()).toInt()) {
         if (n%i == 0) {
             return i
         }
     }
-    return n
+    return 1
 }
 
 /**
@@ -155,10 +156,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = nod(m,n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val min = min(m,n)
-    var i = ceil(sqrt(min.toDouble()))
+    var i = ceil(sqrt(m.toDouble()))
     i *= i
-    return i >= min && i <= max(m,n)
+    return i >= m && i <= n
 
 }
 
@@ -262,10 +262,11 @@ fun squareSequenceDigit(n: Int): Int {
     var pointer = 0
     var num = 0
     while (pointer < n){
-        val length = digitNumber(i*i)
-        if (pointer + length >= n)
-            num = (i*i).toString()[n-pointer-1] - '0'
-        pointer += length
+        val iSqr = i*i
+        val currentLength = pointer + digitNumber(iSqr)
+        if (currentLength >= n)
+            num = (iSqr).toString()[n-pointer-1] - '0'
+        pointer = currentLength
         i++
     }
     return num
@@ -283,10 +284,11 @@ fun fibSequenceDigit(n: Int): Int  {
     var pointer = 0
     var num = 0
     while (pointer < n){
-        val length = digitNumber(fib(i))
-        if (pointer + length >= n)
-            num = fib(i).toString()[n-pointer-1] - '0'
-        pointer += length
+        val fib = fib(i)
+        val currentLength = pointer + digitNumber(fib)
+        if (currentLength >= n)
+            num = fib.toString()[n-pointer-1] - '0'
+        pointer = currentLength
         i++
     }
     return num

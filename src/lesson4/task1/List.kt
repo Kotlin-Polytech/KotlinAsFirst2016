@@ -4,11 +4,8 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import java.lang.Math.*
 
-/**
- * Пример
- *
- * Найти все корни уравнения x^2 = y
- */
+val chars = "0123456789abcdefghijklmnopqrstuvwxyz"
+
 fun pow (x: Int, n: Int): Int {
     var num = 1
     var ink = x
@@ -21,6 +18,12 @@ fun pow (x: Int, n: Int): Int {
     }
     return num
 }
+/**
+ * Пример
+ *
+ * Найти все корни уравнения x^2 = y
+ */
+
 fun sqRoots(y: Double) =
         if (y < 0) listOf()
         else if (y == 0.0) listOf(0.0)
@@ -136,7 +139,8 @@ fun mean(list: List<Double>): Double =
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val c = list.sum() / list.count()
-    return if (list.isEmpty()) list else list.map { it - c }.toMutableList()
+    list.forEachIndexed { i, d -> list[i] -= c }
+    return list
 }
 /**
  * Средняя
@@ -169,9 +173,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    list.forEachIndexed { i, d -> if (i != list.count()-1) list[i+1] += list[i] }
+    if (list.size > 1) list.take(list.size - 1).forEachIndexed { i, d -> list[i + 1] += list[i] }
     return list
 }
+
 /**
  * Средняя
  *
@@ -182,17 +187,10 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
     var num = n
-    var b = 3
     while (num > 1) {
-        if (num%2 == 0) {
-            num /= 2
-            list.add(2)
-        } else if (num%b == 0) {
-            num /= b
-            list.add(b)
-        } else {
-            b+=2
-        }
+        val min = lesson3.task1.minDivisor(num)
+        list.add(min)
+        num /= min
     }
     return list.sorted()
 }
@@ -232,7 +230,6 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val chars = "0123456789abcdefghijklmnopqrstuywxyz"
     return convert(n,base).joinToString(separator="", transform = {chars[it].toString()})
 }
 
@@ -256,10 +253,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val chars: String = "0123456789abcdefghijklmnopqrstuywxyz"
-    val map = (0..35).associateBy { it -> chars[it] }
     var i: Int = 0
-    return str.reversed().sumBy {(map[it] ?: 0) * pow(base, i++)}
+    return str.reversed().sumBy {chars.indexOf(it) * pow(base, i++)}
 }
 
 /**
@@ -272,46 +267,47 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 fun roman(n: Int): String {
     val s = arrayOf("","I","II","III","IV","V","VI","VII","VIII","IX")
-    var str: String = ""
+    //StringBuilder знаю только в теории из C#, поэтому не знаю, правильно ли я сделал
+    val str: StringBuilder = StringBuilder()
     var num: Int = n
-    if (num/1000 > 0)
-        for (i in 1..num/1000)
-            str += "M"
+    if (num / 1000 > 0)
+        for (i in 1..num / 1000)
+            str.append("M")
     num %= 1000
-    if (num/500 == 1)
-        if (num%500 >= 400) {
-            str += "CM"
+    if (num / 500 == 1)
+        if (num % 500 >= 400) {
+            str.append("CM")
             num -= 900
         } else {
-            str += "D"
+            str.append("D")
             num %= 500
         }
-    if (num/100 > 0)
-        if (num/100 == 4) {
-            str += "CD"
+    if (num / 100 > 0)
+        if (num / 100 == 4) {
+            str.append("CD")
         } else {
-            for (i in 1..num/100)
-                str += "C"
+            for (i in 1..num / 100)
+                str.append("C")
         }
     num %= 100
-    if (num/50 == 1)
-        if (num%50 >= 40) {
-            str += "XC"
+    if (num / 50 == 1)
+        if (num % 50 >= 40) {
+            str.append("XC")
             num -= 90
         } else {
-            str += "L"
+            str.append("L")
             num %= 50
         }
-    if (num/10 > 0)
-        if (num/10 == 4) {
-            str += "XL"
+    if (num / 10 > 0)
+        if (num / 10 == 4) {
+            str.append("XL")
         } else {
-            for (i in 1..num/10)
-                str += "X"
+            for (i in 1..num / 10)
+                str.append("X")
         }
     num %= 10
-    str += s[num]
-    return str
+    str.append(s[num])
+    return str.toString()
 }
 
 /**
@@ -321,81 +317,72 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun points(n: Int, female: Boolean): String {
-    var str: String = ""
-    when(n){
-        0 -> str = ""
-        1 -> if (!female) str = "один" else str = "одна"
-        2 -> if (!female) str = "два" else str = "две"
-        3 -> str = "три"
-        4 -> str = "четыре"
-        5 -> str = "пять"
-        6 -> str = "шесть"
-        7 -> str = "семь"
-        8 -> str = "восемь"
-        9 -> str = "девять"
-    }
-    return str
-}
-fun tens(n: Int,female: Boolean): String {
-    var str: String = ""
+fun points(n: Int, female: Boolean): String =
     when (n) {
-        in 1..9 -> str = points(n,female)
-        10 -> str = "десять"
-        11 -> str = "одиннадцать"
-        12 -> str = "двенадцать"
-        13 -> str = "тринадцать"
-        14 -> str = "четырнадцать"
-        15 -> str = "пятнадцать"
-        16 -> str = "шестнадцать"
-        17 -> str = "семнадцать"
-        18 -> str = "восемнадцать"
-        19 -> str = "девятнадцать"
-        in 20..29 -> str = "двадцать" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 30..39 -> str = "тридцать" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 40..49 -> str = "сорок" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 50..59 -> str = "пятьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 60..69 -> str = "шестьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 70..79 -> str = "семьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 80..89 -> str = "восемьдесят" + (if(n%10 > 0) " " else "") + points(n%10,female)
-        in 90..99 -> str = "девяносто" + (if(n%10 > 0) " " else "") + points(n%10,female)
+        1 -> if (!female) "один" else "одна"
+        2 -> if (!female) "два" else "две"
+        3 -> "три"
+        4 -> "четыре"
+        5 -> "пять"
+        6 -> "шесть"
+        7 -> "семь"
+        8 -> "восемь"
+        9 -> "девять"
+        else -> ""
     }
-    return str
-}
-fun hundreds(n: Int): String {
-    var str: String = ""
+fun tens(n: Int): String =
+    when (n) {
+        10 -> "десять"
+        11 -> "одиннадцать"
+        12 -> "двенадцать"
+        13 -> "тринадцать"
+        14 -> "четырнадцать"
+        15 -> "пятнадцать"
+        16 -> "шестнадцать"
+        17 -> "семнадцать"
+        18 -> "восемнадцать"
+        19 -> "девятнадцать"
+        in 20..29 -> "двадцать"
+        in 30..39 -> "тридцать"
+        in 40..49 -> "сорок"
+        in 50..59 -> "пятьдесят"
+        in 60..69 -> "шестьдесят"
+        in 70..79 -> "семьдесят"
+        in 80..89 -> "восемьдесят"
+        in 90..99 -> "девяносто"
+        else -> ""
+    }
+
+fun hundreds(n: Int): String =
     when(n) {
-        1 -> str = "сто"
-        2 -> str = "двести"
-        3 -> str = "триста"
-        4 -> str = "четыреста"
-        in 5..9 -> str = points(n,false)+"сот"
+        1 -> "сто"
+        2 -> "двести"
+        3 -> "триста"
+        4 -> "четыреста"
+        in 5..9 -> "${points(n, false)}сот"
+        else -> ""
     }
-    return str
-}
-fun keyword(n: Int): String {
-    if ((n>4 && n<21) || n%10 == 0 || n%10 > 4){
-        return "тысяч"
-    } else if(n%10 == 1) {
-        return "тысяча"
-    } else {
-        return "тысячи"
+fun keyword(n: Int): String =
+    when {
+        ((n>4 && n<21) || n%10 == 0 || n%10 > 4) ->  "тысяч"
+        n%10 == 1 -> "тысяча"
+        else -> "тысячи"
     }
-}
+
 fun russian(n: Int): String {
-    var str: String = ""
-    if (n/1000 > 0) {
-        if (n/100000 > 0)
-            str += hundreds(n/100000)
-        if ((n/1000)%100 > 0)
-            str += (if(n/100000 > 0) " " else "") + tens((n/1000)%100,true)
-        str += " " + keyword((n/1000)%100) + if((n%1000) > 0) " " else ""
-    }
-    if (n%1000 > 0) {
-        if ((n%1000)/100 > 0)
-            str += hundreds((n%1000)/100)
-        if ((n%1000)%100 > 0)
-            str += (if((n%1000)/100 > 0) " " else "") + tens((n%1000)%100,false)
-    }
-    return str
+    val list: MutableList<String> = mutableListOf()
+    val thousands = n / 1000
+    val thTens = thousands % 100
+    val remainder = n % 1000
+    val remTens = remainder % 100
+
+    list.add(hundreds(thousands / 100))
+    list.add(tens(thTens))
+    if (thTens !in 11..19) list.add(points(thousands % 10, true))
+    if (thousands != 0) list.add(keyword(thousands))
+    list.add(hundreds(remainder / 100))
+    list.add(tens(remTens))
+    if (remTens !in 11..19) list.add(points(remainder % 10, false))
+    list.removeAll { it == "" }
+    return list.joinToString (separator=" ")
 }

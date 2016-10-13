@@ -1,14 +1,14 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task2
 
-import lesson8.task1.markdownToHtml
-import java.util.*
-
+import java.lang.Math.*
+import lesson6.task3.*
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
  * Горизонтали нумеруются снизу вверх, вертикали слева направо.
  */
+val chars = "abcdefgh"
 data class Square(val column: Int, val row: Int) {
     /**
      * Пример
@@ -25,7 +25,6 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        val chars = "abcdefgh"
         return if (inside()) "${chars[this.column-1]}$row" else ""
     }
 }
@@ -38,9 +37,7 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val chars = "abcdefgh"
-    val map = (1..8).associateBy { it -> chars[it-1] }
-    val sq = Square(map[notation[0]] ?: 0, notation[1] - '0')
+    val sq = Square(chars.indexOf(notation[0])+1, notation[1] - '0')
     if (!sq.inside())
         throw IllegalAccessException()
     else
@@ -70,16 +67,14 @@ fun square(notation: String): Square {
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int {
-    if (start.inside() && end.inside()) {
-        if (start.column != end.column && start.row != end.row)
-            return 2
-        else if (start == end)
-            return  0
-        else
-            return 1
-    } else throw IllegalArgumentException()
-}
+fun rookMoveNumber(start: Square, end: Square): Int =
+    when {
+        !(start.inside() && end.inside()) -> throw IllegalArgumentException()
+        start.column != end.column && start.row != end.row -> 2
+        start == end -> 0
+        else -> 1
+    }
+
 
 /**
  * Средняя
@@ -125,15 +120,14 @@ fun rookTrajectory(start: Square, end: Square): List<Square> =
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int {
-    if (start.inside() && end.inside()) {
-        if ((start.column * start.row) % 2 == (end.column * end.row) % 2) {
-            if (start == end) return 0
-            if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return 1
-            else return 2
-        } else return -1
-    } else throw IllegalArgumentException()
-}
+fun bishopMoveNumber(start: Square, end: Square): Int =
+    when {
+        !(start.inside() && end.inside()) -> throw IllegalArgumentException()
+        ((start.column * start.row) % 2 != (end.column * end.row) % 2) -> -1
+        start == end -> 0
+        (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) -> 1
+        else -> 2
+    }
 
 /**
  * Сложная
@@ -154,11 +148,23 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> =
+    //В чем смысл последнего теста? И почему он не проходит всегда?
     when (bishopMoveNumber(start, end)) {
         -1 -> listOf()
         0 -> listOf(start)
         1 -> listOf(start, end)
-        else -> TODO()
+        else -> {
+            val delta = (abs(end.column - start.column) + abs(end.row - start.row)) / 2
+            var Sq: Square
+            if (start.row < end.row) {
+                Sq = Square(start.column + delta, start.row + delta)
+                if(!Sq.inside()) Sq = Square(start.column - delta, start.row + delta)
+            } else {
+                Sq = Square(start.column - delta, start.row - delta)
+                if(!Sq.inside()) Sq = Square(start.column + delta, start.row - delta)
+            }
+            listOf(start, Sq, end)
+        }
     }
 
 /**
@@ -181,7 +187,12 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> =
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int =
+    when {
+        !(start.inside() && end.inside()) -> throw IllegalArgumentException()
+        else -> max(abs(end.column - start.column), abs(end.row - start.row))
+    }
+
 
 /**
  * Сложная
@@ -197,7 +208,27 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    val steps = mutableListOf(start)
+    val stepsValue = kingMoveNumber(start, end)
+    if (stepsValue > 0) {
+        val horizontal = end.column - start.column
+        val vertical = end.row - start.row
+        val horizontalStep = horizontal / abs(horizontal)
+        val verticalStep = vertical / abs(vertical)
+        val cross = min(abs(horizontal), abs(vertical))
+        for (i in 1..cross) {
+            steps.add(Square(steps[i - 1].column + horizontalStep, steps[i - 1].row + verticalStep))
+        }
+        for (i in cross + 1..stepsValue) {
+            if (abs(horizontal) > abs(vertical))
+                steps.add(Square(steps[i - 1].column + horizontalStep, steps[i - 1].row))
+            else
+                steps.add(Square(steps[i - 1].column, steps[i - 1].row + verticalStep))
+        }
+        return steps
+    } else return listOf(start)
+}
 
 /**
  * Сложная
@@ -222,7 +253,47 @@ fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun knightMoveNumber(start: Square, end: Square): Int = TODO()
+fun findNeigbhors(point: Square): List<Square> {
+    val list = mutableListOf<Square>()
+    for (i in 1..2) {
+        for (j in 1..2) {
+            val hz = if (i%2==0) -1 else 1
+            val vz = if (j%2==0) -1 else 1
+            val sq = Square(point.column + (2*hz), point.row + (1*vz))
+            if(sq.inside()) list.add(sq)
+        }
+    }
+    for (i in 1..2) {
+        for (j in 1..2) {
+            val hz = if (i%2==0) -1 else 1
+            val vz = if (j%2==0) -1 else 1
+            val sq = Square(point.column + (1*hz), point.row + (2*vz))
+            if(sq.inside()) list.add(sq)
+        }
+    }
+    return list
+}
+fun knightMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    //Иного решения, кроме как графом - я не придумал
+    val desk: Graph = Graph()
+    //Строим граф по его вершинам
+    for (i in 1..8) {
+        for (j in 1..8) {
+            val Sq = Square(i,j)
+            desk.addVertex(Sq.notation())
+        }
+    }
+    //Строим ребра, каждое с весо 1 (а по-другоу и нельзя)
+    for (i in 1..8) {
+        for (j in 1..8) {
+            val Sq = Square(i,j)
+            findNeigbhors(Sq).forEach { desk.connect(Sq.notation(),it.notation()) }
+        }
+    }
+    //С помощью поиска в ширину находим кратчайщее расстояние
+    return desk.bfs(start.notation(),end.notation())
+}
 
 /**
  * Очень сложная
@@ -244,4 +315,28 @@ fun knightMoveNumber(start: Square, end: Square): Int = TODO()
  *
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun knightTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun knightTrajectory(start: Square, end: Square): List<Square> {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    //Иного решения, кроме как графом - я не придумал
+    val desk: Graph = Graph()
+    //Строим граф по его вершинам
+    for (i in 1..8) {
+        for (j in 1..8) {
+            val Sq = Square(i,j)
+            desk.addVertex(Sq.notation())
+        }
+    }
+    //Строим ребра, каждое с весо 1 (а по-другоу и нельзя)
+    for (i in 1..8) {
+        for (j in 1..8) {
+            val Sq = Square(i,j)
+            findNeigbhors(Sq).forEach { desk.connect(Sq.notation(),it.notation()) }
+        }
+    }
+    //С помощью поиска в ширину находим кратчайщее расстояние
+    val path = desk.bfsPath(start.notation(), end.notation()).toMutableList()
+    path.add(end.notation())
+    return path.map { square(it) }
+}
+
+

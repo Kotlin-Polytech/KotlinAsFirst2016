@@ -2,7 +2,6 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import lesson2.task1.minBiRoot
 import java.lang.Math.*
 
 /**
@@ -20,7 +19,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val str: String = number.toString()
+    val str = number.toString()
     return str[0].toInt() + str[1].toInt() == str[2].toInt() + str[3].toInt()
 }
 
@@ -30,9 +29,7 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return (x1 == x2) || (y1 == y2) || (abs(y2-y1) == abs((x2-x1)))
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = (x1 == x2) || (y1 == y2) || (abs(y2 - y1) == abs((x2 - x1)))
 
 /**
  * Средняя

@@ -2,7 +2,6 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
-import lesson4.task1.center
 
 /**
  * Точка на плоскости
@@ -66,7 +65,7 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = p.distance(center) < radius
+    fun contains(p: Point): Boolean = p.distance(center) <= radius
 }
 
 /**
@@ -148,7 +147,7 @@ fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y-s.begin.y
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((b.y-a.y)/(b.x-a.x)))
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
 
 /**
  * Сложная
@@ -169,8 +168,8 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     var minLength = Double.POSITIVE_INFINITY
-    var f: Circle = circles[0]
-    var s: Circle = circles[0]
+    var f = circles[0]
+    var s = circles[0]
     if (circles.count() > 1) {
         for (i in 0..circles.count() - 1) {
             for (j in i + 1..circles.count() - 1) {
@@ -202,7 +201,10 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val x = (ma * mb * (a.y - c.y) + mb * (a.x + b.x) - ma * (b.x + c.x)) / (2 * (mb - ma))
     val y = -1 / ma * (x - (a.x + b.x) / 2) + (a.y + b.y) / 2
     val p = Point(x,y)
-    return Circle(p,p.distance(a))
+    //Если не выбирать максимум из расстояний до точек, то остается погрешность порядка 4E-16
+    var r = Math.max(p.distance(a),p.distance(b))
+    r = Math.max(r,p.distance(c))
+    return Circle(p,r)
 }
 
 /**
@@ -220,8 +222,8 @@ fun minContainingCircle(vararg points: Point): Circle {
     val d = diameter(*points)
     var c = circleByDiameter(d)
     for (p in points) {
-        if (p.distance(c.center) > c.radius) {
-            return circleByThreePoints(d.begin, d.end, p)
+        if (!c.contains(p)) {
+            c = circleByThreePoints(d.begin, d.end, p)
         }
     }
     return c

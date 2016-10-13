@@ -320,12 +320,12 @@ fun russian(n: Int): String {
     val listFin = mutableListOf<String>()
     if (number % 100 == 0) Double.NaN else {
         if (number % 100 >= 20 && number % 10 == 0)
-            listFin.add(listDes[(number % 100) / 10]) else
-        if (number % 100 >= 20) {
-            listFin.add(listDes[(number % 100) / 10] + " " + listUnits[number % 10])
-        } else listFin.add(listUnits[number % 100])
+            listFin.add(listDes[(number % 100) / 10])
+        else
+            if (number % 100 >= 20) {
+                listFin.add(listDes[(number % 100) / 10] + " " + listUnits[number % 10])
+            } else listFin.add(listUnits[number % 100])
     }
-
     if (number % 1000 / 100 == 0) Double.NaN else
         if (number > 99) listFin.add(listHundred[(number % 1000) / 100])
     if (number > 999) {

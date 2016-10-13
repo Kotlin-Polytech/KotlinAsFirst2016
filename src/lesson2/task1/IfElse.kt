@@ -121,15 +121,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val maxSide = max(max(a, b), c)
     val minSide = min(min(a, b), c)
     val anotherSide = (a + b + c) - (minSide + maxSide)
-    if (maxSide < (minSide + anotherSide)) {
-        return when {
-            maxSide == sqrt((minSide * minSide + anotherSide * anotherSide)) -> 1
-            maxSide < sqrt((minSide * minSide + anotherSide * anotherSide)) -> 0
-            else -> 2
-        }
-    } else return -1
-
-
+    return when {
+        maxSide > (minSide + anotherSide) -> -1
+        maxSide == sqrt((minSide * minSide + anotherSide * anotherSide)) -> 1
+        maxSide < sqrt((minSide * minSide + anotherSide * anotherSide)) -> 0
+        else -> 2
+    }
 }
 
 /**

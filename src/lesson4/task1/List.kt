@@ -108,10 +108,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sqr = 0.0
-    if (v.isNotEmpty()) {
-        for (element in v) sqr += element * element
-        return abs(sqrt(sqr))
-    } else return 0.0
+    for (element in v) sqr += element * element
+    return abs(sqrt(sqr))
 }
 
 /**
@@ -131,14 +129,12 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val mean = mean(list)
-        for (i in 0..list.size - 1) {
-            val element = list[i]
-            list[i] = element - mean
-        }
-        return list
-    } else return list
+    val mean = mean(list)
+    for (i in 0..list.size - 1) {
+        val element = list[i]
+        list[i] = element - mean
+    }
+    return list
 }
 
 /**
@@ -149,15 +145,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var C = 0.0
-    if (a.isNotEmpty() and b.isNotEmpty()) {
-        for (i in 0..a.size - 1) {
-            val elementA = a[i]
-            val elementB = b[i]
-            C += elementA * elementB
-        }
-        return C
-    } else return 0.0
+    var c = 0.0
+    for (i in 0..a.size - 1) {
+        c += a[i] * b[i]
+    }
+    return c
 }
 
 /**
@@ -170,13 +162,13 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     if (p.isNotEmpty()) {
-        var mean = p[0]
+        var freeMember = p[0]
         var sqr = 1.0
         for (i in 1..p.size - 1) {
             sqr *= x
-            mean += sqr * p[i]
+            freeMember += sqr * p[i]
         }
-        return mean
+        return freeMember
     } else return 0.0
 }
 
@@ -270,4 +262,45 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val listUnits = listOf("", "одна ", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val listTens = listOf("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listFromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listResult = mutableListOf<String>()
+    var result = ""
+    val lastDigit = n % 10
+    val thousand = when (n / 1000 % 10) {
+        1 -> "тысяча"
+        in 2..4 -> "тысячи"
+        else -> "тысяч"
+    }
+    val unit = when(lastDigit){
+        1->"один"
+        2->"два"
+        else -> listUnits[lastDigit]
+    }
+    if (n > 999) {
+        listResult.add(listHundreds[n / 100000 % 10])
+        if (n / 1000 % 100 in 10..20) {
+            listResult.add(listFromTenToTwenty[n / 1000 % 10])
+            listResult.add("тысяч")
+        } else {
+            listResult.add(listTens[n / 10000 % 10])
+            listResult.add(listUnits[n / 1000 % 10])
+            listResult.add(thousand)
+        }
+    }
+    listResult.add(listHundreds[n / 100 % 10])
+    if (n % 100 in 10..20) listResult.add(listFromTenToTwenty[lastDigit])
+    else {
+        listResult.add(listTens[n / 10 % 10])
+        listResult.add(unit)
+    }
+    val newListResult = listResult.filter { it != "" }
+    for (i in 0..newListResult.size - 2) {
+        result += newListResult[i] + " "
+    }
+    result += newListResult.last()
+    return result
+}

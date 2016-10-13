@@ -61,7 +61,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int =
-        if (n < 10) 1 else digitNumber(n / 10) + 1
+        if (abs(n) < 10) 1 else digitNumber(n / 10) + 1
 
 /**
  * Простая
@@ -143,11 +143,14 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var bool = false
-    for (i in m..n) {
-        if (sqrt(i.toDouble()) % 1 == 0.0) bool = true
+    var k = false
+    for (i in 1..n) {
+        if (i * i <= n && i * i >= m) {
+            k = true
+            break
+        }
     }
-    return bool
+    return k
 }
 
 /**
@@ -174,7 +177,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Long {
+fun revert(n: Int): Int {
     var number = n
     var results = 0L
     while (number != 0) {
@@ -182,7 +185,7 @@ fun revert(n: Int): Long {
         number /= 10
     }
     results /= 10
-    return results
+    return results.toInt()
 }
 
 /**
@@ -193,8 +196,7 @@ fun revert(n: Int): Long {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    if (n.toLong() == revert(n)) return true
-    else return false
+    return n == revert(n)
 }
 
 /**
@@ -216,7 +218,6 @@ fun squareSequenceDigit(n: Int): Int {
     var square = 0
     var sum = 0
     var count = 1
-    var number: Int
     while (sum < n) {
         square = count * count
         count++

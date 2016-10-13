@@ -89,7 +89,7 @@ fun dateStrToDigit(str: String): String {
                 else  -> -1
             }
     if(fin == -1) return ""
-    else return String.format("%02d.%02d.%4d", d, fin, y)
+    else return String.format("%02d.%02d.%d", d, fin, y)
 }
 
 /**
@@ -126,7 +126,7 @@ fun dateDigitToStr(digital: String): String {
                 else  -> "error"
             }
     if(fin == "error") return ""
-    else return String.format("%d %s %4d", d, fin, y)
+    else return String.format("%d %s %d", d, fin, y)
 }
 
 /**

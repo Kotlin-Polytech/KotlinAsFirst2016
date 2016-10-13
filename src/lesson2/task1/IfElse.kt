@@ -120,13 +120,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val arr = doubleArrayOf(a,b,c).sorted()
     if (arr[2] <= arr[1] + arr[0]) {
-        val d = arr[2] - sqrt(sqr(arr[1])+ sqr(arr[0]))
+        val d = sqr(arr[2]) - (sqr(arr[1]) + sqr(arr[0]))
         when {
-            d < 0 -> return 2
-            d > 0 -> return 0
+            d < 0 -> return 0
+            d > 0 -> return 2
             else -> return 1
         }
-    } else return 0
+    } else return -1
 }
 
 /**

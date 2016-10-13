@@ -22,7 +22,7 @@ fun isNumberHappy(number: Int): Boolean
     val a=number/1000+number/100-(number/1000)*10
     val b=number/10-(number/100)*10+number-(number/10)*10
 
-    return if(a == b) true else false
+    return a == b
 }
 
 /**
@@ -48,7 +48,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
         val d = Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1))
         val x = r2 - r1
         val y = r2 + r1
-        return if ((x < d && d < y) || !(d<y)) false else true
+        return !((x < d && d < y) || !(d<y))
     }
 }
 

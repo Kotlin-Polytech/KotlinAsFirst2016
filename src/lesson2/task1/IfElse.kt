@@ -95,11 +95,23 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val x1=(sqr(b)+sqr(c)-sqr(a))/(2*b*c)
-    val x2=(sqr(a)+sqr(b)-sqr(c))/(2*a*b)
-    val x3=(sqr(c)+sqr(a)-sqr(b))/(2*c*a)
-    val y = Math.min(x1, x2)
-    val x = Math.min(y, x3)
+    val ab = Math.max(a, b)
+    val hyp = Math.max(ab, c)
+    val cat1 :Double
+    val cat2 :Double
+    if( hyp == a ) {
+        cat1 = b
+        cat2 = c
+    }
+    else if ( hyp == b ) {
+        cat1 = a
+        cat2 = c
+    }
+    else {
+        cat1 = a
+        cat2 = b
+    }
+    val x = (sqr(cat1) + sqr(cat2) - sqr(hyp)) / (2*cat1*cat2)
     return when {
         (x > 0.0 && x < 1.0) -> 0
         (x == 0.0)           -> 1
@@ -119,12 +131,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
     return when {
         (b < c || a > d)          -> -1
-        (b == c || a == d)        -> 0
-        (c < a && d >= b)         -> b-a
+        (c <= a && d >= b)        -> b-a
         (c < b && c > a && d > b) -> b-c
-        (c > a && d <= b )        -> d-c
-        (c == a && d > b)         -> b-a
-        (c == a && b > d)         -> d-c
+        (c >= a && d <= b )       -> d-c
         else                      -> d-a
     }
 }

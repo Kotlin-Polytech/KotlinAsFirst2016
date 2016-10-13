@@ -105,7 +105,6 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    if(v.isEmpty()) return 0.0
     var sum = 0.0
     for (i in 0..v.size-1) {
         sum += v[i] * v[i]
@@ -120,7 +119,8 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
-    else return list.sum()/list.size
+    val s = list.sum()/list.size
+    return s
 }
 
 /**
@@ -129,7 +129,13 @@ fun mean(list: List<Double>): Double {
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val s = mean(list)
+    for (i in 0..list.size-1) {
+        list[i] -= s
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -139,13 +145,11 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    if (a.isEmpty() || b.isEmpty()) return 0.0
     var c = 0.0
     for (i in 0..a.size-1) {
         c+= a[i] * b[i]
     }
     return c
-
 }
 
 /**
@@ -157,7 +161,6 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    if ( p.isEmpty() ) return 0.0
     var sum = 0.0
     for (i in 0..p.size-1 ) {
         sum += p[i] * Math.pow(x, i.toDouble())
@@ -174,7 +177,6 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if ( list.isEmpty() ) return mutableListOf()
     var element = 0.0
     for (i in 0..list.size-1) {
         element+= list[i]

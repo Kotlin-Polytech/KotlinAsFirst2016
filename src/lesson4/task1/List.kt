@@ -264,7 +264,7 @@ fun roman(n: Int): String = TODO()
  */
 fun russian(n: Int): String {
     val listUnits = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val listTens = listOf("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listTens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
     val listFromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
     val listHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     val listResult = mutableListOf<String>()
@@ -282,7 +282,7 @@ fun russian(n: Int): String {
     }
     if (n > 999) {
         listResult.add(listHundreds[n / 100000 % 10])
-        if (n / 1000 % 100 in 10..20) {
+        if (n / 1000 % 100 in 11..20) {
             listResult.add(listFromTenToTwenty[n / 1000 % 10])
             listResult.add("тысяч")
         } else {
@@ -292,7 +292,7 @@ fun russian(n: Int): String {
         }
     }
     listResult.add(listHundreds[n / 100 % 10])
-    if (n % 100 in 10..20) listResult.add(listFromTenToTwenty[lastDigit])
+    if (n % 100 in 11..20) listResult.add(listFromTenToTwenty[lastDigit])
     else {
         listResult.add(listTens[n / 10 % 10])
         listResult.add(unit)

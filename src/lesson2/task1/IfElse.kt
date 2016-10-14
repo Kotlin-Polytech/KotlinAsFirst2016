@@ -3,8 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import lesson4.task1.abs
-import lesson6.task2.kingMoveNumber
+
 
 /**
  * Пример
@@ -77,11 +76,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((rookX1 - kingX == 1) && (rookY1 == kingY) && (rookX2 - kingX >= 1) && (rookY2 - kingY >= 1)) return 1
-    if ((rookX2 - kingX == 1) && (rookY2 == kingY) && (rookX1 - kingX >= 1) && (rookY1 - kingY >= 1)) return 2
-    if ((rookY1 - kingY == 1) && (rookX1 == kingX) && (rookX2 - kingX >= 1) && (rookY2 - kingY >= 1)) return 1
-    if ((rookY2 - kingY == 1) && (rookX2 == kingX) && (rookX1 - kingX >= 1) && (rookY1 - kingY >= 1)) return 2
-    if ((rookX1 - kingX >= 1) && (rookY1 - kingY >= 1) && (rookX2 - kingX >= 1) && (rookY2 - kingY >= 1)) return 0
+    if ((rookX1 == kingX || rookY1 == kingY) && (rookX2 != kingX && rookY2 != kingY)) return 1
+        else if((rookX2 == kingX || rookY2 == kingY) && (rookX1 != kingX && rookY1 != kingY)) return 2
+        else if((rookX1 != kingX && rookY1 != kingY) && (rookX2 != kingX && rookY2 != kingY)) return 0
     else return 3
 
 
@@ -119,27 +116,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (b > a && d > c) {
-        if (c > b || a > d || b == c) return -1
-        if ((b - a) < (d - c)) {
-            if (a < c && b > c) return (b - c)
-            if (a > c && b < d) return (b - a)
-            if (a > c && b > d) return (d - a)
-        }
-        if ((b - a) > (d - c)) {
-            if (c > b && b > d) return (b - c)
-            if (c < a && d > b) return (d - c)
-            if (c > a && a > d) return (d - a)
-        }
-        if ((b - a) == (d - c)) {
-            if (c > b || c == b) return -1
-            if (b > c && c > a) return (b - c)
-            if (a == c) return (b - a)
-            if (d > a && a > c) return (d - a)
-        }
-    }
-    if (a == b && c == d) return -1
-    if (a == b && c != d) return -1
-    if (c == d && a != b) return -1
-    }
+
+    if (c >= a && b <= d && b >= c) return (b - c)
+    else if (a >= c && d >= a && b >= d) return (d - a)
+    else if (a >= c && d >= b) return (b - a)
+    else if (c >= a && b >= d) return (d - c)
+    else return -1
+}
 

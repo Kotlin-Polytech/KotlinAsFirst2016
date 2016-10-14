@@ -84,7 +84,7 @@ fun dateStrToDigit(str: String): String {
                 parts[1]=="июня"->str1="06"
                 parts[1]=="июля"->str1="07"
                 parts[1]=="августа"->str1="08"
-                parts[1]=="сентебря"->str1="09"
+                parts[1]=="сентября"->str1="09"
                 parts[1]=="октября"->str1="10"
                 parts[1]=="ноября"->str1="11"
                 parts[1]=="декабря"->str1="12"
@@ -92,7 +92,7 @@ fun dateStrToDigit(str: String): String {
             }
     if (((str1=="04")||(str1=="06")||(str1=="09")||(str1=="11"))&&(parts[0].toInt()>30))return ""
     var str0=""
-    if (parts[0].toInt()<10)str0="0"+parts[0] else str0=parts[0]
+    if (parts[0].length<2)str0="0"+parts[0] else str0=parts[0]
     val result= str0+"."+str1+"."+parts[2]
     return result
 }
@@ -129,7 +129,7 @@ fun dateDigitToStr(digital: String): String {
         parts[1]=="06"->str1="июня"
         parts[1]=="07"->str1="июля"
         parts[1]=="08"->str1="августа"
-        parts[1]=="09"->str1="сентебря"
+        parts[1]=="09"->str1="сентября"
         parts[1]=="10"->str1="октября"
         parts[1]=="11"->str1="ноября"
         parts[1]=="12"->str1="декабря"
@@ -154,6 +154,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
+    if (phone=="") return ""
     var z=0
     if (phone[0]=='+')z=1
     for (i in 1..phone.length-1){

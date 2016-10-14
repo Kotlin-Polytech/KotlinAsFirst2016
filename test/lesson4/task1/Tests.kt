@@ -131,6 +131,7 @@ class Tests {
         assertEquals(listOf(2), factorize(2))
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
+        assertEquals(listOf(2, 2, 2, 3, 3, 3, 3, 3, 251), factorize(487944))
     }
 
     @Test
@@ -139,6 +140,7 @@ class Tests {
         assertEquals("2", factorizeToString(2))
         assertEquals("3*5*5", factorizeToString(75))
         assertEquals("2*3*3*19", factorizeToString(342))
+        assertEquals("2*2*2*3*3*3*3*3*251", factorizeToString(487944))
     }
 
     @Test
@@ -210,5 +212,6 @@ class Tests {
         assertEquals("двенадцать", russian(12))
         assertEquals("девятьсот тридцать одна тысяча сто два", russian(931102))
         assertEquals("триста двенадцать тысяч шестьсот семьдесят два", russian(312672))
+        assertEquals("восемьсот тринадцать тысяч сто девяносто пять", russian(813195))
     }
 }

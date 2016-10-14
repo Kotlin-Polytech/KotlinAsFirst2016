@@ -284,6 +284,8 @@ fun convertToString(n: Int, base: Int): String {
     while (n1 !=0 ){
         n1/=base
         mod=n1%base
+        var str=""
+        for (i in 'a'..'z') str+=i
         if (mod>9) {
             if (mod==10) list.add(0,"a")
             if (mod==11) list.add(0,"b")
@@ -328,7 +330,7 @@ fun convertToString(n: Int, base: Int): String {
 fun step(x:Int, n:Int):Int {
     var x1=1
     for (i in 1..n){
-        x1 = x1*x
+        x1*=x
     }
     return x1
 }

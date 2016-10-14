@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -9,7 +12,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +60,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var sum = 0
+    for (m in 0..n) {
+        n % 10
+        sum += m
+        if (n < 0) break
+
+    }
+    return sum
+}
 
 /**
  * Простая
@@ -65,7 +77,14 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    val k: Int
+    if (n > 2) {
+        k = fib(n) + fib(n + 1)
+    } else k = 1
+    return k
+}
+
 
 /**
  * Простая
@@ -73,21 +92,56 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var n1 = n
+    var m1 = m
+
+    while (m1 != n1) {
+        if (m1 > n1) {
+            m1 -= n1
+        }
+        if (m1 < n1) {
+            n1 -= m1
+        }
+
+    }
+    val k = m * n / n1
+    return k
+
+
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var k = 2
+    while (n > 1) {
+
+        if (n % k != 0) continue
+        k += k
+        if (n % k == 0) break
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var x = n - 1
+    var t = 1
+    while (t != 0) {
+        t = n % x
+        x--
+    }
+    x++
+    return x
+}
 
 /**
  * Простая
@@ -96,7 +150,21 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var m1 = m
+    var n1 = n
+    while (n1 != m1) {
+        if (m1 > n1) {
+            m1 -= n1
+        } else if (m1 < n1) {
+            n1 -= m1
+        }
+
+
+    }
+    if (m1 == 1) return true
+    else return false
+}
 
 /**
  * Простая
@@ -105,7 +173,18 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var k = 1.0
+
+    while (m <= n) {
+        if (sqr(k) < m || sqr(k) > n) return false
+
+        k += k
+        if (m <= sqr(k) && sqr(k) <= n) break
+    }
+    return true
+
+}
 
 /**
  * Простая

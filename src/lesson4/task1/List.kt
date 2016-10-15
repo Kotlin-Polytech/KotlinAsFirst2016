@@ -114,7 +114,7 @@ fun abs(v: List<Double>): Double = TODO()
 fun mean(list: List<Double>): Double {
     if (list.size == 0) return 0.0
     var result = 0.0
-    for (element in list) {
+    for (element in list){
         result += element
     }
     result /= list.size
@@ -147,7 +147,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    if ((a.size==0) || (b.size==0)) return 0.0
+    if ((a.size == 0) || (b.size == 0)) return 0.0
     var element = 0.0
     for (i in 0..a.size - 1){
         element += (a[i] * b[i])
@@ -174,7 +174,7 @@ fun stepDouble(x:Double, s:Int):Double {
 
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
-    for (i in 0..p.size-1) {
+    for (i in 0..p.size - 1) {
         result += p[i] * stepDouble(x,i)
     }
     return result
@@ -192,7 +192,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var a:MutableList<Double> = list
     for (i in 1..list.size - 1) {
         if (i == 1) a[i] = list[i]
-        a[i] = list[i] + a[i-1]
+        a[i] = list[i] + a[i - 1]
     }
     return a
 }
@@ -208,7 +208,7 @@ fun factorize(n: Int): List<Int> {
     var list:MutableList<Int> = mutableListOf()
     var nMutable = n
     for (i in 2..n){
-        while(nMutable%i == 0) {
+        while(nMutable % i == 0) {
             if (nMutable % i == 0) {
                 nMutable /= i
                 list.add(i)
@@ -228,9 +228,7 @@ fun factorize(n: Int): List<Int> {
 fun buildExample(list: List<Int>):String = list.joinToString(separator = "*")
 
 
-fun factorizeToString(n: Int): String {
-    return buildExample(factorize(n))
-}
+fun factorizeToString(n: Int): String = buildExample(factorize(n))
 
 /**
  * Средняя
@@ -249,7 +247,7 @@ fun convert(n: Int, base: Int): List<Int> {
     while (n1 != 0){
         n1 /= base
         mod = n1 % base
-        list.add(0,mod)
+        list.add(0, mod)
     }
     list.removeAt(0)
     return list
@@ -318,17 +316,17 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun step(x:Int, n:Int):Int {
-    var x1=1
+    var x1 = 1
     for (i in 1..n){
-        x1*=x
+        x1 *= x
     }
     return x1
 }
 
 fun decimal(digits: List<Int>, base: Int): Int {
-    var result=0
-    for ( i in 0..digits.size-1) {
-        result+=(digits[i]*step(base,digits.size-1-i))
+    var result = 0
+    for ( i in 0..digits.size - 1) {
+        result += (digits[i] * step(base,digits.size - 1 - i))
     }
     return result
 }
@@ -343,14 +341,14 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var result=0
-    var Int=1
-    var str1:String= String()
-    for ( i in 0..str.length-1) {
+    var result = 0
+    var Int = 1
+    var str1:String = String()
+    for ( i in 0..str.length - 1) {
         if (str[i] in 'a'..'z') {
-            Int=str[i]-'a'+10
-        } else Int=str[i] -'0'
-        result+=(Int*step(base,str.length-1-i))
+            Int = str[i] - 'a' + 10
+        } else Int = str[i] - '0'
+        result += (Int * step(base,str.length - 1 - i))
     }
     return result
 }
@@ -419,26 +417,26 @@ fun russian(n: Int): String {
             if (p == 9) result += " девять"
         }
     } else {
-        var thous=n/1000
-        val unit=n%1000
-        var x=1
-        if ((thous%10==2) && (thous%100!=12)) {
-            thous=(thous/10)*10
-            x=0
+        var thous = n / 1000
+        val unit = n % 1000
+        var x = 1
+        if ((thous % 10 == 2) && (thous % 100 != 12)) {
+            thous = (thous / 10) * 10
+            x = 0
         }
-        if ((thous%10==1) && (thous%100!=11)) {
-            thous=(thous/10)*10
-            x=2
+        if ((thous % 10 == 1) && (thous % 100 != 11)) {
+            thous = (thous / 10) * 10
+            x = 2
         }
-        var str1=russian(thous)
-        var str2=russian(unit)
-        if ((thous%10 == 0) && (x==1)) str1+=" тысяч "
-        if (thous%10 == 1) str1+=" тысяча "
-        if ((thous%10 in 2..4) && (thous%100 !in 12..14)) str1+=" тысячи "
-        if ((thous%10 in 5..9) || (thous%100 in 12..14)) str1+=" тысяч "
-        if (x == 0) str1+=" две тысячи "
-        if (x == 2) str1+=" одна тысяча "
-        result=str1+str2
+        var str1 = russian(thous)
+        var str2 = russian(unit)
+        if ((thous % 10 == 0) && (x == 1)) str1 += " тысяч "
+        if (thous % 10 == 1) str1 += " тысяча "
+        if ((thous % 10 in 2..4) && (thous % 100 !in 12..14)) str1 += " тысячи "
+        if ((thous % 10 in 5..9) || (thous % 100 in 12..14)) str1 += " тысяч "
+        if (x == 0) str1 += " две тысячи "
+        if (x == 2) str1 += " одна тысяча "
+        result = str1 + str2
     }
 return result.trim()
 }

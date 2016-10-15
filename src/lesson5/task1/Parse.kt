@@ -74,7 +74,7 @@ fun dateStrToDigit(str: String): String {
                 parts[1]=="января"->str1="01"
                 parts[1]=="февраля"->{
                     if (parts[0].toInt()>28) {
-                        if ((parts[0].toInt()%2==0)&&(parts[0].toInt()%4!=0)&&(parts[0].toInt()==29)) str1="02"
+                        if ((parts[0].toInt()%2==0)&&(parts[0].toInt()%4!=0)&&(parts[0].toInt()==29))str1="02"
                         else return ""
                     } else str1="02"
                 }
@@ -212,7 +212,7 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
+fun bestHighJump(jumps: String): Int{
     val parts = jumps.split(" ")
     val list:MutableList<String> = mutableListOf()
     for (i in 1..parts.size-1){

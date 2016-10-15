@@ -76,7 +76,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double  {
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
     val gradus = grad + (min / 60.0) + (sec / 3600.0)
-    val rad = Math.toRadians(gradus)
+    val rad = (gradus * PI) / 180
     return rad
 }
 
@@ -89,8 +89,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
     val x0 = x2 - x1
     val y0 = y2 - y1
-    val L = Math.sqrt( sqr(x0) + sqr(y0))
-    return L
+    val l = Math.sqrt( sqr(x0) + sqr(y0))
+    return l
 }
 
 /**
@@ -100,9 +100,9 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int  {
-    val ostatok = number % 1000
-    val zifra3 = ostatok / 100
-    return zifra3
+    val rest = number % 1000
+    val digit = rest / 100
+    return digit
 }
 
 /**

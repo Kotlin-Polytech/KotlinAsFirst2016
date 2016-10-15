@@ -126,6 +126,7 @@ class Tests {
         assertFalse(squareBetweenExists(999, 1001))
     }
 
+
     @Test
     @Tag("Easy")
     fun sin() {

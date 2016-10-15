@@ -115,7 +115,7 @@ fun mean(list: List<Double>): Double {
     if (list.size == 0) return 0.0
     var result = 0.0
     for (element in list) {
-        result+= element
+        result += element
     }
     result /= list.size
     return result
@@ -128,13 +128,13 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var center=0.0
-    for (i in 0..list.size-1){
+    var center = 0.0
+    for (i in 0..list.size - 1){
         center += list[i]
     }
-    center/=list.size
-    for (i in 0..list.size-1){
-        list[i]=list[i]-center
+    center /= list.size
+    for (i in 0..list.size - 1){
+        list[i] = list[i] - center
     }
     return list
 }
@@ -148,9 +148,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     if ((a.size==0) || (b.size==0)) return 0.0
-    var element= 0.0
-    for (i in 0..a.size-1){
-        element=element+(a[i]*b[i])
+    var element = 0.0
+    for (i in 0..a.size - 1){
+        element += (a[i] * b[i])
     }
     return element
 }
@@ -165,17 +165,17 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 
 fun stepDouble(x:Double, s:Int):Double {
-    var x1=1.0
+    var x1 = 1.0
     for (i in 1..s){
-        x1=x1*x
+        x1 *= x
     }
     return x1
 }
 
 fun polynom(p: List<Double>, x: Double): Double {
-    var result=0.0
+    var result = 0.0
     for (i in 0..p.size-1) {
-        result+=p[i]*stepDouble(x,i)
+        result += p[i] * stepDouble(x,i)
     }
     return result
 }
@@ -190,9 +190,9 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var a:MutableList<Double> = list
-    for (i in 1..list.size-1) {
-        if (i==1) a[i] = list[i]
-        a[i]=list[i]+a[i-1]
+    for (i in 1..list.size - 1) {
+        if (i == 1) a[i] = list[i]
+        a[i] = list[i] + a[i-1]
     }
     return a
 }
@@ -206,11 +206,11 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     var list:MutableList<Int> = mutableListOf()
-    var nMutable=n
+    var nMutable = n
     for (i in 2..n){
-        while(nMutable%i==0) {
+        while(nMutable%i == 0) {
             if (nMutable % i == 0) {
-                nMutable/= i
+                nMutable /= i
                 list.add(i)
             }
         }
@@ -229,17 +229,7 @@ fun buildExample(list: List<Int>):String = list.joinToString(separator = "*")
 
 
 fun factorizeToString(n: Int): String {
-    var list:MutableList<Int> = mutableListOf()
-    var nMutable=n
-    for (i in 2..n){
-        while(nMutable%i==0) {
-            if (nMutable % i == 0) {
-                nMutable/= i
-                list.add(i)
-            }
-        }
-    }
-    return buildExample(list)
+    return buildExample(factorize(n))
 }
 
 /**
@@ -252,13 +242,13 @@ fun factorizeToString(n: Int): String {
 
 fun convert(n: Int, base: Int): List<Int> {
     var list : MutableList<Int> = mutableListOf()
-    if (n==0) return listOf(0)
-    if (n==1) return listOf(1)
-    var n1=n*base
-    var mod=0
-    while (n1 !=0){
-        n1/=base
-        mod=n1%base
+    if (n == 0) return listOf(0)
+    if (n == 1) return listOf(1)
+    var n1 = n * base
+    var mod = 0
+    while (n1 != 0){
+        n1 /= base
+        mod = n1 % base
         list.add(0,mod)
     }
     list.removeAt(0)
@@ -277,42 +267,42 @@ fun str(list: List<String>):String = list.joinToString(separator = "")
 
 fun convertToString(n: Int, base: Int): String {
     var list:MutableList<String> = mutableListOf()
-    if (n==0) return "0"
-    if (n==1) return "1"
-    var n1=n*base
-    var mod=0
-    while (n1 !=0 ){
-        n1/=base
-        mod=n1%base
-        var str=""
-        for (i in 'a'..'z') str+=i
-        if (mod>9) {
-            if (mod==10) list.add(0,"a")
-            if (mod==11) list.add(0,"b")
-            if (mod==12) list.add(0,"c")
-            if (mod==13) list.add(0,"d")
-            if (mod==14) list.add(0,"e")
-            if (mod==15) list.add(0,"f")
-            if (mod==16) list.add(0,"g")
-            if (mod==17) list.add(0,"h")
-            if (mod==18) list.add(0,"i")
-            if (mod==19) list.add(0,"j")
-            if (mod==20) list.add(0,"k")
-            if (mod==21) list.add(0,"l")
-            if (mod==22) list.add(0,"m")
-            if (mod==23) list.add(0,"n")
-            if (mod==24) list.add(0,"o")
-            if (mod==25) list.add(0,"p")
-            if (mod==26) list.add(0,"q")
-            if (mod==27) list.add(0,"r")
-            if (mod==28) list.add(0,"s")
-            if (mod==29) list.add(0,"t")
-            if (mod==30) list.add(0,"u")
-            if (mod==31) list.add(0,"v")
-            if (mod==32) list.add(0,"w")
-            if (mod==33) list.add(0,"x")
-            if (mod==34) list.add(0,"y")
-            if (mod==35) list.add(0,"z")
+    if (n == 0) return "0"
+    if (n == 1) return "1"
+    var n1 = n * base
+    var mod = 0
+    while (n1 != 0 ){
+        n1 /= base
+        mod = n1 % base
+        var str = ""
+        for (i in 'a'..'z') str += i
+        if (mod > 9) {
+            if (mod == 10) list.add(0,"a")
+            if (mod == 11) list.add(0,"b")
+            if (mod == 12) list.add(0,"c")
+            if (mod == 13) list.add(0,"d")
+            if (mod == 14) list.add(0,"e")
+            if (mod == 15) list.add(0,"f")
+            if (mod == 16) list.add(0,"g")
+            if (mod == 17) list.add(0,"h")
+            if (mod == 18) list.add(0,"i")
+            if (mod == 19) list.add(0,"j")
+            if (mod == 20) list.add(0,"k")
+            if (mod == 21) list.add(0,"l")
+            if (mod == 22) list.add(0,"m")
+            if (mod == 23) list.add(0,"n")
+            if (mod == 24) list.add(0,"o")
+            if (mod == 25) list.add(0,"p")
+            if (mod == 26) list.add(0,"q")
+            if (mod == 27) list.add(0,"r")
+            if (mod == 28) list.add(0,"s")
+            if (mod == 29) list.add(0,"t")
+            if (mod == 30) list.add(0,"u")
+            if (mod == 31) list.add(0,"v")
+            if (mod == 32) list.add(0,"w")
+            if (mod == 33) list.add(0,"x")
+            if (mod == 34) list.add(0,"y")
+            if (mod == 35) list.add(0,"z")
         }
         else list.add(0,"$mod")
     }
@@ -338,7 +328,7 @@ fun step(x:Int, n:Int):Int {
 fun decimal(digits: List<Int>, base: Int): Int {
     var result=0
     for ( i in 0..digits.size-1) {
-        result += (digits[i]* step(base,digits.size-1-i))
+        result+=(digits[i]*step(base,digits.size-1-i))
     }
     return result
 }
@@ -360,7 +350,7 @@ fun decimalFromString(str: String, base: Int): Int {
         if (str[i] in 'a'..'z') {
             Int=str[i]-'a'+10
         } else Int=str[i] -'0'
-        result += (Int*step(base,str.length-1-i))
+        result+=(Int*step(base,str.length-1-i))
     }
     return result
 }
@@ -447,7 +437,7 @@ fun russian(n: Int): String {
         if ((thous%10 in 2..4) && (thous%100 !in 12..14)) str1+=" тысячи "
         if ((thous%10 in 5..9) || (thous%100 in 12..14)) str1+=" тысяч "
         if (x == 0) str1+=" две тысячи "
-        if (x==2) str1+=" одна тысяча "
+        if (x == 2) str1+=" одна тысяча "
         result=str1+str2
     }
 return result.trim()

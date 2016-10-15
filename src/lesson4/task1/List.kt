@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 import lesson3.task1.pow
 
 fun pow(x: Int, y: Int): Int {
@@ -119,8 +120,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var sum = 0.0
     for (element in v) {
-        val el = element
-        sum += el * el
+        sum += element * element
     }
     return Math.sqrt(sum)
 }
@@ -191,22 +191,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    fun sum(list: List<Double>, n: Int): Double {
-        var sum = 0.0
-        for (i in 0..n - 1) {
-            val element = list[i]
-            sum += element
-        }
-        return sum
-    }
-    //знаю, костыль
-    var oldList = listOf<Double>()
-    for (i in 0..list.size - 1) oldList += list[i]
+    var sum = 0.0
     for (i in 0..list.size - 1) {
-        if (i == 0)
-            list[i] = list[i]
-        else
-            list[i] = list [i] + sum(oldList, i)
+        sum += list[i]
+        list[i] = sum
     }
     return list
 }
@@ -221,14 +209,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var number = n
     val result = mutableListOf<Int>()
-    var k = 2
-    while (number != 1) {
-        if (number % k == 0) {
-            number /= k
-            result.add(k)
-            k = 2
-        } else
-            k++
+    for (i in 1..number) {
+        if (isPrime(i)) {
+            while (number % i == 0) {
+                result.add(i)
+                number /= i
+            }
+        }
     }
     return result
 }
@@ -267,7 +254,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var result = ""
+    val list = convert(n, base)
+    for (element in list) {
+        if (element < 10) {
+            result += element
+        } else {
+            result += ('a' - 10 + element)
+        }
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -295,7 +293,19 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var result = 0
+    var pow = 1
+    for (i in str.length - 1 downTo 0) {
+        if (str[i] <= '9') {
+            result += (str[i] - '0') * pow
+        } else {
+            result += (str[i] - ('a' - 10)) * pow
+        }
+        pow *= base
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -305,7 +315,20 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var number = n
+    var result = ""
+    val list1 = mutableListOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val list2 = mutableListOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    var i = 0
+    while (number > 0) {
+        if (number >= list1[i]) {
+            number -= list1[i]
+            result += list2[i]
+        } else i++
+    }
+    return result
+}
 
 /**
  * Очень сложная

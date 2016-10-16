@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import lesson4.task1.abs
+
 /**
  * Пример
  *
@@ -97,26 +99,19 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 
-//переделать
-fun lcm(m: Int, n: Int): Int {
-    /*var k = 0
-    val l = m * n
-    for (i in 1..l) {
-        if (i % m == 0 && i % n == 0) {
-            k = i
-            break
-        }
-    }
-    return k
-    */
-    //2 способ алгортим Евклида
+//вынести в отдельную функцию вычисление НОДа
+fun nod(m: Int, n: Int): Int {
     var m1 = m
     var n1 = n
     while (m1 != n1) {
         if (m1 > n1) m1 -= n1
         else n1 -= m1
     }
-    return (m * n) / m1
+    return m1
+}
+
+fun lcm(m: Int, n: Int): Int {
+    return m / nod(m, n) * n
 }
 
 
@@ -163,15 +158,9 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
+//использовать функцию из класса Loop
 
-fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..Math.min(m, n)) {
-        if ((m % i == 0) && (n % i == 0)) {
-            return false
-        }
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
 
 /**
  * Простая
@@ -199,7 +188,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 
 fun sin(x: Double, eps: Double): Double {
-    var count = 1
+    /*var count = 1
     var a = x
     var A = x
     while (Math.abs(a) >= Math.abs(eps)) {
@@ -208,6 +197,8 @@ fun sin(x: Double, eps: Double): Double {
         A += a
     }
     return A
+    */
+    TODO()
 }
 
 /**
@@ -261,20 +252,12 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var b = n
-    var m = 0
     var a = 0
     if (n < 10) return false
-    else {
-        m = b
-        while (b > 0) {
-            a = b % 10
-            b /= 10
-            m = b
-            while (m > 0) {
-                if (a == m % 10) m /= 10
-                else return true
-            }
-        }
+    while (b >= 10) {
+        a = b % 10
+        b /= 10
+        if (a != b % 10) return true
     }
     return false
 }
@@ -300,8 +283,7 @@ fun fibSequenceDigit(n: Int): Int {
     var c = 0
     var a = 1
     var b = 1
-    var m = 10
-    var l = 1
+    var l = 0
     var count = 2
     var count2 = 0
     if (n in 1..2) return 1
@@ -309,10 +291,7 @@ fun fibSequenceDigit(n: Int): Int {
         c = a + b
         a = b
         b = c
-        while (c > m) {
-            m *= 10
-            l++
-        }
+        l = digitNumber(c)
         count += l
     }
     if (count != n) {

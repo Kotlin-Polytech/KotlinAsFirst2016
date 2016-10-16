@@ -326,4 +326,56 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val units = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val from11to19 = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
+            "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val decades = listOf("десять", "двадцать", "тридцать", "сорок",
+            "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val hundreds = listOf("сто", "двести", "триста", "четыреста",
+            "пятьсот","шестьсот","семьсот", "восемьсот", "девятьсот")
+    val thousands = listOf("тысяча", "тысячи", "тысяч")
+    val unitsOfThousands = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    var listInt = listOf<Int>()
+    var listStr = listOf<String>()
+    var listResult = listOf<String>()
+    var number = n
+    while (number > 0){
+        listInt += number % 10
+        number/= 10
+    }
+    for (i in 0..listInt.size - 1) {
+        val element = listInt[i]
+        if (element != 0)
+            when (i) {
+                0 -> if (listInt.size > 1 && listInt[i + 1] == 1) listStr += from11to19[element - 1]
+                     else listStr += units[element - 1]
+                1 -> if (!(element == 1 && listInt[i - 1] != 0)) listStr += decades[element - 1]
+                2 -> listStr += hundreds[element - 1]
+            }
+    }
+    if (listInt.size > 3) {
+        listInt = listInt.subList(3, listInt.size)
+        if (listInt.size > 1 && listInt[1] == 1) listStr += thousands[2]
+        else when (listInt[0]) {
+            1 -> listStr += thousands[0]
+            in 2..4 -> listStr += thousands[1]
+            else -> listStr += thousands[2]
+        }
+        for (i in 0..listInt.size - 1) {
+            val element = listInt[i]
+            if (element != 0)
+                when (i) {
+                    0 -> if (listInt.size > 1 && listInt[i + 1] == 1) listStr += from11to19[element - 1]
+                         else listStr += unitsOfThousands[element - 1]
+                    1 -> if (!(element == 1 && listInt[i - 1] != 0)) listStr += decades[element - 1]
+                    2 -> listStr += hundreds[element - 1]
+                }
+        }
+    }
+    for (element in listStr){
+        val list = listOf(element)
+        listResult = list + listResult
+    }
+    return listResult.joinToString(separator = " ")
+}

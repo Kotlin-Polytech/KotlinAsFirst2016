@@ -62,33 +62,64 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
+    /* val parts = str.split(" ")
+     var res = ""
+     try {
+         if (parts.size != 3 || parts[0].toInt() !in 1..31 || parts[2].toInt() < 0)
+             return ""
+     } catch (e: NumberFormatException) {
+         return ""
+     }
+     res = parts[0]
+     res.format("%02d", parts[0])
+     when (parts[1]) {
+         "января" -> res += ".01."
+         "февраля" -> res += ".02."
+         "марта" -> res += ".03."
+         "апреля" -> res += ".04."
+         "мая" -> res += ".05."
+         "июня" -> res += ".06."
+         "июля" -> res += ".07."
+         "августа" -> res += ".08."
+         "сентября" -> res += ".09."
+         "октября" -> res += ".10."
+         "ноября" -> res += ".11."
+         "декабря" -> res += ".12."
+         else -> return ""
+     }
+     res += parts[2]
+     return res */
     val parts = str.split(" ")
-    var res = ""
+    val resDay: Int
+    val resMonth: Int
+    val resYear: Int
+    if (parts.size != 3) return ""
     try {
-        if (parts.size != 3 || parts[0].toInt() !in 1..31 || parts[2].toInt() < 0)
-            return ""
+        resDay = parts[0].toInt()
+        resYear = parts[2].toInt()
     } catch (e: NumberFormatException) {
         return ""
     }
-    if (parts[0].toInt() < 10) res += "0"
-    res += parts[0]
-    when (parts[1]) {
-        "января" -> res += ".01."
-        "февраля" -> res += ".02."
-        "марта" -> res += ".03."
-        "апреля" -> res += ".04."
-        "мая" -> res += ".05."
-        "июня" -> res += ".06."
-        "июля" -> res += ".07."
-        "августа" -> res += ".08."
-        "сентября" -> res += ".09."
-        "октября" -> res += ".10."
-        "ноября" -> res += ".11."
-        "декабря" -> res += ".12."
+    if (resDay !in 1..31 || resYear < 0) return ""
+
+    resMonth = when (parts[1]) {
+        "января" -> 1
+        "февраля" -> 2
+        "марта" -> 3
+        "апреля" -> 4
+        "мая" -> 5
+        "июня" -> 6
+        "июля" -> 7
+        "августа" -> 8
+        "сентября" -> 9
+        "октября" -> 10
+        "ноября" -> 11
+        "декабря" -> 12
         else -> return ""
     }
-    res += parts[2]
-    return res
+    return String.format("%02d.%02d.%d", resDay, resMonth, resYear)
+
+
 }
 
 /**
@@ -119,7 +150,7 @@ fun dateDigitToStr(digital: String): String {
         "08" -> res += " августа "
         "09" -> res += " сентября "
         "10" -> res += " октября "
-        "11" -> res += " ноября"
+        "11" -> res += " ноября "
         "12" -> res += " декабря "
         else -> return ""
     }

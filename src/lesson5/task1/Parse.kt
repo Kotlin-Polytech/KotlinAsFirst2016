@@ -118,7 +118,31 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.isEmpty()) return ""
+    var phonenum = phone.filter { it != ' ' && it != '-' }
+    val indexopen = phonenum.indexOf('(') //находим индекс открывающейся скобки
+    if (indexopen != -1) { //если открывающаяся скобка есть, то проверяем, что она одна
+        if (indexopen != phonenum.lastIndexOf('(')) return ""
+    }
+    val indexclose = phonenum.indexOf(')') //то же самое с закрывающейся скобкой
+    if (indexclose != -1) {
+        if (indexclose != phonenum.lastIndexOf(')')) return ""
+    }
+    if ((indexopen != -1 && indexclose == -1) || //если скобка открывается, но не закрывается
+            (indexopen == -1 && indexclose != -1)) return "" //если закрывается, но не открывается
+    if (indexopen > indexclose) return "" //если сначала закрывается, а потом открывается
+    val indexplus = phonenum.indexOf('+') //находим индекс плюса
+    if (indexplus != phonenum.lastIndexOf('+')) return "" //если плюс не один - ошибка
+    //если плюса нет или он в начале(нулевой индекс) - хорошо, иначе ошибка
+    if (indexplus > 0) return ""
+    phonenum = phonenum.filter { it != '(' && it != ')' } //убираем скобки
+    val phonenum1 = phonenum.filter { it == '+' || it in '0'..'9' } //оставляем только плюс и цифры
+    //если отфильтрованная строка не совпадает с изначальной, то
+    // там есть символы, кроме + и цифр, что является ошибкой, а иначе все хорошо
+    if (!phonenum.equals(phonenum1)) return ""
+    else return phonenum1
+}
 
 /**
  * Средняя

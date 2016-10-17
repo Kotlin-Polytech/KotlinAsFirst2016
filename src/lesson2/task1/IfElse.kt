@@ -37,13 +37,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val a = age % 10;
-    if (a == 0 || a >= 5 || age in 105..120 || (age in 5..20)) {
-        return "$age лет"
-    } else if (a > 1 && a < 5) {
-        return "$age года"
-    } else {
-        return "$age год"
+    when {
+        age % 10 == 0 || age % 10 >= 5 || age in 105..120 || age in 5..20 -> return "$age лет"
+        age % 10 > 1 && age % 10 < 5 -> return "$age года"
+        else -> return "$age год"
     }
 }
 
@@ -61,12 +58,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = t2 * v2
     val s3 = t3 * v3
     val s = (s1 + s2 + s3) / 2
-    if (s <= s1) {
-        return s / v1
-    } else if (s <= s1 + s2) {
-        return t1 + (s - s1) / v2
-    } else {
-        return t1 + t2 + (s - s1 - s2) / v3
+    when {
+        s <= s1 -> return s / v1
+        s <= s1 + s2 -> return t1 + (s - s1) / v2
+        else -> return t1 + t2 + (s - s1 - s2) / v3
     }
 }
 
@@ -132,11 +127,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a + b > c && b + c > a && a + c > b) {
-        if (sqr(a) + sqr(b) == sqr(c) || sqr(b) + sqr(c) == sqr(a) || sqr(a) + sqr(c) == sqr(b)) return 1
+    when {
+        a + b > c && b + c > a && a + c > b ->
+            if (sqr(a) + sqr(b) == sqr(c) || sqr(b) + sqr(c) == sqr(a) || sqr(a) + sqr(c) == sqr(b)) return 1
         else if (sqr(a) + sqr(b) < sqr(c) || sqr(b) + sqr(c) < sqr(a) || sqr(a) + sqr(c) < sqr(b)) return 2
         else return 0
-    } else return -1
+        else -> return -1
+    }
 }
 
 
@@ -149,15 +146,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (b in c..d && a in c..d) {
-        return (b - a)
-    } else if (d in a..b && c in a..b) {
-        return d - c
-    } else if (c in a..b) {
-        return b - c
-    } else if (a in c..d) {
-        return d - a
-    } else if (b == c || d == a) {
-        return 0
-    } else return -1
+    when {
+        b in c..d && a in c..d -> return (b - a)
+        d in a..b && c in a..b -> return d - c
+        c in a..b -> return b - c
+        a in c..d -> return d - a
+        b == c || d == a -> return 0
+        else -> return -1
+    }
 }

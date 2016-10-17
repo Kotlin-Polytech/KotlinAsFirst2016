@@ -24,8 +24,7 @@ fun isNumberHappy(number: Int): Boolean {
     val b = number / 100 % 10
     val c = number % 100 / 10
     val d = number % 10
-    if (a + b == c + d) return true
-    else return false
+    return a + b == c + d
 }
 
 /**
@@ -34,11 +33,7 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (abs(x1 - x2) == abs(y1 - y2) || (x1 == x2) || (y1 == y2)) {
-        return true
-    } else return false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = abs(x1 - x2) == abs(y1 - y2) || (x1 == x2) || (y1 == y2)
 
 /**
  * Средняя
@@ -49,9 +44,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if (sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2) {
-        return true
-    } else return false
+    return sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1 <= r2
 }
 
 /**
@@ -67,32 +60,32 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     //sorting
     var x1 = 0
     var x2 = 0
-    if (a <= b && a <= c) {
-        x1 = a
-        if (b <= c) {
-            x2 = b
-        } else {
-            x2 = c
+    when {
+        a <= b && a <= c -> {
+            x1 = a
+            if (b <= c) {
+                x2 = b
+            } else {
+                x2 = c
+            }
         }
-    } else if (b <= a && b <= c) {
-        x1 = b
-        if (a < c) {
-            x2 = a
-        } else {
-            x2 = c
+        b <= a && b <= c -> {
+            x1 = b
+            if (a < c) {
+                x2 = a
+            } else {
+                x2 = c
+            }
         }
-    } else if (c <= b && c <= a) {
-        x1 = c
-        if (b < a) {
-            x2 = b
-        } else {
-            x2 = a
+        c <= b && c <= a -> {
+            x1 = c
+            if (b < a) {
+                x2 = b
+            } else {
+                x2 = a
+            }
         }
     }
     //main part
-    if (x1 <= s && x2 <= r || x1 <= r && x2 <= s) {
-        return true
-    } else {
-        return false
-    }
+    return x1 <= s && x2 <= r || x1 <= r && x2 <= s
 }

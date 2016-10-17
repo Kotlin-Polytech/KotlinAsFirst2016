@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -111,7 +112,10 @@ fun abs(v: List<Double>): Double = TODO()
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty() == true) return 0.0
+    else return list.sum() / list.size
+}
 
 /**
  * Средняя
@@ -119,7 +123,15 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val averageEqual = list.sum() / list.size
+    for (i in 0..list.size - 1) {
+        val secondList = list[i]
+        list[i] = secondList-averageEqual
+    }
+    return list
+}
+
 
 /**
  * Средняя

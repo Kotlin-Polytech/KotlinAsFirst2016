@@ -51,6 +51,12 @@ fun main(args: Array<String>) {
     }
 }
 
+
+//////////////////////////////////////////////////////////////////////////
+val monthlist = listOf("января", "февраля", "марта", "апреля", "мая",
+        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+//////////////////////////////////////////////////////////////////////////
+
 /**
  * Средняя
  *
@@ -63,20 +69,34 @@ fun dateStrToDigit(str: String): String {
     if (str.isEmpty()) return ""
     val parts = str.split(" ")
     if (parts.size != 3) return ""
-    var month = listOf<String>("января", "февраля", "марта", "апреля", "мая",
-            "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    var index = month.indexOf(parts[1])
+    val index = monthlist.indexOf(parts[1])
     if (index == -1) return ""
-    var numb = 0
-    var year = 0
+    val numb: Int
+    val year: Int
     try {
         numb = parts[0].toInt()
         year = parts[2].toInt()
+        if (!dateCheck(numb, index + 1, year)) return ""
     } catch (e: NumberFormatException) {
         return ""
     }
     return String.format("%02d.%02d.%d", numb, index + 1, year)
 }
+
+/////////////////////////////
+fun dateCheck(numb: Int, month: Int, year: Int): Boolean {
+    if (month !in 1..12 || year < 1 || numb !in 1..31) return false
+    if (month == 4 || month == 6 || month == 9 || month == 11) {
+        if (numb > 30) return false
+    }
+    if (month == 2) {
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+            if (numb > 29) return false
+        } else if (numb > 28) return false
+    }
+    return true
+}
+//////////////////////////////////
 
 /**
  * Средняя
@@ -89,21 +109,18 @@ fun dateDigitToStr(digital: String): String {
     if (digital.isEmpty()) return ""
     val parts = digital.split(".")
     if (parts.size != 3) return ""
-    var listmonth = listOf<String>("января", "февраля", "марта", "апреля", "мая",
-            "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    var numb = 0
-    var month = 0
-    var year = 0
+    val numb: Int
+    val month: Int
+    val year: Int
     try {
         numb = parts[0].toInt()
         month = parts[1].toInt()
-        if (month !in 1..12) return ""
         year = parts[2].toInt()
+        if (!dateCheck(numb, month, year)) return ""
     } catch (e: NumberFormatException) {
         return ""
     }
-    return String.format("%d %s %d", numb, listmonth[month - 1], year)
-
+    return String.format("%d %s %d", numb, monthlist[month - 1], year)
 }
 
 /**
@@ -122,20 +139,26 @@ fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
     var phonenum = phone.filter { it != ' ' && it != '-' }
     val indexopen = phonenum.indexOf('(') //находим индекс открывающейся скобки
-    if (indexopen != -1) { //если открывающаяся скобка есть, то проверяем, что она одна
-        if (indexopen != phonenum.lastIndexOf('(')) return ""
-    }
+    //если открывающаяся скобка есть, то проверяем, что она одна
+    if (!search(indexopen, phonenum, '(')) return ""
     val indexclose = phonenum.indexOf(')') //то же самое с закрывающейся скобкой
-    if (indexclose != -1) {
-        if (indexclose != phonenum.lastIndexOf(')')) return ""
-    }
+    if (!search(indexclose, phonenum, ')')) return ""
     if ((indexopen != -1 && indexclose == -1) || //если скобка открывается, но не закрывается
             (indexopen == -1 && indexclose != -1)) return "" //если закрывается, но не открывается
     if (indexopen > indexclose) return "" //если сначала закрывается, а потом открывается
     val indexplus = phonenum.indexOf('+') //находим индекс плюса
-    if (indexplus != phonenum.lastIndexOf('+')) return "" //если плюс не один - ошибка
+    //если плюс не один - ошибка
+    if (!search(indexplus, phonenum, '+')) return ""
     //если плюса нет или он в начале(нулевой индекс) - хорошо, иначе ошибка
     if (indexplus > 0) return ""
+    //проверяем, есть ли между плюсом и открывающейся скобкой хотя бы одна цифра
+    if (indexopen != -1 && indexplus == 0) {
+        if (indexopen - indexplus < 2) return ""
+    }
+    //проверяем, есть ли между двумя скобками хотя бы одна цифра
+    if (indexopen != -1 && indexclose != -1) {
+        if (indexclose - indexopen < 2) return ""
+    }
     phonenum = phonenum.filter { it != '(' && it != ')' } //убираем скобки
     val phonenum1 = phonenum.filter { it == '+' || it in '0'..'9' } //оставляем только плюс и цифры
     //если отфильтрованная строка не совпадает с изначальной, то
@@ -143,6 +166,16 @@ fun flattenPhoneNumber(phone: String): String {
     if (!phonenum.equals(phonenum1)) return ""
     else return phonenum1
 }
+
+///////////////////////////////////////////////////
+fun search(index: Int, str: String, ch: Char): Boolean {
+    if (index != -1) {
+        if (index != str.lastIndexOf(ch)) return false
+    }
+    return true
+}
+///////////////////////////////////////////////////
+
 
 /**
  * Средняя
@@ -157,14 +190,16 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
     var jump = jumps.filter { it != '%' && it != '-' }
-    jump = jump.trim() //убираем пробелы спереди и сзади
-    var results = jump.split(" ")
+    jump = deletespace(jump)
+    val results = jump.split(" ")
     if (results.size == 0) return -1
     var answer = -1
+    var elem: Int
     try {
         for (element in results) {
-            if (element.length != 0 && element.toInt() > answer)
-                answer = element.toInt()
+            elem = element.toInt()
+            if (elem > answer)
+                answer = elem
         }
 
     } catch (e: NumberFormatException) {
@@ -172,6 +207,15 @@ fun bestLongJump(jumps: String): Int {
     }
     return answer
 }
+
+/////////////////////////////////////////////////////////////
+fun deletespace(str: String): String {
+    var new = str.trim()
+    while (new.contains("  "))
+        new = new.replace("  ", " ")
+    return new
+}
+////////////////////////////////////////////////////////////
 
 /**
  * Сложная

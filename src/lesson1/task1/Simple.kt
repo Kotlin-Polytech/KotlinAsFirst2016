@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -116,7 +117,7 @@ fun thirdDigit(number: Int): Int {
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int{
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     val a = (hoursArrive - hoursDepart) * 60
     val b = minutesArrive - minutesDepart
     val c = a + b
@@ -131,7 +132,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double{
+fun accountInThreeYears(initial: Int, percent: Int): Double {
     val a = initial + (initial * 0.01 * percent)
     val b = a + (a * 0.01 * percent)
     val c = b + (b * 0.01 * percent)
@@ -144,7 +145,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double{
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int{
+fun numberRevert(number: Int): Int {
     val a = (number % 100) % 10
     val b = (number % 100) / 10
     val c = number / 100

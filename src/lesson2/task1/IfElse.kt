@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -34,7 +35,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String= when {
+fun ageDescription(age: Int): String = when {
     (age % 10 == 0) -> "$age лет"
     ((age % 10 == 1) && (age % 100 != 11)) -> "$age год"
     ((age % 10 == 2) && (age % 100 != 12)) -> "$age года"
@@ -50,11 +51,6 @@ fun ageDescription(age: Int): String= when {
 }
 
 
-
-
-
-
-
 /**
  * Простая
  *
@@ -64,7 +60,7 @@ fun ageDescription(age: Int): String= when {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double{
+                   t3: Double, v3: Double): Double {
     val s1 = t1 * v1
     val s2 = t2 * v2
     val s3 = t3 * v3
@@ -104,7 +100,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int{
+                          bishopX: Int, bishopY: Int): Int {
     if ((kingX == rookX) || (kingY == rookY)) {
         if ((Math.abs(kingX - bishopX) == (Math.abs(kingY - bishopY)))) return 3
         else return 1

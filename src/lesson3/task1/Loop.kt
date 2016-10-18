@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
-package lesson3.task1
 
-import lesson4.task1.mpow
+package lesson3.task1
 
 /**
  * Пример
@@ -36,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -73,9 +72,6 @@ fun digitNumber(n: Int): Int {
 }
 
 
-
-
-
 /**
  * Простая
  *
@@ -96,6 +92,7 @@ fun fib(n: Int): Int {
     }
     return 1
 }
+
 /**
  * Простая
  *
@@ -112,12 +109,13 @@ fun lcm(m: Int, n: Int): Int {
     }
     return k / evc
 }
+
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int{
+fun minDivisor(n: Int): Int {
     var del = n
     var min = 1
     for (i in 2..n) {
@@ -134,7 +132,7 @@ fun minDivisor(n: Int): Int{
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int{
+fun maxDivisor(n: Int): Int {
     var del = n
     var max = 1
     for (i in (n - 1) downTo 2) {
@@ -153,7 +151,7 @@ fun maxDivisor(n: Int): Int{
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean{
+fun isCoPrime(m: Int, n: Int): Boolean {
     val min = Math.min(m, n)
     for (i in 2..min) {
         if ((m % i == 0) && (n % i == 0)) return false
@@ -168,7 +166,7 @@ fun isCoPrime(m: Int, n: Int): Boolean{
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean{
+fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
     var quadr = 0
     while (quadr < m) {
@@ -226,7 +224,7 @@ fun cos(x: Double, eps: Double): Double {
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int{
+fun revert(n: Int): Int {
     var result = 0
     var number = n
     while (number > 0) {
@@ -272,8 +270,9 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun strok(n:Int):Int=n.toString().length
-fun squareSequenceDigit(n: Int): Int{
+fun strok(n: Int): Int = n.toString().length
+
+fun squareSequenceDigit(n: Int): Int {
     var number = 0
     var result = 0
     var k = 0

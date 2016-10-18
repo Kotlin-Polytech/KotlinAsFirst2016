@@ -238,9 +238,20 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    for (element in expression) {
+        if ((element !in '0'..'9') && (element != '+') && (element != '-') && (element != ' '))
+            throw IllegalArgumentException()
+    }
     val parts = expression.split(" ")
     var result = 0
-    for (i in 0..parts.size - 1) {
+    var x = -1
+    if (parts[0] == "-") x = 0 else x = 1
+    for (i in x..parts.size - 1 step (2)) {
+        if ((parts[i] != "-") && (parts[i] != "+")) throw IllegalArgumentException()
+        if (('-' in parts[i + 1]) || ('+' in parts[i + 1])) throw IllegalArgumentException()
+    }
+    if ((x == 1) && (('-' in parts[0]) || ('+' in parts[0]))) throw IllegalArgumentException()
+    for (i in x..parts.size - 1) {
         when {
             (parts[i] == "+") -> result += parts[i + 1].toInt()
             (parts[i] == "-") -> result += (parts[i + 1].toInt() * (-1))

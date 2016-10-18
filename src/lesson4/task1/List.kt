@@ -330,11 +330,10 @@ fun roman(n: Int): String {
 
     while (nn >= 1) {
         if (nn > 1000) {
-            while (nn >= 1000) {
-                thousands = nn / 1000
-                nn = nn % 1000
+            thousands = nn / 1000
+            nn = nn % 1000
 
-            }
+
         }
         if ((nn < 1000) && (nn >= 100)) {
             while (nn >= 100) {
@@ -357,10 +356,9 @@ fun roman(n: Int): String {
 
 
     }
-    when {
-        (thousands == 1) -> result += ("M")
-        (thousands == 2) -> result += ("MM")
-        (thousands == 3) -> result += ("MMM")
+    while (thousands > 0) {
+        result += ("M")
+        thousands --
     }
     when {
         (hundreds == 1) -> result += ("C")
@@ -487,7 +485,7 @@ fun russian(n: Int): String {
         if (thousands == 1) {
             result += " тысяча"
         } else
-            if ((thousands == 2) || (thousands == 3) || (thousands == 4)) {
+            if (((thousands == 2) || (thousands == 3) || (thousands == 4)) && (thousands10 != 1)) {
                 result += " тысячи"
             } else
                 result += " тысяч"

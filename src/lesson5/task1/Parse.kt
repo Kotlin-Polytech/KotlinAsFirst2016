@@ -153,6 +153,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone == "") return ""
+    if (phone == "+") return ""
     var z = 0
     if (phone[0] == '+') z = 1
     for (i in 1..phone.length - 1) {
@@ -242,6 +243,7 @@ fun plusMinus(expression: String): Int {
         if ((element !in '0'..'9') && (element != '+') && (element != '-') && (element != ' '))
             throw IllegalArgumentException()
     }
+    if (expression == "") throw IllegalArgumentException()
     val parts = expression.split(" ")
     var result = 0
     var x = -1

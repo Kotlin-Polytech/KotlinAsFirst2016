@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 
 /**
  * Пример
@@ -171,7 +172,7 @@ fun polynom(p: List<Double>, x: Double): Double {
         if (i == 0) a = p[i]
         else {
             for (j in 1..i) b *= x
-            a += p[i] *  b
+            a += p[i] * b
         }
     }
     return a
@@ -185,7 +186,13 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.isNotEmpty())
+        for (i in 1..list.size - 1) {
+            list[i] += list[i - 1]
+        }
+    return list
+}
 
 /**
  * Средняя
@@ -194,7 +201,20 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var a = listOf<Int>()
+    var x = n
+    if (isPrime(n)) return listOf(n)
+    for (i in n / 2 downTo 2) {
+        if (n % i == 0 && isPrime(i)) {
+            while (x % i == 0) {
+                a += i
+                x /= i
+            }
+        }
+    }
+    return a.sorted()
+}
 
 /**
  * Сложная
@@ -202,7 +222,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -211,7 +231,20 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var b = n
+    var x = mutableListOf<Int>()
+    while (b > base) {
+        x += b % base
+        b /= base
+    }
+    for (i in 0..x.size/2) {
+        b = x[i]
+        x[i] = x[x.size-i-1]
+        x[x.size-i-1] = b
+    }
+    return x
+}
 
 /**
  * Сложная

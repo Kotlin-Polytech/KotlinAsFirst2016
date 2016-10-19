@@ -417,26 +417,28 @@ fun russian(n: Int): String {
             thousands100 = nn / 100000
             nn = nn % 100000
         }
-        if ((nn < 100000) && (nn > 10000)) {
+        if ((nn < 100000) && (nn >= 10000)) {
             thousands10 = nn / 10000
             nn = nn % 10000
         }
-        if ((nn < 10000) && (nn > 1000)) {
+        if ((nn < 10000) && (nn >= 1000)) {
             thousands = nn / 1000
             nn = nn % 1000
         }
-        if ((nn < 1000) && (nn > 100)) {
+        if ((nn < 1000) && (nn >= 100)) {
             hundreds = nn / 100
             nn = nn % 100
         }
-        if ((nn < 100) && (nn > 10)) {
+        if ((nn < 100) && (nn >= 10)) {
             dozens = nn / 10
             nn = nn % 10
+
         }
-        if (nn < 10) {
+        if (nn < 10)
             units = nn
             nn = -1
-        }
+
+
     }
     when {
         (thousands100 == 1) -> result += "сто"
@@ -451,6 +453,7 @@ fun russian(n: Int): String {
     }
     if ((thousands10 != 0) && (thousands100 != 0)) result += " "
     when {
+        ((thousands10 == 1) && (thousands == 0)) -> result += "десять"
         ((thousands10 == 1) && (thousands == 1)) -> result += "одиннадцать"
         ((thousands10 == 1) && (thousands == 2)) -> result += "двенадцать"
         ((thousands10 == 1) && (thousands == 3)) -> result += "тринадцать"
@@ -504,6 +507,7 @@ fun russian(n: Int): String {
     }
     if ((dozens != 0) && ((hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0))) result += " "
     when {
+        ((dozens == 1) && (units == 0)) -> result += "десять"
         ((dozens == 1) && (units == 1)) -> result += "одиннадцать"
         ((dozens == 1) && (units == 2)) -> result += "двенадцать"
         ((dozens == 1) && (units == 3)) -> result += "тринадцать"

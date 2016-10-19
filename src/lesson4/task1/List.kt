@@ -232,16 +232,20 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var b = n
     var x = mutableListOf<Int>()
-    while (b > base) {
-        x += b % base
-        b /= base
-    }
-    for (i in 0..x.size/2) {
-        b = x[i]
-        x[i] = x[x.size-i-1]
-        x[x.size-i-1] = b
+    if (n < base) return listOf(n)
+    else {
+        var b = n
+        while (b > base) {
+            x.add(b % base)
+            b /= base
+        }
+        x.add(b)
+        for (i in 0..x.size / 2 - 1) {
+            b = x[i]
+            x[i] = x[x.size - i - 1]
+            x[x.size - i - 1] = b
+        }
     }
     return x
 }
@@ -254,7 +258,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var a = convert(n, base)
+    var x = mutableListOf<Char>()
+    for (i in 0..a.size - 1) {
+        if (a[i] > 9) {
+            x.add('a' + a[i] - 10)
+        } else x.add('0' + a[i])
+    }
+    return x.joinToString()
+}
 
 /**
  * Средняя

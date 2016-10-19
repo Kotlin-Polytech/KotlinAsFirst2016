@@ -130,8 +130,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     when {
         a + b > c && b + c > a && a + c > b ->
             if (sqr(a) + sqr(b) == sqr(c) || sqr(b) + sqr(c) == sqr(a) || sqr(a) + sqr(c) == sqr(b)) return 1
-        else if (sqr(a) + sqr(b) < sqr(c) || sqr(b) + sqr(c) < sqr(a) || sqr(a) + sqr(c) < sqr(b)) return 2
-        else return 0
+            else if (sqr(a) + sqr(b) < sqr(c) || sqr(b) + sqr(c) < sqr(a) || sqr(a) + sqr(c) < sqr(b)) return 2
+            else return 0
         else -> return -1
     }
 }

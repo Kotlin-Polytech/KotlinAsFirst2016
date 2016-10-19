@@ -226,6 +226,9 @@ fun plusMinus(expression: String): Int {
     } catch(e: NumberFormatException) {
         throw IllegalArgumentException(expression)
     }
+    catch (e: StringIndexOutOfBoundsException){
+        throw  IllegalArgumentException(expression)
+    }
 
 }
 

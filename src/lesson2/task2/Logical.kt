@@ -22,8 +22,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
 fun isNumberHappy(number: Int): Boolean {
     val sum1 = number % 10 + (number / 10) % 10
     val sum2 = (number / 100) % 10 + number / 1000
-    if (sum1 == sum2) return true
-    else return false
+    return  (sum1 == sum2)
+
 }
 
 
@@ -36,7 +36,7 @@ fun isNumberHappy(number: Int): Boolean {
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     val condX = Math.abs(x1 - x2)
     val condY = Math.abs(y1 - y2)
-    if ((x1 == x2) || (y1 == y2) || (condX == condY)) return true else return false
+    return ((x1 == x2) || (y1 == y2) || (condX == condY))
 }
 
 /**
@@ -49,7 +49,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
     val s = trackLength(x1, y1, x2, y2)
-    if (s + r1 <= r2) return true else return false
+    return (s + r1 <= r2)
 }
 
 /**
@@ -62,6 +62,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (((a <= r) && ((b <= s) || (c <= s))) || ((b <= r) && ((a <= s) || (c <= s))) || ((c <= r) && ((b <= s) || (a <= s))))
-        return true else return false
+    return (((a <= r) && ((b <= s) || (c <= s))) || ((b <= r) && ((a <= s) || (c <= s))) || ((c <= r) && ((b <= s) || (a <= s))))
+
 }

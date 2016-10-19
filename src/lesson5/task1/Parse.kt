@@ -141,6 +141,14 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String = TODO()
+//{
+//    var i = 0
+//    val phonestr = phone.filter{it != ' ' || it != '-' }
+//    try{
+//        for (i in 1..phonestr.)
+//        }
+//    }
+//}
 
 /**
  * Средняя
@@ -152,7 +160,21 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var max = -1
+    try {
+        for (part in parts) {
+            if (part != "%" && part != "-"){
+                val number = part.toInt()
+                 if (max < number) max = number
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
+}
 
 /**
  * Сложная

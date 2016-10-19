@@ -83,6 +83,8 @@ fun dateStrToDigit(str: String): String {
         return result
     } catch(e: IndexOutOfBoundsException) {
         return ("")
+    } catch(e: NumberFormatException) {
+        return ("")
     }
 }
 
@@ -166,10 +168,10 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     try {
-        val parts = jumps.split(" ","-","%")
+        val parts = jumps.split(" ", "-", "%")
         var result = -1
         for (part in parts) {
-            if ((part!="")&&(part.toInt() > result)) {
+            if ((part != "") && (part.toInt() > result)) {
                 result = part.toInt()
             }
         }
@@ -275,10 +277,10 @@ fun mostExpensive(description: String): String {
         var nameOfMaxCost = ""
         for (i in 0..parts.size - 1) {
             val partsOfParts = parts[i].split(" ")
-            if(partsOfParts[partsOfParts.size-1].toDouble() > maxCost){
-                maxCost=partsOfParts[partsOfParts.size-1].toDouble()
-                nameOfMaxCost=""
-                for(j in 0..partsOfParts.size-2) nameOfMaxCost+=partsOfParts[j]
+            if (partsOfParts[partsOfParts.size - 1].toDouble() > maxCost) {
+                maxCost = partsOfParts[partsOfParts.size - 1].toDouble()
+                nameOfMaxCost = ""
+                for (j in 0..partsOfParts.size - 2) nameOfMaxCost += partsOfParts[j]
             }
             /*if (partsOfParts[1].toDouble() > maxCost) {
                 maxCost = partsOfParts[1].toDouble()
@@ -286,11 +288,9 @@ fun mostExpensive(description: String): String {
             }*/
         }
         return nameOfMaxCost
-    }
-    catch (e: IndexOutOfBoundsException) {
+    } catch (e: IndexOutOfBoundsException) {
         return ""
-    }
-    catch (e: NumberFormatException){
+    } catch (e: NumberFormatException) {
         return ""
     }
 

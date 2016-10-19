@@ -33,7 +33,20 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    var sAge = "$age"
+    val ageL=age%10
+    if (age%100 in 10..20) sAge+=" лет"
+    else
+        when(ageL) {
+            0 -> sAge+=" лет"
+            1 -> sAge+=" год"
+            in 2..4 -> sAge+=" года"
+            else -> sAge+=" лет"
+        }
+
+    return sAge
+}
 
 /**
  * Простая
@@ -46,6 +59,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double = TODO()
 
+
+
 /**
  * Простая
  *
@@ -56,7 +71,24 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    val threat: Int
+    if ((kingX == rookX1 && rookX2 == kingX) || (kingY == rookY1 && rookY2 == kingY) || (kingY == rookY1 && rookX2 == kingX) || (kingX == rookX1 && rookY2 == kingY)) threat = 3
+    else if (kingX == rookX1 || kingY == rookY1) threat = 1
+    else if (kingX == rookX2 || kingY == rookY2) threat = 2
+    else threat = 0
+    return threat
+
+  /**  val threat:Int
+    when {
+        kingX==rookX1 || kingY==rookY1 -> threat=1
+        kingX==rookX2 || kingY==rookY2 -> threat=2
+        kingX==rookX1 && kingX==rookX2 || kingY==rookY1 && kingY==rookY2 -> threat=3
+        else -> threat=0
+    }
+    return threat
+   */
+}
 
 /**
  * Простая
@@ -69,7 +101,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val threat:Int
+    if ((Math.abs(bishopX-kingX)==Math.abs(bishopY-kingY)) && (rookX==kingX || rookY==kingY))  threat=3
+    else if (Math.abs(bishopX-kingX)==Math.abs(bishopY-kingY)) threat=2
+    else if (rookX==kingX || rookY==kingY) threat=1
+    else threat=0
+    return threat
+}
 
 /**
  * Простая
@@ -79,7 +118,29 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val kind:Int
+    if (a+b<c || c+a<b || b+c<a) kind=-1
+    else {
+        if (a >= b && a >= c) {
+            if (b*b+c*c>a*a) kind=0
+            else if (b*b+c*c<a*a) kind=2
+            else kind=1
+        }
+        else if (b>=a && b>=c) {
+            if (a*a+c*c>b*b) kind=0
+            else if (a*a+c*c<b*b) kind=2
+            else kind=1
+        }
+        else if (c>=a && c>=b) {
+            if (a*a+b*b>c*c) kind=0
+            else if (a*a+b*b<c*c) kind=2
+            else kind=1
+        }
+        else kind=-1
+    }
+    return kind
+}
 
 /**
  * Средняя

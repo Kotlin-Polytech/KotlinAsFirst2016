@@ -91,11 +91,15 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    if (n == 1 || n == 2) {
-        return 1
-    } else {
-        return fib(n - 1) + fib(n - 2)
+    var x = 1
+    var y = 0
+    var result = 0
+    for (i in 1..n) {
+        result = x + y
+        x = y
+        y = result
     }
+    return result
 }
 
 /**
@@ -141,25 +145,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var result = true
-    val max: Int
-    val min: Int
-    if (m > n) {
-        max = m
-        min = n
-    } else {
-        max = n
-        min = m
-    }
-    for (i in 2..max) {
-        if (max % i == 0 && min % i == 0) {
-            result = false
-            break
-        }
-    }
-    return result
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -251,7 +237,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = n.toString() == n.toString().reversed()
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя

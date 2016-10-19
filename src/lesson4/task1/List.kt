@@ -227,6 +227,7 @@ fun convert(n: Int, base: Int): List<Int> {
         k -= 1
         result2.add(result[k])
     }
+     if (result2.isEmpty()) result2.add(0)
     return result2
 }
 
@@ -252,6 +253,7 @@ fun convertToString(n: Int, base: Int): String {
         k -= 1
         result2 += (result[k])
     }
+    if (result2.isEmpty()) result2 += "0"
     return result2
 }
 

@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
+@file:Suppress("UNUSED_PARAMETER")
 
 package lesson3.task1
 
@@ -75,8 +75,20 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int =
-        if (n == 1) 1 else if (n == 2) 1 else fib(n - 2) + fib(n - 1)
+fun fib(n: Int): Int {
+    var a = 1
+    var b = 1
+    var c = 0
+    if (n in 1..2) return 1
+    else {
+        for (i in 3..n) {
+            c = a + b
+            a = b
+            b = c
+        }
+    }
+    return c
+}
 
 /**
  * Простая
@@ -86,7 +98,7 @@ fun fib(n: Int): Int =
  */
 fun lcm(m: Int, n: Int): Int {
     val k = Math.max(m, n)
-    for (i in k .. m*n step k) if ((i % m == 0) and (i % n == 0)) return i
+    for (i in k..m * n step k) if ((i % m == 0) and (i % n == 0)) return i
     return m * n
 
 }
@@ -132,9 +144,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
         a = b
         b = c
     }
-    return if (a == 1) true else false
+    return a == 1
 }
-
 
 /**
  * Простая
@@ -146,7 +157,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     if (n < 0) return false
     for (k in 0..n) {
-        if ((k * k >= m) and (k * k <= n)) return true
+        if (k * k in m..n) return true
     }
     return false
 }
@@ -258,7 +269,7 @@ fun squareSequenceDigit(n: Int): Int {
     while (k + l.length < n) {
         k += l.length
         l = (c * c).toString()
-        c += 1
+        c++
     }
     return (l[n - k - 1] - '0').toInt()
 }
@@ -277,7 +288,7 @@ fun fibSequenceDigit(n: Int): Int {
     while (k + l.length < n) {
         k += l.length
         l = fib(c).toString()
-        c += 1
+        c++
     }
     return (l[n - k - 1] - '0').toInt()
 }

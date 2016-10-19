@@ -70,8 +70,8 @@ fun dateStrToDigit(str: String): String {
         val month = parts[1]
         val day = parts[0].toInt()
         val year = parts[2].toInt()
-        if ((day !in 1..31) || (month.toInt() !in 1..12)) return ""
-        else return String.format("%02d.%02d.%d", day, MONTHS.indexOf(month) + 1, year)
+        if ((day !in 1..31) || (month !in MONTHS)) return ""
+        else return String.format("%02d.%02d.%d", day, MONTHS.indexOf(month).toInt() + 1, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -84,19 +84,19 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-    fun dateDigitToStr(digital: String): String {
-        val parts = digital.split(".")
-        if (parts.size != 3) return ""
-        try {
-            val day = parts[0].toInt()
-            val year = parts[2].toInt()
-            val month = parts[1].toInt()
-            if ((day !in 1..31) || (month.toInt() !in 1..12)) return ""
-            else return String.format("%02d %s %d", day, MONTHS[month - 1], year)
-        } catch (e: NumberFormatException) {
-            return ""
-        }
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val month = parts[1].toInt()
+        if ((day !in 1..31) || (month.toInt() !in 1..12)) return ""
+        else return String.format("%d %s %d", day, MONTHS[month - 1], year)
+    } catch (e: NumberFormatException) {
+        return ""
     }
+}
 /**
  * Сложная
  *

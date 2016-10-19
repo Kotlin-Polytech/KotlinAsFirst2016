@@ -129,7 +129,11 @@ fun dateDigitToStr(digital: String): String {
         }
         result += parts[2]
         return result
-    } catch(e: NumberFormatException) {
+    }
+    catch(e: NumberFormatException) {
+        return ""
+    }
+    catch (e: IndexOutOfBoundsException){
         return ""
     }
 }
@@ -149,7 +153,7 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var result = phone.filter { it != '(' && it != ')' && it != ' ' && it != '-' }
     for (i in result) {
-        if ((i !in '1'..'9') && (i != '+')) {
+        if ((i !in '0'..'9') && (i != '+')) {
             return ""
         }
     }
@@ -280,7 +284,7 @@ fun mostExpensive(description: String): String {
         var nameOfMaxCost = ""
         for (i in 0..parts.size - 1) {
             val partsOfParts = parts[i].split(" ")
-            if (partsOfParts[partsOfParts.size - 1].toDouble() > maxCost) {
+            if (partsOfParts[partsOfParts.size - 1].toDouble() >= maxCost) {
                 maxCost = partsOfParts[partsOfParts.size - 1].toDouble()
                 nameOfMaxCost = ""
                 for (j in 0..partsOfParts.size - 2) nameOfMaxCost += partsOfParts[j]

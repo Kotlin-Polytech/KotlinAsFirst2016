@@ -66,9 +66,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
     return when {
         (sAll > 0) ->
             when {
-                (sAll < s1) -> (sAll / v1)
-                (sAll > s1) and (sAll < s12) -> (t1 + (sAll - s1) / v2)
-                (sAll > s1) and (sAll > s12) -> (t1 + t2 + (sAll - s12) / v3)
+                (sAll <= s1) -> sAll / v1
+                (sAll > s1) and (sAll <= s12) -> (t1 + (sAll - s1) / v2)
+                (sAll > s12) -> (t1 + t2 + (sAll - s12) / v3)
                 else -> 0.0
             }
         else -> 0.0

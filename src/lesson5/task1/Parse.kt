@@ -85,11 +85,10 @@ fun dateStrToDigit(str: String): String {
 
 /////////////////////////////
 fun dateCheck(numb: Int, month: Int, year: Int): Boolean {
-    if (month !in 1..12 || year < 1 || numb !in 1..31) return false
+    if (month !in 1..12 || year < 0 || numb !in 1..31) return false
     if (month == 4 || month == 6 || month == 9 || month == 11) {
         if (numb > 30) return false
-    }
-    else if (month == 2) {
+    } else if (month == 2) {
         if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
             if (numb > 29) return false
         } else if (numb > 28) return false
@@ -191,7 +190,7 @@ fun bestLongJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
     val jump = jumps.filter { it != '%' && it != '-' }
     //jump = deletespace(jump)
-    val results = jump.split(" ").filter {it.length != 0}
+    val results = jump.split(" ").filter { it.length != 0 }
     if (results.size == 0) return -1
     var answer = -1
     try {
@@ -208,14 +207,14 @@ fun bestLongJump(jumps: String): Int {
 }
 
 /////////////////////////////////////////////////////////////
-/*fun deletespace(str: String): String {
+fun deletespace(str: String): String {
     var new = str.trim()
     while (new.contains("  "))
         new = new.replace("  ", " ")
     return new
 }
 ////////////////////////////////////////////////////////////
-*/
+
 
 /**
  * Сложная
@@ -228,7 +227,24 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.isEmpty()) return -1
+    val jump = jumps.filter { it != '%' && it != '-' }
+    val results = jump.split(" ").filter { it.length != 0 }
+    var answer = -1
+    if (results.size < 2 || results[0] == "+") return -1
+    try {
+        for (i in 0..results.size - 2) {
+            if (results[i] == "+") continue
+            if (results[i + 1] == "+" && results[i].toInt() > answer)
+                answer = results[i].toInt()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return answer
+}
+
 
 /**
  * Сложная
@@ -239,7 +255,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression.isEmpty()) throw IllegalArgumentException()
+    var express = expression
+    var answer = 0
+    express = deletespace(express)
+    val expressions = express.split(" ")
+    if (expressions.size == 0 || expressions.size % 2 != 1) throw IllegalArgumentException()
+    try {
+        answer = expressions[0].toInt()
+        for (i in 1..expressions.size - 2 step 2) {
+            if (expressions[i].equals("+")) answer += expressions[i + 1].toInt()
+            else if (expressions[i].equals("-")) answer -= expressions[i + 1].toInt()
+            else throw IllegalArgumentException()
+        }
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+    return answer
+}
 
 /**
  * Сложная
@@ -250,7 +284,20 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    if (str.isEmpty()) return -1
+    var strin = str
+    var index = 0
+    strin = strin.trim()
+    strin = strin.toLowerCase() //преобразуем всю строку в один регистр(нижний)
+    val strings = strin.split(" ")
+    if (strings.size < 2) return -1
+    for (i in 0..strings.size - 2) {
+        if (strings[i].equals(strings[i + 1])) return index
+        else index += strings[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная

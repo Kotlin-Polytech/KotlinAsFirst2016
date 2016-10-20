@@ -124,7 +124,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var d = n - 1
+    var d = n
     do {
         d--
     } while (n % d != 0)
@@ -157,9 +157,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
-    while (k * k <= n) {
-        k++
-        if (k * k in m..n) return true
+    while ((k * k <= n) && (k * k >= m)) {
+        if ((m == 0) && (n == 0)) return true
+        else {
+            k++
+            if (k * k in m..n) return true
+        }
     }
     return false
 }

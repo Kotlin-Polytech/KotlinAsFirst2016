@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import java.lang.Math.*
 
 /**
@@ -70,10 +71,18 @@ fun digitNumber(n: Int): Int =
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    return when {
+    /*return when {
         n > 2 -> fib(n - 2) + fib(n - 1)
         else -> 1
+    }*/
+    var member1: Int = 1
+    var member2: Int = 0
+    for (i in 2..n) {
+        member1 = member1 + member2
+        member2 = member1 - member2
     }
+    return member1
+
 }
 
 /**
@@ -124,13 +133,13 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var devisor = 2
+    var divisor = 2
     var bool = true
     for (i in 2..min(m, n)) {
-        if ((n % devisor == 0) && (m % devisor == 0)) {
+        if ((n % divisor == 0) && (m % divisor == 0)) {
             bool = false
             break
-        } else devisor += 1
+        } else divisor += 1
     }
     return bool
 }
@@ -143,14 +152,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = false
-    for (i in 1..n) {
-        if (i * i <= n && i * i >= m) {
-            k = true
-            break
-        }
-    }
-    return k
+    val squareRoot = sqrt(m.toDouble()).toInt()
+    return (squareRoot * squareRoot in m..n) || ((squareRoot + 1) * (squareRoot + 1) <= n)
 }
 
 /**
@@ -179,13 +182,12 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var number = n
-    var results = 0L
-    while (number != 0) {
+    var results = 0
+    while (number > 9) {
         results = (results + number % 10) * 10
         number /= 10
     }
-    results /= 10
-    return results.toInt()
+    return results + number % 10
 }
 
 /**
@@ -195,9 +197,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    return n == revert(n)
-}
+fun isPalindrome(n: Int) = n == revert(n)
 
 /**
  * Средняя
@@ -224,7 +224,10 @@ fun squareSequenceDigit(n: Int): Int {
         sum += digitNumber(square)
     }
     count = sum - n
-    return ((square / pow(10.0, count.toDouble())) % 10).toInt()
+    var powInt = 1
+    for (i in 1..count) powInt *= 10
+    return (square / powInt % 10)
+    /*return ((square / pow(10.0, count.toDouble())) % 10).toInt()*/
 
 }
 
@@ -245,5 +248,7 @@ fun fibSequenceDigit(n: Int): Int {
         sum += digitNumber(fibonach)
     }
     count = sum - n
-    return ((fibonach / pow(10.0, count.toDouble())) % 10).toInt()
+    var powInt = 1
+    for (i in 1..count) powInt *= 10
+    return (fibonach / powInt % 10)
 }

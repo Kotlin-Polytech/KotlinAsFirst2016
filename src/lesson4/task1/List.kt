@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 import java.lang.Math.*
 
 /**
@@ -109,7 +110,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var sqr = 0.0
     for (element in v) sqr += element * element
-    return abs(sqrt(sqr))
+    return sqrt(sqr)
 }
 
 /**
@@ -185,8 +186,8 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
         for (i in 1..list.size - 1) {
             list[i] = list[i] + list[i - 1]
         }
-        return list
-    } else return list
+    }
+    return list
 }
 
 /**
@@ -275,9 +276,9 @@ fun russian(n: Int): String {
         in 2..4 -> "тысячи"
         else -> "тысяч"
     }
-    val unit = when(lastDigit){
-        1->"один"
-        2->"два"
+    val unit = when (lastDigit) {
+        1 -> "один"
+        2 -> "два"
         else -> listUnits[lastDigit]
     }
     if (n > 999) {

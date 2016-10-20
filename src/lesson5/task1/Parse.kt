@@ -304,7 +304,7 @@ fun mostExpensive(description: String): String {
         if (i % 2 == 0) listProducts += parts[i]
         else listPrice += parts[i]
     }
-    var max = "0.0"
+    var max = "-1"
     try {
         for (element in listPrice) {
             if (element.toDouble() > max.toDouble()) max = element

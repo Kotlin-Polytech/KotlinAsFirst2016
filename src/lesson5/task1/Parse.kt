@@ -72,7 +72,7 @@ fun dateStrToDigit(str: String): String {
         parts[1] == "января" -> str1 = "01"
         parts[1] == "февраля" -> {
             if (parts[0].toInt() > 28) {
-                if ((parts[0].toInt() % 2 == 0) && (parts[0].toInt() % 4 != 0) && (parts[0].toInt() == 29))
+                if ((parts[2].toInt() % 4 == 0) && (parts[0].toInt() == 29))
                     str1 = "02"
                 else return ""
             } else str1 = "02"
@@ -296,19 +296,18 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     if (description == "") return ""
-    val parts = description.split(" ", "; ", ".")
-    if (parts.size % 3 != 0) return ""
+    val parts = description.split(" ", "; ")
+    if (parts.size % 2 != 0) return ""
     val listPrice: MutableList<String> = mutableListOf()
     val listProducts: MutableList<String> = mutableListOf()
     for (i in 0..parts.size - 1) {
-        if (i % 3 == 0) listProducts += parts[i]
-        else if (i % 3 == 1) listPrice += parts[i]
-        else listPrice[listPrice.size - 1] += parts[i]
+        if (i % 2 == 0) listProducts += parts[i]
+        else listPrice += parts[i]
     }
-    var max = "00"
+    var max = "0.0"
     try {
         for (element in listPrice) {
-            if (element.toInt() > max.toInt()) max = element
+            if (element.toDouble() > max.toDouble()) max = element
         }
     } catch (e: NumberFormatException) {
         return ""

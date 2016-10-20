@@ -9,7 +9,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *=i // Please do not fix in master
     }
     return result
 }
@@ -57,7 +57,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
+    if (number == 0) count=1 else
+    while (number > 0) {
+        count += 1
+        number /= 10
+    }
+
+    return count
+}
 
 /**
  * Простая
@@ -65,7 +75,11 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int = when {
+    n == 1 -> 1
+    n == 2 -> 1
+    else -> fib(n - 1) + fib(n - 2)
+}
 
 /**
  * Простая
@@ -73,21 +87,37 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    for (i in Math.max(m,n)..m * n-1) {
+        if (i % m == 0 && i % n == 0) return i
+    }
+    return m*n
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..n/2) {
+        if (n%i == 0) return i
+    }
+    return n
+}
+
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for (i in n/2 downTo 2) {
+        if (n%i == 0) return i
+    }
+    return 1
+}
 
 /**
  * Простая
@@ -96,7 +126,12 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    for (i in 2..Math.min(m,n)) {
+        if (m%i == 0 && n%i ==0) return false
+    }
+    return true
+}
 
 /**
  * Простая
@@ -131,7 +166,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number=0
+    var entnumber = n
+    while (entnumber>0){
+        number*=10
+        number+=entnumber%10
+        entnumber/=10
+    }
+    return number
+}
 
 /**
  * Средняя

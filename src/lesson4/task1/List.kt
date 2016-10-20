@@ -282,7 +282,7 @@ fun russian(n: Int): String {
     }
     if (n > 999) {
         listResult.add(listHundreds[n / 100000 % 10])
-        if (n / 1000 % 100 in 11..20) {
+        if (n / 1000 % 100 in 11..19) {
             listResult.add(listFromTenToTwenty[n / 1000 % 10])
             listResult.add("тысяч")
         } else {
@@ -292,11 +292,15 @@ fun russian(n: Int): String {
         }
     }
     listResult.add(listHundreds[n / 100 % 10])
-    if (n % 100 in 11..20) listResult.add(listFromTenToTwenty[lastDigit])
+    if (n % 100 in 11..19) listResult.add(listFromTenToTwenty[lastDigit])
     else {
         listResult.add(listTens[n / 10 % 10])
         listResult.add(unit)
     }
     val newListResult = listResult.filter { it != "" }
+    /*for (i in 0..newListResult.size - 2) {
+        result += newListResult[i] + " "
+    }
+    result += newListResult.last()*/
     return newListResult.joinToString(" ")
 }

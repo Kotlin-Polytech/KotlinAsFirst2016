@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 val listOfMonths = listOf("января", "февряля", "марта", "апреля", "мая",
@@ -45,12 +46,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -90,7 +89,7 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     if (digital.matches(Regex("""\d+\.\d+\.\d+"""))) {
         val parts = digital.split(".")
-        if (parts[1].toInt() in 1..12 && parts[0].toInt() in 1..31){
+        if (parts[1].toInt() in 1..12 && parts[0].toInt() in 1..31) {
             val day = parts[0].toInt()
             val monthNum = parts[1].toInt() - 1
             val month = listOfMonths[monthNum]

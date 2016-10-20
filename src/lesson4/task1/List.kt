@@ -298,9 +298,5 @@ fun russian(n: Int): String {
         listResult.add(unit)
     }
     val newListResult = listResult.filter { it != "" }
-    /*for (i in 0..newListResult.size - 2) {
-        result += newListResult[i] + " "
-    }
-    result += newListResult.last()*/
     return newListResult.joinToString(" ")
 }

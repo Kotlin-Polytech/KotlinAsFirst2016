@@ -2,7 +2,7 @@
 
 package lesson5.task1
 
-val listOfMonths = listOf("января", "февряля", "марта", "апреля", "мая",
+val listOfMonths = listOf("января", "февраля", "марта", "апреля", "мая",
         "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
 /**
@@ -73,7 +73,7 @@ fun dateStrToDigit(str: String): String {
         }
         val year = parts[2].toInt()
         return if (day in 1..31 && month != 0)
-            String.format("%02d.%02d.%02d", day, month, year)
+            String.format("%02d.%02d.%d", day, month, year)
         else ""
     } else
         return ""

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -105,9 +106,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var result:Double=0.0
-    for (i in 0..v.size-1){
-        result+=v[i]*v[i]
+    var result = 0.0
+    for (i in 0..v.size - 1) {
+        result += v[i] * v[i]
     }
     return (Math.sqrt(result))
 }
@@ -120,12 +121,12 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
     else {
-        val len: Int = list.size
-        var all:Double=0.0
-        for (i in 0..len-1){
-            all+=list[i]
+        val len = list.size
+        var all = 0.0
+        for (i in 0..len - 1) {
+            all += list[i]
         }
-        return all/len.toDouble()
+        return all / len
     }
 }
 
@@ -137,13 +138,12 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return list
-    val midlelist:Double=mean(list)
-    for (i in 0..list.size-1){
-        list[i]-=midlelist
+    val midlelist: Double = mean(list)
+    for (i in 0..list.size - 1) {
+        list[i] -= midlelist
     }
-return list
+    return list
 }
-
 
 
 /**
@@ -154,14 +154,14 @@ return list
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double =
-    if (a.isEmpty()&&b.isEmpty())  0.0
-    else {
-        var scalar: Double = 0.0
-        for (i in 0..a.size - 1) {
-            scalar += a[i] * b[i]
+        if (a.isEmpty() && b.isEmpty()) 0.0
+        else {
+            var scalar: Double = 0.0
+            for (i in 0..a.size - 1) {
+                scalar += a[i] * b[i]
+            }
+            scalar
         }
-        scalar
-    }
 
 
 /**
@@ -172,12 +172,12 @@ fun times(a: List<Double>, b: List<Double>): Double =
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double=
+fun polynom(p: List<Double>, x: Double): Double =
         if (p.isEmpty()) 0.0
         else {
-            var sum:Double=0.0
-            for (i in 0..p.size-1){
-                sum+=p[i]*Math.pow(x,i.toDouble())
+            var sum: Double = 0.0
+            for (i in 0..p.size - 1) {
+                sum += p[i] * Math.pow(x, i.toDouble())
             }
             sum
         }
@@ -195,10 +195,10 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> =
         if (list.isEmpty()) list
         else {
 
-            var gap:Double=0.0
-            for (i in 0..list.size-1){
-                gap+=list[i]
-                list[i]=gap
+            var gap: Double = 0.0
+            for (i in 0..list.size - 1) {
+                gap += list[i]
+                list[i] = gap
             }
             list
         }
@@ -211,39 +211,16 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> =
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    val result=mutableListOf<Int>()
-    var n1=n
-    while ((n1!=1)){
-        when{
-            n1%2==0->{ n1/=2
-                result.add(2)
+    val result = mutableListOf<Int>()
+    var n1: Int = n
+    var delitet: Int = 1
+    while (delitet < n1) {
+        delitet++
+            while ((n1!=0)&&(n1 % delitet) == 0) {
+                result.add(delitet)
+                n1 /= delitet
             }
-            n1%3==0->{ n1/=3
-                result.add(3)
-            }
-            n1%4==0->{ n1/=4
-                result.add(4)
-            }
-            n1%5==0->{n1/=5
-            result.add(5)
-            }
-            n1%6==0->{n1/=6
-                result.add(6)
-            }
-            n1%7==0->{n1/=7
-                result.add(7)
-            }
-            n1%8==0->{n1/=8
-                result.add(8)
-            }
-            n1%9==0->{n1/=9
-                result.add(9)
-            }
-            else->{
-                result.add(n1)
-                return result
-            }
-        }
+
     }
     return result
 }
@@ -255,44 +232,9 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var result:String=""
-    var n1=n
-    while ((n1!=1)){
-        when{
-            n1%2==0->{ n1/=2
-                result+=("2")
-            }
-            n1%3==0->{ n1/=3
-                result+=("3")
-            }
-            n1%4==0->{ n1/=4
-                result+=("4")
-            }
-            n1%5==0->{n1/=5
-                result+=("5")
-            }
-            n1%6==0->{n1/=6
-                result+=("6")
-            }
-            n1%7==0->{n1/=7
-                result+=("7")
-            }
-            n1%8==0->{n1/=8
-                result+=("8")
-            }
-            n1%9==0->{n1/=9
-                result+=("9")
-            }
-            else->{
-                result+=(n1).toString()
-                return result
-            }
-        }
-        if (n1>1) result+="*"
-    }
-    return result
+    val list = factorize(n)
+    return list.joinToString("*")
 }
-
 
 /**
  * Средняя
@@ -302,13 +244,13 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var n1: Int = n
+    var n1 = n
     var list: List<Int>
     list = listOf()
-    if (n==0) list+=0
-    while (n1>0){
-        list+=n1%base
-        n1/=base
+    if (n == 0) list += 0
+    while (n1 > 0) {
+        list += n1 % base
+        n1 /= base
     }
     return list.reversed()
 }
@@ -324,11 +266,11 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var list: List<Int>
     var string1: String = ""
-    if (n==0) string1=""
+    if (n == 0) string1 = ""
     list = convert(n, base)
     for (i in 0..list.size - 1) {
-        if (list[i] > 9) string1+=(87 + list[i]).toChar()
-        else string1+=(list[i]).toString()
+        if (list[i] > 9) string1 += (87 + list[i]).toChar()
+        else string1 += (list[i]).toString()
     }
     return string1
 }
@@ -341,8 +283,8 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var result: Int = 0
-    for (i in (digits.size-1) downTo 0) result+=(digits[i]*Math.pow(base.toDouble(),((digits.size-1)-i).toDouble())).toInt()
+    var result = 0
+    for (i in (digits.size - 1) downTo 0) result += (digits[i] * Math.pow(base.toDouble(), ((digits.size - 1) - i).toDouble())).toInt()
     return result
 }
 
@@ -358,10 +300,10 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var list: List<Int>
     list = listOf()
-    var string1:String=str
-    for (i in 0..string1.length-1) {
-        if (string1[i] in '0'..'9') list+=((string1[i]).toInt()-48)
-        else list+=((string1[i]).toInt()-87)
+    var string1: String = str
+    for (i in 0..string1.length - 1) {
+        if (string1[i] in '0'..'9') list += ((string1[i]).toInt() - 48)
+        else list += ((string1[i]).toInt() - 87)
     }
     return decimal(list, base)
 }
@@ -375,88 +317,85 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var n1=n
-    var counter=0
-    var result:String=""
-    while (n1!=0){
+    var n1 = n
+    var counter = 0
+    var result: String = ""
+    while (n1 != 0) {
         counter++
-        val num:Int=n1%10
-        when{   //translate number
-            counter==1->{ //блок перевода разряда
-                when{
-                    (num>=1)&&(num<=3)-> {
-                        for (i in 1..num){
-                            result+="I"
+        val num: Int = n1 % 10
+        when {   //translate number
+            counter == 1 -> { //блок перевода разряда
+                when {
+                    (num >= 1) && (num <= 3) -> {
+                        for (i in 1..num) {
+                            result += "I"
                         }
                     }
-                    num==4->result+="VI" //число пишется наоборот ,так как идем по числу с конца
-                    num==5->result+="V"
-                    (num>5)&&(num<9)->{
-                        for (i in 1..(num-5)){
-                            result+="I"
+                    num == 4 -> result += "VI" //число пишется наоборот ,так как идем по числу с конца
+                    num == 5 -> result += "V"
+                    (num > 5) && (num < 9) -> {
+                        for (i in 1..(num - 5)) {
+                            result += "I"
                         }
-                        result+="V"
+                        result += "V"
                     }
-                    num==9->result+="XI"
+                    num == 9 -> result += "XI"
                 }
             }
-            counter==2->{//блок перевода разряда
-                when{
-                    (num>=1)&&(num<=3)-> {
-                        for (i in 1..num){
-                            result+="X"
+            counter == 2 -> {//блок перевода разряда
+                when {
+                    (num >= 1) && (num <= 3) -> {
+                        for (i in 1..num) {
+                            result += "X"
                         }
                     }
-                    num==4->result+="LX"
-                    num==5->result+="L"
-                    (num>5)&&(num<9)->{
-                        for (i in 1..(num-5)){
-                            result+="X"
+                    num == 4 -> result += "LX"
+                    num == 5 -> result += "L"
+                    (num > 5) && (num < 9) -> {
+                        for (i in 1..(num - 5)) {
+                            result += "X"
                         }
-                        result+="L"
+                        result += "L"
                     }
-                    num==9->result+="CX"
-                }
-
-            }
-            counter==3->{//блок перевода разряда
-                when{
-                    (num>=1)&&(num<=3)-> {
-                        for (i in 1..num){
-                            result+="C"
-                        }
-                    }
-                    num==4->result+="DC"
-                    num==5->result+="D"
-                    (num>5)&&(num<9)->{
-                        for (i in 1..(num-5)){
-                            result+="C"
-                        }
-                        result+="D"
-                    }
-                    num==9->result+="MC"
+                    num == 9 -> result += "CX"
                 }
 
             }
-            counter==4->{//блок перевода разряда
-                if ((num>=1)&&(num<=3)) {
-                    for (i in 1..num){
-                        result+="M"
+            counter == 3 -> {//блок перевода разряда
+                when {
+                    (num >= 1) && (num <= 3) -> {
+                        for (i in 1..num) {
+                            result += "C"
+                        }
+                    }
+                    num == 4 -> result += "DC"
+                    num == 5 -> result += "D"
+                    (num > 5) && (num < 9) -> {
+                        for (i in 1..(num - 5)) {
+                            result += "C"
+                        }
+                        result += "D"
+                    }
+                    num == 9 -> result += "MC"
+                }
+
+            }
+            counter == 4 -> {//блок перевода разряда
+                if (num >= 1) {
+                    for (i in 1..num) {
+                        result += "M"
                     }
                 }
             }
-            else->{
+            else -> {
                 println("error")
-                n1=0
+                n1 = 0
             }
         }
-        n1/=10
+        n1 /= 10
     }
     return result.reversed()
 }
-
-
-
 
 
 /**

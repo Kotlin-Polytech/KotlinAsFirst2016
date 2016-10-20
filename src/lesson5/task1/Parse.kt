@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,35 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parse = str.split(" ")
+    var result: String = ""
+    if (parse.size == 3) {
+        try {
+            if (parse[0].toInt() in 1..9) result += "0" + parse[0].toInt().toString() + "."
+            else result += parse[0].toString() + "."
+            result += when (parse[1]) {
+                "января" -> "01"
+                "февраля" -> "02"
+                "марта" -> "03"
+                "апреля" -> "04"
+                "мая" -> "05"
+                "июня" -> "06"
+                "июля" -> "07"
+                "августа" -> "08"
+                "сентября" -> "09"
+                "октября" -> "10"
+                "ноября" -> "11"
+                "декабря" -> "12"
+                else -> return ""
+            }
+            result += "." + parse[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +96,35 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parse = digital.split(".")
+    var result: String = ""
+    if (parse.size == 3) {
+        try {
+            if (parse[0][1].toInt() in 1..9) result += parse[0].toInt().toString() + " "
+            else result += parse[0].toInt().toString() + " "
+            result += when (parse[1]) {
+                "01" -> "января"
+                "02" -> "февраля"
+                "03" -> "марта"
+                "04" -> "апреля"
+                "05" -> "мая"
+                "06" -> "июня"
+                "07" -> "июля"
+                "08" -> "августа"
+                "09" -> "сентября"
+                "10" -> "октября"
+                "11" -> "ноября"
+                "12" -> "декабря"
+                else -> return ""
+            }
+            result += " " + parse[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Сложная

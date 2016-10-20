@@ -124,6 +124,7 @@ class Tests {
         assertEquals(listOf(2), factorize(2))
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
+        assertEquals(listOf(3, 101, 223), factorize(67569))
     }
 
     @Test
@@ -180,6 +181,7 @@ class Tests {
         assertEquals("MCMLXXVIII", roman(1978))
         assertEquals("DCXCIV", roman(694))
         assertEquals("XLIX", roman(49))
+        assertEquals("MMMMXCIII",roman(4093))
     }
 
     @Test

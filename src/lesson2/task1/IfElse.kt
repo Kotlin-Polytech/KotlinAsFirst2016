@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -53,16 +54,15 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val halfallway=(t1*v1+t2*v2+t3*v3)/2
-    val FirstPartWay=t1*v1
-    val SecondPartWay=t1*v1+t2*v2
-    if (halfallway < (FirstPartWay)) return ((halfallway) / v1)  //есди первый отрезок
-    else if ((halfallway) < (SecondPartWay)) return (((halfallway - FirstPartWay) / v2) + t1) //если второй отрезок
-    else return ((halfallway - SecondPartWay) / v3 + t1 + t2) //если третий отрезок
-
-
+    val halfallway = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val firstpartway = t1 * v1
+    val secondpartway = t1 * v1 + t2 * v2
+    return when {
+        halfallway < firstpartway -> halfallway / v1
+        halfallway < secondpartway -> ((halfallway - firstpartway) / v2) + t1
+        else -> (halfallway - secondpartway) / v3 + t1 + t2
+    }
 }
-
 
 
 /**
@@ -76,12 +76,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val firstrook:Boolean=(kingX==rookX1)|| (kingY==rookY1)
-    val Secondrook:Boolean=(kingX == rookX2) || (kingY == rookY2)
-    if ((firstrook) && (Secondrook)) return 3 //от 2
-    else if (firstrook) return 1
-    else if (Secondrook) return 2
-    else return 0
+    val firstrook = (kingX == rookX1) || (kingY == rookY1)
+    val secondrook = (kingX == rookX2) || (kingY == rookY2)
+    return when {
+        firstrook && secondrook -> 3
+        firstrook -> 1
+        secondrook -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -96,12 +98,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val rook:Boolean=(kingX==rookX)|| (kingY==rookY)
-    val bishop:Boolean=(Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))
-    if (rook && bishop) return 3
-    if (rook) return 1
-    else if (bishop) return 2
-    else return 0
+    val rook = (kingX == rookX) || (kingY == rookY)
+    val bishop = (Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))
+    return when{
+        rook && bishop->3
+        rook->1
+        bishop->2
+        else->0
+    }
 }
 
 /**
@@ -130,11 +134,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when{
-        c <= a && d >= b-> b-a
-        c <= a && d >= a && d <= b -> d-a
-        c >= a && c <= b && d >= b-> b-c
-        c >= a && c <= b && d <= b-> d-c
-        else-> -1
+    return when {
+        c <= a && d >= b -> b - a
+        c <= a && d >= a && d <= b -> d - a
+        c >= a && c <= b && d >= b -> b - c
+        c >= a && c <= b && d <= b -> d - c
+        else -> -1
     }
 }

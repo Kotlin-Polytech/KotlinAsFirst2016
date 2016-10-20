@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import kotlin.system.measureTimeMillis
 
 /**
  * Пример
@@ -252,11 +253,14 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-   /* var myList = convert(n, base).joinToString(separator = " ")
-    val loverCase = myList.toLowerCase().filter { it != ' ' }
-    return loverCase
-    */
-    TODO()
+    val myList = convert(n, base)
+    val mySecList = mutableListOf<Char>()
+    for (i in 0..myList.size - 1) {
+        if (myList[i] < 9)
+            mySecList.add('0' + myList[i])
+        else mySecList.add('a' + myList[i] - 10)
+    }
+    return mySecList.joinToString(separator = "")
 }
 
 /**
@@ -266,7 +270,15 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var sum = 0
+    var newSize = digits.size
+    for (i in 0..newSize - 1) {
+        sum += digits[newSize - 1] * Math.pow(base.toDouble(), i.toDouble()).toInt()
+        newSize--
+    }
+    return sum
+}
 
 /**
  * Сложная
@@ -277,7 +289,16 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val myList = mutableListOf<Int>()
+    for (i in 0..str.length-1){
+        if ((str[i] - '0') < 9)
+            myList.add(str[i] - '0')
+        else
+            myList.add(str[i] - 'a' + 10)
+    }
+    return decimal(myList, base)
+}
 
 /**
  * Сложная
@@ -287,7 +308,9 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    TODO()
+}
 
 /**
  * Очень сложная

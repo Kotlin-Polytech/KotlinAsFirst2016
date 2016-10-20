@@ -241,18 +241,13 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun numberToSymbol(list: List<Int>): List<Any> {
-    var listRes = listOf<Any>()
-    for (i in 0..list.size - 1) {
-        if (list[i] >= 10) {
-            listRes += 'a' + (list[i] - 10)
-        } else listRes += list[i].toString()
-    }
-    return listRes
-}
+fun numberToSymbol(n: Int): String =
+        if (n >= 10) {
+            ('a' + (n - 10)).toString()
+        } else n.toString()
 
 fun convertToString(n: Int, base: Int): String =
-        numberToSymbol(convert(n, base)).joinToString(separator = "")
+        convert(n, base).map { numberToSymbol(it) }.joinToString(separator = "")
 
 
 /**
@@ -299,51 +294,6 @@ fun decimalFromString(str: String, base: Int): Int = decimal(symbolToNumber(str)
 fun roman(n: Int): String {
     var number = n
     var res = ""
-    /*
-    fun add(n: Int, letter: String): String {
-    var res = ""
-    for (i in 1..n) {
-        res += letter
-    }
-    return res
-}
-
-    if (number >= 1000) {
-        for (i in 1..number / 1000) {
-            res += "M"
-        }
-        number %= 1000
-    }
-    if (number >= 100) {
-        when {
-            number / 100 == 9 -> res += "CM"
-            number / 100 in 6..8 -> res += "D" + add(number / 100 - 5, "C")
-            number / 100 == 5 -> res += "D"
-            number / 100 == 4 -> res += "CD"
-            number / 100 in 1..4 -> res += add(number / 100, "C")
-        }
-        number %= 100
-    }
-    if (number >= 10) {
-        when {
-            number / 10 == 9 -> res += "XC"
-            number / 10 in 6..8 -> res += "L" + add(number / 10 - 5, "X")
-            number / 10 == 5 -> res += "L"
-            number / 10 == 4 -> res += "XL"
-            number / 10 in 1..4 -> res += add(number / 10, "X")
-        }
-        number %= 10
-    }
-    if (number >= 1) {
-        when {
-            number == 9 -> res += "IX"
-            number in 6..8 -> res += "V" + add(number - 5, "I")
-            number == 5 -> res += "V"
-            number == 4 -> res += "IV"
-            number in 1..4 -> res += add(number, "I")
-        }
-    }*/
-
     val listRome = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
     val listArab = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
     if (number <= 0) return ""
@@ -368,4 +318,24 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String = TODO()/*{
+   var number=n
+    val listUnits = listOf("edin", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
+            "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятьнадцать",
+            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listHundred = listOf("sotochki", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listDes = listOf("des", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listThousands = listOf("tisacha", "одна тысяча", "две тысячи", "три тысячи")
+    var listRes = listOf<String>()
+    if (number % 100 == 0) Double.NaN else
+        if (number % 100 in 10..19) listRes += listUnits[number % 100] else if (number % 100 in 20..99) listRes += listDes[(number % 100) / 10] + " " + listUnits[number % 10]
+        else if (number % 10 in 1..9) listRes += listUnits[number % 10]
+
+    if (number / 100 % 10 == 0) Double.NaN else
+        if (number >= 100) listRes += listDes[number / 100 % 10]
+    if (number >= 1000) {
+    number/=1000
+       if (number%100==0){}//////////////
+    }
+    return listRes.joinToString()
+} */

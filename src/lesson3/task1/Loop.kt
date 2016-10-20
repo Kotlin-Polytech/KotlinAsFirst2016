@@ -87,12 +87,6 @@ fun fib(n: Int): Int = if (n > 2) (fib(n - 1) + fib(n - 2)) else 1
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    /*for (i in Math.max(m, n)..m * n) {
-        if (i % m == 0 && i % n == 0) {
-            return i
-        }
-    }
-    return m * n */
     var max = Math.max(m, n)
     var min = Math.min(m, n)
     while (max % min != 0) {
@@ -110,7 +104,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = n
-    for (i in 2..n) {
+    for (i in 2..n/2) {
         if (n % i == 0) {
             k = i
             break
@@ -144,10 +138,6 @@ fun maxDivisor(n: Int): Int {
  */
 
 fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
-/* for (i in 2..Math.min(m, n)) {
-     if (m % i == 0 && n % i == 0) return false
- }
- return true */
 
 /**
  * Простая
@@ -159,6 +149,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val mSqrt = Math.round(Math.sqrt(m.toDouble()))
     val nSqrt = Math.round(Math.sqrt(n.toDouble()))
+    var i=0
     for (i in mSqrt - 1..nSqrt + 1) {
         if (i * i >= m && i * i <= n) {
             return true
@@ -246,7 +237,6 @@ fun squareSequenceDigit(n: Int): Int {
         if (count >= n) break
     }
     return k[k.length - 1 - count + n] - '0'
-    //return k[k.length - 1 - count + n].toString().toInt()
 }
 
 

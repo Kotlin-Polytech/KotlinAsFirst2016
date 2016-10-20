@@ -2,7 +2,7 @@
 
 package lesson5.task1
 
-import java.util.zip.DataFormatException
+
 
 /**
  * Пример
@@ -62,33 +62,6 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    /* val parts = str.split(" ")
-     var res = ""
-     try {
-         if (parts.size != 3 || parts[0].toInt() !in 1..31 || parts[2].toInt() < 0)
-             return ""
-     } catch (e: NumberFormatException) {
-         return ""
-     }
-     res = parts[0]
-     res.format("%02d", parts[0])
-     when (parts[1]) {
-         "января" -> res += ".01."
-         "февраля" -> res += ".02."
-         "марта" -> res += ".03."
-         "апреля" -> res += ".04."
-         "мая" -> res += ".05."
-         "июня" -> res += ".06."
-         "июля" -> res += ".07."
-         "августа" -> res += ".08."
-         "сентября" -> res += ".09."
-         "октября" -> res += ".10."
-         "ноября" -> res += ".11."
-         "декабря" -> res += ".12."
-         else -> return ""
-     }
-     res += parts[2]
-     return res */
     val parts = str.split(" ")
     val resDay: Int
     val resMonth: Int
@@ -130,32 +103,6 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    /*  val parts = digital.split(".")
-    var res = ""
-    try {
-        if (parts.size != 3 || parts[0].toInt() !in 1..31 || parts[2].toInt() < 0)
-            return ""
-    } catch (e: NumberFormatException) {
-        return ""
-    }
-    if (parts[0].toInt() < 10) res += parts[0].toInt() % 10 else res += parts[0]
-    when (parts[1]) {
-        "01" -> res += " января "
-        "02" -> res += " февраля "
-        "03" -> res += " марта "
-        "04" -> res += " апреля "
-        "05" -> res += " мая "
-        "06" -> res += " июня "
-        "07" -> res += " июля "
-        "08" -> res += " августа "
-        "09" -> res += " сентября "
-        "10" -> res += " октября "
-        "11" -> res += " ноября "
-        "12" -> res += " декабря "
-        else -> return ""
-    }
-    res += parts[2]
-    return res */
     val parts = digital.split(".")
     val resDay: Int
     val resMonth: String

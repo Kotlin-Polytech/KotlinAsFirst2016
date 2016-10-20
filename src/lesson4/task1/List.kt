@@ -136,13 +136,11 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val listMean = mean(list)
-        for (i in 0..list.size - 1) {
-            list[i] -= listMean
-        }
-        return list
-    } else return list
+    val listMean = mean(list)
+    for (i in 0..list.size - 1) {
+        list[i] -= listMean
+    }
+    return list
 }
 
 /**
@@ -204,7 +202,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     var number = n
-    for (i in 2..number) {
+    for (i in 2..number / 2) {
         while (number % i == 0) {
             number /= i
             result.add(result.size, i)
@@ -221,17 +219,22 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var number = n
-    val result = mutableListOf<Int>()
-    for (i in 2..n) {
-        while (number % i == 0) {
-            result.add(i)
-            number /= i
-        }
-    }
-    //if (number != 1) result + number
-    return result.joinToString(separator = "*")
+    val numbers: List<Int> = factorize(n)
+    var result: String = numbers[0].toString()
+    for (i in 1..numbers.size - 1) result += ("*" + numbers[i])
+    return result
 }
+/* var number = n
+val result = mutableListOf<Int>()
+for (i in 2..n) {
+    while (number % i == 0) {
+        result.add(i)
+        number /= i
+    }
+}
+//if (number != 1) result + number
+return result.joinToString(separator = "*")
+}*/
 
 
 /**
@@ -283,10 +286,11 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
+
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
     for (i in 0..digits.size - 1) {
-        result += (digits[digits.size - 1 - i] * (Math.pow(base.toDouble(), i.toDouble())).toInt())
+        result += (digits[digits.size - 1 - i] * (pow(base, i)))
     }
     return result
 }
@@ -300,7 +304,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun sqr(n: Int, m: Int): Int {
+fun pow(n: Int, m: Int): Int {
     var result = 1
     for (i in 1..m) result *= n
     return result
@@ -311,35 +315,8 @@ fun decimalFromString(str: String, base: Int): Int {
 
     for (i in 0..str.length - 1) {
         val number = str[str.length - 1 - i]
-        result += when (number) {
-            'a' -> (sqr(base, i) * 10)
-            'b' -> (sqr(base, i) * 11)
-            'c' -> (sqr(base, i) * 12)
-            'd' -> (sqr(base, i) * 13)
-            'e' -> (sqr(base, i) * 14)
-            'f' -> (sqr(base, i) * 15)
-            'g' -> (sqr(base, i) * 16)
-            'h' -> (sqr(base, i) * 17)
-            'i' -> (sqr(base, i) * 18)
-            'j' -> (sqr(base, i) * 19)
-            'k' -> (sqr(base, i) * 20)
-            'l' -> (sqr(base, i) * 21)
-            'm' -> (sqr(base, i) * 22)
-            'n' -> (sqr(base, i) * 23)
-            'o' -> (sqr(base, i) * 24)
-            'p' -> (sqr(base, i) * 25)
-            'q' -> (sqr(base, i) * 26)
-            'r' -> (sqr(base, i) * 27)
-            's' -> (sqr(base, i) * 28)
-            't' -> (sqr(base, i) * 29)
-            'u' -> (sqr(base, i) * 30)
-            'v' -> (sqr(base, i) * 31)
-            'w' -> (sqr(base, i) * 32)
-            'x' -> (sqr(base, i) * 33)
-            'y' -> (sqr(base, i) * 34)
-            'z' -> (sqr(base, i) * 35)
-            else -> (sqr(base, i) * (number - 48).toInt())
-        }
+        if (number in 'a'..'z') result += (pow(base, i) * (10 + (number.toInt() - 'a'.toInt())))
+        else result += ((pow(base, i) * (number - 48).toInt()))
     }
     return result
 }
@@ -352,10 +329,41 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
+fun romanHelper(number: Int, x: Char, y: Char, z: Char): String {
+    var result = ""
+    when (number) {
+        in 1..3 -> {
+            for (i in 1..number) result = x + result
+        }
+        4 -> {
+            result = y + result
+            result = x + result
+        }
+        5 -> result = y + result
+        in 6..8 -> {
+            for (i in 1..(number) - 5) result = x + result
+            result = y + result
+        }
+        9 -> {
+            result = z + result
+            result = x + result
+        }
+    }
+    return result
+}
+
 fun roman(n: Int): String {
     var result = ""
     var number = n
-    when (number % 10) {
+    result = romanHelper(number % 10, 'I', 'V', 'X') + result
+    number /= 10                               //1st
+
+    result = romanHelper(number % 10, 'X', 'L', 'C') + result
+    number /= 10                             //2nd
+
+    result = romanHelper(number % 10, 'C', 'D', 'M') + result
+    number /= 10                                //3rd
+    /*when (number % 10) {
         in 1..3 -> {
             for (i in 1..number % 10) result = 'I' + result
         }
@@ -396,7 +404,7 @@ fun roman(n: Int): String {
         9 -> result = "CM" + result
     }
     number /= 10
-
+*/
     for (i in 1..number) result = 'M' + result
 
     return result

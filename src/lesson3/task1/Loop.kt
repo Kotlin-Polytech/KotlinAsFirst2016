@@ -141,7 +141,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (i in m..n) {
+        if (Math.sqrt(i.toDouble()) == Math.sqrt(i.toDouble()).toInt().toDouble()) return true
+    }
+    return false
+}
 
 /**
  * Простая
@@ -150,7 +155,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var result = 0.0
+    var currentmember = eps + 1.0
+    var count = 1
+    while (Math.abs(currentmember) > eps) {
+        if ((count + 1) % 4 == 0) currentmember = -Math.pow(x, count.toDouble()) / factorial(count)
+        else currentmember = Math.pow(x, count.toDouble()) / factorial(count)
+        result += currentmember
+        count += 2
+    }
+    return result
+
+}
 
 /**
  * Простая
@@ -159,7 +176,9 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    return sin(Math.PI / 2 + x, eps)
+}
 
 /**
  * Средняя
@@ -185,7 +204,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
@@ -193,7 +212,19 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    if (n < 10) return false
+    var digit = n % 10
+    var number = n / 10
+    while (number > 0) {
+        if (digit != number % 10) return true
+        else {
+            digit = n % 10
+            number /= 10
+        }
+    }
+    return false
+}
 
 /**
  * Сложная

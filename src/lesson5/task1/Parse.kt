@@ -100,8 +100,10 @@ fun dateDigitToStr(digital: String): String {
         val parts = digital.split(".")
         if (parts.size > 3) return ""
         var result = ""
-        if (parts[0].toInt() in 1..31) result += when (parts[0]) {
-            "01" -> "1"
+        if (parts[0].toInt() in 1..31) result+=parts[0].toInt()
+
+        /*result += when (parts[0]) {
+            "01" -> parts[0].toInt()
             "02" -> "2"
             "03" -> "3"
             "04" -> "4"
@@ -111,7 +113,7 @@ fun dateDigitToStr(digital: String): String {
             "08" -> "8"
             "09" -> "9"
             else -> parts[0]
-        }
+        }*/
         result += when (parts[1]) {
             "01" -> " января "
             "02" -> " февраля "
@@ -220,7 +222,7 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     try {
         val parts = expression.split(" ")
-        var result = expression[0].toInt() - 48
+        var result = expression[0].toInt() - '0'.toInt()
         for (i in 1..parts.size - 1 step 2) {
             if (parts[i] == "+") result += parts[i + 1].toInt()
             else if (parts[i] == "-") result -= parts[i + 1].toInt()

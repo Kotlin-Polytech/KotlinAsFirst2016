@@ -100,7 +100,7 @@ fun dateDigitToStr(digital: String): String {
         val parts = digital.split(".")
         if (parts.size > 3) return ""
         var result = ""
-        if (parts[0].toInt() in 1..31) result+=parts[0].toInt()
+        if (parts[0].toInt() in 1..31) result += parts[0].toInt()
 
         /*result += when (parts[0]) {
             "01" -> parts[0].toInt()
@@ -131,11 +131,9 @@ fun dateDigitToStr(digital: String): String {
         }
         result += parts[2]
         return result
-    }
-    catch(e: NumberFormatException) {
+    } catch(e: NumberFormatException) {
         return ""
-    }
-    catch (e: IndexOutOfBoundsException){
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
@@ -219,20 +217,29 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
+fun isString(str: String): Boolean {
+    for (i in 0..str.length - 1) {
+        if (str[i] !in '0'..'9') return false
+    }
+    return true
+}
+
 fun plusMinus(expression: String): Int {
     try {
         val parts = expression.split(" ")
-        var result = expression[0].toInt() - '0'.toInt()
+        var result = 0
+        if (isString(parts[0])) {
+            result = parts[0].toInt()
+        } else throw IllegalArgumentException(expression)
         for (i in 1..parts.size - 1 step 2) {
-            if (parts[i] == "+") result += parts[i + 1].toInt()
-            else if (parts[i] == "-") result -= parts[i + 1].toInt()
+            if ((parts[i] == "+") && (isString(parts[i + 1]))) result += parts[i + 1].toInt()
+            else if ((parts[i] == "-") && (isString(parts[i + 1]))) result -= parts[i + 1].toInt()
             else throw   IllegalArgumentException("")
         }
         return result
     } catch(e: NumberFormatException) {
         throw IllegalArgumentException(expression)
-    }
-    catch (e: StringIndexOutOfBoundsException){
+    } catch (e: StringIndexOutOfBoundsException) {
         throw  IllegalArgumentException(expression)
     }
 

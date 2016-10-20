@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import javafx.beans.binding.NumberBinding
+
 /**
  * Пример
  *
@@ -236,8 +238,9 @@ fun bestHighJump(jumps: String): Int {
     try {
         for (i in 0..results.size - 2) {
             if (results[i] == "+") continue
-            if (results[i + 1] == "+" && results[i].toInt() > answer)
-                answer = results[i].toInt()
+            val resint = results[i].toInt()
+            if (results[i + 1] == "+" && resint > answer)
+                answer = resint
         }
     } catch (e: NumberFormatException) {
         return -1
@@ -257,17 +260,19 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     if (expression.isEmpty()) throw IllegalArgumentException()
-    var express = expression
+    val express = expression
     var answer = 0
-    express = deletespace(express)
-    val expressions = express.split(" ")
+    val expressions = express.split(" ").filter { it.length != 0 }
     if (expressions.size == 0 || expressions.size % 2 != 1) throw IllegalArgumentException()
     try {
         answer = expressions[0].toInt()
         for (i in 1..expressions.size - 2 step 2) {
-            if (expressions[i].equals("+")) answer += expressions[i + 1].toInt()
-            else if (expressions[i].equals("-")) answer -= expressions[i + 1].toInt()
-            else throw IllegalArgumentException()
+            val exptoint = expressions[i + 1].toInt()
+            when (expressions[i]) {
+                "+" -> answer += exptoint
+                "-" -> answer -= exptoint
+                else -> throw IllegalArgumentException()
+            }
         }
     } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
@@ -286,10 +291,8 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     if (str.isEmpty()) return -1
-    var strin = str
     var index = 0
-    strin = strin.trim()
-    strin = strin.toLowerCase() //преобразуем всю строку в один регистр(нижний)
+    val strin = str.toLowerCase() //преобразуем всю строку в один регистр(нижний)
     val strings = strin.split(" ")
     if (strings.size < 2) return -1
     for (i in 0..strings.size - 2) {
@@ -310,7 +313,25 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return ""
+    val strings = description.filter { it != ';' }.split(" ")
+    if (strings.size < 2) return ""
+    var maxindex = 1
+    var strInt = 0.0
+    for (i in 1..strings.size - 1 step 2) {
+        try {
+            strInt = strings[i].toDouble()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        if (strInt < 0) return ""
+        if (strInt >= strings[maxindex].toDouble()) {
+            maxindex = i
+        }
+    }
+    return strings[maxindex - 1]
+}
 
 /**
  * Сложная

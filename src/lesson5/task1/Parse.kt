@@ -3,7 +3,6 @@
 package lesson5.task1
 
 
-
 /**
  * Пример
  *
@@ -147,7 +146,16 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var count = 0
+    if (phone.contains(Regex("""[a-zA-Z]"""))) return ""
+    for (i in 1..phone.length - 1) {
+        if (phone[i] == '+')
+            count++
+    }
+    if (count >= 1) return ""
+    return Regex("""[^\d'+']""").replace(phone, "")
+}
 
 /**
  * Средняя
@@ -159,7 +167,19 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var max = -1
+    if (jumps.contains(Regex("""[^-%\d\s]"""))) return -1
+    val parts = jumps.split(" ")
+    for (i in 0..parts.size - 1) {
+        try {
+            if (parts[i].toInt() >= max) max = parts[i].toInt()
+        } catch(e: NumberFormatException) {
+            Double.NaN
+        }
+    }
+    return max
+}
 
 /**
  * Сложная

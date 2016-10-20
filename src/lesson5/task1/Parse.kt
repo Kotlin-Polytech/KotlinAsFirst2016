@@ -89,7 +89,7 @@ fun dateCheck(numb: Int, month: Int, year: Int): Boolean {
     if (month == 4 || month == 6 || month == 9 || month == 11) {
         if (numb > 30) return false
     }
-    if (month == 2) {
+    else if (month == 2) {
         if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
             if (numb > 29) return false
         } else if (numb > 28) return false
@@ -189,15 +189,14 @@ fun search(index: Int, str: String, ch: Char): Boolean {
  */
 fun bestLongJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
-    var jump = jumps.filter { it != '%' && it != '-' }
-    jump = deletespace(jump)
-    val results = jump.split(" ")
+    val jump = jumps.filter { it != '%' && it != '-' }
+    //jump = deletespace(jump)
+    val results = jump.split(" ").filter {it.length != 0}
     if (results.size == 0) return -1
     var answer = -1
-    var elem: Int
     try {
         for (element in results) {
-            elem = element.toInt()
+            val elem = element.toInt()
             if (elem > answer)
                 answer = elem
         }
@@ -209,13 +208,14 @@ fun bestLongJump(jumps: String): Int {
 }
 
 /////////////////////////////////////////////////////////////
-fun deletespace(str: String): String {
+/*fun deletespace(str: String): String {
     var new = str.trim()
     while (new.contains("  "))
         new = new.replace("  ", " ")
     return new
 }
 ////////////////////////////////////////////////////////////
+*/
 
 /**
  * Сложная

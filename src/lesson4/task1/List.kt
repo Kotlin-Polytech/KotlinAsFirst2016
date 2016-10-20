@@ -241,7 +241,7 @@ fun convert(n: Int, base: Int): List<Int> {
     while (n1 != 0) {
         list.add(n1 % base1)
         n1 /= base1
-    }
+     }
     return list.reversed()
 }
 

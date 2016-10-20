@@ -154,7 +154,7 @@ fun flattenPhoneNumber(phone: String): String {
             count++
     }
     if (count >= 1) return ""
-    return Regex("""[^\d'+']""").replace(phone, "")
+    return Regex("""[^\d+]""").replace(phone, "")
 }
 
 /**
@@ -191,7 +191,19 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var max = -1
+    if (jumps.contains(Regex("""[^-%\d\s]"""))) return -1
+    val parts = jumps.split(" ")
+    for (i in 0..parts.size - 1) {
+        try {
+            if (parts[i].toInt() >= max) max = parts[i].toInt()
+        } catch(e: NumberFormatException) {
+            Double.NaN
+        }
+    }
+    return max
+}
 
 /**
  * Сложная

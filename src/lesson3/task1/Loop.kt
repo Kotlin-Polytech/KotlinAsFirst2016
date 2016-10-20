@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -9,7 +10,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result *=i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -60,11 +61,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 0
     var number = n
-    if (number == 0) count=1 else
-    while (number > 0) {
-        count += 1
-        number /= 10
-    }
+    if (number == 0) count = 1 else
+        while (Math.abs(number) > 0) {
+            count += 1
+            number /= 10
+        }
 
     return count
 }
@@ -88,10 +89,10 @@ fun fib(n: Int): Int = when {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    for (i in Math.max(m,n)..m * n-1) {
+    for (i in Math.max(m, n)..m * n - 1) {
         if (i % m == 0 && i % n == 0) return i
     }
-    return m*n
+    return m * n
 }
 
 /**
@@ -100,8 +101,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n/2) {
-        if (n%i == 0) return i
+    for (i in 2..n / 2) {
+        if (n % i == 0) return i
     }
     return n
 }
@@ -113,8 +114,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n/2 downTo 2) {
-        if (n%i == 0) return i
+    for (i in n / 2 downTo 2) {
+        if (n % i == 0) return i
     }
     return 1
 }
@@ -127,8 +128,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..Math.min(m,n)) {
-        if (m%i == 0 && n%i ==0) return false
+    for (i in 2..Math.min(m, n)) {
+        if (m % i == 0 && n % i == 0) return false
     }
     return true
 }
@@ -167,12 +168,12 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var number=0
+    var number = 0
     var entnumber = n
-    while (entnumber>0){
-        number*=10
-        number+=entnumber%10
-        entnumber/=10
+    while (entnumber > 0) {
+        number *= 10
+        number += entnumber % 10
+        entnumber /= 10
     }
     return number
 }

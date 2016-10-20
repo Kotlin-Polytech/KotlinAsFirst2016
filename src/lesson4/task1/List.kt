@@ -11,11 +11,11 @@ import lesson1.task1.discriminant
  */
 fun sqRoots(y: Double) =
         if (y < 0) listOf()
-        else if (y==0.0) listOf(0.0)
+        else if (y == 0.0) listOf(0.0)
         else {
             val root = Math.sqrt(y)
             // Результат!
-            listOf(-root, root)
+            listOf(- root, root)
         }
 
 /**
@@ -25,15 +25,15 @@ fun sqRoots(y: Double) =
  * Вернуть список корней (пустой, если корней нет)
  */
 fun biRoots(a: Double, b: Double, c: Double): List<Double> {
-    if (a==0.0) {
-        if (b==0.0) return listOf()
-        else return sqRoots(-c / b)
+    if (a == 0.0) {
+        if (b == 0.0) return listOf()
+        else return sqRoots(- c / b)
     }
     val d = discriminant(a, b, c)
     if (d < 0.0) return listOf()
-    if (d==0.0) return sqRoots(-b / (2 * a))
-    val y1 = (-b + Math.sqrt(d)) / (2 * a)
-    val y2 = (-b - Math.sqrt(d)) / (2 * a)
+    if (d == 0.0) return sqRoots(- b / (2 * a))
+    val y1 = (- b + Math.sqrt(d)) / (2 * a)
+    val y2 = (- b - Math.sqrt(d)) / (2 * a)
     return sqRoots(y1) + sqRoots(y2)
 }
 
@@ -61,7 +61,7 @@ fun invertPositives(list: MutableList<Int>) {
     for (i in 0..list.size - 1) {
         val element = list[i]
         if (element > 0) {
-            list[i] = -element
+            list[i] = - element
         }
     }
 }
@@ -83,9 +83,9 @@ fun squares(list: List<Int>) = list.map { it * it }
  * "А роза упала на лапу Азора" является палиндромом.
  */
 fun isPalindrome(str: String): Boolean {
-    val lowerCase = str.toLowerCase().filter { it!=' ' }
+    val lowerCase = str.toLowerCase().filter { it != ' ' }
     for (i in 0..lowerCase.length / 2) {
-        if (lowerCase[i]!=lowerCase[lowerCase.length - i - 1]) return false
+        if (lowerCase[i] != lowerCase[lowerCase.length - i - 1]) return false
     }
     return true
 }
@@ -108,10 +108,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun q2(g: Double) = g * g
 
 fun abs(v: List<Double>): Double {
-    var sum: Double = 0.0
-    for (i in 0..v.size - 1) {
-        sum += q2(v[i])
-    }
+    var sum = 0.0
+    (0..v.size - 1).forEach { i -> sum += q2(v[i]) }
     return Math.sqrt(sum)
 }
 
@@ -121,7 +119,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.size==0) {
+    if (list.size == 0) {
         return 0.0
     } else
         return list.sum() / list.size
@@ -149,8 +147,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var min: Int = 0
-    var sum: Double = 0.0
+    var min = 0
+    var sum = 0.0
     if (a.size < b.size) {
         min = a.size - 1
     } else {
@@ -185,20 +183,13 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun sumnumb(n: Int): Double {
-    var sum: Double = 0.0
-    for (i in 1..n) {
-        sum += i
-    }
-    return sum
-}
+
 
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-
+    var sum = 0.0
     for (i in 0..list.size - 1) {
-        if ((list[i]).toInt().toDouble()==list[i]) {
-            list[i] = sumnumb(list[i].toInt())
-        } else continue
+        sum += list[i]
+        list[i] = sum
     }
     return list
 }
@@ -211,17 +202,17 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    val list=mutableListOf<Int>()
-    var s=n
-    var i=2
+    val list = mutableListOf<Int>()
+    var s = n
+    var i = 2
     while (s > 0) {
         while (s % i == 0) {
             list.add(i)
-            s/=i
+            s /= i
         }
         if (i >= s) break
         else i += 1
-        }
+    }
     return list
 }
 
@@ -241,12 +232,12 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int>{
-    val list=mutableListOf<Int>()
+fun convert(n: Int, base: Int): List<Int> {
+    val list = mutableListOf<Int>()
     var s = n
     while (s > 0) {
         list.add(s % base)
-        s/=base
+        s /= base
     }
     list.reverse()
     return list
@@ -262,15 +253,15 @@ fun convert(n: Int, base: Int): List<Int>{
  */
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base).toMutableList()
-    val list2=mutableListOf<Char>()
+    val list2 = mutableListOf<Char>()
     for (i in 0..list.size - 1) {
         when {
             list[i] <= 9 -> list2.add('0' + list[i])
-            else -> list2.add('a'+ list[i] - 10)
+            else -> list2.add('a' + list[i] - 10)
         }
     }
-    return  list2.joinToString("")
-    }
+    return list2.joinToString("")
+}
 
 /**
  * Средняя
@@ -281,10 +272,10 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var number: Double = 0.0
-    for (i in 0 .. digits.size-1) {
-        number += digits[i] * Math.pow(base.toDouble(),digits.size.toDouble()- i - 1)
+    for (i in 0..digits.size - 1) {
+        number += digits[i] * Math.pow(base.toDouble(), digits.size.toDouble() - i - 1)
     }
-return number.toInt()
+    return number.toInt()
 }
 
 /**

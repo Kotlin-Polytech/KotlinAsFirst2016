@@ -81,14 +81,13 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var last = 1
+    var previous = 1
     var next = 1
     var box = 0
     for (i in 3..n) {
         box = next
-        next = last + next
-        last = box
-
+        next = previous + next
+        previous = box
     }
     return next
 
@@ -100,17 +99,16 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun NOD2(m: Int, n: Int): Int{
-    var a= n
+fun gcd(m: Int, n: Int): Int {
+    var a = n
     var b = m
     var shift = 0
     if (a == 0)
         return b
     if (b == 0)
         return a
-    shift = 0
     while (a or b and 1 == 0) {
-        shift++
+        shift ++
         a = a shr 1
         b = b shr 1
 
@@ -126,15 +124,14 @@ fun NOD2(m: Int, n: Int): Int{
             a = t
         }
         b -= a
-    } while (b !== 0)
+    } while (b != 0)
     return a shl shift
 }
 
 
-
 fun lcm(m: Int, n: Int): Int {
 
-    return (m * n) / NOD2(m, n)
+    return (m * n) / gcd(m, n)
 
 }
 
@@ -168,7 +165,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = NOD2(m, n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -179,7 +176,10 @@ fun isCoPrime(m: Int, n: Int): Boolean = NOD2(m, n) == 1
  */
 fun sqr(g: Double) = g * g
 
-fun squareBetweenExists(m: Int, n: Int): Boolean = m <= sqr(floor(sqrt(n.toDouble()))) && sqr(floor(sqrt(n.toDouble())))  <= n
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val square = sqr(floor(sqrt(n.toDouble())))
+    return m <= square && square <= n
+}
 
 /**
  * Простая
@@ -190,7 +190,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = m <= sqr(floor(sqrt(n.toDoubl
  */
 fun sin(x: Double, eps: Double): Double {
     var k = 0
-    var sin: Double = x
+    var sin = x
     var number: Double = x
     while (Math.abs(number) * 1000 > eps) {
         k += 1
@@ -214,7 +214,7 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var k = 0
-    var cos: Double = 1.0
+    var cos = 1.0
     var number: Double = x
     while (Math.abs(number) * 1000 > eps) {
         k += 1
@@ -258,13 +258,12 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    val maincipher = n % 10
+    val number = n % 10
     var s = n
     while (s > 0) {
-        if (s % 10 != maincipher) {
+        if (s % 10 != number) {
             return true
-        }
-        else {
+        } else {
             s /= 10
         }
     }

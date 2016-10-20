@@ -10,22 +10,22 @@ import java.lang.Math.*
  *
  * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
-fun minBiRoot(a: Double , b: Double , c: Double): Double {
+fun minBiRoot(a: Double, b: Double, c: Double): Double {
     // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
     if (a == 0.0) {
         if (b == 0.0) return Double.NaN // ... и ничего больше не делать
-        val bc = -c / b
-        if (bc < 0.0) return Double.NaN // ... и ничего больше не делать
+        val bc=-c / b
+        if (bc<0.0) return Double.NaN // ... и ничего больше не делать
         return -Math.sqrt(bc)
         // Дальше функция при a == 0.0 не идёт
     }
-    val d = discriminant(a , b , c)   // 2
-    if (d < 0.0) return Double.NaN  // 3
+    val d=discriminant(a, b, c)   // 2
+    if (d<0.0) return Double.NaN  // 3
     // 4
-    val y1 = (-b + Math.sqrt(d)) / (2 * a)
-    val y2 = (-b - Math.sqrt(d)) / (2 * a)
-    val y3 = Math.max(y1 , y2)       // 5
-    if (y3 < 0.0) return Double.NaN // 6
+    val y1=(-b + Math.sqrt(d)) / (2 * a)
+    val y2=(-b - Math.sqrt(d)) / (2 * a)
+    val y3=Math.max(y1, y2)       // 5
+    if (y3<0.0) return Double.NaN // 6
     return -Math.sqrt(y3)           // 7
 }
 
@@ -38,7 +38,7 @@ fun minBiRoot(a: Double , b: Double , c: Double): Double {
 fun ageDescription(age: Int): String {
     return when {
         age % 10 == 1 && age / 10 != 1 && age / 10 != 11 -> "$age год"
-        age % 10 > 1 && age % 10 < 5 && age / 10 != 1 && age / 10 != 11 -> "$age года"
+        age % 10>1 && age % 10<5 && age / 10 != 1 && age / 10 != 11 -> "$age года"
         else -> "$age лет"
     }
 }
@@ -51,17 +51,17 @@ fun ageDescription(age: Int): String {
  * и t3 часов — со скоростью v3 км/час.
  * Определить, за какое время он одолел первую половину пути?
  */
-fun timeForHalfWay(t1: Double , v1: Double ,
-                   t2: Double , v2: Double ,
-                   t3: Double , v3: Double): Double {
-    val ss1: Double = v1 * t1
-    val ss2: Double = v2 * t2
-    val ss3: Double = v3 * t3
-    val s2 = ((ss1) + (ss2) + (ss3)) / 2
+fun timeForHalfWay(t1: Double, v1: Double,
+                   t2: Double, v2: Double,
+                   t3: Double, v3: Double): Double {
+    val ss1=v1 * t1
+    val ss2=v2 * t2
+    val ss3=v3 * t3
+    val s2=((ss1) + (ss2) + (ss3)) / 2
     return when {
-        s2 <= ss1 -> s2 / v1
-        s2 <= ss1 + ss2 -> (s2 - ss1) / v2 + t1
-        else -> (s2 - (ss1) - (ss2)) / v3 + t1 + t2
+        s2<=ss1 -> s2 / v1
+        s2<=ss1 + ss2 -> (s2 - ss1) / v2 + t1
+        else -> (s2 - ss1 - (ss2)) / v3 + t1 + t2
     }
 }
 
@@ -77,8 +77,8 @@ fun timeForHalfWay(t1: Double , v1: Double ,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val rook1 = (kingX == rookX1 || kingY == rookY1)
-    val rook2 = (kingX == rookX2 || kingY == rookY2)
+    val rook1=(kingX == rookX1 || kingY == rookY1)
+    val rook2=(kingX == rookX2 || kingY == rookY2)
     return when {
         !rook1 && !rook2 -> 0
         rook1 && !rook2 -> 1
@@ -97,16 +97,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  * Вернуть 0, если угрозы нет, 1, если угроза только от ладьи, 2, если только от слона,
  * и 3, если угроза есть и от ладьи и от слона.
  */
-fun rookOrBishopThreatens(kingX: Int , kingY: Int ,
-                          rookX: Int , rookY: Int ,
-                          bishopX: Int , bishopY: Int): Int {
-    var minusX: Int = abs(kingX - bishopX)
-    var minusY: Int = abs(kingY - bishopY)
-         if (((kingX == rookX) || (kingY == rookY)) && (minusX != minusY)) return 1
+fun rookOrBishopThreatens(kingX: Int, kingY: Int,
+                          rookX: Int, rookY: Int,
+                          bishopX: Int, bishopY: Int): Int {
+    val minusX: Int=abs(kingX - bishopX)
+    val minusY: Int=abs(kingY - bishopY)
+    if (((kingX == rookX) || (kingY == rookY)) && (minusX != minusY)) return 1
     else if (((kingX != rookX) && (kingY != rookY)) && (minusX == minusY)) return 2
     else if (((kingX == rookX) || (kingY == rookY)) && (minusX == minusY)) return 3
-    else    (((kingX != rookX) && (kingY != rookY)) && (minusX != minusY))
-          return 0
+    else (((kingX != rookX) && (kingY != rookY)) && (minusX != minusY))
+    return 0
 
 }
 
@@ -118,42 +118,27 @@ fun rookOrBishopThreatens(kingX: Int , kingY: Int ,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  *
-*/
+ */
 
 
-
-fun triangleKind(a: Double , b: Double , c: Double): Int {
+fun triangleKind(a: Double, b: Double, c: Double): Int {
     var min: Double
     val nor: Double
     var max: Double
 
-    if (a > b) {
-        max = a
-    } else {
-        max = b
-    }
-    if (c > max) {
-        max = c
-    }
-    if (a > b) {
-        min = b
-    } else {
-        min = a
-    }
-    if (c < min) {
-        min = c
-    }
+    if (a > b) {max = a} else {max = b}
+    if (c > max) {max = c}
+    if (a > b) {min = b} else {min = a}
+    if (c < min) {min = c}
     nor = a + b + c - max - min
 
     return when {
         max >= min + nor -> -1
-            min * min + nor * nor == max * max -> 1
-                min * min + nor * nor < max * max -> 2
-                else -> 0
-            }
-        }
-
-
+        min * min + nor * nor == max * max -> 1
+        min * min + nor * nor < max * max -> 2
+        else -> 0
+    }
+}
 
 /**
  * Средняя
@@ -163,16 +148,17 @@ fun triangleKind(a: Double , b: Double , c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int ,b: Int ,c: Int ,d: Int): Int {
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     if (d >= b) {
         return when {
-            c > b -> - 1
+            c > b -> -1
             (b >= c && a <= c) -> b - c
             else -> b - a
         }
-    } else {
+    }
+    else {
         return when {
-            a > d -> - 1
+            a > d -> -1
             d >= a && c <= a -> d - a
             else -> d - c
         }

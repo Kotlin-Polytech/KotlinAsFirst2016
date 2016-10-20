@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
     val line = readLine()
     if (line != null) {
         val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
+        if (seconds == - 1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
         } else {
             println("Прошло секунд с начала суток: $seconds")
@@ -60,35 +60,34 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
+    var result = ""
     val parts = str.split(" ")
-    if (parts.size != 3) {
-        return ""
-    }
-    val month = when (parts[1]) {
-        "января" -> ".01."
-        "февраля" -> ".02."
-        "марта" -> ".03."
-        "апреля" -> ".04."
-        "мая" -> ".05."
-        "июня" -> ".06."
-        "июля" -> ".07."
-        "августа" -> ".08."
-        "сентября" -> ".09."
-        "октября" -> ".10."
-        "ноября" -> ".11."
-        "декабря" -> ".12."
-        else -> ""
+    if (parts.size == 3) {
+        try {
+            if (parts[0].toInt() in 0..9) result = '0' + parts[0].toInt().toString() + "."
+            else result = parts[0].toInt().toString() + "."
+            result += when (parts[1]) {
+                "января" -> "01."
+                "февраля" -> "02."
+                "марта" -> "03."
+                "апреля" -> "04."
+                "мая" -> "05."
+                "июня" -> "06."
+                "июля" -> "07."
+                "августа" -> "08."
+                "сентября" -> "09."
+                "октября" -> "10."
+                "ноября" -> "11."
+                "декабря" -> "12."
+                else -> return ""
+            }
 
-    }
-    if (month.length == 0) {
-        return ""
-    } else
-        return when {
-            parts[0].length == 2 -> parts[0] + month + parts[2]
-            parts[0].length == 1 -> '0' + parts[0] + month + parts[2]
-            else -> ""
-
+            result += parts[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
         }
+        return result
+    } else return ""
 }
 
 /**
@@ -100,35 +99,34 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    if (parts.size != 3) {
-        return ""
-    }
-    val month = when (parts[1]) {
-        "01" -> " января "
-        "02" -> " февраля "
-        "03" -> " марта "
-        "04" -> " апреля "
-        "05" -> " мая "
-        "06" -> " июня "
-        "07" -> " июля "
-        "08" -> " августа "
-        "09" -> " сентября "
-        "10" -> " октября "
-        "11" -> " ноября "
-        "12" -> " декабря "
-        else -> ""
-
-    }
-    if (month.length == 0) {
-        return ""
-    } else
-        return when {
-            parts[0].length == 2 && parts[0][0] == '0' -> parts[0].removeRange(0,1) + month + parts[2]
-            parts[0].length == 2 && (parts[0][0]in '0'..'9') -> parts[0] + month + parts[2]
-            else -> ""
-
+    var result = ""
+    if (parts.size == 3) {
+        try {
+            if (parts[0].toInt() in 10..31) result = parts[0].toInt().toString()
+            else result = parts[0].toInt().toString()
+            result += when (parts[1]) {
+                "01" -> " января "
+                "02" -> " февраля "
+                "03" -> " марта "
+                "04" -> " апреля "
+                "05" -> " мая "
+                "06" -> " июня "
+                "07" -> " июля "
+                "08" -> " августа "
+                "09" -> " сентября "
+                "10" -> " октября "
+                "11" -> " ноября "
+                "12" -> " декабря "
+                else -> return ""
+            }
+            result += parts[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
         }
+        return result
+    } else return ""
 }
+
 
 /**
  * Сложная

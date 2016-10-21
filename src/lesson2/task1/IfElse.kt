@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -34,18 +35,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    var sAge = "$age"
-    val ageL=age%10
-    if (age%100 in 10..20) sAge+=" лет"
-    else
-        when(ageL) {
-            0 -> sAge+=" лет"
-            1 -> sAge+=" год"
-            in 2..4 -> sAge+=" года"
-            else -> sAge+=" лет"
-        }
 
-    return sAge
+    val ageL = age % 10
+    if (age % 100 in 10..20) return "$age лет"
+    else
+        when (ageL) {
+            0 -> return "$age лет"
+            1 -> return "$age год"
+            in 2..4 -> return "$age года"
+            else -> return "$age лет"
+        }
 }
 
 /**
@@ -60,7 +59,6 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t3: Double, v3: Double): Double = TODO()
 
 
-
 /**
  * Простая
  *
@@ -72,22 +70,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val threat: Int
-    if ((kingX == rookX1 && rookX2 == kingX) || (kingY == rookY1 && rookY2 == kingY) || (kingY == rookY1 && rookX2 == kingX) || (kingX == rookX1 && rookY2 == kingY)) threat = 3
-    else if (kingX == rookX1 || kingY == rookY1) threat = 1
-    else if (kingX == rookX2 || kingY == rookY2) threat = 2
-    else threat = 0
-    return threat
+    val r1Threat = (kingX == rookX1) || (kingY == rookY1)
+    val r2Threat = (kingX == rookX2) || (kingY == rookY2)
 
-  /**  val threat:Int
-    when {
-        kingX==rookX1 || kingY==rookY1 -> threat=1
-        kingX==rookX2 || kingY==rookY2 -> threat=2
-        kingX==rookX1 && kingX==rookX2 || kingY==rookY1 && kingY==rookY2 -> threat=3
-        else -> threat=0
-    }
-    return threat
-   */
+    if (r1Threat && r2Threat) return 3
+    else if (r1Threat) return 1
+    else if (r2Threat) return 2
+    else return 0
+
+
+
 }
 
 /**
@@ -102,12 +94,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val threat:Int
-    if ((Math.abs(bishopX-kingX)==Math.abs(bishopY-kingY)) && (rookX==kingX || rookY==kingY))  threat=3
-    else if (Math.abs(bishopX-kingX)==Math.abs(bishopY-kingY)) threat=2
-    else if (rookX==kingX || rookY==kingY) threat=1
-    else threat=0
-    return threat
+    val rThreat: Boolean = (kingX == rookX) || (kingY == rookY)
+    val bThreat: Boolean = Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)
+
+    if ((bThreat) && (rThreat)) return 3
+    else if (bThreat) return 2
+    else if (rThreat)return 1
+    else return 0
 }
 
 /**
@@ -119,27 +112,37 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val kind:Int
-    if (a+b<c || c+a<b || b+c<a) kind=-1
-    else {
-        if (a >= b && a >= c) {
-            if (b*b+c*c>a*a) kind=0
-            else if (b*b+c*c<a*a) kind=2
-            else kind=1
+    val max: Double
+    val side1: Double
+    val side2: Double
+
+    if (a + b < c || a + c < b || b + c < a) return -1
+
+    if (a > b) {
+        if (a > c) {
+            max = a
+            side1 = b
+            side2 = c
+        } else {
+            max = c
+            side1 = a
+            side2 = b
         }
-        else if (b>=a && b>=c) {
-            if (a*a+c*c>b*b) kind=0
-            else if (a*a+c*c<b*b) kind=2
-            else kind=1
+    } else {
+        if (b > c) {
+            max = b
+            side1 = a
+            side2 = c
+        } else {
+            max = c
+            side1 = a
+            side2 = b
         }
-        else if (c>=a && c>=b) {
-            if (a*a+b*b>c*c) kind=0
-            else if (a*a+b*b<c*c) kind=2
-            else kind=1
-        }
-        else kind=-1
     }
-    return kind
+    if (side1 * side1 + side2 * side2 > max * max) return 0
+    else if (side1 * side1 + side2 * side2 < max * max) return 2
+    else return 1
+
 }
 
 /**

@@ -123,7 +123,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.matches(Regex("""[\d\s+%\-]+"""))) {
+        val parts = jumps.split(Regex("""[\s%\-]+"""))
+        var result = parts[1].toInt()
+        for (i in 0..parts.size - 1) {
+            if (parts[i].toInt() >= result) {
+                result = parts[i].toInt()
+            }
+        }
+        return result
+    } else return -1
+}
 
 /**
  * Сложная
@@ -135,7 +146,24 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.matches(Regex("""[\d\s+%\-]+"""))) {
+        val parts = jumps.split(Regex("""[\s%\-]+"""))
+        val listOfHits = mutableListOf<Int>()
+        var max = 0
+        for (i in 0..parts.size - 1) {
+            if (parts[i].matches(Regex("""\d+""")) && parts[i + 1].matches(Regex("""\+"""))) {
+                listOfHits.add(parts[i].toInt())
+            }
+        }
+        for (element in listOfHits) {
+            if (element >= max) {
+                max = element
+            }
+        }
+        return max
+    } else return -1
+}
 
 /**
  * Сложная

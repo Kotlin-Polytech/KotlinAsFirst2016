@@ -269,23 +269,7 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int {
-    var l = str.length
-    var res = 0
-    var con = 0
-    for (q in str) {
-        l--
-        con = (Math.pow(base.toDouble(), l.toDouble())).toInt()
-        if (q in '0'..'9') {
-            res += (q.toInt()-'0'.toInt()) *con
-        }
-        else if (q in 'a'..'z') {
-            res += ((q.toInt()-'a'.toInt())+10)*con
-        }
-        }
-
-    return res
-}
+fun decimalFromString(str: String, base: Int): Int = TODO()
 
 /**
  * Сложная

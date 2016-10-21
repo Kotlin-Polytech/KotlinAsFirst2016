@@ -150,18 +150,18 @@ fun bestHighJump(jumps: String): Int {
     if (jumps.matches(Regex("""[\d\s+%\-]+"""))) {
         val parts = jumps.split(Regex("""[\s%\-]+"""))
         val listOfHits = mutableListOf<Int>()
-        var max = 0
+        var result = 0
         for (i in 0..parts.size - 1) {
             if (parts[i].matches(Regex("""\d+""")) && parts[i + 1].matches(Regex("""\+"""))) {
                 listOfHits.add(parts[i].toInt())
             }
         }
         for (element in listOfHits) {
-            if (element >= max) {
-                max = element
+            if (element >= result) {
+                result = element
             }
         }
-        return max
+        return result
     } else return -1
 }
 

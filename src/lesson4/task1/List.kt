@@ -170,8 +170,8 @@ fun polynom(p: List<Double>, x: Double): Double {
     if (p.isEmpty()) return 0.0
     var result = 0.0
     var pow = 0.0
-    for (element in p){
-        result += element * pow(x,pow)
+    for (element in p) {
+        result += element * pow(x, pow)
         pow++
     }
     return result
@@ -186,14 +186,14 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if(list.isEmpty()) return list
+    if (list.isEmpty()) return list
     val sum = list.sum()
     var sum2 = 0.0
     var rightSum = list.last()
-    for(i in list.size-1 downTo  1){
+    for (i in list.size - 1 downTo 1) {
         list[i] = sum - sum2
         sum2 += rightSum
-        rightSum = list[i-1]
+        rightSum = list[i - 1]
     }
     return list
 }
@@ -235,12 +235,12 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 fun convert(n: Int, base: Int): List<Int> {
     val result = mutableListOf<Int>()
     var newN = n
-    var element:Int
-    while (newN != 0) {
+    var element: Int
+    do {
         element = newN % base
         newN /= base
         result += element
-    }
+    } while (newN != 0)
     return result.reversed()
 }
 
@@ -293,9 +293,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val list = mutableListOf<Int>()
-    for(char in str){
-        if (char.toInt() in 97..122) list += char.toInt()-87
-        else list += char.toInt()-48
+    for (char in str) {
+        if (char.toInt() in 97..122) list += char.toInt() - 87
+        else list += char.toInt() - 48
     }
     return decimal(list, base)
 }

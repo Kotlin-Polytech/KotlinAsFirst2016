@@ -108,7 +108,7 @@ fun minDivisor(n: Int): Int {
     for (divisor in 2..n) {
         if (n % divisor == 0) return divisor
     }
-    return -1 // -1 - ошибка
+    return n
 }
 
 /**
@@ -121,7 +121,7 @@ fun maxDivisor(n: Int): Int {
     for (divisor in n - 1 downTo 1) {
         if (n % divisor == 0) return divisor
     }
-    return -1 // -1 - ошибка
+    return n
 }
 
 /**

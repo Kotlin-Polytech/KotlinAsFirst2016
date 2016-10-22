@@ -96,10 +96,7 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    for (k in 1..m * n) {
-        if (k % m == 0 && k % n == 0) return k
-    }
-    return -1 // -1 -это ошибка
+    return (m * n) / NOD(m, n)
 }
 
 /**
@@ -138,7 +135,7 @@ fun NOD(a: Int, b: Int): Int {
     var a1 = a
     var b1 = b
     if (b1 == 0) return a1
-    else return NOD(b, a1%b1)
+    else return NOD(b, a1 % b1)
 
 }
 
@@ -154,7 +151,14 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var k = 1
+    while (k * k <= n) {
+        if (k * k in m..n) return true
+        else k++
+    }
+    return false
+}
 
 /**
  * Простая
@@ -180,7 +184,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var revertNum = 0
+    var n1 = n
+    while (n1 > 0) {
+        revertNum = revertNum * 10 + (n1 % 10)
+        n1 /= 10
+    }
+    return revertNum
+}
 
 /**
  * Средняя
@@ -189,7 +201,14 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    val revertNum = revert(n)
+    if (revertNum == n) {
+        return true
+    } else {
+        return false
+    }
+}
 
 /**
  * Средняя
@@ -197,7 +216,18 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var n1 = n
+    val digit = n1 % 10
+    var count = digitNumber(n1)
+    for (count in digitNumber(n) downTo 1) {
+        if (n1 % 10 != digit) {
+            return true
+        }
+        n1 /= 10
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -206,7 +236,25 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var s = 0
+    var i = 0
+    while (s < n) {
+        i++
+        s += digitNumber(i * i)
+    }
+    if (s == n) return (i * i) % 10
+    else {
+        var t = s - n
+        var k = 10
+        while (t > 1) {
+            k *= 10
+            t--
+        }
+        return (i * i / k) % 10
+    }
+
+}
 
 /**
  * Сложная
@@ -215,4 +263,21 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var s = 0
+    var i = 0
+    while (s < n) {
+        i++
+        s += digitNumber(fib(i))
+    }
+    if (s == n) return (fib(i)) % 10
+    else {
+        var t = s - n
+        var k = 10
+        while (t > 1) {
+            k *= 10
+            t--
+        }
+        return (fib(i)/ k) % 10
+    }
+}

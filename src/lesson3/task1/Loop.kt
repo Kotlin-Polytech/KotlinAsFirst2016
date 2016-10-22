@@ -98,13 +98,15 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var k = Math.max(m, n)
-    while (k <= m * n) {
-        if ((k % m == 0) && (k % n == 0)) break
-        k++
+fun lcm(m: Int, n: Int): Int {/**алгоритм Евклида*/
+    var m0 = m
+    var n0 = n
+    val pr = m * n
+    while (m0 != n0) {
+        if (m0 > n0) m0 = m0 - n0
+        n0 = n0 - m0
     }
-    return k
+    return pr / m0
 }
 
 /**

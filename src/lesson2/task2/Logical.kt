@@ -2,7 +2,6 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-
 /**
  * Пример
  *
@@ -17,7 +16,13 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean {
+    var a = number / 1000
+    var b = (number / 100) % 10
+    var c = (number % 100) / 10
+    var d = number % 10
+    if (a + b == c + d) return true else return false
+}
 
 /**
  * Простая
@@ -25,8 +30,9 @@ fun isNumberHappy(number: Int): Boolean = TODO()
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
-
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
+    if (x1 == x2 || y1 == y2 || x1 + y1 == x2 + y2 || x1 - y1 == x2 - y2) return true else return false
+}
 /**
  * Средняя
  *
@@ -35,7 +41,9 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+                 x2: Double, y2: Double, r2: Double): Boolean {
+    if (Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) <= r2-r1) return true else return false
+}
 
 /**
  * Средняя
@@ -46,4 +54,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    if ((a<=r || b<=r) && (a<=s || b<=s)|| (a<=r || c<=r) && (a<=s || c<=s)||(c<=r || b<=r) && (c<=s || b<=s)) return true else return false
+}

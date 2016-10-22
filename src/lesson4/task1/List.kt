@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import lesson3.task1.powInt
 import java.lang.Math.*
 
 /**
@@ -197,7 +198,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var number = n
+    var count = 2
+    val result = mutableListOf<Int>()
+    while (number != 1) {
+        if (number % count == 0) {
+            result.add(count)
+            number /= count
+        } else count++
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -205,7 +217,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
@@ -214,7 +226,17 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var number = n
+    var result = listOf<Int>()
+    var list: List<Int>
+    do {
+        list = listOf(number % base)
+        result = list + result
+        number /= base
+    } while (number > 0)
+    return result
+}
 
 /**
  * Сложная
@@ -224,7 +246,15 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val convert = convert(n, base)
+    var result = ""
+    for (element in convert) {
+        if (element > 9) result += ('a' + element - 10).toChar()
+        else result += element.toString()
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -233,7 +263,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int{
+    var result = 0
+    for (i in digits.size-1 downTo 0){
+        result+= digits[i]* powInt(base, digits.size-1-i)
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -244,7 +280,14 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int{
+    var result = listOf<Int>()
+    for (char in str) {
+        if (char in '0'..'9') result += char - '0'
+        else result += char + 10 - 'a'
+    }
+    return decimal(result, base)
+}
 
 /**
  * Сложная
@@ -254,7 +297,20 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var number = n
+    val romanNumerals = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val arabicNumerals = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var result = ""
+    var i = arabicNumerals.size - 1
+    while (number > 0) {
+        while (number < arabicNumerals[i]) i--
+        result += romanNumerals[i]
+        number -= arabicNumerals[i]
+    }
+    return result
+}
+
 
 /**
  * Очень сложная
@@ -298,9 +354,5 @@ fun russian(n: Int): String {
         listResult.add(unit)
     }
     val newListResult = listResult.filter { it != "" }
-    /*for (i in 0..newListResult.size - 2) {
-        result += newListResult[i] + " "
-    }
-    result += newListResult.last()*/
     return newListResult.joinToString(" ")
 }

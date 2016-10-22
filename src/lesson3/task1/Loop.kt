@@ -224,9 +224,7 @@ fun squareSequenceDigit(n: Int): Int {
         sum += digitNumber(square)
     }
     count = sum - n
-    var powInt = 1
-    for (i in 1..count) powInt *= 10
-    return (square / powInt % 10)
+    return (square / powInt(10, count) % 10)
     /*return ((square / pow(10.0, count.toDouble())) % 10).toInt()*/
 
 }
@@ -248,7 +246,11 @@ fun fibSequenceDigit(n: Int): Int {
         sum += digitNumber(fibonach)
     }
     count = sum - n
-    var powInt = 1
-    for (i in 1..count) powInt *= 10
-    return (fibonach / powInt % 10)
+    return (fibonach / powInt(10, count) % 10)
+}
+
+fun powInt(number: Int, degree: Int): Int {
+    var result = 1
+    for (i in 1..degree) result *= number
+    return result
 }

@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import java.lang.reflect.Executable
 
 
 /**
@@ -81,7 +80,7 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int =
-        if ((n == 1) || (n == 2)) 1
+        if (n == 1 || n == 2) 1
         else fib(n - 1) + fib(n - 2)
 
 
@@ -119,7 +118,7 @@ fun maxDivisor(n: Int): Int {
             return i
         }
     }
-    throw Exception()
+    return 0
 }
 
 /**
@@ -168,18 +167,13 @@ fun cos(x: Double, eps: Double): Double {
     var b = 2
     var sign = true // Значение будет определять, с каким знаком брать очередной член ряда.
     do {
-        if (sign) {
-            res -= Math.pow(x1, a) / factorial(b)
-            a += 2
-            b += 2
-            sign = false
-        } else {
-            res += Math.pow(x1, a) / factorial(b)
-            a += 2
-            b += 2
-            sign = true
-        }
-    } while (Math.abs(Math.pow(x1, a) / factorial(b)) >= eps)
+        val summand = Math.pow(x1, a) / factorial(b)
+        if (sign) res -= summand
+        else res += summand
+        a += 2
+        b += 2
+        sign = !sign
+    } while (summand >= eps)
     return res
 }
 

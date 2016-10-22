@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,14 +43,13 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
+    println(dateStrToDigit("15 июля 2016"))
 }
 
 /**
@@ -60,7 +60,23 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    try{val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = str.split(" ")
+    var results = ""
+    var count = 0
+    for (element in list) {
+        if (parts[1].toString() == element) {
+            count++
+            break
+        }
+        count++
+    }
+    return "${parts[0]}.${twoDigitStr(count)}.${parts[2]}"}
+    catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя

@@ -86,7 +86,7 @@ fun fib(n: Int): Int = if (n > 2) (fib(n - 1) + fib(n - 2)) else 1
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun nod(n: Int, m: Int): Int {
     var max = Math.max(m, n)
     var min = Math.min(m, n)
     while (max % min != 0) {
@@ -94,7 +94,11 @@ fun lcm(m: Int, n: Int): Int {
         min = max % min
         max = store
     }
-    return m * n / min
+    return min
+}
+
+fun lcm(m: Int, n: Int): Int {
+    return m * n / nod(n, m)
 }
 
 /**
@@ -104,7 +108,7 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = n
-    for (i in 2..n/2) {
+    for (i in 2..n / 2) {
         if (n % i == 0) {
             k = i
             break
@@ -149,7 +153,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val mSqrt = Math.round(Math.sqrt(m.toDouble()))
     val nSqrt = Math.round(Math.sqrt(n.toDouble()))
-    var i=0
+    var i = 0
     for (i in mSqrt - 1..nSqrt + 1) {
         if (i * i >= m && i * i <= n) {
             return true

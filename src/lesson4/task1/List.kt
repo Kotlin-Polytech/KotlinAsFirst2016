@@ -107,14 +107,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
-/*{
-    var number = 0.0
-    for (i in 0..v.size - 1) {
-        number += sqr(v[i].toDouble())
-    }
-    return Math.sqrt(number)
-}
-*/
+
 /**
  * Простая
  *
@@ -319,23 +312,25 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()/*{
-   var number=n
+    var number = n
     val listUnits = listOf("edin", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
             "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятьнадцать",
             "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
     val listHundred = listOf("sotochki", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     val listDes = listOf("des", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
     val listThousands = listOf("tisacha", "одна тысяча", "две тысячи", "три тысячи")
-    var listRes = listOf<String>()
+    val listRes = mutableListOf<String>()
+
+    if (number / 100 % 10 == 0) Double.NaN else
+        if (number >= 100) listRes += listHundred[(number % 1000) / 100]
+
     if (number % 100 == 0) Double.NaN else
         if (number % 100 in 10..19) listRes += listUnits[number % 100] else if (number % 100 in 20..99) listRes += listDes[(number % 100) / 10] + " " + listUnits[number % 10]
         else if (number % 10 in 1..9) listRes += listUnits[number % 10]
 
-    if (number / 100 % 10 == 0) Double.NaN else
-        if (number >= 100) listRes += listDes[number / 100 % 10]
-    if (number >= 1000) {
-    number/=1000
-       if (number%100==0){}//////////////
-    }
+//    if (number >= 1000) {
+//        number /= 1000
+//        if (number % 100 == 0 || number < 100) listRes += "тысяч"
+//    }
     return listRes.joinToString()
-} */
+}*/

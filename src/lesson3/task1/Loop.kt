@@ -221,6 +221,7 @@ fun hasDifferentDigits(n: Int): Boolean {
         if (nn % 10 != samenum) return true
         nn /= 10
     }
+
     return false
 }
 

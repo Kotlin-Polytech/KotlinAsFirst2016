@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.pow
 
 /**
  * Пример
@@ -106,15 +107,13 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    if (v.size == 0) return 0.0
-    else {
-        var sum = 0.0
-        for (e in v) {
-            sum += e * e
-        }
-        return Math.sqrt(sum)
+    var sum = 0.0
+    for (e in v) {
+        sum += e * e
     }
+    return Math.sqrt(sum)
 }
+
 
 /**
  * Простая
@@ -241,7 +240,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
     val length = digits.size
     var res = 0
     for (i in 0..length - 1) {
-        res += digits[i] * Math.pow(base.toDouble(), (length - i - 1).toDouble()).toInt()
+        res += digits[i] * pow(base, length - i - 1)
     }
     return res
 }

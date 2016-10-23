@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -58,13 +59,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var count=0
-    var nVar=n
-    while(nVar!=0) {
-        nVar/=10
-        count+=1
+    var count = 0
+    var nVar = n
+    while (nVar != 0) {
+        nVar /= 10
+        count += 1
     }
-    if (n==0) count=1
+    if (n == 0) count = 1
     return count
 }
 
@@ -75,13 +76,13 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fib1:Int = 1
-    var fib2:Int = 1
+    var fib1: Int = 1
+    var fib2: Int = 1
     for (i in 3..n) {
-        if (i%2==1) fib1 += fib2
-        else fib2+=fib1
+        if (i % 2 == 1) fib1 += fib2
+        else fib2 += fib1
     }
-    if (n%2==1) return fib1
+    if (n % 2 == 1) return fib1
     else return fib2
 
 }
@@ -94,16 +95,9 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
 
-    var max:Int
-    if (m>=n) max=m
-    else max=n
-
-   while (max%m!=0 || max%n!=0)
-   {
-    max+=1
-   }
-
-    return max
+    var nod = 2
+    while (m % nod != 0 && n % nod != 0) nod+=1
+    return m * n / nod
 }
 
 /**
@@ -112,8 +106,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var del:Int=2
-    while(n%del!=0) del+=1
+    var del: Int = 2
+    while (n % del != 0) del += 1
     return del
 }
 
@@ -123,8 +117,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var del:Int=n-1
-    while (n%del!=0) del-=1
+    var del: Int = n - 1
+    while (n % del != 0) del -= 1
     return del
 }
 
@@ -136,14 +130,16 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val min:Int
-    if (m<n) {min=m}
-    else {min=n}
-    for (i in 2..min)
-    {
-        if ((m%i==0) && (n%i==0)) return false
+    val min: Int
+    if (m < n) {
+        min = m
+    } else {
+        min = n
     }
-  return true
+    for (i in 2..min) {
+        if ((m % i == 0) && (n % i == 0)) return false
+    }
+    return true
 }
 
 /**
@@ -154,8 +150,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-       val sqroot=Math.sqrt(m.toDouble()).toInt()
-       return (sqroot*sqroot>=m && sqroot*sqroot<=n) || ((sqroot+1)*(sqroot+1)<=n)
+    val sqroot = Math.sqrt(m.toDouble()).toInt()
+    return (sqroot * sqroot >= m && sqroot * sqroot <= n) || ((sqroot + 1) * (sqroot + 1) <= n)
 }
 
 /**
@@ -182,24 +178,24 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
+fun pow (a: Int, b: Int) : Int{
+    var result: Int = 1
+    for (i in 1..b) result *= a
+    return result
+}
 fun revert(n: Int): Int {
-    if (n<10) return n
-    var nn=n
-    var result:Int=0
-    var ext:Int=1
-    var count=0
-    while (nn!=0) {
-        count+=1
-        nn/=10
+    if (n < 10) return n
+    var nn = n
+    var result: Int = 0
+    var ext: Int
+    val count = digitNumber(n)
+
+    for (i in count downTo 1) {
+        ext = pow(10, i - 1)
+        result += nn % 10 * ext
+        nn /= 10
     }
-    nn=n
-    for (i in count downTo 1){
-        for (j in 1..i-1) {ext*=10}
-        result+=nn%10*ext
-        nn/=10
-        ext=1
-    }
-return result
+    return result
 }
 
 /**
@@ -218,17 +214,14 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    if (n<10) return false
-    val samenum:Int=n%10
-    var nn=n
-    var test=1
-    while (nn!=0) {
-        if (nn%10==samenum) test=1
-        else return true
-        nn/=10
+    if (n < 10) return false
+    val samenum: Int = n % 10
+    var nn = n
+    while (nn != 0) {
+        if (nn % 10 != samenum) return true
+        nn /= 10
     }
-    if (test==1) return false
-    return true
+    return false
 }
 
 

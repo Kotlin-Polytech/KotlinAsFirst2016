@@ -79,6 +79,14 @@ class Tests {
     }
 
     @Test
+    fun pow() {
+        assertEquals(1, pow(1, 150))
+        assertEquals(8, pow(2, 3))
+        assertEquals(25, pow(5, 2))
+        assertEquals(1024, pow(2, 10))
+    }
+
+    @Test
     @Tag("Easy")
     fun lcm() {
         assertEquals(13, lcm(13, 13))

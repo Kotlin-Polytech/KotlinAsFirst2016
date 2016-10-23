@@ -3,7 +3,6 @@
 package lesson3.task1
 
 
-
 /**
  * Пример
  *
@@ -84,21 +83,28 @@ fun fib(n: Int): Int =
         else fib(n - 1) + fib(n - 2)
 
 
+fun gcd(m: Int, n: Int): Int =
+        if (n == 0) m
+        else gcd(n, m % n)
+
+
+fun pow(m: Int, n: Int): Int {
+    var res = 1
+    for (i in 1..n) {
+        res *= m
+    }
+    return res
+}
+
+
 /**
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    val max = Math.max(m, n)
-    for (i in max..m * n) {
-        if ((i % m == 0) && (i % n == 0)) {
-            return i
-        }
-    }
-    throw Exception()
-}
+fun lcm(m: Int, n: Int): Int =
+        Math.abs(m * n) / gcd(m, n)
 
 /**
  * Простая
@@ -128,12 +134,8 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..Math.min(m, n)) {
-        if ((m % i == 0) && (n % i == 0)) return false
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean =
+        gcd(m, n) == 1
 
 /**
  * Простая
@@ -229,8 +231,7 @@ fun squareSequenceDigit(n: Int): Int {
         sum += digitNumber(square)
     }
     count = sum - n
-    return ((square / (Math.pow(10.0, (count).toDouble()))) % 10).toInt()
-
+    return (square / pow(10, count) % 10)
 }
 
 /**

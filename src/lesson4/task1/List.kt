@@ -334,14 +334,14 @@ fun numberBelowThousandToRussian(list: List<Int>, accompaniedByFeminineNoun: Boo
             "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
     val hundreds = listOf("сто", "двести", "триста", "четыреста",
             "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val unitsOfThousands = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val unitsOfFeminine = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     var result = listOf<String>()
-    for (i in 0..list.size - 1) {
+    for (i in Math.max(list.size - 3, 0)..list.size - 1) {
         val element = list[i]
         if (element != 0)
             when (i) {
                 list.size - 1 -> if (list.size > 1 && list[i - 1] == 1) result += from11to19[element - 1]
-                else if (accompaniedByFeminineNoun) result += unitsOfThousands[element - 1] else result += units[element - 1]
+                else if (accompaniedByFeminineNoun) result += unitsOfFeminine[element - 1] else result += units[element - 1]
                 list.size - 2 -> if (!(element == 1 && list[i + 1] != 0)) result += decades[element - 1]
                 list.size - 3 -> result += hundreds[element - 1]
             }
@@ -352,7 +352,7 @@ fun numberBelowThousandToRussian(list: List<Int>, accompaniedByFeminineNoun: Boo
 fun russian(n: Int): String {
     val thousands = listOf("тысяча", "тысячи", "тысяч")
     var listInt = convert(n, 10)
-    var listStr = numberBelowThousandToRussian(listInt, false)
+    var listStr = numberBelowThousandToRussian(listInt.subList(Math.max(listInt.size - 3, 0), listInt.size), false)
     if (listInt.size > 3) {
         listInt = listInt.subList(0, listInt.size - 3)
         if (listInt.size > 2 && listInt[listInt.size - 2] == 1) listStr = listOf(thousands[2]) + listStr

@@ -231,21 +231,24 @@ fun deletespace(str: String): String {
 
 fun bestHighJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
-    val jump = jumps.filter { it != '%' && it != '-' }
-    val results = jump.split(" ").filter { it.length != 0 }
-    var answer = -1
-    if (results.size < 2 || results[0] == "+") return -1
+    var maxhight = -1
     try {
-        for (i in 0..results.size - 2) {
-            if (results[i] == "+") continue
-            val resint = results[i].toInt()
-            if (results[i + 1] == "+" && resint > answer)
-                answer = resint
+        val jump = jumps.split(" ")
+        if (jump.size % 2 == 1) return -1
+        for (i in 0..jump.size - 1 step 2) {
+            for (k in 0..jump[i+1].length - 2) {
+                if (jump[i+1][k] == '%') continue
+                if (jump[i + 1][k] == jump[i + 1][k+1]) return -1
+            }
+            val jumpInt = jump[i].toInt()
+            if (jumpInt > maxhight && jump[i+1] == "+") {
+                maxhight = jumpInt
+            }
         }
-    } catch (e: NumberFormatException) {
+        return maxhight
+    } catch(e: NumberFormatException) {
         return -1
     }
-    return answer
 }
 
 
@@ -260,9 +263,8 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     if (expression.isEmpty()) throw IllegalArgumentException()
-    val express = expression
     var answer = 0
-    val expressions = express.split(" ").filter { it.length != 0 }
+    val expressions = expression.split(" ").filter { it.length != 0 }
     if (expressions.size == 0 || expressions.size % 2 != 1) throw IllegalArgumentException()
     try {
         answer = expressions[0].toInt()
@@ -318,17 +320,16 @@ fun mostExpensive(description: String): String {
     val strings = description.filter { it != ';' }.split(" ")
     if (strings.size < 2) return ""
     var maxindex = 1
-    var strInt = 0.0
-    for (i in 1..strings.size - 1 step 2) {
-        try {
-            strInt = strings[i].toDouble()
-        } catch (e: NumberFormatException) {
-            return ""
+    try {
+        for (i in 1..strings.size - 1 step 2) {
+            val strInt = strings[i].toDouble()
+            if (strInt < 0) return ""
+            if (strInt >= strings[maxindex].toDouble()) {
+                maxindex = i
+            }
         }
-        if (strInt < 0) return ""
-        if (strInt >= strings[maxindex].toDouble()) {
-            maxindex = i
-        }
+    } catch (e: NumberFormatException) {
+        return ""
     }
     return strings[maxindex - 1]
 }

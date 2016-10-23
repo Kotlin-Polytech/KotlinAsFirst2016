@@ -166,7 +166,7 @@ fun flattenPhoneNumber(phone: String): String {
     //если отфильтрованная строка не совпадает с изначальной, то
     // там есть символы, кроме + и цифр, что является ошибкой, а иначе все хорошо
     if (!phonenum.equals(phonenum1)) return ""
-    else return phonenum1
+    return phonenum1
 }
 
 ///////////////////////////////////////////////////
@@ -319,12 +319,14 @@ fun mostExpensive(description: String): String {
     val strings = description.filter { it != ';' }.split(" ")
     if (strings.size < 2) return ""
     var maxindex = 1
+    var maxelem = 0.0
     try {
         for (i in 1..strings.size - 1 step 2) {
             val strInt = strings[i].toDouble()
             if (strInt < 0) return ""
-            if (strInt >= strings[maxindex].toDouble()) {
+            if (strInt >= maxelem) {
                 maxindex = i
+                maxelem = strInt
             }
         }
     } catch (e: NumberFormatException) {

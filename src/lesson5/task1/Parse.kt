@@ -69,7 +69,7 @@ fun dateStrToDigit(str: String): String {
         val month = listOfMonth.indexOf(date[1]) + 1
         val year = date[2].toInt()
         if ((date.size != 3) || (day !in 1..31) || (month == 0)) return ""
-        return String.format("%02d.%02d.%02d", day, month, year)
+        return String.format("%02d.%02d.%d", day, month, year)
     }
     catch(e: Exception) {
         return ""
@@ -223,7 +223,7 @@ fun mostExpensive(description: String): String {
         for (part in parts) {
             val thingAndPrice = part.split(" ")
             if (thingAndPrice.size != 2 || thingAndPrice[1].toDouble() < 0) return ""
-            if (thingAndPrice[1].toDouble() > maxPrice) {
+            if (thingAndPrice[1].toDouble() >= maxPrice) {
                 maxPrice = thingAndPrice[1].toDouble()
                 thingWithMaxPrice = thingAndPrice[0]
             }
@@ -253,7 +253,7 @@ fun fromRoman(roman: String): Int {
     var i = 0
     try {
         while (i <= roman.length - 1) {
-            if (i + 3 < roman.length && roman[i] == roman [i + 1] && roman[i] == roman [i + 2] && roman[i] == roman [i + 3])
+            if (i + 3 < roman.length && roman[i] != 'M' && roman[i] == roman [i + 1] && roman[i] == roman [i + 2] && roman[i] == roman [i + 3])
                 return -1
             var element = roman[i].toString()
             if (i + 1 < roman.length && roman[i].toString() + roman[i + 1].toString() in listOfRoman) {

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -51,10 +52,10 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-   val s=((v1*t1)+(v2*t2)+(v3 * t3)) / 2.0
-    if (s<=v1*t1) return (s/v1)
-      if ((s>v1*t1)&&(s<=v1*t1+v2*t2)) return (t1+(s-v1*t1)/v2)
-      else return (t1+t2+(s-v1*t1-v2*t2)/v3)
+    val s = ((v1 * t1) + (v2 * t2) + (v3 * t3)) / 2.0
+    if (s <= v1 * t1) return (s / v1)
+    if ((s > v1 * t1) && (s <= v1 * t1 + v2 * t2)) return (t1 + (s - v1 * t1) / v2)
+    else return (t1 + t2 + (s - v1 * t1 - v2 * t2) / v3)
     return s
 }
 
@@ -69,10 +70,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((kingX==rookX1)|| (kingY==rookY1) && (kingX != rookX2) || (kingY != rookY2)) return 1
-       else if ((kingX==rookX2)||(kingY==rookY2)&& (kingX != rookX1) || (kingY != rookY1)) return 2
-       else if ((kingX==rookX1)|| (kingY==rookY1)&&(kingX==rookX2)||(kingY==rookY2)) return 3
-    else return 0
+    var alertX = 0
+    if ((kingX == rookX1) || (kingY == rookY1))
+        alertX += 1
+    if ((kingX == rookX2) || (kingY == rookY2))
+        alertX += 2
+    return alertX
 }
 
 /**
@@ -86,7 +89,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    var alertX = 0
+    if ((kingX == rookX) || (kingY == rookY))
+        alertX += 1
+    if (Math.abs(kingX - bishopX) == (Math.abs(kingY - bishopY)))
+        alertX += 2
+    return alertX
+}
 
 /**
  * Простая
@@ -96,7 +106,17 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    return when {
+        ((a + b <= c) || (a + c <= b) || (b + c <= a)) -> -1
+        ((a * a + b * b < c * c) || (a * a + c * c < b * b) || (b * b + c * c < a * a)) -> 2
+        ((a * a + b * b == c * c) || (a * a + c * c == b * b) || (b * b + c * c == a * a)) -> 1
+        ((a * a + b * b > c * c) || (a * a + c * c > b * b) || (b * b + c * c > a * a)) -> 0
+        else -> -1
+    }
+
+}
+
 
 /**
  * Средняя
@@ -106,4 +126,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (b >= c && a <= c && b <= d) return b - c
+    else if (a <= d && c <= a && b >= d) return d - a
+    else if (a >= c && b <= d) return b - a
+    else if (a <= c && b >= d) return d - c
+    else return -1
+}

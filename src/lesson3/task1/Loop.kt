@@ -77,7 +77,6 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var i = 0;
     var a = 0;
     var b = 1;
     var t = 1;
@@ -153,7 +152,13 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int = TODO()/*{
+    var l = n.toString().length
+    var c  = Math.pow(10.toDouble(),(l-1).toDouble())
+    for (i in 1..l){
+
+    }
+}*/
 
 /**
  * Средняя
@@ -180,25 +185,23 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var i = 0
+    var el = 0
     var j = 0
     var kv = 0
     var s = 0
     var ost = 0
     var cur = 0
     while (s < n) {
-        i++
-        kv = i * i
+        el++
+        kv = el * el
         s = s + kv.toString().length
     }
     ost = s - n
-    if (ost == 0) cur = kv % 10
-    else {
-        for (j in 1..ost) {
-            kv = kv / 10
-        }
-        cur = kv % 10
+    for (j in 1..ost) {
+        kv /= 10
     }
+    cur = kv % 10
+
     return cur
 }
 
@@ -209,4 +212,22 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var el1 = 0
+    var num1 = 0
+    var s = 0
+    var ost = 0
+    var cur = 0
+    while (s < n) {
+        el1++
+        num1 = fib(el1)
+        s = s + num1.toString().length
+    }
+    ost = s - n
+    for (j in 1..ost) {
+        num1 /= 10
+    }
+    cur = num1 % 10
+
+    return cur
+}

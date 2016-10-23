@@ -62,10 +62,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3 = v3 * t3
     val s123 = (s1 + s2 + s3) / 2.0
     if (s123 != 0.0) {
-        if (s1 >= s123) return s123 / v1
-        if ((s1 < 123) && (s1 != 0.0)) return t1 + (s123 - s1) / v2
-        if (s1 + s2 < s123) return t1 + t2 + (s123 - s1 - s2) / v3
-
+        return when {
+            (s1 >= s123) -> s123 / v1
+            ((s1 < 123) && (s1 != 0.0)) -> t1 + (s123 - s1) / v2
+            else -> t1 + t2 + (s123 - s1 - s2) / v3
+        }
     }
     return Double.NaN
 }
@@ -82,10 +83,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return if (((kingY == rookY1) || (kingX == rookX1)) && ((kingY == rookY2) || (kingX == rookX2))) 3
-    else if ((kingX == rookX1) || (kingY == rookY1) && (kingX != rookX2) && (kingY != rookY2)) 1
-    else if ((kingX == rookX2) || (kingY == rookY2) && (kingX != rookX1) && (kingY != rookY1)) 2
-    else 0
+    val l12 = (((kingY == rookY1) || (kingX == rookX1)) && ((kingY == rookY2) || (kingX == rookX2)))
+    val l1 = ((kingX == rookX1) || (kingY == rookY1) && (kingX != rookX2) && (kingY != rookY2))
+    val l2 = ((kingX == rookX2) || (kingY == rookY2) && (kingX != rookX1) && (kingY != rookY1))
+    return when {
+        l12 -> 3
+        l1 -> 1
+        l2 -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -100,12 +106,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    return if (((kingY == rookY) || (kingX == rookX)) && (abs((bishopX - kingX)) != (abs(bishopY - kingY)))) 1
-    else if (((kingY != rookY) && (kingX != rookX)) && (abs(bishopX - kingX)) == (abs(bishopY - kingY))) 2
-    else if (((kingY == rookY) || (kingX == rookX)) && (abs(bishopX - kingX)) == (abs(bishopY - kingY))) 3
-    else 0
+    val l = (((kingY == rookY) || (kingX == rookX)) && (abs((bishopX - kingX)) != (abs(bishopY - kingY))))
+    val sl = (((kingY != rookY) && (kingX != rookX)) && (abs(bishopX - kingX)) == (abs(bishopY - kingY)))
+    val lsl = (((kingY == rookY) || (kingX == rookX)) && (abs(bishopX - kingX)) == (abs(bishopY - kingY)))
+    return when {
+        l -> 1
+        sl -> 2
+        lsl -> 3
+        else -> 0
+    }
 }
-
 
 /**
  * Простая
@@ -126,10 +136,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when{
-    ((c >= a) && (c <= b) && (d >= b)) -> abs(b - c)
-    ((c >= a) && (d <= b)) ->  abs(d - c)
-    ((a >= c) && (a <= d) && (d <= b)) ->  abs(d - a)
-    ((a >= c) && (b <= d)) -> abs(b - a)
-    else -> -1}
+    return when {
+        ((c >= a) && (c <= b) && (d >= b)) -> abs(b - c)
+        ((c >= a) && (d <= b)) -> abs(d - c)
+        ((a >= c) && (a <= d) && (d <= b)) -> abs(d - a)
+        ((a >= c) && (b <= d)) -> abs(b - a)
+        else -> -1
+    }
 }

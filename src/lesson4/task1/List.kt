@@ -109,11 +109,10 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var s = 0.0
-    for (i in 0..v.size - 1) {
-        s = s + sqr(v[i])
+    for (i in v) {
+        s += sqr(i)
     }
-    if (v.size != 0) return Math.sqrt(s)
-    else return 0.0
+    return Math.sqrt(s)
 }
 
 /**
@@ -123,9 +122,8 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var sum = 0.0
-    for (i in 0..list.size - 1) {
-        val element = list[i]
-        sum = sum + element
+    for (i in list) {
+        sum += i
     }
     if (list.size != 0) return sum / list.size
     else return 0.0
@@ -138,11 +136,9 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var sr = 0.0
-    sr = mean(list)
+    var sr = mean(list)
     for (i in 0..list.size - 1) {
-        val el = list[i] - sr
-        list[i] = el
+        list[i] = list[i] - sr
     }
     return list
 }
@@ -159,9 +155,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
     for (i in 0..a.size - 1) {
         sumpr = sumpr + (a[i] * b[i])
     }
-
-    if (sumpr != 0.0) return sumpr
-    else return 0.0
+    return sumpr
 }
 
 /**
@@ -173,12 +167,11 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    var znach = 0.0
+    var res = 0.0
     for (i in 0..p.size - 1) {
-        znach = znach + p[i] * Math.pow(x, i.toDouble())
+        res = res + p[i] * Math.pow(x, i.toDouble())
     }
-    if (znach != 0.0) return znach
-    else return 0.0
+    return res
 }
 
 
@@ -269,7 +262,22 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var l = str.length
+    var res = 0
+    var con = 0
+    for (q in str) {
+        l--
+        con = (Math.pow(base.toDouble(), l.toDouble())).toInt()
+        if (q in '0'..'9') {
+            res += (q.toInt() - '0'.toInt()) * con
+        } else if (q in 'a'..'z') {
+            res += ((q.toInt() - 'a'.toInt()) + 10) * con
+        }
+    }
+
+    return res
+}
 
 /**
  * Сложная

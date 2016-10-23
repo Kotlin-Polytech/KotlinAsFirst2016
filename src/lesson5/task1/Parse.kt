@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -19,7 +20,7 @@ fun timeStrToSeconds(str: String): Int {
 
 fun twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
 
-/**
+/***
  * Пример
  *
  * Дано seconds -- время в секундах, прошедшее с начала дня.
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,14 +59,38 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()/*{
+fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    for (part in parts){
-        val el =
-
-
+    var d = 0
+    var y = 0
+    var m = 0
+    for (part in parts) {
+        var i = part.first()
+        if ((i in '0'..'9') && ((part.length == 1) || (part.length == 2))) {
+            d = part.toInt()
+        } else if (i in 'а'..'я') {
+            when {
+                part == "января" -> m = 1
+                part == "февраля" -> m = 2
+                part == "марта" -> m = 3
+                part == "апреля" -> m = 4
+                part == "мая" -> m = 5
+                part == "июня" -> m = 6
+                part == "июля" -> m = 7
+                part == "августа" -> m = 8
+                part == "сентября" -> m = 9
+                part == "октября" -> m = 10
+                part == "ноября" -> m = 11
+                part == "декабря" -> m = 12
+            }
+        } else if ((i in '0'..'9') && (part.length == 4)) {
+            y = part.toInt()
+        }
     }
-}*/
+    if ((d != 0) && (m != 0) && (y != 0)) {
+        return String.format("%02d.%02d.%02d", d, m, y)
+    } else return ""
+}
 
 /**
  * Средняя
@@ -76,7 +99,40 @@ fun dateStrToDigit(str: String): String = TODO()/*{
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    var d1 = 0
+    var y1 = 0
+    var m1 = ""
+    var i = 0
+    for (part in parts) {
+        i++
+        if ((i == 1) && (part.first() in '0'..'9')) {
+            d1 = part.toInt()
+        } else if ((i == 2) && (part.first() in '0'..'9')) {
+            when {
+                part == "01" -> m1 = "января"
+                part == "02" -> m1 = "февраля"
+                part == "03" -> m1 = "марта"
+                part == "04" -> m1 = "апреля"
+                part == "05" -> m1 = "мая"
+                part == "06" -> m1 = "июня"
+                part == "07" -> m1 = "июля"
+                part == "08" -> m1 = "августа"
+                part == "09" -> m1 = "сентября"
+                part == "10" -> m1 = "октября"
+                part == "11" -> m1 = "ноября"
+                part == "12" -> m1 = "декабря"
+            }
+        } else if ((i == 3) && (part.first() in '0'..'9')) {
+            y1 = part.toInt()
+        }
+    }
+    if ((d1 != 0) && (m1 != "") && (y1 != 0) && (i <= 3)) {
+        return String.format("%d %s %d", d1, m1, y1)
+    } else return ""
+}
+
 
 /**
  * Сложная

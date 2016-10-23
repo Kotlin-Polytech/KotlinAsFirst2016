@@ -124,12 +124,15 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    if (jumps.matches(Regex("""[\d\s+%\-]+"""))) {
-        val parts = jumps.split(Regex("""[\s%\-]+"""))
-        var result = parts[1].toInt()
+    if (jumps.matches(Regex("""[\d\s%\-]+"""))) {
+        val parts = jumps.split(Regex("""[\D]+"""))
+        var result = -1
         for (i in 0..parts.size - 1) {
-            if (parts[i].toInt() >= result) {
-                result = parts[i].toInt()
+            try {
+                if (parts[i].toInt() >= result) {
+                result = parts[i].toInt() }
+            } catch (e : NumberFormatException) {
+                Double.NaN
             }
         }
         return result
@@ -150,7 +153,7 @@ fun bestHighJump(jumps: String): Int {
     if (jumps.matches(Regex("""[\d\s+%\-]+"""))) {
         val parts = jumps.split(Regex("""[\s%\-]+"""))
         val listOfHits = mutableListOf<Int>()
-        var result = 0
+        var result = -1
         for (i in 0..parts.size - 1) {
             if (parts[i].matches(Regex("""\d+""")) && parts[i + 1].matches(Regex("""\+"""))) {
                 listOfHits.add(parts[i].toInt())

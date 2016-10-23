@@ -138,6 +138,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
+    if (phone == "+") return ""
     var phonenum = phone.filter { it != ' ' && it != '-' }
     val indexopen = phonenum.indexOf('(') //находим индекс открывающейся скобки
     //если открывающаяся скобка есть, то проверяем, что она одна

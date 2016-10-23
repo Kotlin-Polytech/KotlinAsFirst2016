@@ -236,12 +236,10 @@ fun bestHighJump(jumps: String): Int {
         val jump = jumps.split(" ")
         if (jump.size % 2 == 1) return -1
         for (i in 0..jump.size - 1 step 2) {
-            for (k in 0..jump[i+1].length - 2) {
-                if (jump[i+1][k] == '%') continue
-                if (jump[i + 1][k] == jump[i + 1][k+1]) return -1
-            }
+            val str = jump[i+1].filter { it != '%' }
+            if (str.length > 2) return -1
             val jumpInt = jump[i].toInt()
-            if (jumpInt > maxhight && jump[i+1] == "+") {
+            if (jumpInt > maxhight && str == "+") {
                 maxhight = jumpInt
             }
         }

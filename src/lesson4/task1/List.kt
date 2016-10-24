@@ -174,7 +174,7 @@ fun polynom(p: List<Double>, x: Double): Double {
     if (p.isNotEmpty()) {
         for (i in p) {
             var step = p.indexOf(i)
-            sum += i * Math.pow(x, step.toDouble())
+            sum += i * pow(x.toInt(), step)
         }
         return sum
     } else return 0.0

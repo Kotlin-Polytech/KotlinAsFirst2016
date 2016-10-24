@@ -107,14 +107,11 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    val size = v.size
     var sum = 0.0
-    if (v.isNotEmpty()) {
-        for (i in 0..(size - 1)) {
-            sum += sqr(v[i])
-        }
-        return Math.sqrt(sum)
-    } else return 0.0
+    for (i in v) {
+        sum += sqr(i)
+    }
+    return Math.sqrt(sum)
 }
 
 /**
@@ -173,12 +170,11 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    val size = p.size
     var sum = 0.0
     if (p.isNotEmpty()) {
-        for (i in 0..(size - 1)) {
-            if (i == 0) sum = sum + p[i]
-            else sum += p[i] * Math.pow(x, i.toDouble())
+        for (i in p) {
+            var step = p.indexOf(i)
+            sum += i * Math.pow(x, step.toDouble())
         }
         return sum
     } else return 0.0
@@ -295,47 +291,16 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun sqr(a: Int, b: Int): Int {
+fun pow(a: Int, b: Int): Int {
     var result = 1
     for (i in 1..b) result *= a
     return result
 }
 
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0
-    for (i in 0..str.length - 1) {
-        val number = str[str.length - 1 - i]
-        result += when (number) {
-            'a' -> (lesson4.task1.sqr(base, i) * 10)
-            'b' -> (lesson4.task1.sqr(base, i) * 11)
-            'c' -> (lesson4.task1.sqr(base, i) * 12)
-            'd' -> (lesson4.task1.sqr(base, i) * 13)
-            'e' -> (lesson4.task1.sqr(base, i) * 14)
-            'f' -> (lesson4.task1.sqr(base, i) * 15)
-            'g' -> (lesson4.task1.sqr(base, i) * 16)
-            'h' -> (lesson4.task1.sqr(base, i) * 17)
-            'i' -> (lesson4.task1.sqr(base, i) * 18)
-            'j' -> (lesson4.task1.sqr(base, i) * 19)
-            'k' -> (lesson4.task1.sqr(base, i) * 20)
-            'l' -> (lesson4.task1.sqr(base, i) * 21)
-            'm' -> (lesson4.task1.sqr(base, i) * 22)
-            'n' -> (lesson4.task1.sqr(base, i) * 23)
-            'o' -> (lesson4.task1.sqr(base, i) * 24)
-            'p' -> (lesson4.task1.sqr(base, i) * 25)
-            'q' -> (lesson4.task1.sqr(base, i) * 26)
-            'r' -> (lesson4.task1.sqr(base, i) * 27)
-            's' -> (lesson4.task1.sqr(base, i) * 28)
-            't' -> (lesson4.task1.sqr(base, i) * 29)
-            'u' -> (lesson4.task1.sqr(base, i) * 30)
-            'v' -> (lesson4.task1.sqr(base, i) * 31)
-            'w' -> (lesson4.task1.sqr(base, i) * 32)
-            'x' -> (lesson4.task1.sqr(base, i) * 33)
-            'y' -> (lesson4.task1.sqr(base, i) * 34)
-            'z' -> (lesson4.task1.sqr(base, i) * 35)
-            else -> (lesson4.task1.sqr(base, i) * (number - 48).toInt())
-        }
-    }
-    return result
+    val char = "0123456789abcdefghijklmnopqrstuvwxyz"
+    var i: Int = 0
+    return str.reversed().sumBy { char.indexOf(it) * pow(base, i++) }
 }
 
 /**

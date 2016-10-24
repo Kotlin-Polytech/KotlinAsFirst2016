@@ -59,6 +59,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int = TODO()
 
+
 /**
  * Простая
  *
@@ -80,14 +81,30 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..n) {
+        if (n % i == 0)
+            return i
+
+    }
+        return n
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var k: Int = 0
+    for (i in 1..n-1) {
+        if (n % i == 0) {
+            k = i
+        }
+    }
+       return k
+        }
+
 
 /**
  * Простая
@@ -131,7 +148,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var s = n
+    var newNumber: Int = 0
+    while (s > 0) {
+        newNumber = newNumber * 10 + s % 10
+        s = s / 10
+    }
+    return newNumber
+}
 
 /**
  * Средняя
@@ -140,7 +165,9 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    return n == revert(n)
+}
 
 /**
  * Средняя
@@ -157,7 +184,31 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+
+fun countNumbers(n: Int): Int {  //подсчет кол-ва цифр в числе
+    var a: Int = n
+    var k: Int = 0
+    while (a>0){
+       a /= 10
+       k ++
+    }
+        return k
+}
+
+fun squareSequenceDigit(n: Int): Int {
+    var number  :Int = 0
+    var numberi :Int = 0
+    var resalt  :Int = 0
+    while (number < n) {
+        numberi ++
+        number = number + countNumbers(numberi * numberi)
+    }
+resalt = numberi * numberi
+    for (numberi in n..number - 1) {
+        resalt /= 10
+    }
+    return (resalt %10)
+}
 
 /**
  * Сложная

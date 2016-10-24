@@ -66,11 +66,7 @@ fun dateStrToDigit(str: String): String {
     if (str.matches(Regex("""\d+\s[а-я]+\s\d+"""))) {
         val parts = str.split(" ")
         val day = parts[0].toInt()
-        var month = 0
-        for (i in 0..listOfMonths.size - 1) {
-            if (parts[1] == listOfMonths[i])
-                month = i + 1
-        }
+        val month = listOfMonths.indexOf(parts[1]) + 1
         val year = parts[2].toInt()
         return if (day in 1..31 && month != 0)
             String.format("%02d.%02d.%d", day, month, year)
@@ -111,7 +107,12 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.matches(Regex("""[\d+\-\s()]+"""))) {
+        val parts = phone.split(" ").joinToString()
+        return parts.split(Regex("""[^+\d]+""")).joinToString().filter { it != ' ' && it != ',' }
+    } else return ""
+}
 
 /**
  * Средняя
@@ -127,11 +128,12 @@ fun bestLongJump(jumps: String): Int {
     if (jumps.matches(Regex("""[\d\s%\-]+"""))) {
         val parts = jumps.split(Regex("""[\D]+"""))
         var result = -1
-        for (i in 0..parts.size - 1) {
+        for (part in parts) {
             try {
-                if (parts[i].toInt() >= result) {
-                result = parts[i].toInt() }
-            } catch (e : NumberFormatException) {
+                if (part.toInt() >= result) {
+                    result = part.toInt()
+                }
+            } catch (e: NumberFormatException) {
                 Double.NaN
             }
         }
@@ -201,7 +203,31 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val parts = description.split("; ")
+    var maxPrice = 0.0
+    var k = 0
+    val pricesList = mutableListOf<Double>()
+    val namesList = mutableListOf<String>()
+    var toBreak = false
+    for (element in parts) {
+        if (element.matches(Regex("""[а-яА-Я]+\s\d+\.\d+"""))) {
+            val list = element.split(" ")
+            namesList += list[0]
+            pricesList += list[1].toDouble()
+        } else toBreak = true
+    }
+    if (toBreak) return ""
+    else {
+        for (i in 0..pricesList.size - 1) {
+            if (pricesList[i] >= maxPrice && pricesList.size != 1) {
+                k = i
+                maxPrice = pricesList[i]
+            }
+        }
+        return namesList[k]
+    }
+}
 
 /**
  * Сложная

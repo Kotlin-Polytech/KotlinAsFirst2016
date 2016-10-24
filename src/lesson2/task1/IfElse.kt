@@ -75,10 +75,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var first = false
-    var second = false
-    if ((kingX == rookX1) || (kingY == rookY1)) first = true
-    if ((kingX == rookX2) || (kingY == rookY2)) second = true
+    val first = kingX == rookX1 || kingY == rookY1
+    val second = kingX == rookX2 || kingY == rookY2
     return when {
         first && second -> 3
         first -> 1

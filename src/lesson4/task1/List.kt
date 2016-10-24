@@ -215,15 +215,16 @@ fun convertToString(n: Int, base: Int): String {
             number /= base
         }
         revertedNumerals.add(number % base)
+
         val length = revertedNumerals.size
         val numerals = mutableListOf<String>()
+        revertedNumerals.reverse()
+
         for (i in 0..length - 1) {
-            numerals.add((revertedNumerals[length - 1 - i]).toString())
-        }
-        for (i in 0..length - 1) {
-            if (numerals[i].toInt() > 9) {
-                numerals[i] = alphabet[(numerals[i].toInt() - 10)].toString()
+            if (revertedNumerals[i].toInt() > 9) {
+                numerals.add(alphabet[(revertedNumerals[i] - 10)].toString())
             }
+            else numerals.add(revertedNumerals[i].toString())
         }
         return numerals.joinToString("")
     }

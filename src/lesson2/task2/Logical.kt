@@ -3,7 +3,7 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import lesson4.task1.abs
+
 
 /**
  * Пример
@@ -33,7 +33,7 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = if ((y1 == y2) && (x1 == x2) && (Math.abs(y1 - y2) == Math.abs(x1 - x2))) true else false
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((y1 == y2) || (x1 == x2) || (Math.abs(y1 - y2) == Math.abs(x1 - x2)))
 
 /**
  * Средняя
@@ -44,8 +44,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = if ((y1 == y2)
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    val R = Math.sqrt(sqr(Math.abs(y1 - y2)) + sqr(Math.abs(x1 - x2))) + r1
-    return !(R > r2)
+    val r = Math.sqrt(sqr(Math.abs(y1 - y2)) + sqr(Math.abs(x1 - x2))) + r1
+    return (r <= r2)
 }
 
 /**
@@ -57,6 +57,4 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return ((a * b <= r * s) || (a * c <= r * s) || (b * c <= r * s))
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = ((((a <= r) && (b <= s)) || ((a <= s) && (b <= r))) || (((a <= r) && (c <= s)) || ((a <= s) && (c <= r))) || (((b <= r) && (c <= s)) || ((b <= s) && (c <= r))))

@@ -47,11 +47,14 @@ fun ageDescription(age: Int): String = TODO()
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val ps = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val part1 = t1 * v1
+    val part2 = t2 * v2
+    val part3 = t3 * v3
+    val ps = (part1 + part2 + part3) / 2
     when {
-        t1 * v1 >= ps -> return ps / v1
-        t1 * v1 + t2 * v2 < ps -> return t1 + t2 + (ps - t1 * v1 - t2 * v2) / v3
-        else -> return t1 + (ps - t1 * v1) / v2
+        part1 >= ps -> return ps / v1
+        part1 + part2 < ps -> return t1 + t2 + (ps - part1 - part2) / v3
+        else -> return t1 + (ps - part1) / v2
     }
 }
 
@@ -99,20 +102,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-
-    if ((c in a..b) && (d in a..b)) {
-        return d - c
-    } else if ((c in a..b) && (d !in a..b)) {
-        return b - c
-    } else if ((d in a..b) && (c !in a..b)) {
-        return d - a
-    } else if ((a in c..d) && (b in c..d)) {
-        return b - a
-    } else if ((a in c..d) && (b !in c..d)) {
-        return d - a
-    } else if ((b in c..a) && (a !in c..d)) {
-        return b - c
-    } else {
-        return -1
+    when {
+        ((c in a..b) && (d in a..b)) -> return d - c
+        ((c in a..b) && (d !in a..b)) -> return b - c
+        ((d in a..b) && (c !in a..b)) -> return d - a
+        ((a in c..d) && (b in c..d)) -> return b - a
+        ((a in c..d) && (b !in c..d)) -> return d - a
+        ((b in c..a) && (a !in c..d)) -> return b - c
+        else -> return -1
     }
 }

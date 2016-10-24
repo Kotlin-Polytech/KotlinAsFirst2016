@@ -265,7 +265,6 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean {
     val x = n % 10
     var number = n
-    //var result=false
     do {
         if (x != number % 10) {
             return true
@@ -282,17 +281,20 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun sqr(x:Int):Int=x*x
+fun sqr(x: Int): Int = x * x
 
 fun squareSequenceDigit(n: Int): Int {
-    var str=""
-    var number=0
-    while(str.length-1<n){
-        number++
-        str+=sqr(number).toString()
+    var str = ""
+    var i = 0
+    var number = 0
+    while (n > i) {
+        number += 1
+        str = sqr(number).toString()
+        i += str.length
     }
-    return str[n-1].toInt()-48
+    return (str[str.length - 1 - (i - n)]).toInt() - '0'.toInt()
 }
+
 /**
  * Сложная
  *
@@ -301,16 +303,17 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var str="11"
-    var number=0
     var a = 1
     var b = 1
-    var result = 1
-    while(str.length-1<n){
-        result=a+b
-        str+=result.toString()
-        a=b
-        b=result
+    var str = "11"
+    var i = 2
+    if (n in 1..2) return 1
+    while (n > i) {
+        str = (a + b).toString()
+        a = b
+        b = str.toInt()
+        i += str.length
     }
-    return str[n-1].toInt()-48
+
+    return (str[str.length - 1 - (i - n)]).toInt() - '0'.toInt()
 }

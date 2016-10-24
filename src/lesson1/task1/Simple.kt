@@ -104,7 +104,7 @@ fun takeDigit(number: Int, digit: Int = 1): Int {
     else if (digit == 1) return number % 10
     else {
         val shift: Int = pow(10.0, (digit - 1).toDouble()).toInt()
-        return if (number >= shift) (number / shift) % 10 else -1
+        return if (number >= shift) (number / shift) % 10 else 0
     }
 }
 

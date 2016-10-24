@@ -52,6 +52,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
         if (n == m) 1 else if (n < 10) 0
         else digitCountInNumber(n / 10, m) + digitCountInNumber(n % 10, m)
 
+fun pow(a: Int, b: Int): Int {
+    var n = 1
+    for (i in 1..b) {
+        n = n * a
+    }
+    return n
+}
+
 /**
  * Тривиальная
  *
@@ -70,13 +78,13 @@ fun fib(n: Int): Int {
     var f1 = 1
     var f2 = 0
     var result = 1
-    if (n<3) return result
+    if (n < 3) return result
     else
-    for(i in 3..n){
-        f2 = result
-        result = result + f1
-        f1 = f2
-    }
+        for (i in 3..n) {
+            f2 = result
+            result = result + f1
+            f1 = f2
+        }
     return result
 }
 
@@ -87,10 +95,11 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k: Int = Math.min(n, m)
+    var k = Math.min(n, m)
+    val min = Math.min(m, n)
     while (true) {
         if ((k % m == 0) && (k % n == 0)) return k
-        else k = k + Math.min(m, n)
+        else k = k + min
     }
 }
 
@@ -100,7 +109,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var res: Int = 2
+    var res = 2
     while (true) {
         if (n % res == 0) return res
         res++
@@ -113,7 +122,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var res: Int = n - 1
+    var res = n - 1
     while (true) {
         if (n % res == 0) return res
         res--
@@ -176,7 +185,7 @@ fun revert(n: Int): Int {
     var revertNumber = 0
     var number = n
     while (k >= 0) {
-        revertNumber = revertNumber + Math.pow(10.0, k.toDouble()).toInt() * (number % 10)
+        revertNumber = revertNumber + pow(10, k) * (number % 10)
         number = number / 10
         k--
     }
@@ -190,7 +199,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = if (revert(n) == n) true else false
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -215,7 +224,7 @@ fun squareSequenceDigit(n: Int): Int {
     var square = 0
     var sum = 0
     var count = 1
-    var number: Double
+    var number = 0
     while (sum < n) {
         square = count * count
         count++
@@ -223,8 +232,8 @@ fun squareSequenceDigit(n: Int): Int {
     }
     count = sum - n
     if (count != 0) {
-        number = square.toDouble() / Math.pow(10.0, count.toDouble())
-        return number.toInt() % 10
+        number = square / pow(10, count)
+        return number % 10
     } else return square % 10
 }
 
@@ -239,7 +248,7 @@ fun fibSequenceDigit(n: Int): Int {
     var fibn = 0
     var sum = 0
     var count = 1
-    var number: Double
+    var number = 0
     while (sum < n) {
         fibn = fib(count)
         count++
@@ -247,7 +256,7 @@ fun fibSequenceDigit(n: Int): Int {
     }
     count = sum - n
     if (count != 0) {
-        number = fibn.toDouble() / Math.pow(10.0, count.toDouble())
-        return number.toInt() % 10
+        number = fibn / pow(10, count)
+        return number % 10
     } else return fibn % 10
 }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -46,16 +47,12 @@ fun ageDescription(age: Int): String = TODO()
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val ps:Double = (t1*v1+t2*v2+t3*v3)/2
-    var t:Double
-    if (t1*v1 < ps)
-        if (t1*v1+t2*v2 < ps)
-        {t = t1+t2+(ps-t1*v1-t2*v2)/v3}
-        else {t = t1+(ps-t1*v1)/v2}
-    else {t = ps/v1}
-    return t
-
-
+    val ps = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    when {
+        t1 * v1 >= ps -> return ps / v1
+        t1 * v1 + t2 * v2 < ps -> return t1 + t2 + (ps - t1 * v1 - t2 * v2) / v3
+        else -> return t1 + (ps - t1 * v1) / v2
+    }
 }
 
 /**
@@ -103,17 +100,19 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
 
-    if ((c in a..b) && (d in a..b))
-    { return d-c }
-    else if ((c in a..b) && (d !in a..b))
-            {return b-c}
-            else if ((d in a..b) && (c !in a..b))
-                    {return d-a}
-                    else if ((a in c..d) && (b in c..d))
-                            { return b-a }
-                            else if ((a in c..d) && (b !in c..d))
-                                    {return d-a}
-                                    else if ((b in c..a) && (a !in c..d))
-                                            {return b-c}
-                                            else {return -1}
+    if ((c in a..b) && (d in a..b)) {
+        return d - c
+    } else if ((c in a..b) && (d !in a..b)) {
+        return b - c
+    } else if ((d in a..b) && (c !in a..b)) {
+        return d - a
+    } else if ((a in c..d) && (b in c..d)) {
+        return b - a
+    } else if ((a in c..d) && (b !in c..d)) {
+        return d - a
+    } else if ((b in c..a) && (a !in c..d)) {
+        return b - c
+    } else {
+        return -1
+    }
 }

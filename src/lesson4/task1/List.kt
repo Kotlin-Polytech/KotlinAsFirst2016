@@ -223,4 +223,123 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var nameOfNumber: String =""
+    var numberOfThousands: Int =n/1000
+    var numberOfElse:Int = n-n/1000*1000
+    var del:Int = 100
+    var forFunFrom: Int = 0
+    if (n==0) return "нуль"
+    else{
+        while (numberOfThousands > 19) {
+            forFunFrom = numberOfThousands / del * del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromOneToNineT(forFunFrom) + " "
+            numberOfThousands=numberOfThousands-numberOfThousands/del*del
+            del=del/10
+        }
+        forFunFrom = numberOfThousands
+        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromOneToNineT(forFunFrom)+" "
+        when{
+            (((numberOfThousands>4) || (numberOfThousands==0)) && (n/1000 !=0)) -> nameOfNumber = nameOfNumber +  "тысяч"
+            ((numberOfThousands<5) &&(numberOfThousands>1))-> nameOfNumber = nameOfNumber + "тысячи"
+            numberOfThousands==1 -> nameOfNumber = nameOfNumber + "тысяча"
+        }
+        if ((numberOfElse !=0)&&(n/1000 !=0)) nameOfNumber = nameOfNumber + " "
+        del=100
+        while (numberOfElse > 19) {
+            forFunFrom = numberOfElse/del*del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromOneToNine(forFunFrom)+" "
+            numberOfElse=numberOfElse-numberOfElse/del*del
+            del=del/10
+        }
+        forFunFrom = numberOfElse
+        nameOfNumber = nameOfNumber + fromOneToNine(forFunFrom)
+    }
+    return nameOfNumber
+}
+fun fromOneToNine(n: Int): String {
+    var nameOf: String = ""
+    when {
+        n == 900 -> nameOf = "девятьсот"
+        n == 800 -> nameOf = "восемьсот"
+        n == 700 -> nameOf = "семьсот"
+        n == 600 -> nameOf = "шестьсот"
+        n == 500 -> nameOf = "пятьсот"
+        n == 400 -> nameOf = "четыреста"
+        n == 300 -> nameOf = "триста"
+        n == 200 -> nameOf = "двести"
+        n == 100 -> nameOf = "сто"
+        n == 90 -> nameOf = "девяносто"
+        n == 80 -> nameOf = "восемьдесят"
+        n == 70 -> nameOf = "семьдесят"
+        n == 60 -> nameOf = "шестьдесят"
+        n == 50 -> nameOf = "пятьдесят"
+        n == 40 -> nameOf = "сорок"
+        n == 30 -> nameOf = "тридсцать"
+        n == 20 -> nameOf = "двадцать"
+        n == 19 -> nameOf = "девятнадцать"
+        n == 18 -> nameOf = "восемнадцать"
+        n == 17 -> nameOf = "семнадцать"
+        n == 16 -> nameOf = "шетнадцать"
+        n == 15 -> nameOf = "пятнадцать"
+        n == 14 -> nameOf = "четырнадцать"
+        n == 13 -> nameOf = "тринадцать"
+        n == 12 -> nameOf = "двенадцать"
+        n == 11 -> nameOf = "одиннадцать"
+        n == 10 -> nameOf = "десять"
+        n == 9 -> nameOf = "девять"
+        n == 8 -> nameOf = "восемь"
+        n == 7 -> nameOf = "семь"
+        n == 6 -> nameOf = "шесть"
+        n == 5 -> nameOf = "пять"
+        n == 4 -> nameOf = "четыре"
+        n == 3 -> nameOf = "три"
+        n == 2 -> nameOf = "два"
+        n == 1 -> nameOf = "один"
+        n == 0 -> nameOf = ""
+    }
+    return nameOf
+}
+fun fromOneToNineT(n: Int): String {
+    var nameOf: String =""
+    when {
+        n==900 -> nameOf ="девятьсот"
+        n==800 -> nameOf ="восемьсот"
+        n==700 -> nameOf ="семьсот"
+        n==600 -> nameOf ="шестьсот"
+        n==500 -> nameOf ="пятьсот"
+        n==400 -> nameOf ="четыреста"
+        n==300 -> nameOf ="триста"
+        n==200 -> nameOf ="двести"
+        n==100 -> nameOf ="сто"
+        n==90 -> nameOf ="девяносто"
+        n==80 -> nameOf ="восемьдесят"
+        n==70 -> nameOf ="семьдесят"
+        n==60 -> nameOf ="шестьдесят"
+        n==50 -> nameOf ="пятьдесят"
+        n==40 -> nameOf ="сорок"
+        n==30 -> nameOf ="тридсцать"
+        n==20 -> nameOf ="двадцать"
+        n==19 -> nameOf ="девятнадцать"
+        n==18 -> nameOf ="восемнадцать"
+        n==17 -> nameOf ="семнадцать"
+        n==16 -> nameOf ="шетнадцать"
+        n==15 -> nameOf ="пятнадцать"
+        n==14 -> nameOf ="четырнадцать"
+        n==13 -> nameOf ="тринадцать"
+        n==12 -> nameOf ="двенадцать"
+        n==11 -> nameOf ="одиннадцать"
+        n==10 -> nameOf ="десять"
+        n==9 -> nameOf ="девять"
+        n==8 -> nameOf ="восемь"
+        n==7 -> nameOf ="семь"
+        n==6 -> nameOf ="шесть"
+        n==5 -> nameOf ="пять"
+        n==4 -> nameOf ="четыре"
+        n==3 -> nameOf ="три"
+        n==2 -> nameOf ="две"
+        n==1 -> nameOf ="одна"
+        n==0 -> nameOf =""
+    }
+    return nameOf
+}

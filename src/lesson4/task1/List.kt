@@ -407,12 +407,11 @@ fun tripletProcessing(triplet: Int,
             if (triplet == 1) result = mutableListOf(diclensionOfTripletWord[0])
             else {
                 when {
-                    triplet % 100 in 10..19 || triplet % 10 in 5..9 || triplet / 100 != 0
-                    -> result.add(diclensionOfTripletWord[2])
-                    triplet % 10 == 1
-                    -> result.add(diclensionOfTripletWord[0])
-                    triplet % 10 in 2..4
-                    -> result.add(diclensionOfTripletWord[1])
+                    triplet % 100 in 10..19     -> result.add(diclensionOfTripletWord[2])
+                    triplet % 10 in 5..9        -> result.add(diclensionOfTripletWord[2])
+                    triplet % 10 == 1           -> result.add(diclensionOfTripletWord[0])
+                    triplet % 10 in 2..4        -> result.add(diclensionOfTripletWord[1])
+                    triplet / 100 != 0          -> result.add(diclensionOfTripletWord[2])
                 }
             }
         }

@@ -104,7 +104,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double =TODO ()
 
 /**
  * Простая
@@ -174,7 +174,17 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var number = n
+     var result = listOf<Int>()
+      var list: List<Int>
+     do {
+            list = listOf(number % base)
+               result = list + result
+               number /= base
+     } while (number > 0)
+       return result
+}
 
 /**
  * Сложная
@@ -184,7 +194,15 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val convert = convert(n, base)
+      var result = ""
+     for (element in convert) {
+              if (element > 9) result += ('a' + element - 10).toChar()
+                else result += element.toString()
+            }
+        return result
+}
 
 /**
  * Средняя
@@ -193,7 +211,7 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int =TODO()
 
 /**
  * Сложная
@@ -205,7 +223,6 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int = TODO()
-
 /**
  * Сложная
  *
@@ -214,7 +231,20 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var number = n
+        val romanNumerals = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+      val arabicNumerals = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+      var result = ""
+
+      var i = arabicNumerals.size - 1
+      while (number > 0) {
+              while (number < arabicNumerals[i]) i--
+               result += romanNumerals[i]
+           number -= arabicNumerals[i]
+           }
+      return result
+}
 
 /**
  * Очень сложная

@@ -162,11 +162,10 @@ fun flattenPhoneNumber(phone: String): String {
         if (indexclose - indexopen < 2) return ""
     }
     phonenum = phonenum.filter { it != '(' && it != ')' } //убираем скобки
-    val phonenum1 = phonenum.filter { it == '+' || it in '0'..'9' } //оставляем только плюс и цифры
-    //если отфильтрованная строка не совпадает с изначальной, то
-    // там есть символы, кроме + и цифр, что является ошибкой, а иначе все хорошо
-    if (!phonenum.equals(phonenum1)) return ""
-    return phonenum1
+    //если отфильтрованная строка содержит
+    //символы, кроме + и цифр, это является ошибкой, а иначе все хорошо
+    if (!phonenum.all { it == '+' || it in '0'..'9' }) return ""
+    return phonenum
 }
 
 ///////////////////////////////////////////////////
@@ -237,7 +236,7 @@ fun bestHighJump(jumps: String): Int {
         val jump = jumps.split(" ")
         if (jump.size % 2 == 1) return -1
         for (i in 0..jump.size - 1 step 2) {
-            val str = jump[i+1].filter { it != '%' }
+            val str = jump[i + 1].filter { it != '%' }
             if (str.length > 2) return -1
             val jumpInt = jump[i].toInt()
             if (jumpInt > maxhight && str == "+") {

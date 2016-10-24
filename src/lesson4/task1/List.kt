@@ -255,7 +255,7 @@ fun russian(n: Int): String {
         forFunFrom = numberOfElse
         nameOfNumber = nameOfNumber + fromOneToNine(forFunFrom)
     }
-    return nameOfNumber
+    return nameOfNumber.trim()
 }
 fun fromOneToNine(n: Int): String {
     var nameOf: String = ""

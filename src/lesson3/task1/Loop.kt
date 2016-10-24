@@ -168,10 +168,13 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  */
 fun fibSequenceDigit(n: Int): Int {
     var numbers = listOf<Int>()
-    for (i in 1..n) {
+    var toString:String = ""
+    var i: Int = 0
+    while (toString.length <n) {
+        i = i+1
         numbers = numbers+ fib(i)
+        toString = numbers.joinToString(separator = "",prefix = "", postfix = "",limit = -1,truncated = "")
     }
-    val toString = numbers.joinToString(separator = "",prefix = "", postfix = "",limit = -1,truncated = "")
     var c=0
     when {
         toString[n-1] == '0' -> c=0

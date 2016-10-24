@@ -86,7 +86,7 @@ fun fib(n: Int): Int = if (n > 2) (fib(n - 1) + fib(n - 2)) else 1
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun nod(n: Int, m: Int): Int {
+fun qcd(n: Int, m: Int): Int {
     var max = Math.max(m, n)
     var min = Math.min(m, n)
     while (max % min != 0) {
@@ -98,7 +98,7 @@ fun nod(n: Int, m: Int): Int {
 }
 
 fun lcm(m: Int, n: Int): Int {
-    return m * n / nod(n, m)
+    return m * n / qcd(n, m)
 }
 
 /**
@@ -214,15 +214,15 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
-    var check = false
+
     while (number >= 10) {
         if (number % 10 != (number / 10) % 10) {
-            check = true
-            break
+            return true
+
         }
         number /= 10
     }
-    return check
+    return false
 }
 
 /**
@@ -234,7 +234,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  */
 fun squareSequenceDigit(n: Int): Int {
     var k = ""
-    var count: Int = 0
+    var count = 0
     for (i in 1..n) {
         k = (i * i).toString()
         count += k.length

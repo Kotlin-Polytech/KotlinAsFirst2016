@@ -147,13 +147,11 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var count = 0
     if (phone.contains(Regex("""[^()\d\s+-]"""))) return ""
     for (i in 1..phone.length - 1) {
         if (phone[i] == '+')
-            count++
+            return ""
     }
-    if (count >= 1) return ""
     return Regex("""[^\d+]""").replace(phone, "")
 }
 
@@ -191,7 +189,22 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int= TODO()
+fun bestHighJump(jumps: String): Int {
+    var max = -1
+    var newJumps = jumps
+    var count = 0
+
+    if (jumps.contains(Regex("""[^-+%\d\s]"""))) return -1
+    newJumps = Regex("""[^\d+]""").replace(newJumps, "")
+
+    while (count <= newJumps.length - 4) {
+        if (newJumps[count + 3] == '+' && newJumps.substring(count, count + 3).toInt() >= max) {
+            max = newJumps.substring(count, count + 3).toInt()
+            count += 4
+        } else count += 3
+    }
+    return max
+}
 
 /**
  * Сложная

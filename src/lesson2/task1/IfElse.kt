@@ -34,11 +34,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = String {
+fun ageDescription(age: Int): String  {
     return when {
         (age % 10 == 1) && (age != 11) && (age != 111) -> "$age год"
-        ((age % 10 == 2) || (age % 10 == 3) || (age % 10 == 4)) && (age !in 12..14) && (age !in 112..114) -> "$age года"
+        (age % 10 in 2..4) && (age !in 12..14) && (age !in 112..114) -> "$age года"
         else -> "$age лет"
+    }
+}
 
     /**
      * Простая
@@ -49,10 +51,11 @@ fun ageDescription(age: Int): String = String {
      */
         fun timeForHalfWay(t1: Double, v1: Double,
                            t2: Double, v2: Double,
-                           t3: Double, v3: Double): Double = val s1 = v1 * t1
-            val s2 = v2 * t2
-            val s3 = v3 * t3
-            val s = s1 + s2 + s3
+                           t3: Double, v3: Double): Double {
+        val s1 = v1 * t1
+        val s2 = v2 * t2
+        val s3 = v3 * t3
+        val s = s1 + s2 + s3
         return when {
             s / 2 <= s1 -> s / (2 * v1)
             s / 2 <= s1 + s2 -> (s / 2 - s1) / v2 + t1
@@ -74,17 +77,16 @@ fun ageDescription(age: Int): String = String {
      */
     fun whichRookThreatens(kingX: Int, kingY: Int,
                            rookX1: Int, rookY1: Int,
-                           rookX2: Int, rookY2: Int): Int =
-
-    val variable = (kingX == rookX1 || kingY == rookY1)
-    val variable2 = (kingX == rookX2 || kingY == rookY2)
-    return when {
-        variable && variable2 -> 3
-        variable2 -> 2
-        variable -> 1
-        else -> 0
+                           rookX2: Int, rookY2: Int): Int {
+        val hazard1 = (kingX == rookX1 || kingY == rookY1)
+        val hazard2 = (kingX == rookX2 || kingY == rookY2)
+        return when {
+            hazard1 && hazard2 -> 3
+            hazard2 -> 2
+            hazard1 -> 1
+            else -> 0
+        }
     }
-}
 
 
 /**
@@ -99,12 +101,12 @@ fun ageDescription(age: Int): String = String {
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val variable= (kingX == rookX1 || kingY == rookY1)
-    val variable2 = (kingX == rookX2 || kingY == rookY2)
+    val hazardRook = (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
+    val hazardBishop = ((kingX == rookX) || (kingY == rookY))
     return when {
-        variable && variable2 -> 3
-        variable2 -> 2
-        variable -> 1
+        hazardRook && hazardBishop -> 3
+        hazardRook -> 2
+        hazardBishop -> 1
         else -> 0
     }
 }
@@ -119,13 +121,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val variable = (kingX == rookX1 || kingY == rookY1)
-    val variable2 = (kingX == rookX2 || kingY == rookY2)
+    val maxSide = Math.max(Math.max(a, b), c)
+    val minSide = Math.min(Math.min(a, b), c)
+    val anotherSide = (a + b + c) - (minSide + maxSide)
     return when {
-        variable && variable2 -> 3
-        variable2 -> 2
-        variable -> 1
-        else -> 0
+        maxSide > (minSide + anotherSide) -> -1
+        maxSide == Math.sqrt((minSide * minSide + anotherSide * anotherSide)) -> 1
+        maxSide < Math.sqrt((minSide * minSide + anotherSide * anotherSide)) -> 0
+        else -> 2
     }
 }
 
@@ -138,14 +141,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int
-
-val condition = (kingX == rookX1 || kingY == rookY1)
-val condition2 = (kingX == rookX2 || kingY == rookY2)
-return when {
-    condition && condition2 -> 3
-    condition2 -> 2
-    condition -> 1
-    else -> 0
-}
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val condition = (b >= c) && (d >= a)
+    val condition2 = (b != c) && (d != a)
+    return when {
+        condition && condition2 -> Math.min(b, d) - Math.max(a, c)
+        condition -> 0
+        else -> -1
+    }
 }

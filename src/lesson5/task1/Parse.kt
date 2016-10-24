@@ -217,23 +217,16 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun isString(str: String): Boolean {
-    for (i in 0..str.length - 1) {
-        if (str[i] !in '0'..'9') return false
-    }
-    return true
-}
+
 
 fun plusMinus(expression: String): Int {
     try {
         val parts = expression.split(" ")
         var result = 0
-        if (isString(parts[0])) {
-            result = parts[0].toInt()
-        } else throw IllegalArgumentException(expression)
+        result = parts[0].toInt()
         for (i in 1..parts.size - 1 step 2) {
-            if ((parts[i] == "+") && (isString(parts[i + 1]))) result += parts[i + 1].toInt()
-            else if ((parts[i] == "-") && (isString(parts[i + 1]))) result -= parts[i + 1].toInt()
+            if (parts[i] == "+") result += parts[i + 1].toInt()
+            else if (parts[i] == "-") result -= parts[i + 1].toInt()
             else throw   IllegalArgumentException("")
         }
         return result
@@ -332,14 +325,14 @@ fun isRoman(roman: String): Boolean {
 }
 
 fun fromRomanHelper(str: String, i: Int, x: Char, y: Char, z: Char): Int {
-    if ((str.length-1>=i+1)&&(str[i] == z) && (str[i + 1] == x)) return 9
-    else if ((str.length-1>=i+3)&&(str[i] == y) && (str[i + 1] == z) && (str[i + 2] == z) && (str[i + 3] == z)) return 8
-    else if ((str.length-1>=i+2)&&(str[i] == y) && (str[i + 1] == z) && (str[i + 2] == z)) return 7
-    else if ((str.length-1>=i+1)&&(str[i] == y) && (str[i + 1] == z)) return 6
+    if ((str.length - 1 >= i + 1) && (str[i] == z) && (str[i + 1] == x)) return 9
+    else if ((str.length - 1 >= i + 3) && (str[i] == y) && (str[i + 1] == z) && (str[i + 2] == z) && (str[i + 3] == z)) return 8
+    else if ((str.length - 1 >= i + 2) && (str[i] == y) && (str[i + 1] == z) && (str[i + 2] == z)) return 7
+    else if ((str.length - 1 >= i + 1) && (str[i] == y) && (str[i + 1] == z)) return 6
     else if (str[i] == y) return 5
-    else if ((str.length-1>=i+1)&&(str[i] == z) && (str[i + 1] == y)) return 4
-    else if ((str.length-1>=i+2)&&(str[i] == z) && (str[i] == z) && (str[i + 2] == z)) return 3
-    else if ((str.length-1>=i+1)&&(str[i] == z) && (str[i + 1] == z)) return 2
+    else if ((str.length - 1 >= i + 1) && (str[i] == z) && (str[i + 1] == y)) return 4
+    else if ((str.length - 1 >= i + 2) && (str[i] == z) && (str[i] == z) && (str[i + 2] == z)) return 3
+    else if ((str.length - 1 >= i + 1) && (str[i] == z) && (str[i + 1] == z)) return 2
     else if (str[i] == z) return 1
     else return -1
 }
@@ -365,23 +358,23 @@ fun fromRoman(roman: String): Int {
         var result = 0
         var i = 0
         var number = 0
-        while ((i<=str.length-1)&&(str[i] == 'M')) {
+        while ((i <= str.length - 1) && (str[i] == 'M')) {
             i += 1
             result += 1000
         }
-        if((i<=str.length-1)&&((str[i]=='C')||(str[i])=='D')) {
+        if ((i <= str.length - 1) && ((str[i] == 'C') || (str[i]) == 'D')) {
             number = fromRomanHelper(str, i, 'M', 'D', 'C')
             result += number * 100                                   //1st
             i += iChange(number)
         }
 
-        if((i<=str.length-1)&&((str[i]=='X')||(str[i]=='L'))) {
+        if ((i <= str.length - 1) && ((str[i] == 'X') || (str[i] == 'L'))) {
             number = fromRomanHelper(str, i, 'C', 'L', 'X')
             result += number * 10                                   //2nd
             i += iChange(number)
         }
 
-        if((i<=str.length-1)&&((str[i]=='I')||(str[i])=='V')) {
+        if ((i <= str.length - 1) && ((str[i] == 'I') || (str[i]) == 'V')) {
             number = fromRomanHelper(str, i, 'X', 'V', 'I')
             result += number                                  //3rd
         }

@@ -239,12 +239,14 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var nn = n
     var result = mutableListOf<Int>()
-    while (nn > 0) {
-        result.add(0, nn % base)
-        nn /= base
-    }
+    if (n != 0) {
+        var nn = n
+        while (nn > 0) {
+            result.add(0, nn % base)
+            nn /= base
+        }
+    } else result.add(0, 0)
     return result
 }
 
@@ -265,9 +267,7 @@ fun convertToString(n: Int, base: Int): String {
     }
     return result
 }
-//{
-//  var alphabet = listOf<Char>(a - z)
-//}
+
 
 /**
  * Средняя

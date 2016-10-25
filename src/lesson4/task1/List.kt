@@ -396,7 +396,7 @@ fun tripletProcessing(triplet: Int,
                 triplet % 10 in 5..9        -> result.add(diclensionOfTripletWord[2])
                 triplet % 10 == 1           -> result.add(diclensionOfTripletWord[0])
                 triplet % 10 in 2..4        -> result.add(diclensionOfTripletWord[1])
-                triplet / 100 != 0          -> result.add(diclensionOfTripletWord[2])
+                triplet % 1000 != 0         -> result.add(diclensionOfTripletWord[2])
             }
         }
     }

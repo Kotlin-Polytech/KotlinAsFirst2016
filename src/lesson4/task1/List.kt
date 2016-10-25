@@ -262,17 +262,11 @@ fun decimal(digits: List<Int>, base: Int): Int =
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun symbolToNumber(str: String): List<Int> {
-    var listRes = listOf<Int>()
-    for (i in 0..str.length - 1) {
-        if (str[i] <= '9') {
-            listRes += str[i] - '9' + 9
-        } else listRes += str[i] - 'a' + 10
-    }
-    return listRes
-}
+fun symbolToNumber(str: Char): Int =
+        if (str <= '9') str - '9' + 9
+        else str - 'a' + 10
 
-fun decimalFromString(str: String, base: Int): Int = decimal(symbolToNumber(str), base)
+fun decimalFromString(str: String, base: Int): Int = decimal(str.map { symbolToNumber(it) }, base)
 
 /**
  * Сложная

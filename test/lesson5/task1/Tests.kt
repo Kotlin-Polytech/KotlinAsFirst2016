@@ -55,6 +55,7 @@ class Tests {
         assertEquals("", flattenPhoneNumber("134_+874"))
         assertEquals("", flattenPhoneNumber("++++++93 +4_+8-74"))
         assertEquals("", flattenPhoneNumber("'"))
+        assertEquals("", flattenPhoneNumber("+"))
         assertEquals("", flattenPhoneNumber("䟶풇ꦌ핚젔⥼ㆈ᩽嘚3닄伖푻䜓㊷⣽쫓垱㟶혮ຉꊇ퉼⠔晠蒙闿᩹᮹俩炳굛ᆖ蒂?䜬惐電뀉燝膆ꂃ棠ῑ忍裢ፚ㜃쮀㗳၁ᷜ졔牺㐼ࡨ跍ਪٌ袞䋡/ꢑṿ鹤恧ﾝ깬Ȣ䨒ﰕ샒䛻隽皲貭⩄鼏鐅ꕕ?쨘῟瑬ꗽ㔉㠪渠揰쬝僵얭?瞶春쁨훅汙㍳ᗑݯ尗힝躃蓭徆ꁈ蓽⦳ɲめ샭샓熈હ틣즤Ἡ㜑冞憁觘뒍࢈巘乑ꢦ픧妹㦹幉ꗮ쪇ḓﳢᝄ䧶䄯喿㴉鶘☵倪툘鉀刳摇⇹ꂪቬ჋ᗽ髤뤳諉젰곮縅鼃ⲩ錄﫚ᅑ딦藖셻鞃雠캥块㗝忭㫐"))
     }
 
@@ -73,6 +74,7 @@ class Tests {
     fun bestHighJump() {
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
+        assertEquals(147483647, bestHighJump("147483647 %+"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
     }
 

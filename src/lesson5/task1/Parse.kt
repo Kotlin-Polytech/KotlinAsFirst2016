@@ -89,7 +89,7 @@ fun dateStrToDigit(str: String): String {
         "декабря" -> 12
         else -> return ""
     }
-    return String.format("%02d.%02d.%d", resDay, resMonth, resYear)
+    return "${twoDigitStr(resDay)}.${twoDigitStr(resMonth)}.$resYear"
 
 
 }
@@ -130,7 +130,7 @@ fun dateDigitToStr(digital: String): String {
         "12" -> "декабря"
         else -> return ""
     }
-    return String.format("%d %s %d", resDay, resMonth, resYear)
+    return "$resDay $resMonth $resYear"
 
 }
 
@@ -168,7 +168,7 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     var max = -1
     if (jumps.contains(Regex("""[^-%\d\s]"""))) return -1
-    val parts = jumps.split(" ")
+    val parts = Regex("""[-%]""").replace(jumps, "").split(" ")
     for (i in 0..parts.size - 1) {
         try {
             if (parts[i].toInt() >= max) max = parts[i].toInt()

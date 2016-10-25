@@ -314,6 +314,7 @@ fun findHoles(matrix: Matrix<Int>): Holes {
             rows += i
         } else faeled = true
     }
+
     for (i in 0..matrix.width - 1) {
         for (j in 0..matrix.height - 1)
             if (matrix[j, i] == 1) faeled = false

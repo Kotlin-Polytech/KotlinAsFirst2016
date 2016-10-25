@@ -192,16 +192,19 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     var max = -1
     var newJumps = jumps
-    var count = 0
 
     if (jumps.contains(Regex("""[^-+%\d\s]"""))) return -1
-    newJumps = Regex("""[^\d+]""").replace(newJumps, "")
-
-    while (count <= newJumps.length - 4) {
-        if (newJumps[count + 3] == '+' && newJumps.substring(count, count + 3).toInt() >= max) {
-            max = newJumps.substring(count, count + 3).toInt()
-            count += 4
-        } else count += 3
+    newJumps = Regex("""[^\d\s+]""").replace(newJumps, "")
+    newJumps += " "
+    newJumps = Regex("""[\d]+\s\s""").replace(newJumps, "")
+    newJumps = Regex("""[\s]""").replace(newJumps, "")
+    val parts = newJumps.split("+")
+    for (i in 0..parts.size - 1) {
+        try {
+            if (parts[i].toInt() >= max) max = parts[i].toInt()
+        } catch(e: NumberFormatException) {
+            Double.NaN
+        }
     }
     return max
 }

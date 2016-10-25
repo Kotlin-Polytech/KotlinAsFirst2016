@@ -194,6 +194,11 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
+    if (lesson3.task1.isPrime(n)) {
+        result.add(n)
+        return result
+    }
+
     var number = n
     var simple = 2
     while (number > 1) {
@@ -282,6 +287,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int = TODO ()
+
 /**
  * Сложная
  *

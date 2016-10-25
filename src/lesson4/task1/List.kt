@@ -275,7 +275,6 @@ fun decimalFromString(str: String, base: Int): Int {
             res += ((q.toInt() - 'a'.toInt()) + 10) * con
         }
     }
-
     return res
 }
 

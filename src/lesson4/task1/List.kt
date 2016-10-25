@@ -174,7 +174,6 @@ fun polynom(p: List<Double>, x: Double): Double {
     return res
 }
 
-
 /**
  * Средняя
  *
@@ -183,7 +182,17 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    var sum = 0.0
+    var k = 0
+    if (list.isNotEmpty()){
+       for (i in 0..list.size-1){
+           sum+=list[i]
+           list[i]=sum
+       }
+    }
+    return list
+}
 
 /**
  * Средняя

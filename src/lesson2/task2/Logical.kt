@@ -41,7 +41,12 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+                 x2: Double, y2: Double, r2: Double): Boolean = TODO()/*{
+        if ((x1 + r1 <= x2 + r2) && (y1 + r1 <= y2 + r2)) return true
+        else if ((x1 + r1 == x2 + r2) && (y1 + r1 < y2 + r2)) return true
+        else if ((y1 + r1 == y2 + r2) && (x1 + r1 < x2 + r2)) return true
+        else return false
+}*/
 
 /**
  * Средняя

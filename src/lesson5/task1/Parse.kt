@@ -128,7 +128,7 @@ fun dateDigitToStr(digital: String): String {
             y1 = part.toInt()
         }
     }
-    if ((d1 != 0) && (m1 != "") && (y1 != 0) && (i <= 3)) {
+    if ((d1 != 0) && (m1 != "") && (y1 >= 0) && (i <= 3)) {
         return String.format("%d %s %d", d1, m1, y1)
     } else return ""
 }

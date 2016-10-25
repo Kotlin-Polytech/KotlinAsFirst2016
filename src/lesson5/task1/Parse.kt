@@ -239,7 +239,9 @@ fun mostExpensive(description: String): String {
             val list = element.split(" ")
             namesList += list[0]
             pricesList += list[1].toDouble()
-        } else toBreak = true
+        } else {
+            toBreak = true
+        }
     }
     if (toBreak) return ""
     else {
@@ -264,7 +266,34 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    if (roman.matches(Regex("""[MDCLXVI]+"""))){
+        val listOfArabic = mutableListOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+        val listOfRoman = mutableListOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+        val parts = roman.split("")
+        var result = 0
+        for (i in listOfRoman) {
+            for (j in parts) {
+                if (i == j) {
+                    result += listOfArabic[listOfRoman.indexOf(i)]
+                }
+            }
+        }
+        for (i in 0..parts.size - 1) {
+            if (parts[i] == "C" && (parts[i + 1] == "M" || parts[i + 1] == "C")) {
+                result -= 200
+            }
+            if (parts[i] == "X" && (parts[i + 1] == "C" || parts[i + 1] == "L")) {
+                result -= 20
+            }
+            if (parts[i] == "I" && (parts[i + 1] == "X" || parts[i + 1] == "V")) {
+                result -= 2
+            }
+        }
+        return result
+    } else
+        return - 1
+}
 
 /**
  * Сложная

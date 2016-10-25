@@ -205,27 +205,17 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val alphabet = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+    val alphabet = listOf<String>("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
     var number = n
-    val revertedNumerals = mutableListOf<Int>()
+    val numerals = mutableListOf<String>()
     if (number < 10) return number.toString()
     else {
         while (number >= base) {
-            revertedNumerals.add(number % base)
+            numerals.add(alphabet[number % base])
             number /= base
         }
-        revertedNumerals.add(number % base)
-
-        val length = revertedNumerals.size
-        val numerals = mutableListOf<String>()
-        revertedNumerals.reverse()
-
-        for (i in 0..length - 1) {
-            if (revertedNumerals[i].toInt() > 9) {
-                numerals.add(alphabet[(revertedNumerals[i] - 10)].toString())
-            }
-            else numerals.add(revertedNumerals[i].toString())
-        }
+        numerals.add(alphabet[number % base])
+        numerals.reverse()
         return numerals.joinToString("")
     }
 }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +58,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var n1 = n
+    var k = 0
+    if (n == 0) return 1
+    while (n1 > 0) {
+        k = k + 1
+        n1 = n1 / 10
+    }
+    return k
+}
 
 /**
  * Простая
@@ -65,7 +75,18 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var number = 1
+    var number1 = 1
+    if (n == 1) return 1
+    if (n == 2) return 1
+    for (i in 3..n) {
+        var fibon = number + number1
+        number = number1
+        number1 = fibon
+    }
+    return number1
+}
 
 /**
  * Простая
@@ -73,21 +94,40 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var n1 = n
+    var m1 = m
+    val prod = m1 * n1
+    while (m1 != n1) {
+        if (m1 > n1) m1 -= n1
+        else n1 -= m1
+    }
+    return prod / m1
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..n) {
+        if (n % i == 0) return i
+    }
+    return n
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for (i in n / 2 downTo 2) {
+        if (n % i == 0) return i
+    }
+    return 1
+}
 
 /**
  * Простая
@@ -96,7 +136,20 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun NOD(a: Int, b: Int): Int {
+    var a1 = a
+    var b1 = b
+    while (a1 != b1) {
+        if (a1 > b1) a1 -= b1
+        else b1 -= a1;
+    }
+    return a1;
+}
+
+fun isCoPrime(m: Int, n: Int): Boolean {
+    if (NOD(m, n) == 1) return true
+    else return false
+}
 
 /**
  * Простая
@@ -105,7 +158,14 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (j in 1..m) {
+        for (i in m..n) {
+            if (j * j == i) return true
+        }
+    }
+    return false
+}
 
 /**
  * Простая
@@ -123,7 +183,20 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var f = x % (2 * Math.PI)
+    var sum = 0.0
+    var i = 0
+    var n = 1
+    while (Math.abs(Math.pow(f, i.toDouble())) / factorial(i) >= eps) {
+        if (n % 2 == 1) sum += Math.pow(f, i.toDouble()) / factorial(i)
+        else sum -= Math.pow(f, i.toDouble()) / factorial(i)
+        i += 2
+        n++
+    }
+    return sum
+
+}
 
 /**
  * Средняя
@@ -131,7 +204,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var a = 0
+    var n1 = n
+    while (n1 > 0) {
+        a = a * 10 + n1 % 10
+        n1 /= 10
+    }
+    return a
+
+}
 
 /**
  * Средняя
@@ -140,7 +222,17 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var n2 = n
+    var a = 0
+    var n1 = n
+    while (n1 > 0) {
+        a = a * 10 + n1 % 10
+        n1 /= 10
+    }
+    if (n2 == a) return true
+    else return false
+}
 
 /**
  * Средняя
@@ -148,7 +240,17 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var i = n
+    if (i < 10 && i > -10) return false
+    else {
+        while (i > 10) {
+            if ((i % 10) != ((i / 10) % 10)) return true
+            else i /= 10
+        }
+        return false
+    }
+}
 
 /**
  * Сложная
@@ -157,7 +259,21 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun zap(n: Int): Int = n.toString().length
+
+fun squareSequenceDigit(n: Int): Int {
+    var number = 0
+    var result = 0
+    var x = 0
+    while (number < n) {
+        x += 1
+        number += zap(x * x)
+    }
+    result = x * x
+    (n..number - 1).forEach { x -> result /= 10 }
+    return result % 10
+}
+
 
 /**
  * Сложная
@@ -166,4 +282,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var number = 0
+    var result = 0
+    var x = 0
+    while (number < n) {
+        x += 1
+        number += zap(fib(x))
+    }
+    result = fib(x)
+    (n..number - 1).forEach { x -> result /= 10 }
+    return result % 10
+}

@@ -123,32 +123,29 @@ fun lcm(m: Int, n: Int): Int {
 
 //переделал
 fun minDivisor(n: Int): Int {
-    var k = 0
-    for (i in 2..n) {
+    for (i in 2..Math.sqrt(n.toDouble()).toInt()) {
         if (n % i == 0) {
-            k = i
-            break
+            return i
         }
     }
-    return k
+    return n
 }
 
 
 /**
  * Простая
  *
+ *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 //переделал
 fun maxDivisor(n: Int): Int {
-    var k = 0
-    for (i in n - 1 downTo 1) {
+    for (i in 2..Math.sqrt(n.toDouble()).toInt()) {
         if (n % i == 0) {
-            k = i
-            break
+            return n/i
         }
     }
-    return k
+    return 1
 }
 
 /**
@@ -170,9 +167,11 @@ fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var k = 0
     if (m in 0..1 && n in 0..1) return true
     for (i in m..n) {
-        if (i % Math.sqrt(i.toDouble()) == 0.0) {
+        k = Math.sqrt(i.toDouble()).toInt()
+        if (m <= k*k && n >= k*k){
             return true
         }
     }

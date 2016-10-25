@@ -43,7 +43,7 @@ interface Matrix<E> {
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
     if (height <= 0 || width <= 0)
-        throw IllegalArgumentException("error size")
+        throw IllegalArgumentException()
 
     var matrix = MatrixImpl(height, width, e)
     for (row in 0..height - 1)
@@ -61,12 +61,12 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     private val list = mutableListOf<E>()
 
     init {
-        (0..height * width).forEach { list.add(e) }
+        (0..height * width - 1).forEach { list.add(e) }
     }
 
     override fun get(row: Int, column: Int): E = list[row * width + column]
 
-    override fun get(cell: Cell): E = list[cell.row  * width + cell.column]
+    override fun get(cell: Cell): E = list[cell.row * width + cell.column]
 
     override fun set(row: Int, column: Int, value: E) {
         list[row * width + column] = value
@@ -75,11 +75,6 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     override fun set(cell: Cell, value: E) {
         list[cell.row * width + cell.column] = value
     }
-
-    override fun equals(other: Any?) =
-            other is MatrixImpl<*> &&
-                    height == other.height &&
-                    width == other.width
 
     override fun toString(): String {
         val sb = StringBuilder()
@@ -101,6 +96,15 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         result = result * 31 + width
         return result
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (other is MatrixImpl<*> &&
+                height == other.height &&
+                width == other.width) for (i in 0..height - 1)
+            for (j in 0..width - 1) if (other[i, j] != this[i, j]) return false
+        return true
+    }
+
 }
 
 

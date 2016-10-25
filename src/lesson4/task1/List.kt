@@ -3,7 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.minDivisor
+//import lesson3.task1.minDivisor
 
 /**
  * Пример
@@ -298,7 +298,7 @@ fun decimalFromString(str: String, base: Int): Int {
     list = listOf()
     val string = str
     for (i in 0..string.length - 1)
-        if (string1[i] in '0'..'9') list += ((string[i]).toInt() - 48)
+        if (string[i] in '0'..'9') list += ((string[i]).toInt() - 48)
         else list += ((string[i]).toInt() - 87)
     return decimal(list, base)
 }

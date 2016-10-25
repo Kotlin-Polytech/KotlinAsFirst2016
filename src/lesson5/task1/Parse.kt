@@ -63,16 +63,13 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    if (str.matches(Regex("""\d+\s[а-я]+\s\d+"""))) {
-        val parts = str.split(" ")
-        val day = parts[0].toInt()
-        val month = listOfMonths.indexOf(parts[1]) + 1
-        val year = parts[2].toInt()
-        return if (day in 1..31 && month != 0)
-            String.format("%02d.%02d.%d", day, month, year)
-        else ""
-    } else
-        return ""
+    val parts = if (str.matches(Regex("""\d+\s[а-я]+\s\d+"""))) str.split(" ") else return ""
+    val day = parts[0].toInt()
+    val month = listOfMonths.indexOf(parts[1]) + 1
+    val year = parts[2].toInt()
+    return if (day in 1..31 && month != 0)
+        String.format("%02d.%02d.%d", day, month, year)
+    else ""
 }
 
 /**
@@ -179,7 +176,26 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var result = 0
+    var plusOrMinus = 1
+    for (i in 0..parts.size - 1) {
+        if (parts[i].matches(Regex("""\d+""")) || parts[i].matches(Regex("""\+|-"""))) {
+            if (i == 0) {
+                result += parts[i].toInt()
+            } else if (i % 2 == 0) {
+                result += parts[i].toInt() * plusOrMinus
+            } else if (i % 2 != 0) {
+                if (parts[i] == "-") plusOrMinus = -1
+                if (parts[i] == "+") plusOrMinus = 1
+            }
+        } else {
+            throw IllegalArgumentException()
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -190,7 +206,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val list = str.toLowerCase().split(" ")
+    var result = 0
+    for (i in 0..list.size - 2) {
+        if (list[i] == list[i + 1] && str != "") return result
+        result += list[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -211,7 +235,7 @@ fun mostExpensive(description: String): String {
     val namesList = mutableListOf<String>()
     var toBreak = false
     for (element in parts) {
-        if (element.matches(Regex("""[а-яА-Я]+\s\d+\.\d+"""))) {
+        if (element.matches(Regex("""[\D]+\s\d+\.\d+"""))) {
             val list = element.split(" ")
             namesList += list[0]
             pricesList += list[1].toDouble()

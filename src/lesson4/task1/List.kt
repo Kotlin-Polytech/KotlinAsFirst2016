@@ -256,7 +256,15 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var result: String = ""
+    val number = convert(n, base)
+    for (i in 0..number.size - 1) {
+        if (number[i] >= 10) result += (number[i] + 87).toChar()
+        else result += "${number[i]}"
+    }
+    return result
+}
 //{
 //  var alphabet = listOf<Char>(a - z)
 //}
@@ -285,7 +293,15 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var list: List<Int>
+    list = listOf()
+    val string = str
+    for (i in 0..string.length - 1)
+        if (string1[i] in '0'..'9') list += ((string[i]).toInt() - 48)
+        else list += ((string[i]).toInt() - 87)
+    return decimal(list, base)
+}
 
 /**
  * Сложная

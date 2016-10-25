@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -107,7 +108,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (i in 0..v.size-1) {
+    for (i in 0..v.size - 1) {
         sum += v[i] * v[i]
     }
     return Math.sqrt(sum)
@@ -120,7 +121,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
-    val s = list.sum()/list.size
+    val s = list.sum() / list.size
     return s
 }
 
@@ -132,7 +133,7 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val s = mean(list)
-    for (i in 0..list.size-1) {
+    for (i in 0..list.size - 1) {
         list[i] -= s
     }
     return list
@@ -147,8 +148,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
-    for (i in 0..a.size-1) {
-        c+= a[i] * b[i]
+    for (i in 0..a.size - 1) {
+        c += a[i] * b[i]
     }
     return c
 }
@@ -163,7 +164,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var sum = 0.0
-    for (i in 0..p.size-1 ) {
+    for (i in 0..p.size - 1) {
         sum += p[i] * Math.pow(x, i.toDouble())
     }
     return sum
@@ -179,8 +180,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var element = 0.0
-    for (i in 0..list.size-1) {
-        element+= list[i]
+    for (i in 0..list.size - 1) {
+        element += list[i]
         list[i] = element
     }
     return list
@@ -196,7 +197,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var result = listOf<Int>()
     var number = n
-    while ( number > 1 ) {
+    while (number > 1) {
         val min = minDivisor(number)
         result += min
         number /= min
@@ -219,7 +220,15 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var k = n
+    var sys = listOf<Int>()
+    while (k > 0) {
+        sys += k % base
+        k /= base
+    }
+    return sys.reversed()
+}
 
 /**
  * Сложная
@@ -238,7 +247,7 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int = polynom(digits.map { it.toDouble() }.reversed(), base.toDouble()).toInt()
 
 /**
  * Сложная

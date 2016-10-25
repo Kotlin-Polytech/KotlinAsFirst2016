@@ -54,15 +54,25 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int , b: Int , c: Int , r: Int , s: Int): Boolean {
-    var min: Int
-    var max: Int
-    val nor: Int
+fun MaxofThree(a: Int, b: Int, c: Int): Int {
+    var max = 0
     if (a > b) {max = a} else {max = b}
     if (c > max) {max = c}
-    if (a > b) {min = b} else {min = a}
+    return max
+}
+
+fun MinofThree(a: Int, b: Int, c: Int): Int{
+    var min= 0
+    if (a < b) {min = a} else {min = b}
     if (c < min) {min = c}
-    nor = a + b + c - max - min
+    return min
+}
+
+fun MediumofThree(a: Int, b: Int, c: Int): Int = a + b + c - MinofThree(a,b,c) - MaxofThree(a, b, c)
+
+fun brickPasses(a: Int , b: Int , c: Int , r: Int , s: Int): Boolean {
+    val min = MinofThree(a,b,c)
+    val nor = MediumofThree(a,b,c)
     return (r >= nor && s >= min) || (r >= min && s >= nor)
 }
 

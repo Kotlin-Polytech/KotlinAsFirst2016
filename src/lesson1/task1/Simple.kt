@@ -23,7 +23,7 @@ fun discriminant(a: Double, b: Double, c: Double) = sqr(b) - 4 * a * c
  *
  * Поиск одного из корней квадратного уравнения
  */
-fun sqRoot(a: Double, b: Double, c: Double) = (- b + sqrt(discriminant(a, b, c))) / (2 * a)
+fun sqRoot(a: Double, b: Double, c: Double) = (-b + sqrt(discriminant(a, b, c))) / (2 * a)
 
 /**
  * Пример
@@ -32,8 +32,8 @@ fun sqRoot(a: Double, b: Double, c: Double) = (- b + sqrt(discriminant(a, b, c))
  */
 fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
     val sd = sqrt(discriminant(a, b, c))
-    val x1 = (- b + sd) / (2 * a)
-    val x2 = (- b - sd) / (2 * a)
+    val x1 = (-b + sd) / (2 * a)
+    val x2 = (-b - sd) / (2 * a)
     return x1 * x2 // Результат
 }
 
@@ -42,7 +42,7 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
  */
 fun main(args: Array<String>) {
     // Решаем x^2 - 3*x + 2 = 0
-    val x1x2 = quadraticRootProduct(1.0, - 3.0, 2.0)
+    val x1x2 = quadraticRootProduct(1.0, -3.0, 2.0)
     println("Root product: $x1x2")
 }
 

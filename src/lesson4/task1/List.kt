@@ -106,17 +106,14 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    return if (v.isEmpty()) 0.0
-    else Math.sqrt(v.map { it * it }.sum())
-}
+fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.isNotEmpty()) list.average() else 0.0
+fun mean(list: List<Double>): Double = list.average()
 
 /**
  * Средняя
@@ -127,7 +124,7 @@ fun mean(list: List<Double>): Double = if (list.isNotEmpty()) list.average() els
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isNotEmpty()) {
         val temp = list.average()
-        for (i in 0..list.size-1) {
+        for (i in 0..list.size - 1) {
             list[i] -= temp
         }
         return list
@@ -178,7 +175,7 @@ fun polynom(p: List<Double>, x: Double): Double {
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty() || list.size == 1) return list
     else {
-        for (i in 1..list.size-1) {
+        for (i in 1..list.size - 1) {
             list[i] += list[i - 1]
         }
         return list
@@ -198,8 +195,8 @@ fun factorize(n: Int): List<Int> {
         var newN: Int = n
         var result: List<Int> = listOf()
         while (newN != 1) {
-            result = result + listOf(minDivisor(newN))
-            newN = newN / minDivisor(newN)
+            result += listOf(minDivisor(newN))
+            newN /= minDivisor(newN)
         }
         result
     }
@@ -224,8 +221,8 @@ fun convert(n: Int, base: Int): List<Int> {
     var result: List<Int> = listOf()
     var mutN: Int = n
     do {
-        result = listOf(mutN%base)+ result
-        mutN/=base
+        result = listOf(mutN % base) + result
+        mutN /= base
     } while (mutN != 0)
     return result
 }
@@ -238,22 +235,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun <T> List<T>.indexOf(value: T): Int {
-    for (i in 0..this.size - 1) {
-        if (this[i] == value) return i
-    }
-    return -1
-}
-
-val convertTable: List<Char> =
-        listOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
-                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-                'u', 'v', 'w', 'x', 'y', 'z')
+val convertTable: String = "0123456789abcdefghijklmnopqrstuvwxyz"
 
 fun convertToString(n: Int, base: Int): String {
     var result: String = ""
-    for (i in convert(n, base)) result += convertTable[i].toString()
+    for (i in convert(n, base)) result += convertTable[i]
     return result
 }
 
@@ -297,7 +283,7 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-val table: Map<Int,String> =
+val table: Map<Int, String> =
         mapOf(  1000 to "M",
                 900 to "CM",
                 500 to "D",
@@ -315,10 +301,10 @@ val table: Map<Int,String> =
 fun roman(n: Int): String {
     var result: String = ""
     var mutN: Int = n
-    for (i in table) {
-        while (mutN >= i.key) {
-            result += i.value
-            mutN -= i.key
+    for ((key, value) in table) {
+        while (mutN >= key) {
+            result += value
+            mutN -= key
         }
     }
     return result
@@ -403,16 +389,14 @@ fun tripletProcessing(triplet: Int,
     }
 
     if (diclensionOfTripletWord.isNotEmpty()) {
-        if (diclensionOfTripletWord.size == 3) {
-            if (triplet == 1) result = mutableListOf(diclensionOfTripletWord[0])
-            else {
-                when {
-                    triplet % 100 in 10..19     -> result.add(diclensionOfTripletWord[2])
-                    triplet % 10 in 5..9        -> result.add(diclensionOfTripletWord[2])
-                    triplet % 10 == 1           -> result.add(diclensionOfTripletWord[0])
-                    triplet % 10 in 2..4        -> result.add(diclensionOfTripletWord[1])
-                    triplet / 100 != 0          -> result.add(diclensionOfTripletWord[2])
-                }
+        if (triplet == 1) result = mutableListOf(diclensionOfTripletWord[0])
+        else {
+            when {
+                triplet % 100 in 10..19     -> result.add(diclensionOfTripletWord[2])
+                triplet % 10 in 5..9        -> result.add(diclensionOfTripletWord[2])
+                triplet % 10 == 1           -> result.add(diclensionOfTripletWord[0])
+                triplet % 10 in 2..4        -> result.add(diclensionOfTripletWord[1])
+                triplet / 100 != 0          -> result.add(diclensionOfTripletWord[2])
             }
         }
     }

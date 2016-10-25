@@ -148,7 +148,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean{
     val right = sqrt(n.toDouble()).toInt()
 
     for (i in left..right  step 1 )
-        if ((sqr(i.toDouble()).toInt()<= n)&&((sqr(i.toDouble()).toInt() >= m)))
+        if ((i * i <= n)&&(i * i >= m))
         {
             result = true
         }
@@ -162,7 +162,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean{
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+
+    var result = 0.0
+    var i = 1
+    do{
+        result += powInt(- 1, 2 * i - 1) * pow(x, (2 * i - 1).toDouble() / factorial(i))
+        i++
+    }while (abs(powInt(- 1, 2 * i - 1) * pow(x, (2 * i - 1).toDouble() / factorial(i))) < eps )
+    return result
+
+
+}
 
 
 /**
@@ -182,16 +193,22 @@ fun cos(x: Double, eps: Double): Double =TODO()
  * Не использовать строки при решении задачи.
  */
 // функция для revert
-fun countNumber (x: Int): Int = if (x < 10) 1 else countNumber (x % 10) +  countNumber (x / 10)
+fun countNumber (x: Int): Int = if (x < 10) 1 else 1 +  countNumber (x / 10)
 
+fun powInt (x: Int , y: Int): Int {
+    var result = 1
+    for (i in 1..y step 1)
+        result *= x
+    return result
+}
 fun revert(n: Int): Int {
-    var result = 0.0
+    var result = 0
     var temp = n
     for (i in countNumber(temp) downTo 1){
-        result += (pow(10.0,(i-1).toDouble())*(temp % 10))
+        result += (powInt(10,(i-1))*(temp % 10))
         temp /= 10
     }
-    return result.toInt()
+    return result
 }
 
 /**
@@ -201,7 +218,23 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var result = false
+    var temp = n
+    var countDigit = countNumber(n)
+    for (i in 1..countDigit / 2 step 2)
+    {
+        if ((temp % 10) == (temp / powInt(10, countDigit - i ))){
+            result = true
+            temp = (temp % powInt(10, countDigit - i )) / 10
+        }
+        else{
+            result = false
+            break
+        }
+    }
+    return result
+}
 
 
 
@@ -243,7 +276,37 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var k = 1 // тк 1  число равно 1
+    var result = 0
+    var logic = false
+    var i = 2
+    var nextDigit = 1
+    while (logic != true)
+    {
+        if (k < n)
+        {
+            nextDigit = i*i
+            k += countNumber(nextDigit)
+            i++
+        }
+        if (k >= n)
+        {
+            if (k == n)
+                result = nextDigit % 10
+            else
+                while (k >= n)
+                {
+                    result = nextDigit % 10
+                    nextDigit /= 10
+                    k--
+                }
+            logic = true
+        }
+    }
+    return result
+}
+
 
 
 /**
@@ -256,7 +319,6 @@ fun squareSequenceDigit(n: Int): Int = TODO()
 fun fibSequenceDigit(n: Int): Int {
     var k = 2 // тк 1 и 2 числа равны  1
     var result = 0
-
     var fibon = 1 //очередное число ряда
     var temp1 = 1
     var temp2 = 0
@@ -284,7 +346,7 @@ fun fibSequenceDigit(n: Int): Int {
                         fibon /= 10
                         k--
                     }
-            logic = true
+                logic = true
             }
         }
     return result

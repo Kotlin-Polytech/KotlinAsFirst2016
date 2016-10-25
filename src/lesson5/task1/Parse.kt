@@ -204,7 +204,7 @@ fun bestHighJump(jumps: String): Int {
         else try {
             val mark = part.toInt()
             val nextPart = parts[index + 1]
-           for (i in 0..nextPart.length - 1) if ((mark > max) and (nextPart[i] == '+')) max = mark
+            for (i in 0..nextPart.length - 1) if ((mark > max) and (nextPart[i] == '+')) max = mark
         } catch (e: NumberFormatException) {
             return -1
         }
@@ -221,7 +221,27 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var result = parts[0].toInt()
+        for (i in 1..parts.size - 1) {
+            if (parts[i] == "+")
+            else if (parts[i] == "-")
+            else {
+                try {
+                    var x = parts[i].toInt()
+                } catch (e: NumberFormatException) {
+                    fun throwIAE() {
+                        throw IllegalArgumentException("нарушение формата входной строки")
+                    }
+                }
+                var x = parts[i].toInt()
+                if (parts[i - 1] == "+") result += x
+                else if (parts[i - 1] == "-") result -= x
+            }
+        }
+    return result
+}
 
 /**
  * Сложная

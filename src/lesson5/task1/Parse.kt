@@ -235,7 +235,7 @@ fun mostExpensive(description: String): String {
     val namesList = mutableListOf<String>()
     var toBreak = false
     for (element in parts) {
-        if (element.matches(Regex("""[\D]+\s\d+\.\d+"""))) {
+        if (element.matches(Regex("""[\S]+\s\d+\.\d+"""))) {
             val list = element.split(" ")
             namesList += list[0]
             pricesList += list[1].toDouble()

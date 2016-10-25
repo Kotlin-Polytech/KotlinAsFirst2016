@@ -66,7 +66,7 @@ fun dateStrToDigit(str: String): String {
     var m = 0
     parts.forEach { part ->
         val i = part.first()
-        if ((i in '0'..'9') && ((part.length == 1) || (part.length == 2))) {
+        if (i in '0'..'9' && ((part.length == 1) || (part.length == 2))) {
             d = part.toInt()
         } else if (i in 'а'..'я') {
             when (part) {

@@ -309,7 +309,7 @@ fun findHoles(matrix: Matrix<Int>): Holes {
     var faeled = true
     for (i in 0..matrix.height - 1) {
         for (j in 0..matrix.width - 1)
-            if (matrix[i, j] == 1) faeled = false
+            if (matrix[i, j] != 1) faeled = false
         if (faeled) {
             rows += i
         } else faeled = true
@@ -317,7 +317,7 @@ fun findHoles(matrix: Matrix<Int>): Holes {
 
     for (i in 0..matrix.width - 1) {
         for (j in 0..matrix.height - 1)
-            if (matrix[j, i] == 1) faeled = false
+            if (matrix[j, i] != 1) faeled = false
         if (faeled) {
             columns += i
         } else faeled = true

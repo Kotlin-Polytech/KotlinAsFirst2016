@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -86,7 +87,7 @@ fun isPalindrome(str: String): Boolean {
     for (i in 0..lowerCase.length / 2) {
         if (lowerCase[i] != lowerCase[lowerCase.length - i - 1]) return false
     }
-     return true
+    return true
 }
 
 /**
@@ -112,7 +113,7 @@ fun abs(v: List<Double>): Double = TODO()
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.size == 0) return 0.0
+    if (list.isEmpty() == true) return 0.0
     else return (list.sum() / list.size)
 }
 
@@ -124,8 +125,7 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val average = mean(list)
-    if (list.size == 0)
-    else for (i in 0..list.size - 1) {
+     for (i in 0..list.size - 1) {
         list[i] = list[i] - average
     }
     return list
@@ -159,13 +159,14 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var sumElements= 0.0
-    for (i in 0..list.size -1) {
-        sumElements = sumElements + list[i]
-        list[i] = sumElements
+    if (list.size > 1) {
+        for (i in 1..list.size - 1) {
+            list[i] = list[i] + list[i - 1]
+        }
     }
-return list
+    return list
 }
+
 
 /**
  * Средняя
@@ -178,15 +179,15 @@ fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
     var i = 2
     var a = n
-    while (a > 0){
-    while (a % i ==0){
-        list.add(i)
-        a /= i
+    while (a > 0) {
+        while (a % i == 0) {
+            list.add(i)
+            a /= i
+        }
+        if (i >= a) break
+        else i = i + 1
     }
-    if (i >= a) break
-    else i = i + 1
-}
-return list
+    return list
 }
 
 /**
@@ -225,8 +226,8 @@ fun convertToString(n: Int, base: Int): String = TODO()
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var number: Double = 0.0
-    for (i in 0..digits.size -1) {
-        number = number + digits[i] * Math.pow(base.toDouble(), digits.size.toDouble() - i -1)
+    for (i in 0..digits.size - 1) {
+        number = number + digits[i] * Math.pow(base.toDouble(), digits.size.toDouble() - i - 1)
     }
     return number.toInt()
 }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +58,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int = if (Math.abs(n) < 10) 1 else digitNumber(n / 10) + 1
+
 
 
 /**
@@ -82,12 +84,12 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
+    for (i in 2..n/2) {
         if (n % i == 0)
             return i
 
     }
-        return n
+    return n
 }
 
 /**
@@ -97,14 +99,13 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var k: Int = 0
-    for (i in 1..n-1) {
+    for (i in 1..n - 1) {
         if (n % i == 0) {
             k = i
         }
     }
-       return k
-        }
-
+    return k
+}
 
 /**
  * Простая
@@ -188,26 +189,26 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
 fun countNumbers(n: Int): Int {  //подсчет кол-ва цифр в числе
     var a: Int = n
     var k: Int = 0
-    while (a>0){
-       a /= 10
-       k ++
+    while (a > 0) {
+        a /= 10
+        k++
     }
-        return k
+    return k
 }
 
 fun squareSequenceDigit(n: Int): Int {
-    var number  :Int = 0
-    var numberi :Int = 0
-    var resalt  :Int = 0
+    var number: Int = 0
+    var numberi: Int = 0
+    var resalt: Int = 0
     while (number < n) {
-        numberi ++
+        numberi++
         number = number + countNumbers(numberi * numberi)
     }
-resalt = numberi * numberi
-    for (numberi in n..number - 1) {
+    resalt = numberi * numberi
+    for (numberi in n..number - 1)
         resalt /= 10
-    }
-    return (resalt %10)
+
+    return (resalt % 10)
 }
 
 /**

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -33,10 +34,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String  {
+fun ageDescription(age: Int): String {
     return when {
-         (age%10 == 1) && (age/10 != 1) && (age/10 != 11) ->  "$age год"
-         (age%10 >  1) && (age%10 < 5)  && (age/10 != 1) && (age/10 != 11) -> "$age года"
+        (age % 10 == 1) && (age / 10 != 1) && (age / 10 != 11) -> "$age год"
+        (age % 10 > 1) && (age % 10 < 5) && (age / 10 != 1) && (age / 10 != 11) -> "$age года"
         else -> "$age лет"
     }
 
@@ -97,11 +98,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-         if ((a in c..d) && (b in c..d)) return (b-a)
-    else if ((c in a..b) && (d in a..b)) return (d-c)
-    else if ((b in c..d) && (a !in c..d)) return (b-c)
-    else if ((a in c..d) && (b !in c..b)) return (d-a)
-    else if ((c in a..b) && (d !in a..b)) return (b-c)
-    else if ((d in a..b) && (c !in a..b)) return (d-a)
+    if ((a in c..d) && (b in c..d)) return (b - a)
+    else if ((c in a..b) && (d in a..b)) return (d - c)
+    else if ((b in c..d) && (a !in c..d)) return (b - c)
+    else if ((a in c..d) && (b !in c..b)) return (d - a)
+    else if ((c in a..b) && (d !in a..b)) return (b - c)
+    else if ((d in a..b) && (c !in a..b)) return (d - a)
     else return -1
 }

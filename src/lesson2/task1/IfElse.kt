@@ -68,12 +68,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((kingX == rookX1) or (kingY == rookY1)) and ((kingX == rookX2) or (kingY == rookY2))) return 3
-    else if ((kingX == rookX2) or (kingY == rookY2)) return 2
-    else if ((kingX == rookX1) or (kingY == rookY1)) return 1
-    return 0
-
-
+    var rook1 = 0;
+    var rook2 = 0;
+    if ((kingX == rookX1) || (kingY == rookY1)) rook1 = 1
+    if ((kingX == rookX2) || (kingY == rookY2)) rook2 = 1
+    if ((rook1 == 0) && (rook2 == 0)) return 0 else
+        if ((rook1 == 1) && (rook2 == 1)) return 3 else
+            if (rook1 == 1) return 1 else
+                return 2
 }
 
 /**
@@ -88,11 +90,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-
-    if (((kingX == rookX) or (kingY == rookY)) and (bishopX - kingX == bishopY - kingY)) return 3
-    else if ((kingX == rookX) or (kingY == rookY)) return 1
-    else if ((bishopX - kingX == bishopY - kingY) or (kingX - bishopX == bishopY - kingY)) return 2
-    return 0
+    var rook = 0;
+    var bishop = 0;
+    if ((kingX == rookX) || (kingY == rookY)) rook = 1
+    if (Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)) bishop = 1
+    if (rook == 1 && bishop == 1) return 3 else
+        if (rook == 0 && bishop == 0) return 0 else
+            if (rook == 1) return 1
+    return 2
 }
 
 /**
@@ -104,11 +109,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a < (b + c)) && (b < (a + c)) && (c < (a + b)))
-        if (((a * a + b * b) < c * c) || ((b * b + c * c < a * a)) || ((c * c + a * a < b * b))) return 2
-        else if (((a * a + b * b) == c * c) || ((b * b + c * c == a * a)) || ((c * c + a * a == b * b))) return 1
-        else if (((a * a + b * b) > c * c) || ((b * b + c * c > a * a)) || ((c * c + a * a > b * b))) return 0
-    return -1
+    var f = 0
+    if ((a < (b + c)) && (b < (a + c)) && (c < (a + b))) {
+        if (((a * a + b * b) < c * c) || ((b * b + c * c < a * a)) || ((c * c + a * a < b * b))) f = 2
+        else if (((a * a + b * b) == c * c) || ((b * b + c * c == a * a)) || ((c * c + a * a == b * b))) f = 1
+        else f = 0
+    } else f = -1
+    return f
 }
 
 /**
@@ -120,12 +127,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if  (c<=a && d>=b ) return Math.abs(b-a) else
-        if (c<=a && d>=a && d<=b) return  Math.abs(d-a)  else
-             if (c>=a && c<=b && d>=b)  return  Math.abs(b-c)  else
-                 if  (c>=a && c<=b && d<=b) return Math.abs(d-c) else
-                     return -1
-
+    if (c <= a && d >= b) return Math.abs(b - a)
+    else if (c <= a && d >= a && d <= b) return Math.abs(d - a)
+    else if (c >= a && c <= b && d >= b) return Math.abs(b - c)
+    else if (c >= a && c <= b && d <= b) return Math.abs(d - c)
+    else return -1
 
 
 }

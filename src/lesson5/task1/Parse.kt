@@ -65,12 +65,14 @@ fun dateStrToDigit(str: String): String {
     var y = 0
     var m = 0
     var e = "q"
+    var k = 0
     for (part in parts) {
         if (part.isNotEmpty()) {
+            k++
             val i = part.first()
-            if (i in '0'..'9' && ((part.length == 1) || (part.length == 2))) {
+            if ((k == 1) && (i in '0'..'9') && (part.length <= 2) && (part.length > 0)) {
                 d = part.toInt()
-            } else if (i in 'а'..'я') {
+            } else if ((k==2)&&(i in 'а'..'я')) {
                 when (part) {
                     "января" -> m = 1
                     "февраля" -> m = 2
@@ -85,13 +87,13 @@ fun dateStrToDigit(str: String): String {
                     "ноября" -> m = 11
                     "декабря" -> m = 12
                 }
-            } else if ((i in '0'..'9') && (part.length >= 4)) {
+            } else if ((k==3)&&(i in '0'..'9') && (part.length >= 1)) {
                 y = part.toInt()
             }
         } else e = ""
     }
-    if ((d != 0) && (m != 0) && (y != 0) && (e != "")) {
-        return String.format("%02d.%02d.%02d", d, m, y)
+    if ((d != 0) && (m != 0) && (y >= 0) && (e != "")) {
+        return String.format("%02d.%02d.%d", d, m, y)
     } else {
         e = ""
         return e

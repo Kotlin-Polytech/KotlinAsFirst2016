@@ -31,6 +31,7 @@ class Tests {
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
         assertEquals("", dateStrToDigit(""))
         assertEquals("04.11.2147483647", dateStrToDigit("04 ноября 2147483647"))
+        assertEquals("08.01.0", dateStrToDigit("08 января 0"))
     }
 
     @Test

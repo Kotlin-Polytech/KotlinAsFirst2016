@@ -160,8 +160,10 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val tan = Math.abs((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
-    return Line(Point(s.begin.x, s.begin.y), Math.atan(tan))
+    val xDist = s.end.x - s.begin.x
+    val yDist = s.end.y - s.begin.y
+    val angle = if (xDist == 0.0) Math.PI/2 else Math.atan(yDist / xDist)
+    return Line(Point(s.begin.x, s.begin.y), angle)
 }
 
 /**
@@ -216,8 +218,6 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(c, b))
     val radius = center.distance(a)
-    println(center)
-    println(radius)
     return Circle(center, radius)
 }
 
@@ -232,5 +232,23 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
+fun minContainingCircle(vararg points: Point): Circle {
+    if (points.size == 0) throw IllegalArgumentException()
+    if (points.size == 1) return Circle(points[0], 0.0)
 
+    val distSegm = diameter(*points)
+    val maxDist = distSegm.begin.distance(distSegm.end)/2
+    var radius = maxDist / 2
+    var thirdPoint = Point(0.0, 0.0)
+
+    for (i in 0..points.size-1) {
+        val dist = bisectorByPoints(distSegm.begin, distSegm.end).point.distance(points[i])
+        if (dist > radius) {
+            radius = dist
+            thirdPoint = points[i]
+        }
+    }
+
+    if (radius != maxDist / 2) return circleByThreePoints(distSegm.begin, distSegm.end, thirdPoint)
+    return Circle(bisectorByPoints(distSegm.begin, distSegm.end).point, radius)
+}

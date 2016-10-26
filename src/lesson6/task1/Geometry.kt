@@ -136,17 +136,19 @@ data class Line(val point: Point, val angle: Double) {
         val x2 = other.point.x
         val y2 = other.point.y
         val angle2 = other.angle
-        /**
-         *
-         * y - y1 = (x - x1) * tan(angle1)
-         * (x - x1) * tan(angle1) + y1 = (x - x2) * tan(angle2) + y2
-         * x * (tan(angle1) - tan(angle2)) - x1 * tan(angle1) + x2 * tan(angle2) = y2 - y1
-         * x = ( y2 - y1 + x1 * tan(angle1) - x2 * tan(angle2) ) / ( tan(angle1) - tan(angle2) )
-         * y = (x - x1) * tan(angle1) + y1
-         */
 
-        val x3 = (x1*Math.tan(angle) - x2*Math.tan(angle2) + y2 - y1)/(Math.tan(angle) - Math.tan(angle2))
-        val y3 = (x3-x1)*Math.tan(angle) + y1
+        if (Math.tan(angle) == Math.tan(angle2)) throw IllegalArgumentException()
+
+        val x3 = when {
+            (Math.tan(angle).isInfinite()) -> x1
+            (Math.tan(angle2).isInfinite()) -> x2
+            else -> (x1*Math.tan(angle) - x2*Math.tan(angle2) + y2 - y1)/(Math.tan(angle) - Math.tan(angle2))
+        }
+
+        val y3 = when {
+            (Math.tan(angle).isInfinite()) -> ((x3-x1)*Math.tan(angle) + y1)
+            else ->  ((x3-x2)*Math.tan(angle2) + y2)
+        }
 
         return Point(x3, y3)
     }
@@ -157,21 +159,30 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val tan = Math.abs((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
+    return Line(Point(s.begin.x, s.begin.y), Math.atan(tan))
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    return lineBySegment(Segment(a, b))
+}
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val x = a.x + (b.x - a.x) / 2
+    val y = a.y + (b.y - a.y) / 2
+    return Line(Point(x, y), (lineByPoints(a, b).angle + Math.PI / 2) % Math.PI)
+}
 
 /**
  * Средняя
@@ -179,7 +190,19 @@ fun bisectorByPoints(a: Point, b: Point): Line = TODO()
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size <= 2) throw IllegalArgumentException()
+    var minDist = -1.0
+    var pair = Pair<Circle, Circle>(circles[0], circles[1])
+    for (i in 0..circles.size-2) for (j in i+1..circles.size-1) {
+        val dist = circles[i].distance(circles[j])
+        if (dist < minDist || minDist == -1.0) {
+            pair = Pair(circles[i], circles[j])
+            minDist = dist
+        }
+    }
+    return pair
+}
 
 /**
  * Очень сложная
@@ -190,7 +213,13 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(c, b))
+    val radius = center.distance(a)
+    println(center)
+    println(radius)
+    return Circle(center, radius)
+}
 
 /**
  * Очень сложная

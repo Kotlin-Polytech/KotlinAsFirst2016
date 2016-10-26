@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.digitNumber
 
 /**
  * Пример
@@ -296,7 +297,18 @@ fun decimalFromString(str: String, base: Int): Int = TODO ()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String  {
+    val result = mutableListOf<Int> ()
+    var num = 0
+    var num1 = n
+    for (i in 0..digitNumber(n)-1){
+        num = num1%10 * Math.pow(10.0,i.toDouble()).toInt()
+        num1 /= 10
+        result.add(num)
+    }
+    result.sortedDescending()
+
+}
 
 /**
  * Очень сложная

@@ -124,6 +124,7 @@ class Tests {
         assertTrue(squareBetweenExists(21, 28))
         assertFalse(squareBetweenExists(51, 61))
         assertFalse(squareBetweenExists(999, 1001))
+        assertTrue(squareBetweenExists(0, 0))
     }
 
     @Test

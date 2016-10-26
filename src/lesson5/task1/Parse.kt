@@ -69,6 +69,7 @@ fun dateStrToDigit(str: String): String {
     for (part in parts) {
         if (part.isNotEmpty()) {
             k++
+            try{
             val i = part.first()
             if ((k == 1) && (i in '0'..'9') && (part.length <= 2) && (part.length > 0)) {
                 d = part.toInt()
@@ -89,6 +90,9 @@ fun dateStrToDigit(str: String): String {
                 }
             } else if ((k==3)&&(i in '0'..'9') && (part.length >= 1)) {
                 y = part.toInt()
+            }}
+            catch (e:NumberFormatException){
+                return ""
             }
         } else e = ""
     }

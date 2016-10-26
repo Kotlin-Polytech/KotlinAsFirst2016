@@ -178,9 +178,10 @@ fun sin(x: Double, eps: Double): Double {
     var k = 2
     var s = 0.0
     var e = x
-    if (Math.abs(x) > 2 * Math.PI) e = x % (2 * Math.PI)
+    var z = x
+    if (Math.abs(x) > 2 * Math.PI) z = x % (2 * Math.PI)
     while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(e, a.toDouble()) / factorial(a)
+        e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k += 1
@@ -200,9 +201,10 @@ fun cos(x: Double, eps: Double): Double {
     var k = 1
     var s = 1.0
     var e = x
-    if (Math.abs(x) > 2 * Math.PI) e = x % (2 * Math.PI)
+    var z = x
+    if (Math.abs(x) > 2 * Math.PI) z = x % (2 * Math.PI)
     while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(e, a.toDouble()) / factorial(a)
+        e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k += 1

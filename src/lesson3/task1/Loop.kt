@@ -77,9 +77,9 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fib1: Int = 0
-    var fib2: Int = 1
-    var fib3: Int = 1
+    var fib1 = 0
+    var fib2 = 1
+    var fib3 = 1
     for (i in 3..n) {
         fib1 = fib2 + fib3
         fib2 = fib3
@@ -96,7 +96,6 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var nod: Int
     var mm = m
     var nn = n
     while (mm != nn) {
@@ -106,7 +105,7 @@ fun lcm(m: Int, n: Int): Int {
             nn = nn - mm
         }
     }
-    nod = mm
+    var nod = mm
     var nok = (m * n) / nod
     return nok
 }
@@ -128,7 +127,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i: Int = n - 1
+    var i = n / 2
     while (n % i != 0) i--
     return i
 }
@@ -177,7 +176,7 @@ fun sin(x: Double, eps: Double): Double {
     xx = x % (2 * PI)
     while (Math.abs(fraction) > Math.abs(eps)) {
         n++
-        fraction = Math.pow(x, n * 2.0 + 1) / factorial(n * 2 + 1)
+        fraction = Math.pow(xx, n * 2.0 + 1) / factorial(n * 2 + 1)
         if (n % 2 == 0) sin = sin + fraction
         else sin = sin - fraction
     }
@@ -199,7 +198,7 @@ fun cos(x: Double, eps: Double): Double {
     xx = x % (2 * PI)
     while (Math.abs(fraction) > Math.abs(eps)) {
         n++
-        fraction = Math.pow(x, n * 2.0) / factorial(n * 2)
+        fraction = Math.pow(xx, n * 2.0) / factorial(n * 2)
         if (n % 2 == 0) cos = cos + fraction
         else cos = cos - fraction
     }

@@ -37,7 +37,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     when {
         age % 10 == 1 && age % 100 != 11 -> return "$age год"
-        age % 10 >= 2 && age % 10 <= 4 && age / 10 != 1 && age / 10 % 10 != 1 -> return "$age года"
+        age % 10 in 2..4 && age / 10 != 1 && age / 10 % 10 != 1 -> return "$age года"
         else -> return "$age лет"
     }
 
@@ -54,10 +54,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
     val s = (v1 * t1 + v2 * t2 + v3 * t3) / 2
+    var s1 = v1 * t1
+    var s2 = v2 * t2
+    var s3 = v3 * t3
     when {
-        t1 * v1 >= s -> return s / v1
-        t1 * v1 + t2 * v2 >= s -> return (t1 + (s - t1 * v1) / v2)
-        else -> return t1 + t2 + (s - t1 * v1 - t2 * v2) / v3
+        s1 >= s -> return s / v1
+        s1 + s2 >= s -> return (t1 + (s - s1) / v2)
+        else -> return t1 + t2 + (s - s1 - s2) / v3
     }
 
 }
@@ -76,7 +79,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     val firstRookThreatens = (kingX == rookX1 || kingY == rookY1)
     val secondRookThreatens = (kingX == rookX2 || kingY == rookY2)
     when {
-        firstRookThreatens == false && secondRookThreatens == false -> return 0
+        !firstRookThreatens && !secondRookThreatens -> return 0
         firstRookThreatens == true && secondRookThreatens == true -> return 3
         firstRookThreatens == true -> return 1
         else -> return 2
@@ -97,11 +100,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           bishopX: Int, bishopY: Int): Int {
     val rookThreatens = (kingX == rookX || kingY == rookY)
     val bishopThreatens = (bishopX + bishopY == kingX + kingY || bishopX - bishopY == kingX - kingY)
-    if (rookThreatens == false && bishopThreatens == false) return 0 else
-        if (rookThreatens == true && bishopThreatens == true) return 3 else
-            if (rookThreatens == true) return 1 else {
-                return 2
-            }
+    when {
+        rookThreatens == false && bishopThreatens == false -> return 0
+        rookThreatens == true && bishopThreatens == true -> return 3
+        rookThreatens == true -> return 1
+        else -> return 2
+    }
 }
 
 

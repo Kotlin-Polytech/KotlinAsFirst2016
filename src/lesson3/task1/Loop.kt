@@ -3,6 +3,17 @@ package lesson3.task1
 import lesson1.task1.sqr
 import java.lang.Math.*
 
+fun powInt (a: Int , b:Int): Int {
+    var count = b
+    var x = a
+    var result = 1
+    while (count>0) {
+        count = count -1
+        result = result*x
+    }
+
+    return result
+}
 /**
  * Пример
  *
@@ -207,7 +218,18 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i = 0
+    var beforeN = 0
+    while (beforeN < n) {
+        i += 1
+        beforeN += digitNumber(i * i)
+    }
+    if (beforeN == n) return (i * i) % 10
+    else return ((i * i) / powInt(10, beforeN - n) % 10)
+
+}
+
 
 /**
  * Сложная
@@ -216,4 +238,13 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var  i = 0
+    var beforeN = 0
+    while (beforeN < n) {
+        i += 1
+        beforeN += digitNumber (fib(i))
+    }
+    if (beforeN == n) return (fib(i))%10
+    else return ((fib(i) / powInt(10, beforeN - n)%10))
+}

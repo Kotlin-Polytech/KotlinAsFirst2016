@@ -89,7 +89,17 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var a = Math.max(m, n)
+    var b = Math.min(m, n)
+    var buffer = 1
+    while (a % b > 0) {
+        buffer = a
+        a = b
+        b = buffer % b
+    }
+    return (n * m) / b
+}
 
 /**
  * Простая
@@ -124,7 +134,23 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val min: Int
+    val max: Int
+    if (m >= n) {
+        min = n
+        max = m
+    } else {
+        max = n
+        min = m
+    }
+    var div = min
+    while (max % div != 0 || min % div != 0) {
+        div--
+    }
+    if (div == 1) return true
+    return false
+}
 
 /**
  * Простая
@@ -133,7 +159,17 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    if (n < 0) return false
+    if (m <= 0) {
+        for (i in 0..Math.sqrt(n.toDouble()).toInt()) {
+            if (i * i >= m && i * i <= n) return true
+        }
+    } else for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
+        if (i * i >= m && i * i <= n) return true
+    }
+    return false
+}
 
 /**
  * Простая
@@ -168,7 +204,13 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    for (i in 1..digitNumber(n) / 2) {
+        if ((n / (Math.pow(10.0, digitNumber(n) - i.toDouble())).toInt()) % 10 != (n / (Math.pow(10.0, i.toDouble() - 1)).toInt()) % 10)
+            return false
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -176,7 +218,17 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var N = n
+    var buffer = N % 10
+    while (N > 9) {
+        buffer = N % 10
+        if ((N / 10) % 10 != buffer) return true
+        N /= 10
+    }
+    if (N != buffer) return true
+    return false
+}
 
 /**
  * Сложная
@@ -185,7 +237,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var lines = "1"
+    var count = 2
+    var prevLenght = 0
+    while (prevLenght + lines.length < n) {
+        prevLenght += lines.length
+        lines = (count * count).toString()
+        count++
+    }
+    return (lines[n - prevLenght - 1] - '0').toInt()
+}
 
 /**
  * Сложная
@@ -194,4 +256,14 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var lines = "1"
+    var count = 2
+    var prevLenght = 0
+    while (prevLenght + lines.length < n) {
+        prevLenght += lines.length
+        lines = fib(count).toString()
+        count++
+    }
+    return (lines[n - prevLenght - 1] - '0').toInt()
+}

@@ -152,7 +152,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (!jumps.matches(Regex("""\d* (\+|\-|\%)+( \d* (\+|\-|\%)+)*"""))) return -1//
+    if (!jumps.matches(Regex("""\d* (\+|\-|\%)+( \d* (\+|\-|\%)+)*"""))) return -1///
     val jumpsList = jumps.split(" ")
     var jumpsLuckList = listOf<Int>()
     var i = 1

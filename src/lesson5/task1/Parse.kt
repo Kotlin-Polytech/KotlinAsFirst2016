@@ -64,30 +64,33 @@ fun dateStrToDigit(str: String): String {
     var d = 0
     var y = 0
     var m = 0
-    parts.forEach { part ->
-        val i = part.first()
-        if (i in '0'..'9' && ((part.length == 1) || (part.length == 2))) {
-            d = part.toInt()
-        } else if (i in 'а'..'я') {
-            when (part) {
-                "января" -> m = 1
-                "февраля" -> m = 2
-                "марта" -> m = 3
-                "апреля" -> m = 4
-                "мая" -> m = 5
-                "июня" -> m = 6
-                "июля" -> m = 7
-                "августа" -> m = 8
-                "сентября" -> m = 9
-                "октября" -> m = 10
-                "ноября" -> m = 11
-                "декабря" -> m = 12
+    var e = "q"
+    for (part in parts) {
+        if (part.isNotEmpty()) {
+            val i = part.first()
+            if (i in '0'..'9' && ((part.length == 1) || (part.length == 2))) {
+                d = part.toInt()
+            } else if (i in 'а'..'я') {
+                when (part) {
+                    "января" -> m = 1
+                    "февраля" -> m = 2
+                    "марта" -> m = 3
+                    "апреля" -> m = 4
+                    "мая" -> m = 5
+                    "июня" -> m = 6
+                    "июля" -> m = 7
+                    "августа" -> m = 8
+                    "сентября" -> m = 9
+                    "октября" -> m = 10
+                    "ноября" -> m = 11
+                    "декабря" -> m = 12
+                }
+            } else if ((i in '0'..'9') && (part.length >= 4)) {
+                y = part.toInt()
             }
-        } else if ((i in '0'..'9') && (part.length == 4)) {
-            y = part.toInt()
-        }
+        } else e = ""
     }
-    if ((d != 0) && (m != 0) && (y != 0)) {
+    if ((d != 0) && (m != 0) && (y != 0) && (e != "")) {
         return String.format("%02d.%02d.%02d", d, m, y)
     } else return ""
 }
@@ -105,32 +108,42 @@ fun dateDigitToStr(digital: String): String {
     var y1 = 0
     var m1 = ""
     var i = 0
+    var e1 = "q"
     for (part in parts) {
-        i++
-        if ((i == 1) && (part.first() in '0'..'9')) {
-            d1 = part.toInt()
-        } else if ((i == 2) && (part.first() in '0'..'9')) {
-            when (part) {
-                "01" -> m1 = "января"
-                "02" -> m1 = "февраля"
-                "03" -> m1 = "марта"
-                "04" -> m1 = "апреля"
-                "05" -> m1 = "мая"
-                "06" -> m1 = "июня"
-                "07" -> m1 = "июля"
-                "08" -> m1 = "августа"
-                "09" -> m1 = "сентября"
-                "10" -> m1 = "октября"
-                "11" -> m1 = "ноября"
-                "12" -> m1 = "декабря"
+        if (part.isNotEmpty()) {
+            i++
+            try {
+                if ((i == 1) && (part.first() in '0'..'9')) {
+                    d1 = part.toInt()
+                } else if ((i == 2) && (part.first() in '0'..'9')) {
+                    when (part) {
+                        "01" -> m1 = "января"
+                        "02" -> m1 = "февраля"
+                        "03" -> m1 = "марта"
+                        "04" -> m1 = "апреля"
+                        "05" -> m1 = "мая"
+                        "06" -> m1 = "июня"
+                        "07" -> m1 = "июля"
+                        "08" -> m1 = "августа"
+                        "09" -> m1 = "сентября"
+                        "10" -> m1 = "октября"
+                        "11" -> m1 = "ноября"
+                        "12" -> m1 = "декабря"
+                    }
+                } else if ((i == 3) && (part.first() in '0'..'9')) {
+                    y1 = part.toInt()
+                }
+            } catch (e: NumberFormatException) {
+                return ""
             }
-        } else if ((i == 3) && (part.first() in '0'..'9')) {
-            y1 = part.toInt()
-        }
+        } else e1 = ""
     }
-    if ((d1 != 0) && (m1 != "") && (y1 >= 0) && (i <= 3)) {
+    if ((d1 != 0) && (m1 != "") && (y1 >= 0) && (i <= 3) && (e1 != "")) {
         return String.format("%d %s %d", d1, m1, y1)
-    } else return ""
+    } else {
+        e1 = ""
+        return e1
+    }
 }
 
 

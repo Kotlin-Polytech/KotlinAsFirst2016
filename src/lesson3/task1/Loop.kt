@@ -98,13 +98,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k: Int = 0
-    for (i in 1..n - 1) {
-        if (n % i == 0) {
-            k = i
-        }
-    }
-    return k
+            for (i in n - 1 downTo 1)
+            if ((n % i) == 0) return i
+    return n
 }
 
 /**
@@ -205,9 +201,9 @@ fun squareSequenceDigit(n: Int): Int {
         number = number + countNumbers(numberi * numberi)
     }
     resalt = numberi * numberi
-    for (numberi in n..number - 1)
+    for (numberi in n..number - 1) {
         resalt /= 10
-
+    }
     return (resalt % 10)
 }
 

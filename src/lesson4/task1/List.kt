@@ -113,7 +113,7 @@ fun abs(v: List<Double>): Double = TODO()
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.isEmpty() == true) return 0.0
+    if (list.isEmpty()) return 0.0
     else return (list.sum() / list.size)
 }
 
@@ -159,11 +159,9 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.size > 1) {
         for (i in 1..list.size - 1) {
             list[i] = list[i] + list[i - 1]
         }
-    }
     return list
 }
 
@@ -179,16 +177,15 @@ fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
     var i = 2
     var a = n
-    while (a > 0) {
-        while (a % i == 0) {
+    while (a != 1) {
+        if (a % i == 0) {
             list.add(i)
             a /= i
-        }
-        if (i >= a) break
-        else i = i + 1
+        } else i++
     }
     return list
 }
+
 
 /**
  * Сложная
@@ -225,11 +222,11 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var number: Double = 0.0
+    var number = 0
     for (i in 0..digits.size - 1) {
-        number = number + digits[i] * Math.pow(base.toDouble(), digits.size.toDouble() - i - 1)
+        number = number + digits[i] * Math.pow(base.toDouble(), (digits.size - i - 1).toDouble()).toInt()
     }
-    return number.toInt()
+    return number
 }
 
 /**

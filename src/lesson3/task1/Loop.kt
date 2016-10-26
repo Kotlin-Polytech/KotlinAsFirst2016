@@ -1,6 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
-
+import java.lang.Math.*
 /**
  * Пример
  *
@@ -57,7 +57,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = if (n / 10 == 0) 1 else  digitNumber(n / 10) + 1
+fun digitNumber(n: Int): Int = if (n / 10 == 0) 1 else digitNumber(n / 10) + 1
 
 
 
@@ -67,7 +67,7 @@ fun digitNumber(n: Int): Int = if (n / 10 == 0) 1 else  digitNumber(n / 10) + 1
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int = if ((n == 1) || (n == 2)) 1 else fib(n - 1) + fib(n - 2)
 
 /**
  * Простая
@@ -75,7 +75,14 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k = max(n, m)
+    while (true) {
+    if (k % n == 0 && k % m == 0) return k
+    else ++k
+    }
+}
+
 
 /**
  * Простая
@@ -98,7 +105,20 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun nod(m: Int, n: Int): Int {
+    if (n == m)
+        return n
+    if (n > m)
+        return nod(n-m, m)
+    if (n < m)
+        return nod(m-n, n)
+    else return 0
+}
+fun isCoPrime(m: Int, n: Int): Boolean {
+    if (nod(m, n) == 1)
+        return true
+    else return false
+}
 
 /**
  * Простая
@@ -125,7 +145,23 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double = TODO() /* {
+    var sum = 1.0
+    var i = 2
+    var j = 2
+    while(true) {
+      if (j % 2 == 0)
+          sum = sum - pow(x, i.toDouble()) / factorial(i)
+      else
+          sum = sum + pow(x, i.toDouble()) / factorial(i)
+        i = i + 2
+        j++
+    }
+    if ((pow(x, i.toDouble()) / factorial(i)) < eps)
+        return sum
+
+}*/
+
 
 /**
  * Средняя
@@ -133,7 +169,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var ans = 0
+    var n2 = n
+    while(n2 > 0) {
+        ans = (ans * 10) + (n2 % 10)
+        n2 /= 10
+    }
+    return ans
+}
 
 /**
  * Средняя
@@ -142,7 +186,10 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+   if (n == revert(n)) return true
+   else return false
+}
 
 /**
  * Средняя

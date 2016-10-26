@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -35,11 +36,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-   return when {
-       ((age % 10 == 1) && (age % 100 != 11))                        -> "$age год"
-       ((age % 10 < 5) && (age % 100 !in 11..14) && (age % 10 != 0)) -> "$age года"
-       else                                                          -> "$age лет"
-   }
+    return when {
+        ((age % 10 == 1) && (age % 100 != 11)) -> "$age год"
+        ((age % 10 in 1..4) && (age % 100 !in 11..14)) -> "$age года"
+        else -> "$age лет"
+    }
 }
 
 /**
@@ -58,11 +59,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3 = t3 * v3
     val s = s1 + s2 + s3
     return when {
-        s1 > (s / 2)      -> s / (2 * v1)
+        s1 > (s / 2) -> s / (2 * v1)
         s1 + s2 > (s / 2) -> t1 + (s / 2 - s1) / v2
-        else              -> t1 + t2 + (s / 2 - s1 - s2) / v3
+        else -> t1 + t2 + (s / 2 - s1 - s2) / v3
     }
 }
+
 /**
  * Простая
  *
@@ -99,26 +101,24 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val ab = Math.max(a, b)
     val hyp = Math.max(ab, c)
-    val cat1 :Double
-    val cat2 :Double
-    if( hyp == a ) {
+    val cat1: Double
+    val cat2: Double
+    if (hyp == a) {
         cat1 = b
         cat2 = c
-    }
-    else if ( hyp == b ) {
+    } else if (hyp == b) {
         cat1 = a
         cat2 = c
-    }
-    else {
+    } else {
         cat1 = a
         cat2 = b
     }
-    val cos = (sqr(cat1) + sqr(cat2) - sqr(hyp)) / (2*cat1*cat2)
+    val cos = (sqr(cat1) + sqr(cat2) - sqr(hyp)) / (2 * cat1 * cat2)
     return when {
         (cos > 0.0 && cos < 1.0) -> 0
-        (cos == 0.0)             -> 1
-        (cos < 0.0 && cos > -1.0)-> 2
-        else                     -> -1
+        (cos == 0.0) -> 1
+        (cos < 0.0 && cos > -1.0) -> 2
+        else -> -1
     }
 }
 
@@ -130,12 +130,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-        (b < c || a > d)          -> -1
-        (c <= a && d >= b)        -> b-a
-        (c <= a && d >= a && d < b)-> d-a
-        (c >= a && c <= b && d > b)-> b-c
-        else                      -> d-c
+        (b < c || a > d) -> -1
+        (c <= a && d >= b) -> b - a
+        (c <= a && d >= a && d < b) -> d - a
+        (c >= a && c <= b && d > b) -> b - c
+        else -> d - c
     }
 }

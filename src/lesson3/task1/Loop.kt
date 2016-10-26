@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -64,10 +65,10 @@ fun digitNumber(n: Int): Int {
         i += 1
         k /= 10
     }
-   return when {
+    return when {
         n == Int.MAX_VALUE -> 10
-        n ==  0 -> 1
-        else    -> i
+        n == 0 -> 1
+        else -> i
     }
 }
 
@@ -87,10 +88,10 @@ fun fib(n: Int): Int = TODO()
  */
 fun lcm(m: Int, n: Int): Int {
     val k1 = Math.max(m, n)
-    var k = m*n
-    for (i in k1..k){
-        if (i % n==0 && i % m==0){
-            k=i
+    var k = m * n
+    for (i in k1..k) {
+        if (i % n == 0 && i % m == 0) {
+            k = i
             break
         }
     }
@@ -103,9 +104,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k=0
-    for (i in 2..n){
-        if (n % i==0){
+    var k = 0
+    for (i in 2..n) {
+        if (n % i == 0) {
             k = i
             break
         }
@@ -119,10 +120,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k =1
-    for (i in n/2 downTo 1) {
-        if (n%i == 0){
-            k=i
+    var k = 1
+    for (i in n / 2 downTo 1) {
+        if (n % i == 0) {
+            k = i
             break
         }
     }
@@ -136,13 +137,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val mn = Math.min(m, n)
-    for (i in 2..mn){
-        if (m%i == 0 && n%i ==0) return false
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
 
 /**
  * Простая
@@ -208,22 +203,22 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 0
     var b = 0
     while (s < n) {
-        i+=1
-        b = i*i
+        i += 1
+        b = i * i
         var c = 0
         var bb = b
-        while (bb != 0){
-            bb/=10
-            c+=1
+        while (bb != 0) {
+            bb /= 10
+            c += 1
         }
-        s+=c
+        s += c
     }
-    if(s==n) return b%10
+    if (s == n) return b % 10
     else {
-        for (a in 1..s-n) {
+        for (a in 1..s - n) {
             b /= 10
         }
-        return b%10
+        return b % 10
     }
 }
 

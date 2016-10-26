@@ -174,15 +174,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var a = x
-    var b = x
-    var c = 3.0
-    while (Math.abs(b) > eps) {
-        b = -b * x * x / (c * (c - 1))
-        a = a + b
-        c = c + 2
+    var a = 1
+    var k = 2
+    var s = 0.0
+    var e = x
+    if (Math.abs(x) > 2 * Math.PI) e = x % (2 * Math.PI)
+    while (Math.abs(e) >= Math.abs(eps)) {
+        e = Math.pow(x, a.toDouble()) / factorial(a)
+        if (k % 2 == 0) s += e else s -= e
+        a += 2
+        k += 1
     }
-    return a
+    return s
 }
 
 /**
@@ -193,15 +196,18 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var a = 1.0
-    var b = 1.0
-    var c = 2.0
-    while (Math.abs(b) > eps) {
-        b = -b * x * x / (c * (c - 1))
-        a = a + b
-        c = c + 2
+    var a = 2
+    var k = 1
+    var s = 1.0
+    var e = x
+    if (Math.abs(x) > 2 * Math.PI) e = x % (2 * Math.PI)
+    while (Math.abs(e) >= Math.abs(eps)) {
+        e = Math.pow(x, a.toDouble()) / factorial(a)
+        if (k % 2 == 0) s += e else s -= e
+        a += 2
+        k += 1
     }
-    return a
+    return s
 }
 
 /**

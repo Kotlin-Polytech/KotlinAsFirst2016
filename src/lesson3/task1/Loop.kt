@@ -59,11 +59,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): () -> Unit = {
-    var vt:String="n"
-    var size = vt.length
-    println(size)
-}
+fun digitNumber(n: Int): Int= TODO()
 
 /**
  * Простая
@@ -192,7 +188,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var q = 2
+    var dl = "1"
+    var w = 0
+    while (w + dl.length < n) {
+        w += dl.length
+        dl = (q * q).toString()
+        q += 1
+    }
+    return (dl[n - w - 1] - '0').toInt()
+}
 
 /**
  * Сложная
@@ -201,4 +207,25 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int  {
+    var q = 0
+    var w = 0
+    var e = 0
+    var r = 0
+    var t = 0
+    while (r < n) {
+        q += 1
+        w = fib(q)
+        while (w > 0 ){
+            w /= 10
+            e += 1
+        }
+        r += e
+        e = 0
+    }
+    t = fib(q)
+    for (i in n..r - 1) {
+        t = t/ 10
+    }
+    return (t % 10)
+}

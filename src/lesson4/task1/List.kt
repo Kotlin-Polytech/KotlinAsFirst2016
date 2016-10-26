@@ -128,7 +128,14 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double  {
+    var C=0.0
+    for(i in 0..b.size-1) {
+        C +=a[i] * b[i]
+    }
+    return (C)
+}
+
 
 /**
  * Средняя
@@ -138,7 +145,17 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
+fun polynom(p: List<Double>, x: Double): Double  {
+
+    var PX=0.0
+    if (p.isNotEmpty()) {
+        for (i in 0..p.size - 1) {
+            PX += p[i] * Math.pow(x,i.toDouble())
+        }
+        return (PX)
+    } else return 0.0
+
+}
 
 /**
  * Средняя

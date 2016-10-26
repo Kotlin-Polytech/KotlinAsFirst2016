@@ -203,11 +203,7 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     val revertNum = revert(n)
-    if (revertNum == n) {
-        return true
-    } else {
-        return false
-    }
+    return revertNum == n
 }
 
 /**
@@ -278,6 +274,6 @@ fun fibSequenceDigit(n: Int): Int {
             k *= 10
             t--
         }
-        return (fib(i)/ k) % 10
+        return (fib(i) / k) % 10
     }
 }

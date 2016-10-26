@@ -60,13 +60,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var k: Int
-    k = 0
-    var a: Int
-    a = n
+    var k = 0
+    var a = n
     while (a != 0) {
-        a = a/10
-        k = k+1
+        a = a / 10
+        k = k + 1
     }
     if (k == 0) return 1
     else return k
@@ -97,7 +95,7 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var k: Int
     k = m*n
-    for (i in  1..m*n) {
+    for (i in  1..k) {
         if ((i%m == 0) and (i%n == 0) and (i < k)) k = i
     }
     return k
@@ -109,11 +107,10 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var d: Int = n
     for (i in 2..n) {
-        if ((n%i == 0) and (i < d)) d = i
+        if ((n%i == 0) and (i < n)) return i
     }
-    return d
+    return n
 }
 
 /**
@@ -122,11 +119,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var d: Int = 1
-    for (i in 1..(n-1)) {
-        if ((n%i == 0) and (i > d)) d = i
+    for (i in (n-1) downTo 1) {
+        if ((n%i == 0) and (i > 1)) return i
     }
-    return d
+    return 1
 }
 
 /**
@@ -137,8 +133,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var k: Int = 1
-    for (i in 1..(m*n)) {
+    var k = 1
+    for (i in 1..m) {
         if ((m%i == 0)and (n%i == 0) and (i > k)) k = i
     }
     if (k > 1) return false
@@ -154,7 +150,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k: Int = 0
-    for (i in 1..m*n) {
+    for (i in 1..n) {
         if ((m<=i*i) and (i*i<=n)) k = i
     }
     if ((k > 0) and (m!=0) and (n!=0)) return true
@@ -186,7 +182,17 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var a = n
+    var b: Int
+    var c = 0
+    while (a > 0) {
+        b = a % 10
+        a = a / 10
+        c = c*10 + b
+    }
+    return c
+}
 
 /**
  * Средняя
@@ -216,7 +222,7 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var k = 0
     var m = 0
-    var number = 0.0
+    val number: Double
     while (m < n) {
         k = i*i
         m = m + digitNumber(k)
@@ -238,7 +244,7 @@ fun fibSequenceDigit(n: Int): Int {
     var i = 1
     var k = 0
     var m = 0
-    var number = 0.0
+    val number: Double
     while (m < n) {
         k = fib(i)
         m = m + digitNumber(k)
@@ -247,4 +253,10 @@ fun fibSequenceDigit(n: Int): Int {
     i = m - n
     number = k.toDouble() / Math.pow(10.0, (i).toDouble())
     return number.toInt() % 10
+}
+
+fun powInt(number: Int, degree: Int): Int {
+    var result = 1
+    for (i in 1..degree) result *= number
+    return result
 }

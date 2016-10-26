@@ -172,7 +172,17 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (!expression.matches(Regex("""\d*( (\+|\-) \d*)*"""))) throw IllegalArgumentException()
+    val symbols = expression.split(" ")
+    val digits = symbols.filter { it != "-" && it != "+" }
+    val operations = symbols.filter { it == "-" || it == "+" }
+    var result = digits[0].toInt()
+    for (i in 0..digits.size - 2) {
+        if (operations[i] == "-") result -= digits[i + 1].toInt() else result += digits[i + 1].toInt()
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -183,7 +193,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val strList = str.toLowerCase().split(" ")
+    var index = 0
+    for (i in 0..strList.size - 2) {
+        if (strList[i] == strList[i + 1]) return index
+        index += strList[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -196,7 +214,16 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (!description.matches(Regex("""[a-zA-Zа-яА-Я]* \d*\.\d(\; [a-zA-Zа-яА-Я]* \d*\.\d)*"""))) return ""
+    val descriptionWithoutDot = Regex("""\;""").replace(description, "")
+    val descriptionList = descriptionWithoutDot.split(" ")
+    val prices = Regex("""[a-zA-Zа-яА-Я]+ """).replace(descriptionWithoutDot, "").split(" ")
+    val pricesToInt = prices.map { it.toDouble() }
+    val maxPrice = pricesToInt.max() ?: return ""
+    val result = descriptionList[descriptionList.indexOf("$maxPrice") - 1]
+    return result
+}
 
 /**
  * Сложная

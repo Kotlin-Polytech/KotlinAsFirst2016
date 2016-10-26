@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
-import java.lang.Math.sqrt
+
+import java.lang.Math.*
+
 /**
  * Пример
  *
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -60,11 +63,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var nn = Math.abs(n)
     var k = 0
-    while ( nn > 0) {
+    while (nn > 0) {
         nn = nn / 10
         k++
     }
-    if (k==0) return 1 else return k
+    if (k == 0) return 1 else return k
 }
 
 /**
@@ -77,13 +80,13 @@ fun fib(n: Int): Int {
     var fib1: Int = 0
     var fib2: Int = 1
     var fib3: Int = 1
-for (i in 3..n) {
-    fib1 = fib2 + fib3
-    fib2 = fib3
-    fib3 = fib1
+    for (i in 3..n) {
+        fib1 = fib2 + fib3
+        fib2 = fib3
+        fib3 = fib1
 
-}
-    if (n==1 || n==2) return 1 else return fib1
+    }
+    if (n == 1 || n == 2) return 1 else return fib1
 }
 
 /**
@@ -93,7 +96,7 @@ for (i in 3..n) {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var nod : Int
+    var nod: Int
     var mm = m
     var nn = n
     while (mm != nn) {
@@ -141,9 +144,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     var max = Math.max(m, n)
     var i = 0
     var noDivisor = true
-for (i in 2..max) {
-    if ((m % i == 0) && (n % i == 0)) noDivisor = false
-}
+    for (i in 2..max) {
+        if ((m % i == 0) && (n % i == 0)) noDivisor = false
+    }
     if (noDivisor == false) return false else return true
 }
 
@@ -155,9 +158,8 @@ for (i in 2..max) {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k: Int = (sqrt(m.toDouble())).toInt()
-    while ((k+1)*(k+1) <= n) k++
-    if (k*k >= m && k*k <= n) return true else return false
+    var k: Int = (sqrt(n.toDouble())).toInt()
+    if (k * k >= m && k * k <= n) return true else return false
 }
 
 /**
@@ -171,11 +173,13 @@ fun sin(x: Double, eps: Double): Double {
     var n = 0
     var sin = x
     var fraction = x
-    while (Math.abs(fraction)>Math.abs(eps)) {
+    var xx = x
+    xx = x % (2 * PI)
+    while (Math.abs(fraction) > Math.abs(eps)) {
         n++
-        fraction = Math.pow(x,n*2.0+1)/factorial(n*2+1)
-        if (n%2==0) sin=sin+fraction
-        else  sin=sin-fraction
+        fraction = Math.pow(x, n * 2.0 + 1) / factorial(n * 2 + 1)
+        if (n % 2 == 0) sin = sin + fraction
+        else sin = sin - fraction
     }
     return sin
 }
@@ -191,11 +195,13 @@ fun cos(x: Double, eps: Double): Double {
     var n = 0
     var cos = 1.0
     var fraction = x
-    while (Math.abs(fraction)>Math.abs(eps)) {
+    var xx = x
+    xx = x % (2 * PI)
+    while (Math.abs(fraction) > Math.abs(eps)) {
         n++
-        fraction = Math.pow(x,n*2.0)/factorial(n*2)
-        if (n%2==0) cos=cos+fraction
-        else  cos=cos-fraction
+        fraction = Math.pow(x, n * 2.0) / factorial(n * 2)
+        if (n % 2 == 0) cos = cos + fraction
+        else cos = cos - fraction
     }
     return cos
 }
@@ -211,8 +217,8 @@ fun revert(n: Int): Int {
     var m = 0
     var nn = n
     while (nn > 0) {
-       last = nn % 10
-        m = m*10 + last
+        last = nn % 10
+        m = m * 10 + last
         nn = nn / 10
     }
     return m
@@ -230,8 +236,8 @@ fun isPalindrome(n: Int): Boolean {
     var nn = n
     var answer = 0
     while (nn > 0) {
-        answer = answer*10 + nn % 10
-        nn = nn/10
+        answer = answer * 10 + nn % 10
+        nn = nn / 10
     }
     if (answer == n) return true else return false
 }
@@ -248,9 +254,9 @@ fun hasDifferentDigits(n: Int): Boolean {
     var nn = n
     var digit = n % 10
     var m = 0
-    while (nn>0) {
+    while (nn > 0) {
         if (nn % 10 != digit) answer = true
-       nn = nn / 10
+        nn = nn / 10
 
     }
     return answer
@@ -273,19 +279,20 @@ fun squareSequenceDigit(n: Int): Int {
         }
         return k
     }
-        var i = 0
-        var number = 0
-        var answer = 0
-        while (number < n) {
-            i++
-            number = number + quantity(i*i)
-        }
-        answer = i*i
-        for (i in (n..number - 1)){
-            answer = answer / 10
-        }
-        return (answer % 10)
+
+    var i = 0
+    var number = 0
+    var answer = 0
+    while (number < n) {
+        i++
+        number = number + quantity(i * i)
     }
+    answer = i * i
+    for (i in (n..number - 1)) {
+        answer = answer / 10
+    }
+    return (answer % 10)
+}
 
 /**
  * Сложная

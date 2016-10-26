@@ -140,15 +140,13 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
-//{
-//    var i = 0
-//    val phonestr = phone.filter{it != ' ' || it != '-' }
-//    try{
-//        for (i in 1..phonestr.)
-//        }
-//    }
-//}
+fun flattenPhoneNumber(phone: String): String {
+    val phonefilter = phone.filter { it != ' ' && it != '-' }
+    val phoneResult = Regex("""(\+\d+)?(\(\d+\))?\d+""")
+    if (!phoneResult.matches(phonefilter)) return ""
+            return phonefilter.filter { it != '(' && it != ')' }
+    }
+
 
 /**
  * Средняя
@@ -186,7 +184,17 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var maxhigh = 0
+    val parts = jumps.split(" ")
+    if (parts.size == 1) return -1
+    for (i in 0..parts.size - 1 step 2) {
+        val jumpRegular = Regex("""\d+(\+|\%|\-)+""")
+        if  (!jumpRegular.matches(parts[i]+parts[i+1])) return -1
+        if ('+' in parts[i+1] && parts[i].toInt() > maxhigh) maxhigh = parts[i].toInt()
+    }
+    return maxhigh
+}
 
 /**
  * Сложная
@@ -197,7 +205,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val e = NumberFormatException("IllegalArgumentException")
+    val sumstr = Regex("""((\d+\ +(\+|\-)\ +)+)?\d+""")
+    if (!sumstr.matches(expression)) {
+        throw e
+    } else {
+        val parts = expression.split(" ")
+        var sum = parts[0].toInt()
+        if (parts.size == 1) return expression.toInt()
+        for (i in 0..parts.size - 3 step 2) {
+            if (parts[i + 1] == '+'.toString()) {
+                sum += parts[i + 2].toInt()
+            } else {
+                sum -= parts[i + 2].toInt()
+            }
+        }
+        return sum
+    }
+}
 
 /**
  * Сложная

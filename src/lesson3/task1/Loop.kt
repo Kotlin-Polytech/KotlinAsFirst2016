@@ -167,17 +167,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean =
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i = 0
-    var sinus: Double = x%(Math.PI*2)
-    var number: Double = x%(Math.PI*2)
-    while (Math.abs(number) * 1000 > eps) {
-        i++
-        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
-        if (i % 2 == 1) sinus -= number
-        else sinus += number
-
+    var index = 1
+    var ind = 1
+    var sin = 0.0
+    var new = x % (Math.PI * 2)
+    while (Math.abs(new) >= eps) {
+        sin += index * new
+        ind += 2
+        new = Math.pow(x % (Math.PI * 2), ind.toDouble()) / factorial(ind)
+        index = 0 - index
     }
-    return sinus
+    return sin
 }
 
 /**
@@ -187,23 +187,9 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double {
-        var i = 0
-        var cosus: Double = 1.0
-        var number: Double = x%(Math.PI*2)
-        while (Math.abs(number) * 1000 > eps) {
-            i++
-            number = Math.pow(x, i * 2.0) / factorial(i * 2)
-            if (i % 2 == 1) cosus -= number
-            else cosus += number
+fun cos(x: Double, eps: Double): Double = sin(x + Math.PI / 2, eps)
 
-        }
-        return cosus
-    }
-
-
-
-    /**
+/**
  * Средняя
  *
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.

@@ -28,7 +28,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return (Math.abs(x1 - x2) == Math.abs(y1 - y2) || x1==x2 || y1==y2)
+    return (Math.abs(x1 - x2) == Math.abs(y1 - y2) || x1 == x2 || y1 == y2)
 }
 
 /**
@@ -53,5 +53,5 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return (a<=r && b<=s || a<=s && b<=r || a<=r && c<=s || a<=s && c<=r || b<=r && c<=s || b<=s && c<=r)
+    return (a <= r && b <= s || a <= s && b <= r || a <= r && c <= s || a <= s && c <= r || b <= r && c <= s || b <= s && c <= r)
 }

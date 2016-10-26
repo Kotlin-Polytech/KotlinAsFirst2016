@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -51,10 +51,13 @@ fun ageDescription(age: Int): String {
         fun timeForHalfWay(t1: Double, v1: Double,
                            t2: Double, v2: Double,
                            t3: Double, v3: Double): Double {
-            val road: Double=(t1*v1+t2*v2+t3*v3)/2
-            if (t1*v1>=road) return road/v1
-            else if (t1*v1+t2*v2>=road) return t1+(road-t1*v1)/v2
-            else return t1+t2+(road-t1*v1-t2*v2)/v3
+            val a=t1*v1
+            val b=t2*v2
+            val c=t3*v3
+            val road: Double=(a+b+c)/2
+            if (a>=road) return road/v1
+            else if (a+b>=road) return t1+(road-a)/v2
+            else return t1+t2+(road-a-b)/v3
         }
 
 /**
@@ -68,12 +71,16 @@ fun ageDescription(age: Int): String {
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int  {
-    if ((kingX==rookX1 || kingY==rookY1) && (kingX==rookX2 || kingY==rookY2)) return 3
-    else if (kingX==rookX2 || kingY==rookY2) return 2
-    else if (kingX==rookX1 || kingY==rookY1) return 1
-    else return 0
+    val a=((kingX==rookX1)||(kingY==rookY1))
+    val b=((kingX==rookX2)||(kingY==rookY2))
+    if ((a && b)) return 3
+    return when {
+        (a&&b) -> 3
+        b -> 2
+        a -> 1
+        else -> 0
+    }
 }
-
 /**
  * Простая
  *
@@ -86,10 +93,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if ((kingX==rookX || kingY==rookY) && (abs(bishopX-kingX)==abs(bishopY-kingY))) return 3
-    else if (abs(bishopX-kingX)==abs(bishopY-kingY)) return 2
-    else if (kingX==rookX || kingY==rookY) return 1
-    else return 0
+    val a = (kingX == rookX || kingY == rookY)
+    val b = (abs(kingX - bishopX) == abs(kingY - bishopY))
+    return when {
+        a && b -> 3
+        b ->  2
+        a -> 1
+        else -> 0 }
 }
 
 /**
@@ -104,7 +114,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val abc= doubleArrayOf(a,b,c)
     abc.sort()
     if (abc[2]<abc[0]+abc[1]) {
-        val cosinus: Double= (sqr(abc[0])+ sqr(abc[1])- sqr(abc[2]))/(2*abc[0]*abc[1])
+        val cosinus: Double= (sqr(abc[0])+ sqr(abc[1])- sqr(abc[2]))
         if (cosinus>0) return 0
         else if (cosinus==0.0) return 1
         else return 2

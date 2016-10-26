@@ -110,6 +110,7 @@ class Tests {
         assertEquals(49, fromRoman("XLIX"))
         assertEquals(-1, fromRoman("Z"))
         assertEquals(0,fromRoman(""))
+        assertEquals(51791,fromRoman("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMDCCXCI"))
     }
 
     @Test

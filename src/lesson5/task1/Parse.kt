@@ -274,7 +274,7 @@ fun fromRoman(roman: String): Int {
             }
         }
         for (i in 0..parts.size - 1) {
-            if (parts[i] == "C" && (parts[i + 1] == "M" || parts[i + 1] == "C")) {
+            if (parts[i] == "C" && (parts[i + 1] == "M" || parts[i + 1] == "D")) {
                 result -= 200
             }
             if (parts[i] == "X" && (parts[i + 1] == "C" || parts[i + 1] == "L")) {

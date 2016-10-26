@@ -88,7 +88,7 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
     try {
-        if ((parts[0].toInt() !in 1..31) || (parts[1].toInt() !in 1..12)) return ""
+        if ((parts[0].toInt() !in 1..31) || (parts[1].toInt() !in 1..12) || (parts[2].toInt() <= 0)) return ""
         val Months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентрября", "октября", "ноября", "декабря")
         val day = parts[0].toInt()
         val year = parts[2].toInt()

@@ -42,6 +42,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun circleInside() {
+        assertFalse(circleInside(-999.0787393903138, -632.0, 0.8374366336306498, -1000.0, -632.0, 47.72046349852233))
         assertFalse(circleInside(0.0, 0.0, 6.0, 0.0, 0.0, 5.0))
         assertFalse(circleInside(0.0, 0.0, 1.0, 10.0, 10.0, 9.0))
         assertTrue(circleInside(2.0, 2.0, 2.0, 2.0, 2.0, 2.0))

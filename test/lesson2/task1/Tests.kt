@@ -53,7 +53,7 @@ class Tests {
 
     @Test
     @Tag("Easy")
-    fun triangleKind() {
+        fun triangleKind() {
         assertEquals(-1, triangleKind(3.0, 7.5, 4.0))
         assertEquals(1, triangleKind(5.0, 3.0, 4.0))
         assertEquals(2, triangleKind(4.0, 6.0, 8.0))

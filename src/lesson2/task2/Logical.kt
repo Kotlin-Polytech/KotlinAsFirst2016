@@ -18,12 +18,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean {
-    if ((number % 100 / 10 + number % 10) == (number / 1000 + (number / 100) % 10))
-        return true
-    else
-        return false
-}
+fun isNumberHappy(number: Int): Boolean = (number % 100 / 10 + number % 10) == (number / 1000 + (number / 100) % 10)
+
 
 /**
  * Простая
@@ -31,12 +27,7 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if ((x1 == x2) || (y1 == y2) || (Math.abs(x2 - x1) == Math.abs(y2 - y1)))
-        return true
-    else
-        return false
-}
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = (x1 == x2) || (y1 == y2) || (Math.abs(x2 - x1) == Math.abs(y2 - y1))
 
 /**
  * Средняя
@@ -46,12 +37,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    if (r2 >= (Math.sqrt((x2 - x1) + sqr(y2 - y1)) + r1))
-        return true
-    else
-        return false
-}
+                 x2: Double, y2: Double, r2: Double): Boolean = r2 >= (Math.sqrt((x2 - x1) + sqr(y2 - y1)) + r1)
+
 
 /**
  * Средняя

@@ -75,21 +75,7 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int {
-    var first = 1
-    var second = 1
-    var counter = 2
-    var fibbo = 0
-    while (counter <= n) {
-        fibbo = first + second
-        first = second
-        second = fibbo
-        counter += 1
-    }
-    if (n == 1 || n == 2) return 1
-    else
-        return first
-}
+fun fib(n: Int): Int = if (n < 3) 1 else fib(n - 1) + fib(n - 2) //Переделал рекурсией
 
 /**
  * Простая
@@ -111,7 +97,13 @@ fun minDivisor(n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var divider = n / 2
+    while (n % divider != 0) {
+        divider -= 1
+    }
+    return divider
+}
 
 /**
  * Простая
@@ -155,7 +147,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number = n
+    var result = 0
+    while (number > 9) {
+        result = (result + number % 10) * 10
+        number /= 10
+    }
+    return result + number % 10
+}
 
 /**
  * Средняя
@@ -192,9 +192,17 @@ fun squareSequenceDigit(n: Int): Int {
     if (n == s1)
         answer = (s2 * s2) % 10
     else {
-        val s3 = Math.pow(10.0, (s1 - n).toDouble()).toInt()
+        val s3 = FunPowForInt(10, (s1 - n))
         answer = ((s2 * s2) / s3) % 10
     }
+    return answer
+
+}
+
+fun FunPowForInt(n: Int, power: Int): Int {
+    var answer = 1
+    for (i in 1..power)
+        answer *= n
     return answer
 }
 
@@ -205,4 +213,17 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var fibbo = 0
+    var counter = 1
+    var sum = 0
+    while (sum < n) {
+        fibbo = fib(counter)
+        counter += 1
+        sum += digitNumber(fibbo)
+    }
+    counter = sum - n
+    val answer = fibbo / FunPowForInt(10, counter) % 10
+    return answer
+}
+

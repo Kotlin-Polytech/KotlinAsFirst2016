@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.*
 
 /**
  * Пример
@@ -36,18 +37,15 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 
 fun ageDescription(age: Int): String {
-    val num = age % 10
-    if (age % 100 in 5..19)
+    if ((age / 10) % 10 == 1)
         return "$age лет"
-    if (num in 5..9)
-        return "$age лет"
-    if (num == 0)
-        return "$age лет"
-    if (num == 1)
-        return "$age год"
-    if (num in 2..4)
-        return "$age года"
-    return "invalid input"
+    else {
+        return when (age % 10) {
+            1 -> "$age год"
+            in 2..4 -> "$age года"
+            else -> "$age лет"
+        }
+    }
 }
 
 
@@ -65,13 +63,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = v2 * t2
     val s3 = v3 * t3
     val lenght = (s1 + s2 + s3) / 2.0
-    if (s1 > lenght)
-        return lenght / v1
-    if (s1 + s2 > lenght)
-        return t1 + (lenght - s1) / v2
-    if (s1 + s2 + s3 > lenght)
-        return (t1 + t2 + (lenght - s1 - s2) / v3)
-    return Double.NaN
+    return when {
+        s1 > lenght -> lenght / v1
+        s1 + s2 > lenght -> t1 + (lenght - s1) / v2
+        else -> t1 + t2 + (lenght - s1 - s2) / v3
+    }
 }
 
 /**
@@ -124,9 +120,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val a2 = Math.pow(a, 2.toDouble())
-    val b2 = Math.pow(b, 2.toDouble())
-    val c2 = Math.pow(c, 2.toDouble())
+    val a2 = a * a
+    val b2 = b * b
+    val c2 = c * c
     if (a + b < c)
         return -1
     if (a2 + b2 > c2)
@@ -147,16 +143,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var crossing = 0
-    if ((d >= a) && (d >= b) && (c >= a))
-        crossing = b - c
-    if ((a >= c) && (b >= d) && (d >= a))
-        crossing = d - a
-    if ((a >= c) && (b >= c) && (d >= b))
-        crossing = b - a
-    if ((d >= a) && (b >= d) && (c >= a))
-        crossing = d - c
-    if (((c > a) && (c > b)) || ((a > c) && (a > d)))
-        crossing = -1
-    return crossing
+    val crossingFirst = (d >= a) && (b >= c)
+    val crossingSecond = (d != a) && (b != c)
+    return when {
+        crossingFirst && crossingSecond -> min(b,d) - max(a,c)
+        crossingFirst -> 0
+        else -> -1
+    }
 }

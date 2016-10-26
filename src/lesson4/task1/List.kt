@@ -207,7 +207,7 @@ fun factorize(n: Int): List<Int> {
             list.add(i)
         }
     }
-    return list.sorted()
+    return list
 
 }
 

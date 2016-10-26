@@ -250,14 +250,14 @@ fun negativeList(list: List<Int>): List<Int> {
 
 [source,kotlin]
 ----
-fun invertPositives(list: MutableList<Int>) {
-    for (i in 0..list.size - 1) {
-        val element = list[i]
-        if (element > 0) {
-            list[i] = -element
-        }
-    }
-}
+ fun invertPositives(list: MutableList<Int>) {
+     for (i in 0..list.size - 1) {
+         val element = list[i]
+         if (element > 0) {
+          list[i] = -element
+            }
+            }
+            }
 ----
 
 Функция `invertPositives` не имеет результата.

@@ -59,7 +59,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val indicator: Int
-    if ((a <= r) && ((b <= s) || (c <= s))) indicator = 1 else if ((b <= r) && ((a <= s) || (c <= s))) indicator = 1 else if ((c <= r) && ((a <= s) || (b <= s))) indicator = 1 else indicator = 0
+    if ((a <= r) && ((b <= s) || (c <= s))) indicator = 1
+    else if ((b <= r) && ((a <= s) || (c <= s))) indicator = 1
+    else if ((c <= r) && ((a <= s) || (b <= s))) indicator = 1
+    else indicator = 0
     if (indicator == 1) return true else return false
 }
 

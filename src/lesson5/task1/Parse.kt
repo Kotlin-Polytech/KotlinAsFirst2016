@@ -69,14 +69,14 @@ fun dateStrToDigit(str: String): String {
             if (parts[0].toInt() in 0..9) result = '0' + parts[0].toInt().toString() + "."
             else result = parts[0].toInt().toString() + "."
             val month1 = MONTH_NAME.indexOf(parts[1]) + 1
-            if ((month1 != 0) && (month1 < 10)) {
+            if ((month1 != 0) && (month1 <= 9)) {
                 result += 0
                 result += month1
             } else
-                if ((month1 != 0) && (month1 > 10))
+                if ((month1 != 0) && (month1 >= 10))
                     result += month1
                 else return ""
-            result = result + "." + parts[2].toInt().toString()
+            result = result + "." + parts[2]
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -103,7 +103,7 @@ fun dateDigitToStr(digital: String): String {
             if (parts[1].toInt() in 1..12) {
                 month1 = MONTH_NAME[parts[1].toInt() - 1]
             } else return ""
-            result = result + month1 + " " + parts[2].toInt().toString()
+            result = result + month1 + " " + parts[2]
         } catch (e: NumberFormatException) {
             return ""
         }

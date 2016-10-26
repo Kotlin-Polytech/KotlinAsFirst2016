@@ -64,9 +64,9 @@ fun dateStrToDigit(str: String): String {
     var d = 0
     var y = 0
     var m = 0
-    var e="q"
+    var e = "q"
     for (part in parts) {
-         if (part.isNotEmpty()){
+        if (part.isNotEmpty()){
         val i = part.first()
         if (i in '0'..'9' && ((part.length == 1) || (part.length == 2))) {
             d = part.toInt()
@@ -87,8 +87,8 @@ fun dateStrToDigit(str: String): String {
             }
         } else if ((i in '0'..'9') && (part.length == 4)) {
             y = part.toInt()
-        } }
-        else e=""
+        }}
+        else e = ""
     }
     if ((d != 0) && (m != 0) && (y != 0)&&(e!="")) {
         return String.format("%02d.%02d.%02d", d, m, y)
@@ -109,7 +109,7 @@ fun dateDigitToStr(digital: String): String {
     var y1 = 0
     var m1 = ""
     var i = 0
-    var e1="q"
+    var e1 = "q"
     for (part in parts) {
         if (part.isNotEmpty()){
         i++
@@ -138,8 +138,7 @@ fun dateDigitToStr(digital: String): String {
     if ((d1 != 0) && (m1 != "") && (y1 >= 0) && (i <= 3)&&(e1!="")) {
         return String.format("%d %s %d", d1, m1, y1)
     } else {e1=""
-        return e1
-    }
+        return e1}
 }
 
 

@@ -175,6 +175,7 @@ class Tests {
         assertEquals(250, decimalFromString("13c", 14))
         assertEquals(1000, decimalFromString("2ec", 19))
         assertEquals(35, decimalFromString("z", 36))
+        assertEquals(2147483647, decimalFromString("4clm98f",28))
     }
 
     @Test

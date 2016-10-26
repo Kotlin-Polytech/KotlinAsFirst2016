@@ -137,9 +137,9 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-        val myValue = (list.sum() / list.size)
-        for (i in 0..list.size - 1)
-            list[i] = list[i] - myValue
+    val myValue = (list.sum() / list.size)
+    for (i in 0..list.size - 1)
+        list[i] = list[i] - myValue
     return list
 }
 
@@ -235,7 +235,7 @@ fun convert(n: Int, base: Int): List<Int> {
     while (n1 != 0) {
         list.add(n1 % base1)
         n1 /= base1
-     }
+    }
     return list.reversed()
 }
 
@@ -267,12 +267,12 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var sum = 0
-    var m = 1
-    var newSize = digits.size
-    for (i in 0..newSize - 1) {
-        m *= base
-        sum += digits[newSize - 1] * m
-        newSize--
+    var myPow = 1
+    var mySize = digits.size - 1
+    for (i in 0..digits.size - 1) {
+        sum += digits[mySize] * myPow
+        myPow *= base
+        mySize--
     }
     return sum
 }
@@ -287,16 +287,14 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-   /* val myList = mutableListOf<Int>()
-    for (i in 0..str.length-1){
+    val myList = mutableListOf<Int>()
+    for (i in 0..str.length - 1) {
         if ((str[i] - '0') <= 9)
             myList.add(str[i] - '0')
         else
             myList.add(str[i] - 'a' + 10)
     }
     return decimal(myList, base)
-    */
-    TODO()
 }
 
 /**

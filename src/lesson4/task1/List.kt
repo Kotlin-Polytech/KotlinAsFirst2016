@@ -15,7 +15,7 @@ fun sqRoots(y: Double) =
         else {
             val root = Math.sqrt(y)
             // Результат!
-            listOf(- root, root)
+            listOf(-root, root)
         }
 
 /**
@@ -27,13 +27,13 @@ fun sqRoots(y: Double) =
 fun biRoots(a: Double, b: Double, c: Double): List<Double> {
     if (a == 0.0) {
         if (b == 0.0) return listOf()
-        else return sqRoots(- c / b)
+        else return sqRoots(-c / b)
     }
     val d = discriminant(a, b, c)
     if (d < 0.0) return listOf()
-    if (d == 0.0) return sqRoots(- b / (2 * a))
-    val y1 = (- b + Math.sqrt(d)) / (2 * a)
-    val y2 = (- b - Math.sqrt(d)) / (2 * a)
+    if (d == 0.0) return sqRoots(-b / (2 * a))
+    val y1 = (-b + Math.sqrt(d)) / (2 * a)
+    val y2 = (-b - Math.sqrt(d)) / (2 * a)
     return sqRoots(y1) + sqRoots(y2)
 }
 
@@ -61,7 +61,7 @@ fun invertPositives(list: MutableList<Int>) {
     for (i in 0..list.size - 1) {
         val element = list[i]
         if (element > 0) {
-            list[i] = - element
+            list[i] = -element
         }
     }
 }
@@ -109,7 +109,9 @@ fun q2(g: Double) = g * g
 
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    (0..v.size - 1).forEach { i -> sum += q2(v[i]) }
+    for (i in 0..v.size - 1) {
+        sum += q2(v[i])
+    }
     return Math.sqrt(sum)
 }
 
@@ -209,7 +211,7 @@ fun factorize(n: Int): List<Int> {
         while (s % i == 0) {
             list.add(i)
             s /= i
-        }
+                    }
         if (i >= s) break
         else i += 1
     }
@@ -288,12 +290,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var list: List<Int>
-    list = listOf()
+    var list: List<Int> = listOf()
     val str1 = str
     for (i in 0..str1.length - 1)
-        if (str1[i] in '0'..'9') list += ((str1[i]).toInt() - 48)
-        else list += ((str[i]).toInt() - 87)
+        if (str1[i] in '0'..'9') list += ((str1[i]).toInt() - '0'.toInt())
+        else list += ((str[i]).toInt() - 'a'.toInt() + 10)
     return decimal(list, base)
 }
 
@@ -314,4 +315,5 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+
 fun russian(n: Int): String = TODO()

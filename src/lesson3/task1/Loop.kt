@@ -118,12 +118,12 @@ fun gcd(m: Int, n: Int): Int {
     do {
         while (b and 1 == 0)
             b = b shr 1
-        if (a > b) {
-            val t = b
-            b = a
+        if (abs(a) > abs(b)) {
+            val t = abs(b)
+            b = abs(a)
             a = t
         }
-        b -= a
+        b -= abs(a)
     } while (b != 0)
     return a shl shift
 }
@@ -197,9 +197,7 @@ fun sin(x: Double, eps: Double): Double {
         number = Math.pow(x, k.toDouble() * 2 + 1) / factorial(k * 2 + 1)
         if (k % 2 == 1) {
             sin -= number
-        } else {
-            sin += number
-        }
+        } else {sin += number}
     }
     return sin
 }
@@ -221,7 +219,7 @@ fun cos(x: Double, eps: Double): Double {
         number = Math.pow(x, k.toDouble() * 2) / factorial(k * 2)
         if (k % 2 == 1) {
             cos -= number
-        } else cos += number
+        } else {cos += number}
     }
     return cos
 }

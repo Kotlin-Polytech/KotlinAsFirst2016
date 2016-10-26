@@ -179,6 +179,7 @@ fun plusMinus(expression: String): Int {
     if (!expression.matches(Regex("""\d+( (\+|\-) \d+)*"""))) throw IllegalArgumentException()
     val symbols = expression.split(" ")
     val digits = symbols.filter { it != "-" && it != "+" }
+    if (digits.size == 1) return digits[0].toInt()
     val operations = symbols.filter { it == "-" || it == "+" }
     var result = digits[0].toInt()
     for (i in 0..digits.size - 2) {

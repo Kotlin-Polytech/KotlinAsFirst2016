@@ -63,10 +63,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 0
     var number = n
-    do {
+    if (n == 0) return 1
+    while (number != 0) {
         number /= 10
         count++
-    } while (number > 0)
+    }
     return count
 }
 
@@ -149,7 +150,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean =
-        (((isPrime(m) == true) && (isPrime(n) == true)) || (nod(m, n) == 1))
+        (((isPrime(m) == true) && (isPrime(n) == true)) || (nod(m, n) == 1) || (m == n))
 
 
 /**
@@ -237,7 +238,7 @@ fun isPalindrome(n: Int): Boolean = (revert(n) == n)
 fun hasDifferentDigits(n: Int): Boolean {
     var a = n
     var flag: Boolean = true
-    var digit = a%10
+    var digit = a % 10
     while (a > 0) {
         if (a % 10 != digit) flag = false
         a /= 10
@@ -252,9 +253,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int= TODO()
-
-
+fun squareSequenceDigit(n: Int): Int = TODO()
 
 
 /**

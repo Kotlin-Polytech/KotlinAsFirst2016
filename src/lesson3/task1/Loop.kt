@@ -75,7 +75,22 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n < 3) 1 else fib(n - 1) + fib(n - 2) //Переделал рекурсией
+fun fib(n: Int): Int {
+    if (n in 1..2)
+        return 1
+    else {
+        var num1 = 1
+        var num2 = 1
+        var answer = 0
+        for (i in 3..n) {
+            answer = num1 + num2
+            num1 = num2
+            num2 = answer
+        }
+        return answer
+    }
+
+}
 
 /**
  * Простая
@@ -182,21 +197,20 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var s1 = 0
-    var s2 = 0
+    var sum = 0
+    var counter = 0
     val answer: Int
-    while (s1 < n) {
-        s2 += 1
-        s1 += digitNumber(s2 * s2)
+    while (sum < n) {
+        counter += 1
+        sum += digitNumber(counter * counter)
     }
-    if (n == s1)
-        answer = (s2 * s2) % 10
+    if (n == sum)
+        answer = (counter * counter) % 10
     else {
-        val s3 = FunPowForInt(10, (s1 - n))
-        answer = ((s2 * s2) / s3) % 10
+        val PowerForTen = FunPowForInt(10, (sum - n))
+        answer = ((counter * counter) / PowerForTen) % 10
     }
     return answer
-
 }
 
 fun FunPowForInt(n: Int, power: Int): Int {
@@ -223,7 +237,6 @@ fun fibSequenceDigit(n: Int): Int {
         sum += digitNumber(fibbo)
     }
     counter = sum - n
-    val answer = fibbo / FunPowForInt(10, counter) % 10
-    return answer
+    return (fibbo / FunPowForInt(10, counter) % 10)
 }
 

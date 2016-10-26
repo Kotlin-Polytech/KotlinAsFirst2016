@@ -62,11 +62,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s1 = v1 * t1
     val s2 = v2 * t2
     val s3 = v3 * t3
-    val lenght = (s1 + s2 + s3) / 2.0
+    val length = (s1 + s2 + s3) / 2.0
     return when {
-        s1 > lenght -> lenght / v1
-        s1 + s2 > lenght -> t1 + (lenght - s1) / v2
-        else -> t1 + t2 + (lenght - s1 - s2) / v3
+        s1 > length -> length / v1
+        s1 + s2 > length -> t1 + (length - s1) / v2
+        v1 * t1 + v2 * t2 + v3 * t3 > length -> t1 + t2 + (length - s1 - s2) / v3
+        else -> Double.NaN
     }
 }
 
@@ -119,20 +120,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val a2 = a * a
-    val b2 = b * b
-    val c2 = c * c
-    if (a + b < c)
-        return -1
-    if (a2 + b2 > c2)
-        return 0
-    if (a2 + b2 == c2)
-        return 1
-    if (a2 + b2 < c2)
-        return 2
-    return -2
-}
+fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 
 /**
  * Средняя
@@ -146,7 +134,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val crossingFirst = (d >= a) && (b >= c)
     val crossingSecond = (d != a) && (b != c)
     return when {
-        crossingFirst && crossingSecond -> min(b,d) - max(a,c)
+        crossingFirst && crossingSecond -> min(b, d) - max(a, c)
         crossingFirst -> 0
         else -> -1
     }

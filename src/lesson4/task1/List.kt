@@ -5,6 +5,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import java.lang.Math.*
 import lesson3.task1.FunPowForInt
+
 /**
  * Пример
  *
@@ -223,13 +224,18 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
+    var list: List<Int>
+    var answer = listOf<Int>()
     var number = n
-    val list = mutableListOf<Int>()
-    while (number != 0) {
-        list.add(number % base)
-        number /= base
-    }
-    return list.reversed()
+    if (n != 0) {
+        while (number > 0) {
+            list = listOf(number % base)
+            answer = list + answer
+            number /= base
+        }
+        return answer
+    } else
+        return listOf(0)
 }
 
 /**
@@ -245,7 +251,7 @@ fun convertToString(n: Int, base: Int): String {
     var answer = ""
     for (element in NewConvert) {
         if (element > 9)
-            answer += ('a' + element - 10).toChar()
+            answer += ('a' - 10 + element).toChar()
         else
             answer += element.toString()
     }
@@ -262,7 +268,7 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var counter = digits.size - 1
     var answer = 0
-    for(element in digits){
+    for (element in digits) {
         answer += (element * FunPowForInt(base, counter))
         counter -= 1
     }
@@ -280,8 +286,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     var answer = listOf<Int>()
-    for(char in str){
-        if(char in '0'..'9')
+    for (char in str) {
+        if (char in '0'..'9')
             answer += char - '0'
         else
             answer += char + 10 - 'a'

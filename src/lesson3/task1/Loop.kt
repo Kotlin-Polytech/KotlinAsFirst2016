@@ -151,7 +151,6 @@ var s=0
     }
     while (c != 0)
 return (s)
-
 }
 
 /**

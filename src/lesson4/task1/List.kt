@@ -152,7 +152,6 @@ fun polynom(p: List<Double>, x: Double): Double  {
         for (i in 0..p.size - 1) {
             PX += p[i] * Math.pow(x,i.toDouble())
         }
-
         return (PX)
     } else return 0.0
 

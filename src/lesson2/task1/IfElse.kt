@@ -36,9 +36,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String  {
-    if ((age % 100 >= 10) and (age % 100 <= 20)) return "$age лет"
+    if (age % 100 in 10..19) return "$age лет"
     else if (age % 10 == 1) return "$age год"
-    else if ((age % 10 < 5) and (age % 10 >= 2)) return "$age года"
+    else if (age % 10 in 2..4) return "$age года"
     else return "$age лет"
 }
 
@@ -56,7 +56,6 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s: Double = (v1 * t1 + v2 * t2 + v3 * t3) / 2
     val s1: Double = v1 * t1
     val s2: Double = v2 * t2
-    val s3: Double = v3 * t3
     if (s1 >= s)  return s / v1
     else if (s<=s1+s2) return (t1+(s-s1)/v2)
     else return (t1+t2+(s-s1-s2)/v3)
@@ -75,10 +74,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     val AttackRockX1: Boolean = (kingX == rookX1) || (kingY == rookY1)
     val AttackRockX2: Boolean = (kingX == rookX2) || (kingY == rookY2)
-    val NotAttackRockX1: Boolean = (kingX != rookX1) and (kingY != rookY1)
-    val NotAttackRockX2: Boolean = (kingX != rookX2) and (kingY != rookY2)
-    if ((AttackRockX1) and (NotAttackRockX2)) return 1
-    else if ((NotAttackRockX1) and (AttackRockX2)) return 2
+    if ((AttackRockX1) and (!AttackRockX2)) return 1
+    else if ((!AttackRockX1) and (AttackRockX2)) return 2
     else if ((AttackRockX1) and (AttackRockX2)) return 3
     else return 0
 }
@@ -97,9 +94,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           bishopX: Int, bishopY: Int): Int {
     val a: Int = (kingX - bishopX)*(kingX - bishopX)
     val b: Int = (kingY - bishopY)*(kingY - bishopY)
-    if (((kingX == rookX) || (kingY == rookY)) and (a != b)) return 1
-    else if (((kingX != rookX) and (kingY != rookY)) and (a == b)) return 2
-    else if (((kingX == rookX) || (kingY == rookY)) and (a == b)) return 3
+    val AttackRock = ((kingX == rookX) || (kingY == rookY))
+    if ((AttackRock) and (a != b)) return 1
+    else if ((!AttackRock) and (a == b)) return 2
+    else if ((AttackRock) and (a == b)) return 3
     else return 0
 }
 
@@ -112,8 +110,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((sqr(a) + sqr(b) == sqr(c)) || (sqr(a) + sqr(c) == sqr(b)) || (sqr(c) + sqr(b) == sqr(a))) return 1
-    else if ((a + b <= c) || (a + c <= b) || (c + b <= a)) return -1
+    if ((a + b <= c) || (a + c <= b) || (c + b <= a)) return -1
+    else if ((sqr(a) + sqr(b) == sqr(c)) || (sqr(a) + sqr(c) == sqr(b)) || (sqr(c) + sqr(b) == sqr(a))) return 1
     else if ((sqr(a) + sqr(b) <= sqr(c)) || (sqr(a) + sqr(c) <= sqr(b)) || (sqr(c) + sqr(b) <= sqr(a))) return 2
     else return 0
 }

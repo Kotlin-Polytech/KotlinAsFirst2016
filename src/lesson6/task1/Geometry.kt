@@ -183,7 +183,7 @@ fun lineByPoints(a: Point, b: Point): Line {
 fun bisectorByPoints(a: Point, b: Point): Line {
     val x = a.x + (b.x - a.x) / 2
     val y = a.y + (b.y - a.y) / 2
-    return Line(Point(x, y), (lineByPoints(a, b).angle + Math.PI / 2) % Math.PI)
+    return Line(Point(x, y), (lineByPoints(a, b).angle % Math.PI + Math.PI / 2) % Math.PI)
 }
 
 /**

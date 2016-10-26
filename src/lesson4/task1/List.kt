@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -171,10 +172,11 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var sum = 0.0
+    var index: Int = 0
+    val list = p
     if (p.isNotEmpty()) {
-        for (i in p) {
-            var step = p.indexOf(i)
-            sum += i * pow(x.toInt(), step)
+        for ((index, list) in p.withIndex()) {
+            sum += list * Math.pow(x, index.toDouble())
         }
         return sum
     } else return 0.0

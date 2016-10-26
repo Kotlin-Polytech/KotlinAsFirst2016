@@ -146,8 +146,10 @@ data class Line(val point: Point, val angle: Double) {
         }
 
         val y3 = when {
-            (Math.tan(angle).isInfinite()) -> ((x3-x1)*Math.tan(angle) + y1)
-            else ->  ((x3-x2)*Math.tan(angle2) + y2)
+            ((1/Math.tan(angle)).isInfinite()) -> y1
+            ((1/Math.tan(angle2)).isInfinite()) -> y2
+            (Math.tan(angle).isInfinite()) -> ((x3-x2)*Math.tan(angle2) + y2)
+            else ->  ((x3-x1)*Math.tan(angle) + y1)
         }
 
         return Point(x3, y3)

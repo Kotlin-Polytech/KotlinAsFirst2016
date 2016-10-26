@@ -107,8 +107,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var result = 0.0
-    for (i in 0..v.size - 1) {
-        result += v[i] * v[i]
+    for (i in v) {
+        result += i * i
     }
     return (Math.sqrt(result))
 }
@@ -123,8 +123,8 @@ fun mean(list: List<Double>): Double {
     else {
         val len = list.size
         var all = 0.0
-        for (i in 0..len - 1) {
-            all += list[i]
+        for (i in list) {
+            all += i
         }
         return all / len
     }
@@ -138,11 +138,12 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return list
-    val midlelist: Double = mean(list)
-    for (i in 0..list.size - 1) {
-        list[i] -= midlelist
+    val midlelist = mean(list)
+    val result = mutableListOf<Double>()
+    for (i in list) {
+        result.add(i-midlelist)
     }
-    return list
+    return result
 }
 
 
@@ -156,7 +157,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double =
         if (a.isEmpty() && b.isEmpty()) 0.0
         else {
-            var scalar: Double = 0.0
+            var scalar = 0.0
             for (i in 0..a.size - 1) {
                 scalar += a[i] * b[i]
             }
@@ -175,7 +176,7 @@ fun times(a: List<Double>, b: List<Double>): Double =
 fun polynom(p: List<Double>, x: Double): Double =
         if (p.isEmpty()) 0.0
         else {
-            var sum: Double = 0.0
+            var sum= 0.0
             for (i in 0..p.size - 1) {
                 sum += p[i] * Math.pow(x, i.toDouble())
             }
@@ -212,13 +213,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> =
  */
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
-    var n1: Int = n
-    var delitet: Int = 1
-    while (delitet < n1) {
-        delitet++
-            while ((n1!=0)&&(n1 % delitet) == 0) {
-                result.add(delitet)
-                n1 /= delitet
+    var n1 = n
+    var divider = 1
+    while (divider < n1) {
+        divider++
+            while ((n1!=0)&&(n1 % divider) == 0) {
+                result.add(divider)
+                n1 /= divider
             }
 
     }
@@ -245,11 +246,10 @@ fun factorizeToString(n: Int): String {
  */
 fun convert(n: Int, base: Int): List<Int> {
     var n1 = n
-    var list: List<Int>
-    list = listOf()
-    if (n == 0) list += 0
+    var list= mutableListOf<Int>()
+    if (n == 0) list.add(0)
     while (n1 > 0) {
-        list += n1 % base
+        list.add(n1 % base)
         n1 /= base
     }
     return list.reversed()
@@ -265,14 +265,14 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var list: List<Int>
-    var string1: String = ""
-    if (n == 0) string1 = ""
+    var str1 = ""
+    if (n == 0) str1 = ""
     list = convert(n, base)
     for (i in 0..list.size - 1) {
-        if (list[i] > 9) string1 += (87 + list[i]).toChar()
-        else string1 += (list[i]).toString()
+        if (list[i] > 9) str1 += (87 + list[i]).toChar()
+        else str1 += (list[i]).toString()
     }
-    return string1
+    return str1
 }
 
 /**
@@ -288,6 +288,12 @@ fun decimal(digits: List<Int>, base: Int): Int {
     return result
 }
 
+fun powInt(num: Int, b: Int): Int {//функция степени ,не готова
+    if (b == -1) return 1 / num
+    if (b < 2) return num else return num*powInt(num, b-1)
+}
+
+
 /**
  * Сложная
  *
@@ -300,10 +306,10 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var list: List<Int>
     list = listOf()
-    var string1: String = str
-    for (i in 0..string1.length - 1) {
-        if (string1[i] in '0'..'9') list += ((string1[i]).toInt() - 48)
-        else list += ((string1[i]).toInt() - 87)
+    var str1= str
+    for (i in 0..str1.length - 1) {
+        if (str1[i] in '0'..'9') list += ((str1[i]).toInt() - 48)
+        else list += ((str1[i]).toInt() - 87)
     }
     return decimal(list, base)
 }
@@ -319,12 +325,12 @@ fun decimalFromString(str: String, base: Int): Int {
 fun roman(n: Int): String {
     var n1 = n
     var counter = 0
-    var result: String = ""
+    var result = ""
     while (n1 != 0) {
         counter++
         val num: Int = n1 % 10
-        when {   //translate number
-            counter == 1 -> { //блок перевода разряда
+        when (counter) {   //translate number
+            1 -> { //блок перевода разряда
                 when {
                     (num >= 1) && (num <= 3) -> {
                         for (i in 1..num) {
@@ -342,7 +348,7 @@ fun roman(n: Int): String {
                     num == 9 -> result += "XI"
                 }
             }
-            counter == 2 -> {//блок перевода разряда
+            2 -> {//блок перевода разряда
                 when {
                     (num >= 1) && (num <= 3) -> {
                         for (i in 1..num) {
@@ -359,9 +365,8 @@ fun roman(n: Int): String {
                     }
                     num == 9 -> result += "CX"
                 }
-
             }
-            counter == 3 -> {//блок перевода разряда
+            3 -> {//блок перевода разряда
                 when {
                     (num >= 1) && (num <= 3) -> {
                         for (i in 1..num) {
@@ -378,11 +383,10 @@ fun roman(n: Int): String {
                     }
                     num == 9 -> result += "MC"
                 }
-
             }
-            counter == 4 -> {//блок перевода разряда
-                if (num >= 1) {
-                    for (i in 1..num) {
+            4 -> {//блок перевода последнего разряда
+                if (n1 >= 1) {
+                    for (i in 1..n1) {
                         result += "M"
                     }
                 }
@@ -392,6 +396,7 @@ fun roman(n: Int): String {
                 n1 = 0
             }
         }
+        if (counter===4) return result.reversed()
         n1 /= 10
     }
     return result.reversed()

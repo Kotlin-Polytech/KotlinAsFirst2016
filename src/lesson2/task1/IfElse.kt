@@ -36,10 +36,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        (age % 10 >= 5) && (age % 10 <= 9) -> "$age лет"
         age % 10 == 0 -> "$age лет"
-        (age % 100 >= 10) && (age % 100 <= 19) -> "$age лет"
         (age % 10 >= 2) && (age % 10 <= 4) -> "$age года"
+        (age % 10 >= 5) && (age % 10 <= 9) -> "$age лет"
+        (age % 100 >= 10) && (age % 100 <= 19) -> "$age лет"
         else -> "$age год"
     }
 }
@@ -54,13 +54,13 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val halfallway = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    val firstpartway = t1 * v1
-    val secondpartway = t1 * v1 + t2 * v2
+    val halfAllWay = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val firstPartWay = t1 * v1
+    val secondPartWay = t1 * v1 + t2 * v2
     return when {
-        halfallway < firstpartway -> halfallway / v1
-        halfallway < secondpartway -> ((halfallway - firstpartway) / v2) + t1
-        else -> (halfallway - secondpartway) / v3 + t1 + t2
+        halfAllWay < firstPartWay -> halfAllWay / v1
+        halfAllWay < secondPartWay -> ((halfAllWay - firstPartWay) / v2) + t1
+        else -> (halfAllWay - secondPartWay) / v3 + t1 + t2
     }
 }
 
@@ -76,12 +76,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val firstrook = (kingX == rookX1) || (kingY == rookY1)
-    val secondrook = (kingX == rookX2) || (kingY == rookY2)
+    val firstRook = (kingX == rookX1) || (kingY == rookY1)
+    val secondRook = (kingX == rookX2) || (kingY == rookY2)
     return when {
-        firstrook && secondrook -> 3
-        firstrook -> 1
-        secondrook -> 2
+        firstRook && secondRook -> 3
+        firstRook -> 1
+        secondRook -> 2
         else -> 0
     }
 }
@@ -98,13 +98,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val rook = (kingX == rookX) || (kingY == rookY)
-    val bishop = (Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))
-    return when{
-        rook && bishop->3
-        rook->1
-        bishop->2
-        else->0
+    val rook = (kingX==rookX)
+            ||(kingY==rookY)
+    val bishop = (Math.abs(kingX-bishopX)) == (Math.abs(kingY-bishopY))
+    return when {
+        rook && bishop -> 3
+        rook -> 1
+        bishop -> 2
+        else -> 0
     }
 }
 
@@ -118,8 +119,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if ((a + b > c) && (a + c > b) && (c + b > a)) {
-        if ((a * a + b * b < c * c) || (a * a + c * c < b * b) || (b * b + c * c < a * a)) return 2
-        else if ((a * a + b * b == c * c) || (a * a + c * c == b * b) || (b * b + c * c == a * a)) return 1
+        if ((a * a + b * b < c * c)
+                || (a * a + c * c < b * b)
+                || (b * b + c * c < a * a)) return 2
+        else if ((a * a + b * b == c * c)
+                || (a * a + c * c == b * b)
+                || (b * b + c * c == a * a)) return 1
         else return 0
     } else return -1
 }

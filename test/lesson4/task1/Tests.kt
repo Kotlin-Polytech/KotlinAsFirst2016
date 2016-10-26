@@ -182,6 +182,7 @@ class Tests {
         assertEquals("DCXCIV", roman(694))
         assertEquals("XLIX", roman(49))
         assertEquals("MMMMXCIII",roman(4093))
+        assertEquals("MMMMMMMMMMMMMMCCLXXIV",roman(14274))
     }
 
     @Test

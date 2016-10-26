@@ -99,14 +99,13 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun nod(a: Int, b: Int): Int {
-    if (a != 0) return (nod(b % a, a))
+fun gcd(a: Int, b: Int): Int {
+    if (a != 0) return gcd(b % a, a)
     else return b
 }
 
-fun lcm(m: Int, n: Int): Int {
-    return ((m / (nod(m, n))) * n)
-}
+fun lcm(m: Int, n: Int): Int =
+        m * n / gcd(m, n)
 
 
 /**
@@ -117,7 +116,7 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     var check = 1
     for (i in 2..n) {
-        if (n == i * (n / i)) {
+        if (n % i == 0) {
             check = i
             break
         }
@@ -134,7 +133,7 @@ fun minDivisor(n: Int): Int {
 fun maxDivisor(n: Int): Int {
     var check = n
     for (i in n - 1 downTo 1) {
-        if (n == i * (n / i)) {
+        if (n % i == 0) {
             check = i
             break
         }
@@ -149,15 +148,8 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = (nod(m, n) > Math.min(m, n)) || (nod(m, n) == 1)
-/**
-if (m%n==0) return false
-for (i in 2..n-1){
-if ((m%i==0)&&(n%i==0)) return(false)
-}
-return true
-}
- */
+fun isCoPrime(m: Int, n: Int): Boolean =
+        gcd(m, n) == 1
 
 
 /**
@@ -168,11 +160,15 @@ return true
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in 0..n) {
-        if (i * i in m..n) return true
+    for (result in m..n) {
+        val sqrtResult = Math.sqrt(result.toDouble())
+        if (sqrtResult % 1 == 0.0) {
+            if (sqrtResult * sqrtResult in m..n) return true
+        }
     }
     return false
 }
+
 
 /**
  * Простая
@@ -184,12 +180,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 
 fun sin(x: Double, eps: Double): Double {
     var counter = 0
-    var sinus: Double = x
-    var number: Double = x
+    var sinus = x
+    var number = x
     while (Math.abs(number) > eps) {
         counter++
         number = Math.pow(x, counter * 2.0 + 1) / factorial(counter * 2 + 1)
-        if (counter % 2 == 1) sinus = sinus - number
+        if (counter % 2 == 1) sinus -= number
         else sinus += number
     }
     return sinus
@@ -203,14 +199,14 @@ fun sin(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var t: String = ""
-    var n1: Int = n
+    var t = ""
+    var n1 = n
 
     do {
         t += (n1 % 10).toString()
         n1 /= 10
     } while (n1 >= 1)
-    return t.toString().toInt()
+    return t.toInt()
 }
 
 /**
@@ -223,12 +219,12 @@ fun revert(n: Int): Int {
 fun cos(x: Double, eps: Double): Double {
     var i = 0
     var cosus = 1.0
-    var number: Double = x
+    var number = x
     while (Math.abs(number) > eps) {
         i++
         number = Math.pow(x, i * 2.0) / factorial(i * 2)
-        if (i % 2 == 1) cosus = cosus - number
-        else cosus = cosus + number
+        if (i % 2 == 1) cosus -= number
+        else cosus += number
 
     }
     return cosus % (2 * Math.PI)
@@ -244,22 +240,17 @@ fun cos(x: Double, eps: Double): Double {
  */
 
 fun isPalindrome(n: Int): Boolean {
-    if (n / 10 == 0) return true
-    val firstnumber: Int = n % 10
-    val secondnumber: Int = n % 100 / 10
-    var nforwhile: Int = n
-    var counter: Int = 0
-    while (nforwhile > 0) {
-        nforwhile /= 10
-        counter++
-    }
-    nforwhile = 1
+    if (n in -9..9) return true
+    val firstNumber = n % 10
+    val secondNumber = n % 100 / 10
+    var nForWhile = 1
+    val counter = digitNumber(n)
     for (i in 1..counter) {
-        nforwhile *= 10
+        nForWhile *= 10
     }
-    val revertnumfirst: Int = n / (nforwhile / 10)
-    val revertnumsecond: Int = n / (nforwhile / 100) % 10
-    if ((firstnumber == revertnumfirst) && (secondnumber == revertnumsecond)) return true
+    val revertNumFirst = n / (nForWhile / 10)
+    val revertNumSecond = n / (nForWhile / 100) % 10
+    if ((firstNumber == revertNumFirst) && (secondNumber == revertNumSecond)) return true
     return false
 }
 
@@ -269,7 +260,8 @@ fun isPalindrome(n: Int): Boolean {
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = if ((n.toString().filter { it == n.toString()[0] }) != (n.toString())) true else false
+fun hasDifferentDigits(n: Int): Boolean =
+        if ((n.toString().filter { it == n.toString()[0] }) != (n.toString())) true else false
 
 /**
  * Сложная
@@ -284,7 +276,7 @@ fun squareSequenceDigit(n: Int): Int {
     var resalt = 0
     while (number < n) {
         i++
-        number += quantity(i * i)
+        number += digitNumber(i * i)
     }
     resalt = i * i
     for (i in n..number - 1) {
@@ -293,15 +285,6 @@ fun squareSequenceDigit(n: Int): Int {
     return (resalt % 10)
 }
 
-fun quantity(n: Int): Int {
-    var r = 0
-    var nn: Int = n
-    while (nn > 0) {
-        nn /= 10
-        r++
-    }
-    return r
-}
 
 /**
  * Сложная
@@ -315,16 +298,14 @@ fun quantity(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var i = 0
     var number = 0
-    var resalt = 0
+    var result = 0
     while (number < n) {
         i++
-        number += quantity(fib(i))
+        number = digitNumber(fib(i))
     }
-    resalt = fib(i)
+    result = fib(i)
     for (i in n..number - 1) {
-        resalt /= 10
+        result /= 10
     }
-    return (resalt % 10)
+    return (result % 10)
 }
-
-

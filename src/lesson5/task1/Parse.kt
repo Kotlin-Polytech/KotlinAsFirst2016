@@ -61,7 +61,7 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val parse = str.split(" ")
-    var result: String = ""
+    var result = ""
     if (parse.size == 3) {
         try {
             if (parse[0].toInt() in 1..9) result += "0" + parse[0].toInt().toString() + "."
@@ -98,7 +98,7 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parse = digital.split(".")
-    var result: String = ""
+    var result = ""
     if (parse.size == 3) {
         try {
             if (parse[0][1].toInt() in 1..9) result += parse[0].toInt().toString() + " "
@@ -138,7 +138,23 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.length == 0) return ""
+    for (i in 0..phone.length - 1) {
+        if ((phone[i] != '(')
+                && (phone[i] != ')')
+                && (phone[i] != '+')
+                && (phone[i] != '-')
+                && (phone[i] != ' ')
+                && (phone[i] !in '0'..'9'))
+            return ""
+    }
+    val result = phone.filter { (it in '0'..'9') || (it == '+') }
+    if (result[0] != '+') {
+        return phone.filter { (it in '0'..'9') }
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -150,7 +166,26 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    for (i in 0..jumps.length - 1) {  //проверка на условия
+        if ((jumps[i] != '%')
+                && (jumps[i] != '-')
+                && (jumps[i] != ' ')
+                && (jumps[i] !in '0'..'9'))
+            return -1
+    }
+    val text = jumps.filter { (it in '0'..'9') || (it == ' ') }.split(" ") //удаление лишних символов
+    var max=-1
+    for (i in 0..text.size-1){
+        try { //из-за возможного пробела
+            if (max < text[i].toInt()) max = text[i].toInt()
+        }
+        catch (e: NumberFormatException) {
+            null
+        }
+    }
+    return max
+}
 
 /**
  * Сложная
@@ -162,7 +197,30 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps == "") return -1
+    var maxMax = -1
+    var maxI = -1
+    try {
+        var string = jumps.split(" ")
+        if (string.size % 2 == 1) return -1
+        for (i in 0..string.size - 1 step 2) {
+            if ((string[i].toInt() > maxMax) && (checkPlus(string[i + 1]) == true)) {
+                maxMax = string[i].toInt()
+                maxI = i
+            }
+        }
+        if (maxI == -1) return -1 else return string[maxI].toInt()
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+
+}
+
+fun checkPlus(str: String): Boolean {
+    for (i in 0..str.length - 1) if (str[i] == '+') return true
+    return false
+}
 
 /**
  * Сложная
@@ -173,7 +231,33 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    for (i in 0..expression.length - 1)
+        if ((expression == "")
+                || ((expression[i] != '+')
+                && (expression[i] != '-')
+                && (expression[i] != ' ')
+                && (expression[i] !in '0'..'9')))
+            return throw IllegalArgumentException("IllegalArgumentException")
+    var resultExpression = expression
+    val parts = resultExpression.split(" ")
+    var result = 0
+    try {
+        if ((parts[0] == "-") || (parts[0] == "+"))
+            for (i in 1..parts.size - 1 step 2)
+                if (parts[i - 1] == "-") result -= parts[i].toInt()
+                else result += parts[i].toInt()
+        else {
+            result += parts[0].toInt()
+            for (i in 2..parts.size - 1 step 2)
+                if (parts[i - 1] == "-") result -= parts[i].toInt()
+                else result += parts[i].toInt()
+        }
+    } catch (e: NumberFormatException) {
+        throw NumberFormatException("IllegalArgumentException")
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -210,7 +294,8 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int =TODO()
+
 
 /**
  * Сложная

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import java.lang.Math.*
@@ -90,7 +91,6 @@ fun fib(n: Int): Int {
 }
 
 
-
 /**
  * Простая
  *
@@ -142,7 +142,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int) : Boolean {
+fun isCoPrime(m: Int, n: Int): Boolean {
     var a = m
     var b = n
     while (b != 0) {
@@ -150,7 +150,7 @@ fun isCoPrime(m: Int, n: Int) : Boolean {
         a = b
         b = c
     }
-    return if (a == 1) true else false
+    return a == 1
 }
 
 /**
@@ -184,8 +184,10 @@ fun sin(x: Double, eps: Double): Double {
     var k = 2
     var s = 0.0
     var e = x
+    var z = x
+    if (Math.abs(x) > 2 * Math.PI) z = x % (2 * Math.PI)
     while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(x, a.toDouble()) / factorial(a)
+        e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k += 1
@@ -205,8 +207,10 @@ fun cos(x: Double, eps: Double): Double {
     var k = 1
     var s = 1.0
     var e = x
+    var z = x
+    if (Math.abs(x) > 2 * Math.PI) z = x % (2 * Math.PI)
     while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(x, a.toDouble()) / factorial(a)
+        e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k += 1
@@ -239,14 +243,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var k = n
-    var rev = 0
-    while (k > 0) {
-        rev *= 10
-        rev += k % 10
-        k /= 10
-    }
-    return if (n == rev) true else false
+    return n == revert(n)
 }
 
 /**

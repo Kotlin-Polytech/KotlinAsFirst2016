@@ -221,7 +221,7 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     var res = 0
     val symbols: String
-    if (expression.contains(Regex("""[^-+\d\s]"""))||expression=="") throw IllegalArgumentException()
+    if (expression.contains(Regex("""[^-+\d\s]""")) || expression == "") throw IllegalArgumentException()
     symbols = Regex("""[^+-]""").replace(expression, "")
     val parts = Regex("""[\s]""").replace(expression, "").split("+", "-")
     res += parts.first().toInt()
@@ -240,7 +240,15 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var resStr = ""
+    val parts = str.toLowerCase().split(" ")
+    for (i in 0..parts.size - 2) {
+        resStr += parts[i] + " "
+        if (parts[i] == parts[i + 1]) return resStr.length - parts[i].length - 1
+    }
+    return -1
+}
 
 /**
  * Сложная

@@ -53,9 +53,9 @@ fun main(args: Array<String>) {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    val hour = hours * 60 * 60
-    val minute = minutes * 60
-    return hour + minute + seconds
+    val secInHour = hours * 60 * 60
+    val secInMinute = minutes * 60
+    return secInHour + secInMinute + seconds
 }
 
 /**
@@ -66,9 +66,9 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val sagene = sagenes * 48
-    val arshin = arshins * 16
-    return (sagene + arshin + vershoks) * 4.445 / 100
+    val vershInSagene = sagenes * 48
+    val vershInArshin = arshins * 16
+    return (vershInSagene + vershInArshin + vershoks) * 4.445 / 100
 }
 
 /**
@@ -86,8 +86,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = TODO()
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val sx = abs(x1 - x2)
-    val sy = abs(y1 - y2)
+    val sx = x1 - x2
+    val sy = y1 - y2
     return sqrt(sqr(sx) + sqr(sy))
 }
 

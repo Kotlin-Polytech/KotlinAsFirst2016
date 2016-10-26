@@ -60,7 +60,7 @@ fun pow(a: Int, b: Int): Int {
     return n
 }
 
-fun NOD(x: Int, y: Int): Int {
+fun gcd(x: Int, y: Int): Int {
     var a = x
     var b = y
     while ((a != 0) && (b != 0)) {
@@ -88,13 +88,11 @@ fun fib(n: Int): Int {
     var f1 = 1
     var f2 = 0
     var result = 1
-    if (n < 3) return result
-    else
-        for (i in 3..n) {
-            f2 = result
-            result = result + f1
-            f1 = f2
-        }
+    for (i in 3..n) {
+        f2 = result
+        result = result + f1
+        f1 = f2
+    }
     return result
 }
 
@@ -104,7 +102,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = (m * n) / NOD(m, n)
+fun lcm(m: Int, n: Int): Int = (m * n) / gcd(m, n)
 
 /**
  * Простая
@@ -125,7 +123,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var res = n - 1
+    var res = n / 2
     while (true) {
         if (n % res == 0) return res
         res--
@@ -139,7 +137,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = (NOD(m, n) == 1)
+fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
 
 /**
  * Простая
@@ -225,10 +223,7 @@ fun squareSequenceDigit(n: Int): Int {
         sum = sum + digitNumber(square)
     }
     count = sum - n
-    if (count != 0) {
-        number = square / pow(10, count)
-        return number % 10
-    } else return square % 10
+    return square / pow(10, count) % 10
 }
 
 /**

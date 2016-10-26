@@ -319,12 +319,17 @@ fun roman(n: Int): String {
     var s = n
     val rim = listOf("I", "V", "X", "L", "C", "D", "M", "", "")
     var result = ""
+    var result1 = ""
+    while (s > 1000) {
+        for (i in 1..s / 1000) result1 = "M" + result1
+        s %= 1000
+    }
     while (s > 0) {
         result = romanbase(rim[i], rim[i + 1], rim[i + 2], s % 10) + result
         s /= 10
         i += 2
     }
-    return result
+    return result1 + result
 }
 
 /**

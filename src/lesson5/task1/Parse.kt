@@ -80,26 +80,16 @@ fun month(str: String): String {
 }
 
 fun dateStrToDigit(str: String): String {
-    var k = 0
     val parts = str.split(" ")
+    var k = 0
     var result = ""
-    var result2 = ""
-    for (part in parts) {
-        k += 1
-        if (month(part) == "666") {
-            try {
-                val number = part.toInt()
-                result += twoDigitStr(number) + "."
-            } catch (e: NumberFormatException) {
-                return ""
-            }
-        } else {
-            result += month(part) + "."
-        }
+    if (parts.size != 3) return "" else {
+        result += twoDigitStr(parts[0].toInt()) + "."
+        if (month(parts[1]) == "666") return "" else result += month(parts[1]) + "."
+        result += (parts[2].toInt())
+        return result
     }
-    for (i in 0..result.length - 2) result2 += result[i]
-    if (k == 3) return result2 else return ""
-}
+ }
 
 /**
  * Средняя

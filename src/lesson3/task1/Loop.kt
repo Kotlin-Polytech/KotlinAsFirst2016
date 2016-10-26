@@ -85,16 +85,21 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var a = Math.max(m, n)
-    var b = Math.min(m, n)
+
+fun nod(a: Int, b: Int): Int {
+    var num1 = Math.max(a, b)
+    var num2 = Math.min(a, b)
     var buffer = 1
-    while (a % b > 0) {
-        buffer = a
-        a = b
-        b = buffer % b
+    while (num1 % num2 > 0) {
+        buffer = num1
+        num1 = num2
+        num2 = buffer % num2
     }
-    return (n * m) / b
+    return num2
+}
+
+fun lcm(m: Int, n: Int): Int {
+    return (n / nod(n, m)) * m
 }
 
 /**
@@ -130,23 +135,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val min: Int
-    val max: Int
-    if (m >= n) {
-        min = n
-        max = m
-    } else {
-        max = n
-        min = m
-    }
-    var div = min
-    while (max % div != 0 || min % div != 0) {
-        div--
-    }
-    if (div == 1) return true
-    return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = if (nod(m, n) == 1) true else false
 
 /**
  * Простая
@@ -175,15 +164,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var a = x
-    var b = x
-    var c = 3.0
-    while (Math.abs(b) > eps) {
-        b = -b * x * x / (c * (c - 1))
-        a = a + b
-        c = c + 2
+    var newX = x
+    while (newX >= 2.0* Math.PI) newX -= 2.0 * Math.PI
+    var result = newX
+    var part = newX
+    var count = 3.0
+    while (Math.abs(part) >= eps) {
+        part = -part * newX * newX / (count * (count - 1))
+        result += part
+        count += 2
     }
-    return a
+    return result
 }
 
 /**
@@ -194,15 +185,17 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var a = 1.0
-    var b = 1.0
-    var c = 2.0
-    while (Math.abs(b) > eps) {
-        b = -b * x * x / (c * (c - 1))
-        a = a + b
-        c = c + 2
+    var newX = x
+    while (newX >= 2.0* Math.PI) newX -= 2.0 * Math.PI
+    var result = 1.0
+    var part = 1.0
+    var count = 2.0
+    while (Math.abs(part) > eps) {
+        part = -part * newX * newX / (count * (count - 1))
+        result += part
+        count += 2
     }
-    return a
+    return result
 }
 
 /**
@@ -236,7 +229,8 @@ fun revert(n: Int): Int {
 
 fun isPalindrome(n: Int): Boolean {
     for (i in 1..digitNumber(n) / 2) {
-        if ((n / (Math.pow(10.0, digitNumber(n) - i.toDouble())).toInt()) % 10 != (n / (Math.pow(10.0, i.toDouble() - 1)).toInt()) % 10) return false
+        if ((n / (Math.pow(10.toDouble(), digitNumber(n) - i.toDouble())).toInt()) % 10 != (n / (Math.pow(10.toDouble(), i.toDouble() - 1)).toInt()) % 10) return false
+        //Не представляю, как использовать Math.pow с целыми числами (Int)
     }
     return true
 }

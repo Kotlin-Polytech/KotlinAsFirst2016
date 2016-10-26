@@ -228,20 +228,15 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
+
 fun convert(n: Int, base: Int): List<Int> {
-    val revResult = mutableListOf<Int>()
-    val newN = n
-    while (n >= base) {
-        revResult.add(n % base)
-        n / base
-    }
-    revResult.add(newN)
     val result = mutableListOf<Int>()
-    for (i in 0..revResult.size - 1) {
-        result[i] = revResult[revResult.size - 1 - i]
+    var newN = n
+    while (newN > 0) {
+        result.add(0, newN % base)
+        newN /= base
     }
-    val final: List<Int> = result
-    return final
+    return result
 }
 
 /**
@@ -252,7 +247,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val list = convert(n, base)
+    val alpha = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+    val result = mutableListOf<String>()
+    for (i in 0..list.size - 1) {
+        if (list[i] < 10) result.add(list[i].toString())
+        else result.add(alpha[list[i] - 10])
+    }
+    return result.joinToString(separator = "")
+}
 
 /**
  * Средняя
@@ -261,7 +265,13 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0
+    for (i in 0..(digits.size - 1)) {
+        result += digits[i] * (Math.pow(base.toDouble(), (digits.size - 1 - i).toDouble())).toInt()
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -272,7 +282,15 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val numbers = mutableListOf<Int>()
+    val alpha = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+    for (i in 0..(str.length - 1)) {
+        if (str.get(i).toString() in alpha) numbers.add(alpha.indexOf(str.get(i).toString()) + 10)
+        else numbers.add(str.get(i).toInt() - 48)
+    }
+    return decimal(numbers, base)
+}
 
 /**
  * Сложная

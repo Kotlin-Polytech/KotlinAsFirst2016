@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -61,7 +60,6 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String = TODO()
-
 /**
  * Средняя
  *
@@ -69,8 +67,44 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
-
+fun dateDigitToStr(digital: String): String {
+    try {
+        val parts = digital.split(".")
+        if (parts.size > 3) return ""
+        var result = ""
+        if (parts[0].toInt() in 1..31) result += when (parts[0]) {
+            "01" -> "1"
+            "02" -> "2"
+            "03" -> "3"
+            "04" -> "4"
+            "05" -> "5"
+            "06" -> "6"
+            "07" -> "7"
+            "08" -> "8"
+            "09" -> "9"
+            else -> parts[0]
+        }
+        result += when (parts[1]) {
+            "01" -> " января "
+            "02" -> " февраля "
+            "03" -> " марта "
+            "04" -> " апреля "
+            "05" -> " мая "
+            "06" -> " июня "
+            "07" -> " июля "
+            "08" -> " августа "
+            "09" -> " сентября "
+            "10" -> " октября "
+            "11" -> " ноября "
+            "12" -> " декабря "
+            else -> return ""
+        }
+        result += parts[2]
+        return result
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 /**
  * Сложная
  *
@@ -95,7 +129,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    try {
+        val parts = jumps.split(" ")
+        var best = -1
+        for (part in parts) {
+            if ((part != "-") && (part != "%") && (part.toInt() > best)) best = part.toInt()
+        }
+        return best
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -107,7 +152,16 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var best = -1
+    for (part in 1..parts.size - 1 step 2) {
+        for (j in parts[part]) {
+            if ((j == '+') && (best < parts[part - 1].toInt())) best = parts[part - 1].toInt()
+        }
+    }
+    return best
+}
 
 /**
  * Сложная
@@ -118,7 +172,18 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    var parts = expression.split(" ")
+    var result = parts[1].toInt()
+    if (parts.size > 1) {
+        for (i in 1..parts.size - 1 step 2) {
+            if (parts[i] == "+") result += parts[i + 1].toInt()
+            else if (parts[i] == "-") result -= parts[i + 1].toInt()
+            else throw IllegalArgumentException(" ")
+        }
+    }
+    return result
+}
 
 /**
  * Сложная

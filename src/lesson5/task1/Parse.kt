@@ -173,7 +173,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (!expression.matches(Regex("""\d*( (\+|\-) \d*)*"""))) throw IllegalArgumentException()
+    if (!expression.matches(Regex("""\d+( (\+|\-) \d+)*"""))) throw IllegalArgumentException()
     val symbols = expression.split(" ")
     val digits = symbols.filter { it != "-" && it != "+" }
     val operations = symbols.filter { it == "-" || it == "+" }
@@ -215,10 +215,10 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    if (!description.matches(Regex("""[^(\d*\.\d)\s]+ \d*\.\d(\; [^(\d*\.\d)\s]+ \d*\.\d)*"""))) return ""
+    if (!description.matches(Regex("""[^(\d*\.\d) ]+ \d*\.\d(\; [^(\d*\.\d) ]+ \d*\.\d)*"""))) return ""
     val descriptionWithoutDot = Regex("""\;""").replace(description, "")
     val descriptionList = descriptionWithoutDot.split(" ")
-    val prices = Regex("""[^(\d*\.\d)\s]+ """).replace(descriptionWithoutDot, "").split(" ")
+    val prices = Regex("""[^(\d*\.\d) ]+ """).replace(descriptionWithoutDot, "").split(" ")
     val pricesToInt = prices.map { it.toDouble() }
     val maxPrice = pricesToInt.max() ?: return ""
     val result = descriptionList[descriptionList.indexOf("$maxPrice") - 1]

@@ -124,7 +124,22 @@ fun minDivisor(n: Int): Int {
     return divisor
 }
 
-
+/**
+ * Простая
+ *
+ * Определить, являются ли два заданных числа m и n взаимно простыми.
+ * Взаимно простые числа не имеют общих делителей, кроме 1.
+ * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
+ */
+fun isCoPrime(m: Int, n: Int): Boolean {
+    val a = Math.max(m, n)
+    var i = 0
+    var flag: Boolean = false
+    for (i in 2..a) {
+        if ((n % i == 0) && (m % i == 0)) flag = true
+    }
+    return (flag != true)
+}
 /**
  * Простая
  *
@@ -142,15 +157,8 @@ fun maxDivisor(n: Int): Int {
 }
 
 
-/**
- * Простая
- *
- * Определить, являются ли два заданных числа m и n взаимно простыми.
- * Взаимно простые числа не имеют общих делителей, кроме 1.
- * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
- */
-fun isCoPrime(m: Int, n: Int): Boolean =
-        ((m != n) && (((isPrime(m) == true) && (isPrime(n) == true)) || (nod(m, n) == 1)))
+
+
 
 
 /**

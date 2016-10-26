@@ -161,46 +161,33 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
  * 14 17 19 20
  */
 
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
-/**
-fun turnV(streamline: Cell,matrix: Matrix<Int>): Cell {
-
-}
-fun turnG(streamline: Cell,matrix: Matrix<Int>): Cell {
-if (streamline.row<=matrix.width){
-
-}
-else turnV(streamline,matrix)
-}
-
-fun edge2(height: Int, width: Int, streamline: Int): Cell {
-return when (streamline) {
-6 -> Cell(height, width + 1)
-2 -> Cell(height + 1, width)
-4 -> Cell(height, width - 1)
-else -> Cell(height - 1, width)
-}
-
-}
 
 fun generateSnake(height: Int, width: Int): Matrix<Int> {
-var matrix = createMatrix(height, width, 1)
-var streamline = 0
-var road = 0
-var cell = Cell(0, 0)
-while (road  < height * width) {
-if ((edge(cell.row, cell.column, streamline).row in 0..height - 1) &&
-(edge(cell.row, cell.column, streamline).column in 0..width - 1) &&
-(matrix[edge(cell.row, cell.column, streamline)] != 1)) {
-streamline = turn(streamline)
-} else {
-matrix[cell] = road
-road++
-cell = edge(cell.row, cell.column, streamline)
+    var matrix = createMatrix(height, width, 1)
+    var pathBegin = listOf<Cell>()
+    var pathEnd = listOf<Cell>()
+    for (i in 0..width - 1) pathBegin += Cell(0, i)
+    for (i in 1..height - 1) pathBegin += Cell(i, width - 1)
+    for (i in 0..height - 1) pathEnd += Cell(i, 0)
+    for (i in 1..width - 1) pathEnd += Cell(height - 1, i)
+    var road = 0
+    var mainRoad = 1
+    var cell = Cell(0, 0)
+    while (mainRoad != height * width)
+        if (cell == pathEnd[road]) {
+            matrix[cell] = mainRoad
+            mainRoad++
+            road++
+            cell = pathBegin[road]
+        } else {
+            matrix[cell] = mainRoad
+            mainRoad++
+            cell = Cell(cell.row + 1, cell.column - 1)
+        }
+    matrix[cell] = mainRoad
+    return matrix
 }
-}
-return matrix
-}*/
+
 /**
  * Средняя
  *
@@ -344,7 +331,20 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    var matrix2 = createMatrix(matrix.height + 1, matrix.width + 1, 0)
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width)
+            matrix2[i, j] =
+                    -matrix2[i - 1, j - 1] +
+                            matrix2[i - 1, j] +
+                            matrix2[i, j - 1] +
+                            matrix[i - 1, j - 1]
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            matrix[i, j] = matrix2[i + 1, j + 1]
+    return matrix
+}
 
 /**
  * Сложная
@@ -366,7 +366,23 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    var miniLock = key
+    var key2 = createMatrix(key.height, key.width, 0)
+    for (i in 0..key.height - 1)
+        for (j in 0..key.width - 1)
+            if (key[i, j] == 0) key2[i, j] = 1
+            else key2[i, j] = 0
+
+    for (i in 0..lock.height - key.height)
+        for (j in 0..lock.width - key.width) {
+            for (i2 in 0..key.height - 1)
+                for (j2 in 0..key.width - 1)
+                    miniLock[i2, j2] = lock[i + i2, j + j2]
+            if (miniLock == key2) return Triple(true, i, j)
+        }
+    return Triple(false, 0, 0)
+}
 
 /**
  * Простая
@@ -374,7 +390,12 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..this.height - 1)
+        for (j in 0..this.width - 1)
+            this[i, j] = -this[i, j]
+    return this
+}
 
 /**
  * Средняя
@@ -384,7 +405,15 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (this.width != other.height) throw IllegalArgumentException()
+    var multiplication = createMatrix(this.height, other.width, 0)
+    for (i in 0..multiplication.height - 1)
+        for (j in 0..multiplication.width - 1)
+            for (g in 0..this.width - 1)
+                multiplication[i, j] += this[i, g] * other[g, j]
+    return multiplication
+}
 
 /**
  * Сложная
@@ -413,7 +442,78 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toSt
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    var faeled = true
+    for (n in 0..15) {
+        for (i in 0..matrix.height - 1)
+            for (j in 0..matrix.width - 1)
+                if (matrix[i, j] == n) faeled = false
+        if (faeled) throw IllegalStateException() else faeled = true
+    }
+    for (n in 0..moves.size - 1) if (moves[n] !in 1..15) throw IllegalStateException()
+    var matrix2 = createMatrix(matrix.height + 2, matrix.width + 2, 0)
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            matrix2[i + 1, j + 1] = matrix[i, j]
+    var cell = Cell(0, 0)
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width)
+            if (matrix2[i, j] == 0) cell = Cell(i, j)
+    var i = -1
+    while (i < moves.size - 1) {
+        i++
+        when (moves[i]) {
+            matrix2[Cell(cell.row + 1, cell.column)] -> {
+                matrix2[0, 0] = matrix2[cell]
+                matrix2[cell] = matrix2[Cell(cell.row + 1, cell.column)]
+                matrix2[Cell(cell.row + 1, cell.column)] = matrix2[0, 0]
+                cell = Cell(cell.row + 1, cell.column)
+            }
+            matrix2[Cell(cell.row + 1, cell.column + 1)] -> {
+                matrix2[0, 0] = matrix2[cell]
+                matrix2[cell] = matrix2[Cell(cell.row + 1, cell.column + 1)]
+                matrix2[Cell(cell.row + 1, cell.column + 1)] = matrix2[0, 0]
+                cell = Cell(cell.row + 1, cell.column + 1)
+            }
+            matrix2[Cell(cell.row + 1, cell.column - 1)] -> {
+                matrix2[0, 0] = matrix2[cell]
+                matrix2[cell] = matrix2[Cell(cell.row + 1, cell.column - 1)]
+                matrix2[Cell(cell.row + 1, cell.column - 1)] = matrix2[0, 0]
+                cell = Cell(cell.row + 1, cell.column - 1)
+            }
+            matrix2[Cell(cell.row, cell.column - 1)] -> {
+                matrix2[0, 0] = matrix2[cell]
+                matrix2[cell] = matrix2[Cell(cell.row, cell.column - 1)]
+                matrix2[Cell(cell.row, cell.column - 1)] = matrix2[0, 0]
+                cell = Cell(cell.row, cell.column - 1)
+            }
+            matrix2[Cell(cell.row, cell.column + 1)] -> {
+                matrix2[0, 0] = matrix2[cell]
+                matrix2[cell] = matrix2[Cell(cell.row, cell.column + 1)]
+                matrix2[Cell(cell.row, cell.column + 1)] = matrix2[0, 0]
+                cell = Cell(cell.row, cell.column + 1)
+            }
+            matrix2[Cell(cell.row - 1, cell.column)] -> {
+                matrix2[0, 0] = matrix2[cell]
+                matrix2[cell] = matrix2[Cell(cell.row - 1, cell.column)]
+                matrix2[Cell(cell.row - 1, cell.column)] = matrix2[0, 0]
+                cell = Cell(cell.row - 1, cell.column)
+            }
+            matrix2[Cell(cell.row - 1, cell.column - 1)] -> {
+                matrix2[0, 0] = matrix2[cell]
+                matrix2[cell] = matrix2[Cell(cell.row - 1, cell.column - 1)]
+                matrix2[Cell(cell.row - 1, cell.column - 1)] = matrix2[0, 0]
+                cell = Cell(cell.row - 1, cell.column - 1)
+            }
+            else -> throw IllegalStateException()
+        }
+    }
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width)
+            matrix[i - 1, j - 1] =
+                    matrix2[i, j]
+    return matrix
+}
 
 /**
  * Очень сложная

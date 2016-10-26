@@ -371,6 +371,9 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
     var key2 = createMatrix(key.height, key.width, 0)
     for (i in 0..key.height - 1)
         for (j in 0..key.width - 1)
+            if (key[i, j] !in 0..1) return Triple(false, 0, 0)
+    for (i in 0..key.height - 1)
+        for (j in 0..key.width - 1)
             if (key[i, j] == 0) key2[i, j] = 1
             else key2[i, j] = 0
 

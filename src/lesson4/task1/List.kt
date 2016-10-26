@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.minDivisor
 
 /**
  * Пример
@@ -105,14 +106,15 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var abs = 0.0
-    for (element in v) {
-        abs += element * element
-    }
-    if (abs == 0.0) {
+    if (v.isEmpty()) {
         return 0.0
-    } else
+    } else {
+        var abs = 0.0
+        for (element in v) {
+            abs += element * element
+        }
         return Math.sqrt(abs)
+    }
 }
 
 /**
@@ -121,10 +123,9 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    val a = list.sum() / list.size
     if (list.isEmpty())
         return 0.0
-    else return a
+    else return list.sum() / list.size
 }
 
 /**
@@ -139,8 +140,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
     else {
         var a = list.sum() / list.size
         for (i in 0..list.size - 1) {
-            val element = list[i]
-            list[i] = element - a
+            list[i] -= a
         }
     }
     return list
@@ -207,7 +207,15 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var n2 = n
+    while (n2 > 1) {
+        list.add(minDivisor(n2))
+        n2 /= minDivisor(n2)
+    }
+    return list
+}
 
 /**
  * Сложная
@@ -215,7 +223,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя

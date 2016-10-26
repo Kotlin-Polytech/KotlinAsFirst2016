@@ -94,7 +94,12 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var mindel = 2
+    while (n % mindel != 0)
+        mindel ++
+    return mindel
+}
 
 /**
  * Простая
@@ -210,4 +215,20 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var number = 1
+    var chislo = 1
+    while (chislo < n) {
+        number++
+        var number2 = fib(number)
+        while (number2 > 0) {
+            number2 /= 10
+            chislo++
+        }
+    }
+    var number2 = fib(number)
+    for (i in 1..chislo - n) {
+        number2 /= 10
+    }
+    return number2 % 10
+}

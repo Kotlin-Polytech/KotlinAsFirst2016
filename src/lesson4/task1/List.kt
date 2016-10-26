@@ -4,10 +4,6 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
-import lesson6.task2.rookTrajectory
-import org.jetbrains.annotations.Mutable
-import kotlin.jvm.internal.NonVolatileRef
-import kotlin.system.exitProcess
 
 /**
  * Пример
@@ -112,11 +108,11 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     if (v.size > 0) {
-        var slog = 0.0
+        var sum = 0.0
         for (element in v) {
-            slog = slog + element * element
+            sum += element * element
         }
-        val root = Math.sqrt(slog)
+        val root = Math.sqrt(sum)
         return root
     } else return 0.0
 }
@@ -201,22 +197,18 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.size > 0) {
-        if (list.size == 1) {
+        if (list.size <= 1) {
             return list
         } else {
             var first: Double = list.first()
-            val last = list.size
-            var k = first
-            var list1: MutableList<Double> = list.subList(fromIndex = 1, toIndex = last)
-            for ((index, element) in list1.withIndex()) {
-                k = list1[index]
-                list1[index] = k + list[index]
+            var k = 0.0
+            val f=list.size-1
+            for (index in 0..f) {
+                k += list[index]
+                list[index]=k
             }
-            list1.add(0, first)
-            return list1
+            return list
         }
-    } else return list
 }
 
 
@@ -235,13 +227,12 @@ fun factorize(n: Int): List<Int> {
     var n1 = n
     var i = 2
     while (n1 >= i) {
-        if ((isPrime(i) == true) && (n1 % i == 0)) {
+        if ((isPrime(i)) && (n1 % i == 0)) {
             result += i
             n1 /= i
         } else i++
     }
-    result.sorted()
-    return result
+    return result.sorted()
 }
 
 
@@ -252,25 +243,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var result = listOf<Int>()
-    var result1 = ""
-    var n1 = n
-    var i = 2
-    while (n1 >= i) {
-        if ((isPrime(i) == true) && (n1 % i == 0)) {
-            result += i
-            n1 /= i
-        } else i++
-    }
-    result.sorted()
-    if (result.size > 1) {
-        for ((index, element) in result.withIndex()) {
-            if (index != result.size - 1) {
-                result1 += element.toString() + '*'
-            } else result1 += element.toString()
-        }
-        return result1
-    } else return n.toString()
+    return factorize(n).joinToString ( separator = "*")
 }
 
 /**
@@ -283,11 +256,15 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     var n1 = n
     var result = mutableListOf<Int>()
+    if (n==0) {
+        result.add(0,0)
+        return result
+    }
     while (n1 != 0) {
         result.add(0, n1 % base)
         n1 /= base
     }
-    var list1: List<Int> = result.subList(fromIndex = 0, toIndex = result.size)
+    var list1: List<Int> = result
     return list1
 }
 

@@ -259,7 +259,7 @@ fun convert(n: Int, base: Int): List<Int> {
         result.add(value)
     else
     {
-        while (value > base) {
+        while (value >= base) {
             result.add(value - digit * base)
             value = digit
             digit = value / base
@@ -279,9 +279,9 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var result = ""
-    val litter = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+    val litter = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
-    val digit = listOf<Int>(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+    val digit = listOf(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
     var value = convert(n, base)
 
@@ -361,14 +361,11 @@ fun plusChar (n: Int, s: Char): String
 fun roman(n: Int): String{
     var result = ""
     var value = n
-    when (value / 1000)
-    {
-        in 1..3 -> result = plusChar(value / 1000, 'M')
-    }
+    result = plusChar(value / 1000, 'M')
     value %= 1000
     when (value / 100)
     {
-        in 1..3 -> result = plusChar(value / 100, 'C')
+        in 1..3 -> result += plusChar(value / 100, 'C')
         4 -> result += "CD"
         5 -> result += "D"
         in 6..8 -> result += "D" + plusChar((value / 100) - 5, 'C')
@@ -377,7 +374,7 @@ fun roman(n: Int): String{
     value %= 100
     when (value / 10)
     {
-        in 1..3 -> result = plusChar(value / 10, 'X')
+        in 1..3 -> result += plusChar(value / 10, 'X')
         4 -> result += "XL"
         5 -> result += "L"
         in 6..8 -> result += 'L' + plusChar((value / 10) - 5, 'X')
@@ -386,7 +383,7 @@ fun roman(n: Int): String{
     value %= 10
     when (value)
     {
-        in 1..3 -> result = plusChar(value, 'I')
+        in 1..3 -> result += plusChar(value, 'I')
         4 -> result += "IV"
         5 -> result += "V"
         in 6..8 -> result += 'V' + plusChar(value - 5 , 'I')
@@ -432,11 +429,11 @@ fun toRussian (n: Int, y: Int): String
                 val temp = value % powInt(10, count - 1)
                 when (temp)
                 {
-                    0 -> result += "десять "
-                    1 -> result += digit[temp - 1] + "надцать "
-                    2 -> result += digit[temp - 1].substring(0, digit[temp - 1].length - 1 ) + "енадцать "
-                    3 -> result += digit[temp - 1] + "надцать "
-                    in 4..9 -> result += digit[temp - 1].substring(0, digit[temp - 1].length - 1 ) + "надцать "
+                    0 -> result += "десять"
+                    1 -> result += digit[temp - 1] + "надцать"
+                    2 -> result += digit[temp - 1].substring(0, digit[temp - 1].length - 1 ) + "енадцать"
+                    3 -> result += digit[temp - 1] + "надцать"
+                    in 4..9 -> result += digit[temp - 1].substring(0, digit[temp - 1].length - 1 ) + "надцать"
                 }
                 count -= 1
             }
@@ -475,8 +472,8 @@ fun russian(n: Int): String
             0 -> result += toRussian(left, countLeft) + "тысяч "
             1 -> result += toRussian(left, countLeft).dropLast(4) + "одна тысяча "
             2 -> result += toRussian(left, countLeft).dropLast(3) + "две тысячи "
-            in 3..4 -> result += toRussian(left, countLeft) + "тысячи "
-            in 5..9 -> result += toRussian(left, countLeft) + "тысяч "
+            in 3..4 -> result += toRussian(left, countLeft) + " тысячи "
+            in 5..9 -> result += toRussian(left, countLeft) + " тысяч "
         }
     }
     result += toRussian(right, countRight)

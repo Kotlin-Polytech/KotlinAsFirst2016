@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
+
+import lesson4.task1.decimal
+
 val MONTHS = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
 /**
@@ -215,14 +218,26 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    if (!description.matches(Regex("""[^(\d*\.\d) ]+ \d*\.\d(\; [^(\d*\.\d) ]+ \d*\.\d)*"""))) return ""
-    val descriptionWithoutDot = Regex("""\;""").replace(description, "")
-    val descriptionList = descriptionWithoutDot.split(" ")
-    val prices = Regex("""[^(\d*\.\d) ]+ """).replace(descriptionWithoutDot, "").split(" ")
-    val pricesToInt = prices.map { it.toDouble() }
-    val maxPrice = pricesToInt.max() ?: return ""
-    val result = descriptionList[descriptionList.indexOf("$maxPrice") - 1]
-    return result
+    val descriptionList = description.split(" ")
+    val descSize = descriptionList.size
+    if (descSize % 2 != 0) return ""
+    var x = ";"
+    var i = 1
+    var prices = listOf<Double>()
+    while (i < descSize) {
+        if (i == descSize - 1) {
+            if (descriptionList[i].matches(Regex("""\d*\.?\d*"""))) {
+                prices += descriptionList[i].toDouble()
+            } else return ""
+        } else if (descriptionList[i].matches(Regex("""\d*\.?\d*\;"""))) {
+            prices += Regex("""\;""").replace(descriptionList[i], "").toDouble()
+        } else return ""
+        i += 2
+    }
+    val maxPrice = prices.max() ?: return ""
+    if ((prices.indexOf(maxPrice) + 1) * 2 == descSize) x = ""
+    if (descriptionList[i - 2].matches(Regex("""\d*"""))) return descriptionList[descriptionList.indexOf("${maxPrice.toInt()}$x") - 1]
+    return descriptionList[descriptionList.indexOf("$maxPrice$x") - 1]
 }
 
 /**

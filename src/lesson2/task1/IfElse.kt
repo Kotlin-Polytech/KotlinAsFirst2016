@@ -8,7 +8,7 @@ import lesson1.task1.sqr
 /**
  * Пример
  *
- * Найти навименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
+ * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
 fun minBiRoot(a: Double, b: Double, c: Double): Double {
     // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
@@ -43,7 +43,6 @@ fun ageDescription(age: Int): String {
     else return "$age лет"
 }
 
-
 /**
  * Простая
  *
@@ -72,7 +71,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     else return 3
 }
 
-
 /**
  * Простая
  *
@@ -99,13 +97,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 /**
  * Простая
  *
- * "Треугольник задан длинами своих сторон a, b, c.
+ * Треугольник задан длинами своих сторон a, b, c.
  * Проверить, является ли данный треугольник остроугольным (вернуть 0),
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
-
 
 /**
  * Средняя
@@ -116,47 +113,27 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if (b < c && b < d) return -1
-    if (a > c && a > d) return -1
-    if (b == c || a == d) return 0
-    if (c < b && b < d && c > a && a < d) {
-        val long = b - c
-        return long
+    if (c in a..b && d !in a..b) {
+        return b - c
     }
-    if (a < c && d < b) {
-        val long = d - c
-        return long
+    if (c in a..b && d in a..b) {
+        return d - c
     }
-    if (c < a && a < d && d < b) {
-        val long = d - a
-        return long
+    if (a in c..d && b in c..d) {
+        return b - a
     }
-    if (a == c && d == b) {
-        val long = d - c
-        return long
+    if (a in c..d && b !in c..d) {
+        return d - a
     }
-    if (a == d) return 0
-    if (c < a && b < d && a < d) {
-        val long = b - a
-        return long
-    }
-    if (a == c) {
-        if (b < d) {
-            val long = b - a
-            return long
-        } else if (b > d) {
-            val long = d - c
-            return long
+    if (a in c..d) {
+        if (a > 0) {
+            if (a - c > d - a) return d - a
+            else return a - c
+        }
+        if (a < 0) {
+            if (a - c > d - a) return a - c
+            else return d - a
         }
     }
-    if (b == d) {
-        if (a < c) {
-            val long = d - c
-            return long
-        } else if (a > c) {
-            val long = b - a
-            return long
-        }
-    }
-    return 0
+    return -1
 }

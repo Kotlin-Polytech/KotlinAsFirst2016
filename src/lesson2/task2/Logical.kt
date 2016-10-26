@@ -32,8 +32,8 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (x1 == x2 || y1 == y2 || ((Math.abs(x1 - x2)) == (Math.abs(y1 - y2)))) return true
-    else return false
+    return (x1 == x2 || y1 == y2 || ((Math.abs(x1 - x2)) == (Math.abs(y1 - y2))))
+
 }
 
 /**
@@ -45,7 +45,6 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean = r2 >= r1 + Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1))
-
 
 /**
  * Средняя

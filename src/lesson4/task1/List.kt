@@ -467,14 +467,17 @@ fun russian(n: Int): String
     val countRight = countNumber(right)
     if (left != 0)
     {
-        when (left % 10)
-        {
-            0 -> result += toRussian(left, countLeft) + "тысяч "
-            1 -> result += toRussian(left, countLeft).dropLast(4) + "одна тысяча "
-            2 -> result += toRussian(left, countLeft).dropLast(3) + "две тысячи "
-            in 3..4 -> result += toRussian(left, countLeft) + " тысячи "
-            in 5..9 -> result += toRussian(left, countLeft) + " тысяч "
-        }
+        if ((left % 100 ) / 10 != 1)
+            when (left % 10)
+            {
+                0 -> result += toRussian(left, countLeft) + "тысяч "
+                1 -> result += toRussian(left, countLeft).dropLast(4) + "одна тысяча "
+                2 -> result += toRussian(left, countLeft).dropLast(3) + "две тысячи "
+                in 3..4 -> result += toRussian(left, countLeft) + " тысячи "
+                in 5..9 -> result += toRussian(left, countLeft) + " тысяч "
+            }
+        else
+            result += toRussian(left, countLeft) + " тысяч "
     }
     result += toRussian(right, countRight)
     return result.trim()

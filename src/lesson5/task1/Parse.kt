@@ -80,7 +80,7 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    if (digital.matches(Regex("""\d+\.\d+\.\d+"""))) {
+    if (digital.matches(Regex("""\d{2}\.\d{2}\.\d+"""))) {
         val parts = digital.split(".")
         if (parts[1].toInt() in 1..12 && parts[0].toInt() in 1..31) {
             val day = parts[0].toInt()
@@ -152,18 +152,12 @@ fun bestHighJump(jumps: String): Int {
     if (jumps.matches(Regex("""[\d\s+%\-]+"""))) {
         val parts = jumps.split(Regex("""[\s%\-]+"""))
         val listOfHits = mutableListOf<Int>()
-        var result = -1
         for (i in 0..parts.size - 1) {
             if (parts[i].matches(Regex("""\d+""")) && parts[i + 1].matches(Regex("""\+"""))) {
                 listOfHits.add(parts[i].toInt())
             }
         }
-        for (element in listOfHits) {
-            if (element >= result) {
-                result = element
-            }
-        }
-        return result
+        return listOfHits.max() ?: -1
     } else return -1
 }
 
@@ -177,23 +171,19 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val parts = expression.split(" ")
     var result = 0
-    var plusOrMinus = 1
-    for (i in 0..parts.size - 1) {
-        if (parts[i].matches(Regex("""\d+""")) || parts[i].matches(Regex("""\+|-"""))) {
-            if (i == 0) {
-                result += parts[i].toInt()
-            } else if (i % 2 == 0) {
-                result += parts[i].toInt() * plusOrMinus
-            } else if (i % 2 != 0) {
-                if (parts[i] == "-") plusOrMinus = -1
-                if (parts[i] == "+") plusOrMinus = 1
+    if (expression.matches(Regex("""[\d +-]+"""))) {
+        val parts = expression.split(" ")
+        for (i in 0..parts.size - 1) {
+            when {
+                i == 0 -> result += parts[i].toInt()
+                i % 2 != 0 -> {
+                    if (parts[i] == "-") result -= parts[i + 1].toInt()
+                    if (parts[i] == "+") result += parts[i + 1].toInt()
+                }
             }
-        } else {
-            throw IllegalArgumentException()
         }
-    }
+    } else throw IllegalArgumentException()
     return result
 }
 
@@ -228,31 +218,35 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val parts = description.split("; ")
     var maxPrice = 0.0
     var k = 0
     val pricesList = mutableListOf<Double>()
     val namesList = mutableListOf<String>()
     var toBreak = false
-    for (element in parts) {
-        if (element.matches(Regex("""(.+ \d+.\d+)|(.+ \d+)"""))) {
-            val list = element.split(" ")
-            namesList += list[0]
-            pricesList += list[1].toDouble()
-        } else {
-            toBreak = true
-        }
-    }
-    if (toBreak) return ""
-    else {
-        for (i in 0..pricesList.size - 1) {
-            if (pricesList[i] >= maxPrice && pricesList.size != 1) {
-                k = i
-                maxPrice = pricesList[i]
+    try {
+        val parts = description.split("; ")
+        for (element in parts) {
+            if (element.matches(Regex("""(.+ \d+.\d+)|(.+ \d+)"""))) {
+                val list = element.split(" ")
+                namesList += list[0]
+                pricesList += list[1].toDouble()
+            } else {
+                toBreak = true
             }
         }
-        return namesList[k]
+        if (toBreak) return ""
+        else {
+            for (i in 0..pricesList.size - 1) {
+                if (pricesList[i] >= maxPrice && pricesList.size != 1) {
+                    k = i
+                    maxPrice = pricesList[i]
+                }
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return ""
     }
+    return namesList[k]
 }
 
 /**
@@ -267,7 +261,7 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    if (roman.matches(Regex("""[MDCLXVI]+"""))){
+    if (roman.matches(Regex("""[MDCLXVI]+""")) || roman.isEmpty()) {
         val listOfArabic = mutableListOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
         val listOfRoman = mutableListOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
         val parts = roman.split("")
@@ -292,7 +286,7 @@ fun fromRoman(roman: String): Int {
         }
         return result
     } else
-        return - 1
+        return -1
 }
 
 /**

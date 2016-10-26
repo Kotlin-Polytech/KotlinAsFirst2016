@@ -62,9 +62,9 @@ fun digitNumber(n: Int): Int {
     var n1 = n
     var k = 0
     if (n == 0) return 1
-    while (n1 > 0) {
-        k = k + 1
-        n1 = n1 / 10
+    while (Math.abs(n1) > 0) {
+        k ++
+        n1 /= 10
     }
     return k
 }
@@ -78,8 +78,7 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var number = 1
     var number1 = 1
-    if (n == 1) return 1
-    if (n == 2) return 1
+    if (n <= 2) return 1
     for (i in 3..n) {
         var fibon = number + number1
         number = number1
@@ -94,15 +93,21 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+fun gcd (a: Int, b: Int): Int {
+    var a1 = a
+    var b1 = b
+    while (a1 != b1) {
+        if (a1 > b1) a1 -= b1
+        else b1 -= a1;
+    }
+    return a1;
+}
+
 fun lcm(m: Int, n: Int): Int {
     var n1 = n
     var m1 = m
     val prod = m1 * n1
-    while (m1 != n1) {
-        if (m1 > n1) m1 -= n1
-        else n1 -= m1
-    }
-    return prod / m1
+    return prod / gcd(m1,n1)
 }
 
 /**
@@ -136,18 +141,9 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun NOD(a: Int, b: Int): Int {
-    var a1 = a
-    var b1 = b
-    while (a1 != b1) {
-        if (a1 > b1) a1 -= b1
-        else b1 -= a1;
-    }
-    return a1;
-}
 
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (NOD(m, n) == 1) return true
+    if (gcd(m, n) == 1) return true
     else return false
 }
 
@@ -159,11 +155,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (j in 1..m) {
-        for (i in m..n) {
-            if (j * j == i) return true
+    if ((Math.abs(m)==1) && (Math.abs(n)==1)) return true
+    for (i in m..n) {
+            if ((Math.sqrt(i.toDouble()) % 1) == 0.0) return true
         }
-    }
     return false
 }
 
@@ -184,7 +179,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var f = x % (2 * Math.PI)
+    val f = x % (2 * Math.PI)
     var sum = 0.0
     var i = 0
     var n = 1
@@ -224,13 +219,8 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     var n2 = n
-    var a = 0
-    var n1 = n
-    while (n1 > 0) {
-        a = a * 10 + n1 % 10
-        n1 /= 10
-    }
-    if (n2 == a) return true
+    revert(n)
+    if (n2 == revert(n)) return true
     else return false
 }
 
@@ -259,15 +249,15 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun zap(n: Int): Int = n.toString().length
+fun length(n: Int): Int = n.toString().length
 
 fun squareSequenceDigit(n: Int): Int {
     var number = 0
     var result = 0
     var x = 0
     while (number < n) {
-        x += 1
-        number += zap(x * x)
+        x ++
+        number += length( x * x)
     }
     result = x * x
     (n..number - 1).forEach { x -> result /= 10 }
@@ -288,7 +278,7 @@ fun fibSequenceDigit(n: Int): Int {
     var x = 0
     while (number < n) {
         x += 1
-        number += zap(fib(x))
+        number += length(fib(x))
     }
     result = fib(x)
     (n..number - 1).forEach { x -> result /= 10 }

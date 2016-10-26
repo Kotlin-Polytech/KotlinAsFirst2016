@@ -213,7 +213,7 @@ fun factorize(n: Int): List<Int> {
                 break
             }
         }
-        if (number_is_prime(current_number)) {
+        if (number_is_prime(current_number) || current_number == 1) {
             prime_divisors_storage.add(current_number)
             break
         }
@@ -261,13 +261,13 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val digit_storage = convert(n, base)
-    var digit_line = ""
 
     if (n < 0 || base < 2 || base > 36) return ""
 
-    for (element in digit_storage) digit_line += if (element < 10) "$element" else "${('a' + element - 10).toChar()}"
-
-    return digit_line
+    return with(StringBuilder()) {
+        for (element in digit_storage) append(if (element < 10) "$element" else "${('a' + element - 10).toChar()}")
+        "$this"
+    }.toString()
 }
 
 /**

@@ -100,12 +100,9 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    val s_step = if (m > n) m else n
+fun gcb(m: Int, n: Int): Int = if(n == 0) m else gcb(n, m % n)
 
-    for (i in s_step..m * n step s_step) if (i % m == 0 && i % n == 0) return i
-    return m * n
-}
+fun lcm(m: Int, n: Int): Int = m / gcb(m, n) *  n
 
 /**
  * Простая
@@ -153,7 +150,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var i = 3
-    var total = x
+    var total = Math.abs( x % Math.PI )
     var part: Double
 
     while (true) {

@@ -67,10 +67,11 @@ fun timeForHalfWay(t1: Double, v1: Double, t2: Double, v2: Double, t3: Double, v
 
     // V T
 
-    if (half <= s1) return half / v1
-    else if (half > s1 && half <= s1 + s2) return t1 + ((half - s1) / v2)
-    else return t1 + t2 + (half - s1 - s2) / v3
-
+    return when {
+        (half <= s1) -> half / v1
+        (half > s1 && half <= s1 + s2) -> t1 + ((half - s1) / v2)
+        else -> t1 + t2 + (half - s1 - s2) / v3
+    }
 }
 
 /**

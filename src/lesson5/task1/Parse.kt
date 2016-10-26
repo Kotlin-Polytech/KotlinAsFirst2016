@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,38 +59,30 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+
 fun dateStrToDigit(str: String): String {
-    var numeric_date = ""
+    val month_name_storage = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val date_part_storage = str.split(" ")
-    if ( date_part_storage.size != 3 ) return ""
+    if (date_part_storage.size != 3) return ""
 
     try {
         date_part_storage[0].toInt()
         date_part_storage[2].toInt()
+    } catch(e: NumberFormatException) {
+        return ""
     }
-    catch(e: NumberFormatException) { return "" }
 
-    numeric_date += if(date_part_storage[0].length < 2 ) '0' + date_part_storage[0] else date_part_storage[0]
-    numeric_date += '.'
-    numeric_date += when {
-        date_part_storage[1] == "января" -> "01"
-        date_part_storage[1] == "февраля" -> "02"
-        date_part_storage[1] == "марта" -> "03"
-        date_part_storage[1] == "апреля" -> "04"
-        date_part_storage[1] == "мая" -> "05"
-        date_part_storage[1] == "июня" -> "06"
-        date_part_storage[1] == "июля" -> "07"
-        date_part_storage[1] == "августа" -> "08"
-        date_part_storage[1] == "сентября" -> "09"
-        date_part_storage[1] == "октября" -> "10"
-        date_part_storage[1] == "ноября" -> "11"
-        date_part_storage[1] == "декабря" -> "12"
-        else -> return ""
-    }
-    numeric_date += '.'
-    numeric_date += date_part_storage[2]
+    return with(StringBuilder()) {
+        append(if (date_part_storage[0].length < 2) '0' + date_part_storage[0] else date_part_storage[0])
+        append('.')
 
-    return numeric_date
+        val month_num = month_name_storage.indexOf(date_part_storage[1]) + 1
+        if (1 > month_num || month_num > 12) return ""
+        append(if (month_num < 10) "0" + month_num.toString() else month_num.toString())
+
+        append('.')
+        append(date_part_storage[2])
+    }.toString()
 }
 
 /**
@@ -116,18 +107,18 @@ fun dateDigitToStr(digital: String): String = TODO()
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var target = phone
+    val target = phone
     var index = 0
+    val allowed_symbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', ' ', '-', '(', ')')
 
-    while(index < target.length - 1) {
-        if(('0' > target[index] || target[index] > '9') && target[index] != ' ' && target[index] != '-' && target[index] != '+' && target[index] != '(' && target[index] != ')') return ""
-        else if(('0' > target[index] || target[index] > '9') && target[index] != '+') {
-            target = target.replace( target[index].toString(), "")
-            index = 0
-        }
+    while (index < target.length - 1) {
+        //if (('0' > target[index] || target[index] > '9') && target[index] != ' ' && target[index] != '-' && target[index] != '+' && target[index] != '(' && target[index] != ')') return ""
+        if (!allowed_symbols.contains(target[index]))
+            return ""
         else ++index
     }
-    return target
+
+    return target.filter { ('0' <= it && it <= '9') || it == '+' }
 }
 
 /**
@@ -142,16 +133,18 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     val jump_storage = jumps.split(" ")
-    val lucky_jump_storage = mutableListOf <Int> ()
+    val lucky_jump_storage = mutableListOf <Int>()
 
     try {
         for (element in jump_storage) if (element != "-" && element != "%") lucky_jump_storage.add(element.toInt())
+    } catch(e: NumberFormatException) {
+        return -1
     }
-    catch(e: NumberFormatException) {return -1}
 
-    if(lucky_jump_storage.isEmpty()) return -1
+    if (lucky_jump_storage.isEmpty()) return -1
     return lucky_jump_storage.sortedDescending()[0]
 }
+
 /**
  * Сложная
  *
@@ -164,29 +157,29 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int? {
     // Проверка на кривые символы
-    if(jumps.any{ ('0' > it || it > '9') && it != ' ' && it != '+' && it != '-' && it != '%'  } ) return -1
+    val allowed_symbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '+', '-', '%')
+    if (jumps.any { !allowed_symbols.contains(it) }) return -1
 
     val jump_storage = jumps.split(" ") // Разбиение на части
-    var attempt_storage = mutableListOf <String> ()
-    if(jump_storage.size % 2 == 1) return -1 // Проверка на парность.
+    val attempt_storage = mutableListOf <Int>()
+    if (jump_storage.isEmpty() || jump_storage.size % 2 == 1) return -1 // Проверка на парность.
 
-    // Формирование пар
-    for( i in 0 .. jump_storage.size - 1 step 2 ) {
-        if(jump_storage[i+1].any{ '0' <= it && it <= '9' }) return -1
-        attempt_storage.add( jump_storage[i] + ' ' + jump_storage[i+1] )
+    // Формирование списка из удачных попыток
+    for (i in 0..jump_storage.size - 1 step 2) {
+        if (jump_storage[i + 1].any { '0' <= it && it <= '9' })
+            return -1
+
+        try {
+            if (jump_storage[i + 1].any { it == '+' })
+                attempt_storage.add(jump_storage[i].toInt())
+        } catch (e: NumberFormatException) {
+            return -1
+        }
     }
-
-    // Отсечение неудачных и пропущенных попыток
-    attempt_storage = attempt_storage.filter{ it.any{ it == '+' } }.toMutableList()
-    // Отсечение вспомогательных символов
-    for((i, elem) in attempt_storage.withIndex()) attempt_storage[i] = attempt_storage[i].filter{ '0' <= it && it <= '9' }.toString()
-    if(attempt_storage.isEmpty()) return -1
+    if (attempt_storage.isEmpty()) return -1
 
     // Выбор максимального значения
-    try {
-        return attempt_storage.map { it.toInt() }.max()
-    }
-    catch (e: NumberFormatException) {return -1}
+    return attempt_storage.max()
 }
 
 /**

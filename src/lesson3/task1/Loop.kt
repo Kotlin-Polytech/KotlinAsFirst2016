@@ -1,6 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import com.sun.xml.internal.ws.runtime.config.TubelineFeatureReader
+import java.lang.Math.*
+import kotlin.concurrent.timer
+
 /**
  * Пример
  *
@@ -57,7 +61,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int{
+    var i=0
+    var x=Math.abs(n)
+    if(x==0) return 1
+    else while (x>0) {
+        x/=10
+        i++
+    }
+    return i
+}
 
 /**
  * Простая
@@ -65,7 +78,22 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var n1=2
+    var x1=1
+    var x2=1
+    var x=1
+    if(n==1||n==2){
+        return x2
+    }
+    else while(n1!=n){
+        x = x1 + x2
+        x1 = x2
+        x2 = x
+        n1++
+    }
+        return x
+}
 
 /**
  * Простая
@@ -73,21 +101,52 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var n1=n
+    var m1=m
+    while (m1!=n1){
+        if(m1>n1){
+            m1-=n1
+        }
+        if(m1<n1){
+            n1-=m1
+        }
+    }
+    val k=m*n/n1
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var x=2
+    var t=1
+    while(t!=0){
+        t=n%x
+        x++
+    }
+    x--
+    return x
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var x=n-1
+    var t=1
+    while(t!=0){
+        t=n%x
+        x--
+    }
+    x++
+    return x
+}
 
 /**
  * Простая
@@ -96,7 +155,20 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var m1=m
+    var n1=n
+    while (m1!=n1){
+        if(m1>n1){
+            m1-=n1
+        }
+        if(m1<n1){
+            n1-=m1
+        }
+    }
+    val x= n1==1
+    return x
+}
 
 /**
  * Простая
@@ -105,7 +177,14 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var k=1
+    while(k*k<=n){
+        if(k*k>=m) return true
+        k++
+    }
+    return false
+}
 
 /**
  * Простая
@@ -131,7 +210,23 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var count=1
+    var n1=n
+    while(n1>=10)
+    {
+        count++
+        n1=n1/10
+    }
+    var t=0
+    var nn=0
+    while(count!=0){
+        nn=n/pow(10.0,(count*1.0-1)).toInt()%10*pow(10.0,t*1.0).toInt()+nn
+        t++
+        count--
+    }
+    return nn
+}
 
 /**
  * Средняя
@@ -157,7 +252,28 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int{
+    var x=1
+    var m=1
+    var t:Int
+    var l=n
+    var count=1
+    while(l>0){
+        m=x*x
+        t=m
+        while(t>=10)
+        {
+            count++
+            t/=10
+        }
+        l-=count
+        count=1
+        x++
+    }
+    l=Math.abs(l)
+    m=m/pow(10.0,l*1.0).toInt()%10
+    return m
+}
 
 /**
  * Сложная

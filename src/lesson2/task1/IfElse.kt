@@ -91,13 +91,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int
 {
-    if (((c*c + b*b) > a*a) || ((a*a +b*b) > c*c) || ((a*a + c*c) > b*b))
+    if (((c*c + b*b) > a*a) || (((a*a +b*b) > c*c) || ((a*a + c*c) > b*b)))
     {return 0}
 
-    else if (((c*c + b*b) < a*a) || ((a*a + b*b) < c*c) || ((a*a + c*c) < b*b))
+    else if (((c*c + b*b) < a*a) || (((a*a + b*b) < c*c) || ((a*a + c*c) < b*b)))
     {return 2}
 
-    else if (((c*c + b*b) == a*a) || ((a*a + b*b) == c*c) || ((a*a + c*c) == b*b))
+    else if (((c*c + b*b) == a*a) || (((a*a + b*b) == c*c) || ((a*a + c*c) == b*b)))
     {return 1}
     else
     {return -1}

@@ -120,14 +120,27 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for ( i in 2..n/2 ) {
+        if ( n % i == 0 )
+            return i
+    }
+    return n
+
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for ( i in n - 1 downTo 1 )
+        if (( n % i ) == 0 )
+            return i
+    return n
+
+}
 
 /**
  * Простая
@@ -173,6 +186,8 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int = TODO()
 
+
+
 /**
  * Средняя
  *
@@ -197,7 +212,20 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var square = 0
+    var sum = 0
+    var count = 1
+    var number = 0.0
+    while (sum < n) {
+        square = count * count
+        count++
+        sum += digitNumber(square)
+    }
+    count = sum - n
+    number = square.toDouble()/Math.pow(10.0, (count).toDouble())
+    return number.toInt() % 10
+}
 
 /**
  * Сложная

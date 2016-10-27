@@ -137,7 +137,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -174,14 +174,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var k = pow(10, digitNumber(n) - 1)
-    var revertNumber = 0
+    var revertedNumber = 0
     var number = n
     while (k > 0) {
-        revertNumber = revertNumber + k * (number % 10)
+        revertedNumber = revertedNumber + k * (number % 10)
         number = number / 10
         k = k / 10
     }
-    return revertNumber
+    return revertedNumber
 }
 
 /**
@@ -244,8 +244,5 @@ fun fibSequenceDigit(n: Int): Int {
         sum = sum + digitNumber(fibn)
     }
     count = sum - n
-    if (count != 0) {
-        number = fibn / pow(10, count)
-        return number % 10
-    } else return fibn % 10
+    return fibn / pow(10, count) % 10
 }

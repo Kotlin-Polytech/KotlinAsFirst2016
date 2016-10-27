@@ -249,6 +249,7 @@ fun fibSequenceDigit(n: Int): Int {
     var count = 0
     var help1 = 1
     var help2 = 1
+
     for (i in 1..n) {
         if (i > 2) {
             k = (help1 + help2).toString()

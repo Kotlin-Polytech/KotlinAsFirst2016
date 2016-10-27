@@ -263,6 +263,7 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var max = 0.0
     var mostExpensive = ""
+
     if (description.contains(Regex("""[^\W\d\s;.]"""))||description=="") return ""
     val groups = description.split(";")
     for (i in 0..groups.size - 1) {

@@ -232,7 +232,22 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var z = listOf<Int>()
+    var x = listOf<Int>()
+    var i = 0
+    var number = n
+    val y = base
+    while (number>y) {
+        x += number % y
+        i++
+        number /= y
+
+    }
+    x += number
+        z = x.reversed()
+    return z
+}
 
 /**
  * Сложная
@@ -242,7 +257,19 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val list = convert(n, base)
+    var Result = listOf<Any>()
+    for (i in 0..list.size - 1) {
+        if (list[i] >= 10) {
+            Result += 'a' + (list[i] - 10)
+    } else
+            Result += list[i].toString()
+            }
+    return Result.joinToString(separator = "")
+    }
+
+
 
 /**
  * Средняя
@@ -282,3 +309,4 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+

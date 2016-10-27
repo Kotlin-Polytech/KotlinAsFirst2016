@@ -63,7 +63,7 @@ fun digitNumber(n: Int): Int {
     do {
         x+=1
         N /= 10
-    } while (N>0)
+    } while (Math.abs(N)>0)
     return x
 
 }
@@ -182,17 +182,19 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
         var N = 0
-        var x = 0
-        val answer: Int
-        while (N < n) {
-            x += 1
+        var x = 1
+        var answer = 0
+        while (N != n) {
             N += digitNumber(x * x)
+            answer = x*x
+            x+=1
+            while (n<N) {
+                N -= 1
+                answer /=10
+            }
         }
-        if (n == N) answer = (x * x) % 10
-        else {
-            val k = pow(10, (N - n))
-            answer = ((x * x) / k) % 10
-        }
+        answer %= 10
+
 return answer
 }
 
@@ -207,19 +209,15 @@ return answer
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var number=0                     //Кол-во символов
-    var i=1                          // i-тое число фибоначи
-    var answer = 1                   // Ответ
-    while(number!=n){
-            answer = fib(i)
-            number+=digitNumber(answer)
-            while(n<number) {
-                    answer/= 10
-                    number-=1
-                }
-           i+=1
-}
-    return answer%10
+    var string = "1"
+    var number = 2
+    var length = 0
+    while (length + string.length < n) {
+        length += string.length
+        string = fib(number).toString()
+        number += 1
+    }
+    return (string[n - length - 1] - '0').toInt()
 }
 
 

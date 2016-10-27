@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
+
 /**
  * Пример
  *
@@ -83,17 +85,24 @@ fun fib(n: Int): Int = when {
 }
 
 /**
+ * Функция для нахождения НОД чисел m и n по алгоритму Евклида
+ */
+fun NOD(m: Int, n: Int): Int {
+    var digit1 = m
+    var digit2 = n
+    while (digit1 != 0 && digit2 != 0)
+        if (digit1 > digit2) digit1 %= digit2
+        else digit2 %= digit1
+    return digit1 + digit2
+}
+
+/**
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    for (i in Math.max(m, n)..m * n - 1) {
-        if (i % m == 0 && i % n == 0) return i
-    }
-    return m * n
-}
+fun lcm(m: Int, n: Int): Int = m * n / (NOD(m, n))
 
 /**
  * Простая
@@ -157,12 +166,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var result = 0.0
-    var currentmember = eps + 1.0
+    var currentMember = eps
     var count = 1
-    while (Math.abs(currentmember) > eps) {
-        if ((count + 1) % 4 == 0) currentmember = -Math.pow(x, count.toDouble()) / factorial(count)
-        else currentmember = Math.pow(x, count.toDouble()) / factorial(count)
-        result += currentmember
+    while (Math.abs(currentMember) >= eps) {
+        if ((count + 1) % 4 == 0) currentMember = -Math.pow(x, count.toDouble()) / factorial(count)
+        else currentMember = Math.pow(x, count.toDouble()) / factorial(count)
+        result += currentMember
         count += 2
     }
     return result
@@ -188,11 +197,11 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun revert(n: Int): Int {
     var number = 0
-    var entnumber = n
-    while (entnumber > 0) {
+    var enteredNumber = n
+    while (enteredNumber > 0) {
         number *= 10
-        number += entnumber % 10
-        entnumber /= 10
+        number += enteredNumber % 10
+        enteredNumber /= 10
     }
     return number
 }
@@ -214,12 +223,11 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     if (n < 10) return false
-    var digit = n % 10
+    val digit = n % 10
     var number = n / 10
     while (number > 0) {
         if (digit != number % 10) return true
         else {
-            digit = n % 10
             number /= 10
         }
     }
@@ -233,7 +241,17 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var currentDigit = 1
+    var count = 1
+    while (count < n) {
+        currentDigit += 1
+        count += digitNumber(currentDigit * currentDigit)
+    }
+    if (count > n) currentDigit = (currentDigit * currentDigit) / Math.pow(10.0, (count - n).toDouble()).toInt()
+    else currentDigit *= currentDigit
+    return currentDigit % 10
+}
 
 /**
  * Сложная
@@ -242,4 +260,14 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int  {
+    var currentDigit = 1
+    var count = 1
+    while (count < n) {
+        currentDigit += 1
+        count += digitNumber(fib(currentDigit))
+    }
+    if (count > n) currentDigit = fib(currentDigit) / Math.pow(10.0, (count - n).toDouble()).toInt()
+    else currentDigit = fib(currentDigit)
+    return currentDigit % 10
+}

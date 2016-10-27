@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -52,16 +53,16 @@ fun wew(args: Array<String>) {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    val h=hours*3600
-    val m=minutes*60
-    val s=seconds
-    return h+m+s
-}
-fun main(args: Array<String>) {
-    val result = seconds(8,20,35)
-    println("Result: $result")
+    val h = hours * 3600
+    val m = minutes * 60
+    val s = seconds
+    return h + m + s
 }
 
+fun main(args: Array<String>) {
+    val result = seconds(8, 20, 35)
+    println("Result: $result")
+}
 
 
 /**
@@ -72,10 +73,10 @@ fun main(args: Array<String>) {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val s=sagenes*48*4.445
-    val a=arshins*16*4.445
-    val v=vershoks*4.445
-    return ((s+a+v)/100)
+    val s = sagenes * 48 * 4.445
+    val a = arshins * 16 * 4.445
+    val v = vershoks * 4.445
+    return ((s + a + v) / 100)
 }
 
 /**
@@ -85,10 +86,10 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val g=grad*(PI/180)
-    val m=min*(PI/(180*60))
-    val s=sec*(PI/(180*60*60))
-    return g+m+s
+    val g = grad * (PI / 180)
+    val m = min * (PI / (180 * 60))
+    val s = sec * (PI / (180 * 60 * 60))
+    return g + m + s
 }
 
 /**
@@ -97,7 +98,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((sqr(x2-x1)+(sqr(y2-y1))))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((sqr(x2 - x1) + (sqr(y2 - y1))))
 
 /**
  * Простая
@@ -105,7 +106,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int =TODO()
+fun thirdDigit(number: Int): Int = TODO()
 
 /**
  * Простая
@@ -132,8 +133,8 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val s=(number/100)
-    val d=((number/10)%10)
-    val i=(number%10)
-    return i*100+d*10+s
+    val s = (number / 100)
+    val d = ((number / 10) % 10)
+    val i = (number % 10)
+    return i * 100 + d * 10 + s
 }

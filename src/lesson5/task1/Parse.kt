@@ -175,7 +175,7 @@ fun bestHighJump(jumps: String): Int {
         val jumpsList = jumps.split(" ")
         val jumpsInt = jumpsList.filterIndexed { i, s -> i % 2 == 0 }.map(String::toInt)
         val jumpsSymb = jumpsList.filterIndexed { i, s -> i % 2 != 0 }
-        return jumpsInt.zip(jumpsSymb).toMap().toSortedMap(Comparator { o1, o2 -> o2 - o1 }).filter{it.value.matches(Regex(".*[+]+.*"))}.keys.firstOrNull() ?: -1
+        return jumpsInt.zip(jumpsSymb).toMap().toSortedMap(Comparator { o1, o2 -> o2 - o1 }).filter { it.value.matches(Regex(".*[+]+.*")) }.keys.firstOrNull() ?: -1
 
     } catch (e: IllegalArgumentException) {
         return -1
@@ -189,10 +189,28 @@ fun bestHighJump(jumps: String): Int {
  * В строке представлено выражение вида "2 + 31 - 40 + 13",
  * использующее целые положительные числа, плюсы и минусы, разделённые пробелами.
  * Наличие двух знаков подряд "13 + + 10" или двух чисел подряд "1 2" не допускается.
- * Вернуть значение выражения (6 для примера).
+ * Вернуть значение выраж5ения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val pattern = Regex("^\\d+(\\s[+-]\\s)(\\d+\\s[+-]\\s)*\\d+$")
+    if (expression.matches(Regex("\\d"))) return expression.toInt()
+    if (!(expression.matches(pattern))) throw IllegalArgumentException()
+    val digitsAndSymbols = expression.split(" ")
+    val digits = digitsAndSymbols.filter { it.matches(Regex("[\\d]+")) }
+    val symbols = listOf<String>("+").plus(digitsAndSymbols.filter { it.matches(Regex("[+-]")) })
+    var k = 0
+    var sum = 0
+    for (i in digits) {
+        when {
+            symbols[k] == "+" -> sum += i.toInt()
+            symbols [k] == "-" -> sum -= i.toInt()
+            else -> throw IllegalArgumentException()
+        }
+        k++
+    }
+    return sum
+}
 
 /**
  * Сложная

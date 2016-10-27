@@ -135,15 +135,15 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val r = mutableListOf<Double>()
     if (list.isEmpty()) return mutableListOf()
     else {
-        val t = list.sum() / list.size * 1.0
-        for (element in list) {
-            val x = element - t
-            r.add(x)
+        var m=0
+        val x=list.sum() / list.size
+        while (m in 0..list.size-1) {
+            list[m]-=x
+            m++
         }
-        return r
+        return list
     }
 }
 
@@ -189,13 +189,14 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    val r = mutableListOf<Double>()
     var t = 0.0
-    for (element in list) {
-        t += element
-        r.add(t)
+    var i=0
+    while(i in 0..list.size-1) {
+        t +=list[i]
+        list[i]=t
+        i++
     }
-    return r
+    return list
 
 }
 
@@ -259,7 +260,7 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     val x = mutableListOf<Int>()
     var b = n
-    if (n==0) return listOf(0)
+    if (n == 0) return listOf(0)
     while (b > 0) {
         x.add(b % base)
         b /= base

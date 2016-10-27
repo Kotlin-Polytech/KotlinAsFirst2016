@@ -98,7 +98,6 @@ fun dateDigitToStr(digital: String): String {
             return ""
         }
     }
-
 /**
  * Сложная
  *

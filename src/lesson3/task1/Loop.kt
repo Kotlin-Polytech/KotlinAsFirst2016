@@ -14,6 +14,19 @@ fun powInt (a: Int , b:Int): Int {
 
     return result
 }
+
+fun intPow (a: Int, b:Int): Int {
+    var x = a
+    var y = b
+    var br = 1
+    while (y>0) {
+        y -= 1
+        br *= x
+    }
+    return br
+}
+
+
 /**
  * Пример
  *
@@ -239,12 +252,12 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var  i = 0
+    var i = 0
     var beforeN = 0
     while (beforeN < n) {
         i += 1
-        beforeN += digitNumber (fib(i))
+        beforeN += digitNumber(fib(i))
     }
-    if (beforeN == n) return (fib(i))%10
-    else return ((fib(i) / powInt(10, beforeN - n)%10))
+    if (beforeN == n) return (fib(i)) % 10
+    else return ((fib(i) / powInt(10, beforeN - n) % 10))
 }

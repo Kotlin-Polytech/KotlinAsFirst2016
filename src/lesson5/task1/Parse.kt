@@ -60,20 +60,18 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val MonthNames = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентярбря", "октября", "ноября", "декабря")
+    val MonthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентярбря", "октября", "ноября", "декабря")
     val parts = str.split(" ")
-    if (parts.size == 3) {
-        try {
-            val NumOfMonth = MonthNames.indexOf(parts[1]) + 1
-            if (NumOfMonth == 0)
-                return ""
-            else
-                return "${twoDigitStr(parts[0].toInt())}.${twoDigitStr(NumOfMonth)}.${parts[2].toInt()}"
-        } catch (e: NumberFormatException) {
-            return ""
-        }
-    } else
+    try {
+        val NumOfDay = parts[0].toInt()
+        val NumOfMonth = MonthNames.indexOf(parts[1]) + 1
+        val NumOfYear = parts[2].toInt()
+        if ((parts.size != 3) || (NumOfDay !in 1..31) || (NumOfMonth == 0)) return ""
+        else
+            return String.format("%02d.%02d.%d", NumOfDay, NumOfMonth, NumOfYear)
+    } catch (e: Exception) {
         return ""
+    }
 }
 
 /**
@@ -83,7 +81,20 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val MonthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентярбря", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    try {
+        val NumOfDay = parts[0].toInt()
+        val NumOfMonth = MonthNames[parts[1].toInt() - 1]
+        val NumOfYear = parts[2].toInt()
+        if ((NumOfDay !in 1..31) || (parts.size != 3)) return ""
+        else
+            return String.format("%d %s %d", NumOfDay, NumOfMonth, NumOfYear)
+    } catch(e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Сложная

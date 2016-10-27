@@ -319,81 +319,24 @@ fun decimalFromString(str: String, base: Int): Int {
  * Римские цифры: 1 = I, 4 = IV, 5 = V, 9 = IX, 10 = X, 40 = XL, 50 = L,
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
+ *
  */
+val UNITS1_LIST = listOf<String>("", "I", "II", "III", "VI", "V", "IV", "IIV", "IIIV", "XI")
+val DOZENS1_LIST = listOf<String>("", "X", "XX", "XXX", "LX", "L", "XL", "XXL", "XXXL", "CX")
+val HUNDREDS1_LIST = listOf<String>("", "C", "CC", "CCC", "DC", "D", "CD", "CCD", "CCCD", "MC")
 fun roman(n: Int): String {
     var result: String = ""
-    var nn = n
-    var thousands = 0
-    var hundreds = 0
-    var dozens = 0
-    var units = 0
-
-    while (nn >= 1) {
-        if (nn > 1000) {
-            thousands = nn / 1000
-            nn = nn % 1000
-
-
-        }
-        if ((nn < 1000) && (nn >= 100)) {
-            while (nn >= 100) {
-                hundreds = nn / 100
-                nn = nn % 100
-            }
-        }
-        if ((nn < 100) && (nn >= 10)) {
-            while (nn >= 10) {
-                dozens = nn / 10
-                nn = nn % 10
-
-            }
-        }
-        if (nn < 10) {
-            units = nn
-            nn = 0
-
-        }
-
-
+    var result2: String = ""
+    var n2 = n
+    for (i in 1..n / 1000) {
+        result += "M"
+        n2 -= 1000  //убирает из числа все тысячи, вместо них выводит M//
     }
-    while (thousands > 0) {
-        result += ("M")
-        thousands --
-    }
-    when {
-        (hundreds == 1) -> result += ("C")
-        (hundreds == 2) -> result += ("CC")
-        (hundreds == 3) -> result += ("CCC")
-        (hundreds == 4) -> result += ("CD")
-        (hundreds == 5) -> result += ("D")
-        (hundreds == 6) -> result += ("DC")
-        (hundreds == 7) -> result += ("DCC")
-        (hundreds == 8) -> result += ("DCCC")
-        (hundreds == 9) -> result += ("CM")
-    }
-    when {
-        (dozens == 1) -> result += ("X")
-        (dozens == 2) -> result += ("XX")
-        (dozens == 3) -> result += ("XXX")
-        (dozens == 4) -> result += ("XL")
-        (dozens == 5) -> result += ("L")
-        (dozens == 6) -> result += ("LX")
-        (dozens == 7) -> result += ("LXX")
-        (dozens == 8) -> result += ("LXXX")
-        (dozens == 9) -> result += ("XC")
-    }
-    when {
-        (units == 1) -> result += ("I")
-        (units == 2) -> result += ("II")
-        (units == 3) -> result += ("III")
-        (units == 4) -> result += ("IV")
-        (units == 5) -> result += ("V")
-        (units == 6) -> result += ("VI")
-        (units == 7) -> result += ("VII")
-        (units == 8) -> result += ("VIII")
-        (units == 9) -> result += ("IX")
-    }
-    return result
+    val n3 = n2.toString().reversed() //в n3 лежит изначально введенное число без тысяч, переведенное в строку и перевернутое//
+    if (n3.length >= 1) result2 += UNITS1_LIST[n3[0].toString().toInt()] //если число без тысяч != 0, то берем последнюю цифру, записываем римскими/
+    if (n3.length >= 2) result2 += DOZENS1_LIST[n3[1].toString().toInt()]//если в числе без тысяч есть десятки, то зайдет сюда и запишет римскими//
+    if (n3.length >= 3) result2 += HUNDREDS1_LIST[n3[2].toString().toInt()]//если есть и сотни, то тоже запишет римскими//
+    return result + result2.reversed()//так как чтобы точно быть уверенными, что десятки, единицы или сотни есть, мы переворачивали число, то при выводе необходимо перевернуть его обратно//
 }
 
 /**
@@ -403,6 +346,11 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+val UNITS_LIST = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val THOUSANDS_LIST = listOf("одна", "две")
+val DOSENS1_LIST = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+val DOSENS_LIST = listOf("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+val HUNDREDS_LIST = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
 fun russian(n: Int): String {
     var result: String = ""
     var thousands100 = 0
@@ -436,53 +384,53 @@ fun russian(n: Int): String {
         }
         if (nn < 10)
             units = nn
-            nn = -1
+        nn = -1
 
 
     }
     when {
-        (thousands100 == 1) -> result += "сто"
-        (thousands100 == 2) -> result += "двести"
-        (thousands100 == 3) -> result += "триста"
-        (thousands100 == 4) -> result += "четыреста"
-        (thousands100 == 5) -> result += "пятьсот"
-        (thousands100 == 6) -> result += "шестьсот"
-        (thousands100 == 7) -> result += "семьсот"
-        (thousands100 == 8) -> result += "восемьсот"
-        (thousands100 == 9) -> result += "девятьсот"
+        (thousands100 == 1) -> result += HUNDREDS_LIST[0]
+        (thousands100 == 2) -> result += HUNDREDS_LIST[1]
+        (thousands100 == 3) -> result += HUNDREDS_LIST[2]
+        (thousands100 == 4) -> result += HUNDREDS_LIST[3]
+        (thousands100 == 5) -> result += HUNDREDS_LIST[4]
+        (thousands100 == 6) -> result += HUNDREDS_LIST[5]
+        (thousands100 == 7) -> result += HUNDREDS_LIST[6]
+        (thousands100 == 8) -> result += HUNDREDS_LIST[7]
+        (thousands100 == 9) -> result += HUNDREDS_LIST[8]
     }
     if ((thousands10 != 0) && (thousands100 != 0)) result += " "
     when {
-        ((thousands10 == 1) && (thousands == 0)) -> result += "десять"
-        ((thousands10 == 1) && (thousands == 1)) -> result += "одиннадцать"
-        ((thousands10 == 1) && (thousands == 2)) -> result += "двенадцать"
-        ((thousands10 == 1) && (thousands == 3)) -> result += "тринадцать"
-        ((thousands10 == 1) && (thousands == 4)) -> result += "четырнадцать"
-        ((thousands10 == 1) && (thousands == 5)) -> result += "пятнадцать"
-        ((thousands10 == 1) && (thousands == 6)) -> result += "шестнадцать"
-        ((thousands10 == 1) && (thousands == 7)) -> result += "семнадцать"
-        ((thousands10 == 1) && (thousands == 8)) -> result += "восемнадцать"
-        ((thousands10 == 1) && (thousands == 9)) -> result += "девятнадцать"
-        (thousands10 == 2) -> result += "двадцать"
-        (thousands10 == 3) -> result += "тридцать"
-        (thousands10 == 4) -> result += "сорок"
-        (thousands10 == 5) -> result += "пятьдесят"
-        (thousands10 == 6) -> result += "шестьдесят"
-        (thousands10 == 7) -> result += "семьдесят"
-        (thousands10 == 8) -> result += "восемьдесят"
-        (thousands10 == 9) -> result += "девяносто"
+        ((thousands10 == 1) && (thousands == 0)) -> result += DOSENS1_LIST[0]
+        ((thousands10 == 1) && (thousands == 1)) -> result += DOSENS1_LIST[1]
+        ((thousands10 == 1) && (thousands == 2)) -> result += DOSENS1_LIST[2]
+        ((thousands10 == 1) && (thousands == 3)) -> result += DOSENS1_LIST[3]
+        ((thousands10 == 1) && (thousands == 4)) -> result += DOSENS1_LIST[4]
+        ((thousands10 == 1) && (thousands == 5)) -> result += DOSENS1_LIST[5]
+        ((thousands10 == 1) && (thousands == 6)) -> result += DOSENS1_LIST[6]
+        ((thousands10 == 1) && (thousands == 7)) -> result += DOSENS1_LIST[7]
+        ((thousands10 == 1) && (thousands == 8)) -> result += DOSENS1_LIST[8]
+        ((thousands10 == 1) && (thousands == 9)) -> result += DOSENS1_LIST[9]
+        (thousands10 == 2) -> result += DOSENS_LIST[0]
+        (thousands10 == 3) -> result += DOSENS_LIST[1]
+        (thousands10 == 4) -> result += DOSENS_LIST[2]
+        (thousands10 == 5) -> result += DOSENS_LIST[3]
+        (thousands10 == 6) -> result += DOSENS_LIST[4]
+        (thousands10 == 7) -> result += DOSENS_LIST[5]
+        (thousands10 == 8) -> result += DOSENS_LIST[6]
+        (thousands10 == 9) -> result += DOSENS_LIST[7]
     }
     if ((thousands != 0) && (thousands10 != 1) && ((thousands100 != 0) || (thousands10 != 0))) result += " "
     when {
-        ((thousands10 != 1) && (thousands == 1)) -> result += "одна"
-        ((thousands10 != 1) && (thousands == 2)) -> result += "две"
-        ((thousands10 != 1) && (thousands == 3)) -> result += "три"
-        ((thousands10 != 1) && (thousands == 4)) -> result += "четыре"
-        ((thousands10 != 1) && (thousands == 5)) -> result += "пять"
-        ((thousands10 != 1) && (thousands == 6)) -> result += "шесть"
-        ((thousands10 != 1) && (thousands == 7)) -> result += "семь"
-        ((thousands10 != 1) && (thousands == 8)) -> result += "восемь"
-        ((thousands10 != 1) && (thousands == 9)) -> result += "девять"
+        ((thousands10 != 1) && (thousands == 1)) -> result += THOUSANDS_LIST[0]
+        ((thousands10 != 1) && (thousands == 2)) -> result += THOUSANDS_LIST[1]
+        ((thousands10 != 1) && (thousands == 3)) -> result += UNITS_LIST[2]
+        ((thousands10 != 1) && (thousands == 4)) -> result += UNITS_LIST[3]
+        ((thousands10 != 1) && (thousands == 5)) -> result += UNITS_LIST[4]
+        ((thousands10 != 1) && (thousands == 6)) -> result += UNITS_LIST[5]
+        ((thousands10 != 1) && (thousands == 7)) -> result += UNITS_LIST[6]
+        ((thousands10 != 1) && (thousands == 8)) -> result += UNITS_LIST[7]
+        ((thousands10 != 1) && (thousands == 9)) -> result += UNITS_LIST[8]
     }
     if ((thousands100 != 0) || (thousands10 != 0) || (thousands != 0)) {
         if (thousands == 1) {
@@ -495,48 +443,48 @@ fun russian(n: Int): String {
     }
     if ((hundreds != 0) && ((thousands != 0) || (thousands100 != 0) || (thousands10 != 0))) result += " "
     when {
-        (hundreds == 1) -> result += "сто"
-        (hundreds == 2) -> result += "двести"
-        (hundreds == 3) -> result += "триста"
-        (hundreds == 4) -> result += "четыреста"
-        (hundreds == 5) -> result += "пятьсот"
-        (hundreds == 6) -> result += "шестьсот"
-        (hundreds == 7) -> result += "семьсот"
-        (hundreds == 8) -> result += "восемьсот"
-        (hundreds == 9) -> result += "девятьсот"
+        (hundreds == 1) -> result += HUNDREDS_LIST[0]
+        (hundreds == 2) -> result += HUNDREDS_LIST[1]
+        (hundreds == 3) -> result += HUNDREDS_LIST[2]
+        (hundreds == 4) -> result += HUNDREDS_LIST[3]
+        (hundreds == 5) -> result += HUNDREDS_LIST[4]
+        (hundreds == 6) -> result += HUNDREDS_LIST[5]
+        (hundreds == 7) -> result += HUNDREDS_LIST[6]
+        (hundreds == 8) -> result += HUNDREDS_LIST[7]
+        (hundreds == 9) -> result += HUNDREDS_LIST[8]
     }
     if ((dozens != 0) && ((hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0))) result += " "
     when {
-        ((dozens == 1) && (units == 0)) -> result += "десять"
-        ((dozens == 1) && (units == 1)) -> result += "одиннадцать"
-        ((dozens == 1) && (units == 2)) -> result += "двенадцать"
-        ((dozens == 1) && (units == 3)) -> result += "тринадцать"
-        ((dozens == 1) && (units == 4)) -> result += "четырнадцать"
-        ((dozens == 1) && (units == 5)) -> result += "пятнадцать"
-        ((dozens == 1) && (units == 6)) -> result += "шестнадцать"
-        ((dozens == 1) && (units == 7)) -> result += "семнадцать"
-        ((dozens == 1) && (units == 8)) -> result += "восемнадцать"
-        ((dozens == 1) && (units == 9)) -> result += "девятнадцать"
-        (dozens == 2) -> result += "двадцать"
-        (dozens == 3) -> result += "тридцать"
-        (dozens == 4) -> result += "сорок"
-        (dozens == 5) -> result += "пятьдесят"
-        (dozens == 6) -> result += "шестьдесят"
-        (dozens == 7) -> result += "семьдесят"
-        (dozens == 8) -> result += "восемьдесят"
-        (dozens == 9) -> result += "девяносто"
+        ((dozens == 1) && (units == 0)) -> result += DOSENS1_LIST[0]
+        ((dozens == 1) && (units == 1)) -> result += DOSENS1_LIST[1]
+        ((dozens == 1) && (units == 2)) -> result += DOSENS1_LIST[2]
+        ((dozens == 1) && (units == 3)) -> result += DOSENS1_LIST[3]
+        ((dozens == 1) && (units == 4)) -> result += DOSENS1_LIST[4]
+        ((dozens == 1) && (units == 5)) -> result += DOSENS1_LIST[5]
+        ((dozens == 1) && (units == 6)) -> result += DOSENS1_LIST[6]
+        ((dozens == 1) && (units == 7)) -> result += DOSENS1_LIST[7]
+        ((dozens == 1) && (units == 8)) -> result += DOSENS1_LIST[8]
+        ((dozens == 1) && (units == 9)) -> result += DOSENS1_LIST[9]
+        (dozens == 2) -> result += DOSENS_LIST[0]
+        (dozens == 3) -> result += DOSENS_LIST[1]
+        (dozens == 4) -> result += DOSENS_LIST[2]
+        (dozens == 5) -> result += DOSENS_LIST[3]
+        (dozens == 6) -> result += DOSENS_LIST[4]
+        (dozens == 7) -> result += DOSENS_LIST[5]
+        (dozens == 8) -> result += DOSENS_LIST[6]
+        (dozens == 9) -> result += DOSENS_LIST[7]
     }
     if ((units != 0) && (dozens != 1) && ((dozens != 0) || (hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0))) result += " "
     when {
-        ((dozens != 1) && (units == 1)) -> result += "один"
-        ((dozens != 1) && (units == 2)) -> result += "два"
-        ((dozens != 1) && (units == 3)) -> result += "три"
-        ((dozens != 1) && (units == 4)) -> result += "четыре"
-        ((dozens != 1) && (units == 5)) -> result += "пять"
-        ((dozens != 1) && (units == 6)) -> result += "шесть"
-        ((dozens != 1) && (units == 7)) -> result += "семь"
-        ((dozens != 1) && (units == 8)) -> result += "восемь"
-        ((dozens != 1) && (units == 9)) -> result += "девять"
+        ((dozens != 1) && (units == 1)) -> result += UNITS_LIST[0]
+        ((dozens != 1) && (units == 2)) -> result += UNITS_LIST[1]
+        ((dozens != 1) && (units == 3)) -> result += UNITS_LIST[2]
+        ((dozens != 1) && (units == 4)) -> result += UNITS_LIST[3]
+        ((dozens != 1) && (units == 5)) -> result += UNITS_LIST[4]
+        ((dozens != 1) && (units == 6)) -> result += UNITS_LIST[5]
+        ((dozens != 1) && (units == 7)) -> result += UNITS_LIST[6]
+        ((dozens != 1) && (units == 8)) -> result += UNITS_LIST[7]
+        ((dozens != 1) && (units == 9)) -> result += UNITS_LIST[8]
     }
 
     return result

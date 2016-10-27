@@ -263,14 +263,19 @@ fun squareSequenceDigit(n: Int): Int {
 //Kotlin-Polytech-Bot фейлит один из тестов, ибо тот не проходится за 10 сек.
 //Через добавленный AssertEquals для значений зафейленного теста прога проходит за 21 сек.
 //Как можно ускорить работу?
+//UPD:Всё, вроде придумал
 fun fibSequenceDigit(n: Int): Int  {
-    var currentDigit = 1
     var count = 1
+    var fib1 = 0
+    var fib2 = fib1
+    var currentFib = 1
+
     while (count < n) {
-        currentDigit += 1
-        count += digitNumber(fib(currentDigit))
+        fib1 = fib2
+        fib2 = currentFib
+        currentFib = fib1+fib2
+        count+= digitNumber(currentFib)
     }
-    if (count > n) currentDigit = fib(currentDigit) / Math.pow(10.0, (count - n).toDouble()).toInt()
-    else currentDigit = fib(currentDigit)
-    return currentDigit % 10
+    if (count > n) currentFib /= Math.pow(10.0, (count - n).toDouble()).toInt()
+    return currentFib % 10
 }

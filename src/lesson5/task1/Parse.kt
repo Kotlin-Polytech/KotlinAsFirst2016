@@ -89,11 +89,11 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
     try {
-        val monthInDigit = parts[1].toInt()
         val date = parts[0].toInt()
-        if (monthInDigit !in 1..12 || date !in 1..31) return ""
+        val monthInDigit = parts[1].toInt()
+        if ((date !in 1..31) || (monthInDigit !in 1..12)) return ""
         val year = parts[2].toInt()
-        return String.format("%d %s %d", date, MONTHS[parts[1].toInt() - 1], year)
+        return String.format("%d %s %d", date, MONTHS[monthInDigit - 1], year)
     } catch (e: NumberFormatException) {
         return ""
     }

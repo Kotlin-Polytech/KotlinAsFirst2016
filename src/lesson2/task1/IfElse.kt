@@ -105,13 +105,20 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val sqra = a * a
-    val sqrb = b * b
-    val sqrc = c * c
+    val maxSide = Math.max(Math.max(a, b), c)
+    val side1 = if (maxSide == a) b
+    else a
+    val side2 = if (maxSide == c) b
+    else c
+
+    val sqrMax = maxSide * maxSide
+    val sqr1 = side1 * side1
+    val sqr2 = side2 * side2
+
     return when {
-        ((a + b) < c) || ((a + c) < b) || ((b + c) < a) -> -1
-        (sqra + sqrb == sqrc) || (sqra + sqrc == sqrb) || (sqrb + sqrc == sqra) -> 1
-        ((sqra + sqrb - sqrc) / (2 * a * b) < 0) || ((sqra + sqrc - sqrb) / (2 * a * c) < 0) || ((sqrb + sqrc - sqra) / (2 * b * c) < 0) -> 2
+        Math.abs(side1 - side2) > maxSide || side1 + side2 < maxSide -> -1
+        sqrMax == sqr1 + sqr2 -> 1
+        ((sqr1 + sqr2 - sqrMax) / (2 * side1 * side2) < 0) -> 2
         else -> 0
     }
 }

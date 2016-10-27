@@ -28,7 +28,8 @@ fun isNumberHappy(number: Int): Boolean = (number / 1000 + (number % 1000) / 100
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2) || (y1 == y2) || (Math.abs(x1 - x2) == Math.abs(y1 - y2)))
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+        ((x1 == x2) || (y1 == y2) || (Math.abs(x1 - x2) == Math.abs(y1 - y2)))
 
 /**
  * Средняя
@@ -38,7 +39,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2) ||
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = r2 >= r1 && (sqr(x1 - x2) + sqr(y1 - y2) <= sqr(r2 - r1))
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        r2 >= r1 && (sqr(x1 - x2) + sqr(y1 - y2) <= sqr(r2 - r1))
 
 /**
  * Средняя
@@ -50,4 +52,5 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = ((a <= r && b <= s) || (a <= s && b <= r)) || ((b <= r && c <= s) || (b <= s && c <= r)) || ((a <= r && c <= s) || (a <= s && c <= r))
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+        ((a <= r && b <= s) || (a <= s && b <= r)) || ((b <= r && c <= s) || (b <= s && c <= r)) || ((a <= r && c <= s) || (a <= s && c <= r))

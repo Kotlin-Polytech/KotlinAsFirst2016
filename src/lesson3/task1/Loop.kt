@@ -137,10 +137,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..Math.min(m, n)) {
-        if (m % i == 0 && n % i == 0) return false
-    }
-    return true
+    if (NOD(m,n) == 1) return true
+    else return false
 }
 
 /**
@@ -164,6 +162,8 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
+//И sin, и cos фейлятся на тестах с точностью 1.0Е-10, хотя условие по идее выполняется
+//Как это можно исправить?
 fun sin(x: Double, eps: Double): Double {
     var result = 0.0
     var currentMember = eps
@@ -260,6 +260,9 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
+//Kotlin-Polytech-Bot фейлит один из тестов, ибо тот не проходится за 10 сек.
+//Через добавленный AssertEquals для значений зафейленного теста прога проходит за 21 сек.
+//Как можно ускорить работу?
 fun fibSequenceDigit(n: Int): Int  {
     var currentDigit = 1
     var count = 1

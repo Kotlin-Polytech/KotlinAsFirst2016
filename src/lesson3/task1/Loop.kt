@@ -220,6 +220,14 @@ fun FunPowForInt(n: Int, power: Int): Int {
     return answer
 }
 
+fun FunPowForDouble(N: Double, power: Int): Double {
+    var answer = 1.0
+    for (i in 1..power) {
+        answer *= N
+    }
+    return answer
+}
+
 /**
  * Сложная
  *

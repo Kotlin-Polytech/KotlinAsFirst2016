@@ -79,16 +79,16 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     var f = 1
-    var f_prev = 1
-    var f_temp: Int
+    var fPrev = 1
+    var fTemp: Int
 
 
     if (n == 1 || n == 2) return 1
 
     for (i in 3..n) {
-        f_temp = f
-        f = f + f_prev
-        f_prev = f_temp
+        fTemp = f
+        f = f + fPrev
+        fPrev = fTemp
     }
 
     return f
@@ -100,9 +100,9 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun gcb(m: Int, n: Int): Int = if(n == 0) m else gcb(n, m % n)
+fun gcd(m: Int, n: Int): Int = if(n == 0) m else gcd(n, m % n)
 
-fun lcm(m: Int, n: Int): Int = m / gcb(m, n) *  n
+fun lcm(m: Int, n: Int): Int = m / gcd(m, n) *  n
 
 /**
  * Простая
@@ -150,19 +150,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  */
 fun sin(x: Double, eps: Double): Double {
     var i = 3
-    var total = Math.abs( x % Math.PI )
+    var total = x % (2 * Math.PI)
     var part: Double
+    val angle = total
 
     while (true) {
-        part = Math.pow(x, i.toDouble()) / factorial(i)
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
         i += 2
         total -= part
-        if (Math.abs(eps) > Math.abs(part)) break
+        if(Math.abs(eps) > Math.abs(part)) break
 
-        part = Math.pow(x, i.toDouble()) / factorial(i)
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
         i += 2
         total += part
-        if (Math.abs(eps) > Math.abs(part)) break
+        if(Math.abs(eps) > Math.abs(part)) break
     }
 
     return total
@@ -179,15 +180,15 @@ fun cos(x: Double, eps: Double): Double {
     var part: Double
     var i = 2
     var total = 1.0
-    val x_min = x
+    val xMin = x % (2 * Math.PI)
 
     while (true) {
-        part = Math.pow(x_min, i.toDouble()) / factorial(i)
+        part = Math.pow(xMin, i.toDouble()) / factorial(i)
         i += 2
         total -= part
         if (Math.abs(eps) > Math.abs(part)) break
 
-        part = Math.pow(x_min, i.toDouble()) / factorial(i)
+        part = Math.pow(xMin, i.toDouble()) / factorial(i)
         i += 2
         total += part
         if (Math.abs(eps) > Math.abs(part)) break
@@ -203,13 +204,13 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var parameter_n = n
+    var parameterN = n
     var reverted = 0
 
-    while (parameter_n > 0) {
+    while (parameterN > 0) {
         reverted *= 10
-        reverted += parameter_n % 10
-        parameter_n /= 10
+        reverted += parameterN % 10
+        parameterN /= 10
     }
 
     return reverted
@@ -223,10 +224,11 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    val current_number_line = Integer.toString(n)
+    val currentNumberLine = n.toString()
 
-    for (i in 0..current_number_line.length / 2) {
-        if (current_number_line [i] != current_number_line [current_number_line.length - 1 - i]) return false
+    for (i in 0..currentNumberLine.length / 2) {
+        if (currentNumberLine[i] != currentNumberLine[currentNumberLine.length - 1 - i])
+            return false
     }
     return true
 }
@@ -248,18 +250,16 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * выравнивание кода - ctrl+alt+l
  */
 fun squareSequenceDigit(n: Int): Int {
-    var last_sequence_element = ""
-    var sequence_len = 0
-
-//	if (n == 0) return 0
+    var lastSequenceElement = ""
+    var sequenceLen = 0
 
     for (i in 1..n) {
-        last_sequence_element = "${i * i}"
-        if (sequence_len + last_sequence_element.length >= n) return (last_sequence_element [n - sequence_len - 1] - '0').toInt()
-        sequence_len += last_sequence_element.length
+        lastSequenceElement = "${i * i}"
+        if (sequenceLen + lastSequenceElement.length >= n) return (lastSequenceElement[n - sequenceLen - 1] - '0').toInt()
+        sequenceLen += lastSequenceElement.length
     }
 
-    return (last_sequence_element [n - 1] - '0').toInt()
+    return (lastSequenceElement [n - 1] - '0').toInt()
 }
 
 /**

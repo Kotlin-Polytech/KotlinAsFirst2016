@@ -61,27 +61,27 @@ fun main(args: Array<String>) {
  */
 
 fun dateStrToDigit(str: String): String {
-    val month_name_storage = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    val date_part_storage = str.split(" ")
-    if (date_part_storage.size != 3) return ""
+    val monthNameStorage = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val datePartStorage = str.split(" ")
+    if (datePartStorage.size != 3) return ""
 
     try {
-        date_part_storage[0].toInt()
-        date_part_storage[2].toInt()
+        datePartStorage[0].toInt()
+        datePartStorage[2].toInt()
     } catch(e: NumberFormatException) {
         return ""
     }
 
     return with(StringBuilder()) {
-        append(if (date_part_storage[0].length < 2) '0' + date_part_storage[0] else date_part_storage[0])
+        append(if (datePartStorage[0].length < 2) '0' + datePartStorage[0] else datePartStorage[0])
         append('.')
 
-        val month_num = month_name_storage.indexOf(date_part_storage[1]) + 1
-        if (1 > month_num || month_num > 12) return ""
-        append(if (month_num < 10) "0" + month_num.toString() else month_num.toString())
+        val monthNum = monthNameStorage.indexOf(datePartStorage[1]) + 1
+        if (monthNum !in 1..12) return ""
+        append(monthNum.toString().padStart(2, '0'))
 
         append('.')
-        append(date_part_storage[2])
+        append(datePartStorage[2])
     }.toString()
 }
 
@@ -108,17 +108,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  */
 fun flattenPhoneNumber(phone: String): String {
     val target = phone
-    var index = 0
-    val allowed_symbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', ' ', '-', '(', ')')
+    val allowedSymbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', ' ', '-', '(', ')')
 
-    while (index < target.length - 1) {
-        //if (('0' > target[index] || target[index] > '9') && target[index] != ' ' && target[index] != '-' && target[index] != '+' && target[index] != '(' && target[index] != ')') return ""
-        if (!allowed_symbols.contains(target[index]))
-            return ""
-        else ++index
-    }
+    if(target.any { !allowedSymbols.contains(it) }) return ""
 
-    return target.filter { ('0' <= it && it <= '9') || it == '+' }
+    return target.filter { it in '0'..'9' || it == '+' }
 }
 
 /**
@@ -131,18 +125,18 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
-    val jump_storage = jumps.split(" ")
-    val lucky_jump_storage = mutableListOf <Int>()
+fun bestLongJump(jumps: String): Int? {
+    val jumpStorage = jumps.split(" ")
+    var luckyJumpStorage = listOf <Int>()
 
     try {
-        for (element in jump_storage) if (element != "-" && element != "%") lucky_jump_storage.add(element.toInt())
+        luckyJumpStorage = (jumpStorage.filter { it != "-" && it != "%" }).map { it.toInt() }
     } catch(e: NumberFormatException) {
         return -1
     }
 
-    if (lucky_jump_storage.isEmpty()) return -1
-    return lucky_jump_storage.sortedDescending()[0]
+    if (luckyJumpStorage.isEmpty()) return -1
+    return luckyJumpStorage.max()
 }
 
 /**
@@ -157,29 +151,29 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int? {
     // Проверка на кривые символы
-    val allowed_symbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '+', '-', '%')
-    if (jumps.any { !allowed_symbols.contains(it) }) return -1
+    val allowedSymbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '+', '-', '%')
+    if (jumps.any { it !in allowedSymbols }) return -1
 
-    val jump_storage = jumps.split(" ") // Разбиение на части
-    val attempt_storage = mutableListOf <Int>()
-    if (jump_storage.isEmpty() || jump_storage.size % 2 == 1) return -1 // Проверка на парность.
+    val jumpStorage = jumps.split(" ") // Разбиение на части
+    val attemptStorage = mutableListOf <Int>()
+    if (jumpStorage.isEmpty() || jumpStorage.size % 2 == 1) return -1 // Проверка на парность.
 
     // Формирование списка из удачных попыток
-    for (i in 0..jump_storage.size - 1 step 2) {
-        if (jump_storage[i + 1].any { '0' <= it && it <= '9' })
+    for (i in 0..jumpStorage.size - 1 step 2) {
+        if (jumpStorage[i + 1].any { '0' <= it && it <= '9' })
             return -1
 
         try {
-            if (jump_storage[i + 1].any { it == '+' })
-                attempt_storage.add(jump_storage[i].toInt())
+            if (jumpStorage[i + 1].any { it == '+' })
+                attemptStorage.add(jumpStorage[i].toInt())
         } catch (e: NumberFormatException) {
             return -1
         }
     }
-    if (attempt_storage.isEmpty()) return -1
+    if (attemptStorage.isEmpty()) return -1
 
     // Выбор максимального значения
-    return attempt_storage.max()
+    return attemptStorage.max()
 }
 
 /**
@@ -191,7 +185,32 @@ fun bestHighJump(jumps: String): Int? {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val expressionStorage = expression.split(" ").filter{ !it.isEmpty() }
+    var target = 0
+
+    if (expressionStorage.isEmpty() || expressionStorage.size % 2 == 0)
+        throw IllegalArgumentException("null")
+
+    try {
+        target = expressionStorage[0].toInt()
+
+        for (i in 1..expressionStorage.size - 1 step 2) {
+            if(expressionStorage[i] == "+") {
+                target += expressionStorage[i+1].toInt()
+            }
+            else if(expressionStorage[i] == "-") {
+                target -= expressionStorage[i+1].toInt()
+            }
+            else throw IllegalArgumentException("null")
+        }
+    }
+    catch(e: NumberFormatException) {
+        throw IllegalArgumentException("null")
+    }
+
+    return target
+}
 
 /**
  * Сложная

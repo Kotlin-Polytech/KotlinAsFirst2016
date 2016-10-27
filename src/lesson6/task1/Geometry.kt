@@ -180,7 +180,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    //проверяем, существует ли треугольник,построенный по заданным точкам
+    //проверяем, существует ли треугольник, построенный по заданным точкам
     if (a.distance(b) > a.distance(c) + b.distance(c) ||
             a.distance(c) > a.distance(b) + b.distance(c) ||
             b.distance(c) > a.distance(b) + a.distance(c))

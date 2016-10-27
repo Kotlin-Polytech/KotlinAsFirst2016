@@ -13,7 +13,7 @@ class Tests {
         assertEquals(6.0, factorial(3), 1e-5)
         assertEquals(120.0, factorial(5), 1e-5)
         assertEquals(3628800.0, factorial(10), 1e-5)
-        assertEquals(2.43290200817664E18, factorial(20), 1E10)
+
     }
 
     @Test
@@ -76,6 +76,7 @@ class Tests {
         assertEquals(5, fib(5))
         assertEquals(21, fib(8))
         assertEquals(102334155, fib(40))
+        assertEquals(2.43290200817664E18, factorial(20), 1E10)
     }
 
     @Test

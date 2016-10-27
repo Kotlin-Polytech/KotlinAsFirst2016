@@ -34,10 +34,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    return if ((age in (5..20)) || (age in (115..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
+   return if ((age in (5..20)) || (age in (115..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
     else {
-        return if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
-        else return "$age год"
+        if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
+        else "$age год"
     }
 }
 
@@ -52,7 +52,17 @@ fun ageDescription(age: Int): String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double =(33.0)
+                   t3: Double, v3: Double): Double {
+
+    val HalfWay: Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if  (HalfWay / (t1 * v1) < 1) {
+        return HalfWay / v1
+    }  else
+        if (HalfWay / (t1 * v1 + t2 * v2) < 1) {
+            return (HalfWay - v1 * t1) / v2 + t1
+        } else
+            return ((HalfWay - (v1 * t1 + v2 * t2)) / v3 + t1 + t2)
+}
 
 /**
  * Простая
@@ -63,8 +73,17 @@ fun timeForHalfWay(t1: Double, v1: Double,
  * и 3, если угроза от обеих ладей.
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
-                       rookY1: Int, rookX1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX1: Int, rookY1: Int,
+                       rookX2: Int, rookY2: Int): Int {
+    return when {((kingX == rookX1) && (kingY == rookY2)) -> 3
+        ((kingX == rookX2) && (kingY == rookY1)) -> 3
+        ((kingY == rookY1) && (kingY == rookY2)) -> 3
+        (kingX == rookX1 && kingX == rookX2) -> 3
+        ((kingX == rookX1) || (kingY == rookY1)) -> 1
+        ((kingX == rookX2) || (kingY == rookY2)) -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -77,34 +96,50 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    return when {
+        (((kingX == rookX) || (kingY == rookY)) && (Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY))) -> 3
+        (Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)) -> 2
+        (kingX == rookX) || (kingY == rookY) -> 1
+        else -> 0
+    }
+}
 
-/**
- * Простая
- *
- * Треугольник задан длинами своих сторон a, b, c.
- * Проверить, является ли данный треугольник остроугольным (вернуть 0),
- * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
- * Если такой треугольник не существует, вернуть -1.
- */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+    /**
+     * Простая
+     *
+     * Треугольник задан длинами своих сторон a, b, c.
+     * Проверить, является ли данный треугольник остроугольным (вернуть 0),
+     * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
+     * Если такой треугольник не существует, вернуть -1.
+     */
+    fun triangleKind(a: Double, b: Double, c: Double): Int {
+        return when {
 
-/**
- * Средняя
- *
- * Даны четыре точки на одной прямой: A, B, C и D.
- * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
- * Найти длину пересечения отрезков AB и CD.
- * Если пересечения нет, вернуть -1.
- */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    val maxComa : Int = Math.max (Math.max (a, b), Math.max (c, d))
-      if (((maxComa == a) && (maxComa == b)) && ((maxComa == c) && (maxComa == d)) || (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || ( c == b )) || (a == d) || (c == b) ) return 0
-       else if ((maxComa == b) && (a >= c) && (a < d)) return (d-a)
-         else if ((maxComa == d) && (c >= a) && (c < b)) return (b-c)
-           else if ((maxComa == b) && (a <= c) && (b > d)) return (d-c)
-             else if ((maxComa == d) && (c <= a) && (d > b)) return (b-a)
-               else return -1
+            ((a + b < c) || (a + c < b) || (b + c < a)) -> -1
+            (a > b + c) || (b > a + c) || (c > a + b) -> 2
+            else -> 0
+        }
     }
 
+    /**
+     * Средняя
+     *
+     * Даны четыре точки на одной прямой: A, B, C и D.
+     * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
+     * Найти длину пересечения отрезков AB и CD.
+     * Если пересечения нет, вернуть -1.
+     */
+    fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+        val maxComa: Int = Math.max(Math.max(a, b), Math.max(c, d))
+       return when {
+
+        (((maxComa == a) && (maxComa == b)) && ((maxComa == c) && (maxComa == d)) || (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b)) || (a == d) || (c == b)) -> 0
+        ((maxComa == b) && (a >= c) && (a < d)) -> (d-a)
+        ((maxComa == d) && (c >= a) && (c < b)) -> (b-c)
+        ((maxComa == b) && (a <= c) && (b > d)) -> (d-c)
+        ((maxComa == d) && (c <= a) && (d > b)) -> (b-a)
+        else ->-1
+    }
+}
 

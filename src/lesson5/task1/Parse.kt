@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlin.system.exitProcess
+
 /**
  * Пример
  *
@@ -62,25 +64,22 @@ fun main(args: Array<String>) {
 val MONTH_NAME = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
 fun dateStrToDigit(str: String): String {
-    var result: String = ""
+    var year = -1
+    var month1 = -1
+    var day = -1
     val parts = str.split(" ")
     if (parts.size == 3) {
         try {
-            if (parts[0].toInt() in 0..9) result = '0' + parts[0].toInt().toString() + "."
-            else result = parts[0].toInt().toString() + "."
-            val month1 = MONTH_NAME.indexOf(parts[1]) + 1
-            if ((month1 != 0) && (month1 < 10)) {
-                result += 0
-                result += month1
-            } else
-                if ((month1 != 0) && (month1 >= 10))
-                    result += month1
-                else return ""
-            result = result + "." + parts[2]
+            day = parts[0].toInt()
+            month1 = MONTH_NAME.indexOf(parts[1]) + 1
+            if (month1 == 0) return ""
+            year = parts[2].toInt()
         } catch (e: NumberFormatException) {
             return ""
         }
-        return result
+        if ((year != -1) && (month1 != -1) && (day != -1))
+            return String.format("%02d.%02d.%d", day, month1, year)
+        else return ""
     } else return ""
 }
 
@@ -124,25 +123,28 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
+    var j = 0
     val result = phone.filter { (it in '0'..'9') || (it == '+') }
-
-    for (i in 0..phone.length - 1)
-        if ((phone[i] != '(')
-                && (phone[i] != ')')
-                && (phone[i] != '-')
-                && (phone[i] != ' ')
-                && (phone[i] != '+')
-                && (phone[i] !in '0'..'9'))
+    if (phone.isEmpty())
+        return ""
+    for (char in phone) {
+        if ((char != '(')
+                && (char != ')')
+                && (char != '-')
+                && (char != ' ')
+                && (char != '+')
+                && (char !in '0'..'9'))
             return ""
-    if (result.length > 0) {
-        if (result[0] == '+') {
-            for (i in 1..result.length - 1) if (result[i] !in '0'..'9') return ""
-        } else {
-            for (i in 0..result.length - 1) if (result[i] !in '0'..'9') return ""
-        }
-    } else return ""
+    }
+    if (result[0] == '+')
+        j = 1
+    else
+        j = 0
+    for (i in j..result.length - 1)
+        if (result[i] !in '0'..'9') return ""
 
     return result
+
 }
 
 
@@ -157,19 +159,18 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    for (i in 0..jumps.length - 1)
-        if ((jumps == "")
-                || ((jumps[i] != '%')
-                && (jumps[i] != '-')
-                && (jumps[i] != ' ')
-                && (jumps[i] !in '0'..'9')))
+    if (jumps.isEmpty())
+        return -1
+    for (jump in jumps) {
+        if (((jump != '%') && (jump != '-') && (jump != ' ') && (jump !in '0'..'9')))
             return -1
+    }
     var resultJumps = jumps.filter { (it in '0'..'9') || (it == ' ') }
     val parts = resultJumps.split(" ")
-    var parts0 = listOf<Int>()
-    for (i in 0..parts.size - 1) if (parts[i] != "") parts0 = parts0 + parts[i].toInt()
     var result = -1
-    for (i in 0..parts0.size - 1) result = Math.max(result, parts0[i])
+    for (i in 0..parts.size - 1)
+        if (parts[i] != "")
+            result = Math.max(result, parts[i].toInt())
     return result
 }
 
@@ -183,26 +184,22 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun checkPlus(str: String): Boolean {
-    for (i in 0..str.length - 1) if (str[i] == '+') return true
-    return false
-}
+fun checkPlus(str: String): Boolean = str.any { str == "+" }
 
 fun bestHighJump(jumps: String): Int {
     if (jumps == "") return -1
     var maxMax = -1
     var maxI = -1
-    var string = listOf<String>()
     try {
-        string = jumps.split(" ")
-        if (string.size % 2 == 1) return -1
-        for (i in 0..string.size - 1 step 2) {
-            if ((string[i].toInt() > maxMax) && (checkPlus(string[i + 1]))) {
-                maxMax = string[i].toInt()
+        var stringList = jumps.split(" ")
+        if (stringList.size % 2 == 1) return -1
+        for (i in 0..stringList.size - 1 step 2) {
+            if ((stringList[i].toInt() > maxMax) && (checkPlus(stringList[i + 1]))) {
+                maxMax = stringList[i].toInt()
                 maxI = i
             }
         }
-        if (maxI == -1) return -1 else return string[maxI].toInt()
+        if (maxI == -1) return -1 else return stringList[maxI].toInt()
     } catch (e: NumberFormatException) {
         return -1
     }
@@ -221,11 +218,13 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     var j = 0
-    for (i in 0..expression.length - 1)
-        if ((expression == "") || ((expression[i] != '+') && (expression[i] != '-') && (expression[i] != ' ') && (expression[i] !in '0'..'9')))
-            return throw IllegalArgumentException("Description")
-    var resultExpression = expression
-    val parts = resultExpression.split(" ")
+    if (expression.isEmpty())
+        throw IllegalArgumentException("Description")
+    for (char in expression) {
+        if ((char != '+') && (char != '-') && (char != ' ') && (char !in '0'..'9'))
+            throw IllegalArgumentException("Description")
+    }
+    val parts = expression.split(" ")
     var result = 0
     try {
         if ((parts[0] == "-") || (parts[0] == "+"))
@@ -240,7 +239,7 @@ fun plusMinus(expression: String): Int {
                 result += parts[i].toInt()
         }
 
-    } catch (e: IllegalArgumentException) {
+    } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }
     return result
@@ -257,11 +256,11 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var string = str.toLowerCase().split(" ")
+    var stringParts = str.toLowerCase().split(" ")
     var result = 0
-    for (i in 0..string.size - 2) {
-        if ((string[i] == string[i + 1]) && (string[i] != "")) return result
-        result += string[i].length + 1
+    for (i in 0..stringParts.size - 2) {
+        if ((stringParts[i] == stringParts[i + 1]) && (stringParts[i] != "")) return result
+        result += stringParts[i].length + 1
     }
     return -1
 }

@@ -64,7 +64,7 @@ fun dateStrToDigit(str: String): String {
     val allMonths = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val fullDate = str.split(" ")
     if (fullDate.size != 3){
-        return ""
+        return "" 
     }
     else{
         try {

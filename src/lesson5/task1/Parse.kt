@@ -197,8 +197,8 @@ fun plusMinus(expression: String): Int {
     if (expression.matches(Regex("\\d"))) return expression.toInt()
     if (!(expression.matches(pattern))) throw IllegalArgumentException()
     val digitsAndSymbols = expression.split(" ")
-    val digits = digitsAndSymbols.filter { it.matches(Regex("[\\d]+")) }
-    val symbols = listOf<String>("+").plus(digitsAndSymbols.filter { it.matches(Regex("[+-]")) })
+    val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0  }
+    val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i != 0; i % 2 != 0 })
     var k = 0
     var sum = 0
     for (i in digits) {

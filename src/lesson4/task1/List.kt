@@ -313,12 +313,13 @@ fun roman(n: Int): String {
 fun russian(n: Int): String {
     var number = n
     val listUnits = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
-            "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятьнадцать",
+            "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
             "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
     val listHundred = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     val listDes = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
     val listFin = mutableListOf<String>()
-    if (number % 100 == 0) Double.NaN else {
+    if (number % 100 == 0) Double.NaN
+    else {
         if (number % 100 >= 20 && number % 10 == 0)
             listFin.add(listDes[(number % 100) / 10])
         else
@@ -326,20 +327,26 @@ fun russian(n: Int): String {
                 listFin.add(listDes[(number % 100) / 10] + " " + listUnits[number % 10])
             } else listFin.add(listUnits[number % 100])
     }
-    if (number % 1000 / 100 == 0) Double.NaN else
+    if (number % 1000 / 100 == 0) Double.NaN
+    else
         if (number > 99) listFin.add(listHundred[(number % 1000) / 100])
     if (number > 999) {
         number /= 1000
         //трёхзначное
-        if (number % 100 == 0 || (number < 100 && number % 10 == 0) || (number % 10 == 0)) listFin.add("тысяч")
-        if (number % 100 in 5..19) listFin.add(listUnits[number % 100] + " " + "тысяч") else
-            if (number % 10 > 4) listFin.add(listUnits[number % 10] + " " + "тысяч") else
+        if (number % 100 == 10) listFin.add(listDes[1] + " " + "тысяч")
+        else
+        if (number % 100 == 0 || (number < 100 && number % 10 == 0 ) || (number % 10 == 0)) listFin.add("тысяч")
+
+        if ((number % 100 in 5..9 || number % 100 in 11..19)) listFin.add(listUnits[number % 100] + " " + "тысяч")
+        else
+            if (number % 10 > 4) listFin.add(listUnits[number % 10] + " " + "тысяч")
+        else
                 when {
-                    (number % 10 == 1) -> listFin.add("одна тысяча")
-                    (number % 10 == 2) -> listFin.add("две тысячи")
-                    (number % 10 == 3) -> listFin.add("три тысячи")
-                    (number % 10 == 4) -> listFin.add("четыре тысячи")
-                }
+            (number % 10 == 1) -> listFin.add("одна тысяча")
+            (number % 10 == 2) -> listFin.add("две тысячи")
+            (number % 10 == 3) -> listFin.add("три тысячи")
+            (number % 10 == 4) -> listFin.add("четыре тысячи")
+        }
         if (number % 100 in 20..99) listFin.add(listDes[number % 100 / 10])
         if (number > 99) listFin.add(listHundred[number / 100])
     }

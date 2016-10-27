@@ -268,7 +268,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val result = mutableListOf<Char>()
     if (n < base){
-        if (n < 9) {
+        if (n < 10) {
             var number = n.toChar()
             number += 48
             result.add(number)
@@ -281,7 +281,7 @@ fun convertToString(n: Int, base: Int): String {
     else {
         val resultList = convert(n, base)
         for (element in resultList) {
-            if (element < 9) {
+            if (element < 10) {
                 var number = element.toChar()
                 number += 48
                 result.add(number)

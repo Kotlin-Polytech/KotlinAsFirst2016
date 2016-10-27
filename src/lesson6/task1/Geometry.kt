@@ -244,7 +244,7 @@ fun minContainingCircle(vararg points: Point): Circle {
     if (points.size == 1) return Circle(points[0], 0.0)
 
     val distSegm = diameter(*points)
-    val maxDist = distSegm.begin.distance(distSegm.end)/2
+    val maxDist = distSegm.begin.distance(distSegm.end)
     var radius = maxDist / 2
     var thirdPoint = Point(0.0, 0.0)
 

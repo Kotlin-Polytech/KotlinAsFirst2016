@@ -159,7 +159,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     val circ: Circle = circleByDiameter(Segment(a, b))
     val a1 = (b.x - circ.center.x)
     val b1 = (circ.center.y - b.y)
-    return Line(Point(circ.center.x, circ.center.y), Math.atan(a1 / b1))
+    return Line(Point(circ.center.x, circ.center.y), Math.atan(a1 / (b1 + Double.MIN_VALUE)))
 }
 
 /**

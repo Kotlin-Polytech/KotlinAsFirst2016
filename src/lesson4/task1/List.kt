@@ -280,14 +280,17 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var x:Int
+    var x: Int
     val N = mutableListOf<Int>()
     var t = n
     val result = mutableListOf<Int>()
-    while (t > 0) {
-        x = t % base
-        N.add(x)
-        t /= base
+    if (n == 0) return listOf(0)
+    else {
+        while (t > 0) {
+            x = t % base
+            N.add(x)
+            t /= base
+        }
 
 
     }

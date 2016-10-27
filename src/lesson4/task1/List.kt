@@ -158,8 +158,15 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
-
+fun polynom(p: List<Double>, x: Double): Double {
+    var result = 0.0
+    for (i in 0..p.size - 1) {
+        if (p[i] != 0.0) {
+            result += p[i] * Math.pow(x, i.toDouble())
+        }
+    }
+    return result
+}
 /**
  * Средняя
  *

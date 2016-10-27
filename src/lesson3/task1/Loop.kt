@@ -55,9 +55,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Тривиальная
  *
  * Найти количество цифр в заданном числе n.
- * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
+ * Например, число 1 содержит 1 цифру, 456 — 3 цифры, 65536 — 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var n2 = n
+    if (n == 0) return 1
+    else while (n2 != 0) {
+        n2 = n2 / 10
+        count++
+    }
+    return count
+}
 
 /**
  * Простая
@@ -65,7 +74,17 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var a = 0
+    var b = 1
+    var c = 1
+    for (i in 1..(n - 1)) {
+        c = b
+        b = a + c
+        a = c
+    }
+    return b
+}
 
 /**
  * Простая
@@ -73,14 +92,32 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var nod = 0
+    var nok = 0
+    var a = m
+    var b = n
+    while ((a != 0) && (b != 0)) {
+        if (a >= b) a = a % b
+        else b = b % a
+    }
+    nod = a + b
+    nok = n * m / nod
+    return nok
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var a = n
+    for (i in 2..n) {
+        if (n % i == 0) if (i <= a) a = i
+    }
+    return a
+}
 
 /**
  * Простая
@@ -131,8 +168,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number1 = n
+    var number2 = 0
 
+    while (number1 > 0) {
+        number2 = number2 * 10 + number1 % 10
+        number1 /= 10
+    }
+    return number2
+}
 /**
  * Средняя
  *
@@ -140,8 +185,16 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var number = n
+    var number1 = 0
 
+    while (number > 0) {
+        number1 = number1 * 10 + number % 10
+        number /= 10
+    }
+    return (number1 == n)
+}
 /**
  * Средняя
  *

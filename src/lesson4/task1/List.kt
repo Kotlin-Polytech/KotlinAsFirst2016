@@ -211,7 +211,7 @@ fun factorize(n: Int): List<Int> {
         while (s % i == 0) {
             list.add(i)
             s /= i
-                    }
+        }
         if (i >= s) break
         else i += 1
     }
@@ -237,12 +237,15 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 fun convert(n: Int, base: Int): List<Int> {
     val list = mutableListOf<Int>()
     var s = n
-    while (s > 0) {
-        list.add(s % base)
-        s /= base
+    if (s == 0) {
+        return listOf(0)
+    } else {
+        while (s > 0) {
+            list.add(s % base)
+            s /= base
+        }
+        return list.reversed()
     }
-    list.reverse()
-    return list
 }
 
 /**
@@ -256,13 +259,17 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base).toMutableList()
     val list2 = mutableListOf<Char>()
-    for (i in 0..list.size - 1) {
-        when {
-            list[i] <= 9 -> list2.add('0' + list[i])
-            else -> list2.add('a' + list[i] - 10)
+    if (n == 0) {
+        return "0"
+    } else {
+        for (i in 0..list.size - 1) {
+            when {
+                list[i] <= 9 -> list2.add('0' + list[i])
+                else -> list2.add('a' + list[i] - 10)
+            }
         }
+        return list2.joinToString("")
     }
-    return list2.joinToString("")
 }
 
 /**
@@ -272,12 +279,18 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
+fun powInt(a: Int, b: Int): Int {
+    var result = 1
+    (1..b).forEach { i -> result *= a }
+    return result
+}
+
 fun decimal(digits: List<Int>, base: Int): Int {
-    var number: Double = 0.0
+    var number = 0
     for (i in 0..digits.size - 1) {
-        number += digits[i] * Math.pow(base.toDouble(), digits.size.toDouble() - i - 1)
+        number += digits[i] * powInt(base, digits.size - i - 1)
     }
-    return number.toInt()
+    return number
 }
 
 /**

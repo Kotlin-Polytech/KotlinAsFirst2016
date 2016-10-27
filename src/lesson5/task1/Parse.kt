@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
     val line = readLine()
     if (line != null) {
         val seconds = timeStrToSeconds(line)
-        if (seconds == - 1) {
+        if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
         } else {
             println("Прошло секунд с начала суток: $seconds")
@@ -64,8 +64,9 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size == 3) {
         try {
-            if (parts[0].toInt() in 0..9) result = '0' + parts[0].toInt().toString() + "."
-            else result = parts[0].toInt().toString() + "."
+            var day = parts[0].toInt()
+            if (day in 0..9) result = '0' + day.toString() + "."
+            else result = day.toString() + "."
             result += when (parts[1]) {
                 "января" -> "01."
                 "февраля" -> "02."
@@ -102,8 +103,9 @@ fun dateDigitToStr(digital: String): String {
     var result = ""
     if (parts.size == 3) {
         try {
-            if (parts[0].toInt() in 10..31) result = parts[0].toInt().toString()
-            else result = parts[0].toInt().toString()
+            var day = parts[0].toInt()
+            if (day in 10..31) result = day.toString()
+            else result = day.toString()
             result += when (parts[1]) {
                 "01" -> " января "
                 "02" -> " февраля "
@@ -144,8 +146,8 @@ fun flattenPhoneNumber(phone: String): String {
     val phonefilter = phone.filter { it != ' ' && it != '-' }
     val phoneResult = Regex("""(\+\d+)?(\(\d+\))?\d+""")
     if (!phoneResult.matches(phonefilter)) return ""
-            return phonefilter.filter { it != '(' && it != ')' }
-    }
+    return phonefilter.filter { it != '(' && it != ')' }
+}
 
 
 /**
@@ -163,9 +165,11 @@ fun bestLongJump(jumps: String): Int {
     var max = -1
     try {
         for (part in parts) {
-            if (part != "%" && part != "-"){
+            if (part == "%" || part == "-") {
+                continue
+            } else {
                 val number = part.toInt()
-                 if (max < number) max = number
+                if (max < number) max = number
             }
         }
     } catch (e: NumberFormatException) {
@@ -186,14 +190,24 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     var maxhigh = 0
+    var count = 0
     val parts = jumps.split(" ")
     if (parts.size == 1) return -1
     for (i in 0..parts.size - 1 step 2) {
         val jumpRegular = Regex("""\d+(\+|\%|\-)+""")
-        if  (!jumpRegular.matches(parts[i]+parts[i+1])) return -1
-        if ('+' in parts[i+1] && parts[i].toInt() > maxhigh) maxhigh = parts[i].toInt()
+        if (!jumpRegular.matches(parts[i] + parts[i + 1])) return -1
+        if ('+' in parts[i + 1] && parts[i].toInt() > maxhigh) {
+            maxhigh = parts[i].toInt()
+            count++
+        }
+
     }
-    return maxhigh
+    if (count > 0) {
+        return maxhigh
+    } else {
+        return -1
+    }
+
 }
 
 /**
@@ -206,22 +220,25 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val e = NumberFormatException("IllegalArgumentException")
     val sumstr = Regex("""((\d+\ +(\+|\-)\ +)+)?\d+""")
-    if (!sumstr.matches(expression)) {
-        throw e
-    } else {
-        val parts = expression.split(" ")
-        var sum = parts[0].toInt()
-        if (parts.size == 1) return expression.toInt()
-        for (i in 0..parts.size - 3 step 2) {
-            if (parts[i + 1] == '+'.toString()) {
-                sum += parts[i + 2].toInt()
-            } else {
-                sum -= parts[i + 2].toInt()
+    try {
+        if (!sumstr.matches(expression)) {
+            throw IllegalArgumentException("IllegalArgumentException")
+        } else {
+            val parts = expression.split(" ")
+            var sum = parts[0].toInt()
+            if (parts.size == 1) return expression.toInt()
+            for (i in 0..parts.size - 3 step 2) {
+                if (parts[i + 1] == '+'.toString()) {
+                    sum += parts[i + 2].toInt()
+                } else {
+                    sum -= parts[i + 2].toInt()
+                }
             }
+            return sum
         }
-        return sum
+    } catch (e: NumberFormatException) {
+        throw NumberFormatException("IllegalArgumentException")
     }
 }
 
@@ -234,7 +251,21 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.toLowerCase().split(" ")
+    var index = 0
+    if (parts.size == 1) {
+        return -1
+    } else {
+        for (i in 0..parts.size - 2) {
+            if ((parts[i] == parts[i + 1]) && (parts[i] != "")) {
+                return index
+            }
+            index += parts[i].length + 1
+        }
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -247,7 +278,24 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val parts = description.split(" ")
+    val priseRegex = Regex("""([А-Я]{1})([а-я])+\ \d+\.\d+((\;\ ([А-Я]{1})([а-я])+\ \d+\.\d+)+)?""")
+    var index = 0
+    if (!priseRegex.matches(description)) {
+        return ""
+    } else {
+        var max = 0.0
+        for (i in 1..parts.size - 1 step 2) {
+            val prise = parts[i].filter { it != ';' }.toDouble()
+            if (prise > max) {
+                max = prise
+                index = i - 1
+            }
+        }
+    }
+    return parts[index]
+}
 
 /**
  * Сложная

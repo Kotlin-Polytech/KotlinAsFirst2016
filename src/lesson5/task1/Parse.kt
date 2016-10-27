@@ -61,25 +61,23 @@ fun main(args: Array<String>) {
  */
 
 
-fun dateStrToDigit(str: String): String {
-    val MonthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    if (str.isEmpty()) {
-        return ""}
-    val parts = str.split(" ")
-    if (parts.size != 3 || parts[0].toInt() !in 1..31) {
-        return ""}
-    val NumOfMonth = MonthNames.indexOf(parts[1]) + 1
-    if (NumOfMonth == 0){
-        return "" }
-    try {
-        val NumOfDate = parts[0].toInt()
-        val NumOfYear = parts[2].toInt()
-        return String.format("%02d.%02d.%d", NumOfDate, NumOfMonth, NumOfYear)
-    } catch (e: NumberFormatException) {
-        return ""
-    }
-}
-
+fun dateStrToDigit(str: String): String = TODO()
+//val MonthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+//if (str.isEmpty()) {
+//    return ""
+//}
+//val parts = str.split(" ")
+//val NumOfMonth = MonthNames.indexOf(parts[1]) + 1
+//if (parts.size != 3 || parts[0].toInt() !in 1..31 || NumOfMonth == 0) {
+//   return ""
+//}
+//try {
+//    val NumOfDate = parts[0].toInt()
+//   val NumOfYear = parts[2].toInt()
+//   return String.format("%02d.%02d.%d", NumOfDate, NumOfMonth, NumOfYear)
+//} catch (e: NumberFormatException) {
+//    return ""
+// }
 
 /**
  * Средняя
@@ -89,17 +87,17 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String = TODO()
-    //val MonthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    //val parts = digital.split(".")
-    //try {
-    //    val NumOfDay = parts[0].toInt()
-    //    val NumOfMonth = MonthNames[parts[1].toInt() - 1]
-    //    val NumOfYear = parts[2].toInt()
-    //    if ((NumOfDay !in 1..31) || (parts.size != 3)) return ""
-    //    return String.format("%d %s %d", NumOfDay, NumOfMonth, NumOfYear)
-    //} catch(e: Exception) {
-    //    return ""
-    //}
+//val MonthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+//val parts = digital.split(".")
+//try {
+//    val NumOfDay = parts[0].toInt()
+//    val NumOfMonth = MonthNames[parts[1].toInt() - 1]
+//    val NumOfYear = parts[2].toInt()
+//    if ((NumOfDay !in 1..31) || (parts.size != 3)) return ""
+//    return String.format("%d %s %d", NumOfDay, NumOfMonth, NumOfYear)
+//} catch(e: Exception) {
+//    return ""
+//}
 
 
 /**
@@ -126,7 +124,22 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var BestJump = -1
+    val parts = jumps.split(" ")
+    try {
+        for (part in parts) {
+            if (part != "-" && part != "%") {
+                val Jump = part.toInt()
+                if (Jump > BestJump)
+                    BestJump = Jump
+            }
+        }
+    } catch(e: NumberFormatException) {
+        return -1
+    }
+    return BestJump
+}
 
 /**
  * Сложная
@@ -138,7 +151,17 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var BestHeight = -1
+    var parts = jumps.split(" ")
+    for (i in 1..parts.size - 1 step 2) {
+        for (counter in parts[i]) {
+            if ((parts[i - 1].toInt() > BestHeight) && (counter == '+'))
+                BestHeight = parts[i - 1].toInt()
+        }
+    }
+    return BestHeight
+}
 
 /**
  * Сложная

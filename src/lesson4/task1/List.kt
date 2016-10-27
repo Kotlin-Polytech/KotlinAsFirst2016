@@ -280,15 +280,15 @@ fun decimalFromString(str: String, base: Int): Int = decimal(str.map { symbolToN
 fun roman(n: Int): String {
     var number = n
     var res = ""
-    val listRome = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-    val listArab = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    val listAll = listOf(Pair("I", 1), Pair("IV", 4), Pair("V", 5), Pair("IX", 9), Pair("X", 10), Pair("XL", 40), Pair("L", 50),
+            Pair("XC", 90), Pair("C", 100), Pair("CD", 400), Pair("D", 500), Pair("CM", 900), Pair("M", 1000))
     if (number <= 0) return ""
     else {
         while (number > 0) {
-            for (i in listArab.size - 1 downTo 0) {
-                if (number - listArab[i] >= 0) {
-                    res += listRome[i]
-                    number -= listArab[i]
+            for (i in listAll.size - 1 downTo 0) {
+                if (number - listAll[i].second >= 0) {
+                    res += listAll[i].first
+                    number -= listAll[i].second
                     break
                 }
             }

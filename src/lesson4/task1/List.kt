@@ -171,7 +171,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> = {
+    var del = 2
+    var number = n
+    var result = mutableListOf<Int>()
+    while (number != 0) {
+        if (number % del == 0) {
+            (result += del)
+            number /= del
+        } else del += 1
+    }
+    return result.asReversed()
+}
 
 
 /**
@@ -189,7 +200,15 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var number = n
+    var result = listOf<Int>()
+    do {
+        result += number % base
+        number /= base
+    } while (number > 0)
+    return result.asReversed()
+}
 
 /**
  * Сложная
@@ -199,7 +218,15 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String = {
+    val convert = convert(n, base)
+    var result = ""
+    for (element in convert) {
+        if (element <= 9) result += element.toString()
+         else result += ('a' + element - 10).toChar()
+    }
+    return result
+}
 
 /**
  * Средняя

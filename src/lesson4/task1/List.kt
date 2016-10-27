@@ -233,21 +233,20 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var z = listOf<Int>()
-    var x = listOf<Int>()
-    var i = 0
-    var number = n
-    val y = base
-    while (number>y) {
-        x += number % y
-        i++
-        number /= y
-
+    var x = n
+    var list: List<Int>
+    list = listOf()
+    if (n == 0) list += 0
+    else {
+        while (x > 0) {
+            list += x % base
+            x /= base
+        }
     }
-    x += number
-        z = x.reversed()
-    return z
+
+    return list.reversed()
 }
+
 
 /**
  * Сложная

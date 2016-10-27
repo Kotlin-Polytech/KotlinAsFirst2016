@@ -141,6 +141,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf(1, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 0), convert(142712, 2))
     }
 
     @Test
@@ -151,6 +152,8 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+        assertEquals("10100000101", convertToString(65620, 3))
+
     }
 
     @Test

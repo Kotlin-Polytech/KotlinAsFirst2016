@@ -168,7 +168,7 @@ fun bestLongJump(jumps: String): Int {
             if (part == "%" || part == "-") {
                 continue
             } else {
-                val number = part.toInt()
+                var number = part.toInt()
                 if (max < number) max = number
             }
         }
@@ -196,7 +196,7 @@ fun bestHighJump(jumps: String): Int {
     for (i in 0..parts.size - 1 step 2) {
         val jumpRegular = Regex("""\d+(\+|\%|\-)+""")
         if (!jumpRegular.matches(parts[i] + parts[i + 1])) return -1
-        if ('+' in parts[i + 1] && parts[i].toInt() > maxhigh) {
+        if ('+' in parts[i + 1] && parts[i].toInt() >= maxhigh) {
             maxhigh = parts[i].toInt()
             count++
         }
@@ -280,7 +280,7 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     val parts = description.split(" ")
-    val priseRegex = Regex("""([А-Я]{1})([а-я])+\ \d+\.\d+((\;\ ([А-Я]{1})([а-я])+\ \d+\.\d+)+)?""")
+    val priseRegex = Regex("""\S+\ \d+\.\d+((\;\ \S+\ \d+\.\d+)+)?""")
     var index = 0
     if (!priseRegex.matches(description)) {
         return ""

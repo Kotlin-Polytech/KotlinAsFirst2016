@@ -206,10 +206,23 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    val list = factorize(n)
-    return list.joinToString("*")
-}
-
+    val result = mutableListOf<Int>()
+    var del = 2
+    var n0 = n
+    while (del <= n0) {
+        if (n0 % del == 0) {
+            n0 /= del
+            result.add(del)
+        } else del += 1
+    }
+        var string = ""
+        string += result[0]
+        for (i in 1..result.size - 1) {
+            string += "*"
+            string += result[i]
+        }
+    return string
+    }
 /**
  * Средняя
  *

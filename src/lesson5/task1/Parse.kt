@@ -63,18 +63,18 @@ fun main(args: Array<String>) {
 
 fun dateStrToDigit(str: String): String {
     val MonthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    if (str.isEmpty())
-        return ""
+    if (str.isEmpty()) {
+        return ""}
     val parts = str.split(" ")
-    if (parts.size != 3 || parts[0].toInt() !in 1..31)
-        return ""
+    if (parts.size != 3 || parts[0].toInt() !in 1..31) {
+        return ""}
     val NumOfMonth = MonthNames.indexOf(parts[1]) + 1
-    if (NumOfMonth == 0)
-        return ""
+    if (NumOfMonth == 0){
+        return "" }
     try {
-        val NumOfDay = parts[0].toInt()
+        val NumOfDate = parts[0].toInt()
         val NumOfYear = parts[2].toInt()
-        return String.format("%02d.%02d.%d", NumOfDay, NumOfMonth, NumOfYear)
+        return String.format("%02d.%02d.%d", NumOfDate, NumOfMonth, NumOfYear)
     } catch (e: NumberFormatException) {
         return ""
     }

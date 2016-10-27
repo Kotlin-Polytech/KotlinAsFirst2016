@@ -33,9 +33,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean  {
-    if ((x1 == x2) || (y1 == y2) || (Math.abs (x1 - x2) == Math.abs (y1 - y2 ))) return true
-    else return false
-
+    return ((x1 == x2) || (y1 == y2) || (Math.abs (x1 - x2) == Math.abs (y1 - y2 )))
 }
 
 /**
@@ -48,8 +46,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean  {
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
     val l = Math.sqrt (sqr(x2 - x1) + sqr(y2 - y1))
-    if (l + r1 <= r2) return true
-    else return false
+    return (l + r1 <= r2)
 }
 
 
@@ -63,12 +60,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (((a <= r) && ((b <= s) || (c <= s)))
+    return (((a <= r) && ((b <= s) || (c <= s)))
             || ((a <= s) && ((b <= r) || (c <= r)))
             || ((b <= r) && ((a <=s) || (c <= s)))
             || ((b <= s) && ((a <= r) || (c <= r)))
             || ((c <= r) && ((a <= s) || (b <= s)))
-            || ((c <= s) && ((a <= r) || (b <= r)))) return true
-    else return false
-
+            || ((c <= s) && ((a <= r) || (b <= r))))
 }

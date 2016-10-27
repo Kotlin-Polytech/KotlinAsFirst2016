@@ -35,8 +35,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        ( age % 10 == 1 ) && ( age % 100 != 11 ) -> ("$age год")
-        ( age % 10 == 0 ) || ( age % 10 in 5..9 ) || (age in 5..19 ) -> ("$age лет")
+        (age % 10 == 1) && (age % 100 != 11) -> ("$age год")
+        (age % 10 == 0) || (age % 10 in 5..9) || (age in 5..19) || (age % 100 == 11) -> ("$age лет")
         else -> ("$age года")
     }
 }
@@ -51,10 +51,10 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val halfway = (t1*v1 + t2*v2 + t3*v3) / 2.0
-    if ( halfway <= (t1*v1) ) return halfway / v1
-    else if ( halfway <= t1*v1 + t2*v2 ) return t1 + ( halfway - t1*v1 ) / v2
-    else if ( halfway <= t1*v1 + t2*v2 + t3*v3 ) return t1 + t2 + ( halfway - t1*v1 - t2*v2 ) / v3
+    val halfway = (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
+    if (halfway <= (t1 * v1)) return halfway / v1
+    else if (halfway <= t1 * v1 + t2 * v2) return t1 + (halfway - t1 * v1) / v2
+    else if (halfway <= t1 * v1 + t2 * v2 + t3 * v3) return t1 + t2 + (halfway - t1 * v1 - t2 * v2) / v3
     else return Double.NaN
 }
 
@@ -71,12 +71,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     var rookOneThreatens = false
     var rookTwoThreatens = false
-    if ( kingX == rookX1 || kingY == rookY1 ) rookOneThreatens = true
-    if ( kingX == rookX2 || kingY == rookY2 ) rookTwoThreatens = true
+    if (kingX == rookX1 || kingY == rookY1) rookOneThreatens = true
+    if (kingX == rookX2 || kingY == rookY2) rookTwoThreatens = true
     return when {
-        ( rookOneThreatens == true && rookTwoThreatens == true ) -> 3
-        ( rookOneThreatens == false && rookTwoThreatens == true ) -> 2
-        ( rookOneThreatens == true && rookTwoThreatens == false ) -> 1
+        (rookOneThreatens == true && rookTwoThreatens == true) -> 3
+        (rookOneThreatens == false && rookTwoThreatens == true) -> 2
+        (rookOneThreatens == true && rookTwoThreatens == false) -> 1
         else -> 0
     }
 }
@@ -95,12 +95,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           bishopX: Int, bishopY: Int): Int {
     var rookThreatens = false
     var bishopThreatens = false
-    if ( kingX == rookX || kingY == rookY ) rookThreatens = true
-    if ( Math.abs( kingX - bishopX ) == Math.abs( kingY - bishopY ) ) bishopThreatens = true
+    if (kingX == rookX || kingY == rookY) rookThreatens = true
+    if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) bishopThreatens = true
     return when {
-        ( rookThreatens == true && bishopThreatens == true ) -> 3
-        ( rookThreatens == false && bishopThreatens == true ) -> 2
-        ( rookThreatens == true && bishopThreatens == false ) -> 1
+        (rookThreatens == true && bishopThreatens == true) -> 3
+        (rookThreatens == false && bishopThreatens == true) -> 2
+        (rookThreatens == true && bishopThreatens == false) -> 1
         else -> 0
     }
 }
@@ -114,13 +114,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if  ( ( a >= b + c ) || ( b >= a + c ) || ( c >= a + b ) ) return -1
+    if ((a >= b + c) || (b >= a + c) || (c >= a + b)) return -1
     else return when {
-        ( a * a > b * b + c * c ) || ( b * b > a * a + c * c ) || ( c * c > a * a + b * b ) -> 2
-        ( a * a == b * b + c * c ) || ( b * b == a * a + c * c ) || ( c * c == a * a + b * b ) -> 1
+        (a * a > b * b + c * c) || (b * b > a * a + c * c) || (c * c > a * a + b * b) -> 2
+        (a * a == b * b + c * c) || (b * b == a * a + c * c) || (c * c == a * a + b * b) -> 1
         else -> 0
     }
-
 }
 
 /**
@@ -132,13 +131,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ( c >= a ) { if ( c > b ) return -1
-                    else if  ( d >= b ) return b - c
-                         else return d - c
-                  }
-    else  { if ( d >= b ) return b - a
-            else if ( d >= a ) return d - a
-                 else return -1
-          }
-
+    if (c >= a) {
+        if (c > b) return -1
+        else if (d >= b) return b - c
+        else return d - c
+    } else {
+        if (d >= b) return b - a
+        else if (d >= a) return d - a
+        else return -1
+    }
 }

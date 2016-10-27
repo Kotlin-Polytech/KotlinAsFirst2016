@@ -105,10 +105,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    if (v.isEmpty()) return 0.0
     var sum = 0.0
     for (element in v) {
-        sum = sum + element * element
+        sum += element * element
     }
     return Math.sqrt(sum)
 }
@@ -136,12 +135,10 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val mean = mean(list)
-        for (i in 0..list.size - 1) {
-            val element = list[i]
-            list[i] = element - mean
-        }
+    val mean = mean(list)
+    for (i in 0..list.size - 1) {
+        val element = list[i]
+        list[i] = element - mean
     }
     return list
 }
@@ -154,10 +151,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    if (a.isEmpty() && b.isEmpty()) return 0.0
     var c = 0.0
     for (i in 0..a.size - 1) {
-        c = c + a[i] * b[i]
+        c += a[i] * b[i]
     }
     return c
 }
@@ -171,11 +167,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    if (p.isEmpty()) return 0.0
-    var result = p[0]
-    var currentExpX = x
-    for (i in 1..p.size - 1) {
-        result = result + p[i] * currentExpX
+    var result = 0.0
+    var currentExpX = 1.0
+    for (i in 0..p.size - 1) {
+        result += p[i] * currentExpX
         currentExpX *= x
     }
     return result

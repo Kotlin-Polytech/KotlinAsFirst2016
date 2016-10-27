@@ -69,7 +69,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = grad * PI / 180 + min * PI / 10800.0 + sec * PI / 648000.0
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = PI / 180 * (grad + 1 / 60.0 * (min + sec / 60.0))
+
 /**
  * Тривиальная
  *
@@ -77,10 +78,10 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = grad * PI / 180 + min
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val changeXSqr = ( x2 - x1 ) * ( x2 - x1 )
-    val changeYSqr = ( y2 -y1 ) * (y2 - y1 )
-    val Length = sqrt( changeXSqr + changeYSqr )
-    return Length
+    val changeXSqr = (x2 - x1) * (x2 - x1)
+    val changeYSqr = (y2 - y1) * (y2 - y1)
+    val length = sqrt(changeXSqr + changeYSqr)
+    return length
 }
 
 /**
@@ -112,11 +113,6 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    /* val per = percent.toDouble() / 100
-    val per = percent / 100.0
-    val rezult = ( initial + initial * per ) + ( per * ( initial + initial * per )) + ( per * ( per * ( initial + initial * per )))
-    return rezult
-    */
     val per = percent / 100.0
     val first = initial + initial * per
     val second = first + first * per

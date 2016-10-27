@@ -60,7 +60,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var digits = 0
     var number = n
-    if (n == 0) return 1
+    if (number < 0) number *= -1
+    if (number == 0) return 1
     else {
         while (number > 0) {
             digits += 1
@@ -98,12 +99,28 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = Math.max(n, m)
-    val equalToK = k
-    while ( k % m != 0 || k % n != 0 ) {
-        k += equalToK
+    //var k = Math.max(n, m)                   // - 1 вариант
+    //val equalToK = k
+    //while ( k % m != 0 || k % n != 0 ) {
+        //k += equalToK
+    //}
+    //return k
+
+    var mm = m
+    var nn = n
+    val c = mm * nn
+    //while (mm != nn) {                      //  - 2 вариант
+        //if (mm > nn) mm -= nn else nn -= mm
+    //}
+    // return c / mm
+
+    var t: Int                                //  - 3 вариант
+    while (nn != 0) {
+        t = mm % nn
+        mm = nn
+        nn = t
     }
-    return k
+    return c / mm
 }
 
 /**
@@ -141,12 +158,22 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val min = Math.min(m, n)
-    for (i in 2..min) {
-        if (m % i == 0 && n % i == 0)
-            return false
+    //val min = Math.min(m, n)
+    //for (i in 2..min) {
+        //if (m % i == 0 && n % i == 0)
+            //return false
+    //}
+    //return true
+    var mm = m
+    var nn = n
+    var t: Int
+    while (nn != 0) {
+        t = mm % nn
+        mm = nn
+        nn = t
     }
-    return true
+    if (mm == 1) return true
+    else return false
 }
 
 /**
@@ -173,20 +200,23 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var currentExp = x % (2 * Math.PI) // текущее значение x^(какой-то степении) в членах ф-ции
-    var currentSin = currentExp // текущее значение sin (x)
-    var currentAdding = currentExp // значение очередного члена ряда
-    var num = 1 // номер члена ф-ции (для + и -)
+    var number = 1 // для + и - перед очередным членом
     var digit = 3 // для факториала
-    while (Math.abs(currentAdding) >= eps) {
-        currentExp *= x * x
-        if (num % 2 != 0) currentSin -= currentExp / factorial(digit)
-        else currentSin += currentExp / factorial(digit)
-        currentAdding = currentExp / factorial(digit)
-        num += 1
+    var xx = x
+    val absEps = Math.abs(eps) // чтобы каждый раз не вызывать в условии abs(eps)
+    if (Math.abs(x) > 2 * Math.PI) xx = x % (2 * Math.PI)
+    var sin = xx // текущее значение фунцкии sin(x). Равно xx для первого члена
+    var currentExp = xx // текущее значение x^n
+    var part = xx // очередной член ряда
+    while (Math.abs(part) >= absEps) {
+        currentExp *= xx * xx
+        if (number % 2 != 0) part = -1 * currentExp / factorial(digit)
+        else part = currentExp / factorial(digit)
+        sin += part
+        number += 1
         digit += 2
     }
-    return currentSin
+    return sin
 }
 
 /**
@@ -197,23 +227,24 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var currentExp = 1.0 // текущее значение x^(какой-то степении) в членах ф-ции
-    var currentCos = currentExp // текущее значение cos (x)
-    var currentAdding = currentExp // значение текущего члена ряда
-    var num = 1 // номер члена ф-ции (для + и -)
+    var cos = 1.0 // текущее значение фунцкии cos(x). Равно 1.0 для первого члена
+    var part: Double // очередной член ряда
+    var number = 1 // для + и - перед очередным членом
     var digit = 2 // для факториала
-    while (Math.abs(currentAdding) >= eps) {
-        currentExp *= x * x
-        if (num % 2 != 0) currentCos -= currentExp / factorial(digit)
-        else currentCos += currentExp / factorial(digit)
-        currentAdding = currentExp / factorial(digit)
-        num += 1
+    var xx = x
+    val absEps = Math.abs(eps) // чтобы каждый раз не вызывать в пост-условии abs(eps)
+    var currentExp = 1.0 // текущее значение x^n
+    if (Math.abs(x) > 2 * Math.PI) xx = x % (2 * Math.PI)
+    do {
+        currentExp *= xx * xx
+        if (number % 2 != 0) part = -1 * currentExp / factorial(digit)
+        else part = currentExp / factorial(digit)
+        cos += part
+        number += 1
         digit += 2
-    }
-    return currentCos
+    } while (Math.abs(part) >= absEps)
+    return cos
 }
-
-
 /**
  * Средняя
  *

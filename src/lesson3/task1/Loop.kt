@@ -209,26 +209,25 @@ return answer
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var string = "1"
-    var number = 2
-    var length = 0
-    while (length + string.length < n) {
-        length += string.length
-        string = fib(number).toString()
-        number += 1
+    var fibonachi = 0
+    var i = 1
+    var number = 0
+    while (number < n) {
+        fibonachi = fib(i)
+        i += 1
+        number += digitNumber(fibonachi)
     }
-    return (string[n - length - 1] - '0').toInt()
+    i = number - n
+    return (fibonachi / pow(10, i) % 10)
 }
 
 
 
 fun pow(x: Int, y: Int): Int {
-        var number = x
-        var grade = y
-        while (grade != 1) {
-            number *= number
-            grade -= 1
-        }
-        return number
+    var result = 1
+    for (i in 1..y)
+        result *= x
+    return result
 }
+
 

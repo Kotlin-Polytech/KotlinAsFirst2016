@@ -179,7 +179,6 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
     for (i in 1..list.size - 1) {
         list[i] += list[i - 1]
     }
@@ -203,7 +202,7 @@ fun factorize(n: Int): List<Int> {
     var number = n
     var simple = 2
     while (number > 1) {
-        while ((number % simple != 0) and (lesson3.task1.isPrime(n) != true)) {
+        while (number % simple != 0 && lesson3.task1.isPrime(n) != true) {
             simple++
         }
         result.add(simple)
@@ -229,17 +228,11 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    val resList = mutableListOf<Int>()
-    var number = n
-    while (number > base) {
-        resList.add(number % base)
-        number /= base
-    }
-    if (number == base) resList.add(0)
-    else resList.add(number)
     val result = mutableListOf<Int>()
-    for (i in 0..resList.size - 1) {
-        result.add(resList[resList.size - 1 - i])
+    var number = n
+    while (number > 0) {
+        result.add(0,number % base)
+        number /= base
     }
     return result
 }
@@ -270,10 +263,18 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
+fun squareInt(number: Int, base : Int) : Int{
+    var result = 1
+    for(i in 1..base){
+        result *= number
+    }
+    return result
+}
+
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
     for (i in 0..digits.size - 1) {
-        result += digits[i] * Math.pow(base.toDouble(), (digits.size - i-1).toDouble()).toInt()
+        result += digits[i] * squareInt(base, digits.size - i-1)
     }
     return result
 }
@@ -297,18 +298,7 @@ fun decimalFromString(str: String, base: Int): Int = TODO ()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String  {
-    val result = mutableListOf<Int> ()
-    var num = 0
-    var num1 = n
-    for (i in 0..digitNumber(n)-1){
-        num = num1%10 * Math.pow(10.0,i.toDouble()).toInt()
-        num1 /= 10
-        result.add(num)
-    }
-    result.sortedDescending()
-
-}
+fun roman(n: Int): String  = TODO()
 
 /**
  * Очень сложная

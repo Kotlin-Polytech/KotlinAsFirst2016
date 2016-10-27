@@ -142,6 +142,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf(1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1), convert(572147, 2))
     }
 
     @Test
@@ -152,6 +153,12 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+    }
+    @Test
+    fun squareInt(){
+        assertEquals(1, squareInt(1,1))
+        assertEquals(8, squareInt(2,3))
+        assertEquals(0, squareInt(0,1))
     }
 
     @Test

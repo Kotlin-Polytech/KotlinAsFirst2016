@@ -98,16 +98,17 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {/**алгоритм Евклида*/
-    var m0 = m
-    var n0 = n
-    val pr = m * n
-    while (m0 != n0) {
-        if (m0 > n0) m0 = m0 - n0
-        n0 = n0 - m0
+fun GCD(a: Int, b: Int): Int { /**алгоритм Евклида*/
+    var curA = a
+    var curB = b
+    while (curA != 0 && curB != 0) {
+        if (curA > curB) curA %= curB
+        else curB %= curA
     }
-    return pr / m0
+    return curA + curB
 }
+
+fun lcm(m: Int, n: Int): Int = Math.abs(m * n) / GCD(m, n)
 
 /**
  * Простая
@@ -126,7 +127,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var d = n - 1
+    var d = n - 2
     while (n % d != 0) d--
     return d
 }
@@ -139,14 +140,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var m0 = m
-    var n0 = n
-    while ((m0 != 0) && (n0 != 0)) {
-        if (m0 > n0) m0 %= n0
-        else n0 %= m0
-    }
-    m0 += n0
-    return m0 == 1
+    return if (GCD(m, n) == 1) true
+    else false
 }
 
 /**
@@ -157,11 +152,13 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = Math.sqrt(n.toDouble()).toInt()
-    while (k * k <= n) {
-        if (k * k in m..n) return true
-        k--
-    }
+    val curN = Math.sqrt(n.toDouble())
+    val curM = Math.sqrt(m.toDouble())
+    val dif = curN.toInt() - curM.toInt()
+    if (n == m) {
+        val floorN = Math.floor(curN).toInt()
+        if (floorN * floorN == n) return true
+    } else if (dif >= 1) return true
     return false
 }
 
@@ -190,13 +187,13 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var n0 = n
-    var m = 0
-    while (n0 > 0) {
-        m = n0 % 10 + m * 10
-        n0 /= 10
+    var curN = n
+    var revertN = 0
+    while (curN > 0) {
+        revertN = curN % 10 + revertN * 10
+        curN /= 10
     }
-    return m
+    return revertN
 }
 
 /**
@@ -218,11 +215,10 @@ fun hasDifferentDigits(n: Int): Boolean {
     var num = Math.abs(n)
     if (num < 10) return false
     else {
-        var p = num % 10
+        val p = num % 10
         num /= 10
         while (num > 0) {
             if (num % 10 != p) return true
-            p = num % 10
             num /= 10
         }
         return false
@@ -237,21 +233,21 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var q = 0
+    var curN = 0
     var i = 0
-    while (q < n) {
+    while (curN < n) {
         i++
-        q += digitNumber(i * i)
+        curN += digitNumber(i * i)
     }
-    if (q == n) return (i * i) % 10
+    if (curN == n) return (i * i) % 10
     else {
-        var r = q - n
-        var t = 10
+        var r = curN - n
+        var j = 10
         while (r > 1) {
-            t *= 10
+            j *= 10
             r--
         }
-        return ((i * i) / t) % 10
+        return ((i * i) / j) % 10
     }
 }
 
@@ -263,20 +259,20 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var q = 0
+    var curN = 0
     var i = 0
-    while (q < n) {
+    while (curN < n) {
         i++
-        q += digitNumber(fib(i))
+        curN += digitNumber(fib(i))
     }
-    if (q == n) return (fib(i)) % 10
+    if (curN == n) return (fib(i)) % 10
     else {
-        var r = q - n
-        var t = 10
+        var r = curN - n
+        var j = 10
         while (r > 1) {
-            t *= 10
+            j *= 10
             r--
         }
-        return ((fib(i)) / t) % 10
+        return ((fib(i)) / j) % 10
     }
 }

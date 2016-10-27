@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -60,8 +61,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int) = hours * 3600 + minutes * 6
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int) : Double =
-        ((vershoks * 4.445 + arshins * 16* 4.445 + sagenes * 48* 4.445) / 100)
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+        (vershoks * 4.445 + arshins * 16 * 4.445 + sagenes * 48 * 4.445) / 100
 
 /**
  * Тривиальная
@@ -70,7 +71,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int) : Double =
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double =
-        (( grad +(( min + sec / 60.0) /60.0)) * Math.PI /180)
+        (grad + ((min + sec / 60.0) / 60.0)) * Math.PI / 180
 
 /**
  * Тривиальная
@@ -86,7 +87,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double) = sqrt(sqr(x2 - 
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int) = (number/100)%10
+fun thirdDigit(number: Int) = (number / 100) % 10
 
 /**
  * Простая
@@ -96,7 +97,7 @@ fun thirdDigit(number: Int) = (number/100)%10
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int) =
-        ((hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart))
+        (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
 
 /**
  * Простая
@@ -106,8 +107,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val k = initial + initial*0.01*percent
-    return (k + k*0.01*percent) + (k + k*0.01*percent)*0.01*percent
+    val per = percent * 0.01 + 1
+    return initial * per * per * per
 }
 
 /**
@@ -120,5 +121,5 @@ fun numberRevert(number: Int): Int {
     val x1 = number / 100
     val x2 = (number / 10) % 10
     val x3 = number % 10
-    return x3*100+x2*10+x1
+    return x3 * 100 + x2 * 10 + x1
 }

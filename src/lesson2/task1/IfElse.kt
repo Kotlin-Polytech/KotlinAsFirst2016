@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -34,14 +36,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if ((age / 10) % 10 == 1)
-        return "$age лет"
-    return when (age % 10) {
-        1 -> "$age год"
-        in 2..4 -> "$age года"
+    return when {
+        (age / 10) % 10 == 1 -> "$age лет"
+        age % 10 == 1 -> "$age год"
+        age % 10 in 2..4 -> "$age года"
         else -> "$age лет"
     }
 }
+
 /**
  * Простая
  *
@@ -55,10 +57,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s1 = v1 * t1
     val s2 = v2 * t2
     val s = s1 + s2 + v3 * t3
-    if (s / 2 <= s1) return (s / 2) / v1
-    else if ((s / 2 > s1) && (s / 2 <= s1 + s2)) return t1 + ((s / 2 - s1) / v2)
-    else return t1 + t2 + (s / 2 - s1 - s2) / v3
+    return when {
+        s / 2 <= s1 -> (s / 2) / v1
+        (s / 2 > s1) && (s / 2 <= s1 + s2) -> t1 + (s / 2 - s1) / v2
+        else -> t1 + t2 + (s / 2 - s1 - s2) / v3
+    }
 }
+
 /**
  * Простая
  *
@@ -70,14 +75,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return when {
-        (kingX != rookX1) && (kingX != rookX2) && (kingY != rookY1) && (kingY != rookY2) -> 0
-        ((kingX == rookX1) || (kingY == rookY1)) && (kingX != rookX2) && (kingY != rookY2) -> 1
-        ((kingX == rookX2) || (kingY == rookY2)) && (kingX != rookX1) && (kingY != rookY1) -> 2
-        ((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2)) -> 3
-        else -> -1
-    }
+    /**другой способ решения*/
+    var result = 0
+    if ((kingX == rookX1) || (kingY == rookY1)) result += 1
+    if ((kingX == rookX2) || (kingY == rookY2)) result += 2
+    return result
 }
+
 /**
  * Простая
  *
@@ -90,14 +94,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    return if ((kingX != rookX) && (kingY != rookY)
-            && ((Math.abs(kingX - bishopX)) != (Math.abs(kingY - bishopY)))) 0
-    else if (((kingX == rookX) || (kingY == rookY)) &&
-            ((Math.abs(kingX - bishopX)) != (Math.abs(kingY - bishopY)))) 1
-    else if ((kingX != rookX) && (kingY != rookY) &&
-            ((Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY)))) 2
-    else 3
+    /**другой способ решения*/
+    var result = 0
+    if ((kingX == rookX) || (kingY == rookY)) result += 1
+    if ((kingX + kingY == bishopX + bishopY) || (kingX - kingY == bishopX - bishopY)) result += 2
+    return result
 }
+
 /**
  * Простая
  *
@@ -107,16 +110,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val cosA = (b * b + c * c - a * a) / (2 * b * c)
-    val cosB = (a * a + c * c - b * b) / (2 * a * c)
-    val cosC = (a * a + b * b - c * c) / (2 * a * b)
+    /**другой способ решения*/
+    val bc = sqr(b) + sqr(c)
+    val ac = sqr(a) + sqr(c)
+    val ab = sqr(a) + sqr(b)
     return when {
-        ((a + b) <= c) || ((a + c) <= b) || ((b + c) <= a) -> -1
-        (Math.abs(cosA) < 0.00001) || (Math.abs(cosB) < 0.00001) || (Math.abs(cosC) < 0.00001) -> 1
-        (cosA < 0) || (cosB < 0) || (cosC < 0) -> 2
-        else -> 0
+        (a > b + c) || (b > a + c) || (c > b + a) -> -1
+        (bc == sqr(a)) || (ac == sqr(b)) || (ab == sqr(c)) -> 1
+        (bc < sqr(a)) || (ac < sqr(b)) || (ab < sqr(c)) -> 2
+        (bc > sqr(a)) || (ac > sqr(b)) || (ab > sqr(c)) -> 0
+        else -> -1
     }
 }
+
 /**
  * Средняя
  *

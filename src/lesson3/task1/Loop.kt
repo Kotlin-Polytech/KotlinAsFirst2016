@@ -209,11 +209,9 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
-
     while (number >= 10) {
         if (number % 10 != (number / 10) % 10) {
             return true
-
         }
         number /= 10
     }

@@ -192,7 +192,6 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     var max = -1
     var newJumps = jumps
-
     if (jumps.contains(Regex("""[^-+%\d\s]"""))) return -1
     newJumps = Regex("""[^\d\s+]""").replace(newJumps, "")
     newJumps += " "

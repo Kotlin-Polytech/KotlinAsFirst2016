@@ -70,7 +70,6 @@ fun dateStrToDigit(str: String): String = TODO()
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String = TODO()
-
 /**
  * Сложная
  *

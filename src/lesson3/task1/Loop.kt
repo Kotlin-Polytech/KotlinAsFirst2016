@@ -21,15 +21,14 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 
-fun isPrime(n: Int): Boolean = TODO()
-/**{
+fun isPrime(n: Int): Boolean {
     if (n < 2) return false
     for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
         if (n % m == 0) return false
     }
     return true
 }
-*/
+
 
 /**
  * Пример
@@ -62,14 +61,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var m = 0
-    var l = n
     if (n == 0) return 1
-    else while (l > 0) {
-        m++
-        l /= 10
+    else {
+        var k = 0
+        var m = n
+        while (m != 0) {
+            m /= 10
+            k++
+        }
+        return k
     }
-    return m
 }
 
 /**
@@ -100,6 +101,7 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = 0
+    if ((m == 0) || (n == 0)) return 0
     for (i in 2..n * m) {
         if (((i % n) == 0) && ((i % m) == 0)) {
             k = i
@@ -153,8 +155,11 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (k in 1..n)
-        if ((m <= k * k) && (k * k <= n)) return true
+    for (result in m..n) {
+        val sqrt = Math.sqrt(result.toDouble())
+        if (sqrt % 1 == 0.0)
+            if (sqrt * sqrt in m..n) return true
+    }
     return false
 }
 
@@ -166,15 +171,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i = 0
-    var y = x
-    var z = x
-    while (Math.abs(y) > eps) {
-        i++
-        y = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
-        if (i % 2 == 1) z -= y else z += y
+    var counter = 0
+    val x1 = x % (2 * Math.PI)
+    var number = x1
+    var sinus = x1
+    while (Math.abs(number) > eps) {
+        counter++
+        number = Math.pow(x1, counter * 2.0 + 1) / factorial(counter * 2 + 1)
+        if (counter % 2 == 1) sinus -= number
+        else sinus += number
     }
-    return z
+    return sinus
 }
 
 /**
@@ -186,15 +193,19 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var i = 0
-    var y = x
-    var z = 1.0
-    while (Math.abs(y) > eps) {
+    val x1 = x % (2 * Math.PI)
+    var cosus = 1.0
+    var number = x1
+    while (Math.abs(number) > eps) {
         i++
-        y = Math.pow(x, i * 2.0) / factorial(i * 2)
-        if (i % 2 == 1) z -= y else z += y
+        number = Math.pow(x1, i * 2.0) / factorial(i * 2)
+        if (i % 2 == 1) cosus -= number
+        else cosus += number
+
     }
-    return z
+    return cosus % (2 * Math.PI)
 }
+
 
 /**
  * Средняя

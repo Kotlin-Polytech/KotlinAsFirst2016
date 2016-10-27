@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -50,6 +51,7 @@ fun ageDescription(age: Int): String {
     }
     return "More 200 yaer"
 }
+
 /**
  * Простая
  *
@@ -60,11 +62,14 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    var S = (t1 * v1) + (t2 * v2) + (t3 * v3)
-    S = S / 2
-    if ((t1 * v1) > S) return S / v1
-    if ((t1 * v1 + t2 * v2) > S) return t1 + ((S -  v1 * t1) / v2)
-    return t1 + t2 + ((S - (t1 * v1 + t2 * v2)) / v3)
+    val halfAllWay = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val firstPartWay = t1 * v1
+    val secondPartWay = t1 * v1 + t2 * v2
+    return when {
+        halfAllWay < firstPartWay -> halfAllWay / v1
+        halfAllWay < secondPartWay -> ((halfAllWay - firstPartWay) / v2) + t1
+        else -> (halfAllWay - secondPartWay) / v3 + t1 + t2
+    }
 }
 
 /**
@@ -78,9 +83,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((rookX1 == kingX) || (rookY1 == kingY)) && (rookX2 == kingX) || (rookY2 == kingY)) return 3 else
-        if ((rookX1 == kingX) || (rookY1 == kingY)) return 1 else
-            if ((rookX2 == kingX) || (rookY2 == kingY)) return 2 else return 0
+    val firstRook = (kingX == rookX1) || (kingY == rookY1)
+    val secondRook = (kingX == rookX2) || (kingY == rookY2)
+    return when {
+        firstRook && secondRook -> 3
+        firstRook -> 1
+        secondRook -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -100,6 +110,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
             if ((Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))) return 2 else return 0
 
 }
+
 /**
  * Простая
  *
@@ -109,10 +120,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-  if (((a + b) <= c) || ((a + c) <= b) || ((b + c) <= a)) return -1 else
-      if (((a * a + b * b) == (c * c)) || ((a * a + c * c) == (b * b)) || ((c * c + b * b) == (a * a))) return 1 else
-          if ((((a * a + b * b) < (c * c)) || ((a * a + c * c) < (b * b)) || ((c * c + b * b) < (a * a)))) return 2 else
-              if (((a * a + b * b) > (c * c)) || ((a * a + c * c) > (b * b)) || ((c * c + b * b) > (a * a))) return 0 else return -1
+    if (((a + b) <= c) || ((a + c) <= b) || ((b + c) <= a)) return -1 else
+        if (((a * a + b * b) == (c * c)) || ((a * a + c * c) == (b * b)) || ((c * c + b * b) == (a * a))) return 1 else
+            if ((((a * a + b * b) < (c * c)) || ((a * a + c * c) < (b * b)) || ((c * c + b * b) < (a * a)))) return 2 else
+                if (((a * a + b * b) > (c * c)) || ((a * a + c * c) > (b * b)) || ((c * c + b * b) > (a * a))) return 0 else return -1
 }
 
 /**

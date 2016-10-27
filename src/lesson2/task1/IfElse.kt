@@ -119,16 +119,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     var x = 0
-    if (a+b>c && b+c>a && c+a>b){
-        if ((sqr(a)+ sqr(b) == sqr(c))||(sqr(b)+sqr(c) == sqr(a))||(sqr(b)+ sqr(c) == sqr(a)))
-            x=1
-        if (((sqr(a)- sqr(b)- sqr(c))/((-2.0)*b*c) > 0) and ((sqr(b)- sqr(a)- sqr(c))/((-2.0)*a*c) > 0) and ((sqr(c)- sqr(b)- sqr(a))/((-2.0)*b*a) > 0))
-            x=0
-        if (((sqr(a)- sqr(b)- sqr(c))/((-2.0)*b*c) < 0)||((sqr(b)- sqr(a)- sqr(c))/((-2.0)*a*c) < 0)||((sqr(c)- sqr(b)- sqr(a))/((-2.0)*b*a) < 0))
-            x=2
-    }
-    else
-        x=-1
+    if (a + b > c && b + c > a && c + a > b) {
+        if ((sqr(a) + sqr(b) == sqr(c)) || (sqr(b) + sqr(c) == sqr(a)) || (sqr(b) + sqr(c) == sqr(a)))
+            x = 1
+        if (((sqr(a) - sqr(b) - sqr(c)) / ((-2.0) * b * c) > 0) && ((sqr(b) - sqr(a) - sqr(c)) / ((-2.0) * a * c) > 0) && ((sqr(c) - sqr(b) - sqr(a)) / ((-2.0) * b * a) > 0))
+            x = 0
+        if (((sqr(a) - sqr(b) - sqr(c)) / ((-2.0) * b * c) < 0) || ((sqr(b) - sqr(a) - sqr(c)) / ((-2.0) * a * c) < 0) || ((sqr(c) - sqr(b) - sqr(a)) / ((-2.0) * b * a) < 0))
+            x = 2
+    } else
+        x = -1
     return x
 
 }
@@ -143,15 +142,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     var x=0
-    if ((d>=a) and (d>=b) and (c>=a))
+    if ((d>=a) && (d>=b) && (c>=a))
         x=b-c
-    if ((a>=c) and (b>=d) and (d>=a))
+    if ((a>=c) && (b>=d) && (d>=a))
         x=d-a
-    if ((a>=c) and (b>=c) and (d>=b))
+    if ((a>=c) && (b>=c) && (d>=b))
         x=b-a
-    if ((c>=a) and (d>=a) and (b>=d))
+    if ((c>=a) && (b>=d) && (d>=a))
         x=d-c
-    if (((c>a) and (c>b))||((a>c) and (a>d)))
+    if (((c>a) && (c>b))||((a>c) && (a>d)))
         x=-1
     return x
 

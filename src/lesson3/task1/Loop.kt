@@ -74,7 +74,16 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var result = 1
+    if (n <= 2)
+        return result
+    else
+        result = fib(n-2)+ fib(n-1)
+    return result
+
+}
+
 
 /**
  * Простая
@@ -89,7 +98,12 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var x = 2
+    while (n % x != 0)
+        x += 1
+    return x
+}
 
 /**
  * Простая
@@ -176,7 +190,7 @@ fun squareSequenceDigit(n: Int): Int {
         }
         if (n == N) answer = (x * x) % 10
         else {
-            val k = Math.pow(10.0, (N - n).toDouble()).toInt()
+            val k = pow(10, (N - n))
             answer = ((x * x) / k) % 10
         }
 return answer
@@ -192,4 +206,31 @@ return answer
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var number=0                     //Кол-во символов
+    var i=1                          // i-тое число фибоначи
+    var answer = 1                   // Ответ
+    while(number!=n){
+            answer = fib(i)
+            number+=digitNumber(answer)
+            while(n<number) {
+                    answer/= 10
+                    number-=1
+                }
+           i+=1
+}
+    return answer%10
+}
+
+
+
+fun pow(x: Int, y: Int): Int {
+        var number = x
+        var grade = y
+        while (grade != 1) {
+            number *= number
+            grade -= 1
+        }
+        return number
+}
+

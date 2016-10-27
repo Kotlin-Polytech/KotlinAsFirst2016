@@ -51,13 +51,13 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int):Boolean {
-    var x:Boolean = false
     if (r>=a)
-        if ((s>=b) or (s>=c)) x=true
+        if ((s>=b) or (s>=c)) return true
     if (r>=b)
-        if ((s>=a) or (s>=c)) x=true
+        if ((s>=a) or (s>=c)) return true
     if (r>=c)
-        if ((s>=a) or (s>=b)) x=true
-    return x
+        if ((s>=a) or (s>=b)) return true
+    return false
+
 
 }

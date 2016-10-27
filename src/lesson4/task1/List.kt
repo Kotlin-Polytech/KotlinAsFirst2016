@@ -231,6 +231,10 @@ fun convert(n: Int, base: Int): List<Int> {
     var n1 = n
     var result = 0
     val list = mutableListOf<Int>()
+    if(n1 == 0){
+        list += result
+        return list
+    }
     while (n1 != 0) {
         result = n1 % base
         list += result

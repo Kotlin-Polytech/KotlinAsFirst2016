@@ -404,7 +404,7 @@ fun russian(n: Int): String {
     if (thousands10 != 1 && thousands > 2)
         result += UNITS_LIST[thousands]
     if ((thousands100 != 0) || (thousands10 != 0) || (thousands != 0)) {
-        if (thousands == 1) {
+        if ((thousands == 1) && (thousands10 != 1)) {
             result += " тысяча"
         } else
             if (((thousands == 2) || (thousands == 3) || (thousands == 4)) && (thousands10 != 1)) {

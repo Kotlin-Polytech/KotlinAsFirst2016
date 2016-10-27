@@ -288,7 +288,7 @@ fun mostExpensive(description: String): String {
         var max = 0.0
         for (i in 1..parts.size - 1 step 2) {
             val prise = parts[i].filter { it != ';' }.toDouble()
-            if (prise > max) {
+            if (prise >= max) {
                 max = prise
                 index = i - 1
             }

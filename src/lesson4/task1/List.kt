@@ -198,7 +198,7 @@ fun polynom(p: List<Double>, x: Double): Double{
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty() == true){
+    if (list.isEmpty()){
         return list
     }
     else{
@@ -222,8 +222,7 @@ fun factorize(n: Int): List<Int> {
     var primeNumber = 2
     while (digit != 1){
         if (isPrime(primeNumber)){
-            while ((digit % primeNumber) == 0)
-            {
+            while ((digit % primeNumber) == 0){
                 result.add(primeNumber)
                 digit /= primeNumber
             }
@@ -284,16 +283,13 @@ fun convertToString(n: Int, base: Int): String {
     val digit = listOf(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
     var value = convert(n, base)
-
-        for (i in 0..value.size - 1 step 1)
-        {
-            if (value[i] > 9)
-                result += litter[digit.indexOf(value[i])]
-            else
-                result += value[i].toString()
-        }
-
-        return result
+    for (i in 0..value.size - 1 step 1){
+        if (value[i] > 9)
+            result += litter[digit.indexOf(value[i])]
+        else
+            result += value[i].toString()
+    }
+    return result
 }
 
 /**
@@ -326,15 +322,15 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int
 {
     var result = 0
-    val litter = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+    val letter = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
     val digit = listOf<Int>(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
     var count = str.length - 1
     for (i in str)
     {
-        if (i in litter)
-            result += digit[litter.indexOf(i)] * powInt(base, count)
+        if (i in letter)
+            result += digit[letter.indexOf(i)] * powInt(base, count)
         else
             result += (i.toInt() - '0'.toInt()) * powInt(base, count)
         count--

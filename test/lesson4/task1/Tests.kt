@@ -116,6 +116,7 @@ class Tests {
         assertEquals(listOf<Double>(), accumulate(mutableListOf()))
         assertEquals(listOf(3.14), accumulate(mutableListOf(3.14)))
         assertEquals(listOf(1.0, 3.0, 6.0, 10.0), accumulate(mutableListOf(1.0, 2.0, 3.0, 4.0)))
+        assertEquals(listOf(1.0, 2.0, 3.0, 4.0), accumulate(mutableListOf(1.0, 1.0, 1.0, 1.0)))
     }
 
     @Test
@@ -165,8 +166,8 @@ class Tests {
     @Test
     @Tag("Hard")
     fun decimalFromString() {
-        assertEquals(1, decimalFromString("1", 2))
-        assertEquals(100, decimalFromString("1210", 4))
+
+
         assertEquals(250, decimalFromString("13c", 14))
         assertEquals(1000, decimalFromString("2ec", 19))
         assertEquals(35, decimalFromString("z", 36))

@@ -66,7 +66,16 @@ fun digitNumber(n: Int): Int = if (n / 10 == 0) 1 else 1 + digitNumber(n / 10)
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n < 3) 1 else fib(n-1) + fib (n-2)
+fun fib(n: Int): Int {
+    var result = 0
+    var next = 1
+    for (i in 1..n  step 1){
+        val prev = result
+        result += next
+        next = prev
+    }
+    return result
+}
 
 /**
  * Простая
@@ -76,7 +85,7 @@ fun fib(n: Int): Int = if (n < 3) 1 else fib(n-1) + fib (n-2)
  */
 
 
-fun NOD(m: Int, n: Int): Int{
+fun gcd(m: Int, n: Int): Int{
     var digitOne = m
     var digitTwo = n
     while (digitOne != digitTwo)
@@ -87,7 +96,7 @@ fun NOD(m: Int, n: Int): Int{
     return digitOne
 }
 fun lcm(m: Int, n: Int): Int {
-    var nod = NOD(m,n)
+    val nod = gcd(m,n)
     val result = m * n / nod
 
     return result
@@ -99,11 +108,11 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
 
-    var result = 1
+    var result = n
     if (n % 2 == 0)
         result = 2
     else
-        for (i in 3 .. n step 2 )
+        for (i in 3 .. n / 2 step 2 )
             if (n % i == 0)
             {
                 result = i
@@ -120,8 +129,8 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int  {
 
-    var result = 0
-    for (i in 1 .. n step 1)
+    var result = n
+    for (i in 1 .. n / 2 step 1)
         if ((n % i == 0) && (i < n))
         {
             result = i
@@ -139,18 +148,8 @@ fun maxDivisor(n: Int): Int  {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var result = true
-    for (i in 2..min(m,n) step 1)
-        if ((m % i == 0) && (n % i == 0))
-        {
-            result = false
-            break
-        }
-        else
-            result = true
-    return result
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m,n) == 1
+
 
 /**
  * Простая
@@ -229,6 +228,7 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean = TODO()
 
+
 /**
  * Средняя
  *
@@ -241,20 +241,9 @@ fun hasDifferentDigits(n: Int): Boolean {
     var temp = n / 10
     while (temp > 0)
     {
-
         if (temp % 10 != value )
-        {
-            result = true
-            break
-
-        }
-        else
-        {
-            result = false
-
-        }
+            return  true
         temp /= 10
-
     }
     return result
 }
@@ -310,8 +299,7 @@ fun fibSequenceDigit(n: Int): Int {
     var k = 2 // тк 1 и 2 числа равны  1
     var result = 0
     var fibon = 1 //очередное число ряда
-    var temp1 = 1
-    var temp2 = 0
+    var next= 1 //следущее число
     var logic = false
     if (n < 3)
         result = 1
@@ -320,9 +308,9 @@ fun fibSequenceDigit(n: Int): Int {
         {
             if (k < n)
             {
-                temp2 = fibon
-                fibon += temp1
-                temp1 = temp2
+                val prev = fibon
+                fibon += next
+                next = prev
                 k += countNumber(fibon)
             }
             if (k >= n)

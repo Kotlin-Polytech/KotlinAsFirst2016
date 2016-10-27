@@ -66,8 +66,7 @@ fun dateStrToDigit(str: String): String{
     val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
             , "сентября", "октября", "ноября", "декабря")
     var parth = str.split(" ")
-    if ((parth.size != 3 ) || (parth[1] !in month))
-    {
+    if ((parth.size != 3 ) || (parth[1] !in month)){
         return ""
     }
     else
@@ -93,19 +92,18 @@ fun dateDigitToStr(digital: String): String{
     val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
             , "сентября", "октября", "ноября", "декабря")
     var parth = digital.split(".")
-        try {
-            if ((parth.size != 3 ) || (parth[1].toInt() == 0))
-            {
-                return ""
-            }
-            val day = parth[0].toInt()
-            val mont = month[parth[1].toInt() - 1]
-            val year = parth[2].toInt()
-            return String.format("%d %s %d", day, mont , year)
-        }
-        catch (e: NumberFormatException){
+    try {
+        if ((parth.size != 3 ) || (parth[1].toInt() == 0)){
             return ""
         }
+        val day = parth[0].toInt()
+        val mont = month[parth[1].toInt() - 1]
+        val year = parth[2].toInt()
+        return String.format("%d %s %d", day, mont , year)
+    }
+    catch (e: NumberFormatException){
+        return ""
+    }
 }
 
 
@@ -183,6 +181,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int = TODO()
+
 
 /**
  * Сложная

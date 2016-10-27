@@ -131,15 +131,9 @@ fun minDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val a = Math.max(m, n)
-    var i = 0
-    var flag: Boolean = false
-    for (i in 2..a) {
-        if ((n % i == 0) && (m % i == 0)) flag = true
-    }
-    return (flag != true)
-}
+fun isCoPrime(m: Int, n: Int): Boolean
+        = (lcm(m, n) == m * n)
+
 /**
  * Простая
  *
@@ -148,17 +142,13 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun maxDivisor(n: Int): Int {
     var divisor = 2
     if (isPrime(n) == true) return 1
-    else for (i in 2..n - 1) {
+    else for (i in 2..n / 2) {
         if ((n % i == 0) && (i > divisor) && (divisor < n)) {
             divisor = i
         }
     }
     return divisor
 }
-
-
-
-
 
 
 /**
@@ -169,16 +159,11 @@ fun maxDivisor(n: Int): Int {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
 
  */
-// Программа проверяет, является ли число точным квадратом.
-fun square(m: Int): Boolean {
-    var flag = 0
-    if ((m % 4 == 0) || (m % 8 == 1))
-        flag = 1
-    return (flag == 1)
-}
+
+fun sqr(x: Int) = x * x
 
 fun squareBetweenExists(m: Int, n: Int): Boolean =
-        (m <= sqr(Math.sqrt(n.toDouble()).toInt().toDouble()) && sqr(Math.sqrt(n.toDouble()).toInt().toDouble()) <= n)
+        m <= sqr(Math.sqrt(n.toDouble()).toInt())
 
 
 /**
@@ -262,27 +247,28 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var i=1
-    var count=0
-    var number=0
-    var nn =0
-    var dif=0
-    var result=0
-    while (n>count) {
-        number= i*i
-        nn= number
-        while (number>0) {
-            number/=10
+    var i = 1
+    var count = 0
+    var number = 0
+    var nn = 0
+    var dif = 0
+    var result = 0
+    while (n > count) {
+        number = i * i
+        nn = number
+        while (number > 0) {
+            number /= 10
             count++
         }
         i++
 
     }
-    dif= count-n
-    if (n==count) result =nn%10
+    dif = count - n
+    if (n == count) result = nn % 10
     else
-        result= (nn/Math.pow(10.0,dif.toDouble()).toInt()) %10
-    return result}
+        result = (nn / Math.pow(10.0, dif.toDouble()).toInt()) % 10
+    return result
+}
 
 
 /**
@@ -293,3 +279,4 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+

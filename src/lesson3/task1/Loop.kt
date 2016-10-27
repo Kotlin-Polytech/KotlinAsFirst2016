@@ -90,6 +90,7 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
+
     var a = Math.max(m, n)
     var b = Math.min(m, n)
     var buffer = 1
@@ -135,20 +136,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val min: Int
-    val max: Int
-    if (m >= n) {
-        min = n
-        max = m
-    } else {
-        max = n
-        min = m
-    }
-    var div = min
-    while (max % div != 0 || min % div != 0) {
-        div--
-    }
-    if (div == 1) return true
+    var a = lcm (m,n)
+    if (a == m * n) return true
     return false
 }
 
@@ -240,13 +229,13 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var lines = "1"
     var count = 2
-    var prevLenght = 0
-    while (prevLenght + lines.length < n) {
-        prevLenght += lines.length
+    var prevLengt = 0
+    while (prevLengt + lines.length < n) {
+        prevLengt += lines.length
         lines = (count * count).toString()
         count++
     }
-    return (lines[n - prevLenght - 1] - '0').toInt()
+    return (lines[n - prevLengt - 1] - '0').toInt()
 }
 
 /**
@@ -259,11 +248,11 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var lines = "1"
     var count = 2
-    var prevLenght = 0
-    while (prevLenght + lines.length < n) {
-        prevLenght += lines.length
+    var prevLengt = 0
+    while (prevLengt + lines.length < n) {
+        prevLengt += lines.length
         lines = fib(count).toString()
         count++
     }
-    return (lines[n - prevLenght - 1] - '0').toInt()
+    return (lines[n - prevLengt - 1] - '0').toInt()
 }

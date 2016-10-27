@@ -77,11 +77,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) return 3
-    if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX != rookX2) && kingY != rookY2)) return 1
-    if (((kingX == rookX2) || (kingY == rookY2)) && ((kingX != rookX1) && kingY != rookY1)) return 2
+    if ((castleAttack(rookX1, rookY1, kingX, kingY)) && (castleAttack(rookX2, rookY2, kingX, kingY))) return 3
+    if ((!castleAttack(rookX1, rookY1, kingX, kingY)) && (castleAttack(rookX2, rookY2, kingX, kingY))) return 2
+    if ((castleAttack(rookX1, rookY1, kingX, kingY)) && (!castleAttack(rookX2, rookY2, kingX, kingY))) return 1
     else return 0
 }
+
+fun castleAttack(a: Int, b: Int, c: Int, d: Int): Boolean = (a == c) || (b == d)
+
 
 /**
  * Простая
@@ -95,11 +98,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) return 3
-    if (((kingX == rookX) || (kingY == rookY)) && (Math.abs(kingX - bishopX) != Math.abs(kingY - bishopY))) return 1
-    if (((kingX != rookX) && (kingY != rookY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) return 2
+    if ((castleAttack(rookX, rookY, kingX, kingY)) && (bishopAttack(bishopX, bishopY, kingX, kingY))) return 3
+    if ((!castleAttack(rookX, rookY, kingX, kingY)) && (bishopAttack(bishopX, bishopY, kingX, kingY))) return 2
+    if ((castleAttack(rookX, rookY, kingX, kingY)) && (!bishopAttack(bishopX, bishopY, kingX, kingY))) return 1
     else return 0
 }
+
+fun bishopAttack(a: Int, b: Int, c: Int, d: Int): Boolean = Math.abs(c - a) == Math.abs(d - b)
 
 
 /**
@@ -115,8 +120,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         if ((sqr(a) + sqr(b) < sqr(c)) || (sqr(c) + sqr(b) < sqr(a)) || (sqr(c) + sqr(a) < sqr(b))) return 2
         if ((sqr(a) + sqr(b) == sqr(c)) || (sqr(c) + sqr(b) == sqr(a)) || (sqr(c) + sqr(a) == sqr(b))) return 1
         else return 0
-    }
-    else return -1
+    } else return -1
 }
 
 

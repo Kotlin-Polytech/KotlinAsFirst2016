@@ -96,7 +96,7 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 fun gcd(m: Int, n: Int): Int {
-    var a :Int
+    var a: Int
     var b = n
     var c = m % n
     while (c != 0) {
@@ -135,14 +135,8 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val a:Int
-    if (m < n) a = m else a = n
-    for (i in 2..a) {
-        if ((m % i == 0) && (n % i == 0)) return false
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
+
 
 /**
  * Простая
@@ -200,15 +194,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var a = n
-    var b = 0
-    while (a != 0) {
-        b = b * 10 + a % 10
-        a /= 10
-    }
-    if (b == n) return true else return false
-}
+fun isPalindrome(n: Int): Boolean = (n == revert(n))
 
 
 /**s
@@ -225,7 +211,7 @@ fun hasDifferentDigits(n: Int): Boolean {
         if (a % 10 != c) b = false
         a /= 10
     }
-    return (b == false)
+    return (!b)
 }
 
 /**
@@ -259,4 +245,19 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var a: Int
+    var b = 0
+    var i = 1
+    do {
+        a = fib(i)
+        b += digitNumber(a)
+        if (b >= n) break
+        i++
+    } while (true)
+    for (j in 1..b - n) {
+        a /= 10
+    }
+    return a % 10
+}
+

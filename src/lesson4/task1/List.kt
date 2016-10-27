@@ -198,7 +198,6 @@ fun factorize(n: Int): List<Int> {
         result.add(n)
         return result
     }
-
     var number = n
     var simple = 2
     while (number > 1) {
@@ -230,6 +229,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 fun convert(n: Int, base: Int): List<Int> {
     val result = mutableListOf<Int>()
     var number = n
+    if (number == 0) result.add(0)
     while (number > 0) {
         result.add(0,number % base)
         number /= base

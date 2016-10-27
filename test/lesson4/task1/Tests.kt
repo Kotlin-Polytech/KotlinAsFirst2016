@@ -143,6 +143,7 @@ class Tests {
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
         assertEquals(listOf(1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1), convert(572147, 2))
+        assertEquals(listOf(0), convert(0, 993))
     }
 
     @Test

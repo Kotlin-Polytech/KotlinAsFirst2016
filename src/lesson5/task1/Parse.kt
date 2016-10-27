@@ -127,7 +127,15 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var a = ""
+    for (i in phone)
+        if ((i.toInt()<58) and (i.toInt()>47) or (i.toInt()==43)) a+=i
+        else if ((i!='(') and (i!=')') and (i!=' ') and (i!='-')) return ""
+    return a
+
+}
+
 
 /**
  * Средняя
@@ -139,7 +147,23 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var a = jumps.split(" ")
+    var cur = 0
+    var max = -1
+    for (i in a){
+        try {
+            cur = i.toInt()
+            if (cur > max) max = cur
+        }
+
+        catch (e: NumberFormatException){
+            if ((i!="%") and (i!="-")) return -1
+        }
+    }
+
+    return max
+}
 
 /**
  * Сложная

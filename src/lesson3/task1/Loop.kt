@@ -179,24 +179,9 @@ fun squareBetweenExists(m: Int, n: Int): Boolean{
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double {
-
-    var result = 0.0
-    var nextNumber = x
-    var count = 1
-    while (abs(nextNumber) >= eps){
-        result += nextNumber
-        if (count % 2 != 0)
-            nextNumber = - pow(x, (2 * count + 1).toDouble())/ factorial(2 * count + 1)
-        else
-            nextNumber = pow(x, (2 * count + 1).toDouble())/ factorial(2 * count + 1)
-        count++
-
-    }
-    return result
+fun sin(x: Double, eps: Double): Double = TODO()
 
 
-}
 
 
 /**
@@ -206,23 +191,8 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double{
-    var result = 0.0
-    var nextNumber = 1.0
-    var count = 1
-    while (abs(nextNumber) >= eps){
-        result += nextNumber
-        if ((count * 2) % 4 != 0)
-            nextNumber = - pow(x, (2 * count).toDouble())/ factorial(2 * count)
-        else
-            nextNumber = pow(x, (2 * count).toDouble())/ factorial(2 * count)
-        count++
+fun cos(x: Double, eps: Double): Double = TODO()
 
-    }
-    return result
-
-
-}
 
 
 /**
@@ -257,26 +227,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var result = true
-    var temp = n
-    var countDigit = countNumber(n)
-    for (i in 1..countDigit / 2 step 2)
-    {
-        if ((temp % 10) == (temp / powInt(10, countDigit - i ))){
-            result = true
-            temp = (temp % powInt(10, countDigit - i )) / 10
-        }
-        else{
-            result = false
-            break
-        }
-    }
-    return result
-}
-
-
-
+fun isPalindrome(n: Int): Boolean = TODO()
 
 /**
  * Средняя

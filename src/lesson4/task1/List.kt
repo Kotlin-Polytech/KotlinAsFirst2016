@@ -184,7 +184,15 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    var sum = 0.0
+    val result = mutableListOf<Double>()
+    for (element in list) {
+        sum += element
+        result.add(sum)
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -193,7 +201,20 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var divider = 2
+    var nn = n
+    while (divider <= nn) {
+        if (nn % divider == 0) {
+            list.add(divider)
+            nn /= divider
+            divider--
+        }
+        divider++
+    }
+    return list
+}
 
 /**
  * Сложная

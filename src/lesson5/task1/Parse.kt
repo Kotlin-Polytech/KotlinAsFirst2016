@@ -175,8 +175,7 @@ fun bestHighJump(jumps: String): Int {
         val jumpsList = jumps.split(" ")
         val jumpsInt = jumpsList.filterIndexed { i, s -> i % 2 == 0 }.map(String::toInt)
         val jumpsSymb = jumpsList.filterIndexed { i, s -> i % 2 != 0 }
-        return jumpsInt.zip(jumpsSymb).toMap().toSortedMap(Comparator { o1, o2 -> o2 - o1 }).filter { it.value.matches(Regex(".*[+]+.*")) }.keys.firstOrNull() ?: -1
-
+        return jumpsInt.zip(jumpsSymb).filter { it.second.contains(Regex(".*[+].*")) }.toMap().toSortedMap(Comparator { o1, o2 -> o2 - o1 }).filter { it.value.matches(Regex(".*[+]+.*")) }.keys.firstOrNull() ?: -1
     } catch (e: IllegalArgumentException) {
         return -1
     }

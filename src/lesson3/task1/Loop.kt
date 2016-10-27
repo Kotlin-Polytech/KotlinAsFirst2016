@@ -74,7 +74,24 @@ fun fib(n: Int): Int = if (n < 3) 1 else fib(n-1) + fib (n-2)
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+
+
+fun NOD(m: Int, n: Int): Int{
+    var digitOne = m
+    var digitTwo = n
+    while (digitOne != digitTwo)
+        if (digitOne > digitTwo)
+            digitOne -= digitTwo
+        else
+            digitTwo -= digitOne
+    return digitOne
+}
+fun lcm(m: Int, n: Int): Int {
+    var nod = NOD(m,n)
+    val result = m * n / nod
+
+    return result
+}
 /**
  * Простая
  *
@@ -165,11 +182,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean{
 fun sin(x: Double, eps: Double): Double {
 
     var result = 0.0
-    var i = 1
-    do{
-        result += powInt(- 1, 2 * i - 1) * pow(x, (2 * i - 1).toDouble() / factorial(i))
-        i++
-    }while (abs(powInt(- 1, 2 * i - 1) * pow(x, (2 * i - 1).toDouble() / factorial(i))) < eps )
+    var nextNumber = x
+    var count = 1
+    while (abs(nextNumber) >= eps){
+        result += nextNumber
+        if (count % 2 != 0)
+            nextNumber = - pow(x, (2 * count + 1).toDouble())/ factorial(2 * count + 1)
+        else
+            nextNumber = pow(x, (2 * count + 1).toDouble())/ factorial(2 * count + 1)
+        count++
+
+    }
     return result
 
 
@@ -183,7 +206,23 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double =TODO()
+fun cos(x: Double, eps: Double): Double{
+    var result = 0.0
+    var nextNumber = 1.0
+    var count = 1
+    while (abs(nextNumber) >= eps){
+        result += nextNumber
+        if ((count * 2) % 4 != 0)
+            nextNumber = - pow(x, (2 * count).toDouble())/ factorial(2 * count)
+        else
+            nextNumber = pow(x, (2 * count).toDouble())/ factorial(2 * count)
+        count++
+
+    }
+    return result
+
+
+}
 
 
 /**
@@ -219,7 +258,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var result = false
+    var result = true
     var temp = n
     var countDigit = countNumber(n)
     for (i in 1..countDigit / 2 step 2)

@@ -264,13 +264,17 @@ fun mostExpensive(description: String): String {
     var max = 0.0
     var mostExpensive = ""
 
-    if (description.contains(Regex("""[^\W\d\s;.]"""))||description=="") return ""
+    if (description.contains(Regex("""[^\W\d\s;.]""")) || description == "") return ""
     val groups = description.split(";")
     for (i in 0..groups.size - 1) {
         val pairs = groups[i].trim().split(" ")
-        if (pairs[1].toDouble() >= max) {
-            max = pairs[1].toDouble()
-            mostExpensive = pairs[0]
+        try {
+            if (pairs[1].toDouble() >= max) {
+                max = pairs[1].toDouble()
+                mostExpensive = pairs[0]
+            }
+        } catch (e: NumberFormatException) {
+            Double.NaN
         }
     }
     return mostExpensive

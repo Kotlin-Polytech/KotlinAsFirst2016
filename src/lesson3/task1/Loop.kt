@@ -216,16 +216,13 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var number = 1
-    var chislo = 1
+    var number = 0
+    var chislo = 0
     while (chislo < n) {
         number++
-        var number2 = fib(number)
-        while (number2 > 0) {
-            number2 /= 10
-            chislo++
-        }
+        chislo +=  digitNumber(fib(number))
     }
+    if (chislo == n) return fib(number) % 10
     var number2 = fib(number)
     for (i in 1..chislo - n) {
         number2 /= 10

@@ -149,8 +149,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
     for (i in 0..a.size - 1) {
         result += a[i] * b[i]
     }
-    return if (a != b) Double.NaN
-    else if (a.isEmpty() || b.isEmpty()) 0.0
+    return if (a.isEmpty() || b.isEmpty()) 0.0
     else result
 
 }
@@ -192,7 +191,7 @@ fun factorize(n: Int): List<Int> {
     var del = 2
     var n0 = n
     while (del <= n0) {
-        if (n0 % 2 == 0) {
+        if (n0 % del == 0) {
             n0 /= del
             result.add(del)
         } else del += 1
@@ -206,7 +205,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String{
+fun factorizeToString(n: Int): String {
     val list = factorize(n)
     return list.joinToString("*")
 }

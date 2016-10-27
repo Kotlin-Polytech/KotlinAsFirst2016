@@ -321,9 +321,9 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  *
  */
-val UNITS1_LIST = listOf<String>("", "I", "II", "III", "VI", "V", "IV", "IIV", "IIIV", "XI")
-val DOZENS1_LIST = listOf<String>("", "X", "XX", "XXX", "LX", "L", "XL", "XXL", "XXXL", "CX")
-val HUNDREDS1_LIST = listOf<String>("", "C", "CC", "CCC", "DC", "D", "CD", "CCD", "CCCD", "MC")
+val UNITS_LIST = listOf<String>("", "I", "II", "III", "VI", "V", "IV", "IIV", "IIIV", "XI")
+val TENS_LIST = listOf<String>("", "X", "XX", "XXX", "LX", "L", "XL", "XXL", "XXXL", "CX")
+val HUNDREDS_LIST = listOf<String>("", "C", "CC", "CCC", "DC", "D", "CD", "CCD", "CCCD", "MC")
 fun roman(n: Int): String {
     var result: String = ""
     var result2: String = ""
@@ -333,9 +333,9 @@ fun roman(n: Int): String {
         n2 -= 1000  //убирает из числа все тысячи, вместо них выводит M//
     }
     val n3 = n2.toString().reversed() //в n3 лежит изначально введенное число без тысяч, переведенное в строку и перевернутое//
-    if (n3.length >= 1) result2 += UNITS1_LIST[n3[0].toString().toInt()] //если число без тысяч != 0, то берем последнюю цифру, записываем римскими/
-    if (n3.length >= 2) result2 += DOZENS1_LIST[n3[1].toString().toInt()]//если в числе без тысяч есть десятки, то зайдет сюда и запишет римскими//
-    if (n3.length >= 3) result2 += HUNDREDS1_LIST[n3[2].toString().toInt()]//если есть и сотни, то тоже запишет римскими//
+    if (n3.length >= 1) result2 += UNITS_LIST[n3[0] - '0'] //если число без тысяч != 0, то берем последнюю цифру, записываем римскими/
+    if (n3.length >= 2) result2 += TENS_LIST[n3[1] - '0']//если в числе без тысяч есть десятки, то зайдет сюда и запишет римскими//
+    if (n3.length >= 3) result2 += HUNDREDS_LIST[n3[2] - '0']//если есть и сотни, то тоже запишет римскими//
     return result + result2.reversed()//так как чтобы точно быть уверенными, что десятки, единицы или сотни есть, мы переворачивали число, то при выводе необходимо перевернуть его обратно//
 }
 
@@ -346,18 +346,19 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-val UNITS_LIST = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-val THOUSANDS_LIST = listOf("одна", "две")
-val DOSENS1_LIST = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-val DOSENS_LIST = listOf("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-val HUNDREDS_LIST = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+
 fun russian(n: Int): String {
+    val UNITS_LIST = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val THOUSANDS_LIST = listOf("", "одна", "две")
+    val TEEN_LIST = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val TENS_LIST = listOf("", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val HUNDREDS_LIST = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     var result: String = ""
     var thousands100 = 0
     var thousands10 = 0
     var thousands = 0
     var hundreds = 0
-    var dozens = 0
+    var tens = 0
     var units = 0
     var nn = n
     while (nn > -1) {
@@ -378,7 +379,7 @@ fun russian(n: Int): String {
             nn = nn % 100
         }
         if ((nn < 100) && (nn >= 10)) {
-            dozens = nn / 10
+            tens = nn / 10
             nn = nn % 10
 
         }
@@ -388,50 +389,20 @@ fun russian(n: Int): String {
 
 
     }
-    when {
-        (thousands100 == 1) -> result += HUNDREDS_LIST[0]
-        (thousands100 == 2) -> result += HUNDREDS_LIST[1]
-        (thousands100 == 3) -> result += HUNDREDS_LIST[2]
-        (thousands100 == 4) -> result += HUNDREDS_LIST[3]
-        (thousands100 == 5) -> result += HUNDREDS_LIST[4]
-        (thousands100 == 6) -> result += HUNDREDS_LIST[5]
-        (thousands100 == 7) -> result += HUNDREDS_LIST[6]
-        (thousands100 == 8) -> result += HUNDREDS_LIST[7]
-        (thousands100 == 9) -> result += HUNDREDS_LIST[8]
-    }
-    if ((thousands10 != 0) && (thousands100 != 0)) result += " "
-    when {
-        ((thousands10 == 1) && (thousands == 0)) -> result += DOSENS1_LIST[0]
-        ((thousands10 == 1) && (thousands == 1)) -> result += DOSENS1_LIST[1]
-        ((thousands10 == 1) && (thousands == 2)) -> result += DOSENS1_LIST[2]
-        ((thousands10 == 1) && (thousands == 3)) -> result += DOSENS1_LIST[3]
-        ((thousands10 == 1) && (thousands == 4)) -> result += DOSENS1_LIST[4]
-        ((thousands10 == 1) && (thousands == 5)) -> result += DOSENS1_LIST[5]
-        ((thousands10 == 1) && (thousands == 6)) -> result += DOSENS1_LIST[6]
-        ((thousands10 == 1) && (thousands == 7)) -> result += DOSENS1_LIST[7]
-        ((thousands10 == 1) && (thousands == 8)) -> result += DOSENS1_LIST[8]
-        ((thousands10 == 1) && (thousands == 9)) -> result += DOSENS1_LIST[9]
-        (thousands10 == 2) -> result += DOSENS_LIST[0]
-        (thousands10 == 3) -> result += DOSENS_LIST[1]
-        (thousands10 == 4) -> result += DOSENS_LIST[2]
-        (thousands10 == 5) -> result += DOSENS_LIST[3]
-        (thousands10 == 6) -> result += DOSENS_LIST[4]
-        (thousands10 == 7) -> result += DOSENS_LIST[5]
-        (thousands10 == 8) -> result += DOSENS_LIST[6]
-        (thousands10 == 9) -> result += DOSENS_LIST[7]
-    }
-    if ((thousands != 0) && (thousands10 != 1) && ((thousands100 != 0) || (thousands10 != 0))) result += " "
-    when {
-        ((thousands10 != 1) && (thousands == 1)) -> result += THOUSANDS_LIST[0]
-        ((thousands10 != 1) && (thousands == 2)) -> result += THOUSANDS_LIST[1]
-        ((thousands10 != 1) && (thousands == 3)) -> result += UNITS_LIST[2]
-        ((thousands10 != 1) && (thousands == 4)) -> result += UNITS_LIST[3]
-        ((thousands10 != 1) && (thousands == 5)) -> result += UNITS_LIST[4]
-        ((thousands10 != 1) && (thousands == 6)) -> result += UNITS_LIST[5]
-        ((thousands10 != 1) && (thousands == 7)) -> result += UNITS_LIST[6]
-        ((thousands10 != 1) && (thousands == 8)) -> result += UNITS_LIST[7]
-        ((thousands10 != 1) && (thousands == 9)) -> result += UNITS_LIST[8]
-    }
+    result += HUNDREDS_LIST[thousands100]
+
+    if (thousands10 != 0 && thousands100 != 0)
+        result += " "
+    if (thousands10 == 1)
+        result += TEEN_LIST[thousands]
+    if (thousands10 > 1)
+        result += TENS_LIST[thousands10 - 1]
+    if (thousands != 0 && thousands10 != 1 && (thousands100 != 0 || thousands10 != 0))
+        result += " "
+    if ((thousands10 != 1) && (thousands == 1 || thousands == 2))
+        result += THOUSANDS_LIST[thousands]
+    if (thousands10 != 1 && thousands > 2)
+        result += UNITS_LIST[thousands]
     if ((thousands100 != 0) || (thousands10 != 0) || (thousands != 0)) {
         if (thousands == 1) {
             result += " тысяча"
@@ -441,51 +412,19 @@ fun russian(n: Int): String {
             } else
                 result += " тысяч"
     }
-    if ((hundreds != 0) && ((thousands != 0) || (thousands100 != 0) || (thousands10 != 0))) result += " "
-    when {
-        (hundreds == 1) -> result += HUNDREDS_LIST[0]
-        (hundreds == 2) -> result += HUNDREDS_LIST[1]
-        (hundreds == 3) -> result += HUNDREDS_LIST[2]
-        (hundreds == 4) -> result += HUNDREDS_LIST[3]
-        (hundreds == 5) -> result += HUNDREDS_LIST[4]
-        (hundreds == 6) -> result += HUNDREDS_LIST[5]
-        (hundreds == 7) -> result += HUNDREDS_LIST[6]
-        (hundreds == 8) -> result += HUNDREDS_LIST[7]
-        (hundreds == 9) -> result += HUNDREDS_LIST[8]
-    }
-    if ((dozens != 0) && ((hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0))) result += " "
-    when {
-        ((dozens == 1) && (units == 0)) -> result += DOSENS1_LIST[0]
-        ((dozens == 1) && (units == 1)) -> result += DOSENS1_LIST[1]
-        ((dozens == 1) && (units == 2)) -> result += DOSENS1_LIST[2]
-        ((dozens == 1) && (units == 3)) -> result += DOSENS1_LIST[3]
-        ((dozens == 1) && (units == 4)) -> result += DOSENS1_LIST[4]
-        ((dozens == 1) && (units == 5)) -> result += DOSENS1_LIST[5]
-        ((dozens == 1) && (units == 6)) -> result += DOSENS1_LIST[6]
-        ((dozens == 1) && (units == 7)) -> result += DOSENS1_LIST[7]
-        ((dozens == 1) && (units == 8)) -> result += DOSENS1_LIST[8]
-        ((dozens == 1) && (units == 9)) -> result += DOSENS1_LIST[9]
-        (dozens == 2) -> result += DOSENS_LIST[0]
-        (dozens == 3) -> result += DOSENS_LIST[1]
-        (dozens == 4) -> result += DOSENS_LIST[2]
-        (dozens == 5) -> result += DOSENS_LIST[3]
-        (dozens == 6) -> result += DOSENS_LIST[4]
-        (dozens == 7) -> result += DOSENS_LIST[5]
-        (dozens == 8) -> result += DOSENS_LIST[6]
-        (dozens == 9) -> result += DOSENS_LIST[7]
-    }
-    if ((units != 0) && (dozens != 1) && ((dozens != 0) || (hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0))) result += " "
-    when {
-        ((dozens != 1) && (units == 1)) -> result += UNITS_LIST[0]
-        ((dozens != 1) && (units == 2)) -> result += UNITS_LIST[1]
-        ((dozens != 1) && (units == 3)) -> result += UNITS_LIST[2]
-        ((dozens != 1) && (units == 4)) -> result += UNITS_LIST[3]
-        ((dozens != 1) && (units == 5)) -> result += UNITS_LIST[4]
-        ((dozens != 1) && (units == 6)) -> result += UNITS_LIST[5]
-        ((dozens != 1) && (units == 7)) -> result += UNITS_LIST[6]
-        ((dozens != 1) && (units == 8)) -> result += UNITS_LIST[7]
-        ((dozens != 1) && (units == 9)) -> result += UNITS_LIST[8]
-    }
+    if ((hundreds != 0) && ((thousands != 0) || (thousands100 != 0) || (thousands10 != 0)))
+        result += " "
+    result += HUNDREDS_LIST[hundreds]
+    if ((tens != 0) && ((hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0)))
+        result += " "
+    if (tens == 1)
+        result += TEEN_LIST[units]
+    if (tens > 1)
+        result += TENS_LIST[tens - 1]
+    if ((units != 0) && (tens != 1) && ((tens != 0) || (hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0)))
+        result += " "
+    if ((tens != 1) && (units > 1))
+        result += UNITS_LIST[units]
 
     return result
 }

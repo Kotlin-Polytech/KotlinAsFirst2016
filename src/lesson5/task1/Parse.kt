@@ -168,9 +168,10 @@ fun bestLongJump(jumps: String): Int {
     var resultJumps = jumps.filter { (it in '0'..'9') || (it == ' ') }
     val parts = resultJumps.split(" ")
     var result = -1
-    for (i in 0..parts.size - 1)
-        if (parts[i] != "")
-            result = Math.max(result, parts[i].toInt())
+    for (part in parts) {
+        if (part != "")
+            result = Math.max(result, part.toInt())
+    }
     return result
 }
 

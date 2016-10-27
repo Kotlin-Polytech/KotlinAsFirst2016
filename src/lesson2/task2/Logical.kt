@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task2
 
 import lesson1.task1.sqr
@@ -18,8 +19,9 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    if ((number % 10 + number / 10 % 10) == (number / 100 % 10 + number / 1000)) return true else return false
+    return ((number % 10 + number / 10 % 10) == (number / 100 % 10 + number / 1000))
 }
+
 /**
  * Простая
  *
@@ -28,9 +30,9 @@ fun isNumberHappy(number: Int): Boolean {
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     if ((x1 == x2) || (y2 == y1)) return true
-    else if (Math.abs(x1 - x2) == Math.abs(y1 - y2)) return true
-    else return false
+    else return (Math.abs(x1 - x2) == Math.abs(y1 - y2))
 }
+
 /**
  * Средняя
  *
@@ -40,9 +42,9 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if ((Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2) return true
-    else return false
+    return ((Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2)
 }
+
 /**
  * Средняя
  *
@@ -53,5 +55,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) || ((a <= r) && (c <= s)) || ((a <= s) && (a <= r)) || ((c <= r) && (b <= s)) || ((c <= s) && (b <= r))) return true else return false
+    val k1 = ((a <= r) && ((b <= s) || (c <= s)))
+    val k2 = ((b <= r) && ((a <= s) || (c <= s)))
+    val k3 = ((c <= r) && ((a <= s) || (b <= s)))
+    return (k1 || k2 || k3)
 }

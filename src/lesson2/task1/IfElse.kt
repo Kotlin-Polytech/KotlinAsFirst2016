@@ -35,7 +35,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if ( ( age in 5..20 ) or ( age in 105..120 ) ) return "$age лет"
+    if ( ( age in 5..20 ) || ( age in 105..120 ) ) return "$age лет"
     else if ( age % 10 in 2..4 ) return "$age года"
     else if ( age % 10 in 1..1 ) return "$age год"
     return "$age лет"
@@ -52,10 +52,10 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val p:Double =t1*v1+t2*v2+v3*t3
-    if (p/2<=t1*v1) return p/2/v1
-    else if (p/2<=(t1*v1+t2*v2)) return (p/2-v1*t1)/v2+t1
-    else  return (p/2-v1*t1-v2*t2)/v3+t1+t2
+    val p = t1 * v1 + t2 * v2 + v3 * t3
+    if (p / 2 <= t1 * v1) return p / 2 / v1
+    else if (p / 2 <= (t1 * v1 + t2 * v2)) return (p / 2 - v1 * t1) / v2 + t1
+    else return (p / 2 - v1 * t1 - v2 * t2) / v3 + t1 + t2
 }
 
 /**
@@ -69,13 +69,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var rook:Int=0; var bishop:Int=0; var p:Int=0
-    if ((rookX1==kingX)or(rookY1==kingY)) rook = 1
-    if ((rookX2==kingX)or(rookY2==kingY)) bishop = 1
-    if ((rook==0)&&(bishop==0)) p=0 else
-        if ((rook==1)&&(bishop==1)) p=3 else
-            if (bishop==1) p=2 else
-                p=1
+    var rook: Int = 0;
+    var rook1: Int = 0;
+    var p: Int = 0
+    if ((rookX1 == kingX) || (rookY1 == kingY)) rook = 1
+    if ((rookX2 == kingX) || (rookY2 == kingY)) rook1 = 1
+    if ((rook == 0) && (rook1 == 0)) p = 0 else
+        if ((rook == 1) && (rook1 == 1)) p = 3 else
+            if (rook1 == 1) p = 2 else
+                p = 1
     return p
 }
 /**
@@ -90,14 +92,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var rook:Int=0; var bishop:Int=0; var p:Int=0
-    if ((rookX==kingX)or(rookY==kingY)) rook = 1
-    if (Math.abs(bishopX-kingX)==Math.abs(bishopY-kingY)) bishop = 1
-    if ((rook==0)&&(bishop==0)) p=0 else
-        if ((rook==1)&&(bishop==1)) p=3 else
-            if (bishop==1) p=2 else
-                p=1
-    return p
+    var rook = 0;
+    var bishop = 0;
+    if ((kingX == rookX) || (kingY == rookY)) rook = 1
+    if (Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)) bishop = 1
+    if (rook == 1 && bishop == 1) return 3 else
+        if (rook == 0 && bishop == 0) return 0 else
+            if (rook == 1) return 1
+    return 2
 }
 /**
  * Простая
@@ -110,10 +112,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     var n: Int = 0
     if ((a + b > c) && (a + c > b) && (c + b > a)) {
-        if ((a * a + b * b < c * c) or (a * a + c * c < b * b) or (b * b + c * c < a * a)) n = 2 else
-            if ((a * a + b * b == c * c) or (a * a + c * c == b * b) or (b * b + c * c == a * a)) n = 1 else
-                n = 0
-    } else n=-1
+        if ((a * a + b * b < c * c) || (a * a + c * c < b * b) || (b * b + c * c < a * a)) n = 2
+            else if ((a * a + b * b == c * c) || (a * a + c * c == b * b) || (b * b + c * c == a * a)) n = 1
+                else n = 0
+    } else n = -1
     return n
 }
 
@@ -125,11 +127,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int  {
-    var n : Int = 0
-    if (c<=a && d>=b) n = (b - a)  else
-        if (c<=a && d>=a && d<=b) n = (d-a)  else
-            if (c>=a && c<=b && d>=b) n = (b-c) else
-                if (c>=a && c<=b && d<=b) n = (d-c) else n = -1
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    var n: Int = 0
+    if (c <= a && d >= b) n = (b - a)
+      else if (c <= a && d >= a && d <= b) n = (d - a)
+        else if (c >= a && c <= b && d >= b) n = (b - c)
+          else if (c >= a && c <= b && d <= b) n = (d - c)
+            else n = -1
     return n
 }

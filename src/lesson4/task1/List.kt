@@ -183,7 +183,7 @@ fun convert(n: Int, base: Int): List<Int> {
         return additional
     }
     else {
-        while (number > base) {
+        while (number > base -1 ) {
             val forList:Int = number - number / base * base
             additional.add(forList)
             number = number / base

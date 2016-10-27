@@ -60,8 +60,27 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
 
+fun dateStrToDigit(str: String): String{
+    var result = ""
+    val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
+            , "сентября", "октября", "ноября", "декабря")
+    var parth = str.split(" ")
+    if ((parth.size != 3 ) || (parth[1] !in month))
+    {
+        return ""
+    }
+    else
+        try {
+            val day = parth[0].toInt()
+            val mont = month.indexOf(parth[1]) + 1
+            val year = parth[2].toInt()
+            return String.format("%02d.%02d.%d", day, mont , year)
+        }
+        catch (e: NumberFormatException){
+            return ""
+        }
+}
 /**
  * Средняя
  *
@@ -69,7 +88,26 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String{
+    var result = ""
+    val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
+            , "сентября", "октября", "ноября", "декабря")
+    var parth = digital.split(".")
+        try {
+            if ((parth.size != 3 ) || (parth[1].toInt() == 0))
+            {
+                return ""
+            }
+            val day = parth[0].toInt()
+            val mont = month[parth[1].toInt() - 1]
+            val year = parth[2].toInt()
+            return String.format("%d %s %d", day, mont , year)
+        }
+        catch (e: NumberFormatException){
+            return ""
+        }
+}
+
 
 /**
  * Сложная
@@ -84,6 +122,8 @@ fun dateDigitToStr(digital: String): String = TODO()
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String = TODO()
+
+
 
 /**
  * Средняя

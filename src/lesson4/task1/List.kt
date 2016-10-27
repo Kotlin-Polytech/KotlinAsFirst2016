@@ -188,7 +188,17 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    var t = 0.0
+    var i=0
+    while(i in 0..list.size-1) {
+        t +=list[i]
+        list[i]=t
+        i++
+    }
+    return list
+
+}
 
 /**
  * Средняя
@@ -220,6 +230,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String = TODO()
+
 /**
  * Средняя
  *
@@ -227,22 +238,7 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> {
-    val x = mutableListOf<Int>()
-    var b = n
-    if (n == 0) return listOf(0)
-    while (b > 0) {
-        x.add(b % base)
-        b /= base
-    }
-    val s = mutableListOf<Int>()
-    var t = 1
-    while (t <= x.size) {
-        s.add(x[x.size - t])
-        t++
-    }
-    return s
-}
+fun convert(n: Int, base: Int): List<Int> = TODO()
 
 /**
  * Сложная

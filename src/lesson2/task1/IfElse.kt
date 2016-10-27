@@ -34,13 +34,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    var ageResult:String
-    ageResult=" "
-    if (age in 10..19) ageResult="$age лет"
-    else if (age%10==1) ageResult="$age год"
-    else if (age%10 in 2..4) ageResult="$age года"
-    else if (age%10>5) ageResult="$age лет"
-    return(ageResult)
+    var ageResult: String
+    ageResult = " "
+    if (age in 10..19) ageResult = "$age лет"
+    else if (age % 10 == 1) ageResult = "$age год"
+    else if (age % 10 in 2..4) ageResult = "$age года"
+    else if (age % 10 > 5) ageResult = "$age лет"
+    else if (age % 10 == 0) ageResult = "$age лет"
+        return (ageResult)
 }
 /**
  * Простая
@@ -126,10 +127,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     var length: Int
-    if ((a < c) && (d > b)) return (b - c)
-    else if ((c > b) && ((c < a) && (d < a))) return (-1)
-    else if ((a < c) && (b > d)) return (d - c)
-    else if ((c < a) && (d > b)) return (b - a)
-    else if ((c < a) && (d > a) && (d < b)) return (d - a)
-    else return (-1)
+    if ((c>a)&&(c<b)&&(d>b)) return b-c
+    else if ((c>a)&&(c<b)&&(d<b)) return d-c
+    else if ((c<a)&&(d>a)&&(d<b)) return d-a
+    else if ((c<a)&&(d>b)) return b-a
+    else if (((a==b)&&(c<a)&&(d>a)) or ((c==d)&&(a<c)&&(b>c)) or ((b==c)&&(a<b)&&(d>b)) or ((a==d)&&(c<a)&&(b>a))) return 0
+    else return -1
+
 }

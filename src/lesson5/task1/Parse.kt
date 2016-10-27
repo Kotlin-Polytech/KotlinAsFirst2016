@@ -194,7 +194,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val pattern = Regex("^\\d+(\\s[+-]\\s)(\\d+\\s[+-]\\s)*\\d+$")
-    if (expression.matches(Regex("\\d"))) return expression.toInt()
+    if (expression.matches(Regex("\\d+"))) return expression.toInt()
     if (!(expression.matches(pattern))) throw IllegalArgumentException()
     val digitsAndSymbols = expression.split(" ")
     val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0  }

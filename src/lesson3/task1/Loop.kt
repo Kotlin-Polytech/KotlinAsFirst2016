@@ -137,7 +137,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (NOD(m,n) == 1) return true
+    if (NOD(m, n) == 1) return true
     else return false
 }
 
@@ -264,7 +264,7 @@ fun squareSequenceDigit(n: Int): Int {
 //Через добавленный AssertEquals для значений зафейленного теста прога проходит за 21 сек.
 //Как можно ускорить работу?
 //UPD:Всё, вроде придумал
-fun fibSequenceDigit(n: Int): Int  {
+fun fibSequenceDigit(n: Int): Int {
     var count = 1
     var fib1 = 0
     var fib2 = fib1
@@ -273,8 +273,8 @@ fun fibSequenceDigit(n: Int): Int  {
     while (count < n) {
         fib1 = fib2
         fib2 = currentFib
-        currentFib = fib1+fib2
-        count+= digitNumber(currentFib)
+        currentFib = fib1 + fib2
+        count += digitNumber(currentFib)
     }
     if (count > n) currentFib /= Math.pow(10.0, (count - n).toDouble()).toInt()
     return currentFib % 10

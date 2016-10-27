@@ -220,12 +220,14 @@ fun fibSequenceDigit(n: Int): Int {
     var chislo = 0
     while (chislo < n) {
         number++
-        chislo +=  digitNumber(fib(number))
+        chislo += digitNumber(fib(number))
     }
     if (chislo == n) return fib(number) % 10
-    var number2 = fib(number)
-    for (i in 1..chislo - n) {
-        number2 /= 10
+    var s = chislo - n
+    var t = 10
+    while (s > 1) {
+        t *= 10
+        s--
     }
-    return number2 % 10
+    return (fib(number) / t) % 10
 }

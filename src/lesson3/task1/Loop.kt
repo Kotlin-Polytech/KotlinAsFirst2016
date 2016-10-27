@@ -169,12 +169,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var a = 1
-    var sin = x
-    while (Math.pow(x,a * 2.0 + 1) / factorial(a * 2 + 1) > eps ) {
-        if ((a % 2) == 0) sin += Math.pow(x, a * 2.0 + 1) / factorial(a * 2 + 1)
-        else sin -= Math.pow(x, a * 2.0 + 1) / factorial(a * 2 + 1)
+    var a = 0
+    val b = x % (2 * Math.PI)
+    var sin = b
+    var term = b
+    while (Math.abs(term) >= eps) {
         a++
+        term = Math.pow (b, a * 2.0 + 1) / factorial(a * 2 + 1)
+        if ((a % 2) == 1) sin -= term
+        else sin += term
     }
     return (sin)
 }

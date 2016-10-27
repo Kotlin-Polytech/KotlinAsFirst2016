@@ -184,11 +184,9 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
-    if (list.isNotEmpty()){
-       for (i in 0..list.size-1){
-           sum+=list[i]
-           list[i]=sum
-       }
+    for (i in 0..list.size - 1) {
+        sum += list[i]
+        list[i] = sum
     }
     return list
 }
@@ -276,12 +274,20 @@ fun decimalFromString(str: String, base: Int): Int {
     var con = 0
     for (q in str) {
         l--
-        con = (Math.pow(base.toDouble(), l.toDouble())).toInt()
+        con = power(base, l)
         if (q in '0'..'9') {
-            res += (q.toInt() - '0'.toInt()) * con
+            res += (q - '0') * con
         } else if (q in 'a'..'z') {
-            res += ((q.toInt() - 'a'.toInt()) + 10) * con
+            res += ((q - 'a') + 10) * con
         }
+    }
+    return res
+}
+
+fun power(a: Int, b: Int): Int {
+    var res = 1
+    for (i in 1..b) {
+        res *= a
     }
     return res
 }

@@ -36,6 +36,7 @@ class Tests {
         assertEquals(4.4, timeForHalfWay(3.0, 0.0, 1.0, 6.0, 2.0, 5.0), 1e-2)
         assertEquals(Double.NaN, timeForHalfWay(1.0666666666666667, 0.0, 0.0, 0.0, 0.0, 1.0), 1e-2)
         assertEquals(1.5750000000000002, timeForHalfWay(1.05, 0.0, 0.0, 2.0, 1.05, 9.0), 1e-2)
+        assertEquals(2.0666666666666664, timeForHalfWay(1.0666666666666667, 0.0, 1.75, 10.0, 2.5, 1.0), 1e-2)
     }
 
     @Test

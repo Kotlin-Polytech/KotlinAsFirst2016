@@ -139,17 +139,19 @@ data class Line(val point: Point, val angle: Double) {
 
         if (Math.tan(angle) == Math.tan(angle2)) throw IllegalArgumentException()
 
+        fun checkInf(ang: Double): Boolean {
+            return Math.abs(Math.cos(ang)) < 1.0E-5
+        }
+
         val x3 = when {
-            (Math.tan(angle).isInfinite()) -> x1
-            (Math.tan(angle2).isInfinite()) -> x2
+            (checkInf(angle)) -> x1
+            (checkInf(angle2)) -> x2
             else -> (x1*Math.tan(angle) - x2*Math.tan(angle2) + y2 - y1)/(Math.tan(angle) - Math.tan(angle2))
         }
 
         val y3 = when {
-            ((1/Math.tan(angle)).isInfinite()) -> y1
-            ((1/Math.tan(angle2)).isInfinite()) -> y2
-            (Math.tan(angle).isInfinite()) -> ((x3-x2)*Math.tan(angle2) + y2)
-            else ->  ((x3-x1)*Math.tan(angle) + y1)
+            (checkInf(angle2)) -> ((x3 - x1) * Math.tan(angle) + y1)
+            else -> ((x3 - x2) * Math.tan(angle2) + y2)
         }
 
         return Point(x3, y3)

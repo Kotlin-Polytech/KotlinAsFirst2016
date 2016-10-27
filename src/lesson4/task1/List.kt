@@ -423,7 +423,7 @@ fun russian(n: Int): String {
         result += TENS_LIST[tens - 1]
     if ((units != 0) && (tens != 1) && ((tens != 0) || (hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0)))
         result += " "
-    if ((tens != 1) && (units > 1))
+    if ((tens != 1) && (units >= 1))
         result += UNITS_LIST[units]
 
     return result

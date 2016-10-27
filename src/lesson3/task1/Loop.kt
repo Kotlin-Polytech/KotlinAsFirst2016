@@ -71,14 +71,10 @@ fun digitNumber(n: Int): Int =
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    /*return when {
-        n > 2 -> fib(n - 2) + fib(n - 1)
-        else -> 1
-    }*/
-    var member1: Int = 1
-    var member2: Int = 0
+    var member1 = 1
+    var member2 = 0
     for (i in 2..n) {
-        member1 = member1 + member2
+        member1 += member2
         member2 = member1 - member2
     }
     return member1
@@ -92,10 +88,8 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 1
-    for (i in 1..m * n) {
-        if (((k % m) != 0) || ((k % n) != 0)) k = i + 1 else break
-    }
+    var k = max(m,n)
+    while (k % m != 0 || k % n != 0) k++
     return k
 }
 
@@ -118,7 +112,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var maxDiv = (n / 2).toInt()
+    var maxDiv = (n / 2)
     while (n % maxDiv != 0) {
         maxDiv--
     }
@@ -152,8 +146,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val squareRoot = sqrt(m.toDouble()).toInt()
-    return (squareRoot * squareRoot in m..n) || ((squareRoot + 1) * (squareRoot + 1) <= n)
+    return sqr(ceil(sqrt(m.toDouble()))) in m..n
 }
 
 /**
@@ -224,8 +217,7 @@ fun squareSequenceDigit(n: Int): Int {
         sum += digitNumber(square)
     }
     count = sum - n
-    return (square / powInt(10, count) % 10)
-    /*return ((square / pow(10.0, count.toDouble())) % 10).toInt()*/
+    return (square / pow(10, count) % 10)
 
 }
 
@@ -246,11 +238,12 @@ fun fibSequenceDigit(n: Int): Int {
         sum += digitNumber(fibonach)
     }
     count = sum - n
-    return (fibonach / powInt(10, count) % 10)
+    return (fibonach / pow(10, count) % 10)
 }
 
-fun powInt(number: Int, degree: Int): Int {
+fun pow(a: Int, b: Int): Int {
     var result = 1
-    for (i in 1..degree) result *= number
+    for (i in 1..b) result *= a
     return result
 }
+

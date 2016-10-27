@@ -61,19 +61,12 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    try{val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    val parts = str.split(" ")
-    var results = ""
-    var count = 0
-    for (element in list) {
-        if (parts[1].toString() == element) {
-            count++
-            break
-        }
-        count++
-    }
-    return "${parts[0]}.${twoDigitStr(count)}.${parts[2]}"}
-    catch (e: NumberFormatException) {
+    val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        val parts = str.split(" ")
+        if (list.indexOf(parts[1]) == -1) throw IllegalAccessException()
+        return "${twoDigitStr(parts[0].toInt())}.${twoDigitStr(list.indexOf(parts[1]) + 1)}.${parts[2]}"
+    } catch (e: Exception) {
         return ""
     }
 }

@@ -64,7 +64,7 @@ fun dateStrToDigit(str: String): String {
     if (str.isEmpty()) return ""
     val parts = str.split(" ")
     if ((parts[0].toInt() !in 1..31) || (parts.size != 3)) return ""
-    val Months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентрября", "октября", "ноября", "декабря")
+    val Months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val month = Months.indexOf(parts[1]) + 1
     if (month == 0) return ""
     try {
@@ -88,8 +88,8 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
     try {
-        if ((parts[0].toInt() !in 1..31) || (parts[1].toInt() !in 1..12) || (parts[2].toInt() !in 1..2016)) return ""
-        val Months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентрября", "октября", "ноября", "декабря")
+        if ((parts[0].toInt() !in 1..31) || (parts[1].toInt() !in 1..12)) return ""
+        val Months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
         val day = parts[0].toInt()
         val year = parts[2].toInt()
         return String.format("%d %s %d", day, Months[parts[1].toInt() - 1], year)

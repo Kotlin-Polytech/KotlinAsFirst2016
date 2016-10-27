@@ -233,12 +233,12 @@ fun russian(n: Int): String {
     else{
         while (numberOfThousands > 19) {
             forFunFrom = numberOfThousands / del * del
-            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromOneToNineT(forFunFrom) + " "
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToNameT(forFunFrom) + " "
             numberOfThousands=numberOfThousands-numberOfThousands/del*del
             del=del/10
         }
         forFunFrom = numberOfThousands
-        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromOneToNineT(forFunFrom)+" "
+        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToNameT(forFunFrom)+" "
         when{
             (((numberOfThousands>4) || (numberOfThousands==0)) && (n/1000 !=0)) -> nameOfNumber = nameOfNumber +  "тысяч"
             ((numberOfThousands<5) &&(numberOfThousands>1))-> nameOfNumber = nameOfNumber + "тысячи"
@@ -248,16 +248,16 @@ fun russian(n: Int): String {
         del=100
         while (numberOfElse > 19) {
             forFunFrom = numberOfElse/del*del
-            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromOneToNine(forFunFrom)+" "
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom)+" "
             numberOfElse=numberOfElse-numberOfElse/del*del
             del=del/10
         }
         forFunFrom = numberOfElse
-        nameOfNumber = nameOfNumber + fromOneToNine(forFunFrom)
+        nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom)
     }
     return nameOfNumber.trim()
 }
-fun fromOneToNine(n: Int): String {
+fun fromNumberToName(n: Int): String {
     var nameOf: String = ""
     when {
         n == 900 -> nameOf = "девятьсот"
@@ -300,7 +300,7 @@ fun fromOneToNine(n: Int): String {
     }
     return nameOf
 }
-fun fromOneToNineT(n: Int): String {
+fun fromNumberToNameT(n: Int): String {
     var nameOf: String =""
     when {
         n==900 -> nameOf ="девятьсот"

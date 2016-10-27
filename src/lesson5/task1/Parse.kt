@@ -87,11 +87,10 @@ fun dateDigitToStr(digital: String): String {
         try {
             for (month in month_names) {
                 val month_numbers: Int = month_names.indexOf(month) + 1
-                if (month_numbers== parts[1].toInt()) return parts[0].toInt().toString() + " " + month + " " + parts[2]
+                if (month_numbers == parts[1].toInt()) return parts[0].toInt().toString() + " " + month + " " + parts[2]
             }
             return ""
-        }
-        catch (e: NumberFormatException) {
+        } catch (e: NumberFormatException) {
             return ""
         }
     } else return ""
@@ -110,7 +109,13 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val parts = phone.filter { it != '-' && it != ' ' && it != '(' && it != ')' }
+    val parts1 = parts.filter { it != '+' }
+    if (parts1.any { it !in '0'..'9' }) return ""
+    return if (parts[0] == '+') "+" + parts1
+    else parts1
+}
 
 /**
  * Средняя
@@ -122,7 +127,16 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(" ").filter { it != "-" && it != "%" }
+    val result: List<Int>
+    try {
+        result = parts.map { it.toInt() }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return result.max() ?: -1
+}
 
 /**
  * Сложная
@@ -134,7 +148,22 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int = TODO() /*{
+    var char1 = '0'
+    var numb : Int
+    var list = listOf<Int>()
+    try {
+        if ('+' !in jumps) return 0
+        for (char in jumps) {
+            if (char == '+') {
+                numb = jumps.indexOf(char)
+            }
+        }
+    }
+    catch (e : NumberFormatException) {
+        return  -1
+    }
+}*/
 
 /**
  * Сложная

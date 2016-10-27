@@ -241,7 +241,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val sys = convert(n, base)
+    val alphabet = "abcdefghijklmnopqrstuvwxyz"
+    var str: String
+    var numb = ""
+    for (element in sys) {
+        if (element < 10) str = element.toString()
+        else str = alphabet[element - 10].toString()
+        numb += str
+    }
+    return numb
+}
 
 /**
  * Средняя
@@ -261,7 +272,17 @@ fun decimal(digits: List<Int>, base: Int): Int = polynom(digits.map { it.toDoubl
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    val alphabet = "abcdefghijklmnopqrstuvwxyz"
+    var numb: Int
+    var digits = listOf<Int>()
+    for (char in str) {
+        if (char in alphabet) numb = alphabet.indexOf(char) + 10
+        else numb = char - '0'
+        digits += numb
+    }
+    return decimal(digits, base)
+}
 
 /**
  * Сложная

@@ -171,17 +171,17 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = {
+fun factorize(n: Int): List<Int> {
     var del = 2
     var number = n
-    var result = mutableListOf<Int>()
-    while (number != 0) {
+    val result = mutableListOf<Int>()
+    while (number != 1) {
         if (number % del == 0) {
-            (result += del)
+            result.add(del)
             number /= del
         } else del += 1
     }
-    return result.asReversed()
+    return result.sorted()
 }
 
 
@@ -191,7 +191,11 @@ fun factorize(n: Int): List<Int> = {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+
+fun factorizeToString(n: Int): String {
+    val factorize = factorize(n)
+    return factorize.joinToString(separator = "*")
+}
 
 /**
  * Средняя
@@ -218,15 +222,8 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = {
-    val convert = convert(n, base)
-    var result = ""
-    for (element in convert) {
-        if (element <= 9) result += element.toString()
-         else result += ('a' + element - 10).toChar()
-    }
-    return result
-}
+fun convertToString(n: Int, base: Int): String = TODO()
+
 
 /**
  * Средняя

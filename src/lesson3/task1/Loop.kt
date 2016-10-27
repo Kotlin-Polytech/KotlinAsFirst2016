@@ -153,7 +153,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val mSqrt = Math.floor(Math.sqrt(m.toDouble()))
     val nSqrt = Math.ceil(Math.sqrt(n.toDouble()))
-    if (nSqrt-mSqrt>1||m==0||n==0||m==1||n==1) return true
+    if (nSqrt - mSqrt > 1 || m == 0 || n == 0 || m == 1 || n == 1) return true
     else return false
 }
 
@@ -247,12 +247,18 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-var k = ""
-var count = 0
-for (i in 1..n) {
-    if (i > 2) k=(fib(i - 1) + fib(i - 2)).toString() else k="1"
-    count += k.length
-    if (count >= n) break
-}
-return k[k.length - 1 - count + n] - '0'
+    var k = ""
+    var count = 0
+    var help1 = 1
+    var help2 = 1
+    for (i in 1..n) {
+        if (i > 2) {
+            k = (help1 + help2).toString()
+            help1 = help2
+            help2 = k.toInt()
+        } else k = "1"
+        count += k.length
+        if (count >= n) break
+    }
+    return k[k.length - 1 - count + n] - '0'
 }

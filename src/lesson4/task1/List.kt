@@ -107,9 +107,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var x = 0
+    var x = 0.0
     for (element in v) {
-        x += pow(element, 2.0).toInt()
+        x += pow(element, 2.0)
     }
     val t = Math.sqrt(x * 1.0)
     return t
@@ -135,15 +135,15 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val result = mutableListOf<Double>()
+    val r = mutableListOf<Double>()
     if (list.isEmpty()) return mutableListOf()
     else {
         val t = list.sum() / list.size * 1.0
         for (element in list) {
             val x = element - t
-            result.add(x)
+            r.add(x)
         }
-        return result
+        return r
     }
 }
 
@@ -171,10 +171,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    var p1 = 0
-    var x1 = 0
+    var p1 = 0.0
+    var x1 = 0.0
     for (element in p) {
-        p1 = (p1 + element * pow(x * 1.0, x1 * 1.0)).toInt()
+        p1 = (p1 + element * pow(x, x1))
         x1++
     }
     return p1 * 1.0
@@ -189,13 +189,13 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    val result = mutableListOf<Double>()
+    val r = mutableListOf<Double>()
     var t = 0.0
     for (element in list) {
         t += element
-        result.add(t)
+        r.add(t)
     }
-    return result
+    return r
 
 }
 
@@ -259,6 +259,7 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     val x = mutableListOf<Int>()
     var b = n
+    if (n==0) return listOf(0)
     while (b > 0) {
         x.add(b % base)
         b /= base

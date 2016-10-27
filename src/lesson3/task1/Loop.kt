@@ -180,11 +180,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 
 fun sin(x: Double, eps: Double): Double {
     var counter = 0
-    var sinus = x
-    var number = x
+    val x1=x % (2 * Math.PI)
+    var number = x1
+    var sinus = x1
     while (Math.abs(number) > eps) {
         counter++
-        number = Math.pow(x, counter * 2.0 + 1) / factorial(counter * 2 + 1)
+        number = Math.pow(x1, counter * 2.0 + 1) / factorial(counter * 2 + 1)
         if (counter % 2 == 1) sinus -= number
         else sinus += number
     }
@@ -218,11 +219,12 @@ fun revert(n: Int): Int {
  */
 fun cos(x: Double, eps: Double): Double {
     var i = 0
+    val x1=x % (2 * Math.PI)
     var cosus = 1.0
-    var number = x
+    var number = x1
     while (Math.abs(number) > eps) {
         i++
-        number = Math.pow(x, i * 2.0) / factorial(i * 2)
+        number = Math.pow(x1, i * 2.0) / factorial(i * 2)
         if (i % 2 == 1) cosus -= number
         else cosus += number
 
@@ -301,7 +303,7 @@ fun fibSequenceDigit(n: Int): Int {
     var result = 0
     while (number < n) {
         i++
-        number = digitNumber(fib(i))
+        number += digitNumber(fib(i))
     }
     result = fib(i)
     for (i in n..number - 1) {

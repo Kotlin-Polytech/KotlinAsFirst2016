@@ -135,13 +135,22 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     val jumpsWithoutSpace = jumps.split(" ").filter { it != "-" && it != "%" }
+    if (jumpsWithoutSpace.isEmpty()) return -1
     val jumpsWithoutSpaceMap: List<Int>
     try {
         jumpsWithoutSpaceMap = jumpsWithoutSpace.map { it.toInt() }
     } catch (e: NumberFormatException) {
         return -1
     }
-    return jumpsWithoutSpaceMap.max() ?: -1
+    //------------------------------------------------------//
+    var bestJump = jumpsWithoutSpaceMap[0]
+    for (i in 0..jumpsWithoutSpaceMap.size - 1) {
+        if (jumpsWithoutSpaceMap[i] > bestJump) bestJump = jumpsWithoutSpaceMap[i]
+    }
+    return bestJump
+    //  Замена предыдущего блока кода от //--//
+    //  return jumpsWithoutSpaceMap.max() ?: -1
+    //------------------------------------------------------//
 }
 
 /**
@@ -155,6 +164,23 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
+    val jumpsList = jumps.split(" ")
+    if ((jumpsList.size < 2) or (jumpsList.size % 2 != 0)) return -1
+    var luckyJumps = listOf<Int>()
+    var bestJump = 0
+    try {
+        for (i in 0..jumpsList.size - 1 step 2) {
+            if (jumpsList[i + 1].matches(Regex(""".*\+.*"""))) {
+                luckyJumps += jumpsList[i].toInt()
+            }
+        }
+        bestJump = luckyJumps.max() ?: -1
+    } catch (e: NumberFormatException) {
+        -1
+    }
+    return bestJump
+/*
+--------------------------------------АЛЬТЕРНАТИВНЫЙ КОД-----------------------------------------
     if (!jumps.matches(Regex("""\d* (\+|\-|\%)+( \d* (\+|\-|\%)+)*"""))) return -1///
     val jumpsList = jumps.split(" ")
     var jumpsLuckList = listOf<Int>()
@@ -164,6 +190,8 @@ fun bestHighJump(jumps: String): Int {
         i += 2
     }
     return jumpsLuckList.max() ?: -1
+-------------------------------------------------------------------------------------------------
+*/
 }
 
 /**
@@ -179,7 +207,6 @@ fun plusMinus(expression: String): Int {
     if (!expression.matches(Regex("""\d+( (\+|\-) \d+)*"""))) throw IllegalArgumentException()
     val symbols = expression.split(" ")
     val digits = symbols.filter { it != "-" && it != "+" }
-    if (digits.size == 1) return digits[0].toInt()
     val operations = symbols.filter { it == "-" || it == "+" }
     var result = digits[0].toInt()
     for (i in 0..digits.size - 2) {

@@ -154,6 +154,14 @@ class Tests {
     }
 
     @Test
+    fun intPower() {
+        assertEquals(2, intPower(2, 1))
+        assertEquals(4, intPower(2, 2))
+        assertEquals(8, intPower(2, 3))
+        assertEquals(64, intPower(2, 6))
+    }
+
+    @Test
     @Tag("Normal")
     fun decimal() {
         assertEquals(1, decimal(listOf(1), 2))

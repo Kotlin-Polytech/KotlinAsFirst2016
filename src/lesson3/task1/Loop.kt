@@ -62,12 +62,14 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var nn = Math.abs(n)
-    var k = 0
-    while (nn > 0) {
-        nn = nn / 10
-        k++
+    if (n == 0) return 1 else {
+        var k = 0
+        while (nn > 0) {
+            nn = nn / 10
+            k++
+        }
+        return k
     }
-    if (k == 0) return 1 else return k
 }
 
 /**
@@ -95,7 +97,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun nod(m: Int, n: Int): Int {
     var mm = m
     var nn = n
     while (mm != nn) {
@@ -105,8 +107,12 @@ fun lcm(m: Int, n: Int): Int {
             nn = nn - mm
         }
     }
-    var nod = mm
-    var nok = (m * n) / nod
+    return mm
+}
+
+fun lcm(m: Int, n: Int): Int {
+    var mm = nod(m, n)
+    var nok = (m * n) / mm
     return nok
 }
 
@@ -140,13 +146,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var max = Math.max(m, n)
-    var i = 0
-    var noDivisor = true
-    for (i in 2..max) {
-        if ((m % i == 0) && (n % i == 0)) noDivisor = false
-    }
-    if (noDivisor == false) return false else return true
+    var max = nod(m, n)
+    if (max == 1) return true else return false
 }
 
 /**
@@ -158,7 +159,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k: Int = (sqrt(n.toDouble())).toInt()
-    if (k * k >= m && k * k <= n) return true else return false
+    return (k * k >= m && k * k <= n)
 }
 
 /**
@@ -172,8 +173,7 @@ fun sin(x: Double, eps: Double): Double {
     var n = 0
     var sin = x
     var fraction = x
-    var xx = x
-    xx = x % (2 * PI)
+    var xx = x % (2 * PI)
     while (Math.abs(fraction) > Math.abs(eps)) {
         n++
         fraction = Math.pow(xx, n * 2.0 + 1) / factorial(n * 2 + 1)
@@ -194,8 +194,7 @@ fun cos(x: Double, eps: Double): Double {
     var n = 0
     var cos = 1.0
     var fraction = x
-    var xx = x
-    xx = x % (2 * PI)
+    var xx = x % (2 * PI)
     while (Math.abs(fraction) > Math.abs(eps)) {
         n++
         fraction = Math.pow(xx, n * 2.0) / factorial(n * 2)
@@ -212,11 +211,10 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var last = 0
     var m = 0
     var nn = n
     while (nn > 0) {
-        last = nn % 10
+        var last = nn % 10
         m = m * 10 + last
         nn = nn / 10
     }
@@ -231,14 +229,8 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var i = 0
-    var nn = n
-    var answer = 0
-    while (nn > 0) {
-        answer = answer * 10 + nn % 10
-        nn = nn / 10
-    }
-    if (answer == n) return true else return false
+    var answer = revert(n)
+    return (answer == n)
 }
 
 /**
@@ -269,22 +261,12 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    fun quantity(n: Int): Int {
-        var k = 0
-        var nn = n
-        while (nn > 0) {
-            nn = nn / 10
-            k++
-        }
-        return k
-    }
-
     var i = 0
     var number = 0
     var answer = 0
     while (number < n) {
         i++
-        number = number + quantity(i * i)
+        number = number + digitNumber(i * i)
     }
     answer = i * i
     for (i in (n..number - 1)) {

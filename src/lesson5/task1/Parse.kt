@@ -84,7 +84,6 @@ fun dateDigitToStr(digital: String): String = TODO()
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String = TODO()
-
 /**
  * Средняя
  *

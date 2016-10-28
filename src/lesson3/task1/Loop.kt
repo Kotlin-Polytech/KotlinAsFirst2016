@@ -158,7 +158,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k: Int = (sqrt(n.toDouble())).toInt()
+    var k = ceil(sqrt(m.toDouble()))
     return (k * k >= m && k * k <= n)
 }
 
@@ -240,17 +240,14 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var answer = false
-    var i = 0
     var nn = n
     var digit = n % 10
-    var m = 0
     while (nn > 0) {
-        if (nn % 10 != digit) answer = true
+        if (nn % 10 != digit) return true
         nn = nn / 10
 
     }
-    return answer
+    return false
 }
 
 /**

@@ -286,7 +286,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var list: List<Int>
     var str: String = ""
-    if (n==0) str=""
+    if (n == 0) str = ""
     list = convert(n, base)
     for (i in 0..list.size - 1) {
         if (list[i] > 9) str = str + (87 + list[i]).toChar()
@@ -294,6 +294,7 @@ fun convertToString(n: Int, base: Int): String {
     }
     return str
 }
+
 /**
  * Средняя
  *

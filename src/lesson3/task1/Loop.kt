@@ -9,7 +9,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -57,7 +57,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var amount = 0
+    var a = n
+    if (a == 0) return 1
+    while (a != 0) {
+        amount++
+        a /= 10
+    }
+    return amount
+}
 
 /**
  * Простая
@@ -80,7 +89,14 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var d = 2
+    for (i in 1..n) {
+        if (n % d == 0) return d
+        d++
+    }
+    return d
+}
 
 /**
  * Простая

@@ -65,7 +65,8 @@ println("Достигнут <конец файла> в процессе чтен
  */
 fun dateStrToDigit(str: String): String {
     val partsOfDate = str.split(" ")
-    val months = listOf("Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
+    val months = listOf("Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+            "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
     try {
         if (partsOfDate.size != 3) throw IllegalArgumentException()
 
@@ -175,7 +176,7 @@ fun bestHighJump(jumps: String): Int {
         val jumpsList = jumps.split(" ")
         val jumpsInt = jumpsList.filterIndexed { i, s -> i % 2 == 0 }.map(String::toInt)
         val jumpsSymb = jumpsList.filterIndexed { i, s -> i % 2 != 0 }
-        return jumpsInt.zip(jumpsSymb).filter { it.second.contains(Regex(".*[+].*")) }.toMap().toSortedMap(Comparator { o1, o2 -> o2 - o1 }).filter { it.value.matches(Regex(".*[+]+.*")) }.keys.firstOrNull() ?: -1
+        return jumpsInt.zip(jumpsSymb).filter { it.second.contains(Regex(".*[+].*")) }.toMap().toSortedMap(Comparator { o1, o2 -> o2 - o1 }).keys.firstOrNull() ?: -1
     } catch (e: IllegalArgumentException) {
         return -1
     }
@@ -196,8 +197,8 @@ fun plusMinus(expression: String): Int {
     if (expression.matches(Regex("\\d+"))) return expression.toInt()
     if (!(expression.matches(pattern))) throw IllegalArgumentException()
     val digitsAndSymbols = expression.split(" ")
-    val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0  }
-    val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i != 0; i % 2 != 0 })
+    val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0 }
+    val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i != 0 && i % 2 != 0 })
     var k = 0
     var sum = 0
     for (i in digits) {
@@ -211,9 +212,6 @@ fun plusMinus(expression: String): Int {
     return sum
 }
 
-fun main(args: Array<String>) {
-    println(bestHighJump("427406921 %%- 147483648 %+ 147483648 %-"))
-}
 
 /**
  * Сложная

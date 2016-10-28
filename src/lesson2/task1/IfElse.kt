@@ -85,9 +85,9 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     val YY1 = kingY == rookY1
     val YY2 = kingY == rookY2
     return when {
-        (XX1 && XX2) || (YY1 && YY2) || (XX1 && YY1) || (XX1 && YY2) || (XX2 && YY1) || (XX2 && YY2) == true -> 3
-        XX2 || YY2 == true -> 2
-        XX1 || YY1 == true -> 1
+        (XX1 && XX2) || (YY1 && YY2) || (XX1 && YY1) || (XX1 && YY2) || (XX2 && YY1) || (XX2 && YY2)-> 3
+        XX2 || YY2 -> 2
+        XX1 || YY1 -> 1
         else -> 0
     }
 }

@@ -72,7 +72,7 @@ fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 0
     var fib = 1
-    for (i in 1..n-1) {
+    for (i in 1..n - 1) {
         fib = fib1 + fib2
         fib2 = fib1
         fib1 = fib
@@ -212,21 +212,22 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    if (n % 10 != n / 10 % 10 && n / 10 != 0) return true
-    else if (n / 10 == 0) return false
-    else return hasDifferentDigits(n / 10)
+    when {
+        n % 10 != n / 10 % 10 && n / 10 != 0 -> return true
+        n / 10 == 0 -> return false
+        else -> return hasDifferentDigits(n / 10)
+    }
 }
 
-fun pow (n: Int, p: Int): Int {
+fun pow(n: Int, p: Int): Int {
     var np = n
     if (p == 0) return 1
     for (i in 2..p) {
         np *= n
         if (p % 2 == 0 && p / 2 == i)
-            return np*np
+            return np * np
         if (p / 2 == i)
-            return np*np*n
-
+            return np * np * n
     }
     return np
 }

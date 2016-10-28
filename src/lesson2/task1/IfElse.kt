@@ -141,17 +141,17 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var x=0
-    if ((d>=a) && (d>=b) && (c>=a))
-        x=b-c
-    if ((a>=c) && (b>=d) && (d>=a))
-        x=d-a
-    if ((a>=c) && (b>=c) && (d>=b))
-        x=b-a
-    if ((c>=a) && (b>=d) && (d>=a))
-        x=d-c
-    if (((c>a) && (c>b))||((a>c) && (a>d)))
-        x=-1
+    var x = 0
+    if ((d >= a) && (d >= b) && (c >= a))
+        x = b - c
+    if ((a >= c) && (b >= d) && (d >= a))
+        x = d - a
+    if ((a >= c) && (b >= c) && (d >= b))
+        x = b - a
+    if ((c >= a) && (b >= d) && (d >= a))
+        x = d - c
+    if (((c > a) && (c > b)) || ((a > c) && (a > d)))
+        x = -1
     return x
 
 

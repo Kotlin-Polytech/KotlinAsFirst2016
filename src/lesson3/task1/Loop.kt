@@ -58,12 +58,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var x=0
-    var N=n
+    var x = 0
+    var k = n
     do {
-        x+=1
-        N /= 10
-    } while (Math.abs(N)>0)
+        x += 1
+        k /= 10
+    } while (Math.abs(k) > 0)
     return x
 
 }
@@ -84,7 +84,8 @@ fun fib(n: Int): Int {
         for (i in 3..n){
             result = first + second
             first = second
-            second = result}
+            second = result
+        }
         return result
     }
 
@@ -189,21 +190,21 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-        var N = 0
-        var x = 1
-        var answer = 0
-        while (N != n) {
-            N += digitNumber(x * x)
-            answer = x*x
-            x+=1
-            while (n<N) {
-                N -= 1
-                answer /=10
-            }
+    var k = 0
+    var x = 1
+    var answer = 0
+    while (k != n) {
+        k += digitNumber(x * x)
+        answer = x * x
+        x += 1
+        while (n < k) {
+            k -= 1
+            answer /= 10
         }
-        answer %= 10
+    }
+    answer %= 10
 
-return answer
+    return answer
 }
 
 

@@ -106,15 +106,12 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var x:Double = 0.0
-    val result:Double
+    var x = 0.0
+    val result: Double
     for (element in v)
-        x += Math.pow(element , 2.0)
+        x += Math.pow(element, 2.0)
     result = Math.sqrt(x)
     return result
-
-
-
 
 
 }
@@ -124,11 +121,8 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    if (list.size == 0)
-        return 0.0 else
-     return   (list.sum()/list.size)
-}
+fun mean(list: List<Double>): Double = if (list.size == 0) 0.0 else (list.sum() / list.size)
+
 
 /**
  * Средняя
@@ -137,13 +131,16 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val x:Double
+    val x: Double
     if (list.size == 0)
-        x = 0.0 else
-        x = list.sum()/list.size
-    if (x == 0.0) return list else
-        for (i in 0..list.size-1)
-        list[i]=list[i]-x
+        x = 0.0
+    else
+        x = list.sum() / list.size
+    if (x == 0.0) return list
+    else {
+        for (i in 0..list.size - 1)
+            list[i] = list[i] - x
+    }
     return list
 
  }
@@ -156,12 +153,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var c:Double = 0.0
-     if ((a.size == 0) && (b.size == 0))
-        return c else
-         for (k in 0..a.size-1)
-            c += a[k] * b[k]
-
+    var c: Double = 0.0
+    if (a.size == 0) return c
+    else for (k in 0..a.size - 1) c += a[k] * b[k]
     return c
 }
 
@@ -174,12 +168,12 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    var z:Double = 0.0
-    if (p.size == 0)
-        return 0.0 else
-            z = p[0]
-            for (i in 1..p.size-1)
-            z += p[i]*Math.pow(x,i.toDouble())
+    var z: Double = 0.0
+    if (p.size == 0) return 0.0
+    else {
+        for (i in 0..p.size - 1)
+        z += p[i] * Math.pow(x, i.toDouble())
+        }
     return z
 }
 
@@ -192,8 +186,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for (i in 1..list.size-1)
-        list[i]=list[i]+list[i-1]
+    for (i in 1..list.size - 1)
+        list[i] = list[i] + list[i - 1]
     return list
 
 }
@@ -234,8 +228,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
     var x = n
-    var list: List<Int>
-    list = listOf()
+    var list = listOf<Int>()
     if (n == 0) list += 0
     else {
         while (x > 0) {

@@ -62,7 +62,7 @@ fun digitNumber(n: Int): Int {
     var q: Int = n
     if ((q == 1) || (q == 0) || (q == -1)) return 1
     else {
-        while (q * q >= 1) {
+        while ( q >= 1) {
             q /= 10
             r += 1
         }
@@ -90,7 +90,7 @@ fun lcm(m: Int, n: Int): Int {
     var sum : Int = 1
     for (k in (2..n*m)) {
         sum += 1
-        if ((k % n == 0) && (k % n == 0)) break
+        if ((k % n == 0) && (k % m == 0)) break
         else continue
     }
     return sum
@@ -118,7 +118,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var sum : Int = n
-    for (k in n-1 dowmTo 2) {
+    for (k in n-1 downTo 1) {
         sum -= 1
         if (n % k == 0) break
         else continue

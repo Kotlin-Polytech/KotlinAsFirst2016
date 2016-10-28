@@ -111,7 +111,7 @@ fun bestHighJump(jumps: String): Int {
     var maxHigh = -1
     for (i in 1..parts.size - 1 step 2) {
         val jump = parts[i - 1].toInt()
-        if (parts[i].matches(Regex("""\+""")) && jump > maxHigh) maxHigh = jump
+        if (parts[i].contains("+") && jump > maxHigh) maxHigh = jump
     }
     return maxHigh
 }

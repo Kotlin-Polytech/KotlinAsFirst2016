@@ -222,7 +222,6 @@ fun mostExpensive(description: String): String {
     var k = 0
     val pricesList = mutableListOf<Double>()
     val namesList = mutableListOf<String>()
-    var toBreak = false
     try {
         val parts = description.split("; ")
         for (element in parts) {
@@ -231,18 +230,16 @@ fun mostExpensive(description: String): String {
                 namesList += list[0]
                 pricesList += list[1].toDouble()
             } else {
-                toBreak = true
+                return ""
             }
         }
-        if (toBreak) return ""
-        else {
-            for (i in 0..pricesList.size - 1) {
-                if (pricesList[i] >= maxPrice && pricesList.size != 1) {
-                    k = i
-                    maxPrice = pricesList[i]
-                }
+        for ((i, price) in pricesList.withIndex()) {
+            if (pricesList[i] >= maxPrice) {
+                k = i
+                maxPrice = pricesList[i]
             }
         }
+
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -262,8 +259,8 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int {
     if (roman.matches(Regex("""[MDCLXVI]+""")) || roman.isEmpty()) {
-        val listOfArabic = mutableListOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-        val listOfRoman = mutableListOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+        val listOfArabic = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+        val listOfRoman = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
         val parts = roman.split("")
         var result = 0
         for (i in listOfRoman) {

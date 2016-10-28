@@ -241,7 +241,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base)
-    var result= ""
+    var result = ""
     for (element in list) {
         if (element <= 9) result += element.toString()
         else result += ('a' - 10 + element).toString()

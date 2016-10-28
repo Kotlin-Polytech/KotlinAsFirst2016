@@ -103,7 +103,14 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var d = n - 1
+    for (i in 1..n) {
+        if (n % d == 0) return d
+        d -= 1
+    }
+    return d
+}
 
 /**
  * Простая
@@ -147,7 +154,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var rev = 0
+    var a = n
+    while (a > 0) {
+        rev = (rev * 10) + (a % 10)
+        a /=10
+    }
+    return rev
+}
 
 /**
  * Средняя

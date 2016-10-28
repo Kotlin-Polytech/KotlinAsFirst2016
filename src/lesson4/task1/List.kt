@@ -215,8 +215,7 @@ fun convertToString(n: Int, base: Int): String {
             number /= base
         }
         numerals.add(alphabet[number % base])
-        numerals.reverse()
-        return numerals.joinToString("")
+        return numerals.reversed().joinToString("")
     }
 }
 

@@ -24,6 +24,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun dateStrToDigit() {
+        assertEquals("16.05.1", dateStrToDigit("16 мая 1"))
         assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
@@ -35,6 +36,8 @@ class Tests {
     @Test
     @Tag("Normal")
     fun dateDigitToStr() {
+        assertEquals("1 декабря 2012", dateDigitToStr("01.12.2012"))
+        assertEquals("27 декабря 2147483647", dateDigitToStr("27.12.2147483647"))
         assertEquals("4 января 2016", dateDigitToStr("04.01.2016"))
         assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
         assertEquals("", dateDigitToStr("01.02.20.19"))

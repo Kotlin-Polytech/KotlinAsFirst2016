@@ -67,7 +67,7 @@ fun dateStrToDigit(str: String): String {
     try {
         for (i in 0..monthList.size - 1) {
             if (parts[1] == monthList[i])
-                return String.format("%02d.%02d.%02d", parts[0].toInt(), i + 1, parts[2].toInt())
+                return String.format("%02d.%02d.%d", parts[0].toInt(), i + 1, parts[2].toInt())
         }
     } catch (e: IndexOutOfBoundsException) {
         return ""
@@ -87,7 +87,7 @@ fun dateDigitToStr(digital: String): String {
     val monthList = mutableListOf("января", "февраля", "марта", "апреля", "мая", "июня",
             "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
-        for (i in 0..monthList.size - 1) {
+        for (i in 0..monthList.size) {
             if (parts[1].toInt() == i) {
                 val a = parts[0].toInt()
                 val b = monthList[i - 1]

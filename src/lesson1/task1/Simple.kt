@@ -22,7 +22,7 @@ fun discriminant(a: Double, b: Double, c: Double) = sqr(b) - 4 * a * c
  *
  * Поиск одного из корней квадратного уравнения
  */
-fun sqRoot(a: Double, b: Double, c: Double) = (-b + Math.sqrt(discriminant(a, b, c))) / (2 * a)
+fun sqRoot(a: Double, b: Double, c: Double) = (-b + sqrt(discriminant(a, b, c))) / (2 * a)
 
 /**
  * Пример
@@ -30,7 +30,7 @@ fun sqRoot(a: Double, b: Double, c: Double) = (-b + Math.sqrt(discriminant(a, b,
  * Поиск произведения корней квадратного уравнения
  */
 fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
-    val sd = Math.sqrt(discriminant(a, b, c))
+    val sd = sqrt(discriminant(a, b, c))
     val x1 = (-b + sd) / (2 * a)
     val x2 = (-b - sd) / (2 * a)
     return x1 * x2 // Результат
@@ -51,7 +51,7 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes *60 + seconds
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
 
 /**
  * Тривиальная
@@ -76,7 +76,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + ((min + sec/6
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = Math.sqrt(sqr(x2-x1) + sqr(y2-y1))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x2-x1) + sqr(y2-y1))
 
 /**
  * Простая
@@ -93,7 +93,7 @@ fun thirdDigit(number: Int): Int = (number / 100) % 10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = (hoursDepart * 60) + minutesDepart - ((hoursArrive * 60) + minutesArrive)
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = abs((hoursDepart * 60) + minutesDepart - ((hoursArrive * 60) + minutesArrive))
 
 /**
  * Простая

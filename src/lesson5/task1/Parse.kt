@@ -59,7 +59,23 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size == 3) {
+        try {
+            val day = parts[0].toInt()
+            val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+            val year = parts[2].toInt()
+            if ((day in 1..31) && (parts[1] in months)) {
+                val month = months.indexOf(parts[1]) + 1
+                return String.format("%02d.%02d.%d", day, month, year)
+            } else return ""
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+    }
+    else return ""
+}
 /**
  * Средняя
  *
@@ -68,43 +84,22 @@ fun dateStrToDigit(str: String): String = TODO()
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    try {
-        val parts = digital.split(".")
-        if (parts.size > 3) return ""
-        var result = ""
-        if (parts[0].toInt() in 1..31) result += when (parts[0]) {
-            "01" -> "1"
-            "02" -> "2"
-            "03" -> "3"
-            "04" -> "4"
-            "05" -> "5"
-            "06" -> "6"
-            "07" -> "7"
-            "08" -> "8"
-            "09" -> "9"
-            else -> parts[0]
+    val parts = digital.split(".")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    if (parts.size == 3) {
+        try {
+            val day = parts[0].toInt()
+            val month = parts[1].toInt()
+            val year = parts[2].toInt()
+            if ((day !in 1..31) || (month !in 1..12)) return ""
+            else return String.format("%d %s %d", day, months[month - 1], year)
+        } catch (e: NumberFormatException) {
+            return ""
         }
-        result += when (parts[1]) {
-            "01" -> " января "
-            "02" -> " февраля "
-            "03" -> " марта "
-            "04" -> " апреля "
-            "05" -> " мая "
-            "06" -> " июня "
-            "07" -> " июля "
-            "08" -> " августа "
-            "09" -> " сентября "
-            "10" -> " октября "
-            "11" -> " ноября "
-            "12" -> " декабря "
-            else -> return ""
-        }
-        result += parts[2]
-        return result
-    } catch (e: NumberFormatException) {
-        return ""
     }
+    else return ""
 }
+
 /**
  * Сложная
  *
@@ -117,7 +112,14 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var result = ""
+    for (i in phone) {
+        if ((i.toInt() < 58) && (i.toInt() > 47) || (i.toInt() == 43)) result += i
+        else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -130,9 +132,9 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var best = -1
     try {
-        val parts = jumps.split(" ")
-        var best = -1
         for (part in parts) {
             if ((part != "-") && (part != "%") && (part.toInt() > best)) best = part.toInt()
         }
@@ -174,12 +176,14 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     var parts = expression.split(" ")
-    var result = parts[1].toInt()
+    var result = parts[0].toInt()
     if (parts.size > 1) {
-        for (i in 1..parts.size - 1 step 2) {
-            if (parts[i] == "+") result += parts[i + 1].toInt()
-            else if (parts[i] == "-") result -= parts[i + 1].toInt()
-            else throw IllegalArgumentException(" ")
+        for (i in 2..parts.size step 2) {
+            if (parts[i-1] == "+") {
+                result += parts[i].toInt()
+            } else if (parts[i-1] == "-") {
+                result -= parts[i].toInt()
+            } else throw IllegalArgumentException(" ")
         }
     }
     return result

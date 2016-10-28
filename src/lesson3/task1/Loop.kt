@@ -77,8 +77,19 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = if (n > 2) (fib(n - 1) + fib(n - 2)) else 1
-
+fun fib(n: Int): Int {
+    var help1 = 1
+    var help2 = 1
+    var res = 0
+    for (i in 1..n) {
+        if (i > 2) {
+            res = help1 + help2
+            help1 = help2
+            help2 = res
+        } else res = 1
+    }
+    return res
+}
 
 /**
  * Простая
@@ -97,9 +108,8 @@ fun qcd(n: Int, m: Int): Int {
     return min
 }
 
-fun lcm(m: Int, n: Int): Int {
-    return m * n / qcd(n, m)
-}
+fun lcm(m: Int, n: Int): Int = m * n / qcd(n, m)
+
 
 /**
  * Простая
@@ -141,7 +151,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 
-fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
+fun isCoPrime(m: Int, n: Int): Boolean = qcd(m, n) == 1
 
 /**
  * Простая
@@ -151,9 +161,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val mSqrt = Math.floor(Math.sqrt(m.toDouble()))
-    val nSqrt = Math.ceil(Math.sqrt(n.toDouble()))
-    if (nSqrt - mSqrt > 1 || m == 0 || n == 0 || m == 1 || n == 1) return true
+    val mSqrt = Math.ceil(Math.sqrt(m.toDouble()))
+    val nSqrt = Math.floor(Math.sqrt(n.toDouble()))
+    if (nSqrt - mSqrt >= 0) return true
     else return false
 }
 
@@ -247,15 +257,8 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var k = ""
     var count = 0
-    var help1 = 1
-    var help2 = 1
-
     for (i in 1..n) {
-        if (i > 2) {
-            k = (help1 + help2).toString()
-            help1 = help2
-            help2 = k.toInt()
-        } else k = "1"
+        k = fib(i).toString()
         count += k.length
         if (count >= n) break
     }

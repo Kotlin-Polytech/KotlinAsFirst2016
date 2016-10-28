@@ -263,7 +263,7 @@ fun decimal(digits: List<Int>, base: Int): Int =
  * Например: str = "13c", base = 14 -> 250
  */
 fun symbolToNumber(str: Char): Int =
-        if (str <= '9') str - '9' + 9
+        if (str <= '9') str - '0'
         else str - 'a' + 10
 
 fun decimalFromString(str: String, base: Int): Int = decimal(str.map { symbolToNumber(it) }, base)
@@ -280,8 +280,8 @@ fun decimalFromString(str: String, base: Int): Int = decimal(str.map { symbolToN
 fun roman(n: Int): String {
     var number = n
     var res = ""
-    val listAll = listOf(Pair("I", 1), Pair("IV", 4), Pair("V", 5), Pair("IX", 9), Pair("X", 10), Pair("XL", 40), Pair("L", 50),
-            Pair("XC", 90), Pair("C", 100), Pair("CD", 400), Pair("D", 500), Pair("CM", 900), Pair("M", 1000))
+    val listAll = listOf("I" to 1, "IV" to 4, "V" to 5, "IX" to 9, "X" to 10, "XL" to 40, "L" to 50,
+            "XC" to 90, "C" to 100, "CD" to 400, "D" to 500, "CM" to 900, "M" to 1000)
     if (number <= 0) return ""
     else {
         while (number > 0) {

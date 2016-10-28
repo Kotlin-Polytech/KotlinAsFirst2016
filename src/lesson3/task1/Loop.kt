@@ -96,12 +96,15 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    val k = Math.max(m, n)
-    for (i in k..m * n step k) if ((i % m == 0) and (i % n == 0)) return i
-    return m * n
-
+fun nod(m: Int, n: Int): Int= when {
+    m == 0 -> n
+    n == 0 -> m
+    m >= n -> nod(m % n, n)
+    n > m -> nod(n % m, m)
+    else -> 0
 }
+
+fun lcm(m: Int, n: Int): Int = (m * n) / nod(m, n)
 
 /**
  * Простая
@@ -156,11 +159,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     if (n < 0) return false
-    if (m <= 0) {
-        for (k in 0..Math.sqrt(n.toDouble()).toInt()) {
-            if (k * k >= m && k * k <= n) return true
-        }
-    } else for (k in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
+    for (k in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
         if (k * k >= m && k * k <= n) return true
     }
     return false
@@ -178,13 +177,12 @@ fun sin(x: Double, eps: Double): Double {
     var k = 2
     var s = 0.0
     var e = x
-    var z = x
-    if (Math.abs(x) > 2 * Math.PI) z = x % (2 * Math.PI)
+    val z = x % (2 * Math.PI)
     while (Math.abs(e) >= Math.abs(eps)) {
         e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
-        k += 1
+        k ++
     }
     return s
 }
@@ -201,13 +199,12 @@ fun cos(x: Double, eps: Double): Double {
     var k = 1
     var s = 1.0
     var e = x
-    var z = x
-    if (Math.abs(x) > 2 * Math.PI) z = x % (2 * Math.PI)
+    val z = x % (2 * Math.PI)
     while (Math.abs(e) >= Math.abs(eps)) {
         e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
-        k += 1
+        k ++
     }
     return s
 }
@@ -236,16 +233,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var k = n
-    var rev = 0
-    while (k > 0) {
-        rev *= 10
-        rev += k % 10
-        k /= 10
-    }
-    return if (n == rev) true else false
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя

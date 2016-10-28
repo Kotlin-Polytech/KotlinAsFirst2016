@@ -3,6 +3,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import kotlin.comparisons.reverseOrder
 
 /**
  * Пример
@@ -107,8 +108,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var s = 0.0
-    for (i in 0..v.size - 1) {
-        s += v[i] * v[i]
+    for (elem in v) {
+        s += elem * elem
     }
     return (Math.sqrt(s))
 }
@@ -119,10 +120,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var s = 0.0
-    for (i in 0..list.size - 1) {
-        s += list[i]
-    }
+    var s = list.sum()
     return if (s == 0.0) 0.0 else (s / list.size)
 }
 
@@ -216,19 +214,13 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
     var result = mutableListOf<Int>()
-    var result2 = mutableListOf<Int>()
     var m = n
     while (m > 0) {
-        result.add(m % base)
+        result.add(0, m % base)
         m /= base
     }
-    var k = result.size
-    for (i in 1..result.size) {
-        k -= 1
-        result2.add(result[k])
-    }
-     if (result2.isEmpty()) result2.add(0)
-    return result2
+     if (result.isEmpty()) result.add(0)
+    return result
 }
 
 /**
@@ -240,22 +232,17 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var result = String()
-    var result2 = String()
-    val alf = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+    val alf = "abcdefghijklmonpqrstuvwxyz"
     var m = n
-    while (m > 0) {
-        if (m % base < 10) result += (m % base) else result += alf[m % base - 10]
-        m = Math.floor((m / base).toDouble()).toInt()
+    var list = convert(n, base)
+    var result = ""
+    for (i in 0..list.size - 1) {
+        if (list[i] < 10) result += list[i] else result += alf[list[i] - 10]
     }
-    var k = result.length
-    for (i in 1..result.length) {
-        k -= 1
-        result2 += (result[k])
-    }
-    if (result2.isEmpty()) result2 += "0"
-    return result2
+    return result
 }
+
+
 
 /**
  * Средняя
@@ -282,13 +269,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0
-    val alf = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
-    for (i in 0..str.length - 1){
-        if (str[i] in '0'..'9') result += Math.pow(base.toDouble(), str.length - 1 - i.toDouble()).toInt() * (str[i] - '0')
-            else result += Math.pow(base.toDouble(), str.length - 1 - i.toDouble()).toInt() * (str[i] - 'a' + 10)
+    var list = mutableListOf<Int>()
+    for (i in 0..str.length - 1) {
+        if (str[i] in '0'..'9') list.add(str[i] - '0') else list.add(str[i] - 'a' + 10)
     }
-    return result
+    return decimal(list, base)
 }
 
 /**
@@ -314,6 +299,7 @@ fun romanbase(base: String, fifth: String, tenth: String, m: Int) : String {
         else -> throw AssertionError("$m")
     }
 }
+
 fun roman(n: Int): String {
     var i = 0
     var s = n

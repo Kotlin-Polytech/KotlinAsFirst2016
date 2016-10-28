@@ -256,7 +256,7 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
     val result = mutableListOf<Int>()
-    if (number==0) result.add(0)
+    if (number == 0) result.add(0)
     while (number > 0) {
         result.add(0, number % base)
         number = number / base
@@ -274,6 +274,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var number = n
+    if (n == 0) return "0"
     val result = mutableListOf<String>()
     val letters = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
     while (number > 0) {
@@ -329,26 +330,28 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var number = n
     val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
             20, 30, 40, 50, 60, 70, 80, 90,
-            100, 200, 300, 400, 500, 600, 700, 800, 900,
-            1000, 2000, 3000)
+            100, 200, 300, 400, 500, 600, 700, 800, 900)
     val romans = listOf("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X",
             "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC",
-            "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM",
-            "M", "MM", "MMM")
-    val result = mutableListOf<String>()
+            "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM")
+    val resultPart2 = mutableListOf<String>()
+    val resultPart1 = mutableListOf<String>()
+    val nPart1 = n / 1000
+    var nPart2 = n % 1000
     var i = 10
-    while (number > 0) {
-        if (number % i == 0) {
+    while (nPart2 > 0) {
+        if (nPart2 % i == 0) {
             i *= 10
             continue
         }
-        result.add(0, romans[numbers.indexOf(number % i)])
-        number -= number % i
+        resultPart2.add(0, romans[numbers.indexOf(nPart2 % i)])
+        nPart2 -= nPart2 % i
     }
-    return result.joinToString(separator = "")
+    if (nPart1 == 0) return resultPart2.joinToString(separator = "")
+    for (j in 1..nPart1) resultPart1.add("M")
+    return (resultPart1 + resultPart2).joinToString(separator = "")
 }
 
 /**

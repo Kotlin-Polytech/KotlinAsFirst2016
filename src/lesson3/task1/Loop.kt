@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -61,8 +62,10 @@ fun digitNumber(n: Int): Int {
     var k = 0
     var n2 = n
     if (n == 0) return 1
-     else while ( n2 > 0) { n2 = n2/10
-        k++}
+    while (n2 != 0) {
+        n2 /= 10
+        k++
+    }
     return k
 }
 
@@ -76,10 +79,10 @@ fun fib(n: Int): Int {
     var fib1 = 0
     var fib2 = 1
     var fib3 = 1
-    for (i in 2..n){
-       fib3=fib2
-        fib2=fib1+fib3
-        fib1=fib3
+    for (i in 2..n) {
+        fib3 = fib2
+        fib2 = fib1 + fib3
+        fib1 = fib3
     }
     return fib2
 }
@@ -90,21 +93,43 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var nod = 0
+    var nok = 0
+    var a = m
+    var b = n
+    while ((a != 0) && (b != 0)) {
+        if (a >= b) a = a % b else b = b % a
+    }
+    nod = a + b
+    nok = m * n / nod
+    return nok
+
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var a = n
+    for (i in 2..n) {
+        if (n % i == 0) if (i <= a) a = i
+    }
+    return a
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var i = n - 1
+    while (n % i != 0) i--
+    return i
+}
 
 /**
  * Простая

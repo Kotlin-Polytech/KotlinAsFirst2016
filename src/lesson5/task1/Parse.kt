@@ -136,9 +136,9 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     val jumpsWithoutSpace = jumps.split(" ").filter { it != "-" && it != "%" }
     if (jumpsWithoutSpace.isEmpty()) return -1
-    val jumpsWithoutSpaceMap: List<Int>
+    val jumpsWithoutSpaceMap: List<Long>
     try {
-        jumpsWithoutSpaceMap = jumpsWithoutSpace.map { it.toInt() }
+        jumpsWithoutSpaceMap = jumpsWithoutSpace.map { it.toLong() }
     } catch (e: NumberFormatException) {
         return -1
     }
@@ -147,7 +147,7 @@ fun bestLongJump(jumps: String): Int {
     for (i in 0..jumpsWithoutSpaceMap.size - 1) {
         if (jumpsWithoutSpaceMap[i] > bestJump) bestJump = jumpsWithoutSpaceMap[i]
     }
-    return bestJump
+    return bestJump.toInt()
     //  Замена предыдущего блока кода от //--//
     //  return jumpsWithoutSpaceMap.max() ?: -1
     //------------------------------------------------------//
@@ -180,7 +180,7 @@ fun bestHighJump(jumps: String): Int {
     }
     return bestJump
 /*
---------------------------------------АЛЬТЕРНАТИВНЫЙ КОД-----------------------------------------
+--------------------АЛЬТЕРНАТИВНЫЙ КОД (который не проходит тест бота)----------------------------
     if (!jumps.matches(Regex("""\d* (\+|\-|\%)+( \d* (\+|\-|\%)+)*"""))) return -1///
     val jumpsList = jumps.split(" ")
     var jumpsLuckList = listOf<Int>()

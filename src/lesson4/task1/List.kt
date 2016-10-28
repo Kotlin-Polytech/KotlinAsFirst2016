@@ -113,8 +113,8 @@ fun abs(v: List<Double>): Double {
     if (v.isEmpty()) return 0.0
     var abs = 0.0
 
-    for (i in 0..v.size-1) {
-        abs += v[i]*v[i]
+    for (i in 0..v.size - 1) {
+        abs += v[i] * v[i]
     }
     return Math.sqrt(abs)
 }
@@ -126,7 +126,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
-    return list.sum()/list.size
+    return list.sum() / list.size
 }
 
 /**
@@ -140,7 +140,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 
     val average = list.sum() / list.size
 
-    for (i in 0..list.size-1) {
+    for (i in 0..list.size - 1) {
         list[i] -= average
     }
 
@@ -156,7 +156,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var C = 0.0
-    for (i in 0..a.size-1) {
+    for (i in 0..a.size - 1) {
         C += a[i] * b[i]
     }
     return C
@@ -177,6 +177,7 @@ fun polynom(p: List<Double>, x: Double): Double {
     }
     return pX
 }
+
 /**
  * Средняя
  *
@@ -186,15 +187,12 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for (i in 1..list.size-1) {
-        list[i] = list.subList(i-1, i+1).sum()
+    for (i in 1..list.size - 1) {
+        list[i] = list.subList(i - 1, i + 1).sum()
     }
     return list
 }
 
-fun main(args: Array<String>) {
-    factorize(802777)
-}
 
 /**
  * Средняя
@@ -205,8 +203,8 @@ fun main(args: Array<String>) {
  */
 
 fun factorize(n: Int): List<Int> {
-    if (n/2 > guaranteedToWork.readText().toInt()/2) {
-        makePrimes(guaranteedToWork.readText().toInt(), n/2)
+    if (n / 2 > guaranteedToWork.readText().toInt() / 2) {
+        makePrimes(guaranteedToWork.readText().toInt(), n / 2)
         return trueFactorize(n)
     } else {
         return trueFactorize(n)
@@ -227,8 +225,7 @@ fun trueFactorize(n: Int): List<Int> {
                 i++
             }
         }
-    }
-    else factorized.add(n)
+    } else factorized.add(n)
     print(factorized)
     return factorized
 }
@@ -238,10 +235,10 @@ fun makePrimes(from: Int, to: Int) {
     val primeNumbers = primeNumbersReader()
     var numbers = mutableMapOf<Int, Boolean>()
 
-    for (i in from..to/2) numbers.put(i, true)
+    for (i in from..to / 2) numbers.put(i, true)
 
     for (i in primeNumbers) {
-            numbers = numbers.filter { it.key % i != 0} as MutableMap<Int, Boolean>
+        numbers = numbers.filter { it.key % i != 0 } as MutableMap<Int, Boolean>
     }
     primeNumbersWriter(numbers)
     guaranteedToWorkWriter(to)
@@ -328,4 +325,68 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val num = n.toString()
+    val digits = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять")
+    val teens = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val decades = listOf("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
+            "восемьдесят", "девяносто")
+    val hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    var tho = ""
+    when (n) {
+        in 0..10 -> return digits[n]
+        in 11..19 -> return teens[n % 10]
+        in 20..99 -> return decades[n / 10] + " " + digits[n % 10]
+        in 100..999 -> return hundreds[n / 100] + " " +
+                if (cInt(num[1]) == 1) teens[cInt(num[2])] else russian((num[1].toString() + num[2].toString()).toInt())
+        in 1000..999999 -> {
+            for (i in 0..num.length - 4) tho += num[i].toString()
+            return forThousand(tho.toInt()) + " " + whatThousandExactly(tho) +
+                    if (num.subSequence(num.length-3, num.length).toString().toInt() != 0) " " +
+                    russian(num.subSequence(num.length - 3, num.length).toString().toInt()) else ""
+        }
+        else -> return "Ошибка"
+    }
+
+}
+
+fun forThousand(n: Int): String {
+    val num = n.toString()
+    val digits = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять", "десять")
+    val teens = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val decades = listOf("", "", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
+            "восемьдесят", "девяносто")
+    val hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    when (n) {
+        in 0..10 -> return digits[n]
+        in 11..19 -> return teens[n % 10]
+        in 20..99 -> return decades[n / 10] + " " + digits[n % 10]
+        in 100..999 -> return hundreds[n / 100] + if (cInt(num[2]) != 0) " " +
+                if (cInt(num[1]) == 1) teens[cInt(num[2])]
+                else russian((num[1].toString() + num[2].toString()).toInt())
+            else digits[n % 10]
+        else -> return "Ошибка"
+    }
+}
+
+fun whatThousandExactly(s: String): String {
+    if (s.toInt() in 0..999) {
+        return when {
+            (s.toInt() % 100 !in 10..20) && s.toInt() % 10 in 2..4 -> "тысячи"
+            (s.toInt() % 100 !in 10..20) && s.toInt() % 10 == 1 -> "тысяча"
+            else -> "тысяч"
+
+        }
+    }
+    return ""
+}
+
+fun cInt(c: Char): Int = c.toString().toInt()
+
+
+fun main(args: Array<String>) {
+    println(russian(119508))
+
+}

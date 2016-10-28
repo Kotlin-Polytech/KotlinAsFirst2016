@@ -135,8 +135,7 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return mutableListOf()
-    else {
+
         var m=0
         val x=list.sum() / list.size
         while (m in 0..list.size-1) {
@@ -144,7 +143,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
             m++
         }
         return list
-    }
+
 }
 
 /**

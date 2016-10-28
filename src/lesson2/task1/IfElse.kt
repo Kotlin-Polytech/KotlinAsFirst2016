@@ -2,6 +2,8 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson4.task1.abs
+
 
 /**
  * Пример
@@ -33,7 +35,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    if ((age % 10 == 0) || (age / 10 == 1) || (age / 10 == 11) || (age % 10 in 5..9)) return "$age лет"
+    val a = (age - 1) % 10
+    if (a == 0) return "$age год"
+    else return "$age года"
+}
 
 /**
  * Простая
@@ -44,7 +51,19 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val S1 = v1 * t1
+    val S2 = v2 * t2
+    val S3 = v3 * t3
+    val HalfS = (S1 + S2 + S3) / 2
+    return when {
+        HalfS <= S1 -> HalfS / v1
+        HalfS <= S1 + S2 -> (HalfS - S1) / v2 + t1
+        else -> (HalfS - S1 - S2) / v3 + t1 + t2
+
+    }
+
+}
 
 /**
  * Простая
@@ -69,7 +88,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val minusX = Math.abs(kingX - bishopX)
+    val minusY = Math.abs(kingY - bishopY)
+         if (((kingX == rookX) || (kingY == rookY)) && (minusX != minusY)) return 1
+    else if (((kingX != rookX) && (kingY != rookY)) && (minusX == minusY)) return 2
+    else if (((kingX == rookX) || (kingY == rookY)) && (minusX == minusY)) return 3
+    else    (((kingX != rookX) && (kingY != rookY)) && (minusX != minusY))
+    return 0
+}
 
 /**
  * Простая

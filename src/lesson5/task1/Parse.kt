@@ -198,7 +198,7 @@ fun plusMinus(expression: String): Int {
     if (!(expression.matches(pattern))) throw IllegalArgumentException()
     val digitsAndSymbols = expression.split(" ")
     val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0 }
-    val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i % 2 != 0 })
+    val symbols = listOf("+").plus(digitsAndSymbols.filterIndexed { i, s -> i % 2 != 0 })
     var k = 0
     var sum = 0
     for (i in digits) {
@@ -222,7 +222,19 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var startIndex = -1
+    val words = str.split(" ")
+    for (i in words) {
+        startIndex += i.length + 1
+        val index = str.indexOf(i, startIndex, ignoreCase = true)
+        if (index != -1 && startIndex+1 == index ) {
+            val length = i.length
+            return startIndex-length
+        }
+    }
+    return -1
+}
 
 /**
  * Сложная

@@ -384,11 +384,3 @@ fun whatThousandExactly(s: String): String {
 }
 
 fun cInt(c: Char): Int = c.toString().toInt()
-
-
-fun main(args: Array<String>) {
-    println(russian(620078))
-    println(russian(600927))
-
-
-}

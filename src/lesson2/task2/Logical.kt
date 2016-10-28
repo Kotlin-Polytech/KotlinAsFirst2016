@@ -23,7 +23,7 @@ fun isNumberHappy(number: Int): Boolean {
     val c = (number / 100) % 10
     val d = number / 1000
     return when{
-        a + b == c + d -> true
+        (a + b) == (c + d) -> true
         else -> false
     }
 }

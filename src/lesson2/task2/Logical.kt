@@ -41,6 +41,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
         if ((sqr(x2 - x1) + sqr(y2 - y1)) <= sqr(r2 - r1)) return true
         else return false
     }else return false
+
 }
 /**
  * Средняя
@@ -52,7 +53,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean  {
-   var smell = 0
+    var smell = 0
     var big = 0
     var sm = 0
     var midlle = 0
@@ -79,5 +80,6 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean  {
     if ((sm<=smell) && (midlle<=big))
             return true
     else return false
+
 
 }

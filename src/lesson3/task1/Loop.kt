@@ -196,4 +196,5 @@ fun fibSequenceDigit(n: Int): Int
     val nfibDig: Int = nsimvStr.toInt()         //преобразовываем символ в цифру
 
     return(nsimvStr.toInt())
+
 }

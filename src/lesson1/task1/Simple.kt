@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 
+import lesson3.task1.fib
 import java.lang.Math.*
 
 /**
@@ -60,7 +61,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = 3600 * hours + 60 * m
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = TODO()
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = 4.445*vershoks+48*arshins+3*sagenes
 
 /**
  * Тривиальная
@@ -94,8 +95,7 @@ fun thirdDigit(number: Int): Int = (number/100)%10
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
-        (60*hoursArrive+minutesArrive)-(60*hoursDepart+minutesDepart
-                )
+        (60*hoursArrive+minutesArrive)-(60*hoursDepart+minutesDepart)
 
 
 /**

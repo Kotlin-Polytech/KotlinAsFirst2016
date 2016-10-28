@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson8.task1.countSubstrings
+
 /**
  * Пример
  *
@@ -57,7 +59,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
+    do {
+        count++
+        number /= 10
+    }while (number >0)
+    return count
+}
 
 /**
  * Простая
@@ -65,7 +75,13 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+   var res = 1
+    if (n<=2)
+else res = fib(n-2) + fib(n-1)
+    return res
+}
+
 
 /**
  * Простая
@@ -166,4 +182,18 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int
+{
+    var strfib: String = "1"
+    for (i in 1..n) {
+        val nfib = fib(i)               //вычмсляем n-ое число Фибоначи
+        val strnfib: String = "$nfib"   //преобразовываем в строку n-ое число Фибоначи
+        if (i == 1) strfib = "1"     //формируем суммарную строку с числами
+        if (i > 1) strfib += strnfib      //добавляем в строку n-ое числ
+    }
+    val nsimv: Char = strfib[n - 1]     //получаем символ по номеру с 0 из строки
+    val nsimvStr: String = "0$nsimv"
+    val nfibDig: Int = nsimvStr.toInt()         //преобразовываем символ в цифру
+
+    return(nsimvStr.toInt())
+}

@@ -1,6 +1,14 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+fun ten (n: Int) : Int {
+    if (n == 0) return 1
+    var answ : Int = 1
+    for (i in 1..n) {
+       answ *= 10
+    }
+    return answ
+}
 /**
  * Пример
  *
@@ -58,16 +66,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var r: Int = 0
-    var q: Int = n
-    if ((q == 1) || (q == 0) || (q == -1)) return 1
-    else {
-        while ( q >= 1) {
-            q /= 10
-            r += 1
-        }
-        return r
+    var copy : Int = n
+    var lenght: Int = 0
+    for (i in 1..9999) {
+        lenght += 1
+        copy /= 10
+        if (copy < 1) break
+        else continue
     }
+    return lenght
 }
 
 /**
@@ -150,6 +157,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
+    if ((m == 0) || (n == 0)) return true
     for (sqrPants in 1..m) {
          if ((sqrPants * sqrPants >= m) && (sqrPants * sqrPants <= n)) return true
     }
@@ -170,7 +178,7 @@ fun sin(x: Double, eps: Double): Double {
      for (duck in 1..99999 step 2) {
          partRow = Math.pow(x, duck.toDouble())/factorial(duck)
          plusMinus += 1
-         if (partRow > eps) {
+         if (partRow * partRow > eps * eps) {
              if (plusMinus % 2 != 0) answ += partRow
               else answ -= partRow
          }
@@ -194,7 +202,7 @@ fun cos(x: Double, eps: Double): Double {
     for (duck in 2..99999 step 2) {
         partRow = Math.pow(x, duck.toDouble())/factorial(duck)
         plusMinus += 1
-        if (partRow > eps) {
+        if (partRow * partRow > eps * eps) {
             if (plusMinus % 2 != 0) answ -= partRow
             else answ += partRow
         }
@@ -237,14 +245,52 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var copy: Int = n
+    var lenght: Int = 1
+    for (i in 1..9999) {
+        lenght += 1
+        copy /= 10
+        if (copy <= 1) break
+        else continue
+    }
+    if (lenght == 2) return true
+    copy = n
+    if (lenght % 2 == 0)
+        if (revert(copy / ten(lenght / 2)) != copy % ten(lenght/ 2)) return false
+        else return true
+    else
+        if (revert(copy / ten((lenght + 1) / 2)) != copy % ten((lenght - 1) / 2)) return false
+        else return true
+}
 /**
  * Средняя
  *
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    if (n<10 ) return false
+    var copy : Int = n
+    var smthng : Int = 0
+    var pudge : Int = n % 10
+    var lenght: Int = 0
+    for (i in 1..9999) {
+        lenght += 1
+        copy /= 10
+        if (copy <= 1) break
+        else continue
+    }
+    copy = n
+    for (i in 1..999) {
+        if (copy % 10 == pudge) smthng +=1
+        copy /= 10
+        if (copy < 1) break
+        else continue
+    }
+    if (smthng == lenght) return false
+    else return true
+}
 
 /**
  * Сложная
@@ -253,8 +299,28 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
-
+fun squareSequenceDigit(n: Int): Int {
+    if (n == 1) return 1
+    var string : Int = 0
+    var answ : Int = 0
+    var copy : Int = n
+    for (i in 1..n) {
+        answ += digitNumber(string)
+        if (answ > n) break
+        string = i * i
+        copy -= digitNumber(i * i)
+    }
+    answ = string
+    if (copy == 0) return string % 10
+    else {
+        for (i in 1..99999) {
+            copy += 1
+            answ /= 10
+            if (copy == 0) break
+        }
+        return answ % 10
+    }
+}
 
 /**
  * Сложная
@@ -263,4 +329,25 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    if ((n == 1) || (n == 2)) return 1
+    var string : Int = 0
+    var answ : Int = 0
+    var copy : Int = n
+    for (i in 1..n) {
+        answ += digitNumber(string)
+        if (answ > n) break
+        string = fib(i)
+        copy -= digitNumber(fib(i))
+    }
+    answ = string
+    if (copy == 0) return string % 10
+    else {
+        for (i in 1..99999) {
+            copy += 1
+            answ /= 10
+            if (copy == 0) break
+        }
+        return answ % 10
+    }
+}

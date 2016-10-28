@@ -60,8 +60,20 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
-
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    val monthList = mutableListOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        for (i in 0..monthList.size - 1) {
+            if (parts[1] == monthList[i])
+                return String.format("%02d.%02d.%02d", parts[0].toInt(), i + 1, parts[2].toInt())
+        }
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    }
+    return ""
+}
 /**
  * Средняя
  *
@@ -69,7 +81,30 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size > 3) return ""
+    val monthList = mutableListOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        for (i in 0..monthList.size - 1) {
+            if (parts[1].toInt() == i) {
+                val a = parts[0].toInt()
+                val b = monthList[i - 1]
+                val c = parts[2].toInt()
+                return "$a $b $c"
+
+            }
+        }
+    }
+    catch (e: NumberFormatException){
+        return ""
+    }
+    catch (e1: IndexOutOfBoundsException){
+        return ""
+    }
+    return ""
+}
 
 /**
  * Сложная

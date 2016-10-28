@@ -29,11 +29,13 @@ class Tests {
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("01.01.2001", dateStrToDigit("1 января 2001"))
     }
 
     @Test
     @Tag("Normal")
     fun dateDigitToStr() {
+        assertEquals("4 января 2016", dateDigitToStr("04.01.2016"))
         assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
         assertEquals("", dateDigitToStr("01.02.20.19"))
         assertEquals("", dateDigitToStr("28.00.2000"))

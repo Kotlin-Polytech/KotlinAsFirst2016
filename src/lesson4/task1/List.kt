@@ -363,7 +363,7 @@ fun forThousand(n: Int): String {
         in 0..10 -> return digits[n]
         in 11..19 -> return teens[n % 10]
         in 20..99 -> return decades[n / 10] + if (n%10 != 0) " " + digits[n % 10] else ""
-        in 100..999 -> return hundreds[n / 100] + if (num.subSequence(num.length-3, num.length).toString().toInt() != 0) " " +
+        in 100..999 -> return hundreds[n / 100] + if (num.subSequence(1, num.length).toString().toInt() != 0) " " +
                 if (cInt(num[1]) == 1) teens[cInt(num[2])]
                 else forThousand((num[1].toString() + num[2].toString()).toInt())
             else digits[n % 10]
@@ -388,6 +388,7 @@ fun cInt(c: Char): Int = c.toString().toInt()
 
 fun main(args: Array<String>) {
     println(russian(620078))
-    println(russian(701490))
+    println(russian(600927))
+
 
 }

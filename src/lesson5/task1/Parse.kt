@@ -243,11 +243,11 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var resStr = ""
+    var count = 0
     val parts = str.toLowerCase().split(" ")
     for (i in 0..parts.size - 2) {
-        resStr += parts[i] + " "
-        if (parts[i] == parts[i + 1]) return resStr.length - parts[i].length - 1
+        if (parts[i] == parts[i + 1]) return count
+        count += parts[i].length + 1
     }
     return -1
 }
@@ -266,19 +266,16 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var max = 0.0
     var mostExpensive = ""
-
-    if (description.contains(Regex("""[^\W\d\s;.]""")) || description == "") return ""
+    if (description == "") return ""
     val groups = description.split(";")
     for (i in 0..groups.size - 1) {
         val pairs = groups[i].trim().split(" ")
-        try {
-            if (pairs[1].toDouble() >= max) {
-                max = pairs[1].toDouble()
-                mostExpensive = pairs[0]
-            }
-        } catch (e: NumberFormatException) {
-            Double.NaN
+        if (pairs[1].contains(Regex("""[^\d.]""")) || pairs[1].toDouble() < 0) return ""
+        if (pairs[1].toDouble() >= max) {
+            max = pairs[1].toDouble()
+            mostExpensive = pairs[0]
         }
+
     }
     return mostExpensive
 }

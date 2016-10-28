@@ -107,8 +107,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (i in 0..v.size - 1) {
-        sum += v[i] * v[i]
+    for (elem in v) {
+        sum += elem * elem
     }
     return (Math.sqrt(sum))
 }
@@ -119,11 +119,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    var sum = 0.0
-    for (i in 0..list.size - 1) {
-        sum += list[i]
-    }
-    return if (list.size == 0) 0.0 else (sum / list.size)
+    return if (list.size == 0) 0.0 else (list.sum() / list.size)
 }
 
 /**
@@ -133,16 +129,12 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var sum = 0.0
-    for (i in 0..list.size - 1){
-        sum += list[i]
+    var mid = mean(list)
+    for (i in 0..list.size - 1) {
+        val element = list[i]
+        list[i] = element - mid
     }
-    var mid = sum / list.size
-    for (i in 0..list.size - 1){
-        val element=list[i]
-        list[i]=element - mid
-    }
- return list
+    return list
 }
 
 /**
@@ -238,7 +230,7 @@ fun convert(n: Int, base: Int): List<Int> {
         k -= 1
         result2.add(result1[k])
     }
-    return result2
+    return if (n == 0) listOf(0) else result2
 }
 
 /**
@@ -253,7 +245,7 @@ fun convertToString(n: Int, base: Int): String {
     var result1 = String()
     var result2 = String()
     var m = n
-    var alf =listOf<Char>('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
+    val alf =listOf<Char>('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
     while (m > 0) {
         if (m % base < 10) result1 += (m % base) else result1 += alf[m % base - 10]
         m /= base
@@ -263,7 +255,7 @@ fun convertToString(n: Int, base: Int): String {
         k -= 1
         result2 += (result1[k])
     }
-    return result2
+    return if (n == 0) "0" else result2
 }
 
 /**
@@ -274,13 +266,16 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var result = 0
-    var n = digits[0]
-   for (i in 0..digits.size-2){
-       result = n * base + digits[i+1]
-       n = result
-   }
-    return if (digits.size == 1) n else result
+    return if (digits.size == 0) 0 else {
+        var result = 0
+        var n = digits[0]
+        for (i in 0..digits.size - 2) {
+            result = n * base + digits[i + 1]
+            n = result
+        }
+        return if (digits.size == 1) n else result
+
+    }
 }
 
 /**
@@ -295,7 +290,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int{
     var middle = mutableListOf<Int>()
     var result = 0
-    var alf =listOf<Char>('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
+    val alf =listOf<Char>('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
     for (i in 0..str.length - 1) {
         if (str[i] in '0'..'9')
             middle.add(str[i] - '0') else middle.add(str[i] - 'a' + 10)

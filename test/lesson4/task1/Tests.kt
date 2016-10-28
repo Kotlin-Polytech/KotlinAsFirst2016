@@ -141,6 +141,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf(0), convert(0, 637))
     }
 
     @Test
@@ -151,6 +152,7 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+        assertEquals("0", convertToString(0, 25))
     }
 
     @Test
@@ -160,6 +162,7 @@ class Tests {
         assertEquals(100, decimal(listOf(1, 2, 1, 0), 4))
         assertEquals(250, decimal(listOf(1, 3, 12), 14))
         assertEquals(1000, decimal(listOf(2, 14, 12), 19))
+        assertEquals(0, decimal(listOf(),223 ))
     }
 
     @Test

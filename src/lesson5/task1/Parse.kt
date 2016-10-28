@@ -60,7 +60,37 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    var result = ""
+    val parts = str.split(" ")
+    if (parts.size == 3) {
+        try {
+            var day = parts[0].toInt()
+            if (day in 0..9) result = '0' + day.toString() + "."
+            else result = day.toString() + "."
+            result += when (parts[1]) {
+                "января" -> "01."
+                "февраля" -> "02."
+                "марта" -> "03."
+                "апреля" -> "04."
+                "мая" -> "05."
+                "июня" -> "06."
+                "июля" -> "07."
+                "августа" -> "08."
+                "сентября" -> "09."
+                "октября" -> "10."
+                "ноября" -> "11."
+                "декабря" -> "12."
+                else -> return ""
+            }
+
+            result += parts[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +99,36 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    var result = ""
+    if (parts.size == 3) {
+        try {
+            var day = parts[0].toInt()
+            if (day in 10..31) result = day.toString()
+            else result = day.toString()
+            result += when (parts[1]) {
+                "01" -> " января "
+                "02" -> " февраля "
+                "03" -> " марта "
+                "04" -> " апреля "
+                "05" -> " мая "
+                "06" -> " июня "
+                "07" -> " июля "
+                "08" -> " августа "
+                "09" -> " сентября "
+                "10" -> " октября "
+                "11" -> " ноября "
+                "12" -> " декабря "
+                else -> return ""
+            }
+            result += parts[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Сложная

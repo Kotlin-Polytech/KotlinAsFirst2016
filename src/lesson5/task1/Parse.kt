@@ -198,7 +198,7 @@ fun plusMinus(expression: String): Int {
     if (!(expression.matches(pattern))) throw IllegalArgumentException()
     val digitsAndSymbols = expression.split(" ")
     val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0 }
-    val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i != 0 && i % 2 != 0 })
+    val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i % 2 != 0 })
     var k = 0
     var sum = 0
     for (i in digits) {

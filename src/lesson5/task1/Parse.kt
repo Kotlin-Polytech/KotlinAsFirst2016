@@ -105,7 +105,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.matches(Regex("""[\d+\-\s()]+"""))) {
+    if (phone.matches(Regex("""[\d+\-\s()]+""")) && phone != "+") {
         val parts = phone.split(" ").joinToString()
         return parts.split(Regex("""[^+\d]+""")).joinToString().filter { it != ' ' && it != ',' }
     } else return ""

@@ -218,29 +218,6 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    var descriptionList = description.split(";")
-    val descSize = descriptionList.size
-    val result:String
-    if (descSize==1) {
-        if (!description.matches(Regex(""".* \d+(\.\d+)?"""))) return ""
-        return descriptionList[0].split(" ")[0]
-    } else{
-        if (!description.matches(Regex("""(.* \d+(\.\d+)?;)+ (.* \d+(\.\d+)?)"""))) return ""
-        descriptionList = descriptionList.map {it.trim()}
-        var products = listOf<String>()
-        var prices = listOf<Double>()
-        var productAndPrice:List<String>
-        for (element in descriptionList){
-            productAndPrice = element.split(" ")
-            products += productAndPrice[0]
-            try{
-                prices += productAndPrice[1].toDouble()
-            } catch (e: NumberFormatException) {return ""}
-        }
-        result = products[prices.indexOf(prices.max())]
-    }
-    return result
-/*-----------------------------ЭТОТ КОД ТОЖЕ РАБОТАЕТ--------------------------------
     val descriptionList = description.split(" ")
     val descSize = descriptionList.size
     if (descSize % 2 != 0) return ""
@@ -261,7 +238,6 @@ fun mostExpensive(description: String): String {
     if ((prices.indexOf(maxPrice) + 1) * 2 == descSize) x = ""
     if (descriptionList[i - 2].matches(Regex("""\d*"""))) return descriptionList[descriptionList.indexOf("${maxPrice.toInt()}$x") - 1]
     return descriptionList[descriptionList.indexOf("$maxPrice$x") - 1]
-------------------------------------------------------------------------------------*/
 }
 
 /**

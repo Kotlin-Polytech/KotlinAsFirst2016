@@ -85,13 +85,7 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-/*fun GCD(m: Int, n: Int): Int {
-    val max = Math.max(m, n)
-    val min = Math.min(m, n)
-    return if (max % min == 0) min
-    else max % min
-}*/
-fun lcm(m: Int, n: Int): Int //m * n / GCD(m, n)
+fun lcm(m: Int, n: Int): Int 
 {
     var max = Math.max(m, n)
     var min = Math.min(m, n)

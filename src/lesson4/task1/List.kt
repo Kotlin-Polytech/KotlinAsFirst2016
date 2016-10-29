@@ -164,15 +164,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val mn = Math.max(m, n)
-    var i: Int = 0
-    var error: Boolean = false
-    for (i in 2..mn) {
-        if ((n % i == 0) && (m % i == 0)) error = true
-    }
-    if (error == true) return false else return true
-}
+fun polynom(p: List<Double>, x: Double): Double = TODO()
 
 /**
  * Средняя

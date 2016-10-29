@@ -64,9 +64,11 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size == 3) {
         try {
-            val month_numbers: Int = month_names.indexOf(parts[1]) + 1
-            return if (month_numbers == 0) ""
-            else "${twoDigitStr(parts[0].toInt())}.${twoDigitStr(month_numbers)}.${parts[2].toInt()}"
+            val Day = parts[0].toInt()
+            val Year = parts[2].toInt()
+            val Month: Int = month_names.indexOf(parts[1]) + 1
+            return if (Month == 0) ""
+            else "${twoDigitStr(Day)}.${twoDigitStr(Month)}.$Year"
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -85,11 +87,12 @@ fun dateDigitToStr(digital: String): String {
     val month_names = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size == 3) {
         try {
-            for (month in month_names) {
-                val month_numbers: Int = month_names.indexOf(month) + 1
-                if (month_numbers == parts[1].toInt()) return parts[0].toInt().toString() + " " + month + " " + parts[2]
-            }
-            return ""
+            val Day = parts[0].toInt().toString()
+            val Month_numbers = parts[1].toInt()
+            return if (Month_numbers in 1..12) {
+                val Month = month_names[Month_numbers - 1]
+                Day + " " + Month + " " + parts[2]
+            } else ""
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -110,7 +113,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val parts = phone.filter { it != '-' && it != ' ' && it != '(' && it != ')' }
+    val parts = phone.filter { it !in "- , ,( ,)" }
     val parts1 = parts.filter { it != '+' }
     if (phone == "") return ""
     if (parts1.any { it !in '0'..'9' }) return ""

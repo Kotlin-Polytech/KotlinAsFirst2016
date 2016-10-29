@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import lesson3.task1.minDivisor
 
 /**
@@ -106,13 +107,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    var sum = 0.0
-    for (i in 0..v.size - 1) {
-        sum += v[i] * v[i]
-    }
-    return Math.sqrt(sum)
-}
+fun abs(v: List<Double>): Double = Math.sqrt(v.map { sqr(it) }.sum())
 
 /**
  * Простая
@@ -244,12 +239,10 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val sys = convert(n, base)
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
-    var str: String
     var numb = ""
     for (element in sys) {
-        if (element < 10) str = element.toString()
-        else str = alphabet[element - 10].toString()
-        numb += str
+        if (element < 10) numb += element.toString()
+        else numb += alphabet[element - 10].toString()
     }
     return numb
 }
@@ -274,12 +267,10 @@ fun decimal(digits: List<Int>, base: Int): Int = polynom(digits.map { it.toDoubl
  */
 fun decimalFromString(str: String, base: Int): Int {
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
-    var numb: Int
     var digits = listOf<Int>()
     for (char in str) {
-        if (char in alphabet) numb = alphabet.indexOf(char) + 10
-        else numb = char - '0'
-        digits += numb
+        if (char in alphabet) digits += alphabet.indexOf(char) + 10
+        else digits += char - '0'
     }
     return decimal(digits, base)
 }

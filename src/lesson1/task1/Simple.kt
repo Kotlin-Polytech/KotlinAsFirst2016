@@ -123,18 +123,3 @@ fun numberRevert(number: Int): Int {
     val number3 = number / 100
     return number1 + number2 + number3
 }
-
-/*fun timeStrtoSeconds(str: String): Int {
-    val matchResult = Regex("""(\d\d):(\d\d):(\d\d)""")
-    if (matchResult.groupValues[0]!=str) return -1
-    return matchResult.[groupValues].drop(1).
-    map{it.toInt()}.fold(0) {
-        previous,next -> previous*60 + next
-    }
-}*/
-
-/*
-val Months = listOf("Jan","Feb",..,"dec")
-fun indexToMonth(index:Int): String? = Months.getorNull(index - 1)
-fun monthToIndex( name: String ): Int = Months.indexof(name) + 1
- */

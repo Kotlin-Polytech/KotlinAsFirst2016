@@ -61,14 +61,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var i = 0
     var k = n
-    while (k != 0) {
-        i += 1
-        k /= 10
-    }
-    return when {
-        n == Int.MAX_VALUE -> 10
-        n == 0 -> 1
-        else -> i
+    return if (n == Int.MAX_VALUE) 10 else if (n == 0) 1
+    else {
+        while (k != 0) {
+            i += 1
+            k /= 10
+        }
+        i
     }
 }
 
@@ -86,16 +85,22 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    val k1 = Math.max(m, n)
-    var k = m * n
-    for (i in k1..k) {
-        if (i % n == 0 && i % m == 0) {
-            k = i
-            break
-        }
+/*fun GCD(m: Int, n: Int): Int {
+    val max = Math.max(m, n)
+    val min = Math.min(m, n)
+    return if (max % min == 0) min
+    else max % min
+}*/
+fun lcm(m: Int, n: Int): Int //m * n / GCD(m, n)
+{
+    var max = Math.max(m, n)
+    var min = Math.min(m, n)
+    while (max % min != 0) {
+        val mn = min
+        min = max % min
+        max = mn
     }
-    return k
+    return m * n / min
 }
 
 /**
@@ -104,8 +109,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 0
-    for (i in 2..n) {
+    var k = n
+    for (i in 2..n / 2) {
         if (n % i == 0) {
             k = i
             break
@@ -120,14 +125,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k = 1
-    for (i in n / 2 downTo 1) {
-        if (n % i == 0) {
-            k = i
-            break
-        }
+    for (i in n / 2 downTo 2) {
+        if (n % i == 0) return i
     }
-    return k
+    return 1
 }
 
 /**
@@ -146,7 +147,14 @@ fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val sqRoot_m = Math.sqrt(m.toDouble()).toInt()
+    val sqRoot_n = Math.sqrt(n.toDouble()).toInt()
+    for (k in sqRoot_m..sqRoot_n) {
+        if (k * k >= m && k * k <= n) return true
+    }
+    return false
+}
 
 /**
  * Простая
@@ -172,7 +180,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var digit: Int
+    var t = 10
+    var numb = n % 10
+    while (t < n) {
+        digit = (n % (10 * t) - n % t) / t
+        numb = 10 * numb + digit
+        t *= 10
+    }
+    return when {
+        n == 10 -> 1
+        n > 10 -> numb
+        else -> n
+    }
+}
 
 /**
  * Средняя

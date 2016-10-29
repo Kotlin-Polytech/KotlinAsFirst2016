@@ -92,21 +92,22 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+fun gCD(a: Int, b: Int): Int {
+    var max = a
+    var min = b
+    var k = 1
+    while (max % min > 0) {
+        k = max
+        max = min
+        min = k % min
+    }
+    return min
+}
+
 fun lcm(m: Int, n: Int): Int {
     var a = Math.max(m, n)
     var b = Math.min(m, n)
-    fun GCD(a: Int, b: Int): Int {
-        var max = a
-        var min = b
-        var k = 1
-        while (max % min > 0) {
-            k = max
-            max = min
-            min = k % min
-        }
-        return min
-    }
-    return m * n / GCD(a, b)
+    return m * n / gCD(a, b)
 }
 
 /**
@@ -141,7 +142,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
+fun isCoPrime(m: Int, n: Int): Boolean = gCD(m, n) == 1
 
 /**
  * Простая
@@ -151,11 +152,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val minAbs = Math.min(Math.abs(n), Math.abs(m))
-    for (i in 0..minAbs) {
-        if (i * i >= m && i * i <= n) return true
-    }
-    return false
+    val sqrtK = Math.sqrt(n.toDouble()).toInt()
+    return (m <= sqrtK * sqrtK && sqrtK * sqrtK <= n)
 }
 
 /**
@@ -168,10 +166,11 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var a = x
     var b = x
-    var c = 3.0 // n! отдельно не считается, для этого введена переменная с. (Скорее всего, вопрос был неправильно понят)
+    var c = 3.0
     while (Math.abs(b) > eps) {
         b = -b * x * x / (c * (c - 1))
         a = a + b
+        if (Math.abs(Math.sin(a)) > 1) break   // Не знаю, как можно ограничить еще.
         c = c + 2
     }
     return a
@@ -191,6 +190,7 @@ fun cos(x: Double, eps: Double): Double {
     while (Math.abs(b) > eps) {
         b = -b * x * x / (c * (c - 1))
         a = a + b
+        if (Math.abs(Math.cos(a)) > 1) break // Аналогично sin.
         c = c + 2
     }
     return a
@@ -204,15 +204,10 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun revert(n: Int): Int {
     var initial = n
-    var count = 0
+    val count = digitNumber(n)
     var reverse = 0
-    while (initial != 0) {
-        initial = initial / 10
-        count++
-    }
-    initial = n
     for (i in count downTo 1) {
-        reverse = reverse + initial % 10 * (Math.pow(10.0, i - 1.toDouble()).toInt())
+        reverse = reverse + initial % 10 * powInt(10, i - 1)
         initial = initial / 10
     }
     return reverse
@@ -244,9 +239,9 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var N = n
-    var a = 0
-    var b = 0
     while (N / 10 != 0) {
+        var a = 0
+        var b = 0
         a = N % 10
         N = N / 10
         b = N % 10
@@ -266,7 +261,7 @@ fun squareSequenceDigit(n: Int): Int {
     var line = "1"
     var count = 2
     var prevLength = 0
-    while (prevLength - +line.length < n) {
+    while (prevLength + line.length < n) {
         prevLength += line.length
         line = (count * count).toString()
         count++

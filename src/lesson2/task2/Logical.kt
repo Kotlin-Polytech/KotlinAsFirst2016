@@ -41,7 +41,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean
-        = ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) <= (r2 - r1)))
+        = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) <= r2 - r1
 
 /**
  * Средняя
@@ -53,6 +53,11 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val bP = (s >= a && (r >= b || r >= c)) || (s >= b && (r >= a || r >= c)) || (s >= c && (r >= b || r >= a))
-    return bP
+    val min1 = Math.min(a, b)
+    var min2 = Math.max(a, b)
+    if (min1 == Math.min(min1, c))
+        min2 = Math.min(min2, c)
+    else min2 = c // нахождение 2 меньших сторон
+    if (Math.min(min1, min2) <= Math.min(r, s) && Math.max(min1, min2) <= Math.max(r, s)) return true
+    return false
 }

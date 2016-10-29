@@ -110,11 +110,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (a + b <= c || a + c <= b || b + c <= a) return -1
-    var cos = 0.0
-    when {
-        a > b && a > c -> cos = (c * c + b * b - a * a) / (2 * c * b)
-        b > c && b > a -> cos = (a * a + c * c - b * b) / (2 * a * c)
-        else -> cos = (a * a + b * b - c * c) / (2 * a * b)
+    val cos = when {
+        a > b && a > c -> (c * c + b * b - a * a) / (2 * c * b)
+        b > c && b > a -> (a * a + c * c - b * b) / (2 * a * c)
+        else -> (a * a + b * b - c * c) / (2 * a * b)
     }
     when {
         cos > 0 -> return 0
@@ -133,10 +132,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-        (c <= a && d >= b) -> return b - a
-        (d >= a && d <= b && c <= a) -> return d - a
-        (c >= a && c <= b && d >= b) -> return b - c
-        (c <= b && c >= a && d <= b) -> return d - c
-        else -> return -1
+        (c <= a && d >= b) -> b - a
+        (d >= a && d <= b && c <= a) -> d - a
+        (c >= a && c <= b && d >= b) -> b - c
+        (c <= b && c >= a && d <= b) -> d - c
+        else -> -1
     }
 }

@@ -64,7 +64,7 @@ fun dateStrToDigit(str: String): String {
     val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = str.split(" ")
-        if (list.indexOf(parts[1]) == -1) throw IllegalAccessException()
+        if ((list.indexOf(parts[1]) == -1) || (parts[2].toInt() < 0) || (parts[0].toInt() !in 1..31)) throw Exception()
         return "${twoDigitStr(parts[0].toInt())}.${twoDigitStr(list.indexOf(parts[1]) + 1)}.${parts[2]}"
     } catch (e: Exception) {
         return ""

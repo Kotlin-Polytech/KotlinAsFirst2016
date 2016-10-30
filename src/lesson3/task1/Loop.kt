@@ -87,14 +87,13 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    /*var k = max(m, n)
-    while (k % m != 0 || k % n != 0) k++
-    return k*/
+fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
+
+fun nod(m: Int, n: Int): Int {
     var m1 = m
     var n1 = n
     while (m1 != n1) if (m1 > n1) m1 -= n1 else n1 -= m1
-    return m * n / m1
+    return m1
 }
 
 /**
@@ -139,9 +138,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    return sqr(ceil(sqrt(m.toDouble()))) in m..n
-}
+fun squareBetweenExists(m: Int, n: Int): Boolean = sqr(ceil(sqrt(m.toDouble()))) in m..n
 
 /**
  * Простая
@@ -211,7 +208,7 @@ fun squareSequenceDigit(n: Int): Int {
         sum += digitNumber(square)
     }
     count = sum - n
-    return (square / pow(10, count) % 10)
+    return square / pow(10, count) % 10
 
 }
 

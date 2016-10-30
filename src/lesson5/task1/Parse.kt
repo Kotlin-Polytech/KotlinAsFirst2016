@@ -64,7 +64,7 @@ fun dateStrToDigit(str: String): String {
     val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = str.split(" ")
-        if ((list.indexOf(parts[1]) == -1) || (parts[2].toInt() < 0) || (parts[0].toInt() !in 1..31)) throw Exception()
+        if ((list.indexOf(parts[1]) == -1) || (parts[2].toInt() < 0) || (parts[0].toInt() !in 1..31)|| parts.size !=3) throw Exception()
         return "${twoDigitStr(parts[0].toInt())}.${twoDigitStr(list.indexOf(parts[1]) + 1)}.${parts[2]}"
     } catch (e: Exception) {
         return ""
@@ -78,8 +78,18 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
-
+fun dateDigitToStr(digital: String): String {
+    val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        val parts= digital.split(".")
+        if ((parts[1].toInt() !in 1..12) || (parts[2].toInt() < 0) || (parts[0].toInt() !in 1..31)||(parts.size !=3 )) throw Exception()
+        return "${oneDigitStr(parts[0].toInt())} ${list[parts[1].toInt()-1]} ${parts[2]}"
+    }
+    catch (e:Exception){
+        return ""
+    }
+}
+fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n%10}"
 /**
  * Сложная
  *

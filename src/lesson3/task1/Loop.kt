@@ -77,8 +77,16 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    if (n < 3) return 1
-    else return fib(n - 1) + fib(n - 2)
+    var fib1 = 1
+    var fib2 = 1
+    var fib3 = 0
+    if (n == 2 || n ==1) return 1
+    for (i in 3..n) {
+        fib3 = fib1 + fib2
+        fib1 = fib2
+        fib2 = fib3
+    }
+    return fib3
 }
 
 /**
@@ -95,10 +103,13 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var mindel = 2
-    while (n % mindel != 0)
-        mindel ++
-    return mindel
+    if (n % 2 == 0) return 2
+    else {
+        var mindel = 3
+        while (n % mindel != 0)
+            mindel += 2
+        return mindel
+    }
 }
 
 /**
@@ -218,16 +229,15 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var number = 0
     var chislo = 0
+    var fib1 = 0
     while (chislo < n) {
         number++
-        chislo += digitNumber(fib(number))
+        fib1 = fib(number)
+        chislo += digitNumber(fib1)
     }
-    if (chislo == n) return fib(number) % 10
-    var s = chislo - n
-    var t = 10
-    while (s > 1) {
-        t *= 10
-        s--
+    if (chislo == n) return fib1 % 10
+    for (i in 1..chislo - n) {
+        fib1 /= 10
     }
-    return (fib(number) / t) % 10
+    return fib1 % 10
 }

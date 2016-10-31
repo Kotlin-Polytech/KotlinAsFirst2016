@@ -72,7 +72,7 @@ fun dateStrToDigit(str: String): String {
         val day = parts[0].toInt()
         if (day !in 1..31) return ""
         val year = parts[2].toInt()
-        return String.format("%02d.%02d.%02d", day, month, year)
+        return String.format("%02d.%02d.%d", day, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }

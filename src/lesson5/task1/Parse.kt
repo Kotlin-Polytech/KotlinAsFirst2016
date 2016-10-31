@@ -133,8 +133,8 @@ fun plusMinus(expression: String): Int {
         val condition2 = parts[i+1].contains (Regex("""\d"""))
         val condition3 = parts[i].contains (Regex("""[-+]"""))
         val condition4 = parts[i+1].contains (Regex("""[-+]"""))
-        val condition5 = parts[i].contains (Regex("""[^0-9-+]"""))
-        val condition = condition1 && condition2 || condition3 && condition4 || condition5
+        val condition5 = parts[i].contains (Regex("""[^\d+-]"""))
+        val condition = (condition1 && condition2) || (condition3 && condition4) || condition5
         if (condition)  throw IllegalArgumentException("Wrong expression format")
         else {
             when {
@@ -143,7 +143,7 @@ fun plusMinus(expression: String): Int {
             }
         }
     }
-    if (parts.size > 1) result += parts[0].toInt()
+    result += parts[0].toInt()
     return result
 }
 

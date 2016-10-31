@@ -183,17 +183,14 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var sum = 0.0
     if (list.isNotEmpty()) {
-        val result = mutableListOf<Double>()
-        val first = list.first()
-        result.add(first)
-        for (i in 1..(list.size-1)) {
-            for (i in i downTo 0) sum += list[i]
-            result.add(sum)
-            sum = 0.0
+        var sum = 0.0
+        val large = list.size-1
+        for (i in 0..large) {
+            sum += list[i]
+            list[i]=sum
         }
-        return result
+        return list
     }
     return list
 }

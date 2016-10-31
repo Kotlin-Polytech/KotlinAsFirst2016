@@ -61,7 +61,6 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String = TODO()
-
 /**
  * Средняя
  *

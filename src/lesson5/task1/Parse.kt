@@ -132,7 +132,7 @@ fun plusMinus(expression: String): Int {
     val matchResult1 = Regex("""[^\d+-]""")
     val matchResult2 = Regex("""\d""")
     val matchResult3 = Regex("""[-+]""")
-    if ((length == 1) && (parts[0].contains(matchResult1))) throw IllegalArgumentException("Wrong expression format")
+    if ((length == 1) && (parts[0].contains(matchResult1)) || length == 0) throw IllegalArgumentException("Wrong expression format")
     else {
         for (i in 0..length - 2) {
             val condition1 = parts[i].contains(matchResult2)

@@ -127,7 +127,8 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
-    var result = parts[0].toInt()
+    var result = 0
+    if (parts.size > 1) result += parts[0].toInt()
     for (i in 0..parts.size - 2) {
         val condition1 = parts[i].contains (Regex("""\d"""))
         val condition2 = parts[i+1].contains (Regex("""\d"""))

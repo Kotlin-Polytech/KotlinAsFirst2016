@@ -143,7 +143,7 @@ fun plusMinus(expression: String): Int {
             }
         }
     }
-    result += parts[0].toInt()
+    if (parts[0].contains(Regex("""\d"""))) result += parts[0].toInt()
     return result
 }
 

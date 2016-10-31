@@ -36,7 +36,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age % 10 == 1 && age % 100 !== 11) return "$age года"
+    if (age % 10 == 1 && age % 100 !== 11) return "$age год"
     else if (age % 10 in 2..4 && age % 100 !in 10..19) return "$age года"
     else return "$age лет"
 
@@ -76,10 +76,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if ((rookX1 == kingX || rookY1 == kingY) && (rookX2 != kingX && rookY2 != kingY)) return 1
-        else if((rookX2 == kingX || rookY2 == kingY) && (rookX1 != kingX && rookY1 != kingY)) return 2
-        else if((rookX1 != kingX && rookY1 != kingY) && (rookX2 != kingX && rookY2 != kingY)) return 0
-    else return 3
+    var alertx = 0
+    if ((kingX == rookX1) || (kingY == rookY1))
+        alertx += 1
+    if ((kingX == rookX2) || (kingY == rookY2))
+        alertx += 2
+    return alertx
 
 
 }

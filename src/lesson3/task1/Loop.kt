@@ -105,20 +105,16 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun nod(m: Int, n: Int): Int {
+tailrec fun gcd(m: Int, n: Int): Int {
     if (n == m)
         return n
     if (n > m)
-        return nod(n-m, m)
-    if (n < m)
-        return nod(m-n, n)
-    else return 0
+        return gcd(n-m, m)
+    else return gcd(m-n, n)
+
 }
-fun isCoPrime(m: Int, n: Int): Boolean {
-    if (nod(m, n) == 1)
-        return true
-    else return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
+
 
 /**
  * Простая
@@ -186,10 +182,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-   if (n == revert(n)) return true
-   else return false
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
@@ -197,7 +190,16 @@ fun isPalindrome(n: Int): Boolean {
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var num = n
+    var ld = num % 10
+    while (num != 0){
+        if (ld != num % 10) return true
+        ld = num % 10
+        num /= 10
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -207,7 +209,6 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int = TODO()
-
 /**
  * Сложная
  *

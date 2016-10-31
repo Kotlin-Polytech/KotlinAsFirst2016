@@ -79,14 +79,12 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var fib1 = 1
     var fib2 = 1
-    var fib3 = 0
-    if (n == 2 || n ==1) return 1
     for (i in 3..n) {
-        fib3 = fib1 + fib2
+        val fib3 = fib1 + fib2
         fib1 = fib2
         fib2 = fib3
     }
-    return fib3
+    return fib2
 }
 
 /**

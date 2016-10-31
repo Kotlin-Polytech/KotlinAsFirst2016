@@ -87,12 +87,12 @@ fun fib(n: Int): Int = TODO()
 fun lcm(m: Int, n: Int): Int {
     var num_m = m
     var num_n = n
-    var multiplication = (num_m * num_n)
+    val multiplication = (num_m * num_n)
     while ((num_m != 0) and (num_n != 0)) {
         if (num_m > num_n) num_m %= num_n
         else num_n %= num_m
     }
-    var count = num_m + num_n
+    val count = num_m + num_n
     return multiplication/count
 
 
@@ -110,15 +110,7 @@ fun minDivisor(n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var i = (n/2)
-    for (n in i downTo 1) {
-        if ((n % i) == 0) break
-        }
-return (i) // НЕ ДОДЕЛАНА !!!
-
-
-}
+fun maxDivisor(n: Int): Int = TODO()
 
 /**
  * Простая
@@ -196,27 +188,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int {
-    var num = n
-    var a = 0
-    var b = 0
-    var multiplication = 1
-    var c = 1
-    var k = 1
-    do {
-        b += b
-        multiplication == (b*b)
-        c == 1
-        k == 10
-        do {
-            k *= 10
-            c += 1
-        } while ((multiplication/k) != 0)
-        a == (a+k)
-
-    } while (a < num)
-    return num
-}
+fun squareSequenceDigit(n: Int): Int = TODO()
 
 /**
  * Сложная

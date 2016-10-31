@@ -43,13 +43,13 @@ fun biRoots(a: Double, b: Double, c: Double): List<Double> {
  * Выделить в список отрицательные элементы из заданного списка
  */
 fun negativeList(list: List<Int>): List<Int> {
-    val result = mutableListOf<Int>()
+    val res = mutableListOf<Int>()
     for (element in list) {
         if (element < 0) {
-            result.add(element)
+            res.add(element)
         }
     }
-    return result
+    return res
 }
 
 /**
@@ -121,8 +121,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-        var k = list.size
-        var sum = list.sum()
+        val k = list.size
+        val sum = list.sum()
     if (k == 0) return 0.0
     if (k == 1) return sum
     else return sum/k
@@ -185,8 +185,8 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
     if (list.isNotEmpty()) {
-        var result = mutableListOf<Double>()
-        var first = list.first()
+        val result = mutableListOf<Double>()
+        val first = list.first()
         result.add(first)
         for (i in 1..(list.size-1)) {
             for (i in i downTo 0) sum += list[i]
@@ -207,7 +207,7 @@ return list
  */
 fun factorize(n: Int): List<Int> {
     var number = n
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     while ((number % 2) == 0) {
         result.add(2)
         number /= 2
@@ -231,7 +231,7 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     var number = n
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     while ((number % 2) == 0) {
         result.add(2)
         number /= 2

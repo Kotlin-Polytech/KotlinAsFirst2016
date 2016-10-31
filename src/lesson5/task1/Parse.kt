@@ -129,17 +129,17 @@ fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
     var result = 0
     for (i in 0..parts.size - 2) {
-        val condition1 = parts[i].contains (Regex("""\d"""))
-        val condition2 = parts[i+1].contains (Regex("""\d"""))
-        val condition3 = parts[i].contains (Regex("""[-+]"""))
-        val condition4 = parts[i+1].contains (Regex("""[-+]"""))
-        val condition5 = parts[i].contains (Regex("""[^\d+-]"""))
+        val condition1 = parts[i].contains(Regex("""\d"""))
+        val condition2 = parts[i + 1].contains(Regex("""\d"""))
+        val condition3 = parts[i].contains(Regex("""[-+]"""))
+        val condition4 = parts[i + 1].contains(Regex("""[-+]"""))
+        val condition5 = parts[i].contains(Regex("""[^\d+-]"""))
         val condition = (condition1 && condition2) || (condition3 && condition4) || condition5
-        if (condition)  throw IllegalArgumentException("Wrong expression format")
+        if (condition) throw IllegalArgumentException("Wrong expression format")
         else {
             when {
-                parts[i].matches(Regex("""[+]""")) -> result += parts[i+1].toInt()
-                parts[i].matches(Regex("""[-]""")) -> result -= parts[i+1].toInt()
+                parts[i].matches(Regex("""[+]""")) -> result += parts[i + 1].toInt()
+                parts[i].matches(Regex("""[-]""")) -> result -= parts[i + 1].toInt()
             }
         }
     }

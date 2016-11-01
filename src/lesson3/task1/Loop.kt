@@ -74,8 +74,17 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int =
-        if (n in 1..2) 1 else fib(n - 2) + fib(n - 1)
+fun fib(n: Int): Int {
+    var f = 1
+    var g = 0
+    var h = 0
+    for (l in 1..n) {
+        h = f + g
+        f = g
+        g = h
+    }
+    return h
+}
 
 
 /**
@@ -86,10 +95,9 @@ fun fib(n: Int): Int =
  */
 fun lcm(m: Int, n: Int): Int {
     var k = Math.max(m, n)
-    do {
-        if ((k % m == 0) && (k % n == 0)) break
-        k++
-    } while (k <= m * n)
+    for (k in 1..m * n) {
+        if (k % m == 0 && k % n == 0) return k
+    }
     return k
 }
 
@@ -223,8 +231,9 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     val reverted = revert(n)
-     if (reverted == n) return true
-    else return false
+    if (reverted == n) true else false
+    return reverted == n
+
 }
 
 /**

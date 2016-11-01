@@ -285,8 +285,8 @@ fun decimalFromString(str: String, base: Int): Int {
     list = listOf()
     var string1 = str
     for (i in 0..string1.length - 1)
-        if (string1[i] in '0'..'9') list += ((string1[i]).toInt() - 48)
-        else list += ((string1[i]).toInt() - 87)
+        if (string1[i] in '0'..'9') list += ((string1[i]).toInt() - '0'.toInt())
+        else list += ((string1[i]).toInt() - 'a'.toInt() + 10)
     return decimal(list, base)
 }
 
@@ -298,7 +298,21 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var result = ""
+    var n2 = n
+    val rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val dec = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var i = 12
+    while (n2 != 0) {
+        while (n2 >= dec[i]) {
+            n2 -= dec[i]
+            result += rom[i]
+        }
+        i--
+    }
+    return result
+}
 
 /**
  * Очень сложная

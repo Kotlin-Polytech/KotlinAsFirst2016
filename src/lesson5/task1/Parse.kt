@@ -244,7 +244,7 @@ fun plusMinus(expression: String): Int {
                 && (expression[i] != '-')
                 && (expression[i] != ' ')
                 && (expression[i] !in '0'..'9')))
-            return throw IllegalArgumentException("IllegalArgumentException")
+            return throw IllegalArgumentException()
     var resultExpression = expression
     val parts = resultExpression.split(" ")
     var result = 0
@@ -259,8 +259,8 @@ fun plusMinus(expression: String): Int {
                 if (parts[i - 1] == "-") result -= parts[i].toInt()
                 else result += parts[i].toInt()
         }
-    } catch (e: NumberFormatException) {
-        throw NumberFormatException("IllegalArgumentException")
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException()
     }
     return result
 }
@@ -284,24 +284,23 @@ fun firstDuplicateIndex(str: String): Int {
     return -1
 }
 
-@Suppress("VARIABLE_WITH_REDUNDANT_INITIALIZER")
-        /**
-         * Сложная
-         *
-         * Строка содержит названия товаров и цены на них в формате вида
-         * "Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9".
-         * То есть, название товара отделено от цены пробелом,
-         * а цена отделена от названия следующего товара точкой с запятой и пробелом.
-         * Вернуть название самого дорогого товара в списке (в примере это Курица),
-         * или пустую строку при нарушении формата строки.
-         * Все цены должны быть положительными
-         */
+/**
+ * Сложная
+ *
+ * Строка содержит названия товаров и цены на них в формате вида
+ * "Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9".
+ * То есть, название товара отделено от цены пробелом,
+ * а цена отделена от названия следующего товара точкой с запятой и пробелом.
+ * Вернуть название самого дорогого товара в списке (в примере это Курица),
+ * или пустую строку при нарушении формата строки.
+ * Все цены должны быть положительными
+ */
 fun mostExpensive(description: String): String {
     if (description == "") return ""
     var maxMax = 0.0
     var maxI = 0
-    var string = listOf<String>()
-    var stringLittle = listOf<String>()
+    var string: List<String>
+    var stringLittle: List<String>
     try {
         string = description.split("; ")
         for (i in 0..string.size - 1) {

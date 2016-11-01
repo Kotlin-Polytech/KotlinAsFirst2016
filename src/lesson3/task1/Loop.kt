@@ -129,11 +129,7 @@ fun gcd(m: Int, n: Int): Int {
 }
 
 
-fun lcm(m: Int, n: Int): Int {
-
-    return (m * n) / gcd(m, n)
-
-}
+fun lcm(m: Int, n: Int): Int = (m * n) / gcd(m, n)
 
 
 /**
@@ -191,7 +187,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var k = 0
     var sin = x
-    var number: Double = x
+    var number = x
     while (Math.abs(number) * 1000 > eps) {
         k += 1
         number = Math.pow(x, k.toDouble() * 2 + 1) / factorial(k * 2 + 1)
@@ -213,7 +209,7 @@ fun sin(x: Double, eps: Double): Double {
 fun cos(x: Double, eps: Double): Double {
     var k = 0
     var cos = 1.0
-    var number: Double = x
+    var number = x
     while (Math.abs(number) * 1000 > eps) {
         k += 1
         number = Math.pow(x, k.toDouble() * 2) / factorial(k * 2)
@@ -292,7 +288,7 @@ fun squareSequenceDigit(n: Int): Int {
     var number = 0
     var result = 0
     while (number < n) {
-        numberi ++
+        numberi++
         number += count(numberi * numberi)
     }
     result = numberi * numberi

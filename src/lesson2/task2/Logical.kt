@@ -2,6 +2,8 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
+import lesson2.task1.MediumofThree
+import lesson2.task1.MinofThree
 
 /**
  * Пример
@@ -44,7 +46,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = Math.abs(x1-x2
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean  = r1 <= r2 && Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) <= r2-r1
+                 x2: Double, y2: Double, r2: Double): Boolean  =
+        r1 <= r2 && Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) <= r2-r1
 /**
  * Средняя
  *
@@ -54,25 +57,10 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun MaxofThree(a: Int, b: Int, c: Int): Int {
-    var max = 0
-    if (a > b) {max = a} else {max = b}
-    if (c > max) {max = c}
-    return max
-}
 
-fun MinofThree(a: Int, b: Int, c: Int): Int{
-    var min= 0
-    if (a < b) {min = a} else {min = b}
-    if (c < min) {min = c}
-    return min
-}
-
-fun MediumofThree(a: Int, b: Int, c: Int): Int = a + b + c - MinofThree(a,b,c) - MaxofThree(a, b, c)
-
-fun brickPasses(a: Int , b: Int , c: Int , r: Int , s: Int): Boolean {
-    val min = MinofThree(a,b,c)
-    val nor = MediumofThree(a,b,c)
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val min = MinofThree(a.toDouble(),b.toDouble(),c.toDouble()).toInt()
+    val nor = MediumofThree(a.toDouble(),b.toDouble(),c.toDouble()).toInt()
     return (r >= nor && s >= min) || (r >= min && s >= nor)
 }
 

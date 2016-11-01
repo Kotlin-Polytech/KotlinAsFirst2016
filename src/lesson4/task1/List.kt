@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 
 package lesson4.task1
-
 import lesson1.task1.discriminant
 
 /**
@@ -109,9 +108,7 @@ fun q2(g: Double) = g * g
 
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (i in 0..v.size - 1) {
-        sum += q2(v[i])
-    }
+    (0..v.size - 1).forEach { i -> sum += q2(v[i]) }
     return Math.sqrt(sum)
 }
 
@@ -171,7 +168,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    var sum: Double = 0.0
+    var sum = 0.0
     for (i in 0..p.size - 1)
         sum += p[i] * Math.pow(x, i.toDouble())
     return sum
@@ -307,7 +304,7 @@ fun decimalFromString(str: String, base: Int): Int {
     val str1 = str
     for (i in 0..str1.length - 1)
         if (str1[i] in '0'..'9') list += ((str1[i]).toInt() - '0'.toInt())
-        else list += ((str[i]).toInt() - 'a'.toInt() + 10)
+        else list += ((str[i]) - 'a' + 10).toInt()
     return decimal(list, base)
 }
 

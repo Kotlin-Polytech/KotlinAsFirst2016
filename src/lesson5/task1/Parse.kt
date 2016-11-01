@@ -60,14 +60,14 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    var result = ""
+    var StringBuilder = ""
     val parts = str.split(" ")
     if (parts.size == 3) {
         try {
             var day = parts[0].toInt()
-            if (day in 0..9) result = '0' + day.toString() + "."
-            else result = day.toString() + "."
-            result += when (parts[1]) {
+            if (day in 0..9) StringBuilder = '0' + day.toString() + "."
+            else StringBuilder = day.toString() + "."
+            StringBuilder += when (parts[1]) {
                 "января" -> "01."
                 "февраля" -> "02."
                 "марта" -> "03."
@@ -83,11 +83,11 @@ fun dateStrToDigit(str: String): String {
                 else -> return ""
             }
 
-            result += parts[2].toInt().toString()
+            StringBuilder += parts[2].toInt().toString()
         } catch (e: NumberFormatException) {
             return ""
         }
-        return result
+        return StringBuilder
     } else return ""
 }
 
@@ -103,7 +103,7 @@ fun dateDigitToStr(digital: String): String {
     var result = ""
     if (parts.size == 3) {
         try {
-            var day = parts[0].toInt()
+            val day = parts[0].toInt()
             if (day in 10..31) result = day.toString()
             else result = day.toString()
             result += when (parts[1]) {
@@ -168,7 +168,7 @@ fun bestLongJump(jumps: String): Int {
             if (part == "%" || part == "-") {
                 continue
             } else {
-                var number = part.toInt()
+                val number = part.toInt()
                 if (max < number) max = number
             }
         }
@@ -227,9 +227,9 @@ fun plusMinus(expression: String): Int {
         } else {
             val parts = expression.split(" ")
             var sum = parts[0].toInt()
-            if (parts.size == 1) return expression.toInt()
+            if (parts.size == 1) return sum
             for (i in 0..parts.size - 3 step 2) {
-                if (parts[i + 1] == '+'.toString()) {
+                if (parts[i + 1] == "+") {
                     sum += parts[i + 2].toInt()
                 } else {
                     sum -= parts[i + 2].toInt()

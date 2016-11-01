@@ -267,10 +267,10 @@ fun plusMinus(expression: String): Int {
     try {
         answer = expressions[0].toInt()
         for (i in 1..expressions.size - 2 step 2) {
-            val exptoint = expressions[i + 1].toInt()
+            val expToInt = expressions[i + 1].toInt()
             when (expressions[i]) {
-                "+" -> answer += exptoint
-                "-" -> answer -= exptoint
+                "+" -> answer += expToInt
+                "-" -> answer -= expToInt
                 else -> throw IllegalArgumentException()
             }
         }
@@ -296,7 +296,7 @@ fun firstDuplicateIndex(str: String): Int {
     val strings = strin.split(" ")
     if (strings.size < 2) return -1
     for (i in 0..strings.size - 2) {
-        if (strings[i].equals(strings[i + 1])) return index
+        if (strings[i] == strings[i + 1]) return index
         else index += strings[i].length + 1
     }
     return -1

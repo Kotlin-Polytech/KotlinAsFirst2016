@@ -233,7 +233,6 @@ fun isPalindrome(n: Int): Boolean {
     val reverted = revert(n)
     if (reverted == n) true else false
     return reverted == n
-
 }
 
 /**

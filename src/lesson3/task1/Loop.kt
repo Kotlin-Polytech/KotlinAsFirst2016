@@ -62,10 +62,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var sum = 0
-    for (m in 0..n) {
-        n % 10
-        sum += m
-        if (n < 0) break
+    var m = n
+    if (m == 0) return 1
+    else {
+        while (m != 0) {
+
+            sum++
+            m /= 10
+
+
+        }
 
     }
     return sum
@@ -80,7 +86,7 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     val k: Int
     if (n > 2) {
-        k = fib(n) + fib(n + 1)
+        k = fib(n-1) + fib(n-2)
     } else k = 1
     return k
 }
@@ -118,12 +124,14 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var k = 2
-    while (n > 1) {
+    var m = 1
+    while (m != 0) {
+        m = n % k
+        k++
 
-        if (n % k != 0) continue
-        k += k
-        if (n % k == 0) break
+
     }
+    k--
     return k
 }
 
@@ -133,14 +141,19 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var x = n - 1
-    var t = 1
-    while (t != 0) {
-        t = n % x
-        x--
+    var x: Int = n - 1
+
+    for (k in (n - 1) downTo 1) {
+
+        if (n % x == 0) break
+        else x--
+
     }
-    x++
-    return x
+
+
+
+
+    return (x)
 }
 
 /**
@@ -174,15 +187,18 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = 1.0
+    var k = 0.0
 
-    while (m <= n) {
-        if (sqr(k) < m || sqr(k) > n) return false
+    while (k * k <= n) {
+        if (m <= sqr(k)) return true
 
-        k += k
-        if (m <= sqr(k) && sqr(k) <= n) break
+
+        k++
+
+
     }
-    return true
+
+    return false
 
 }
 

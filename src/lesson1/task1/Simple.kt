@@ -57,7 +57,6 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
     val x2 = (minutes * 60)
     val x3 = seconds
     return x1 + x2 + x3
-
 }
 
 /**
@@ -94,11 +93,9 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-
     val x3 = sqr(x1 - x2)
     val y3 = sqr(y1 - y2)
     return sqrt(x3 + y3)
-
 }
 
 /**
@@ -108,7 +105,6 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
 fun thirdDigit(number: Int): Int {
-
     return (number / 100) % 10
 }
 

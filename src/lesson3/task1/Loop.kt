@@ -64,7 +64,7 @@ fun digitNumber(n: Int): Int {
     do {
         count += 1
         digits /= 10
-    } while (digits > 0)
+    } while (digits != 0)
     return count
 }
 
@@ -138,12 +138,12 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = Math.min(m, n)
-    do {
-        if ((m % k == 0) && (n % k == 0)) return false
-        k--
-    } while (k > 1)
-    return true
+    var k = 1
+    for (i in 2..m) {
+        if ((m % i == 0) && (n % i == 0)) k = 0
+    }
+    return if (k == 0) false
+    else true
 }
 
 /**
@@ -246,7 +246,6 @@ fun hasDifferentDigits(n: Int): Boolean {
     var numb = n / 10
     do {
         if (numb % 10 != dif) return true
-        dif = numb % 10
         numb /= 10
     } while (numb > 0)
     return false
@@ -259,7 +258,19 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var number = 0
+    var result = 0
+    var k = 0
+    while (number < n) {
+        k++
+        number += digitNumber(k * k)
+    }
+    result = k * k
+    (n..number - 1).forEach { k -> result /= 10 }
+    return (result % 10)
+
+}
 
 /**
  * Сложная
@@ -268,4 +279,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var result = 0
+    var number = 0
+    var k = 0
+    while (number < n) {
+        k++
+        number += digitNumber(fib(k))
+    }
+    result = fib(k)
+    (n..number - 1).forEach { k -> result /= 10 }
+    return (result % 10)
+}

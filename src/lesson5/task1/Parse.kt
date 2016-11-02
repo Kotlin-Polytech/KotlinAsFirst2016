@@ -112,7 +112,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     var phoneWithoutSmbl = phone.filter { it != '-' && it != ' ' }
-    if (phoneWithoutSmbl.matches(Regex("""(\+\d+)?(\(\d+\))?\d+"""))) return ""
+    if (!phoneWithoutSmbl.matches(Regex("""(\+\d+)?(\(\d+\))?\d+"""))) return ""
     phoneWithoutSmbl = phoneWithoutSmbl.filter { it in '0'..'9' || it == '+' }
     return phoneWithoutSmbl
 }

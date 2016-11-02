@@ -98,29 +98,21 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    //var k = Math.max(n, m)                   // - 1 вариант
-    //val equalToK = k
-    //while ( k % m != 0 || k % n != 0 ) {
-        //k += equalToK
-    //}
-    //return k
-
-    var mm = m
-    var nn = n
-    val c = mm * nn
-    //while (mm != nn) {                      //  - 2 вариант
-        //if (mm > nn) mm -= nn else nn -= mm
-    //}
-    // return c / mm
-
-    var t: Int                                //  - 3 вариант
-    while (nn != 0) {
-        t = mm % nn
-        mm = nn
-        nn = t
+fun gkd(a: Int, b: Int): Int { //  доп. ф-ция для нахождения НОД, используется  в ф-ции lcm
+    var aa = a
+    var bb = b
+    var t: Int
+    while (bb != 0 && aa != 0) {
+        t = bb
+        bb = aa % bb
+        aa = t
     }
-    return c / mm
+    return Math.abs(aa) // на случай, если во входных данных есть отрицательное число
+}
+
+fun lcm(m: Int, n: Int): Int { // ф-ция для нахождения НОК
+    val c = m / gkd(m, n) * n // НОК = a * b / НОК
+    return c
 }
 
 /**
@@ -129,13 +121,11 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var i = 2
-    while (n % i != 0) {
-        i++
+    for (i in 2..n / 2) { // n может нацело делиться либо на число, не больщее чем n/2, либо на самого себя (n / n = 1)
+        if ( n % i == 0) return i
     }
-    return i
+    return n
 }
-
 
 /**
  * Простая
@@ -143,11 +133,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i = n - 1
-    while (n % i != 0) {
-        i--
+    for (i in n /2 downTo 1) {
+        if (n % i == 0) return i
     }
-    return i
+    return 1
 }
 
 /**
@@ -157,24 +146,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    //val min = Math.min(m, n)
-    //for (i in 2..min) {
-        //if (m % i == 0 && n % i == 0)
-            //return false
-    //}
-    //return true
-    var mm = m
-    var nn = n
-    var t: Int
-    while (nn != 0) {
-        t = mm % nn
-        mm = nn
-        nn = t
-    }
-    if (mm == 1) return true
-    else return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (gkd(m,n) == 1)
 
 /**
  * Простая

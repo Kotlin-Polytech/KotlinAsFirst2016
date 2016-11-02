@@ -92,7 +92,7 @@ fun dateStrToDigit(str: String): String {
             val year = parts[2].toInt()
             val month = parts[1].toInt()
             if ((day !in 1..31) || (month.toInt() !in 1..12)) return ""
-            else return String.format("%d %s %d", day, MONTHS[month - 1], year)
+            else return String.format("%02d %s %d", day, MONTHS[month - 1], year)
         } catch (e: NumberFormatException) {
             return ""
         }

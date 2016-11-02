@@ -220,7 +220,7 @@ fun mostExpensive(description: String): String {
     val descriptionList = description.split("; ")
     var productMostExpensive = ""
     try {
-        var maxPrice = 0.0
+        var maxPrice = -1.0
         for (element in descriptionList) {
             val productAndPrice = element.split(" ")
             val newPrice = productAndPrice[1].toDouble()

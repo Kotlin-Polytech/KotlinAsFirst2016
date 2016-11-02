@@ -123,13 +123,9 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    val x: Double
     if (list.isNotEmpty()) {
-        x = (list.sum()) / (list.size * 1.0)
-        return x
+        return (list.sum()) / (list.size)
     } else return 0.0
-
-
 }
 
 /**
@@ -141,15 +137,13 @@ fun mean(list: List<Double>): Double {
 fun center(list: MutableList<Double>): MutableList<Double> {
     val x: Double
     if (list.isNotEmpty()) {
-        x = (list.sum()) / (list.size * 1.0)
+        x = (list.sum()) / (list.size)
         for (i in 0..list.size - 1) {
             val element = list[i]
             list[i] = element - x
-
         }
     }
     return list
-
 }
 
 /**
@@ -162,18 +156,12 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
     if (a.isEmpty() || b.isEmpty()) return 0.0
-    else  {
+    else {
         for (i in 0..a.size - 1) {
             c += a[i] * b[i]
-
-
         }
-
-
     }
     return c
-
-
 }
 
 /**
@@ -191,12 +179,9 @@ fun polynom(p: List<Double>, x: Double): Double {
     else if (p.isNotEmpty()) {
         for (i in 0..p.size - 1) {
             a += p[i] * Math.pow(x, i.toDouble())
-
         }
-
     }
     return a
-
 }
 
 /**
@@ -208,13 +193,9 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-
-
     for (i in 1..list.size - 1) {
-
         list[i] += list[i - 1]
     }
-
     return list
 }
 
@@ -228,23 +209,15 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val N = mutableListOf<Int>()
     var t = 2
-
-
     var x = n
     while (x >= t) {
         if (x % t == 0) {
             N.add(t)
             x /= t
-            t--
         }
-        t++
+        else t++
     }
-
-
-
     return N
-
-
 }
 
 /**
@@ -254,22 +227,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    val N = mutableListOf<Int>()
-    var t = 2
-
-
-    var x = n
-    while (x >= t) {
-        if (x % t == 0) {
-            N.add(t)
-            x /= t
-            t--
-        }
-        t++
-    }
-
-    return N.joinToString(separator = "*")
-
+    return factorize(n).joinToString(separator = "*")
 }
 
 /**
@@ -281,26 +239,17 @@ fun factorizeToString(n: Int): String {
  */
 fun convert(n: Int, base: Int): List<Int> {
     var x: Int
-    val N = mutableListOf<Int>()
     var t = n
     val result = mutableListOf<Int>()
     if (n == 0) return listOf(0)
     else {
         while (t > 0) {
             x = t % base
-            N.add(x)
+            result.add(x)
             t /= base
         }
-
-
     }
-    for (i in 0..N.size - 1) {
-        result.add(N.last())
-        N.removeAt(N.size - 1)
-    }
-
-
-    return result
+    return result.reversed()
 }
 
 /**

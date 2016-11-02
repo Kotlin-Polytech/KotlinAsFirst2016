@@ -60,8 +60,6 @@ fun timeForHalfWay(t1: Double, v1: Double,
     if (s <= s1) return (s / v1)
     else if (s <= s1 + s2) return (t1 + ((s - s1) / v2))
     else return (t1 + t2 + ((s - s1 - s2) / v3))
-
-
 }
 
 
@@ -82,8 +80,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     if ((kingX == rookX2) || (kingY == rookY2))
         alertx += 2
     return alertx
-
-
 }
 
 /**

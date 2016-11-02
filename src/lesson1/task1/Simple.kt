@@ -110,8 +110,6 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
 fun thirdDigit(number: Int): Int {
 
     return (number / 100) % 10
-
-
 }
 
 /**
@@ -125,8 +123,6 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
     val x1 = (hoursArrive - hoursDepart) * 60
     val x2 = minutesArrive - minutesDepart
     return x1 + x2
-
-
 }
 
 /**

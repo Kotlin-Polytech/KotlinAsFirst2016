@@ -1,5 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
+val MONTHS = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
 /**
  * Пример
@@ -61,16 +62,16 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 
+
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    if (parts.size !== 3) return ""
+    if (parts.size != 3) return ""
     try {
         val month = parts[1]
-        val days = parts[0].toInt()
+        val day = parts[0].toInt()
         val year = parts[2].toInt()
-        if ((month !in months) || (days < 1) || (days > 31)) return ""
-        else return String.format("%02d.%02d.%d", days, months.indexOf(month) + 1, year)
+        if ((day !in 1..31) || (month.toInt() !in 1..12)) return ""
+        else return String.format("%02d.%02d.%d", day, MONTHS.indexOf(month) + 1, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -83,18 +84,16 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String {
+    fun dateDigitToStr(digital: String): String {
         val parts = digital.split(".")
-        val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-        if (parts.size !== 3) return ""
+        if (parts.size != 3) return ""
         try {
-            val days = parts[0].toInt()
+            val day = parts[0].toInt()
             val year = parts[2].toInt()
             val month = parts[1].toInt()
-            if ((days < 1) || (days > 31) || (month < 1) || (month > 12)) return ""
-            else return String.format("%d %s %d", days, months[month - 1], year)
-        }
-        catch (e: NumberFormatException) {
+            if ((day !in 1..31) || (month.toInt() !in 1..12)) return ""
+            else return String.format("%d %s %d", day, MONTHS[month - 1], year)
+        } catch (e: NumberFormatException) {
             return ""
         }
     }

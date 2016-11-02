@@ -92,7 +92,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun gcd(m: Int, n: Int): Int {
     var a: Int
     var b: Int
     var r = 1
@@ -108,7 +108,12 @@ fun lcm(m: Int, n: Int): Int {
         a = b
         b = r
     }
-    return m * n / a
+    return a
+}
+
+fun lcm(m: Int, n: Int): Int {
+    val a = gcd(m, n)
+    return m / a * n
 }
 
 /**
@@ -150,7 +155,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = lcm(m, n) == m * n
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -231,14 +236,13 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var a = n
-    var s = 0
     var b = n % 10
     do {
         a /= 10
-        if (b != a % 10) s++
+        if ((b != a % 10) && (b > 0 && a > 0)) return true
         b = a % 10
     } while (a > 0)
-    return s > 1
+    return false
 }
 
 /**

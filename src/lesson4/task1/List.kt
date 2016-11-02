@@ -134,10 +134,9 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val a = mean(list)
-    if (list.isNotEmpty())
-        for (i in 0..list.size - 1) {
-            list[i] -= a
-        }
+    for (i in 0..list.size - 1) {
+        list[i] -= a
+    }
     return list
 }
 
@@ -167,13 +166,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var a = 0.0
+    var b = 0.0
     for (i in 0..p.size - 1) {
-        var b = 1.0
-        if (i == 0) a = p[i]
-        else {
-            for (j in 1..i) b *= x
-            a += p[i] * b
-        }
+        a += p[i] * Math.pow(x, b)
+        b++
     }
     return a
 }
@@ -277,10 +273,10 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var a = digits[digits.size-1]
+    var a = digits[digits.size - 1]
     var b = base
-    for (i in digits.size-2 downTo 0) {
-        a += digits[i]*b
+    for (i in digits.size - 2 downTo 0) {
+        a += digits[i] * b
         b *= base
     }
     return a
@@ -295,7 +291,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int =TODO()
+fun decimalFromString(str: String, base: Int): Int = TODO()
 
 /**
  * Сложная

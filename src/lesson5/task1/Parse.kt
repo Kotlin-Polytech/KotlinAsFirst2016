@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 import lesson4.task1.decimal
@@ -46,12 +47,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -113,11 +112,11 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     var phoneWithoutSmbl = phone.filter { it != '-' && it != ' ' }
-    val bool = phoneWithoutSmbl.matches(Regex("""(\+\d+)?(\(\d+\))?\d+"""))
+    if (phoneWithoutSmbl.matches(Regex("""(\+\d+)?(\(\d+\))?\d+"""))) return ""
     phoneWithoutSmbl = phoneWithoutSmbl.filter { it in '0'..'9' || it == '+' }
-    if (!bool) return ""
     return phoneWithoutSmbl
 }
+
 /**
  * Средняя
  *
@@ -218,26 +217,22 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val descriptionList = description.split(" ")
-    val descSize = descriptionList.size
-    if (descSize % 2 != 0) return ""
-    var x = ";"
-    var i = 1
-    var prices = listOf<Double>()
-    while (i < descSize) {
-        if (i == descSize - 1) {
-            if (descriptionList[i].matches(Regex("""\d*\.?\d*"""))) {
-                prices += descriptionList[i].toDouble()
-            } else return ""
-        } else if (descriptionList[i].matches(Regex("""\d*\.?\d*\;"""))) {
-            prices += Regex("""\;""").replace(descriptionList[i], "").toDouble()
-        } else return ""
-        i += 2
+    val descriptionList = description.split("; ")
+    var productMostExpensive = ""
+    try {
+        var maxPrice = 0.0
+        for (element in descriptionList) {
+            val productAndPrice = element.split(" ")
+            val newPrice = productAndPrice[1].toDouble()
+            if (newPrice > maxPrice) {
+                maxPrice = newPrice
+                productMostExpensive = productAndPrice[0]
+            }
+        }
+    } catch (e: Exception) {
+        return ""
     }
-    val maxPrice = prices.max() ?: return ""
-    if ((prices.indexOf(maxPrice) + 1) * 2 == descSize) x = ""
-    if (descriptionList[i - 2].matches(Regex("""\d*"""))) return descriptionList[descriptionList.indexOf("${maxPrice.toInt()}$x") - 1]
-    return descriptionList[descriptionList.indexOf("$maxPrice$x") - 1]
+    return productMostExpensive
 }
 
 /**

@@ -1,9 +1,11 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
 import java.lang.Math.*
+
 /**
  * Пример
  *
@@ -124,6 +126,7 @@ fun mean(list: List<Double>): Double {
     val average = list.sum() / listLength
     return average
 }
+
 /**
  * Средняя
  *
@@ -252,16 +255,10 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val alphabet: String = "abcdefghijklmnopqrstuvwxyz"
+    val alphabet: String = "0123456789abcdefghijklmnopqrstuvwxyz"
     val firstResult = convert(n, base)
-    var result = ""
-    var elem: String
-    for (element in firstResult) {
-        elem = "$element"
-        if (element > 9) elem = alphabet[element - 10].toString()
-        result += elem
-    }
-    return result
+    val mapResult = firstResult.map { alphabet[it] }
+    return mapResult.joinToString(separator = "")
 }
 
 /**
@@ -293,8 +290,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     val list = mutableListOf<Int>()
     for (char in str) {
-        if (char.toInt() in 97..122) list += char.toInt() - 87
-        else list += char.toInt() - 48
+        if (char in 'a'..'z') list += char - 'a' + 10
+        else list += char - '0'
     }
     return decimal(list, base)
 }
@@ -309,6 +306,7 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 
 fun roman(n: Int): String = TODO()
+
 /**
  * Очень сложная
  *

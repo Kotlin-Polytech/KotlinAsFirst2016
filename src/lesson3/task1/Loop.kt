@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
 import java.lang.Math.*
+
 /**
  * Пример
  *
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -60,10 +63,10 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var iDig = 1
     var newN = n
-    do{
+    do {
         newN /= 10
-        if(newN!=0) iDig++
-    } while (newN!=0)
+        if (newN != 0) iDig++
+    } while (newN != 0)
     return iDig
 }
 
@@ -154,6 +157,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     } else if (difference >= 1) return true
     return false
 }
+
 /**
  * Простая
  *

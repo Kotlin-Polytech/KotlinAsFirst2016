@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
+
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import java.lang.Math.*
@@ -36,13 +38,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     if (0 < age && age < 200) {
-            return when{
-                age%100 <= 14 && age%100 >=11 -> "$age лет"
-                age%10 == 1 -> "$age год"
-                (age%10)>1 && (age%10)<5 -> "$age года"
-                else -> "$age лет"
-            }
-        } else {
+        return when {
+            age % 100 <= 14 && age % 100 >= 11 -> "$age лет"
+            age % 10 == 1 -> "$age год"
+            (age % 10) > 1 && (age % 10) < 5 -> "$age года"
+            else -> "$age лет"
+        }
+    } else {
         return "Вы ввели некорректное значение"
     }
 }
@@ -56,16 +58,16 @@ fun ageDescription(age: Int): String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double):Double{
-    val s1 = t1*v1
-    val s2 = t2*v2
-    val s3 = t3*v3
-    val distance = s1+s2+s3
+                   t3: Double, v3: Double): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val distance = s1 + s2 + s3
 
     return when {
         distance / 2 <= s1 -> distance / 2 / v1
         distance / 2 <= s1 + s2 -> t1 + ((distance / 2 - s1) / v2)
-        else -> t1+t2+(distance/2-s1-s2)/v3
+        else -> t1 + t2 + (distance / 2 - s1 - s2) / v3
     }
 }
 
@@ -80,9 +82,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val firstRookThreatens = kingX==rookX1||kingY==rookY1
-    val secondRookThreatens = kingX==rookX2||kingY==rookY2
-    return when{
+    val firstRookThreatens = kingX == rookX1 || kingY == rookY1
+    val secondRookThreatens = kingX == rookX2 || kingY == rookY2
+    return when {
         firstRookThreatens && secondRookThreatens -> 3
         secondRookThreatens -> 2
         firstRookThreatens -> 1
@@ -103,15 +105,16 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
 
-    val firstRookOrBishopThreatens = abs(kingX-bishopX) == abs(bishopY-kingY)
-    val secondRookOrBishopThreatens = kingX==rookX || kingY==rookY
-    return when{
+    val firstRookOrBishopThreatens = abs(kingX - bishopX) == abs(bishopY - kingY)
+    val secondRookOrBishopThreatens = kingX == rookX || kingY == rookY
+    return when {
         firstRookOrBishopThreatens && secondRookOrBishopThreatens -> 3
         secondRookOrBishopThreatens -> 1
         firstRookOrBishopThreatens -> 2
         else -> 0
     }
 }
+
 /**
  * Простая
  *
@@ -122,18 +125,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val a1 = max(max(a, b), c)
-    val b1 = min(min(a,b),c)
-    val c1 = (a+b+c)-(a1+b1)
-    if (a1<b1+c1){
-        return when{
-            sqr(a1) == sqr(b1)+sqr(c1) -> 1
-            sqr(a1) > sqr(b1)+sqr(c1) -> 2
+    val b1 = min(min(a, b), c)
+    val c1 = (a + b + c) - (a1 + b1)
+    if (a1 < b1 + c1) {
+        return when {
+            sqr(a1) == sqr(b1) + sqr(c1) -> 1
+            sqr(a1) > sqr(b1) + sqr(c1) -> 2
             else -> 0
         }
     } else {
         return -1
     }
 }
+
 /**
  * Средняя
  *
@@ -143,4 +147,4 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 
-fun segmentLength(a: Int, b: Int, c: Int, d: Int) = if(b<c || d<a) -1 else abs(min(b,d)-max(a,c))
+fun segmentLength(a: Int, b: Int, c: Int, d: Int) = if (b < c || d < a) -1 else abs(min(b, d) - max(a, c))

@@ -184,7 +184,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val ab = a.distance(b)
     val ac = a.distance(c)
     val bc = b.distance(c)
-    if (ab > ac + bc || ac > ab + bc || bc > ab + ac)
+    if (ab >= ac + bc || ac >= ab + bc || bc >= ab + ac)
         throw IllegalArgumentException("Треугольник не существует")
     val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
     return Circle(center, center.distance(a))

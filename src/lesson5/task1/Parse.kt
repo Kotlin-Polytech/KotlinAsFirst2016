@@ -130,11 +130,12 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     val clearJumps = jumps.split(" ").filter { it != "-" && it != "%" }.filter { it != "" }
     if (clearJumps.isEmpty()) return -1
-    for (element in clearJumps.joinToString("")) {
-        if (element !in '0'..'9') return -1
+    try {
+        val jumpsList = clearJumps.map { it.toInt() }
+        return jumpsList.max() ?: -1
+    } catch (e: NumberFormatException) {
+        return -1
     }
-    val jumpsList = clearJumps.map { it.toInt() }
-    return jumpsList.max() ?: -1
 }
 
 /**

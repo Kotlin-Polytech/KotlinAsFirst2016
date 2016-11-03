@@ -24,7 +24,7 @@ fun factorial(n: Int): Double {
  */
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
-    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+    for (m in 2..n/2) {
         if (n % m == 0) return false
     }
     return true
@@ -133,7 +133,14 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var div = m
+    while (div > 1) {
+        if (n % minDivisor(div) == 0) return false
+        else div /= minDivisor(div)
+    }
+    return true
+}
 
 /**
  * Простая
@@ -245,4 +252,16 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var string1: String = ""
+    var count = 0
+    val k: Int
+    if (n > 2) {k = ((fib(n - 1) + fib(n - 2)))
+        string1 += k.toString()
+        count += string1.length
+    }
+    else {k = 1
+        string1+=k.toString()
+        count += string1.length}
+    return string1[string1.length - count + n].toString().toInt()
+}

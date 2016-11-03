@@ -193,13 +193,14 @@ fun factorize(n: Int): List<Int> {
     var a = listOf<Int>()
     var divisor: Int
     var number = n
-    while (number > 1) {
+    divisor = minDivisor(number)
+    while (number >= divisor) {
         divisor = minDivisor(number)
         number /= divisor
         a += divisor
     }
     return a
-}
+    }
 
 /**
  * Сложная
@@ -273,9 +274,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var list = listOf<Int>()
     for (i in 0..str.length - 1) {
-        if (str[i].hashCode() > 57) {
-            list += 9 + str[i].hashCode() - 96
-        } else list += str[i].toString().toInt()
+        if (str[i] in 'a'..'z') {
+            list += str[i] - 'a' + 10
+        } else list += str[i] - '0'
     }
     return decimal(list, base)
 }
@@ -291,13 +292,13 @@ fun decimalFromString(str: String, base: Int): Int {
 fun roman(n: Int): String {
     var number = n
     var i = 0
-    val listDigit = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    val listRim = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     val listFin = mutableListOf<String>()
+    val listDigits = listOf(Pair(1000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"), Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"),
+            Pair(40, "XL"), Pair(10, "X"), Pair(9, "IX"), Pair(5, "V"), Pair(4, "IV"), Pair(1, "I"))
     while (number > 0) {
-        if (listDigit[i] <= number) { //Сначала закончить с одним элементом, потом идти на другой
-            number -= listDigit[i]
-            listFin.add(listRim[i])
+        if (listDigits[i].first <= number) { //Сначала закончить с одним элементом, потом идти на другой
+            number -= listDigits[i].first
+            listFin.add(listDigits[i].second)
         } else i++
     }
     return listFin.joinToString(separator = "")
@@ -335,18 +336,18 @@ fun russian(n: Int): String {
         //трёхзначное
         if (number % 100 == 10) listFin.add(listDes[1] + " " + "тысяч")
         else
-        if (number % 100 == 0 || (number < 100 && number % 10 == 0 ) || (number % 10 == 0)) listFin.add("тысяч")
+            if (number % 100 == 0 || (number < 100 && number % 10 == 0) || (number % 10 == 0)) listFin.add("тысяч")
 
         if ((number % 100 in 5..9 || number % 100 in 11..19)) listFin.add(listUnits[number % 100] + " " + "тысяч")
         else
             if (number % 10 > 4) listFin.add(listUnits[number % 10] + " " + "тысяч")
-        else
+            else
                 when {
-            (number % 10 == 1) -> listFin.add("одна тысяча")
-            (number % 10 == 2) -> listFin.add("две тысячи")
-            (number % 10 == 3) -> listFin.add("три тысячи")
-            (number % 10 == 4) -> listFin.add("четыре тысячи")
-        }
+                    (number % 10 == 1) -> listFin.add("одна тысяча")
+                    (number % 10 == 2) -> listFin.add("две тысячи")
+                    (number % 10 == 3) -> listFin.add("три тысячи")
+                    (number % 10 == 4) -> listFin.add("четыре тысячи")
+                }
         if (number % 100 in 20..99) listFin.add(listDes[number % 100 / 10])
         if (number > 99) listFin.add(listHundred[number / 100])
     }

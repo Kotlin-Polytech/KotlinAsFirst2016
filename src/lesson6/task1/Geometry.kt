@@ -107,10 +107,8 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    var minX = diameter.end.x
-    var minY = diameter.end.y
-    if (diameter.begin.x < diameter.end.x) minX = diameter.begin.x
-    if (diameter.begin.y < diameter.end.y) minY = diameter.begin.y
+    var minX = Math.min(diameter.begin.x, diameter.end.x)
+    var minY = Math.min(diameter.begin.y, diameter.end.y)
     val center = Point(minX + (Math.abs((diameter.begin.x - diameter.end.x) / 2)),
             minY + (Math.abs(diameter.begin.y - diameter.end.y) / 2))
     return Circle(center, diameter.begin.distance(diameter.end) / 2)
@@ -149,9 +147,11 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val x0 = Math.abs(s.end.x - s.begin.x)
-    val y0 = Math.abs(s.end.y - s.begin.y)
-    val angle = Math.atan(y0 / x0)
+    val x0 = (s.end.x - s.begin.x)
+    val y0 = (s.end.y - s.begin.y)
+    var angle = 0.0
+    if (x0 * y0 < 0.0) angle = Math.PI - Math.abs(Math.atan(y0 / x0)) else if (x0 == 0.0) angle = Math.PI / 2
+    else if (y0 == 0.0) angle = 0.0 else angle = Math.atan(y0 / x0)
     return Line(s.begin, angle)
 }
 
@@ -168,12 +168,14 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val x0 = Math.abs(a.x - b.x)
-    val y0 = Math.abs(a.y - b.y)
-    var abAngle = Math.atan(y0 / x0)
-    val p = Point((Math.min(a.x, b.x) + x0 / 2), Math.min(a.y, b.y) + y0 / 2)
-    if (abAngle * 2 >= Math.PI) abAngle -= Math.PI
-    return Line(p, abAngle + (Math.PI / 2))
+    val x0 = (a.x - b.x)
+    val y0 = (a.y - b.y)
+    var angle = 0.0
+    if (x0 * y0 < 0.0) angle = Math.PI - Math.abs(Math.atan(y0 / x0)) else if (x0 == 0.0) angle = -Math.PI / 2
+    else if (y0 == 0.0) angle = 0.0 else angle = Math.atan(y0 / x0)
+    val p = Point((Math.min(a.x, b.x) + Math.abs(x0) / 2), Math.min(a.y, b.y) + Math.abs(y0) / 2)
+    if (angle > (Math.PI / 2)) angle -= Math.PI
+    return Line(p, angle + (Math.PI / 2))
 }
 
 /**
@@ -183,7 +185,6 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
-
 /**
  * Очень сложная
  *
@@ -194,7 +195,6 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
-
 /**
  * Очень сложная
  *
@@ -207,4 +207,3 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * соединяющий две самые удалённые точки в данном множестве.
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
-

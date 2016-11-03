@@ -60,15 +60,15 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val month_names = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val monthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val parts = str.split(" ")
     if (parts.size == 3) {
         try {
-            val Day = parts[0].toInt()
-            val Year = parts[2].toInt()
-            val Month = month_names.indexOf(parts[1]) + 1
-            return if (Month == 0) ""
-            else "${twoDigitStr(Day)}.${twoDigitStr(Month)}.$Year"
+            val day = parts[0].toInt()
+            val year = parts[2].toInt()
+            val month = monthNames.indexOf(parts[1]) + 1
+            return if (month == 0) ""
+            else "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -84,14 +84,14 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    val month_names = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val monthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size == 3) {
         try {
-            val Day = parts[0].toInt().toString()
-            val Month_numbers = parts[1].toInt()
-            return if (Month_numbers in 1..12) {
-                val Month = month_names[Month_numbers - 1]
-                Day + " " + Month + " " + parts[2]
+            val day = parts[0].toInt().toString()
+            val monthNumbers = parts[1].toInt()
+            return if (monthNumbers in 1..12) {
+                val month = monthNames[monthNumbers - 1]
+                day + " " + month + " " + parts[2]
             } else ""
         } catch (e: NumberFormatException) {
             return ""
@@ -151,22 +151,7 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO() /*{
-    var char1 = '0'
-    var numb : Int
-    var list = listOf<Int>()
-    try {
-        if ('+' !in jumps) return 0
-        for (char in jumps) {
-            if (char == '+') {
-                numb = jumps.indexOf(char)
-            }
-        }
-    }
-    catch (e : NumberFormatException) {
-        return  -1
-    }
-}*/
+fun bestHighJump(jumps: String): Int = TODO()
 
 /**
  * Сложная

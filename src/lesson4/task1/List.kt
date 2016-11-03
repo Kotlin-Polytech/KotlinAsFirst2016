@@ -239,12 +239,12 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val sys = convert(n, base)
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
-    var numb = ""
+    val numb: StringBuilder = StringBuilder("")
     for (element in sys) {
-        if (element < 10) numb += element.toString()
-        else numb += alphabet[element - 10].toString()
+        if (element < 10) numb.append(element.toString())
+        else numb.append(alphabet[element - 10].toString())
     }
-    return numb
+    return numb.toString()
 }
 
 /**
@@ -269,7 +269,7 @@ fun decimalFromString(str: String, base: Int): Int {
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
     var digits = listOf<Int>()
     for (char in str) {
-        var index = alphabet.indexOf(char)
+        val index = alphabet.indexOf(char)
         if (index != -1) digits += index + 10
         else digits += char - '0'
     }

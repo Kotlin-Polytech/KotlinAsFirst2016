@@ -161,15 +161,14 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     list.add(start)
     if (number == 0) return list
     if (number == 2) {
-        var column = (end.column + end.row - start.row + start.column)/2
-        var row = (start.row - start.column + end.column + end.row)/2
+        var column = (end.column + end.row - start.row + start.column) / 2
+        var row = (start.row - start.column + end.column + end.row) / 2
         var squar = Square(column, row)
         if (squar.inside()) {
             list.add(squar)
-        }
-        else {
-            column = (start.column + start.row - end.row + end.column)/2
-            row = (end.row - end.column + start.column + start.row)/2
+        } else {
+            column = (start.column + start.row - end.row + end.column) / 2
+            row = (end.row - end.column + start.column + start.row) / 2
             squar = Square(column, row)
             list.add(squar)
         }

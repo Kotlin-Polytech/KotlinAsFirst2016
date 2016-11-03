@@ -61,14 +61,11 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var i = 0
     var k = n
-    return if (n == Int.MAX_VALUE) 10 else if (n == 0) 1
-    else {
-        while (k != 0) {
-            i += 1
-            k /= 10
-        }
-        i
-    }
+    do {
+        i += 1
+        k /= 10
+    } while (k != 0)
+    return i
 }
 
 /**
@@ -77,7 +74,7 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int = if (n < 3) 1 else fib(n - 1) + fib(n - 2)
 
 /**
  * Простая
@@ -85,14 +82,7 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-/*fun GCD(m: Int, n: Int): Int {
-    val max = Math.max(m, n)
-    val min = Math.min(m, n)
-    return if (max % min == 0) min
-    else max % min
-}*/
-fun lcm(m: Int, n: Int): Int //m * n / GCD(m, n)
-{
+fun lcm(m: Int, n: Int): Int {
     var max = Math.max(m, n)
     var min = Math.min(m, n)
     while (max % min != 0) {
@@ -109,14 +99,10 @@ fun lcm(m: Int, n: Int): Int //m * n / GCD(m, n)
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = n
     for (i in 2..n / 2) {
-        if (n % i == 0) {
-            k = i
-            break
-        }
+        if (n % i == 0) return i
     }
-    return k
+    return n
 }
 
 /**
@@ -148,12 +134,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val sqRoot_m = Math.sqrt(m.toDouble()).toInt()
-    val sqRoot_n = Math.sqrt(n.toDouble()).toInt()
-    for (k in sqRoot_m..sqRoot_n) {
-        if (k * k >= m && k * k <= n) return true
-    }
-    return false
+    val sqRoot_m = Math.floor(Math.sqrt(m.toDouble())).toInt()
+    val sqRoot_n = Math.ceil(Math.sqrt(n.toDouble())).toInt()
+    return (sqRoot_n - sqRoot_m != 1)
 }
 
 /**
@@ -181,19 +164,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var digit: Int
-    var t = 10
-    var numb = n % 10
-    while (t < n) {
-        digit = (n % (10 * t) - n % t) / t
+    var numb = 0
+    var k = n
+    while (k > 0) {
+        val digit = k % 10
         numb = 10 * numb + digit
-        t *= 10
+        k = k / 10
     }
-    return when {
-        n == 10 -> 1
-        n > 10 -> numb
-        else -> n
-    }
+    return numb
 }
 
 /**
@@ -203,7 +181,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = (revert(n) == n)
 
 /**
  * Средняя
@@ -235,13 +213,10 @@ fun squareSequenceDigit(n: Int): Int {
         }
         s += c
     }
-    if (s == n) return b % 10
-    else {
-        for (a in 1..s - n) {
-            b /= 10
-        }
-        return b % 10
+    while (s != n) {
+        b /= 10
     }
+    return b % 10
 }
 
 /**

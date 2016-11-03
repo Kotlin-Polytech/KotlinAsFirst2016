@@ -183,15 +183,15 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int{
     val parth = jumps.split(' ')
     var max = -1
-    var value = 0
     try{
         for (i in 1..parth.size - 1 step 2){
 
             for (j in parth[i])
-               if (j == '+')
-                   value = parth[i - 1].toInt()
-            if (value > max)
-                max = value
+               if (j == '+') {
+                   if (parth[i - 1].toInt() > max)
+                       max = parth[i - 1].toInt()
+               }
+
         }
     }
     catch (e: NumberFormatException){
@@ -256,7 +256,21 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int{
+    var result = - 1
+    var index = 0
+    val parth = str.toLowerCase().split(" ")
+    for (i in 0..parth.size -1 step 1) {
+        for (j in i + 1..parth.size - 1 step 1)
+            if ((parth[i].length == parth[j].length) && (parth[i] in parth[j])) {
+                result = index + i
+                break
+            }
+        index += parth[i].length
+    }
+
+    return result
+}
 
 /**
  * Сложная
@@ -269,7 +283,25 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var result = ""
+    val parth = description.split("; ", " ")
+    var max = 0.0
+    try{
+        for (i in 1..parth.size - 1 step 2 )
+            if (parth[i].toDouble() < 0)
+                return ""
+            else
+                if (parth[i].toDouble() > max) {
+                    max = parth[i].toDouble()
+                    result = parth[i - 1]
+                }
+    }
+    catch(e: NumberFormatException){
+        return ""
+    }
+    return result
+}
 
 /**
  * Сложная

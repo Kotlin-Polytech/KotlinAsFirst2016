@@ -180,7 +180,26 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int{
+    val parth = jumps.split(' ')
+    var max = -1
+    var value = 0
+    try{
+        for (i in 1..parth.size - 1 step 2){
+
+            for (j in parth[i])
+               if (j == '+')
+                   value = parth[i - 1].toInt()
+            if (value > max)
+                max = value
+        }
+    }
+    catch (e: NumberFormatException){
+        return - 1
+    }
+    return max
+
+}
 
 
 /**
@@ -192,7 +211,41 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    var parth = expression.split(" ")
+    var result = 0
+    var countSymbol = 0 // считает число подряд идущих знаков +-
+    var countValue = 0 // считает количесвто подряд идущих чисел
+    var sign = 1
+    try {
+        for (i in parth) {
+            if ((i != "+")&&(i != "-")){
+                countValue++
+                countSymbol = 0
+                if (countValue < 2)
+                    result += sign * i.toInt()
+                else
+                    throw IllegalArgumentException()
+            }
+            if ((i == "+")||(i == "-")){
+                countSymbol++
+                countValue = 0
+                if (countSymbol < 2){
+                    if (i == "+")
+                        sign = 1
+                    else
+                        sign = - 1
+                }
+                else
+                    throw IllegalArgumentException()
+            }
+        }
+    }
+    catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+    return result
+}
 
 /**
  * Сложная

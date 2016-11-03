@@ -134,9 +134,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val sqRoot_m = Math.floor(Math.sqrt(m.toDouble())).toInt()
-    val sqRoot_n = Math.ceil(Math.sqrt(n.toDouble())).toInt()
-    return sqRoot_n - sqRoot_m != 1
+    val sqRoot_m = Math.ceil(Math.sqrt(m.toDouble())).toInt()
+    val sqRoot_n = Math.floor(Math.sqrt(n.toDouble())).toInt()
+    return sqRoot_n - sqRoot_m >= 0
 }
 
 /**

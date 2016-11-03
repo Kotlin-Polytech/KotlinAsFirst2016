@@ -49,6 +49,7 @@ class Tests {
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber(")"))
     }
 
     @Test
@@ -58,8 +59,6 @@ class Tests {
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
-        assertEquals(2147483647, bestLongJump("2147483647 - % % - - 574554280 1894718734 0 % 61940527 0 % 2147483647 % 2147483647 1279423891 % 756058179 - 2147483647 - % - % 827707529 - - %"))
-
     }
 
     @Test

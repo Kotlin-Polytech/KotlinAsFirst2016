@@ -169,7 +169,7 @@ fun revert(n: Int): Int {
     while (k > 0) {
         val digit = k % 10
         numb = 10 * numb + digit
-        k = k / 10
+        k /= 10
     }
     return numb
 }

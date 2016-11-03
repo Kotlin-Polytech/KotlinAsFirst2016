@@ -39,7 +39,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     when {
         age % 10 == 0 || age % 10 >= 5 || age in 105..120 || age in 5..20 -> return "$age лет"
-        age % 10 > 1 && age % 10 < 5 -> return "$age года"
+        age % 10 in 2..4 -> return "$age года"
         else -> return "$age год"
     }
 }
@@ -76,19 +76,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var result = 0
     val threatFrom1 = (kingX == rookX1 || kingY == rookY1)
     val threatFrom2 = (kingX == rookX2 || kingY == rookY2)
-    if (threatFrom1) {
-        result = 1
+    return when{
+        threatFrom1 && threatFrom2 -> 3
+        threatFrom2 -> 2
+        threatFrom1 -> 1
+        else -> 0
     }
-    if (threatFrom2) {
-        result = 2
-    }
-    if (threatFrom1 && threatFrom2) {
-        result = 3
-    }
-    return result
 }
 
 /**
@@ -103,19 +98,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var result = 0
     val threatFromRook = (kingX == rookX || kingY == rookY)
     val threatFromBishop = (abs(kingX - bishopX) == abs(kingY - bishopY))
-    if (threatFromRook) {
-        result = 1
+    return when {
+        threatFromRook && threatFromBishop ->  3
+        threatFromBishop -> 2
+        threatFromRook ->  1
+        else -> 0
     }
-    if (threatFromBishop) {
-        result = 2
-    }
-    if (threatFromRook && threatFromBishop) {
-        result = 3
-    }
-    return result
 }
 
 /**
@@ -129,9 +119,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     when {
         a + b > c && b + c > a && a + c > b ->
-            if (sqr(a) + sqr(b) == sqr(c) || sqr(b) + sqr(c) == sqr(a) || sqr(a) + sqr(c) == sqr(b)) return 1
-            else if (sqr(a) + sqr(b) < sqr(c) || sqr(b) + sqr(c) < sqr(a) || sqr(a) + sqr(c) < sqr(b)) return 2
-            else return 0
+        return when {
+            (sqr(a) + sqr(b) == sqr(c) || sqr(b) + sqr(c) == sqr(a) || sqr(a) + sqr(c) == sqr(b)) -> 1
+            (sqr(a) + sqr(b) < sqr(c) || sqr(b) + sqr(c) < sqr(a) || sqr(a) + sqr(c) < sqr(b)) -> 2
+            else -> 0
+        }
         else -> return -1
     }
 }
@@ -147,11 +139,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     when {
-        b in c..d && a in c..d -> return (b - a)
+        b in c..d && a in c..d -> return b - a
         d in a..b && c in a..b -> return d - c
         c in a..b -> return b - c
         a in c..d -> return d - a
-        b == c || d == a -> return 0
         else -> return -1
     }
 }

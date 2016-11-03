@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import java.lang.Math.*
+
 fun pow(x: Double, y: Int): Double {
     var result = x
     if (y != 0) {
@@ -36,7 +38,7 @@ fun factorial(n: Int): Double {
  */
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
-    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+    for (m in 2..sqrt(n.toDouble()).toInt()) {
         if (n % m == 0) return false
     }
     return true
@@ -108,9 +110,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    return m / gcd(m, n) * n
-}
+fun lcm(m: Int, n: Int): Int = m / gcd(m, n) * n
 
 /**
  * Простая
@@ -131,7 +131,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var result = n - 1
+    var result = n / 2
     while (n % result != 0) {
         result--
     }
@@ -155,16 +155,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var result = false
-    var k = 0
-    while (k * k <= n) {
-        if (k * k in m..n) {
-            result = true
-            break
-        }
-        k++
-    }
-    return result
+    var k = ceil(sqrt(m.toDouble()))
+    k *= k
+    return k in m..n
 }
 
 /**
@@ -176,10 +169,10 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var k = 1
-    val currentX = x % (2 * Math.PI)
+    val currentX = x % (2 * PI)
     var result = currentX
     var memberOfSequence = currentX
-    while (Math.abs(memberOfSequence) > eps) {
+    while (abs(memberOfSequence) > eps) {
         memberOfSequence = pow(currentX, 2 * k + 1) / factorial(2 * k + 1)
         if (k % 2 == 1)
             result -= memberOfSequence
@@ -199,10 +192,10 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var k = 1
-    val currentX = x % (2 * Math.PI)
+    val currentX = x % (2 * PI)
     var result = 1.0
     var memberOfSequence = currentX
-    while (Math.abs(memberOfSequence) > eps) {
+    while (abs(memberOfSequence) > eps) {
         memberOfSequence = pow(currentX, 2 * k) / factorial(2 * k)
         if (k % 2 == 1)
             result -= memberOfSequence

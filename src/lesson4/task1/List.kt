@@ -269,7 +269,8 @@ fun decimalFromString(str: String, base: Int): Int {
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
     var digits = listOf<Int>()
     for (char in str) {
-        if (char in alphabet) digits += alphabet.indexOf(char) + 10
+        var index = alphabet.indexOf(char)
+        if (index != -1) digits += index + 10
         else digits += char - '0'
     }
     return decimal(digits, base)

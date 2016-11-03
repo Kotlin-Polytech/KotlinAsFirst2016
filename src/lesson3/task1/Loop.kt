@@ -136,7 +136,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val sqRoot_m = Math.floor(Math.sqrt(m.toDouble())).toInt()
     val sqRoot_n = Math.ceil(Math.sqrt(n.toDouble())).toInt()
-    return (sqRoot_n - sqRoot_m != 1)
+    return sqRoot_n - sqRoot_m != 1
 }
 
 /**
@@ -166,7 +166,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var numb = 0
     var k = n
-    while (k > 0) {
+    while (k != 0) {
         val digit = k % 10
         numb = 10 * numb + digit
         k /= 10
@@ -181,7 +181,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = (revert(n) == n)
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -213,10 +213,13 @@ fun squareSequenceDigit(n: Int): Int {
         }
         s += c
     }
-    while (s != n) {
-        b /= 10
+    if (s == n) return b % 10
+    else {
+        for (a in 1..s - n) {
+            b /= 10
+        }
+        return b % 10
     }
-    return b % 10
 }
 
 /**

@@ -185,6 +185,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+
 /**
  * Очень сложная
  *
@@ -194,7 +195,11 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val result = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
+    return Circle(result, result.distance(c))
+}
+
 /**
  * Очень сложная
  *
@@ -206,4 +211,20 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
+fun minContainingCircle(vararg points: Point): Circle {
+    val segment = diameter(*points)
+    val max1 = segment.begin
+    val max2 = segment.end
+    val p = Point((Math.min(max1.x, max2.x) + Math.abs(max1.x - max2.x) / 2), Math.min(max1.y, max2.y)
+            + Math.abs(max1.y - max2.y) / 2)
+    var nmax = max1.distance(max2) / 2
+    var elementMax = max1
+    for (point in points) {
+        if (p.distance(point) > nmax) {
+            nmax = p.distance(point)
+            elementMax = point
+        }
+    }
+    if (elementMax == max1) return Circle(p, max1.distance(max2) / 2)
+    else return circleByThreePoints(max1, max2, elementMax)
+}

@@ -153,6 +153,7 @@ fun flattenPhoneNumber(phone: String): String {
             return ""
     }
     return Regex("""[^\d+]""").replace(phone, "")
+    //phone.drop().any{ ... }
 }
 
 /**
@@ -165,19 +166,19 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
+fun findMax(list: List<String>): Int {
     var max = -1
-    if (jumps.contains(Regex("""[^-%\d\s]"""))) return -1
-    val parts = Regex("""[-%]""").replace(jumps, "").split(" ")
-    for (i in 0..parts.size - 1) {
-        try {
-            if (parts[i].toInt() >= max) max = parts[i].toInt()
-        } catch(e: NumberFormatException) {
-            if (parts[i] != "") return -1
-            Double.NaN
-        }
+    for (i in 0..list.size - 1) {
+        if (list[i] == "") Double.NaN
+        else if (list[i].toInt() >= max) max = list[i].toInt()
     }
     return max
+}
+
+fun bestLongJump(jumps: String): Int {
+    if (jumps.contains(Regex("""[^-%\d\s]"""))) return -1
+    val parts = Regex("""[-%]""").replace(jumps, "").split(" ")
+    return findMax(parts)
 }
 
 /**
@@ -191,7 +192,6 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var max = -1
     var newJumps = jumps
     if (jumps.contains(Regex("""[^-+%\d\s]"""))) return -1
     newJumps = Regex("""[^\d\s+]""").replace(newJumps, "")
@@ -199,14 +199,7 @@ fun bestHighJump(jumps: String): Int {
     newJumps = Regex("""[\d]+\s\s""").replace(newJumps, "")
     newJumps = Regex("""[\s]""").replace(newJumps, "")
     val parts = newJumps.split("+")
-    for (i in 0..parts.size - 1) {
-        try {
-            if (parts[i].toInt() >= max) max = parts[i].toInt()
-        } catch(e: NumberFormatException) {
-            Double.NaN
-        }
-    }
-    return max
+    return findMax(parts)
 }
 
 /**
@@ -270,6 +263,7 @@ fun mostExpensive(description: String): String {
     val groups = description.split(";")
     for (i in 0..groups.size - 1) {
         val pairs = groups[i].trim().split(" ")
+        if (pairs.size <= 1) return ""
         if (pairs[1].contains(Regex("""[^\d.]""")) || pairs[1].toDouble() < 0) return ""
         if (pairs[1].toDouble() >= max) {
             max = pairs[1].toDouble()

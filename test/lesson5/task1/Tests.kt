@@ -103,6 +103,7 @@ class Tests {
         assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
+        assertEquals("", mostExpensive("999.0"))
         assertEquals("", mostExpensive("ջ骳赮涏쫱՘鲾苝 6416441,12"))
         assertEquals("", mostExpensive("燈ꎚ盅与 21474836,47; ∈ꓲ唯Π獟䟡怿陀饩朙ը≯遠㹣ᥩ槤嵝㛴翏ｩ辧⯛棋䶶ᨑ뵋䃫瓑郔䨏䷐끤뤞ޢ꧝??ᨕഛ䮊嬢纏器괍㻑⨘ヤ䟟腔瘮搭㑮Ｇ꼂巃竐韾䈤๠㧎돾⠳칳襤᷎ឤ 0; | 21474836,47; 煎瞾뚩̔뭏ꈃ앉ନ 21474836,47"))
     }

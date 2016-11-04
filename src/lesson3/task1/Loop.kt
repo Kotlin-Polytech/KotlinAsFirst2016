@@ -80,13 +80,11 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var help1 = 1
     var help2 = 1
-    var res = 0
-    for (i in 1..n) {
-        if (i > 2) {
-            res = help1 + help2
-            help1 = help2
-            help2 = res
-        } else res = 1
+    var res = 1
+    for (i in 3..n) {
+        res = help1 + help2
+        help1 = help2
+        help2 = res
     }
     return res
 }
@@ -97,7 +95,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun qcd(n: Int, m: Int): Int {
+fun gcd(n: Int, m: Int): Int {
     var max = Math.max(m, n)
     var min = Math.min(m, n)
     while (max % min != 0) {
@@ -108,7 +106,7 @@ fun qcd(n: Int, m: Int): Int {
     return min
 }
 
-fun lcm(m: Int, n: Int): Int = m * n / qcd(n, m)
+fun lcm(m: Int, n: Int): Int = m * n / gcd(n, m)
 
 
 /**
@@ -151,7 +149,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 
-fun isCoPrime(m: Int, n: Int): Boolean = qcd(m, n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -163,8 +161,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = qcd(m, n) == 1
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val mSqrt = Math.ceil(Math.sqrt(m.toDouble()))
     val nSqrt = Math.floor(Math.sqrt(n.toDouble()))
-    if (nSqrt - mSqrt >= 0) return true
-    else return false
+    return nSqrt - mSqrt >= 0
 }
 
 /**

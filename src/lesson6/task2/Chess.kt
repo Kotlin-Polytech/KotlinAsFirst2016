@@ -42,7 +42,7 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     val col = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
     val ro = listOf<Char>('1', '2', '3', '4', '5', '6', '7', '8')
-    if (notation[0] !in col || notation[1] !in ro || notation.length != 2) throw IllegalArgumentException()
+    if (notation.length != 2 || notation[0] !in col || notation[1] !in ro) throw IllegalArgumentException()
     return Square(col.indexOf(notation[0]) + 1, ro.indexOf(notation[1]) + 1)
 }
 

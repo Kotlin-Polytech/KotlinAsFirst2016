@@ -292,7 +292,7 @@ fun mostExpensive(description: String): String {
             if (parth[i].toDouble() < 0)
                 return ""
             else
-                if (parth[i].toDouble() > max) {
+                if (parth[i].toDouble() >= max) {
                     max = parth[i].toDouble()
                     result = parth[i - 1]
                 }

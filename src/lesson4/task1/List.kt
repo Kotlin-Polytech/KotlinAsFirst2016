@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import java.lang.Math.*
 
 /**
  * Пример
@@ -109,9 +108,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var x = 0.0
     for (element in v) {
-        x += pow(element, 2.0)
+        x +=Math.pow(element, 2.0)
     }
-    val t = Math.sqrt(x * 1.0)
+    val t = Math.sqrt(x)
     return t
 }
 
@@ -123,7 +122,7 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
     else {
-        val t = list.sum() / list.size * 1.0
+        val t = list.sum() / list.size
         return t
     }
 }
@@ -136,13 +135,13 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
 
-        var m=0
-        val x=list.sum() / list.size
-        while (m in 0..list.size-1) {
-            list[m]-=x
-            m++
-        }
-        return list
+    var m = 0
+    val x = list.sum() / list.size
+    while (m in 0..list.size - 1) {
+        list[m] -= x
+        m++
+    }
+    return list
 
 }
 
@@ -173,7 +172,7 @@ fun polynom(p: List<Double>, x: Double): Double {
     var p1 = 0.0
     var x1 = 0.0
     for (element in p) {
-        p1 = (p1 + element * pow(x, x1))
+        p1 = (p1 + element * Math.pow(x, x1))
         x1++
     }
     return p1 * 1.0
@@ -189,10 +188,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var t = 0.0
-    var i=0
-    while(i in 0..list.size-1) {
-        t +=list[i]
-        list[i]=t
+    var i = 0
+    while (i in 0..list.size - 1) {
+        t += list[i]
+        list[i] = t
         i++
     }
     return list
@@ -229,17 +228,8 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var t = 2
-    val x = mutableListOf<Int>()
-    var n1 = n
-    while (t <= n1) {
-        if (n1 % t == 0) {
-            x.add(t)
-            n1 /= t
-            t--
-        }
-        t++
-    }
+    val x :List<Int>
+    x = factorize(n)
     var m = ""
     m += x[0]
     for (i in 1..x.size - 1) {
@@ -264,13 +254,7 @@ fun convert(n: Int, base: Int): List<Int> {
         x.add(b % base)
         b /= base
     }
-    val s = mutableListOf<Int>()
-    var t = 1
-    while (t <= x.size) {
-        s.add(x[x.size - t])
-        t++
-    }
-    return s
+    return x.reversed()
 }
 
 /**

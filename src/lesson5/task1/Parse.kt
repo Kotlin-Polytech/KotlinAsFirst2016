@@ -73,7 +73,7 @@ fun dateStrToDigit(str: String): String {
         val year = parts[2].toInt()
         if ((parts.size != 3) || (day !in 1..31) || (month == 0)) return ""
         return String.format("%02d.%02d.%d", day, month, year)
-    } catch (e: IndexOutOfBoundsException) {
+    } catch (e: Exception) {
         return ""
     }
 }
@@ -139,7 +139,7 @@ fun bestLongJump(jumps: String): Int {
             if (part !in listOfPerm && part.toInt() > result) result = part.toInt()
         }
         return result
-    } catch (e: IllegalArgumentException) {
+    } catch (e: Exception) {
         return -1
     }
 }

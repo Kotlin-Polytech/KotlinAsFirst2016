@@ -103,19 +103,13 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>()
-    var currentColumn = start.column
-    var currentRow = start.row
-    fun addSquare() = list.add(Square(currentColumn, currentRow))
-    addSquare()
+    list.add(Square(start.column, start.row))
 
-    if (currentColumn != end.column) {
-        currentColumn = end.column
-        addSquare()
-    }
-    if (start.row != end.row) {
-        currentRow = end.row
-        addSquare()
-    }
+    if (start.column != end.column) list.add(Square(end.column, start.row))
+
+    if (start.row != end.row)
+        if (list.size == 2) list.add(Square(end.column, end.row))
+        else list.add(Square(start.column, end.row))
 
     return list
 }
@@ -173,36 +167,21 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>()
     if (Math.abs(start.column - end.column) % 2 != Math.abs(start.row - end.row) % 2) return list
-
-    var currentColumn = start.column
-    var currentRow = start.row
-    fun addSquare() = list.add(Square(currentColumn, currentRow))
-    addSquare()
+    list.add(Square(start.column, start.row))
 
     if (start == end) return list
 
-    if (currentColumn - currentRow != end.column - end.row) {
-        var log = false
-        for (i in 1..8) {
-            if (!log)
-                for (j in 1..8) {
-                    if ((i - j == start.column - start.row && 9 - i - j == 9 - end.column - end.row ||
-                            i - j == end.column - end.row && 9 - i - j == 9 - start.column - start.row) &&
-                            i != start.column && j != start.row && i != end.column && i != end.row) {
-                        currentColumn = i
-                        currentRow = j
-                        addSquare()
-                        log = true
-                        break
-                    }
-                }
-            else break
-        }
+    if (start.column - start.row != end.column - end.row) {
+        loop@ for (i in 1..8) for (j in 1..8)
+            if ((i - j == start.column - start.row && 9 - i - j == 9 - end.column - end.row ||
+                    i - j == end.column - end.row && 9 - i - j == 9 - start.column - start.row) &&
+                    i != start.column && j != start.row && i != end.column && i != end.row) {
+                list.add(Square(i, j))
+                break@loop
+            }
     }
 
-    currentColumn = end.column
-    currentRow = end.row
-    addSquare()
+    list.add(Square(end.column, end.row))
     return list
 }
 
@@ -250,20 +229,20 @@ fun kingMoveNumber(start: Square, end: Square): Int {
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     val list = mutableListOf<Square>()
-    var currentColumn = start.column
-    var currentRow = start.row
-    fun addSquare() = list.add(Square(currentColumn, currentRow))
-    addSquare()
+    list.add(Square(start.column, start.row))
 
     val signX: Int
     val signY: Int
-    if (end.column - currentColumn < 0) signX = -1 else signX = 1
-    if (end.row - currentRow < 0) signY = -1 else signY = 1
+    if (end.column - start.column < 0) signX = -1 else signX = 1
+    if (end.row - start.row < 0) signY = -1 else signY = 1
+
+    var currentColumn = start.column
+    var currentRow = start.row
 
     while (currentColumn != end.column || currentRow != end.row) {
         if (end.column != currentColumn) currentColumn += signX
         if (end.row != currentRow) currentRow += signY
-        addSquare()
+        list.add(Square(currentColumn, currentRow))
     }
 
     return list

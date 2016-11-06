@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
+
+import java.util.*
 
 /**
  * Пример
@@ -42,12 +45,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -66,19 +67,17 @@ val months = listOf("января", "февраля", "марта", "апрел�
 
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
         val month = months.indexOf(parts[1]) + 1
         val year = parts[2].toInt()
-        if ((day in 30..31) && (month == 2)) return ""
-        if ((day in 1..31) && (month != 0) && (year >= 0))
-            return String.format("%02d.%02d.%d", day, month, year)
-        else return ""
-    } catch (e: NumberFormatException) {
+        if ((parts.size != 3) || (day !in 1..31) || (month == 0)) return ""
+        return String.format("%02d.%02d.%d", day, month, year)
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
+
 /**
  * Средняя
  *
@@ -88,15 +87,12 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
         val month = months[parts[1].toInt() - 1]
         val year = parts[2].toInt()
-        if ((day in 30..31) && (month == "февраль")) return ""
-        if ((day in 1..31) && (year >= 0))
-            return String.format("%d %s %d", day, month, year)
-        else return ""
+        if ((parts.size != 3) || (day !in 1..31)) return ""
+        return String.format("%d %s %d", day, month, year)
     } catch (e: Exception) {
         return ""
     }
@@ -114,7 +110,15 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    for (i in 0..phone.length - 1) {
+        if ((phone[i] !in '0'..'9') && (phone[i] != '(') &&
+                (phone[i] != ')') && (phone[i] != '-') &&
+                (phone[i] != ' ') && (phone[i] != '+'))
+            return ""
+    }
+    return phone.filter { (it in '0'..'9') || (it == '+') }
+}
 
 /**
  * Средняя
@@ -126,7 +130,19 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var result = -1
+    val listOfPerm = listOf("-", "%", " ")
+    try {
+        for (part in parts) {
+            if (part !in listOfPerm && part.toInt() > result) result = part.toInt()
+        }
+        return result
+    } catch (e: IllegalArgumentException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -138,7 +154,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var result = -1
+    for (i in 1..parts.size - 1) {
+        if (('+' in parts[i]) && (parts[i - 1].toInt() > result)) result = parts[i - 1].toInt()
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -187,6 +211,7 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int = TODO()
+
 
 /**
  * Сложная

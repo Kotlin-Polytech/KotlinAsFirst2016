@@ -109,16 +109,20 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
+
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     /**другой способ решения*/
-    val bc = sqr(b) + sqr(c)
-    val ac = sqr(a) + sqr(c)
-    val ab = sqr(a) + sqr(b)
-    return when {
-        (a > b + c) || (b > a + c) || (c > b + a) -> -1
-        (bc == sqr(a)) || (ac == sqr(b)) || (ab == sqr(c)) -> 1
-        (bc < sqr(a)) || (ac < sqr(b)) || (ab < sqr(c)) -> 2
-        (bc > sqr(a)) || (ac > sqr(b)) || (ab > sqr(c)) -> 0
+    val max = Math.max(Math.max(a, b), c)
+    var cos = 2.0
+    when (max) {
+        a -> cos = (sqr(b) + sqr(c) - sqr(a)) / (2 * b * c)
+        b -> cos = (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c)
+        else -> cos = (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b)
+    }
+    return when (cos) {
+        0.0 -> 1
+        in -1.0..0.0 -> 2
+        in 0.0..1.0 -> 0
         else -> -1
     }
 }

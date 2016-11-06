@@ -4,7 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
-
+import lesson3.task1.powInt
 /**
  * Пример
  *
@@ -241,12 +241,12 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base)
-    var result = ""
+    val result = StringBuilder()
     for (element in list) {
-        if (element <= 9) result += element.toString()
-        else result += ('a' - 10 + element).toString()
+        if (element <= 9) result.append(element)
+        else result.append('a' - 10 + element)
     }
-    return result
+    return result.toString()
 }
 
 /**
@@ -259,7 +259,7 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var p = 0
     for (i in 0..digits.size - 1) {
-        p += digits[i] * Math.pow(base.toDouble(), (digits.size - 1 - i).toDouble()).toInt()
+        p += digits[i] * powInt(base, (digits.size - 1 - i))
     }
     return p
 }

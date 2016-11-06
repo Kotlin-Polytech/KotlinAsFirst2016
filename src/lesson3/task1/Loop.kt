@@ -98,17 +98,17 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun GCD(a: Int, b: Int): Int { /**алгоритм Евклида*/
+fun gcd(a: Int, b: Int): Int { /**алгоритм Евклида*/
     var curA = a
     var curB = b
-    while (curA != 0 && curB != 0) {
-        if (curA > curB) curA %= curB
-        else curB %= curA
+    while (curA != curB) {
+        if (curA > curB) curA -= curB
+        else curB -= curA
     }
-    return curA + curB
+    return curA
 }
 
-fun lcm(m: Int, n: Int): Int = Math.abs(m * n) / GCD(m, n)
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Простая
@@ -139,10 +139,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    return if (GCD(m, n) == 1) true
-    else false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -152,13 +149,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val curN = Math.sqrt(n.toDouble())
-    val curM = Math.sqrt(m.toDouble())
-    val dif = curN.toInt() - curM.toInt()
-    if (n == m) {
-        val floorN = Math.floor(curN).toInt()
-        if (floorN * floorN == n) return true
-    } else if (dif >= 1) return true
+    for (i in 0..n) {
+        if (i * i in m..n) return true
+    }
     return false
 }
 
@@ -232,6 +225,12 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
+fun powInt(x: Int, y: Int): Int {
+    var result = 1
+    for (i in 1..y) result *= x
+    return result
+}
+
 fun squareSequenceDigit(n: Int): Int {
     var curN = 0
     var i = 0
@@ -239,16 +238,7 @@ fun squareSequenceDigit(n: Int): Int {
         i++
         curN += digitNumber(i * i)
     }
-    if (curN == n) return (i * i) % 10
-    else {
-        var r = curN - n
-        var j = 10
-        while (r > 1) {
-            j *= 10
-            r--
-        }
-        return ((i * i) / j) % 10
-    }
+    return ((i * i) / powInt(10, curN - n)) % 10
 }
 
 /**
@@ -261,18 +251,11 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var curN = 0
     var i = 0
+    var fib = 0
     while (curN < n) {
         i++
-        curN += digitNumber(fib(i))
+        fib = fib(i)
+        curN += digitNumber(fib)
     }
-    if (curN == n) return (fib(i)) % 10
-    else {
-        var r = curN - n
-        var j = 10
-        while (r > 1) {
-            j *= 10
-            r--
-        }
-        return ((fib(i)) / j) % 10
-    }
+    return (fib / powInt(10, curN - n)) % 10
 }

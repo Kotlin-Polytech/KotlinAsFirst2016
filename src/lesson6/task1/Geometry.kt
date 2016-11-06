@@ -166,10 +166,7 @@ data class Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     val xDist = s.end.x - s.begin.x
     val yDist = s.end.y - s.begin.y
-    val angle = if (xDist == 0.0 && yDist == 0.0) 0.0
-                else if (xDist == 0.0) Math.PI / 2
-                else if (yDist == 0.0) 0.0
-                else Math.atan(yDist / xDist)
+    val angle =  Math.atan(yDist / xDist)
     return Line(Point(s.begin.x, s.begin.y), angle)
 }
 

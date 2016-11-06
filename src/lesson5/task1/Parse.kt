@@ -126,7 +126,8 @@ fun flattenPhoneNumber(phone: String): String {
  */
 //додумать
 fun bestLongJump(jumps: String): Int {
-    for (element in jumps){
+    TODO()
+    /*for (element in jumps){
         if (element == '+')
             return -1
     }
@@ -138,6 +139,7 @@ fun bestLongJump(jumps: String): Int {
     } catch (e: NumberFormatException) {
         return -1
     }
+    */
 }
 
 /**
@@ -165,19 +167,23 @@ fun bestHighJump(jumps: String): Int {
  */
 //узнать про бросание
 fun plusMinus(expression: String): Int {
-    val myList = expression.split(" ")
-    var sum = myList[0].toInt()
-    for (i in 0..myList.size - 1) {
-        if (myList[i] == '+'.toString()) {
-            val a = myList[i + 1].toInt()
-            sum += a
+    try {
+        val myList = expression.split(" ")
+        var sum = myList[0].toInt()
+        for (i in 0..myList.size - 1) {
+            if (myList[i] == '+'.toString()) {
+                val a = myList[i + 1].toInt()
+                sum += a
+            }
+            if (myList[i] == '-'.toString()) {
+                val a = myList[i + 1].toInt()
+                sum -= a
+            }
         }
-        if (myList[i] == '-'.toString()) {
-            val a = myList[i + 1].toInt()
-            sum -= a
-        }
+        return sum
+    } catch (e: NumberFormatException){
+        throw IllegalArgumentException()
     }
-    return sum
 }
 /**
  * Сложная

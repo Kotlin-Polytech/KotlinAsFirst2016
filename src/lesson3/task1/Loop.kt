@@ -69,10 +69,7 @@ fun digitNumber(n: Int): Int {
 
             sum++
             m /= 10
-
-
         }
-
     }
     return sum
 }
@@ -86,7 +83,7 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     val k: Int
     if (n > 2) {
-        k = fib(n-1) + fib(n-2)
+        k = fib(n - 1) + fib(n - 2)
     } else k = 1
     return k
 }
@@ -101,7 +98,6 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var n1 = n
     var m1 = m
-
     while (m1 != n1) {
         if (m1 > n1) {
             m1 -= n1
@@ -109,12 +105,9 @@ fun lcm(m: Int, n: Int): Int {
         if (m1 < n1) {
             n1 -= m1
         }
-
     }
     val k = m * n / n1
     return k
-
-
 }
 
 /**
@@ -128,8 +121,6 @@ fun minDivisor(n: Int): Int {
     while (m != 0) {
         m = n % k
         k++
-
-
     }
     k--
     return k
@@ -141,19 +132,25 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var x: Int = n - 1
-
-    for (k in (n - 1) downTo 1) {
-
-        if (n % x == 0) break
-        else x--
-
+    var k = n - 1
+    for (i in (n - 1) downTo 1) {
+        if (n % k == 0) break
+        k--
     }
+    return k
+}
 
-
-
-
-    return (x)
+fun gcd(m: Int, n: Int): Int {
+    var x = m
+    var y = n
+    while (x != y) {
+        if (x > y) {
+            x -= y
+        } else if (x < y) {
+            y -= x
+        }
+    }
+    return x
 }
 
 /**
@@ -164,18 +161,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var m1 = m
-    var n1 = n
-    while (n1 != m1) {
-        if (m1 > n1) {
-            m1 -= n1
-        } else if (m1 < n1) {
-            n1 -= m1
-        }
-
-
-    }
-    if (m1 == 1) return true
+    gcd(m, n)
+    if (m==1)return true
     else return false
 }
 
@@ -187,19 +174,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = 0.0
-
+    var k = 1.0
     while (k * k <= n) {
         if (m <= sqr(k)) return true
-
-
         k++
-
-
     }
-
     return false
-
 }
 
 /**

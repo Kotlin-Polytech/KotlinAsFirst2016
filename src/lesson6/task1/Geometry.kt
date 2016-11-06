@@ -242,6 +242,6 @@ fun minContainingCircle(vararg points: Point): Circle {
             elementMax = point
         }
     }
-    if (elementMax == max1) return Circle(p, max1.distance(max2) / 2)
+    if (elementMax.distance(p) <= max1.distance(p) + 1e-13 && elementMax.distance(p) >= max1.distance(p) - 1e-13) return Circle(p, max1.distance(max2) / 2)
     else return circleByThreePoints(max1, max2, elementMax)
 }

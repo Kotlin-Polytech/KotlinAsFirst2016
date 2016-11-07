@@ -128,22 +128,29 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
     var result = 0
-    for (i in 0..parts.size - 2) {
-        val condition1 = parts[i].contains (Regex("""\d"""))
-        val condition2 = parts[i+1].contains (Regex("""\d"""))
-        val condition3 = parts[i].contains (Regex("""[-+]"""))
-        val condition4 = parts[i+1].contains (Regex("""[-+]"""))
-        val condition5 = parts[i].contains (Regex("""[^0-9-+]"""))
-        val condition = condition1 && condition2 || condition3 && condition4 || condition5
-        if (condition)  throw IllegalArgumentException("Wrong expression format")
-        else {
-            when {
-                parts[i].matches(Regex("""[+]""")) -> result += parts[i+1].toInt()
-                parts[i].matches(Regex("""[-]""")) -> result -= parts[i+1].toInt()
+    val length = parts.size
+    val matchResult1 = Regex("""[^\d+-]""")
+    val matchResult2 = Regex("""\d""")
+    val matchResult3 = Regex("""[-+]""")
+    if ((length == 1) && (parts[0].contains(matchResult1)) || expression == "") throw IllegalArgumentException("Wrong expression format")
+    else {
+        for (i in 0..length - 2) {
+            val condition1 = parts[i].contains(matchResult2)
+            val condition2 = parts[i + 1].contains(matchResult2)
+            val condition3 = parts[i].contains(matchResult3)
+            val condition4 = parts[i + 1].contains(matchResult3)
+            val condition5 = parts[i].contains(matchResult1) || parts[i + 1].contains(matchResult1)
+            val condition = (condition1 && condition2) || (condition3 && condition4) || condition5
+            if (condition) throw IllegalArgumentException("Wrong expression format")
+            else {
+                when {
+                    parts[i].matches(Regex("""[+]""")) -> result += parts[i + 1].toInt()
+                    parts[i].matches(Regex("""[-]""")) -> result -= parts[i + 1].toInt()
+                }
             }
         }
+        result += parts[0].toInt()
     }
-    if (parts.size > 1) result += parts[0].toInt()
     return result
 }
 

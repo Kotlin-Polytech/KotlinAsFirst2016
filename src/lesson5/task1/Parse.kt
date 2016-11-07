@@ -109,37 +109,42 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val simb = phone.filter { it != ' ' && it != '-' }
-    if (!simb.matches(Regex("""((\+\d+)?\(\d+\))?\d+"""))) return ""
-    return simb.filter { it != '(' && it != ')' }
+    val siMob = phone.filter { it != ' ' && it != '-' }
+    if (!siMob.matches(Regex("""((\+\d+)?\(\d+\))?\d+"""))) return ""
+    return siMob.filter { it != '(' && it != ')' }
 }
 
 /**
  * Средняя
  *
  * Результаты спортсмена на соревнованиях в прыжках в длину представлены строкой вида
- * "706 - % 717 % 703".
+ * "706 % - 717 % 703".
  * В строке могут присутствовать числа, черточки - и знаки процента %, разделённые пробелами;
  * число соответствует удачному прыжку, - пропущенной попытке, % заступу.
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-//додумать
+
 fun bestLongJump(jumps: String): Int {
-    TODO()
-    /*for (element in jumps){
-        if (element == '+')
-            return -1
-    }
     try {
-        val myList = jumps.filter { it != '-' && it != '%' }
-        val secList = myList.split(" ")
-        val a = secList.max()
-        return "$a".toInt()
-    } catch (e: NumberFormatException) {
+        var max = 0
+        val newList = mutableListOf<Int>()
+        val list = jumps.split(" ")
+        for (i in 0..list.size - 1) {
+            if (list[i] != '-'.toString() && list[i] != '%'.toString()) {
+                newList.add(list[i].toInt())
+            }
+        }
+        for (i in 0..newList.size - 1) {
+            if (newList[i] > max)
+                max = newList[i]
+        }
+        if (max == 0) return -1
+        else return max
+
+    } catch (e: Exception) {
         return -1
     }
-    */
 }
 
 /**
@@ -165,7 +170,6 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-//узнать про бросание
 fun plusMinus(expression: String): Int {
     try {
         val myList = expression.split(" ")

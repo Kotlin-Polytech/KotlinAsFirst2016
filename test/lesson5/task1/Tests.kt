@@ -59,7 +59,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun bestLongJump() {
-        assertEquals(2147483647, bestLongJump("% 2039662974 2147483647 - - 495809187 % 1933104435 - 483825325 - - % 1125527815 - - - % 1 - - 0 2147483647 - - 0 % - - % 2147483647 1457700687 % % 1 2147483647 - 2147483647 - - % - - % % 42337253 - - 1818656029 - 946450480 - - % - % 0 - %"))
+        assertEquals(2147483647, bestLongJump("2147483647 2147483647 1293481108 485941124 - 2147483647 0 0 - % % 2147483647 874153709 2147483647 580902861 % - - - 890139436 - 0 - 1320848252 - - - 2147483647"))
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
@@ -97,6 +97,7 @@ class Tests {
     @Tag("Hard")
     fun mostExpensive() {
         assertEquals("", mostExpensive(""))
+        assertEquals("", mostExpensive("Хлеб 39.5; Молоко 39.4; Яблоко -12"))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
     }

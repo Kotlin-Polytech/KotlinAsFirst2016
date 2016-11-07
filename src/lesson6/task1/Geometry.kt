@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
+import lesson1.task1.trackLength
 
 /**
  * Точка на плоскости
@@ -55,7 +57,11 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val distanceBetweenCenters = trackLength(center.x, center.y, other.center.x, other.center.y)
+        if (distanceBetweenCenters <= (radius + other.radius)) return 0.0
+        else return (distanceBetweenCenters - (radius + other.radius))
+    }
 
     /**
      * Тривиальная
@@ -138,7 +144,16 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val ma = (b.y - a.y) / (b.x - a.x)
+    val mb = (c.y - b.y) / (c.x - b.x)
+    val xOfCenter = (ma * mb * (a.y - c.y) + mb * (a.x + b.x) + ma * (b.x + c.x)) / (2 * mb - 2 * ma)
+    val yOfCenter = -1 * (xOfCenter - (a.x + b.x) / 2) / ma + (a.y + b.y) / 2
+    val centerOf = Point(xOfCenter, yOfCenter)
+    val radiusOf = trackLength(xOfCenter, yOfCenter, a.x, a.y)
+    val ourCircle = Circle(centerOf, radiusOf)
+    return ourCircle
+}
 
 /**
  * Очень сложная

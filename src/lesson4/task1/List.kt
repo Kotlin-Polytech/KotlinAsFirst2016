@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -82,9 +84,9 @@ fun squares(list: List<Int>) = list.map { it * it }
  * "А роза упала на лапу Азора" является палиндромом.
  */
 fun isPalindrome(str: String): Boolean {
-    val lowerCase = str.toLowerCase().filter { it != ' ' }
-    for (i in 0..lowerCase.length / 2) {
-        if (lowerCase[i] != lowerCase[lowerCase.length - i - 1]) return false
+    val palind = str.toLowerCase().filter { it != ' ' }
+    for (i in 0..palind.length / 2) {
+        if (palind[i] != palind[palind.length - i - 1]) return false
     }
     return true
 }
@@ -104,14 +106,20 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var abs = 0.0
+    for (element in v) {
+        abs = abs + sqr(element)
+    }
+    return Math.sqrt(abs)
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
 
 /**
  * Средняя
@@ -119,7 +127,13 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val sr = list.sum() / list.size
+    for (i in 0..list.size - 1) {
+        list[i] -= sr
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -128,7 +142,13 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var pl = 0.0
+    for (i in 0..a.size - 1) {
+        pl += a[i] * b[i]
+    }
+    return pl
+}
 
 /**
  * Средняя
@@ -138,7 +158,15 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
+fun polynom(p: List<Double>, x: Double): Double {
+    var mn = 0.0
+    var i = 0.0
+    for (element in p) {
+        mn += element * Math.pow(x, i)
+        i++
+    }
+    return mn
+}
 
 /**
  * Средняя
@@ -148,7 +176,16 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    var sum1 = 0.0
+    var sum2 = 0.0
+    for (i in 0..list.size - 1) {
+        sum2 = sum1
+        sum1 += list[i]
+        list[i] = list[i] + sum2
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -157,7 +194,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var plural = 2
+    var number = n
+    val result = mutableListOf<Int>()
+    while (number > 1) {
+        if (number % plural == 0) {
+            result.add(plural)
+            number = number /plural
+        } else plural++
+    }
+    return result
+}
 
 /**
  * Сложная

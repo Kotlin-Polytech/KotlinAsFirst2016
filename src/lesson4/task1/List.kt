@@ -176,14 +176,14 @@ fun factorizeToString(n: Int): String = TODO()
  */
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
-     var result = listOf<Int>()
-      var list: List<Int>
-     do {
-            list = listOf(number % base)
-               result = list + result
-               number /= base
-     } while (number > 0)
-       return result
+    var result = listOf<Int>()
+    var list: List<Int>
+    do {
+        list = listOf(number % base)
+        result = list + result
+        number /= base
+    } while (number > 0)
+    return result
 }
 
 /**
@@ -196,13 +196,13 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val convert = convert(n, base)
-      var result = ""
-     for (element in convert) {
-              if (element > 9) result += ('a' + element - 10).toChar()
-                else result += element.toString()
-            }
-        return result
-}
+    var result = ""
+       for (element in convert) {
+           if (element > 9) result += ('a' + element - 10).toChar()
+           else result += element.toString()
+       }
+    return result
+ }
 
 /**
  * Средняя
@@ -233,17 +233,16 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  */
 fun roman(n: Int): String {
     var number = n
-        val romanNumerals = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-      val arabicNumerals = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-      var result = ""
-
-      var i = arabicNumerals.size - 1
-      while (number > 0) {
-              while (number < arabicNumerals[i]) i--
-               result += romanNumerals[i]
-           number -= arabicNumerals[i]
-           }
-      return result
+    val romanNumerals = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val arabicNumerals = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var result = ""
+    var i = arabicNumerals.size - 1
+    while (number > 0) {
+        while (number < arabicNumerals[i]) i--
+        result += romanNumerals[i]
+        number -= arabicNumerals[i]
+    }
+    return result
 }
 
 /**
@@ -253,4 +252,45 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+        val listUnits = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+        val listTens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+        val listFromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+        val listHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+        val listResult = mutableListOf<String>()
+        var result = ""
+        val lastDigit = n % 10
+        val thousand = when (n / 1000 % 10) {
+            1 -> "тысяча"
+            in 2..4 -> "тысячи"
+            else -> "тысяч"
+        }
+        val unit = when (lastDigit) {
+            1 -> "один"
+            2 -> "два"
+            else -> listUnits[lastDigit]
+        }
+        if (n > 999) {
+            listResult.add(listHundreds[n / 100000 % 10])
+            if (n / 1000 % 100 in 11..19) {
+                listResult.add(listFromTenToTwenty[n / 1000 % 10])
+                listResult.add("тысяч")
+            } else {
+                listResult.add(listTens[n / 10000 % 10])
+                listResult.add(listUnits[n / 1000 % 10])
+                listResult.add(thousand)
+            }
+        }
+        listResult.add(listHundreds[n / 100 % 10])
+        if (n % 100 in 11..19) listResult.add(listFromTenToTwenty[lastDigit])
+        else {
+            listResult.add(listTens[n / 10 % 10])
+            listResult.add(unit)
+        }
+        val newListResult = listResult.filter { it != "" }
+        /*for (i in 0..newListResult.size - 2) {
+        result += newListResult[i] + " "
+    }
+    result += newListResult.last()*/
+        return newListResult.joinToString(" ")
+    }

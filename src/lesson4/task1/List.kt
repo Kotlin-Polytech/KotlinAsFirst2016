@@ -360,24 +360,23 @@ fun russian(n: Int): String {
         }
         nPart1 = n / 1000
         when {
-            nPart1 % 10 == 1 -> {
+            (nPart1 % 10 == 1) && (nPart1 % 100 != 11) -> {
                 resultPart1.removeAt(resultPart1.size - 1)
                 resultPart1.add("одна тысяча")
             }
-            nPart1 % 10 == 2 -> {
+            (nPart1 % 10 == 2) && (nPart1 % 100 != 12) -> {
                 resultPart1.removeAt(resultPart1.size - 1)
                 resultPart1.add("две тысячи")
             }
-            nPart1 % 10 == 3 -> {
+            (nPart1 % 10 == 3) && (nPart1 % 100 != 13) -> {
                 resultPart1.removeAt(resultPart1.size - 1)
                 resultPart1.add("три тысячи")
             }
-            nPart1 % 10 == 4 -> {
+            (nPart1 % 10 == 4) && (nPart1 % 100 != 14) -> {
                 resultPart1.removeAt(resultPart1.size - 1)
                 resultPart1.add("четыре тысячи")
             }
             else -> {
-                //resultPart1.removeAt(resultPart1.size - 1)
                 resultPart1.add("тысяч")
             }
         }

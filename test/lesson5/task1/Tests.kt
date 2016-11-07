@@ -59,6 +59,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun bestLongJump() {
+        assertEquals(2147483647, bestLongJump("% 2039662974 2147483647 - - 495809187 % 1933104435 - 483825325 - - % 1125527815 - - - % 1 - - 0 2147483647 - - 0 % - - % 2147483647 1457700687 % % 1 2147483647 - 2147483647 - - % - - % % 42337253 - - 1818656029 - 946450480 - - % - % 0 - %"))
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))

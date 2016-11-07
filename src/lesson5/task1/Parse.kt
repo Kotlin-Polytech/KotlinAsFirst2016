@@ -139,7 +139,7 @@ fun bestLongJump(jumps: String): Int {
             if (newList[i] > max)
                 max = newList[i]
         }
-        if (max == 0) return -1
+         if (max == 0) return -1
         else return max
 
     } catch (e: Exception) {

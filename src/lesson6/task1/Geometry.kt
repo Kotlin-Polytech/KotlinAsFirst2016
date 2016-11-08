@@ -123,9 +123,18 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x = (point.x * Math.tan(angle) - point.y - other.point.x * Math.tan(angle) + other.point.y)/ (Math.tan(angle) - Math.tan(angle))
-        val y = (x - point.x) * Math.tan(angle) + point.y
-        return Point(x,y)
+       val x = when {
+            (Math.cos(angle) == Math.cos(Math.PI / 2)) -> point.x
+            (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
+            else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
+                    (Math.tan(angle) - Math.tan(other.angle))
+        }
+        val y = when {
+            (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) ->
+                (x - other.point.x) * Math.tan(other.angle) + other.point.y
+            else -> (x - point.x) * Math.tan(angle) + point.y
+        }
+        return Point(x, y)
     }
 }
 
@@ -157,7 +166,28 @@ fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x)/2,
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    var NearestCircle1 = circles[0]
+    var NearestCircle2 = circles[1]
+    var mindistance = (circles[0].center.distance(circles[1].center)).toDouble() - circles[0].radius - circles[1].radius
+    if (circles.size <= 1) {
+        throw IllegalArgumentException("IllegalArgumentException")
+    } else {
+        for (i in 0..circles.size - 1) {
+            for (index in (i + 1)..circles.size - 1) {
+                val LengthCircles = circles[i].center.distance(circles[index].center).toDouble() -
+                        circles[i].radius - circles[index].radius
+                if (LengthCircles < mindistance)  {
+                    mindistance = LengthCircles
+                    NearestCircle1 = circles[i]
+                    NearestCircle2 = circles[index]
+                }
+            }
+        }
+        return Pair(NearestCircle1,NearestCircle2)
+    }
+}
+
 
 /**
  * Очень сложная

@@ -80,16 +80,12 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    if (digital.matches(Regex("""\d{2}\.\d{2}\.\d+"""))) {
-        val parts = digital.split(".")
-        if (parts[1].toInt() in 1..12 && parts[0].toInt() in 1..31) {
-            val day = parts[0].toInt()
-            val monthNum = parts[1].toInt() - 1
-            val month = listOfMonths[monthNum]
-            val year = parts[2].toInt()
-            return String.format("%d %s %d", day, month, year)
-        } else return ""
-    } else return ""
+    val parts = if (digital.matches(Regex("""\d{2}\.\d{2}\.\d+"""))) digital.split(".") else return ""
+    val day = if(parts[0].toInt() in 1..31) parts[0].toInt() else return ""
+    val monthNum = if (parts[1].toInt() in 1..12) parts[1].toInt() - 1 else return ""
+    val month = listOfMonths[monthNum]
+    val year = parts[2].toInt()
+    return String.format("%d %s %d", day, month, year)
 }
 
 /**

@@ -240,12 +240,11 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
-    var lastDigit = number % 10
+    val lastDigit = number % 10
     while (number != 0) {
         if (lastDigit != number % 10) {
             return true
         }
-        lastDigit = number % 10
         number /= 10
     }
     return false

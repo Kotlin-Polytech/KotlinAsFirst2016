@@ -154,14 +154,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    val sum = mutableListOf<Double>()
     var result = 0.0
-    for (i in a) {
-        sum.add(i)
-    }
-    for (i in 0..b.size - 1) {
-        sum[i] *= b[i]
-        result += sum[i]
+    for (i in 0..a.size - 1) {
+        result += a[i] * b[i]
     }
     return result
 }
@@ -244,7 +239,7 @@ fun convert(n: Int, base: Int): List<Int> {
         list.add(number % base)
         number /= base
     }
-    if (list.size == 0) list.add(0)
+    if (n == 0) list.add(0)
     return list.reversed()
 }
 
@@ -257,16 +252,16 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var result = ""
+    val result = StringBuilder()
     val list = convert(n, base)
     for (element in list) {
         if (element < 10) {
-            result += element
+            result.append(element)
         } else {
-            result += ('a' - 10 + element)
+            result.append('a' - 10 + element)
         }
     }
-    return result
+    return result.toString()
 }
 
 /**
@@ -279,8 +274,8 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
     var power = digits.size - 1
-    for (i in digits) {
-        result += i * pow(base, power)
+    for (digit in digits) {
+        result += digit * pow(base, power)
         power--
     }
     return result
@@ -296,17 +291,15 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0
-    var pow = 1
+    val listOfDigits = mutableListOf<Int>()
     for (i in str.length - 1 downTo 0) {
         if (str[i] <= '9') {
-            result += (str[i] - '0') * pow
+            listOfDigits.add(str[i] - '0')
         } else {
-            result += (str[i] - ('a' - 10)) * pow
+            listOfDigits.add(str[i] - ('a' - 10))
         }
-        pow *= base
     }
-    return result
+    return decimal(listOfDigits.reversed(), base)
 }
 
 /**
@@ -320,13 +313,13 @@ fun decimalFromString(str: String, base: Int): Int {
 fun roman(n: Int): String {
     var number = n
     var result = ""
-    val list1 = mutableListOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    val list2 = mutableListOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val list = mutableListOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C",
+            90 to "XC", 50 to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
     var i = 0
     while (number > 0) {
-        if (number >= list1[i]) {
-            number -= list1[i]
-            result += list2[i]
+        if (number >= list[i].first) {
+            number -= list[i].first
+            result += list[i].second
         } else i++
     }
     return result

@@ -135,13 +135,13 @@ fun bestLongJump(jumps: String): Int {
                 newList.add(list[i].toInt())
             }
         }
+        if (newList.isEmpty()) return -1
         for (i in 0..newList.size - 1) {
             if (newList[i] > max)
                 max = newList[i]
         }
         if (max == 0) return 0
         else return max
-
     } catch (e: Exception) {
         return -1
     }
@@ -229,7 +229,7 @@ fun mostExpensive(description: String): String {
         val secList = listStr.split(" ")
         for (i in 1..secList.size - 1 step 2) {
             if (secList[i].toDouble() < 0) return ""
-            if (secList[i].toDouble() > maxPrice) {
+            if (secList[i].toDouble() >= maxPrice) {
                 maxPrice = secList[i].toDouble()
                 myIndex = i
             }

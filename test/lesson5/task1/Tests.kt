@@ -29,6 +29,9 @@ class Tests {
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("", dateStrToDigit(" x'<DkC_Ca"))
+        assertEquals("25.02.0", dateStrToDigit("25 февраля 0"))
+
     }
 
     @Test
@@ -39,7 +42,6 @@ class Tests {
         assertEquals("", dateDigitToStr("28.00.2000"))
         assertEquals("3 апреля 2011", dateDigitToStr("03.04.2011"))
         assertEquals("", dateDigitToStr("ab.cd.ef"))
-        assertEquals("", dateDigitToStr("07.09.0"))
     }
 
     @Test

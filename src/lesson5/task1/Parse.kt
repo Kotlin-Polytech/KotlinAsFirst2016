@@ -139,7 +139,7 @@ fun bestLongJump(jumps: String): Int {
             if (newList[i] > max)
                 max = newList[i]
         }
-        if (max == 0) return -1
+        if (max == 0) return 0
         else return max
 
     } catch (e: Exception) {
@@ -199,13 +199,15 @@ fun plusMinus(expression: String): Int {
  */
 
 fun firstDuplicateIndex(str: String): Int {
-    var myindex = 0
+    /*var myindex = 0
     val list = str.split(" ")
     for (i in 1..list.size-1){
         if (list[i] == list[i-1])
             myindex = str.indexOf(list[i-1])
     }
     return myindex
+    */
+    TODO()
 }
 
 /**

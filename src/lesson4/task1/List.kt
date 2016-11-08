@@ -104,11 +104,11 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun q2(g: Double) = g * g
+
 
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    (0..v.size - 1).forEach { i -> sum += q2(v[i]) }
+    (0..v.size - 1).forEach { i -> sum += (v[i] * v[i]) }
     return Math.sqrt(sum)
 }
 
@@ -255,17 +255,17 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base).toMutableList()
-    val list2 = mutableListOf<Char>()
+    val res = mutableListOf<Char>()
     if (n == 0) {
         return "0"
     } else {
         for (i in 0..list.size - 1) {
             when {
-                list[i] <= 9 -> list2.add('0' + list[i])
-                else -> list2.add('a' + list[i] - 10)
+                list[i] <= 9 -> res.add('0' + list[i])
+                else -> res.add('a' + list[i] - 10)
             }
         }
-        return list2.joinToString("")
+        return res.joinToString("")
     }
 }
 
@@ -300,10 +300,10 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var list: List<Int> = listOf()
+    var list = listOf<Int>()
     val str1 = str
     for (i in 0..str1.length - 1)
-        if (str1[i] in '0'..'9') list += ((str1[i]).toInt() - '0'.toInt())
+        if (str1[i] in '0'..'9') list += (str1[i] - '0').toInt()
         else list += ((str[i]) - 'a' + 10).toInt()
     return decimal(list, base)
 }

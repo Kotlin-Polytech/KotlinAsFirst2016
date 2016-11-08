@@ -104,22 +104,26 @@ fun dateDigitToStr(digital: String): String {
     if (parts.size == 3) {
         try {
             val day = parts[0].toInt()
-            if (day in 10..31) result = day.toString()
-            else result = day.toString()
-            result += when (parts[1]) {
-                "01" -> " января "
-                "02" -> " февраля "
-                "03" -> " марта "
-                "04" -> " апреля "
-                "05" -> " мая "
-                "06" -> " июня "
-                "07" -> " июля "
-                "08" -> " августа "
-                "09" -> " сентября "
-                "10" -> " октября "
-                "11" -> " ноября "
-                "12" -> " декабря "
-                else -> return ""
+            if (day  !in 1..31) {
+                return ""
+            }
+            else {
+                result = day.toString()
+                result += when (parts[1]) {
+                    "01" -> " января "
+                    "02" -> " февраля "
+                    "03" -> " марта "
+                    "04" -> " апреля "
+                    "05" -> " мая "
+                    "06" -> " июня "
+                    "07" -> " июля "
+                    "08" -> " августа "
+                    "09" -> " сентября "
+                    "10" -> " октября "
+                    "11" -> " ноября "
+                    "12" -> " декабря "
+                    else -> return ""
+                }
             }
             result += parts[2].toInt().toString()
         } catch (e: NumberFormatException) {
@@ -165,7 +169,7 @@ fun bestLongJump(jumps: String): Int {
     var max = -1
     try {
         for (part in parts) {
-            if (part == "%" || part == "-") {
+            if (part == "%" || part == "-" || part == "") {
                 continue
             } else {
                 val number = part.toInt()

@@ -149,9 +149,13 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i = n - 1
-    while (n % i != 0) i --
-    return i
+    var i = 2
+    if (n % i == 0) {
+        return n / i
+    } else {
+        while (n % i != 0) i++
+        return n / i
+    }
 }
 
 /**
@@ -193,7 +197,9 @@ fun sin(x: Double, eps: Double): Double {
         number = Math.pow(x, k.toDouble() * 2 + 1) / factorial(k * 2 + 1)
         if (k % 2 == 1) {
             sin -= number
-        } else {sin += number}
+        } else {
+            sin += number
+        }
     }
     return sin
 }
@@ -215,7 +221,9 @@ fun cos(x: Double, eps: Double): Double {
         number = Math.pow(x, k.toDouble() * 2) / factorial(k * 2)
         if (k % 2 == 1) {
             cos -= number
-        } else {cos += number}
+        } else {
+            cos += number
+        }
     }
     return cos
 }

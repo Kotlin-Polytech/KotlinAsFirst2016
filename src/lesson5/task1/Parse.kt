@@ -129,7 +129,7 @@ fun bestLongJump(jumps: String): Int {
     try {
         var max = 0
         val newList = mutableListOf<Int>()
-        val list = jumps.split(" ")
+        val list = jumps.split(" ").filter { it != "" }
         for (i in 0..list.size - 1) {
             if (list[i] != '-'.toString() && list[i] != '%'.toString()) {
                 newList.add(list[i].toInt())
@@ -139,14 +139,13 @@ fun bestLongJump(jumps: String): Int {
             if (newList[i] > max)
                 max = newList[i]
         }
-         if (max == 0) return -1
+        if (max == 0) return -1
         else return max
 
     } catch (e: Exception) {
         return -1
     }
 }
-
 /**
  * Сложная
  *
@@ -198,21 +197,16 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-// пофиксить когда на на на
+
 fun firstDuplicateIndex(str: String): Int {
-    TODO()
-}
-    /*
-    val myList = str.toLowerCase().split(" ")
-    for (i in 1..myList.size-1){
-        if (myList[i] == myList[i-1]) {
-            val a = str.indexOf(myList[i - 1])
-            return a
-        }
+    var myindex = 0
+    val list = str.split(" ")
+    for (i in 1..list.size-1){
+        if (list[i] == list[i-1])
+            myindex = str.indexOf(list[i-1])
     }
-    return -1
+    return myindex
 }
-*/
 
 /**
  * Сложная

@@ -97,15 +97,15 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun nod(m: Int, n: Int): Int = when {
-        m == 0 -> n
-        n == 0 -> m
-        m >= n -> nod(m % n, n)
-        n > m -> nod(n % m, m)
-        else -> 0
+    m == 0 -> n
+    n == 0 -> m
+    m >= n -> nod(m % n, n)
+    n > m -> nod(n % m, m)
+    else -> 0
 }
 
 fun lcm(m: Int, n: Int): Int {
-        return (m * n) / nod(m, n)
+    return (m * n) / nod(m, n)
 }
 
 

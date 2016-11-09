@@ -129,7 +129,7 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var mid = mean(list)
+    val mid = mean(list)
     for (i in 0..list.size - 1) {
         val element = list[i]
         list[i] = element - mid
@@ -189,7 +189,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     var m = n
     for (i in 2..n){
         while (m % i == 0){
@@ -218,19 +218,13 @@ fun factorizeToString(n: Int) : String = factorize(n).joinToString(separator = "
  */
 
 fun convert(n: Int, base: Int): List<Int> {
-    var result1 = mutableListOf<Int>()
-    var result2 = mutableListOf<Int>()
+    val result1 = mutableListOf<Int>()
     var m = n
-    while (m > 0){
+    while (m > 0) {
         result1.add(m % base)
         m /= base
     }
-    var k = result1.size
-    for (i in 1..result1.size ){
-        k -= 1
-        result2.add(result1[k])
-    }
-    return if (n == 0) listOf(0) else result2
+    return if (n == 0) listOf(0) else result1.reversed()
 }
 
 /**
@@ -243,19 +237,13 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var result1 = String()
-    var result2 = String()
+    val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
     var m = n
-    val alf =listOf<Char>('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
     while (m > 0) {
-        if (m % base < 10) result1 += (m % base) else result1 += alf[m % base - 10]
+        if (m % base < 10) result1 += (m % base) else result1 += ALPHABET[m % base - 10]
         m /= base
     }
-    var k = result1.length
-    for (i in 1..result1.length) {
-        k -= 1
-        result2 += (result1[k])
-    }
-    return if (n == 0) "0" else result2
+    return if (n == 0) "0" else result1.reversed()
 }
 
 /**
@@ -288,19 +276,12 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int{
-    var middle = mutableListOf<Int>()
-    var result = 0
-    val alf =listOf<Char>('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')
+    val middle = mutableListOf<Int>()
     for (i in 0..str.length - 1) {
         if (str[i] in '0'..'9')
             middle.add(str[i] - '0') else middle.add(str[i] - 'a' + 10)
         }
-    var n = middle[0]
-    for (i in 0..middle.size-2){
-        result = n * base + middle[i+1]
-        n = result
-    }
-    return if (str.length == 1) n else result
+    return if (str.length == 1) middle[0] else decimal (middle,base)
 }
 
 /**

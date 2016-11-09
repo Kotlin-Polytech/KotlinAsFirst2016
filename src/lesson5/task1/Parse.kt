@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import lesson7.task2.fifteenGameMoves
+
 /**
  * Пример
  *
@@ -157,7 +159,15 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    TODO()
+    val simV = '+'.toString()
+    var max = 0
+    val list = jumps.split(" ")
+    for (i in 0..list.size - 1) {
+        if (list[i] == simV)
+            max = list[i - 1].toInt()
+    }
+    if (max == 0) return -1
+    else return max
 }
 
 /**

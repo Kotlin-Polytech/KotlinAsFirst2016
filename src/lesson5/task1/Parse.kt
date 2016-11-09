@@ -67,11 +67,13 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     var k = 0
     var result = ""
-    if (parts.size != 3) return "" else {
+    if (parts.size != 3) return "" else try {
         result += twoDigitStr(parts[0].toInt()) + "."
         if ((parts[1]) in months) result += twoDigitStr(months.indexOf(parts[1]) + 1) + "." else return ""
         result += (parts[2].toInt())
         return result
+    } catch (e: NumberFormatException) {
+        return ""
     }
 }
 
@@ -240,8 +242,8 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var max = -1.0
     var name = ""
-    val parts = description.split("; ")
-    try {
+        try {
+        val parts = description.split("; ")
         for (elem in parts) {
             val pAndP = elem.split(" ")
             val price = pAndP[1].toDouble()

@@ -94,7 +94,7 @@ fun dateDigitToStr(digital: String): String {
             if ((oneDigitStr(parts[1]).toInt() in 1..12)) result += months[oneDigitStr(parts[1]).toInt() - 1] + " " else return ""
             result += (parts[2].toInt())
         } catch (e: NumberFormatException) {
-            throw  IllegalArgumentException(NumberFormatException("For input string : $digital"))
+            return ""
         }
         return result
     }

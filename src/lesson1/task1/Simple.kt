@@ -81,9 +81,9 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
 fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val a = (x2-x1)*(x2-x1)
-    val b = (y2-y1)*(y2-y1)
-    val c = sqrt(a+b)
+    val a = (x2 - x1) * (x2 - x1)
+    val b = (y2 - y1) * (y2 - y1)
+    val c = sqrt(a + b)
     return c
 }
 
@@ -107,7 +107,7 @@ fun thirdDigit(number: Int): Int {
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val a = ((hoursArrive-hoursDepart-1)*60+((60-minutesDepart)+minutesArrive))
+    val a = ((hoursArrive - hoursDepart - 1) * 60 + ((60 - minutesDepart) + minutesArrive))
     return a
 }
 
@@ -119,7 +119,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    return (initial*(1+0.01*percent))*(1+0.01*percent) + 0.01*percent*(initial*(1+0.01*percent))*(1+0.01*percent)
+    return (initial * (1 + 0.01 * percent)) * (1 + 0.01 * percent) + 0.01 * percent * (initial * (1 + 0.01 * percent)) * (1 + 0.01 * percent)
 }
 
 /**
@@ -130,9 +130,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  */
 
 fun numberRevert(number: Int): Int {
-    val firstDigit = number/100
-    val secondDigit = number%10
-    val thirdDigit = (number/10)%10
-    val e = secondDigit*100+thirdDigit*10+firstDigit
+    val firstDigit = number / 100
+    val secondDigit = number % 10
+    val thirdDigit = (number / 10) % 10
+    val e = secondDigit * 100 + thirdDigit * 10 + firstDigit
     return e
 }

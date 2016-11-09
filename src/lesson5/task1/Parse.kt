@@ -316,6 +316,7 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int = TODO()
 
+
 /**
  * Сложная
  *
@@ -346,4 +347,103 @@ fun fromRoman(roman: String): Int = TODO()
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+fun countBrackets(brackets : Char, str: String): Int{
+    var result = 0
+    for (i in 0.. str.length - 1 step 1)
+        if (str[i] == brackets)
+            result++
+    return result
+}
+
+fun computeDeviceCells(cells: Int, commands: String): List<Int> {
+    var cellsResult = mutableListOf<Int>()
+    val library = listOf('>', '<', '[', ']', '{', '}', '+', '-', ' ')
+
+    for (i in 0..cells - 1 step 1)
+        cellsResult.add(0)
+
+    var indexCommands = 0
+    var indexCells = cells / 2
+
+    if (countBrackets(library[2], commands) != countBrackets(library[3], commands))
+        throw IllegalArgumentException()
+
+    if (countBrackets(library[4], commands) != countBrackets(library[5], commands))
+        throw IllegalArgumentException()
+
+    for (i in 0.. commands.length - 1 step 1)
+        if (commands[i] !in library)
+            throw IllegalArgumentException()
+
+    while (indexCommands != (commands.length )){
+        if (indexCells > cells )
+            throw IllegalStateException()
+        else
+        {
+            when (commands[indexCommands]){
+                '>' -> {
+                    if (commands[indexCommands] == '>') {
+                        indexCells++
+                    }
+                }
+                '<' -> {
+                    if (commands[indexCommands] == '<'){
+                        indexCells--
+                    }
+                }
+                '+' -> {
+                    if (commands[indexCommands] == '+'){
+                        cellsResult[indexCells]++
+                    }
+                }
+                '-' -> {
+                    if (commands[indexCommands] == '-'){
+                        cellsResult[indexCells]--
+                    }
+                }
+                '[' -> {
+                    if (cellsResult[indexCells] == 0) {
+                        var indexSquare = indexCommands
+                        while (commands[indexSquare] != ']'){
+                            indexSquare++
+                            indexCommands++
+                        }
+                    }
+                }
+                ']' -> {
+                    if (commands[indexCommands] == ']'){
+                        if (cellsResult[indexCells] != 0) {
+                            var indexSquare = indexCommands
+                            while (commands[indexSquare] != '[') {
+                                indexSquare--
+                                indexCommands--
+                            }
+                        }
+                    }
+                }
+                '{' -> {
+                    if (commands[indexCommands] == '{'){
+                        if (cellsResult[indexCells] == 0) {
+                            var indexSquare = indexCommands
+                            while (commands[indexSquare] != '}') {
+                                indexSquare++
+                                indexCommands++
+                            }
+                        }
+                    }
+                }
+                '}' -> {
+                    if (cellsResult[indexCells] != 0){
+                        var indexSquare = indexCommands
+                        while (commands[indexSquare] != '{'){
+                            indexSquare--
+                            indexCommands--
+                        }
+                    }
+                }
+            }
+            indexCommands++
+        }
+    }
+    return cellsResult
+}

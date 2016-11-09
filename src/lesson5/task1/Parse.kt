@@ -94,7 +94,7 @@ fun dateDigitToStr(digital: String): String {
             if ((oneDigitStr(parts[1]).toInt() in 1..12)) result += months[oneDigitStr(parts[1]).toInt() - 1] + " " else return ""
             result += (parts[2].toInt())
         } catch (e: NumberFormatException) {
-            return ""
+            throw  IllegalArgumentException(NumberFormatException("For input string : $digital"))
         }
         return result
     }
@@ -120,7 +120,7 @@ fun flattenPhoneNumber(phone: String): String {
         when {
             ((part == '+') or (part in '0'..'9')) -> result += part
             ((part == ' ') or (part == ')') or (part == '(') or (part == '-')) -> ""
-            else -> ""
+            else -> return ""
         }
     }
     return result
@@ -190,20 +190,21 @@ fun bestHighJump(jumps: String): Int {
  * При нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val parts = expression.split(" ")
-    var result = parts[0].toInt()
-    for (i in 1..parts.size - 1) {
-        if (parts[i] != "+" && parts[i] != "-") {
-            try {
+    try {
+        val parts = expression.split(" ")
+        var result = parts[0].toInt()
+        for (i in 1..parts.size - 1) {
+            if (parts[i] != "+" && parts[i] != "-") {
                 var x = parts[i].toInt()
                 if (parts[i - 1] == "+") result += x
                 else if (parts[i - 1] == "-") result -= x
-            } catch (e: NumberFormatException) {
-                throw  IllegalArgumentException(NumberFormatException("For input string : $expression"))
             }
         }
+        return result
+    } catch (e: NumberFormatException) {
+        throw  IllegalArgumentException(NumberFormatException("For input string : $expression"))
     }
-    return result
+    return -1
 }
 
 /**

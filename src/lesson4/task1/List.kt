@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.isPrime
+import lesson3.task1.minDivisor
 import lesson3.task1.pow
 
 fun pow(x: Int, y: Int): Int {
@@ -130,7 +131,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.size == 0) 0.0 else list.sum() / list.size
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size
 
 /**
  * Средняя
@@ -204,15 +205,10 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var number = n
     val result = mutableListOf<Int>()
-    var i = 2
     while (number > 1) {
-        if (isPrime(i)) {
-            while (number % i == 0) {
-                result.add(i)
-                number /= i
-            }
-        }
-        i++
+        val divisor = minDivisor(number)
+        result.add(divisor)
+        number /= divisor
     }
     return result
 }

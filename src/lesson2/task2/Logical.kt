@@ -62,7 +62,7 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     when {
         a <= b && a <= c -> {
             x1 = a
-            if (b <= c) {
+            if (b < c) {
                 x2 = b
             } else {
                 x2 = c

@@ -81,7 +81,7 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = if (digital.matches(Regex("""\d{2}\.\d{2}\.\d+"""))) digital.split(".") else return ""
-    val day = if(parts[0].toInt() in 1..31) parts[0].toInt() else return ""
+    val day = if (parts[0].toInt() in 1..31) parts[0].toInt() else return ""
     val monthNum = if (parts[1].toInt() in 1..12) parts[1].toInt() - 1 else return ""
     val month = listOfMonths[monthNum]
     val year = parts[2].toInt()
@@ -101,10 +101,8 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.matches(Regex("""[\d+\-\s()]+""")) && phone != "+") {
-        val parts = phone.split(" ").joinToString()
-        return parts.split(Regex("""[^+\d]+""")).joinToString().filter { it != ' ' && it != ',' }
-    } else return ""
+    val parts = if (phone.matches(Regex("""[\d\s()+-]+"""))) phone.filter { it != ' ' } else return ""
+    return parts.filter { it != ' ' && it != '(' && it != ')' && it != '-' }
 }
 
 /**
@@ -118,20 +116,18 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    if (jumps.matches(Regex("""[\d\s%\-]+"""))) {
-        val parts = jumps.split(Regex("""[\D]+"""))
-        var result = -1
-        for (part in parts) {
-            try {
-                if (part.toInt() >= result) {
-                    result = part.toInt()
-                }
-            } catch (e: NumberFormatException) {
-                Double.NaN
+    val parts = if (jumps.matches(Regex("""[\d\s\-%]+"""))) jumps.split(Regex("""[\D]+""")) else return -1
+    var result = -1
+    for (part in parts) {
+        try {
+            if (part.toInt() >= result) {
+                result = part.toInt()
             }
+        } catch (e: NumberFormatException) {
+            continue
         }
-        return result
-    } else return -1
+    }
+    return result
 }
 
 /**
@@ -149,8 +145,13 @@ fun bestHighJump(jumps: String): Int {
         val parts = jumps.split(Regex("""[\s%\-]+"""))
         val listOfHits = mutableListOf<Int>()
         for (i in 0..parts.size - 1) {
-            if (parts[i].matches(Regex("""\d+""")) && parts[i + 1].matches(Regex("""\+"""))) {
-                listOfHits.add(parts[i].toInt())
+            try {
+                val int = parts[i].toInt()
+                if (parts[i + 1] == "+") {
+                    listOfHits.add(int)
+                }
+            } catch (e: NumberFormatException) {
+                continue
             }
         }
         return listOfHits.max() ?: -1
@@ -170,13 +171,11 @@ fun plusMinus(expression: String): Int {
     var result = 0
     if (expression.matches(Regex("""[\d +-]+"""))) {
         val parts = expression.split(" ")
-        for (i in 0..parts.size - 1) {
+        result += parts[0].toInt()
+        for (i in 1..parts.size - 1 step 2) {
             when {
-                i == 0 -> result += parts[i].toInt()
-                i % 2 != 0 -> {
-                    if (parts[i] == "-") result -= parts[i + 1].toInt()
-                    if (parts[i] == "+") result += parts[i + 1].toInt()
-                }
+                parts[i] == "-" -> result -= parts[i + 1].toInt()
+                parts[i] == "+" -> result += parts[i + 1].toInt()
             }
         }
     } else throw IllegalArgumentException()
@@ -193,10 +192,10 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val list = str.toLowerCase().split(" ")
+    val list = if (str != "") str.toLowerCase().split(" ") else return -1
     var result = 0
     for (i in 0..list.size - 2) {
-        if (list[i] == list[i + 1] && str != "") return result
+        if (list[i] == list[i + 1]) return result
         result += list[i].length + 1
     }
     return -1
@@ -215,31 +214,20 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     var maxPrice = 0.0
-    var k = 0
-    val pricesList = mutableListOf<Double>()
-    val namesList = mutableListOf<String>()
-    try {
-        val parts = description.split("; ")
-        for (element in parts) {
-            if (element.matches(Regex("""(.+ \d+.\d+)|(.+ \d+)"""))) {
-                val list = element.split(" ")
-                namesList += list[0]
-                pricesList += list[1].toDouble()
-            } else {
-                return ""
+    var result = ""
+    val parts = description.split("; ")
+    for (part in parts) {
+        if (part.isNotEmpty()) {
+            val values = part.split(" ")
+            val name = values[0]
+            val price = values[1].toDouble()
+            if (price > maxPrice) {
+                result = name
+                maxPrice = price
             }
         }
-        for ((i, price) in pricesList.withIndex()) {
-            if (pricesList[i] >= maxPrice) {
-                k = i
-                maxPrice = pricesList[i]
-            }
-        }
-
-    } catch (e: NumberFormatException) {
-        return ""
     }
-    return namesList[k]
+    return result
 }
 
 /**
@@ -255,14 +243,14 @@ fun mostExpensive(description: String): String {
  */
 fun fromRoman(roman: String): Int {
     if (roman.matches(Regex("""[MDCLXVI]+""")) || roman.isEmpty()) {
-        val listOfArabic = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-        val listOfRoman = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+        val list = mutableListOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C",
+                90 to "XC", 50 to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
         val parts = roman.split("")
         var result = 0
-        for (i in listOfRoman) {
+        for (i in 0..list.size - 1) {
             for (j in parts) {
-                if (i == j) {
-                    result += listOfArabic[listOfRoman.indexOf(i)]
+                if (list[i].second == j) {
+                    result += list[i].first
                 }
             }
         }

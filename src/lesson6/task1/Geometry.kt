@@ -101,7 +101,7 @@ data class Segment(val begin: Point, val end: Point)
     return Point(maxDistantX,maxDistantY)
 }*/
 
-fun diameter(vararg points: Point): Segment =TODO()/*{
+fun diameter(vararg points: Point): Segment = TODO()/*{
     if(points.size<2) throw IllegalAccessException()
     else{
         val mostDistantPoint = distance(0.0, 0.0, points)
@@ -118,10 +118,10 @@ fun diameter(vararg points: Point): Segment =TODO()/*{
  */
 fun circleByDiameter(diameter: Segment): Circle {
     val radius = diameter.begin.distance(diameter.end) / 2.0
-    val x = if (diameter.begin.x > diameter.end.x) (diameter.begin.x - diameter.end.x) / 2.0
-    else (diameter.end.x - diameter.begin.x) / 2.0
-    val y = if (diameter.begin.y > diameter.end.y) (diameter.begin.y - diameter.end.y) / 2.0
-    else (diameter.end.y - diameter.begin.y) / 2.0
+    val x = if (diameter.begin.x > diameter.end.x) diameter.end.x + ((diameter.begin.x - diameter.end.x) / 2.0)
+    else diameter.begin.x + ((diameter.end.x - diameter.begin.x) / 2.0)
+    val y = if (diameter.begin.y > diameter.end.y) diameter.end.y + ((diameter.begin.y - diameter.end.y) / 2.0)
+    else diameter.begin.y + ((diameter.end.y - diameter.begin.y) / 2.0)
     return Circle(Point(x, y), radius)
 }
 

@@ -69,7 +69,7 @@ fun digitNumber(n: Int): Int {
     }
     return number
 }
-
+ //
 /**
  * Простая
  *

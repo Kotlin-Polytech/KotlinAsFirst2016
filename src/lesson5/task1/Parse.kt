@@ -312,7 +312,7 @@ fun mostExpensive(description: String): String {
     }
     return listProducts[listPrice.indexOf(max)]
 }
-
+//
 /**
  * Сложная
  *

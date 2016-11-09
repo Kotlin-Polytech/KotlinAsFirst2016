@@ -191,7 +191,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     var minDistance = circles[0].distance(circles[1])
     for (i in 0..circles.size - 2) {
         for (j in i + 1..circles.size - 1) {
-            if (circles[i].distance(circles[j]) <= minDistance) {
+            if (circles[i].distance(circles[j]) < minDistance) {
                 circle1 = circles[i]
                 circle2 = circles[j]
                 minDistance = circles[i].distance(circles[j])

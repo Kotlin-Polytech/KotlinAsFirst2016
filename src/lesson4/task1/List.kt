@@ -274,7 +274,7 @@ fun decimalFromString(str: String, base: Int): Int {
     var con = 0
     for (q in str) {
         l--
-        con = power(base, l)
+        con = pow(base, l)
         if (q in '0'..'9') {
             res += (q - '0') * con
         } else if (q in 'a'..'z') {
@@ -284,7 +284,7 @@ fun decimalFromString(str: String, base: Int): Int {
     return res
 }
 
-fun power(a: Int, b: Int): Int {
+fun pow(a: Int, b: Int): Int {
     var res = 1
     for (i in 1..b) {
         res *= a
@@ -309,4 +309,51 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var a = n.toString()
+    var s = ""
+    var s1 = ""
+    var part = 0
+    var thous = 0
+    var hundr = 0
+    var unit = 0
+    var k=0
+    for (i in 1..a.length) {
+        part = n % 1000
+        k++
+        thous = n / 100
+        hundr = (n % 100) / 10
+        unit = n % 10
+        when (unit) {
+            1 -> s = "один"
+            2 -> s = "два"
+            3 -> s = "три"
+            4 -> s = "четыре"
+            5 -> s = "пять"
+            6 -> s = "шесть"
+            7 -> s = "семь"
+            8 -> s = "восемь"
+            9 -> s = "девять"
+            0 -> s = ""
+        }
+        when (hundr) {
+            1 -> {
+                when (unit) {
+                    2 -> s1 = s.substring(0, s.length - 1) + "енадцать"
+                    4, 5, 6, 7, 8, 9 -> s1 = s.substring(0, s.length - 1) + "надцать"
+                    else -> s1 = s + "надцать"
+                }
+            }
+            2 -> s1 = "двадцать " + s
+            3 -> s1 = "тридцать " + s
+            4 -> s1 = "сорок " + s
+            5 -> s1 = "пятьдесят " + s
+            6 -> s1 = "шестьдесят " + s
+            7 -> s1 = "семьдесят " + s
+            8 -> s1 = "восемьдесят " + s
+            9 -> s1 = "девяносто " + s
+        }
+    }
+
+return s1
+}

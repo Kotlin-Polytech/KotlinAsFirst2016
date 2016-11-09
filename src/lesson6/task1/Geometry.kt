@@ -14,6 +14,10 @@ data class Point(val x: Double, val y: Double) {
      * Рассчитать (по известной формуле) расстояние между двумя точками
      */
     fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
+
+    operator fun plus(p: Point): Point = TODO()
+
+    operator fun div(arg: Double): Point = TODO()
 }
 
 /**
@@ -106,10 +110,10 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()/*{
+fun circleByDiameter(diameter: Segment): Circle {
     var radius = (diameter.begin.distance(diameter.end))/2
     var center = Point((diameter.begin.distance(diameter.end))/2)
-}*/
+}
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.

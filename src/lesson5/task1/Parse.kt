@@ -206,7 +206,7 @@ fun firstDuplicateIndex(str: String): Int {
         backSpace = i-1
         index +=list[i-1].toString().length
         if (list[i] == list[i-1])
-        return str.indexOf(list[i-1], index + backSpace -2)
+        return str.indexOf(list[i-1], index - 2 - list[i - 1].length + backSpace)
     }
     return -1
 }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import lesson1.task1.sqr
@@ -36,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -62,7 +63,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var n1 = if (n == 0) 1 else Math.abs(n)
     var number = 0
-    while ( n1 > 0 ) {
+    while (n1 > 0) {
         n1 /= 10
         number += 1
     }
@@ -84,13 +85,37 @@ fun fib(n: Int): Int = if (n <= 2) 1 else fib(n - 1) + fib(n - 2)
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var result = 1
-    for (j in 1..m * n) {
-        if (j % m + j % n == 0) {
-            result = j
-            break
+    if (m == n) return m
+    var m1 = Math.min(m, n)
+    val list = mutableListOf<Int>()
+    val list1 = mutableListOf<Int>()
+    while (m1 != 1) {
+        for (j in 1..Math.min(m, n)) {
+            if (j > m1) break
+            if (m1 % j == 0) {
+                list += j
+                m1 /= j
+                if (m1 == 1) break
+            }
         }
     }
+    var n1 = Math.max(m, n)
+    for (element in list) {
+        if (n1 % element == 0) n1 /= element
+    }
+    while (n1 != 1) {
+        for (j in 1..Math.max(m, n)) {
+            if (j > n1) break
+            if (n1 % j == 0) {
+                list1 += j
+                n1 /= j
+                if (n1 == 1) break
+            }
+        }
+    }
+    var result = 1
+    for (element in list) result *= element
+    for (element in list1) result *= element
     return result
 }
 
@@ -102,7 +127,7 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     var result = 1
     var i = 1
-    while ( i != 0) {
+    while (i != 0) {
         result += 1
         i = n % result
     }
@@ -117,7 +142,7 @@ fun minDivisor(n: Int): Int {
 fun maxDivisor(n: Int): Int {
     var x = 1
     var result = 1
-    for (i in 2 .. n / 2) {
+    for (i in 2..n / 2) {
         x = n % i
         if (x == 0) result = n / i
         if (result != 1) break
@@ -134,7 +159,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    for ( i in 2..m) {
+    for (i in 2..m) {
         if ((m % i == 0) && (n % i == 0)) return false
     }
     return true
@@ -147,15 +172,15 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean{
-    if (m * m >= n){
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    if (m * m >= n) {
         for (i in m downTo 0) {
             if ((i * i <= n) && (i * i >= m)) return true
         }
     }
     var i = 1
     if (m * m < n) {
-        for (i in m..n / i){
+        for (i in m..n / i) {
             if (i * i <= n) return true
         }
     }
@@ -188,34 +213,27 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 
-/**fun step(x:Int, n:Int):Int {
-    var x1=1
-    for (i in 1..n){
-        x1*=x
-    }
-    return x1
+fun step(n: Int, i: Int): Int {
+    var result = 1
+    for (j in 1..i) result *= 10
+    return result
 }
-*/
 
-fun revert(n: Int): Int =TODO()
-/**{
-    var n1=0
-    var n2=n
-    while(n2!=0){
-        n2/=10
-        n1+=1
+fun revert(n: Int): Int {
+    var n1 = n
+    var result = 0
+    var j = 0
+    while (n1 != 0) {
+        n1 /= 10
+        j++
     }
-    n2=n*10
-    var n3=0
-    var result=0
-    for (i in 1..n1){
-        n2/=10
-        n3=n2%10
-        result+=(n3*step(10,n1-i))
+    n1 = n
+    for (i in 1..j) {
+        result += n1 % 10 * step(10, j - i)
+        n1 /= 10
     }
     return result
 }
-*/
 
 /**
  * Средняя
@@ -224,14 +242,23 @@ fun revert(n: Int): Int =TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = revert(n) == n
+
 /**
  * Средняя
  *
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    if (n / 10 == 0) return false
+    var n1 = n
+    while (n1 / 10 != 0) {
+        if ((n1 / 10) % 10 != n1 % 10) return true
+        n1 /= 10
+    }
+    return false
+}
 
 /**
  * Сложная
@@ -241,7 +268,8 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 
-fun squareSequenceDigit(n: Int): Int =TODO()
+fun squareSequenceDigit(n: Int): Int = TODO()
+
 /**
  * Сложная
  *

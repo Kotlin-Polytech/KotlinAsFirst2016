@@ -199,15 +199,16 @@ fun plusMinus(expression: String): Int {
  */
 
 fun firstDuplicateIndex(str: String): Int {
-    /*var myindex = 0
-    val list = str.split(" ")
+    var index = 0
+    var backSpace = 0
+    val list = str.toLowerCase().split(" ")
     for (i in 1..list.size-1){
+        backSpace = i-1
+        index +=list[i-1].toString().length
         if (list[i] == list[i-1])
-            myindex = str.indexOf(list[i-1])
+        return str.indexOf(list[i-1], index + backSpace -2)
     }
-    return myindex
-    */
-    TODO()
+    return -1
 }
 
 /**

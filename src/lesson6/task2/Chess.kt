@@ -274,39 +274,8 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
 fun knightMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (start == end) return 0
-    val allList = mutableListOf<Square>()
-    var prevList = mutableListOf<Square>()
 
-    allList.add(start)
-    prevList.add(start)
-
-    class Pair(val x: Int, val y: Int)
-
-    val movesList = listOf(Pair(-2, -1), Pair(-2, 1), Pair(-1, -2), Pair(-1, 2), Pair(1, -2), Pair(1, 2), Pair(2, -1), Pair(2, 1))
-
-    var turnNum = 0
-    var log = true
-
-    while (log) {
-        val nextList = mutableListOf<Square>()
-        prevList.forEach { element ->
-            val curX = element.column
-            val curY = element.row
-
-            for (i in 0..movesList.size - 1) {
-                val curSq = Square(curX + movesList[i].x, curY + movesList[i].y)
-                if (curSq == end) log = false
-                if (curSq.inside() && curSq !in allList) {
-                    nextList.add(curSq)
-                    allList.add(curSq)
-                }
-            }
-        }
-        prevList = nextList
-        turnNum++
-    }
-
-    return turnNum
+    return knightTrajectory(start, end).size-1
 }
 
 /**
@@ -336,28 +305,25 @@ fun knightTrajectory(start: Square, end: Square): List<Square> {
     var prevList = mutableListOf<Square>()
 
     class Turn(val prev: Square, val next: Square)
-
     val turnsList = mutableListOf<Turn>()
 
     allList.add(start)
     prevList.add(start)
 
-    class Pair(val x: Int, val y: Int)
-
     val movesList = listOf(Pair(-2, -1), Pair(-2, 1), Pair(-1, -2), Pair(-1, 2), Pair(1, -2), Pair(1, 2), Pair(2, -1), Pair(2, 1))
 
     var turnNum = 0
-    var log = true
+    var endSqFound = false
 
-    while (log) {
+    while (!endSqFound) {
         val nextList = mutableListOf<Square>()
         prevList.forEach { element ->
             val curX = element.column
             val curY = element.row
 
-            for (i in 0..movesList.size - 1) {
-                val curSq = Square(curX + movesList[i].x, curY + movesList[i].y)
-                if (curSq == end) log = false
+            for (move in movesList) {
+                val curSq = Square(curX + move.first, curY + move.second)
+                if (curSq == end) endSqFound = true
                 if (curSq.inside() && curSq !in allList) {
                     turnsList.add(Turn(Square(curX, curY), curSq))
                     nextList.add(curSq)

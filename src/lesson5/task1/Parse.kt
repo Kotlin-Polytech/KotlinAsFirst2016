@@ -166,8 +166,11 @@ fun bestHighJump(jumps: String): Int {
         if (list[i] == simV)
             max = list[i - 1].toInt()
     }
-    if (max == 0) return -1
-    else return max
+    if (jumps[0] == '?') return -1
+        if (simV in jumps == false) {
+            return -1
+        }
+    return max
 }
 
 /**

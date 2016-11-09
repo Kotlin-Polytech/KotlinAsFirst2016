@@ -90,12 +90,12 @@ fun lcm(m: Int, n: Int): Int {
     val list = mutableListOf<Int>()
     val list1 = mutableListOf<Int>()
     while (m1 != 1) {
-        for (j in 1..Math.min(m, n)) {
+        for (j in 2..Math.min(m, n)) {
             if (j > m1) break
             if (m1 % j == 0) {
                 list += j
                 m1 /= j
-                if (m1 == 1) break
+                break
             }
         }
     }

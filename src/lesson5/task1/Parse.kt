@@ -376,7 +376,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
             throw IllegalArgumentException()
 
     while (indexCommands != (commands.length )){
-        if (indexCells == cells )
+        if (indexCells >= cells )
             throw IllegalStateException()
         else
         {

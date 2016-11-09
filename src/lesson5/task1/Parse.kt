@@ -163,11 +163,9 @@ fun flattenPhoneNumber(phone: String): String {
     for (i in 0..parts.size - 1) {
         parts.remove("")
     }
-    for (i in 0..parts.size - 1)
-        try {
-            val number = parts[i].toInt()
-        } catch (e: NumberFormatException) {
-            return ""
+    for (part in parts)
+        for (char in part){
+            if (char !in '0'..'9') return ""
         }
     var result = ""
     for (i in 0..parts.size - 1) {

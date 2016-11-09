@@ -209,9 +209,9 @@ fun factorize(n: Int): List<Int> {
         if (nn % divider == 0) {
             list.add(divider)
             nn /= divider
-            divider--
+            //divider--
         }
-        divider++
+        else divider++
     }
     return list
 }

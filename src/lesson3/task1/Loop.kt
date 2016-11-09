@@ -98,7 +98,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun gkd(a: Int, b: Int): Int { //  доп. ф-ция для нахождения НОД, используется  в ф-ции lcm
+fun gcd(a: Int, b: Int): Int { //  доп. ф-ция для нахождения НОД, используется  в ф-ции lcm
     var aa = a
     var bb = b
     var t: Int
@@ -111,7 +111,7 @@ fun gkd(a: Int, b: Int): Int { //  доп. ф-ция для нахождения
 }
 
 fun lcm(m: Int, n: Int): Int { // ф-ция для нахождения НОК
-    val c = m / gkd(m, n) * n // НОК = a * b / НОК
+    val c = m / gcd(m, n) * n // НОК = a * b / НОК
     return c
 }
 
@@ -121,8 +121,9 @@ fun lcm(m: Int, n: Int): Int { // ф-ция для нахождения НОК
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n / 2) { // n может нацело делиться либо на число, не больщее чем n/2, либо на самого себя (n / n = 1)
-        if ( n % i == 0) return i
+    if (n < 4) return n
+    for (i in 2..Math.sqrt(n.toDouble()).toInt()) { // n может нацело делиться либо на sqrt(n), либо на самого себя (n / n = 1)
+        if (n % i == 0) return i
     }
     return n
 }
@@ -133,7 +134,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n /2 downTo 1) {
+    if (n < 4) return 1
+    for (i in n / 2 downTo Math.sqrt(n.toDouble()).toInt()) {
         if (n % i == 0) return i
     }
     return 1
@@ -146,7 +148,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = (gkd(m,n) == 1)
+fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m,n) == 1)
 
 /**
  * Простая
@@ -174,9 +176,8 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var number = 1 // для + и - перед очередным членом
     var digit = 3 // для факториала
-    var xx = x
+    val xx = x % (2 * Math.PI)
     val absEps = Math.abs(eps) // чтобы каждый раз не вызывать в условии abs(eps)
-    if (Math.abs(x) > 2 * Math.PI) xx = x % (2 * Math.PI)
     var sin = xx // текущее значение фунцкии sin(x). Равно xx для первого члена
     var currentExp = xx // текущее значение x^n
     var part = xx // очередной член ряда
@@ -203,10 +204,9 @@ fun cos(x: Double, eps: Double): Double {
     var part: Double // очередной член ряда
     var number = 1 // для + и - перед очередным членом
     var digit = 2 // для факториала
-    var xx = x
+    val xx = x % (2 * Math.PI)
     val absEps = Math.abs(eps) // чтобы каждый раз не вызывать в пост-условии abs(eps)
     var currentExp = 1.0 // текущее значение x^n
-    if (Math.abs(x) > 2 * Math.PI) xx = x % (2 * Math.PI)
     do {
         currentExp *= xx * xx
         if (number % 2 != 0) part = -1 * currentExp / factorial(digit)
@@ -268,19 +268,18 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var digit = 0 // номер текущей цифры в последовательности
     var number = 0 // целое число, крадрат которого вычисляется
-    var result = 0 // n-ая цифра
-    var revertedSquare: Int // квадрат, записанный в обратном порядке
+    var revertedSquare: Long // квадрат, записанный в обратном порядке
     while (digit < n) {
         number++
-        revertedSquare = revert(number * number)
+        revertedSquare = (revert(number * number)).toLong()
         for (i in 1..digitNumber(number * number)) {
-            result = revertedSquare % 10
+            val result = revertedSquare % 10
             digit ++
-            if (digit == n) return result
+            if (digit == n) return result.toInt()
             revertedSquare /= 10
         }
     }
-    return result
+    return 0
 }
 
 /**
@@ -293,17 +292,16 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var digit = 0 // номер искомой цифры в последовательности
     var number = 0 // целое число, fib которого вычисляется
-    var result = 0 // искомая цифра
-    var revertedFib: Int
+    var revertedFib: Long
     while (digit < n) {
         number++
-        revertedFib = revert(fib(number))
+        revertedFib = revert(fib(number)).toLong()
         for (i in 1..digitNumber(fib(number))) {
-            result = revertedFib % 10
+            val result = revertedFib % 10
             digit ++
-            if (digit == n) return result
+            if (digit == n) return result.toInt()
             revertedFib /= 10
         }
     }
-    return result
+    return 0
 }

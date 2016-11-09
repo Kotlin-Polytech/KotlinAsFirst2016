@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -56,7 +57,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3 = t3 * v3
     val s = s1 + s2 + s3
     val sHalf = (s / 2.0)
-    var t =0.0
+    var t = 0.0
     when {
         sHalf <= s1 -> t = sHalf / v1
         sHalf <= s1 + s2 -> {
@@ -81,7 +82,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    val danger1 = rookX1 == kingX || rookY1 == kingY
+    val danger2 = rookX2 == kingX || rookY2 == kingY
+    return when {
+        danger1 && danger2 -> 3
+        danger1 -> 1
+        danger2 -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -94,7 +104,17 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val danger1 = rookX == kingX || rookY == kingY
+    val danger2 = Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)
+    return when {
+        danger1 && danger2 -> 3
+        danger1 -> 1
+        danger2 -> 2
+        else -> 0
+    }
+}
+
 
 /**
  * Простая
@@ -105,13 +125,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val max1 = if ((a > b) && (a > c)) a else if (b > c) b else c
-    val max2 = if ((a > b) && (a < c)) a else if ((b > c) && (b < a)) b else c
-    val max3 = if ((a < b) && (a < c)) a else if (b < c) b else c
+    val max1 = Math.max(Math.max(a, b), c)
+    val max3 = Math.min(Math.min(a, b), c)
+    val max2 = a + b + c - max1 - max3
     return when {
         max1 >= max2 + max3 -> -1
-        max1 == Math.sqrt(( max2 * max2) + (max3 * max3)) -> 1
-        max1 < Math.sqrt((max2 * max2) + (max3 * max3)) -> 0
+        max1 == Math.sqrt((max2 * max2) + (max3 * max3)) -> 1
+        Math.acos((max1 * max1 - max2 * max2 - max3 * max3) / (-2 * max2 * max3)) < Math.PI / 2 -> 0
         else -> 2
     }
 }

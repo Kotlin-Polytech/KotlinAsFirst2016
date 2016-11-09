@@ -77,16 +77,13 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var a = 1
     var b = 1
-    var box = 0
-    if(n>2) {
-        for (i in 1..n - 2) {
-            box = b
-            b += a
-            a = box
-        }
-        return b
+    var box: Int
+    for (i in 1..n - 2) {
+        box = b
+        b += a
+        a = box
     }
-    else return 1
+    return b
 }
 /**
  * Простая
@@ -94,18 +91,19 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    //var max : Int
-    var c =0
-    var max = if(n>m)
-        n
-    else
-        m
-    do {
-        c += max
-    }while((c % n != 0) || (c % m != 0))
-    return c
+fun nod(mm: Int, nn: Int): Int{
+    var m = mm
+    var n = nn
+    while (m!=0 && n!=0) {
+        if (m > n)
+            m %= n
+        else
+            n %= m
+    }
+    return (m+n)
 }
+
+fun lcm(m: Int, n: Int): Int = m*n/nod(m,n)
 
 /**
  * Простая
@@ -113,12 +111,11 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int{
-    var d=1
-    while (true){
-        d++
-        if(n % d ==0)
+    for(d in 3..Math.sqrt(n.toDouble()).toInt()){
+        if(n % d == 0)
             return d
     }
+    return n
 }
 
 /**
@@ -127,12 +124,11 @@ fun minDivisor(n: Int): Int{
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int{
-    var d=n/2+1
-    while(true){
-        d--
-        if(n % d ==0)
-            return d
+    for(i in n/2 downTo Math.sqrt(n.toDouble()).toInt()){
+        if(n % i ==0)
+            return i
     }
+    return 1
 }
 
 /**
@@ -143,17 +139,10 @@ fun maxDivisor(n: Int): Int{
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean{
-    var min = 0
-    if(m<n)
-        min = m
+    if(nod(m,n)>1)
+        return false
     else
-        min = n
-    while(min>1){
-        if(m % min==0 && n % min == 0)
-            return false
-        min--
-    }
-    return true
+        return true
 }
 
 /**
@@ -164,7 +153,7 @@ fun isCoPrime(m: Int, n: Int): Boolean{
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean{
-    var k=0
+    var k=Math.sqrt(m.toDouble()).toInt()
     while (k*k <= n) {
         if (k * k <= n && k * k >= m)
             return true
@@ -184,7 +173,7 @@ fun sin(x: Double, eps: Double): Double {
     var it: Double
     var sin_x: Double
     var i=3.0
-    var xx= x % (2*Math.PI)
+    val xx= x % (2*Math.PI)
     sin_x = xx
     it = xx
     while (Math.abs(it)>eps) {
@@ -208,7 +197,7 @@ fun cos(x: Double, eps: Double): Double {
     var i = 2.0
     cos_x = 1.0
     it = 1.0
-    var xx = x % (2 *Math.PI)
+    val xx = x % (2 *Math.PI)
     while (Math.abs(it) > eps) {
         it = it * xx * xx / i / (i - 1) * (-1)
         i += 2
@@ -242,13 +231,15 @@ fun revert(n: Int): Int{
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean{
-    var nn =n
-    var r = revert(n)
-    while(nn>0) {
-        if (nn % 10 != r % 10)
-            return false
-        r/=10
+    val a = mutableListOf<Int>()
+    var nn = n
+    while (nn != 0){
+        a.add(nn % 10)
         nn/=10
+    }
+    for (i in 0..(a.size /2)){
+        if (a[i] != a[a.size-i-1])
+            return false
     }
     return true
 }
@@ -261,8 +252,8 @@ fun isPalindrome(n: Int): Boolean{
  */
 fun hasDifferentDigits(n: Int): Boolean{
     var nn = n
-    while(nn/10>0) {
-        if (nn % 10 != nn / 10 % 10)
+    while(nn>9) {
+        if ((nn % 100) % 11 != 0)
             return true
         nn/=10
     }

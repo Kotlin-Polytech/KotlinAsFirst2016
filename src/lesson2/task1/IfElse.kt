@@ -35,12 +35,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String{
     if ((age %10 in 5..9)||(age %100 in 11..19)||(age %10==0)) {
-        return("$age лет")
+        return "$age лет"
     }
-    else if(age % 10 == 1){
-            return("$age год")
-        }
-         else return ("$age года")
+    else
+        if(age % 10 == 1)
+            return "$age год"
+        else
+            return "$age года"
 }
 
 /**
@@ -53,14 +54,16 @@ fun ageDescription(age: Int): String{
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double{
-    val half_s = (t1 * v1 + t2 * v2 + t3 * v3) /2
-    if(t1*v1>=half_s)
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val half_s = (s1 + s2 + s3) /2
+    if(s1>=half_s)
         return half_s / v1
+    else if(s1 + s2>=half_s)
+        return (half_s - s1) / v2 +t1
     else
-        if(t1*v1 + t2*v2>=half_s)
-            return (half_s - t1*v1) / v2 +t1
-        else
-            return (half_s - t1*v1 -t2*v2)/v3 +t1 +t2
+        return (half_s - s1 -s2)/v3 +t1 +t2
 }
 
 /**
@@ -98,7 +101,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     if (kingX == rookX || kingY == rookY)
         count+=1
     if ((kingX - bishopX) == (kingY - bishopY) || (kingX - bishopX) == (bishopY - kingY))
-    // я не понял как модуль брать
         count+=2
     return  count
 }
@@ -134,7 +136,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int{
     if(b>=c && d>=a) {
         if (a <= c) {
             if (b <= d)
-                return b-c
+                return b - c
             else
                 return d - c
         }

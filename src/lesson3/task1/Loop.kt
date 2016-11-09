@@ -176,14 +176,13 @@ fun sin(x: Double, eps: Double): Double {
     var a = 1
     var k = 2
     var s = 0.0
-    var e = x
     val z = x % (2 * Math.PI)
-    while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(z, a.toDouble()) / factorial(a)
+    do {
+        val e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k ++
-    }
+    } while (Math.abs(e) >= Math.abs(eps))
     return s
 }
 
@@ -198,14 +197,13 @@ fun cos(x: Double, eps: Double): Double {
     var a = 2
     var k = 1
     var s = 1.0
-    var e = x
     val z = x % (2 * Math.PI)
-    while (Math.abs(e) >= Math.abs(eps)) {
-        e = Math.pow(z, a.toDouble()) / factorial(a)
+    do {
+        val e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2
         k ++
-    }
+    } while (Math.abs(e) >= Math.abs(eps))
     return s
 }
 

@@ -138,7 +138,14 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean  {
+    val min = Math.min(m, n)
+    var aa: Boolean = true
+    for (i in 2..min) {
+        if ((n % i == 0) && (m % i == 0)) aa = false
+    }
+    if (aa == true) return true else return false
+}
 
 /**
  * Простая
@@ -173,7 +180,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var a: Int = 0
+    var b: Int = n
+    while (b > 0) {
+        a = a * 10 + b % 10
+        b = b / 10
+    }
+    return a
+}
 
 /**
  * Средняя

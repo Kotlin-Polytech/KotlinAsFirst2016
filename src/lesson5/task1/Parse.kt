@@ -159,18 +159,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    val simV = '+'.toString()
-    var max = 0
-    val list = jumps.split(" ")
-    for (i in 0..list.size - 1) {
-        if (list[i] == simV)
-            max = list[i - 1].toInt()
-    }
-    if (jumps[0] == '?') return -1
-        if (simV in jumps == false) {
-            return -1
-        }
-    return max
+TODO()
 }
 
 /**

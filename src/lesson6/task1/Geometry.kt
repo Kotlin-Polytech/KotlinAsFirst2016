@@ -146,8 +146,14 @@ fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((a.y -b.y)/(a.x -
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val point = Point((a.x + b.x)/2, (a.y + b.y) / 2)
+    val angle :Double
     val line = lineByPoints(a, b)
-    val angle = Math.acos( Math.sin(line.angle))
+    when {
+        line.angle == 0.0 -> angle = Math.PI/2
+        line.angle == Math.PI / 2 -> angle =0.0
+        line.angle > Math.PI / 2 ->  angle =Math.acos(Math.sin(line.angle))
+        else ->  angle = Math.PI-Math.acos(Math.sin(line.angle))
+    }
     return Line (point, angle)
 }
 

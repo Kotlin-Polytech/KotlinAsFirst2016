@@ -212,7 +212,9 @@ fun squareSequenceDigit(n: Int): Int {
     }
     if (digitNumb == n) return sq % 10
     else {
-        sq /= 10
+        for (a in 1..digitNumb - n) {
+            sq /= 10
+        }
         return sq % 10
     }
 }

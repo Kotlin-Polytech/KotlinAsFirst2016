@@ -12,13 +12,12 @@ fun powInt(x: Int, y: Int): Int {
 fun gcd(a: Int, b: Int): Int {
     var m = Math.max(a, b)
     var n = Math.min(a, b)
-    var r: Int
-    while (m % n > 0) {
-        r = m
+    while (n > 0) {
+        val r = m
         m = n
         n = r % n
     }
-    return n
+    return m
 }
 
 /**
@@ -29,7 +28,7 @@ fun gcd(a: Int, b: Int): Int {
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -109,7 +108,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = Math.abs(m * n) / gcd(m, n)
+fun lcm(m: Int, n: Int): Int = (m / gcd(m, n)) * n
 
 /**
  * Простая
@@ -119,7 +118,7 @@ fun lcm(m: Int, n: Int): Int = Math.abs(m * n) / gcd(m, n)
 fun minDivisor(n: Int): Int {
     var d = 1
     for (i in 2..n) {
-        d++
+        d = i
         if (n % d == 0) break
     }
     return d
@@ -130,14 +129,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var d = n
-    for (i in n - 1 downTo 1) {
-        d--
-        if (n % d == 0) break
-    }
-    return d
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -158,11 +150,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
     while (k * k <= m) {
-        if (m == 0) return true
-        else {
-            k++
-            if (k * k in m..n) return true
-        }
+        k++
+        if (k * k in m..n) return true
     }
     return false
 }
@@ -176,16 +165,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var k = 1
-    var i = 1
     var sinX = 0.0
     val y = x % (Math.PI * 2.0)
-    do {
-        val z = Math.pow(y, k.toDouble()) / factorial(k)
-        if (i % 2 == 1) sinX += z
-        else sinX -= z
+    var z = y / factorial(k)
+    while (Math.abs(z) > eps) {
+        sinX += z
+        z *= -sqr(y) / ((k + 1) * (k + 2))
         k += 2
-        i++
-    } while (Math.abs(Math.pow(y, k.toDouble()) / factorial(k)) > eps)
+    }
     return sinX
 }
 
@@ -198,16 +185,14 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var k = 0
-    var i = 1
     var cosX = 0.0
     val y = x % (Math.PI * 2.0)
-    do {
-        val z = Math.pow(y, k.toDouble()) / factorial(k)
-        if (i % 2 == 1) cosX += z
-        else cosX -= z
+    var z = 1.0 / factorial(k)
+    while (Math.abs(z) > eps) {
+        cosX += z
+        z *= -sqr(y) / ((k + 1) * (k + 2))
         k += 2
-        i++
-    } while (Math.abs(Math.pow(y, k.toDouble()) / factorial(k)) > eps)
+    }
     return cosX
 }
 
@@ -244,11 +229,10 @@ fun isPalindrome(n: Int): Boolean = (revert(n) == n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var m = n
-    do {
-        if (m < 10) break
+    while (m > 10) {
         if (m % 10 != (m / 10) % 10) return true
         m /= 10
-    } while (m != 0)
+    }
     return false
 }
 

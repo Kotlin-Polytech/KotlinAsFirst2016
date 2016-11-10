@@ -75,7 +75,23 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    val numb = (Math.min(height, width)+1)/2 //число "кругов"
+    var a = 1
+    for (elem in 0..numb-1) {
+        for (j in elem..width - 1 - elem) {
+            matrix[elem, j] = a
+            matrix[height - 1 - elem, j] = a
+        }
+        for (i in elem..height - 2 - elem) {
+            matrix[i, elem] = a
+            matrix[i, width - 1 - elem] = a
+        }
+        a++
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -205,7 +221,14 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..height-1) {
+        for (j in 0..width-1){
+            this[i,j] = -this[i,j]
+        }
+    }
+    return this
+}
 
 /**
  * Средняя
@@ -215,7 +238,18 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (this.width != other.height) throw IllegalArgumentException()
+    val matrix = createMatrix(this.height, other.width, 0)
+    for (i in 0..matrix.height-1) {
+        for (j in 0..matrix.width-1) {
+            for(k in 0..this.width-1) {
+                matrix[i,j] += this[i,k] * other[k,j]
+            }
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -286,3 +320,9 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO(
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
 fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+
+
+fun main(args: Array<String>) {
+    val m1 = generateRectangles(7, 6)
+    println(m1)
+}

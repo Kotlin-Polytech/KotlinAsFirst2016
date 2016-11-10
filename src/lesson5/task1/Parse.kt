@@ -63,7 +63,8 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val monthNameStorage = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val datePartStorage = str.split(" ")
-    if (datePartStorage.size != 3) return ""
+    if (datePartStorage.size != 3)
+        return ""
 
     try {
         datePartStorage[0].toInt()
@@ -72,17 +73,20 @@ fun dateStrToDigit(str: String): String {
         return ""
     }
 
-    return with(StringBuilder()) {
-        append(if (datePartStorage[0].length < 2) '0' + datePartStorage[0] else datePartStorage[0])
+    with(StringBuilder()) {
+        append(datePartStorage[0].padStart(2, '0'))
         append('.')
 
         val monthNum = monthNameStorage.indexOf(datePartStorage[1]) + 1
-        if (monthNum !in 1..12) return ""
+        if (monthNum !in 1..12)
+            return ""
         append(monthNum.toString().padStart(2, '0'))
 
         append('.')
         append(datePartStorage[2])
-    }.toString()
+
+        return this.toString()
+    }
 }
 
 /**
@@ -107,12 +111,9 @@ fun dateDigitToStr(digital: String): String = TODO()
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val target = phone
-    val allowedSymbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', ' ', '-', '(', ')')
-
-    if(target.any { !allowedSymbols.contains(it) }) return ""
-
-    return target.filter { it in '0'..'9' || it == '+' }
+    if (phone.any { it !in "0123456789 +-()" })
+        return ""
+    return phone.filter { it in '0'..'9' || it == '+' }
 }
 
 /**
@@ -127,10 +128,10 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int? {
     val jumpStorage = jumps.split(" ")
-    var luckyJumpStorage = listOf <Int>()
+    val luckyJumpStorage: List<Int>
 
     try {
-        luckyJumpStorage = (jumpStorage.filter { it != "-" && it != "%" }).map { it.toInt() }
+        luckyJumpStorage = jumpStorage.filter { it !in "-%" }.map { it.toInt() }
     } catch(e: NumberFormatException) {
         return -1
     }
@@ -151,8 +152,7 @@ fun bestLongJump(jumps: String): Int? {
  */
 fun bestHighJump(jumps: String): Int? {
     // Проверка на кривые символы
-    val allowedSymbols = setOf('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '+', '-', '%')
-    if (jumps.any { it !in allowedSymbols }) return -1
+    if (jumps.any { it !in "0123456789 +-%" }) return -1
 
     val jumpStorage = jumps.split(" ") // Разбиение на части
     val attemptStorage = mutableListOf <Int>()
@@ -160,7 +160,7 @@ fun bestHighJump(jumps: String): Int? {
 
     // Формирование списка из удачных попыток
     for (i in 0..jumpStorage.size - 1 step 2) {
-        if (jumpStorage[i + 1].any { '0' <= it && it <= '9' })
+        if (jumpStorage[i + 1].any { it in '0'..'9' })
             return -1
 
         try {
@@ -186,8 +186,8 @@ fun bestHighJump(jumps: String): Int? {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val expressionStorage = expression.split(" ").filter{ !it.isEmpty() }
-    var target = 0
+    val expressionStorage = expression.split(" ").filter { !it.isEmpty() }
+    var target: Int
 
     if (expressionStorage.isEmpty() || expressionStorage.size % 2 == 0)
         throw IllegalArgumentException("null")
@@ -196,20 +196,16 @@ fun plusMinus(expression: String): Int {
         target = expressionStorage[0].toInt()
 
         for (i in 1..expressionStorage.size - 1 step 2) {
-            if(expressionStorage[i] == "+") {
-                target += expressionStorage[i+1].toInt()
-            }
-            else if(expressionStorage[i] == "-") {
-                target -= expressionStorage[i+1].toInt()
-            }
-            else throw IllegalArgumentException("null")
+            if (expressionStorage[i] == "+") {
+                target += expressionStorage[i + 1].toInt()
+            } else if (expressionStorage[i] == "-") {
+                target -= expressionStorage[i + 1].toInt()
+            } else throw IllegalArgumentException("null")
         }
-    }
-    catch(e: NumberFormatException) {
+        return target
+    } catch(e: NumberFormatException) {
         throw IllegalArgumentException("null")
     }
-
-    return target
 }
 
 /**
@@ -235,10 +231,10 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val goods = description.split(Regex("""; """))
-    var separator = 0
+    val goods = description.split("; ")
+    var separator: Int
     var name = ""
-    var currentPrice = 0.0
+    var currentPrice: Double
     var maxPrice = 0.0
 
     try {
@@ -246,12 +242,11 @@ fun mostExpensive(description: String): String {
             separator = element.lastIndexOf(" ")
             currentPrice = element.drop(separator + 1).toDouble()
             if (currentPrice >= maxPrice) {
-                name = element.dropLast(element.length - separator)
+                name = element.take(separator)
                 maxPrice = currentPrice
             }
         }
-    }
-    catch(e: NumberFormatException) {
+    } catch(e: NumberFormatException) {
         return ""
     }
 

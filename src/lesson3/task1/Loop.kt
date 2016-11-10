@@ -102,7 +102,7 @@ fun fib(n: Int): Int {
  */
 fun gcd(m: Int, n: Int): Int = if(n == 0) m else gcd(n, m % n)
 
-fun lcm(m: Int, n: Int): Int = m / gcd(m, n) *  n
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Простая
@@ -110,8 +110,8 @@ fun lcm(m: Int, n: Int): Int = m / gcd(m, n) *  n
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n / 2) {
-        if (n % i == 0) return i
+    for(i in 2..n / 2) {
+        if(n % i == 0) return i
     }
     return n
 }
@@ -180,15 +180,15 @@ fun cos(x: Double, eps: Double): Double {
     var part: Double
     var i = 2
     var total = 1.0
-    val xMin = x % (2 * Math.PI)
+    val angle = x % (2 * Math.PI)
 
     while (true) {
-        part = Math.pow(xMin, i.toDouble()) / factorial(i)
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
         i += 2
         total -= part
         if (Math.abs(eps) > Math.abs(part)) break
 
-        part = Math.pow(xMin, i.toDouble()) / factorial(i)
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
         i += 2
         total += part
         if (Math.abs(eps) > Math.abs(part)) break

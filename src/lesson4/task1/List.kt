@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.minDivisor
 
 /**
  * Пример
@@ -85,7 +86,8 @@ fun squares(list: List<Int>) = list.map { it * it }
 fun isPalindrome(str: String): Boolean {
     val lowerCase = str.toLowerCase().filter { it != ' ' }
     for (i in 0..lowerCase.length / 2) {
-        if (lowerCase[i] != lowerCase[lowerCase.length - i - 1]) return false
+        if (lowerCase[i] != lowerCase[lowerCase.length - i - 1])
+            return false
     }
     return true
 }
@@ -120,11 +122,8 @@ fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() /
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
-    val ariphmeticalАverage = mean(list)
-    return list.map { it - ariphmeticalАverage }.toMutableList()
-}
+fun center(list: MutableList<Double>): MutableList<Double> =
+        list.map { it - mean(list) }.toMutableList()
 
 /**
  * Средняя
@@ -135,7 +134,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var qbzv = 0.0
-    if (a.size != b.size) return 0.0
+    if (a.size != b.size)
+        return 0.0
+
     for (i in 0..(a.size - 1)) {
         qbzv += a[i] * b[i]
     }
@@ -188,7 +189,8 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun numberIsPrime(n: Int): Boolean {
-    if (n == 0 || n == 1 || n == -1) return false
+    if (n in -1..1)
+        return false
     for (i in 2..Math.abs(n / 2)) if (n % i == 0) return false
     return true
 }
@@ -197,19 +199,12 @@ fun factorize(n: Int): List<Int> {
     var currentNumber = n
     val primeDivisorsStorage = mutableListOf <Int>()
 
-    while (true) {
-        for (i in 2 .. currentNumber / 2) {
-            if(currentNumber % i == 0) {
-                primeDivisorsStorage.add(i)
-                currentNumber /= i
-                break
-            }
-        }
-        if (numberIsPrime(currentNumber) || currentNumber == 1) {
-            primeDivisorsStorage.add(currentNumber)
-            break
-        }
+    while (!numberIsPrime(currentNumber)) {
+        val minDivisorValue = minDivisor(currentNumber)
+        primeDivisorsStorage.add(minDivisorValue)
+        currentNumber /= minDivisorValue
     }
+    primeDivisorsStorage.add(currentNumber)
 
     return primeDivisorsStorage.sorted()
 }
@@ -251,12 +246,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun numToSymbol(n: Int): String = if (n < 10) "$n" else "${('a' + n - 10).toChar()}"
+fun numToSymbol(n: Int): Char = if (n < 10) ('0' + n).toChar() else ('a' + n - 10).toChar()
 
 fun convertToString(n: Int, base: Int): String {
+    if (n < 0 || base !in 2..36) return ""
     val digitStorage = convert(n, base)
-
-    if (n < 0 || base < 2 || base > 36) return ""
 
     with(StringBuilder()) {
         for (element in digitStorage) append(numToSymbol(element))
@@ -288,15 +282,10 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
+fun symbolToNum(c: Char): Int = if (c in '0'..'9') (c - '0').toInt() else (c - 'a' + 10).toInt()
+
 fun decimalFromString(str: String, base: Int): Int {
-    val digitStorage = mutableListOf <Int>()
-    var currentDigit: Int
-
-    for (element in str) {
-        currentDigit = (element - if ('0' <= element && element <= '9') '0' else 'a' - 10).toInt()
-        digitStorage.add(currentDigit)
-    }
-
+    val digitStorage = str.map { symbolToNum(it) }
     return decimal(digitStorage, base)
 }
 

@@ -221,7 +221,7 @@ fun mostExpensive(description: String): String {
             if (part.isNotEmpty()) {
                 val values = part.split(" ")
                 val name = values[0]
-                val price = values[1].toDouble()
+                val price = if (values[1].toDouble() != 0.0) values[1].toDouble() else return "0.0"
                 if (price > maxPrice) {
                     result = name
                     maxPrice = price

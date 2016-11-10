@@ -164,13 +164,33 @@ fun sin(x: Double, eps: Double): Double = TODO()
  */
 fun cos(x: Double, eps: Double): Double = TODO()
 
+fun intPower(a: Int, b: Int): Int {
+    var basement = 1
+    if (b > 0) for (i in 1..b) basement *= a
+    return basement
+}
+
 /**
  * Средняя
  *
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var numberOfDigits = 0
+    var number = n
+    var result = 0
+    while (number > 0) {
+        numberOfDigits ++
+        number /= 10
+    }
+    number = n
+    for (i in 0..numberOfDigits - 1) {
+        result += intPower(10, numberOfDigits - i - 1) * (number % 10)
+        number /= 10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -205,4 +225,13 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var number = ""
+    var fibNumber = 0
+    for (i in 1..n) {
+        fibNumber = fib(i)
+        number += "$fibNumber"
+        if (number.length > n) break
+    }
+    return Character.digit(number[n - 1], 10)
+}

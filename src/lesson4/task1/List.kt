@@ -128,8 +128,9 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
+    val mean = mean(list)
     for (i in 0..(list.size - 1)) {
-        list[i] -= mean(list)
+        list[i] -= mean
     }
     return list
 }
@@ -267,4 +268,193 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val digitsInDigits = mutableListOf<Int>()
+    val digitsInWords = mutableListOf<String>()
+    for (i in 0..6) digitsInWords += ""
+    var digitsOfn = n
+    var digit = 1
+    while (digitsOfn > 0) {
+        digit = digitsOfn % 10
+        digitsInDigits += digit
+        digitsOfn /= 10
+    }
+    if (digitsInDigits.size > 3) {
+        if (digitsInDigits[3] == 1) digitsInWords[3] = "тысяча "
+        if ((digitsInDigits[3] > 1) && (digitsInDigits[3] < 5)) digitsInWords[3] = "тысячи "
+        if ((digitsInDigits[3] >= 5) || (digitsInDigits[3] == 0)) digitsInWords[3] = "тысяч "
+    }
+
+    if (digitsInDigits.size > 2) {//перевод сотен - начало
+        if (digitsInDigits[2] == 1) digitsInWords[4] = "сто "
+        if (digitsInDigits[2] == 2) digitsInWords[4] = "двести "
+        if (digitsInDigits[2] == 3) digitsInWords[4] = "триста "
+        if (digitsInDigits[2] == 4) digitsInWords[4] = "четыреста "
+        if (digitsInDigits[2] == 5) digitsInWords[4] = "пятьсот "
+        if (digitsInDigits[2] == 6) digitsInWords[4] = "шестьсот "
+        if (digitsInDigits[2] == 7) digitsInWords[4] = "семьсот "
+        if (digitsInDigits[2] == 8) digitsInWords[4] = "восемьсот "
+        if (digitsInDigits[2] == 9) digitsInWords[4] = "девятьсот "
+        if (digitsInDigits[2] == 0) digitsInWords[4] = ""
+        //перевод сотен - конец
+    }
+
+    //перевод десятков и единиц - начало
+     //перевод для случаев, когда десятков два или больше, или вовсе нет - начало
+        //перевод едениц - начало
+        if (digitsInDigits[0] == 1) digitsInWords[6] = "один"
+        if (digitsInDigits[0] == 2) digitsInWords[6] = "два"
+        if (digitsInDigits[0] == 3) digitsInWords[6] = "три"
+        if (digitsInDigits[0] == 4) digitsInWords[6] = "четыре"
+        if (digitsInDigits[0] == 5) digitsInWords[6] = "пять"
+        if (digitsInDigits[0] == 6) digitsInWords[6] = "шесть"
+        if (digitsInDigits[0] == 7) digitsInWords[6] = "семь"
+        if (digitsInDigits[0] == 8) digitsInWords[6] = "восемь"
+        if (digitsInDigits[0] == 9) digitsInWords[6] = "девять"
+        if (digitsInDigits[0] == 0) digitsInWords[6] = ""
+        //перевод единиц - конец
+        if (digitsInDigits.size > 1) {//перевод десятков - начало
+            if (digitsInDigits[1] == 2) digitsInWords[5] = "двадцать "
+            if (digitsInDigits[1] == 3) digitsInWords[5] = "тридцать "
+            if (digitsInDigits[1] == 4) digitsInWords[5] = "сорок "
+            if (digitsInDigits[1] == 5) digitsInWords[5] = "пятьдесят "
+            if (digitsInDigits[1] == 6) digitsInWords[5] = "шестьдесят "
+            if (digitsInDigits[1] == 7) digitsInWords[5] = "семьдесят "
+            if (digitsInDigits[1] == 8) digitsInWords[5] = "восемьдесят "
+            if (digitsInDigits[1] == 9) digitsInWords[5] = "девяносто "
+            if (digitsInDigits[1] == 0) digitsInWords[5] = ""
+            //перевод десятков - конец
+        }
+        //конец
+    if ((digitsInDigits.size > 1) && (digitsInDigits[1] == 1)) { //перевод для случаев, когда число десятков равно 1 - начало
+        if (digitsInDigits[0] == 0) {
+            digitsInWords[5] = "десять"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 1) {
+            digitsInWords[5] = "одиннадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 2) {
+            digitsInWords[5] = "двенадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 3) {
+            digitsInWords[5] = "тринадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 4) {
+            digitsInWords[5] = "четырнадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 5) {
+            digitsInWords[5] = "пятнадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 6) {
+            digitsInWords[5] = "шестнадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 7) {
+            digitsInWords[5] = "семнадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 8) {
+            digitsInWords[5] = "восемнадцать"
+            digitsInWords[6] = ""
+        }
+        if (digitsInDigits[0] == 9) {
+            digitsInWords[5] = "девятнадцать"
+            digitsInWords[6] = ""
+        }
+    } //конец
+    //перевод десятков и единиц - конец
+
+    //место для сотен, десятков и единиц тысяч
+    if (digitsInDigits.size > 5) {//перевод сотен тысяч - начало
+        if (digitsInDigits[5] == 1) digitsInWords[0] = "сто "
+        if (digitsInDigits[5] == 2) digitsInWords[0] = "двести "
+        if (digitsInDigits[5] == 3) digitsInWords[0] = "триста "
+        if (digitsInDigits[5] == 4) digitsInWords[0] = "четыреста "
+        if (digitsInDigits[5] == 5) digitsInWords[0] = "пятьсот "
+        if (digitsInDigits[5] == 6) digitsInWords[0] = "шестьсот "
+        if (digitsInDigits[5] == 7) digitsInWords[0] = "семьсот "
+        if (digitsInDigits[5] == 8) digitsInWords[0] = "восемьсот "
+        if (digitsInDigits[5] == 9) digitsInWords[0] = "девятьсот "
+        if (digitsInDigits[5] == 0) digitsInWords[0] = ""
+        //перевод сотен тысяч - конец
+    }
+
+    //перевод десятков и единиц тысяч - начало
+    if (digitsInDigits.size > 3) {
+        //перевод для случаев, когда десятков два или больше, или вовсе нет - начало
+            //перевод едениц тысяч - начало
+            if (digitsInDigits[3] == 1) digitsInWords[2] = "одна "
+            if (digitsInDigits[3] == 2) digitsInWords[2] = "две "
+            if (digitsInDigits[3] == 3) digitsInWords[2] = "три "
+            if (digitsInDigits[3] == 4) digitsInWords[2] = "четыре "
+            if (digitsInDigits[3] == 5) digitsInWords[2] = "пять "
+            if (digitsInDigits[3] == 6) digitsInWords[2] = "шесть "
+            if (digitsInDigits[3] == 7) digitsInWords[2] = "семь "
+            if (digitsInDigits[3] == 8) digitsInWords[2] = "восемь "
+            if (digitsInDigits[3] == 9) digitsInWords[2] = "девять "
+            if (digitsInDigits[3] == 0) digitsInWords[2] = ""
+            //перевод единиц тысяч - конец
+            if (digitsInDigits.size > 4) {//перевод десятков тысяч - начало
+                if (digitsInDigits[4] == 2) digitsInWords[1] = "двадцать "
+                if (digitsInDigits[4] == 3) digitsInWords[1] = "тридцать "
+                if (digitsInDigits[4] == 4) digitsInWords[1] = "сорок "
+                if (digitsInDigits[4] == 5) digitsInWords[1] = "пятьдесят "
+                if (digitsInDigits[4] == 6) digitsInWords[1] = "шестьдесят "
+                if (digitsInDigits[4] == 7) digitsInWords[1] = "семьдесят "
+                if (digitsInDigits[4] == 8) digitsInWords[1] = "восемьдесят "
+                if (digitsInDigits[4] == 9) digitsInWords[1] = "девяносто "
+                if (digitsInDigits[4] == 0) digitsInWords[1] = ""
+                //перевод десятков тысяч - конец
+            }
+            //конец
+        if ((digitsInDigits.size > 4) && (digitsInDigits[4] == 1)) { //перевод для случаев, когда число десятков тысяч равно 1 - начало
+            if (digitsInDigits[3] == 0) {
+                digitsInWords[1] = "десять "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 1) {
+                digitsInWords[1] = "одиннадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 2) {
+                digitsInWords[1] = "двенадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 3) {
+                digitsInWords[1] = "тринадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 4) {
+                digitsInWords[1] = "четырнадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 5) {
+                digitsInWords[1] = "пятнадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 6) {
+                digitsInWords[1] = "шестнадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 7) {
+                digitsInWords[1] = "семнадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 8) {
+                digitsInWords[1] = "восемнадцать "
+                digitsInWords[2] = ""
+            }
+            if (digitsInDigits[3] == 9) {
+                digitsInWords[1] = "девятнадцать "
+                digitsInWords[2] = ""
+            }
+        }
+    }
+        return digitsInWords.joinToString("", "", "", -1)
+}

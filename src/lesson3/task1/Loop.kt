@@ -94,11 +94,11 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = Math.max(m, n)
-    for (k in 1..m * n) {
-        if (k % m == 0 && k % n == 0) return k
+    var r = Math.min(m, n)
+    while (r % m != 0 || r % n != 0) {
+        r++
     }
-    return k
+    return r
 }
 
 /**
@@ -137,14 +137,17 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = 1
-    for (i in 2..m) {
-        if ((m % i == 0) && (n % i == 0)) k = 0
-    }
-    return if (k == 0) false
-    else true
+fun NOD(a: Int, b: Int): Int {
+    val num1 = a
+    val num2 = b
+    if (num2 == 0) return num1
+    else return NOD(b, num1 % num2)
 }
+fun isCoPrime(m: Int, n: Int): Boolean {
+    if (NOD(m, n) != 1) return false
+    else return true
+    }
+
 
 /**
  * Простая
@@ -231,7 +234,6 @@ fun revert(n: Int): Int {
  */
 fun isPalindrome(n: Int): Boolean {
     val reverted = revert(n)
-    if (reverted == n) true else false
     return reverted == n
 }
 
@@ -242,12 +244,13 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var dif = n % 10
-    var numb = n / 10
-    do {
-        if (numb % 10 != dif) return true
-        numb /= 10
-    } while (numb > 0)
+    var number = n
+    while (number > 9) {
+        if (number % 10 == (number % 100) / 10)
+            number /= 10
+        else return true
+    }
+    if (number != n % 10) return true
     return false
 }
 

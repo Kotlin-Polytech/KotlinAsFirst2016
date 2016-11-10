@@ -73,7 +73,6 @@ fun dateStrToDigit(str: String): String {
         return ""
     }
     if (resDay !in 1..31 || resYear < 0) return ""
-
     resMonth = when (parts[1]) {
         "января" -> 1
         "февраля" -> 2
@@ -90,8 +89,6 @@ fun dateStrToDigit(str: String): String {
         else -> return ""
     }
     return "${twoDigitStr(resDay)}.${twoDigitStr(resMonth)}.$resYear"
-
-
 }
 
 /**
@@ -114,7 +111,6 @@ fun dateDigitToStr(digital: String): String {
         return ""
     }
     if (resDay !in 1..31 || resYear < 0) return ""
-
     resMonth = when (parts[1]) {
         "01" -> "января"
         "02" -> "февраля"
@@ -131,7 +127,6 @@ fun dateDigitToStr(digital: String): String {
         else -> return ""
     }
     return "$resDay $resMonth $resYear"
-
 }
 
 /**
@@ -148,12 +143,8 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone.contains(Regex("""[^()\d\s+-]""")) || (phone == "+")) return ""
-    for (i in 1..phone.length - 1) {
-        if (phone[i] == '+')
-            return ""
-    }
+    if (phone.drop(1).any { it == '+' }) return ""
     return Regex("""[^\d+]""").replace(phone, "")
-    //phone.drop().any{ ... }
 }
 
 /**
@@ -166,19 +157,11 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun findMax(list: List<String>): Int {
-    var max = -1
-    for (i in 0..list.size - 1) {
-        if (list[i] == "") Double.NaN
-        else if (list[i].toInt() >= max) max = list[i].toInt()
-    }
-    return max
-}
 
 fun bestLongJump(jumps: String): Int {
     if (jumps.contains(Regex("""[^-%\d\s]"""))) return -1
     val parts = Regex("""[-%]""").replace(jumps, "").split(" ")
-    return findMax(parts)
+    return parts.filter { it.isNotEmpty() }.map { it.toInt() }.max() ?: -1
 }
 
 /**
@@ -199,7 +182,7 @@ fun bestHighJump(jumps: String): Int {
     newJumps = Regex("""[\d]+\s\s""").replace(newJumps, "")
     newJumps = Regex("""[\s]""").replace(newJumps, "")
     val parts = newJumps.split("+")
-    return findMax(parts)
+    return parts.filter { it.isNotEmpty() }.map { it.toInt() }.max() ?: -1
 }
 
 /**

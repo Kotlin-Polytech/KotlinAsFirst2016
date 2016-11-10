@@ -140,9 +140,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
         when {
-            (c <= b && c >= a && d >= b) -> (b - c)
-            (c <= a && d <= b && d >= a) -> (d - a)
-            (d <= b && d >= a && c <= b && c >= a) -> (d - c)
-            (b <= d && b >= c && a <= d && a >= c) -> (b - a)
+            (c in a..b && d >= b) -> (b - c)
+            (d in a..b && c <= a) -> (d - a)
+            (d in a..b && c in a..b) -> (d - c)
+            (b in c..d && a in c..d) -> (b - a)
             else -> -1
         }

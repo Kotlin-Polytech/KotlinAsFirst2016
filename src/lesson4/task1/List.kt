@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 
 /**
  * Пример
@@ -128,7 +129,7 @@ fun mean(list: List<Double>): Double = when {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.size == 0) return list
+    if (list.isEmpty()) return list
     val mean = mean(list)
     for (i in 0..list.size - 1) list[i] -= mean
     return list
@@ -142,7 +143,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    if (a.size == 0 || b.size == 0) return 0.0
+    if (a.isEmpty() || b.isEmpty()) return 0.0
     var result = 0.0
     for (i in 0..a.size - 1) result += a[i] * b[i]
     return result
@@ -157,7 +158,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    if (p.size == 0) return 0.0
+    if (p.isEmpty()) return 0.0
     var result = 0.0
     for (i in 0..p.size - 1) result += p[i] * Math.pow(x, i.toDouble())
     return result
@@ -171,17 +172,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-//Почему меняется list, если я его не трогаю? О_о
-fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.size < 2) return list
-    var resultList = list
-    var count = list[0]
-    for (i in 1..list.size - 1) {
-        resultList[i] += count
-        count += list[i]
-    }
-    return resultList
-}
+
+fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
 
 /**
  * Средняя
@@ -190,7 +182,20 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var number = n
+    var factor = 2
+    while (number > 1) {
+        while (number % factor == 0) {
+            result.add(factor)
+            number /= factor
+        }
+        factor += 1
+        while (!isPrime(factor)) factor += 1
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -198,7 +203,20 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var result = ""
+    var number = n
+    var factor = 2
+    while (number > 1) {
+        while (number % factor == 0) {
+            result += "*$factor"
+            number /= factor
+        }
+        factor += 1
+        while (!isPrime(factor)) factor += 1
+    }
+    return result.substring(1, result.length)
+}
 
 /**
  * Средняя
@@ -207,7 +225,15 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var number = n
+    val result = mutableListOf<Int>()
+    while (number != 0) {
+        result.add(0, number % base)
+        number /= base
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -217,7 +243,22 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var number = n
+    var current = 0
+    var currentLetter = ' '
+    var result = ""
+    while (number != 0) {
+        current = number % base
+        if (current < 10) result += current
+        else {
+            currentLetter = 'a' + (current - 10)
+            result += currentLetter
+        }
+        number /= base
+    }
+    return result.reversed()
+}
 
 /**
  * Средняя

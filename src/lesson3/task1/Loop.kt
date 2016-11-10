@@ -116,12 +116,10 @@ fun lcm(m: Int, n: Int): Int = (m / gcd(m, n)) * n
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var d = 1
-    for (i in 2..n) {
-        d = i
-        if (n % d == 0) break
+    for (i in 2..n / 2) {
+        if (n % i == 0) return i
     }
-    return d
+    return n
 }
 
 /**
@@ -167,7 +165,7 @@ fun sin(x: Double, eps: Double): Double {
     var k = 1
     var sinX = 0.0
     val y = x % (Math.PI * 2.0)
-    var z = y / factorial(k)
+    var z = y
     while (Math.abs(z) > eps) {
         sinX += z
         z *= -sqr(y) / ((k + 1) * (k + 2))
@@ -187,7 +185,7 @@ fun cos(x: Double, eps: Double): Double {
     var k = 0
     var cosX = 0.0
     val y = x % (Math.PI * 2.0)
-    var z = 1.0 / factorial(k)
+    var z = 1.0
     while (Math.abs(z) > eps) {
         cosX += z
         z *= -sqr(y) / ((k + 1) * (k + 2))

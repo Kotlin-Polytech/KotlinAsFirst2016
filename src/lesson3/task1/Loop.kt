@@ -149,9 +149,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
-    while (k * k <= m) {
-        k++
+    while (k * k <= n) {
         if (k * k in m..n) return true
+        k++
     }
     return false
 }

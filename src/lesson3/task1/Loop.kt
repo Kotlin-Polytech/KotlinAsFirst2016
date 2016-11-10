@@ -82,7 +82,7 @@ fun fib(n: Int): Int = if (n < 3) 1 else fib(n - 1) + fib(n - 2)
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun GCD(m: Int, n: Int):Int {
+fun GCD(m: Int, n: Int): Int {
     var max = Math.max(m, n)
     var min = Math.min(m, n)
     while (max % min != 0) {
@@ -92,6 +92,7 @@ fun GCD(m: Int, n: Int):Int {
     }
     return min
 }
+
 fun lcm(m: Int, n: Int): Int = m * n / GCD(m, n)
 
 /**
@@ -200,26 +201,19 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var s = 0
-    var i = 0
-    var b = 0
-    while (s < n) {
-        i += 1
-        b = i * i
-        var c = 0
-        var bb = b
-        while (bb != 0) {
-            bb /= 10
-            c += 1
-        }
-        s += c
+    var digitNumb = 0
+    var digit = 0
+    var sq = 0
+    while (digitNumb < n) {
+        digit += 1
+        sq = digit * digit
+        val c = digitNumber(sq)
+        digitNumb += c
     }
-    if (s == n) return b % 10
+    if (digitNumb == n) return sq % 10
     else {
-        for (a in 1..s - n) {
-            b /= 10
-        }
-        return b % 10
+        sq /= 10
+        return sq % 10
     }
 }
 

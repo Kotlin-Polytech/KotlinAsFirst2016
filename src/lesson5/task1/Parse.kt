@@ -152,13 +152,12 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
-    var list = listOf<String>()
+    val list = mutableListOf<String>()
     try {
-        for (i in 0..parts.size - 1) {
-            if ('+' in parts[i]) list += parts[i - 1]
-            return list.map { it.toInt() }.max() ?: -1
+        for (i in 1..parts.size - 1 step 2) {
+            if ('+' in parts[i]) list.add(parts[i - 1])
         }
-        return 0
+        return list.map { it.toInt() }.max() ?: -1
     } catch (e: NumberFormatException) {
         return -1
     }

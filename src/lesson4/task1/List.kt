@@ -265,10 +265,10 @@ fun decimal(digits: List<Int>, base: Int): Int = polynom(digits.map { it.toDoubl
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var digits = listOf<Int>()
+    val digits = mutableListOf<Int>()
     for (char in str) {
-        if (char in 'a'..'z') digits += char -'a' + 10
-        else digits += char - '0'
+        if (char in 'a'..'z') digits.add(char - 'a' + 10)
+        else digits.add(char - '0')
     }
     return decimal(digits, base)
 }

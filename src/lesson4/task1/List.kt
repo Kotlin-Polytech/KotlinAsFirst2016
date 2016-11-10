@@ -122,8 +122,10 @@ fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() /
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> =
-        list.map { it - mean(list) }.toMutableList()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val l = list.map { it - mean(list) }.toMutableList()
+    return l
+}
 
 /**
  * Средняя

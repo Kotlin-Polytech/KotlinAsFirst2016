@@ -191,12 +191,17 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var a = 1
+    val b = x % (2 * Math.PI)
     var cos = 1.0
-    while (Math.pow(x, a * 2.0) / factorial(a * 2) > eps) {
-        if ((a % 2) == 0) cos += Math.pow(x, a * 2.0) / factorial(a * 2)
-        else cos -= Math.pow(x, a * 2.0) / factorial(a * 2)
+    var currentExp = 1.0
+    var part: Double
+    do {
+        currentExp *= b * b
+        if (a % 2 != 0) part = -1 * currentExp / factorial(a * 2)
+        else part = currentExp / factorial(a * 2)
+        cos += part
         a++
-    }
+    } while (Math.abs(part) > Math.abs(eps))
     return (cos)
 }
 

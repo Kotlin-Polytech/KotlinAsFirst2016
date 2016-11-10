@@ -66,12 +66,8 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean {
-        val pCircle = Circle(p, 0.0)
-        return distance(pCircle) <= 0.0
-    }
+    fun contains(p: Point): Boolean = p.distance(center) <= radius
 }
-
 /**
  * Отрезок между двумя точками
  */
@@ -234,7 +230,8 @@ fun minContainingCircle(vararg points: Point): Circle {
     val max2 = segment.end
     val p = Point((Math.min(max1.x, max2.x) + Math.abs(max1.x - max2.x) / 2), Math.min(max1.y, max2.y)
             + Math.abs(max1.y - max2.y) / 2)
-    var nmax = max1.distance(max2) / 2
+    val radius = max1.distance(p)
+    var nmax = radius
     var elementMax = max1
     for (point in points) {
         if (p.distance(point) > nmax) {
@@ -242,6 +239,6 @@ fun minContainingCircle(vararg points: Point): Circle {
             elementMax = point
         }
     }
-    if (elementMax.distance(p) <= max1.distance(p) + 1e-13 && elementMax.distance(p) >= max1.distance(p) - 1e-13) return Circle(p, max1.distance(max2) / 2)
+    if (Math.abs(elementMax.distance(p)-radius) <= 1e-13) return Circle(p, nmax)
     else return circleByThreePoints(max1, max2, elementMax)
 }

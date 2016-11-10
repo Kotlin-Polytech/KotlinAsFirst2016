@@ -69,7 +69,7 @@ fun digitNumber(n: Int): Int {
     }
     return number
 }
- //
+
 /**
  * Простая
  *
@@ -84,40 +84,9 @@ fun fib(n: Int): Int = if (n <= 2) 1 else fib(n - 1) + fib(n - 2)
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    if (m == n) return m
-    var m1 = Math.min(m, n)
-    val list = mutableListOf<Int>()
-    val list1 = mutableListOf<Int>()
-    while (m1 != 1) {
-        for (j in 2..Math.min(m, n)) {
-            if (j > m1) break
-            if (m1 % j == 0) {
-                list += j
-                m1 /= j
-                break
-            }
-        }
-    }
-    var n1 = Math.max(m, n)
-    for (element in list) {
-        if (n1 % element == 0) n1 /= element
-    }
-    while (n1 != 1) {
-        for (j in 1..Math.max(m, n)) {
-            if (j > n1) break
-            if (n1 % j == 0) {
-                list1 += j
-                n1 /= j
-                if (n1 == 1) break
-            }
-        }
-    }
-    var result = 1
-    for (element in list) result *= element
-    for (element in list1) result *= element
-    return result
-}
+fun evklid(max: Int, min: Int): Int = if (min == 0) max else evklid(min, max % min)
+
+fun lcm(m: Int, n: Int): Int = m * n / evklid(Math.max(m, n), Math.min(m, n))
 
 /**
  * Простая

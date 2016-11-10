@@ -4,7 +4,6 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
-import kotlin.comparisons.reverseOrder
 
 /**
  * Пример
@@ -109,8 +108,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var s = 0.0
-    for (i in v) {
-        s += sqr(i)
+    for (e in v) {
+        s += sqr(e)
     }
     return Math.sqrt(s)
 }
@@ -151,11 +150,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var sumpr = 0.0
+    var sumproizv = 0.0
     for (i in 0..a.size - 1) {
-        sumpr = sumpr + (a[i] * b[i])
+        sumproizv = sumproizv + (a[i] * b[i])
     }
-    return sumpr
+    return sumproizv
 }
 
 /**
@@ -271,10 +270,9 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
 fun decimalFromString(str: String, base: Int): Int {
     var l = str.length
     var res = 0
-    var con = 0
     for (q in str) {
         l--
-        con = power(base, l)
+        var con = power(base, l)
         if (q in '0'..'9') {
             res += (q - '0') * con
         } else if (q in 'a'..'z') {
@@ -309,4 +307,69 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var a = n.toString()
+    var s = ""
+    var s1 = ""
+    var part = 0
+    var thous = 0
+    var hundr = 0
+    var unit = 0
+    for (i in 0..a.length-1) {
+        when (i) {
+            0 -> {
+                unit = n % 10
+                when (unit) {
+                    1 -> s = "один"
+                    2 -> s = "два"
+                    3 -> s = "три"
+                    4 -> s = "четыре"
+                    5 -> s = "пять"
+                    6 -> s = "шесть"
+                    7 -> s = "семь"
+                    8 -> s = "восемь"
+                    9 -> s = "девять"
+                    0 -> s = ""
+                }
+            }
+            1 -> {
+                hundr = (n % 100) / 10
+                when (hundr) {
+                    1 -> {
+                        when (unit) {
+                            2 -> s1 = s.substring(0, s.length - 1) + "енадцать"
+                            4, 5, 6, 7, 8, 9 -> s1 = s.substring(0, s.length - 1) + "надцать"
+                            else -> s1 = s + "надцать"
+                        }
+                    }
+                    2 -> s1 = "двадцать " + s
+                    3 -> s1 = "тридцать " + s
+                    4 -> s1 = "сорок " + s
+                    5 -> s1 = "пятьдесят " + s
+                    6 -> s1 = "шестьдесят " + s
+                    7 -> s1 = "семьдесят " + s
+                    8 -> s1 = "восемьдесят " + s
+                    9 -> s1 = "девяносто " + s
+                }
+            }
+            2 -> {
+                thous = n / 100
+                when (thous) {
+                    1 -> s1 = "cто " + s1
+                    2 -> s1 = "двести " + s1
+                    3 -> s1 = "триста " + s1
+                    4 -> s1 = "четыреста " + s1
+                    5 -> s1 = "пятьсот " + s1
+                    6 -> s1 = "шестьсот " + s1
+                    7 -> s1 = "cемьсот " + s1
+                    8 -> s1 = "восемьсот " + s1
+                    else -> s1 = "девятьсот " + s1
+                }}
+            3 ->{
+
+                }
+            }
+        }
+
+    return s1
+}

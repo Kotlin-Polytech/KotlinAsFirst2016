@@ -38,8 +38,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     return when {
-        ((age % 10 == 1) && (age % 100 != 11)) -> "$age год"
-        ((age % 10 in 2..4) && (age % 100 !in 12..14)) -> "$age года"
+        (age % 10 == 1) && (age % 100 != 11) -> "$age год"
+        (age % 10 in 2..4) && (age % 100 !in 12..14) -> "$age года"
         else -> "$age лет"
     }
 }
@@ -59,7 +59,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = v2 * t2
     val s3 = v3 * t3
     val half = (s1 + s2 + s3) / 2
-    return when (half != 0.0) {
+    return when {
         (s1 >= half) -> half / v1
         ((s1 < half)) && (s1 + s2 >= half) -> t1 + (half - s1) / v2
         ((s1 + s2 < half)) -> t1 + t2 + (half - s1 - s2) / v3
@@ -105,7 +105,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     val sl = ((abs(bishopX - kingX)) == (abs(bishopY - kingY)))
     return when {
         l && !sl -> 1
-        sl && !l -> 2
+        !l && sl -> 2
         l && sl -> 3
         else -> 0
     }

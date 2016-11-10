@@ -186,22 +186,19 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  */
 fun squareSequenceDigit(n: Int): Int {
     var element = 0
-    var kv = 0
+    var square = 0
     var s = 0
     var ost = 0
-    var cur = 0
     while (s < n) {
         element++
-        kv = element * element
-        s = s + digitNumber(kv)
+        square = element * element
+        s = s + digitNumber(square)
     }
     ost = s - n
     for (j in 1..ost) {
-        kv /= 10
+        square /= 10
     }
-    cur = kv % 10
-
-    return cur
+    return square % 10
 }
 
 /**
@@ -212,21 +209,21 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var el1 = 0
-    var num1 = 0
+    var element = 0
+    var number = 0
     var s = 0
     var ost = 0
     var cur = 0
     while (s < n) {
-        el1++
-        num1 = fib(el1)
-        s = s + digitNumber(num1)
+        element++
+        number = fib(element)
+        s = s + digitNumber(number)
     }
     ost = s - n
     for (j in 1..ost) {
-        num1 /= 10
+        number /= 10
     }
-    cur = num1 % 10
+    cur = number % 10
 
     return cur
 }

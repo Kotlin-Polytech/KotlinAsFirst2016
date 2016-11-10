@@ -2,8 +2,6 @@
 
 package lesson1.task1
 
-import lesson2.task1.ageDescription
-import lesson3.task1.squareSequenceDigit
 import java.lang.Math.*
 
 /**

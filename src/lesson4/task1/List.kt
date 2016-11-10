@@ -116,8 +116,7 @@ fun abs(v: List<Double>): Double = Math.sqrt(v.map { sqr(it) }.sum())
  */
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
-    val s = list.sum() / list.size
-    return s
+    return list.sum() / list.size
 }
 
 /**
@@ -239,7 +238,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val sys = convert(n, base)
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
-    val numb: StringBuilder = StringBuilder("")
+    val numb = StringBuilder("")
     for (element in sys) {
         if (element < 10) numb.append(element.toString())
         else numb.append(alphabet[element - 10].toString())
@@ -266,11 +265,9 @@ fun decimal(digits: List<Int>, base: Int): Int = polynom(digits.map { it.toDoubl
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    val alphabet = "abcdefghijklmnopqrstuvwxyz"
     var digits = listOf<Int>()
     for (char in str) {
-        val index = alphabet.indexOf(char)
-        if (index != -1) digits += index + 10
+        if (char in 'a'..'z') digits += char -'a' + 10
         else digits += char - '0'
     }
     return decimal(digits, base)

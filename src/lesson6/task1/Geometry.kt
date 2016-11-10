@@ -144,7 +144,12 @@ fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((a.y -b.y)/(a.x -
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val point = Point((a.x + b.x)/2, (a.y + b.y) / 2)
+    val line = lineByPoints(a, b)
+    val angle = Math.acos( Math.sin(line.angle))
+    return Line (point, angle)
+}
 
 /**
  * Средняя
@@ -152,7 +157,21 @@ fun bisectorByPoints(a: Point, b: Point): Line = TODO()
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalAccessException()
+    var result = Pair (circles[0], circles[1])
+    var mindist = circles[0].distance(circles[1]) + 1
+    for (i in 0..circles.size - 2){
+        for (k in i + 1..circles.size - 1){
+            val dist = circles[i].distance(circles[k])
+            if (dist < mindist) {
+                mindist = dist
+                result = Pair (circles[i], circles[k])
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная
@@ -163,7 +182,13 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val bis1 = bisectorByPoints(a, b)
+    val bis2 = bisectorByPoints(b, c)
+    val center = bis1.crossPoint(bis2)
+    val radius = center.distance(a)
+    return Circle(center, radius)
+}
 
 /**
  * Очень сложная

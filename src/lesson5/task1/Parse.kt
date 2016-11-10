@@ -67,8 +67,8 @@ fun dateStrToDigit(str: String): String {
             val day = parts[0].toInt()
             val year = parts[2].toInt()
             val month = monthNames.indexOf(parts[1]) + 1
-            return if (month == 0) ""
-            else "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
+            if (month == 0) return ""
+            return "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -87,12 +87,13 @@ fun dateDigitToStr(digital: String): String {
     val monthNames = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size == 3) {
         try {
-            val day = parts[0].toInt().toString()
+            val day = parts[0].toInt()
             val monthNumbers = parts[1].toInt()
-            return if (monthNumbers in 1..12) {
+            if (monthNumbers in 1..12) {
                 val month = monthNames[monthNumbers - 1]
-                day + " " + month + " " + parts[2]
-            } else ""
+                return "$day " + month + " " + parts[2]
+            }
+            return ""
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -114,11 +115,9 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     val parts = phone.filter { it !in "- ()" }
-    val parts1 = parts.filter { it != '+' }
     if (parts == "") return ""
-    if (parts1.any { it !in '0'..'9' }) return ""
-    return if (parts[0] == '+') "+" + parts1
-    else parts1
+    if (parts.any { it !in '0'..'9' && it != '+' }) return ""
+    return parts
 }
 
 /**
@@ -151,7 +150,19 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var list = listOf<String>()
+    try {
+        for (i in 0..parts.size - 1) {
+            if ('+' in parts[i]) list += parts[i - 1]
+            return list.map { it.toInt() }.max() ?: -1
+        }
+        return 0
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная

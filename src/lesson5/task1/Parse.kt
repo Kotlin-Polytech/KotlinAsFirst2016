@@ -218,7 +218,7 @@ fun mostExpensive(description: String): String {
     try {
         val parts = description.split("; ")
         for (part in parts) {
-            if (part.isNotEmpty() && part.matches(Regex("""(.+\s\d+\.\d+)|(.+\s\d+)"""))) {
+            if (part.isNotEmpty()) {
                 val values = part.split(" ")
                 val name = values[0]
                 val price = values[1].toDouble()

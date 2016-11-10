@@ -248,7 +248,6 @@ fun plusMinus(expression: String): Int {
     var resultExpression = expression
     val parts = resultExpression.split(" ")
     var result = 0
-    try {
         if ((parts[0] == "-") || (parts[0] == "+"))
             for (i in 1..parts.size - 1 step 2)
                 if (parts[i - 1] == "-") result -= parts[i].toInt()
@@ -259,9 +258,6 @@ fun plusMinus(expression: String): Int {
                 if (parts[i - 1] == "-") result -= parts[i].toInt()
                 else result += parts[i].toInt()
         }
-    } catch (e: IllegalArgumentException) {
-        throw IllegalArgumentException()
-    }
     return result
 }
 

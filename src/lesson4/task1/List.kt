@@ -123,8 +123,8 @@ fun mean(list: List<Double>): Double =
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val arifm=mean(list)
-    for (i in 0..list.size-1) list[i]-=arifm
+    val arifm = mean(list)
+    for (i in 0..list.size - 1) list[i] -= arifm
     return list
 }
 
@@ -183,27 +183,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun isPrime(n: Int): Boolean {
-    if (n < 2) return false
-    else if (n == 2) return true
-    else for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
-        if (n % m == 0) return false
-    }
-    return true
-}
+
 
 fun factorize(n: Int): List<Int> {
     var list: List<Int>
     list = listOf()
-    var i = 0
+    var i = 1
     var number = n
     while (i < number) {
         i++
-        if (isPrime(i) == true)
-            while (number % i == 0) {
-                list += i
-                number /= i
-            }
+        while (number % i == 0) {
+            list += i
+            number /= i
+        }
     }
     return list
 }
@@ -268,10 +260,17 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
+fun powInt(int: Int, powI: Int): Int {
+var resalt=1
+    for (i in 1..powI)
+    resalt*=int
+    return resalt
+}
+
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
     for (i in (digits.size - 1) downTo 0)
-        result += (digits[i] * Math.pow(base.toDouble(), ((digits.size - 1) - i).toDouble())).toInt()
+        result += (digits[i] * powInt(base, ((digits.size - 1) - i)))
     return result
 }
 

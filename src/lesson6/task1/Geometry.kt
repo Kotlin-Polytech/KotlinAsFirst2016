@@ -86,9 +86,11 @@ fun diameter(vararg points: Point): Segment {
     if (points.size < 2) throw IllegalArgumentException()
     for (i in 1..points.size - 2) {
         for (k in i + 1..points.size - 1) {
-            if (points[i].distance(points[k]) >= max) max = points[i].distance(points[k])
-            p1 = points[i]
-            p2 = points[k]
+            if (points[i].distance(points[k]) >= max) {
+                max = points[i].distance(points[k])
+                p1 = points[i]
+                p2 = points[k]
+            }
         }
     }
     return Segment(p1, p2)
@@ -101,8 +103,8 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle =
-        Circle(Point(Math.abs(diameter.begin.x - diameter.end.x) / 2.0,
-                Math.abs(diameter.begin.y - diameter.end.y) / 2.0),
+        Circle(Point((diameter.begin.x + diameter.end.x) / 2.0,
+                (diameter.begin.y + diameter.end.y) / 2.0),
                 diameter.begin.distance(other = diameter.end) / 2.0)
 
 
@@ -126,8 +128,9 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val angle: Double
+    var angle: Double
     angle = Math.round(Math.acos((s.end.x - s.begin.x) / s.begin.distance(s.end)) * 100000000000000000).toDouble()
+    if (s.end.x < s.begin.x) angle = Math.PI - angle
     return Line(s.begin, angle / 100000000000000000.0)
 }
 
@@ -137,8 +140,9 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line {
-    val angle: Double
+    var angle: Double
     angle = Math.round(Math.acos(Math.abs(a.x - b.x) / (a.distance(b))) * 100000000000000000).toDouble()
+    if (a.x > b.x) angle = Math.PI - angle
     return Line(a, angle / 100000000000000000.0)
 }
 

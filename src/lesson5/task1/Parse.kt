@@ -129,23 +129,22 @@ fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
     var result = 0
     val length = parts.size
-    val matchResult1 = Regex("""[^\d+-]""")
-    val matchResult2 = Regex("""\d""")
-    val matchResult3 = Regex("""[-+]""")
-    if ((length == 1) && (parts[0].contains(matchResult1)) || expression == "") throw IllegalArgumentException("Wrong expression format")
-    else {
+    val matchDigitOrSign = Regex("""[^\d+-]""")
+    val matchDigit = Regex("""\d""")
+    val matchSign = Regex("""[-+]""")
+    if ((length == 1) && (parts[0].contains(matchDigitOrSign)) || expression == "") {
+        throw IllegalArgumentException("Wrong expression format")
+    } else {
         for (i in 0..length - 2) {
-            val condition1 = parts[i].contains(matchResult2)
-            val condition2 = parts[i + 1].contains(matchResult2)
-            val condition3 = parts[i].contains(matchResult3)
-            val condition4 = parts[i + 1].contains(matchResult3)
-            val condition5 = parts[i].contains(matchResult1) || parts[i + 1].contains(matchResult1)
-            val condition = (condition1 && condition2) || (condition3 && condition4) || condition5
+            val bothDigits = parts[i].contains(matchDigit) && parts[i + 1].contains(matchDigit)
+            val bothSigns = parts[i].contains(matchSign) && parts[i + 1].contains(matchSign)
+            val notNumberOrSign = parts[i].contains(matchDigitOrSign) || parts[i + 1].contains(matchDigitOrSign)
+            val condition = bothDigits || bothSigns || notNumberOrSign
             if (condition) throw IllegalArgumentException("Wrong expression format")
             else {
-                when {
-                    parts[i].matches(Regex("""[+]""")) -> result += parts[i + 1].toInt()
-                    parts[i].matches(Regex("""[-]""")) -> result -= parts[i + 1].toInt()
+                when (parts[i]) {
+                    "+" -> result += parts[i + 1].toInt()
+                    "-" -> result -= parts[i + 1].toInt()
                 }
             }
         }

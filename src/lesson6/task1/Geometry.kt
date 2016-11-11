@@ -84,7 +84,7 @@ fun diameter(vararg points: Point): Segment {
     var p1 = points[0]
     var p2 = points[1]
     if (points.size < 2) throw IllegalArgumentException()
-    for (i in 1..points.size - 2) {
+    for (i in 0..points.size - 2) {
         for (k in i + 1..points.size - 1) {
             if (points[i].distance(points[k]) >= max) {
                 max = points[i].distance(points[k])
@@ -127,24 +127,15 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    var angle: Double
-    angle = Math.round(Math.acos((s.end.x - s.begin.x) / s.begin.distance(s.end)) * 100000000000000000).toDouble()
-    if (s.end.x < s.begin.x) angle = Math.PI - angle
-    return Line(s.begin, angle / 100000000000000000.0)
-}
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.asin(Math.abs(s.end.y - s.begin.y) / s.begin.distance(s.end)))
+
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line {
-    var angle: Double
-    angle = Math.round(Math.acos(Math.abs(a.x - b.x) / (a.distance(b))) * 100000000000000000).toDouble()
-    if (a.x > b.x) angle = Math.PI - angle
-    return Line(a, angle / 100000000000000000.0)
-}
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 
 /**
@@ -154,8 +145,7 @@ fun lineByPoints(a: Point, b: Point): Line {
  */
 fun bisectorByPoints(a: Point, b: Point): Line =
         Line(Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0),
-                lineByPoints(a, b).angle -
-                        if (lineByPoints(a, b).angle >= Math.PI / 2) Math.PI / 2 else -Math.PI / 2)
+                lineByPoints(a, b).angle + Math.PI / 2)
 
 
 /**

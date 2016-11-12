@@ -294,14 +294,16 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 fun roman(n: Int): String {
     var number = n
-    val map1 = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
-    var result = ""
-    while (number != 0) {
-        val parse = map1.toSortedMap().entries.findLast { it.key <= number }.toString().split("=")
-        number -= parse[0].toInt()
-        result += parse[1]
+    val map1 = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M").toSortedMap()
+    val result = StringBuilder()
+    while (number > 0) {
+        val parse = map1.keys.findLast {it <= number}
+        if (parse != null) parse.toInt()
+        else continue
+        number -= parse
+        result.append(map1[parse])
     }
-    return result
+    return result.toString()
 }
 
 

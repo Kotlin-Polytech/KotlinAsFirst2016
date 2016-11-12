@@ -49,7 +49,6 @@ fun main(args: Array<String>) {
     } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
-    println(dateStrToDigit("15 июля 2016"))
 }
 
 /**
@@ -61,12 +60,18 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = str.split(" ")
-        if ((list.indexOf(parts[1]) == -1) || (parts[2].toInt() < 0) || (parts[0].toInt() !in 1..31)|| parts.size !=3) throw Exception()
-        return "${twoDigitStr(parts[0].toInt())}.${twoDigitStr(list.indexOf(parts[1]) + 1)}.${parts[2]}"
-    } catch (e: Exception) {
+        if (parts.size != 3) throw IndexOutOfBoundsException()
+        val day = parts[0].toInt()
+        val month = list.indexOf(parts[1])
+        val year = parts[2].toInt()
+        if ((month == -1) || (year < 0) || (day !in 1..31)) throw NumberFormatException()
+        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.${year}"
+    } catch (e: NumberFormatException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
@@ -81,15 +86,18 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
-        val parts= digital.split(".")
-        if ((parts[1].toInt() !in 1..12) || (parts[2].toInt() < 0) || (parts[0].toInt() !in 1..31)||(parts.size !=3 )) throw Exception()
-        return "${oneDigitStr(parts[0].toInt())} ${list[parts[1].toInt()-1]} ${parts[2]}"
-    }
-    catch (e:Exception){
+        val parts = digital.split(".")
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val year = parts[2].toInt()
+        if ((month !in 1..12) || (year < 0) || (day !in 1..31) || (parts.size != 3)) throw NumberFormatException()
+        return "${oneDigitStr(day)} ${list[month - 1]} ${year}"
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
-fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n%10}"
+
+fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n % 10}"
 /**
  * Сложная
  *
@@ -102,7 +110,11 @@ fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n%10}"
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val list = phone.toMutableList()
+    if (list.filter { it !in "+0123456789-() " }.isEmpty()) return list.filter { it in "+0123456789" }.joinToString("")
+    return ""
+}
 
 /**
  * Средняя

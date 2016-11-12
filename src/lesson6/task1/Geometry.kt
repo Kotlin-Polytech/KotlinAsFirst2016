@@ -112,6 +112,7 @@ fun diameter(vararg points: Point): Segment {
             pointsList += listOf(firstPoint)
             pointsList += secondPoint
         }
+
         firstPoint = secondPoint
     }
     return Segment(secondPoint, firstPoint)

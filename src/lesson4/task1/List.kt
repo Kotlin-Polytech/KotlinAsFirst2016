@@ -309,7 +309,6 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var number = 0.0
     val list = mutableListOf<Double>()
     for (i in 0..str.length-1) {
         when (str[i]) {
@@ -342,7 +341,7 @@ fun decimalFromString(str: String, base: Int): Int {
             else -> list.add((str[i] - '0').toDouble())
         }
     }
-    number = list.reversed().mapIndexed { i, d -> d * Math.pow(base * 1.0, i * 1.0) }.sum()
+    val number = list.reversed().mapIndexed { i, d -> d * Math.pow(base * 1.0, i * 1.0) }.sum()
     return number.toInt()
 }
 

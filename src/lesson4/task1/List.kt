@@ -349,7 +349,6 @@ fun decimalFromString(str: String, base: Int): Int
 
 fun roman(n: Int): String {
     var result = mutableListOf<Char>()
-    val parts = mutableListOf<String>()
     var value = n
     for (i in 1..value / 1000 step 1)
         result.add('M')

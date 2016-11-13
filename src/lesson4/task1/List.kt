@@ -120,7 +120,7 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double{
     var result = 0.0
 
-    if (list.isEmpty() == true){
+    if (list.isEmpty()){
         return result
     }
     else{
@@ -137,12 +137,11 @@ fun mean(list: List<Double>): Double{
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var middle = 0.0
     if (list.isEmpty() == true){
         return list
     }
     else{
-        middle = mean(list)
+        val middle = mean(list)
         for (i in 0..list.size - 1)
         {
             list[i] -= middle
@@ -278,14 +277,14 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var result = ""
-    val litter = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+    val letter = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
     val digit = listOf(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
-    var value = convert(n, base)
+    val value = convert(n, base)
     for (i in 0..value.size - 1 step 1){
         if (value[i] > 9)
-            result += litter[digit.indexOf(value[i])]
+            result += letter[digit.indexOf(value[i])]
         else
             result += value[i].toString()
     }
@@ -322,9 +321,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int
 {
     var result = 0
-    val letter = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+    val letter = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
-    val digit = listOf<Int>(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
+    val digit = listOf(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
     var count = str.length - 1
     for (i in str)
@@ -346,46 +345,81 @@ fun decimalFromString(str: String, base: Int): Int
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun plusChar (n: Int, s: Char): String
-{
-    var result = ""
-    for (i in 1..n step 1)
-        result += s
-    return result
-}
 
-fun roman(n: Int): String{
-    var result = ""
+
+fun roman(n: Int): String {
+    var result = mutableListOf<Char>()
+    val parts = mutableListOf<String>()
     var value = n
-    result = plusChar(value / 1000, 'M')
+    for (i in 1..value / 1000 step 1)
+        result.add('M')
     value %= 1000
-    when (value / 100)
-    {
-        in 1..3 -> result += plusChar(value / 100, 'C')
-        4 -> result += "CD"
-        5 -> result += "D"
-        in 6..8 -> result += "D" + plusChar((value / 100) - 5, 'C')
-        9 -> result += "CM"
+    when (value / 100) {
+        in 1..3 -> {
+            for (i in 1..value / 100 step 1)
+                result.add('C')
+        }
+        4 -> {
+            result.add('C')
+            result.add('D')
+
+        }
+        5 -> result.add('D')
+        in 6..8 -> {
+            result.add('D')
+            for (i in 1..(value / 100 - 5) step 1)
+                result.add('C')
+        }
+        9 -> {
+            result.add('C')
+            result.add('M')
+        }
     }
     value %= 100
-    when (value / 10)
-    {
-        in 1..3 -> result += plusChar(value / 10, 'X')
-        4 -> result += "XL"
-        5 -> result += "L"
-        in 6..8 -> result += 'L' + plusChar((value / 10) - 5, 'X')
-        9 -> result += "XC"
+    when (value / 10) {
+        in 1..3 -> {
+            for (i in 1..value / 10 step 1)
+                result.add('X')
+        }
+        4 -> {
+            result.add('X')
+            result.add('L')
+
+        }
+        5 -> result.add('L')
+        in 6..8 -> {
+            result.add('L')
+            for (i in 1..(value / 10 - 5) step 1)
+                result.add('X')
+        }
+        9 -> {
+            result.add('X')
+            result.add('C')
+        }
     }
     value %= 10
-    when (value)
-    {
-        in 1..3 -> result += plusChar(value, 'I')
-        4 -> result += "IV"
-        5 -> result += "V"
-        in 6..8 -> result += 'V' + plusChar(value - 5 , 'I')
-        9 -> result += "IX"
+    when (value) {
+        in 1..3 -> {
+            for (i in 1..value step 1)
+                result.add('I')
+        }
+        4 -> {
+            result.add('I')
+            result.add('V')
+
+        }
+        5 -> result.add('V')
+        in 6..8 -> {
+            result.add('V')
+            for (i in 1..(value - 5) step 1)
+                result.add('I')
+        }
+        9 -> {
+            result.add('I')
+            result.add('X')
+        }
     }
-    return result
+    return result.joinToString(separator = "")
 }
 
 /**
@@ -398,7 +432,7 @@ fun roman(n: Int): String{
 
 fun toRussian (n: Int, y: Int): String
 {
-    val digit = listOf<String>("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val digit = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     var result = ""
     var count = y
     var value = n

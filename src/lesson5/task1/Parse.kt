@@ -62,10 +62,9 @@ fun main(args: Array<String>) {
  */
 
 fun dateStrToDigit(str: String): String{
-    var result = ""
     val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
             , "сентября", "октября", "ноября", "декабря")
-    var parth = str.split(" ")
+    val parth = str.split(" ")
     if ((parth.size != 3 ) || (parth[1] !in month)){
         return ""
     }
@@ -91,7 +90,7 @@ fun dateDigitToStr(digital: String): String{
     var result = ""
     val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
             , "сентября", "октября", "ноября", "декабря")
-    var parth = digital.split(".")
+    val parth = digital.split(".")
     try {
         if ((parth.size != 3 ) || (parth[1].toInt() == 0)){
             return ""
@@ -212,7 +211,7 @@ fun bestHighJump(jumps: String): Int{
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    var parth = expression.split(" ")
+    val parth = expression.split(" ")
     var result = 0
     var countSymbol = 0 // считает число подряд идущих знаков +-
     var countValue = 0 // считает количесвто подряд идущих чисел
@@ -314,7 +313,128 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun countDigit(digit : Char, str: String): Int{
+    var result = 0
+    for (i in 0.. str.length - 1 step 1)
+        if (str[i] == digit)
+            result++
+    return result
+}
+
+fun fromRoman(roman: String): Int{
+    var result = 0
+    val library = listOf('I', 'V', 'X', 'L', 'C', 'D', 'M')
+    for (i in 0..roman.length - 1 step 1)
+        if (roman[i] !in library)
+            return - 1
+    val libraryNumber = listOf(1, 5, 10, 50, 100, 500, 1000)
+    var indexRoman = 0
+    while (indexRoman != roman.length){
+        when (roman[indexRoman]){
+            'I' ->{
+                if ( indexRoman != roman.length - 1 ) {
+                    when (roman[indexRoman + 1]){
+                        'I' ->{
+                            result += libraryNumber[0]
+                            indexRoman++
+                        }
+                        'X' ->{
+                            result += libraryNumber[2] - libraryNumber[0]
+                            indexRoman +=2
+                        }
+                        'V' ->{
+                            result += libraryNumber[1] - libraryNumber[0]
+                            indexRoman += 2
+                        }
+                        else ->{
+                            result += libraryNumber[0]
+                            indexRoman++
+                        }
+                    }
+                }
+                else
+                {
+                    result += libraryNumber[0]
+                    indexRoman++
+                }
+
+            }
+            'V' ->{
+                result += libraryNumber[1]
+                indexRoman++
+            }
+            'X' ->{
+                if ( indexRoman != roman.length - 1 ) {
+                    when (roman[indexRoman + 1]){
+                        'X' ->{
+                            result += libraryNumber[2]
+                            indexRoman++
+                        }
+                        'L' ->{
+                            result += libraryNumber[3] - libraryNumber[2]
+                            indexRoman += 2
+                        }
+                        'C' ->{
+                            result += libraryNumber[4] - libraryNumber[2]
+                            indexRoman += 2
+                        }
+                        else ->{
+                            result += libraryNumber[2]
+                            indexRoman++
+                        }
+                    }
+                }
+                else
+                {
+                    result += libraryNumber[2]
+                    indexRoman++
+                }
+
+            }
+            'L' ->{
+                result += libraryNumber[3]
+                indexRoman++
+            }
+            'C' ->{
+                if ( indexRoman != roman.length - 1 ) {
+                    when(roman[indexRoman + 1]){
+                        'M' ->{
+                            result += libraryNumber[6] - libraryNumber[4]
+                            indexRoman +=2
+                        }
+                        'D' ->{
+                            result += libraryNumber[5] - libraryNumber[4]
+                            indexRoman +=2
+                        }
+                        'C' -> {
+                            result += libraryNumber[4]
+                            indexRoman++
+                        }
+                        else ->{
+                            result += libraryNumber[4]
+                            indexRoman++
+                        }
+
+                    }
+                }
+                else
+                {
+                    result += libraryNumber[4]
+                    indexRoman++
+                }
+            }
+            'D' ->{
+                result += libraryNumber[5]
+                indexRoman++
+            }
+            'M' ->{
+                result += libraryNumber[6]
+                indexRoman++
+            }
+        }
+    }
+    return result
+}
 
 
 /**
@@ -356,7 +476,7 @@ fun countBrackets(brackets : Char, str: String): Int{
 }
 
 fun computeDeviceCells(cells: Int, commands: String): List<Int> {
-    var cellsResult = mutableListOf<Int>()
+    val cellsResult = mutableListOf<Int>()
     val library = listOf('>', '<', '[', ']', '{', '}', '+', '-', ' ')
 
     for (i in 0..cells - 1 step 1)

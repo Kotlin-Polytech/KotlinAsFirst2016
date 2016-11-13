@@ -158,16 +158,23 @@ fun isCoPrime(m: Int, n: Int): Boolean = gcd(m,n) == 1
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
+fun squareBetweenHelp (n: Int): Int{
+    var number = 1
+    while (number * number <= n)
+        number++
+    if (number * number != n)
+        return number - 1
+    else
+        return number
+}
 fun squareBetweenExists(m: Int, n: Int): Boolean{
-    var result = false
-    val left = sqrt(m.toDouble()).toInt()
-    val right = sqrt(n.toDouble()).toInt()
-
+    val result = false
+    val left = squareBetweenHelp(m)
+    val right =squareBetweenHelp(n)
     for (i in left..right  step 1 )
-        if ((i * i <= n)&&(i * i >= m))
-        {
-            result = true
-        }
+        if ((i * i <= n) && (i * i >= m))
+            return true
+
     return result
 }
 

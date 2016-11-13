@@ -87,7 +87,6 @@ fun dateStrToDigit(str: String): String{
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String{
-    var result = ""
     val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
             , "сентября", "октября", "ноября", "декабря")
     val parth = digital.split(".")
@@ -313,13 +312,6 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun countDigit(digit : Char, str: String): Int{
-    var result = 0
-    for (i in 0.. str.length - 1 step 1)
-        if (str[i] == digit)
-            result++
-    return result
-}
 
 fun fromRoman(roman: String): Int{
     var result = 0

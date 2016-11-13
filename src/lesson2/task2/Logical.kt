@@ -64,8 +64,8 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
         minSide2 = c
     }
     else {
-        minSide1 = b
-        minSide2 = c
+        minSide1 = a
+        minSide2 = b
     }
     return (((minSide1 <= r) && (minSide2 <= s)) || ((minSide2 <= r) && (minSide1 <= s)))
 }

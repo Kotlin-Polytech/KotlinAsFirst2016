@@ -60,8 +60,30 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-val month:String= listOf<String>("января","февраля","марта","апреля","мая","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь").toString()
-fun dateStrToDigit(str: String): String=TODO()
+fun dateStrToDigit(str: String): String {
+    if (str.matches(Regex("""[0-9]+\s[а-яА-Я]+\s[0-9]+"""))) {
+        val parts = str.split(' ')
+        val day = parts[0].toInt()
+        val years = parts[2].toInt()
+        val month = when(parts[1]) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> 0
+        }
+        if (month != 0) return String.format("%02d.%02d.%d", day, month, years)
+        else return ""
+    } else return ""
+}
 
 /**
  * Средняя
@@ -70,7 +92,31 @@ fun dateStrToDigit(str: String): String=TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    if (digital.matches(Regex("""[0-9]{2}.[0-9]{2}.[0-9]+"""))) {
+        val parts = digital.split('.')
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val month = when (parts[1].toInt()) {
+            1 -> "января"
+            2 -> "февраля"
+            3 -> "марта"
+            4 -> "апреля"
+            5 -> "мая"
+            6 -> "июня"
+            7 -> "июля"
+            8 -> "августа"
+            9 -> "сентября"
+            10 -> "октября"
+            11 -> "ноября"
+            12 -> "декабря"
+            else -> 0
+        }
+        if (month != 0) return String.format("%d %s %d", day, month, year)
+        else return ""
+    } else return ""
+}
+
 
 /**
  * Сложная
@@ -84,7 +130,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.matches(Regex("^[+]?[-()0-9 ]+"))) {
+        return phone.replace(Regex("[-() ]+"), "")
+    } else return ""
+}
 
 /**
  * Средняя

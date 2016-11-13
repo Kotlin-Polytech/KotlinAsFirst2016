@@ -152,7 +152,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     return when{
         a.y==b.y -> lineByPoints(halfSegment, Point(halfSegment.x,halfSegment.y+1))
         a.x==b.x -> lineByPoints(halfSegment,Point(halfSegment.x+1,halfSegment.y))
-        else -> {val pointBisector = Point(halfSegment.x + 1, sqr(b.y) - sqr(a.y) + sqr(b.x) - sqr(a.x) - 2 * (halfSegment.x + 1) * (a.x - b.x) / 2 * (b.y - a.y))
+        else -> {val pointBisector = Point(halfSegment.x + 1, sqr(b.y) - sqr(a.y) + sqr(b.x) - sqr(a.x) - 2 * (halfSegment.x + 1) * (a.x - b.x) / (b.y - a.y))
         return lineByPoints(halfSegment, pointBisector)}
     }
 }

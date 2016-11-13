@@ -104,14 +104,22 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
-
+fun abs(v: List<Double>): Double {
+    var ans = 0.0
+    for (i in 0..v.size - 1)
+        ans += v[i] * v[i]
+    if (ans == 0.0) return 0.0
+    else return Math.sqrt(ans)
+}
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) return 0.0
+    else return list.sum() / list.size
+}
 
 /**
  * Средняя
@@ -119,7 +127,13 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val s = mean(list)
+    for ((index, element) in list.withIndex()) {
+        list[index] = element - s
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -128,7 +142,12 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var ans = 0.0
+    for (i in 0..a.size - 1)
+        ans += a[i] * b[i]
+    return ans
+}
 
 /**
  * Средняя
@@ -138,7 +157,12 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
+fun polynom(p: List<Double>, x: Double): Double {
+    var ans = 0.0
+    for (i in 0..p.size - 1)
+        ans += p[i] * Math.pow(x, i.toDouble())
+    return ans
+}
 
 /**
  * Средняя

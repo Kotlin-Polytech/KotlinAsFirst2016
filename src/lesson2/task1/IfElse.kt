@@ -37,12 +37,12 @@ fun ageDescription(age: Int): String  {
 
     if ((age > 14) || (age < 11 )) {
         val ageEnd: Int = (age % 10)
-        if (ageEnd == 1) return ("$age год")
-        if (ageEnd in 2..4) return ("$age года")
-        return ("$age лет")
+        if (ageEnd == 1) return "$age год"
+        if (ageEnd in 2..4) return "$age года"
+        return "$age лет"
     }
     else {
-        return ("$age лет")
+        return "$age лет"
     }
  }
 
@@ -81,9 +81,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
- if (((kingX == rookX1) && (kingX == rookX2)) || ((kingY == rookY1) && (kingY == rookY2)) || ((kingX == rookX1) && (kingY == rookY2)) || ((kingX == rookX2) && (kingY == rookY1))) return (3)
-    else if ((kingX == rookX2) || (kingY == rookY2)) return (2)
-    else if ((kingX == rookX1) || (kingY == rookY1)) return (1)
+    val danger1 = ((kingX == rookX2) || (kingY == rookY2))
+    val danger2 = ((kingX == rookX1) || (kingY == rookY1))
+ if (danger1==true && danger2==true) return (3)
+    else if (danger1==true) return (2)
+    else if (danger2==true) return (1)
     else return (0)
 }
 

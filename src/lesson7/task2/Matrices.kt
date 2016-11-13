@@ -169,7 +169,25 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    val list = mutableListOf<Int>()
+    for (i in 0..matrix.height-1) {
+        for (j in 0..matrix.width-1) {
+            if (matrix[i,j] !in 1..matrix.height || list.contains(matrix[i,j])) return false
+            list.add(matrix[i,j])
+        }
+        list.clear()
+    }
+    for (j in 0..matrix.width-1){
+        for (i in 0..matrix.height-1){
+            if (matrix[i,j] !in 1..matrix.height || list.contains(matrix[i,j])) return false
+            list.add(matrix[i,j])
+        }
+        list.clear()
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -188,7 +206,36 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    val matr = createMatrix(matrix.height, matrix.width, 0)
+    var sum = 0
+    if (matrix.height == 1 && matrix.width == 1) return matr
+    for (i in 0..matrix.height-1) {
+        for (j in 0..matrix.width-1){
+            if (i-1 > -1) {
+                sum += matrix[i-1,j]
+                if (j-1 > -1)
+                    sum += matrix[i-1, j-1]
+                if (j+1 < matrix.width)
+                    sum += matrix[i-1, j+1]
+            }
+            if (i+1 < matrix.height) {
+                sum += matrix[i+1, j]
+                if (j-1 > -1)
+                    sum += matrix[i+1, j-1]
+                if (j+1 < matrix.width)
+                    sum += matrix[i+1, j+1]
+            }
+            if (j-1 > -1)
+                sum += matrix[i, j-1]
+            if (j+1 < matrix.width)
+                sum += matrix[i, j+1]
+            matr[i,j] = sum
+            sum = 0
+        }
+    }
+    return matr
+}
 
 /**
  * Средняя

@@ -2,6 +2,9 @@
 
 package lesson5.task1
 
+import java.lang.Math.PI
+import java.lang.Math.atan
+
 /**
  * Пример
  *
@@ -47,7 +50,7 @@ fun main(args: Array<String>) {
             println("Прошло секунд с начала суток: $seconds")
         }
     } else {
-        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
+        println(atan(PI/2))
     }
 }
 

@@ -88,10 +88,12 @@ fun diameter(vararg points: Point): Segment {
     var p1 = points[0]
     var p2 = points[1]
     for (i in 0..points.size - 2) {
-        p1 = points[i]
-        p2 = points[i + 1]
-        val segment = p1.distance(p2)
-        if (segment > distance) distance = segment
+        for (k in i..points.size - 2) {
+            p1 = points[k]
+            p2 = points[k + 1]
+            val segment = p1.distance(p2)
+            if (segment > distance) distance = segment
+        }
     }
     return Segment(p1, p2)
 }
@@ -116,10 +118,12 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val tan1 = atan(other.angle * PI / 180)
-        val tan2 = atan(angle * PI / 180)
-        val crossX = (other.point.x * tan1 + other.point.y - point.x * tan2 + point.y) / (tan1 - tan2)
-        val crossY = (crossX * point.y / point.x)
+        val sin1 = sin(angle)
+        val cos1 = cos(angle)
+        val sin2 = sin(other.angle)
+        val cos2 = cos(other.angle)
+        val crossX = (other.point.x * sin2 * cos1 - point.x * sin1 * cos2 + point.y * cos1 * cos2 - other.point.y * cos2 * cos1) / (sin2 * cos1 - sin1 * cos2)
+        val crossY = (crossX - other.point.x) * tan(other.angle) + other.point.y
         return Point(crossX, crossY)
     }
 }
@@ -136,7 +140,7 @@ fun lineBySegment(s: Segment): Line = TODO()
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point) = Line(a, atan((b.x - a.x) / (b.y - a.y)))
+fun lineByPoints(a: Point, b: Point) = Line(a, atan((b.y - a.y) / (b.x - a.x)))
 
 /**
  * Сложная

@@ -148,11 +148,13 @@ fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
+/* =) */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in 0..n) {
-        if (i * i in m..n) return true
-    }
-    return false
+    val rootM = Math.sqrt(m.toDouble())
+    val rootN = Math.sqrt(n.toDouble())
+    val difference = Math.floor(rootN) - Math.ceil(rootM)
+    return if (difference >= 0) true
+    else false
 }
 
 /**
@@ -225,7 +227,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun powInt(x: Int, y: Int): Int {
+fun pow(x: Int, y: Int): Int {
     var result = 1
     for (i in 1..y) result *= x
     return result
@@ -238,7 +240,7 @@ fun squareSequenceDigit(n: Int): Int {
         i++
         curN += digitNumber(i * i)
     }
-    return ((i * i) / powInt(10, curN - n)) % 10
+    return ((i * i) / pow(10, curN - n)) % 10
 }
 
 /**
@@ -257,5 +259,5 @@ fun fibSequenceDigit(n: Int): Int {
         fib = fib(i)
         curN += digitNumber(fib)
     }
-    return (fib / powInt(10, curN - n)) % 10
+    return (fib / pow(10, curN - n)) % 10
 }

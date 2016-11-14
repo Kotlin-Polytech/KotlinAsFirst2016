@@ -111,13 +111,12 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
+    val permittedSymbols = listOf('(', ')', '-', ' ', '+')
     for (i in 0..phone.length - 1) {
-        if ((phone[i] !in '0'..'9') && (phone[i] != '(') &&
-                (phone[i] != ')') && (phone[i] != '-') &&
-                (phone[i] != ' ') && (phone[i] != '+'))
+        if ((phone[i] !in '0'..'9') && (phone[i] !in permittedSymbols))
             return ""
     }
-    return phone.filter { (it in '0'..'9') || (it == '+') }
+    return phone.filter { it in '0'..'9' || it == '+' }
 }
 
 /**
@@ -133,13 +132,13 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     val parts = jumps.split(" ")
     var result = -1
-    val listOfPerm = listOf("", "-", "%", " ")
+    val permittedSymbols = listOf("", "-", "%", " ")
     try {
         for (part in parts) {
-            if ((part !in listOfPerm) && (part.toInt() > result)) result = part.toInt()
+            if ((part !in permittedSymbols) && (part.toInt() > result)) result = part.toInt()
         }
         return result
-    } catch (e: Exception) {
+    } catch (e: NumberFormatException) {
         return -1
     }
 }
@@ -157,10 +156,14 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
     var result = -1
-    for (i in 1..parts.size - 1) {
-        if (('+' in parts[i]) && (parts[i - 1].toInt() > result)) result = parts[i - 1].toInt()
+    try {
+        for (i in 1..parts.size - 1) {
+            if (('+' in parts[i]) && (parts[i - 1].toInt() > result)) result = parts[i - 1].toInt()
+        }
+        return result
+    } catch (e: NumberFormatException) {
+        return -1
     }
-    return result
 }
 
 

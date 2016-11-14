@@ -111,13 +111,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    /**другой способ решения*/
     val max = Math.max(Math.max(a, b), c)
-    var cos = 2.0
-    when (max) {
-        a -> cos = (sqr(b) + sqr(c) - sqr(a)) / (2 * b * c)
-        b -> cos = (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c)
-        else -> cos = (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b)
+    val cos = when (max) {
+        a -> (sqr(b) + sqr(c) - sqr(a)) / (2 * b * c)
+        b -> (sqr(a) + sqr(c) - sqr(b)) / (2 * a * c)
+        else -> (sqr(a) + sqr(b) - sqr(c)) / (2 * a * b)
     }
     return when (cos) {
         0.0 -> 1

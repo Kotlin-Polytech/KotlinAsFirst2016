@@ -4,7 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
-import lesson3.task1.powInt
+import lesson3.task1.pow
 /**
  * Пример
  *
@@ -259,7 +259,7 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var p = 0
     for (i in 0..digits.size - 1) {
-        p += digits[i] * powInt(base, (digits.size - 1 - i))
+        p += digits[i] * pow(base, (digits.size - 1 - i))
     }
     return p
 }

@@ -4,6 +4,8 @@ package lesson6.task1
 
 import lesson1.task1.sqr
 import lesson1.task1.trackLength
+import java.lang.Math.*
+
 
 /**
  * Точка на плоскости
@@ -68,7 +70,11 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        val distanceBetweenCenterAndPoint = sqrt(sqr(p.x - center.x) + sqr(p.y - center.y))
+        if (distanceBetweenCenterAndPoint <= radius) return true
+        else return false
+    }
 }
 
 /**
@@ -150,7 +156,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val xOfCenter = (ma * mb * (a.y - c.y) + mb * (a.x + b.x) + ma * (b.x + c.x)) / (2 * mb - 2 * ma)
     val yOfCenter = -1 * (xOfCenter - (a.x + b.x) / 2) / ma + (a.y + b.y) / 2
     val centerOf = Point(xOfCenter, yOfCenter)
-    val radiusOf = trackLength(xOfCenter, yOfCenter, a.x, a.y)
+    val radiusOf = trackLength(centerOf.x, centerOf.y, a.x, a.y)
     val ourCircle = Circle(centerOf, radiusOf)
     return ourCircle
 }

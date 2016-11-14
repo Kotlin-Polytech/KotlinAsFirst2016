@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -34,7 +35,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age/10 ==1) return "$age лет"
+    if ((age / 10 == 1) || (age / 10 == 11)) return "$age лет"
     else if (age - age / 10 * 10 in 2..4) return "$age года"
     else if (age - age / 10 * 10 in 5..9) return "$age лет"
     else if (age - age / 10 * 10 == 0) return "$age лет"
@@ -51,10 +52,10 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val lenght:Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    if (lenght < t1 * v1) return lenght / v1
-    else if (lenght <= (t1 * v1 + t2 * v2)) return (lenght - t1 * v1) / v2 + t1
-    else return (lenght - t1 * v1 - t2 * v2) / v3 + t1 + t2
+    val length: Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if (length < t1 * v1) return length / v1
+    else if (length <= (t1 * v1 + t2 * v2)) return (length - t1 * v1) / v2 + t1
+    else return (length - t1 * v1 - t2 * v2) / v3 + t1 + t2
 }
 
 /**
@@ -69,9 +70,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
     var checkForPosition: Int = 0
-    if (kingX == rookX1 || kingY == rookY1) checkForPosition = 1
-    if (kingX == rookX2 || kingY == rookY2) checkForPosition = 2
-    if ((kingX == rookX2 || kingY == rookY2)&& (kingX == rookX1 || kingY == rookY1)) checkForPosition=3
+    if (kingX == rookX1 || kingY == rookY1) checkForPosition = checkForPosition + 1
+    if (kingX == rookX2 || kingY == rookY2) checkForPosition = checkForPosition + 2
     return checkForPosition
 }
 

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -66,11 +67,11 @@ fun digitNumber(n: Int): Int = TODO()
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var x1:Int = 1
-    var x2:Int = 1
-    if (n<3) return 1
+    var x1: Int = 1
+    var x2: Int = 1
+    if (n < 3) return 1
     else {
-        for (i in 1..(n-2)){
+        for (i in 1..(n - 2)) {
             x2 = x2 + x1
             x1 = x2 - x1
         }
@@ -179,25 +180,25 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  */
 fun fibSequenceDigit(n: Int): Int {
     var numbers = listOf<Int>()
-    var toString:String = ""
+    var toString: String = ""
     var i: Int = 0
-    while (toString.length <n) {
-        i = i+1
-        numbers = numbers+ fib(i)
-        toString = numbers.joinToString(separator = "",prefix = "", postfix = "",limit = -1,truncated = "")
+    while (toString.length < n) {
+        i = i + 1
+        numbers = numbers + fib(i)
+        toString = numbers.joinToString(separator = "", prefix = "", postfix = "", limit = -1, truncated = "")
     }
-    var c=0
+    var c = 0
     when {
-        toString[n-1] == '0' -> c=0
-        toString[n-1] == '1' -> c=1
-        toString[n-1] == '2' -> c=2
-        toString[n-1] == '3' -> c=3
-        toString[n-1] == '4' -> c=4
-        toString[n-1] == '5' -> c=5
-        toString[n-1] == '6' -> c=6
-        toString[n-1] == '7' -> c=7
-        toString[n-1] == '8' -> c=8
-        toString[n-1] == '9' -> c=9
+        toString[n - 1] == '0' -> c = 0
+        toString[n - 1] == '1' -> c = 1
+        toString[n - 1] == '2' -> c = 2
+        toString[n - 1] == '3' -> c = 3
+        toString[n - 1] == '4' -> c = 4
+        toString[n - 1] == '5' -> c = 5
+        toString[n - 1] == '6' -> c = 6
+        toString[n - 1] == '7' -> c = 7
+        toString[n - 1] == '8' -> c = 8
+        toString[n - 1] == '9' -> c = 9
     }
     return c
 }

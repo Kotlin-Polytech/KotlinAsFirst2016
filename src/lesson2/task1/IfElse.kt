@@ -51,13 +51,13 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s = (v1 * t1 + v2 * t2 + v3 * t3)/2
+    val s = ( v1 * t1 + v2 * t2 + v3 * t3 ) / 2
     val s1 = t1 * v1
     val s2 = t2 * v2
     val s3 = t3 * v3
-    if (s<=s1)
-        return  s/t1
-    else if (s>s1)
+    if ( s <= s1 )
+        return  s / t1
+    else if ( s > s1 )
     return
                    }
 
@@ -84,16 +84,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-<<<<<<< HEAD
-                          bishopX: Int, bishopY: Int): Int = TODO()
-=======
                           bishopX: Int, bishopY: Int): Int {
     var r = 0
-    if ( ( kingX == rookX ) || ( kingY == rookY ) )  r += 1
-    if  ( ( kingX + kingY == bishopX + bishopY ) || ( kingX - kingY == bishopX - bishopY ) ) r += 2
+    if ((kingX == rookX) || (kingY == rookY))  r += 1
+    if  ((kingX + kingY == bishopX + bishopY) || (kingX - kingY == bishopX - bishopY)) r += 2
     return  r
     }
->>>>>>> origin/master
 
 /**
  * Простая
@@ -113,16 +109,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-<<<<<<< HEAD
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
-=======
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-    (  (b < c ) || ( d < a ) ) -> -1
-    (  (a <= c) && ( d <= b ) ) -> d - c
-    ( ( c <= a ) && ( b <= d ) ) -> b - a
-    ( ( c <= a ) && ( d <= b  )) ->  d - a
+        ((b < c) || (d < a)) -> -1
+        ((a <= c) && (d <= b)) -> d - c
+        ((c <= a) && (b <= d)) -> b - a
+        ((c <= a) && (d <= b)) ->  d - a
         else -> b - c
     }
 }
->>>>>>> origin/master

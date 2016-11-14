@@ -84,16 +84,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-<<<<<<< HEAD
-                          bishopX: Int, bishopY: Int): Int = TODO()
-=======
                           bishopX: Int, bishopY: Int): Int {
     var r = 0
     if ((kingX == rookX) || (kingY == rookY))  r += 1
     if  ((kingX + kingY == bishopX + bishopY) || (kingX - kingY == bishopX - bishopY)) r += 2
     return  r
     }
->>>>>>> origin/master
 
 /**
  * Простая
@@ -113,9 +109,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-<<<<<<< HEAD
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
-=======
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
         ((b < c) || (d < a)) -> -1
@@ -125,4 +118,3 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         else -> b - c
     }
 }
->>>>>>> origin/master

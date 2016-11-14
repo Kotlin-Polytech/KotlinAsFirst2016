@@ -26,7 +26,7 @@ fun isNumberHappy(number: Int): Boolean= (number / 1000 + (number / 100) % 10) =
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int):
-        Boolean =  (x1 == x2) || (y1 == y2) || (abs(x2 - x1) == abs(y2 - y1))
+        Boolean =  (x1 == x2) || (y1 == y2) || (Math.abs(x2 - x1) == Math.abs(y2 - y1))
 
 
 /**
@@ -38,7 +38,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int):
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean =
-        ((sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2)
+        ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2)
 /**
  * Средняя
  *

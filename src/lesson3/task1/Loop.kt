@@ -57,8 +57,9 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int
-if (n < 10) 1 else digitNumber(n / 10) + 1
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int =
+        hours * 3600 + minutes * 60 + seconds
+
 
 
             /**
@@ -127,7 +128,7 @@ fun maxDivisor(n: Int): Int {
 fun isCoPrime(m: Int, n: Int): Boolean {
     var k = 2
     var bool = true
-    for (i in 2..min(m, n)) {
+    for (i in 2..Math.min(m, n)) {
         if ((n % k == 0) && (m % k == 0)) {
             bool = false
             break
@@ -147,7 +148,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
 fun squareBetweenExists(m: Int, n: Int): Boolean  {
     var bool = false
     for (i in m..n) {
-        if ((sqrt(i.toDouble()) % 1) == 0.0) bool = true
+        if ((Math.sqrt(i.toDouble()) % 1) == 0.0) bool = true
     }
     return bool
 }
@@ -159,7 +160,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean  {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double):  Double {
+    var i = 0
+    val arg = x % (2 * Math.PI)
+    var fsin = arg
+    var term = arg
+    while (Math.abs(term) >= eps) {
+        i++
+        term = Math.pow(arg, i * 2.0 + 1) / factorial(i * 2 + 1)
+        if (i % 2 == 1) fsin -= term
+        else fsin += term
+
+    }
+    return fsin
+}
 
 /**
  * Простая
@@ -168,7 +182,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double  = sin(Math.PI / 2 - x, eps)
 
 /**
  * Средняя
@@ -176,16 +190,14 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = {
+fun revert(n: Int): Int  {
     var number = n
     var results = 0
-    var i = 1
-    while (number != 0) {
+    while (number > 9) {
         results = (results + number % 10) * 10
-        number = number / 10
+        number /= 10
     }
-    results = results / 10
-    return results
+    return results + number % 10
 }
 
 
@@ -196,7 +208,8 @@ fun revert(n: Int): Int = {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean =
+fun isPalindrome(n: Int) = n == revert(n)
+
 
 /**
  * Средняя
@@ -204,7 +217,16 @@ fun isPalindrome(n: Int): Boolean =
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var a = n
+    var flag: Boolean = true
+    var digit = a % 10
+    while (a > 0) {
+        if (a % 10 != digit) flag = false
+        a /= 10
+    }
+    return (flag == false)
+}
 
 /**
  * Сложная
@@ -213,7 +235,31 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int =
+fun squareSequenceDigit(n: Int): Int {
+    var i = 1
+    var count = 0
+    var number = 0
+    var nn = 0
+    var dif = 0
+    var result = 0
+    while (n > count) {
+        number = i * i
+        nn = number
+        while (number > 0) {
+            number /= 10
+            count++
+        }
+        i++
+
+    }
+    dif = count - n
+    if (n == count) result = nn % 10
+    else
+        result = (nn / Math.pow(10.0, dif.toDouble()).toInt()) % 10
+    return result
+}
+
+
 
 /**
  * Сложная
@@ -222,16 +268,4 @@ fun squareSequenceDigit(n: Int): Int =
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int =  var fibonach = 0
-var sum = 0
-var count = 1
-var number = 0.0
-while (sum < n) {
-    fibonach = fib(count)
-    count++
-    sum = sum + digitNumber(fibonach)
-}
-count = sum - n
-number = fibonach.toDouble() / pow(10.0, (count).toDouble())
-return number.toInt() % 10
-}
+fun fibSequenceDigit(n: Int): Int  = TODO()

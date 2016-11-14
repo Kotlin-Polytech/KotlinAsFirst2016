@@ -104,12 +104,10 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double =  {
+fun abs(v: List<Double>):  Double {
     var sqr = 0.0
-    if (v.isNotEmpty()) {
-        for (element in v) sqr += element * element
-        return abs(sqrt(sqr))
-    } else return 0.0
+    for (element in v) sqr += element * element
+    return Math.sqrt(sqr)
 }
 
 /**
@@ -130,7 +128,7 @@ fun mean(list: List<Double>): Double  {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isNotEmpty()) {
-        val means = means(list)
+        val means = mean(list)
         for (i in 0..list.size - 1) {
             val element = list[i]
             list[i] = element - means
@@ -202,7 +200,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int>  {
+    var number = n
+    var count = 2
+    val result = mutableListOf<Int>()
+    while (number != 1) {
+        if (number % count == 0) {
+            result.add(count)
+            number /= count
+        } else count++
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -210,7 +220,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
@@ -219,7 +229,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int>  {
+    var number = n
+    var result = listOf<Int>()
+    do {
+        result += number % base
+        number /= base
+    } while (number > 0)
+    return result.asReversed()
+}
+
 
 /**
  * Сложная
@@ -229,7 +248,15 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val convert = convert(n, base)
+    val result = StringBuilder()
+    for (element in convert) {
+        if (element > 9) result.append('a' + element - 10)
+        else result.append(element)
+    }
+    return result.toString()
+}
 
 /**
  * Средняя
@@ -240,6 +267,7 @@ fun convertToString(n: Int, base: Int): String = TODO()
  */
 fun decimal(digits: List<Int>, base: Int): Int = TODO()
 
+
 /**
  * Сложная
  *
@@ -249,7 +277,14 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var result = listOf<Int>()
+    for (char in str) {
+        if (char in '0'..'9') result += char - '0'
+        else result += char + 10 - 'a'
+    }
+    return decimal(result, base)
+}
 
 /**
  * Сложная
@@ -259,7 +294,19 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String  {
+    var number = n
+    val map1 = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M").toSortedMap()
+    val result = StringBuilder()
+    while (number > 0) {
+        val parse = map1.keys.findLast {it <= number}
+        if (parse != null) parse.toInt()
+        else continue
+        number -= parse
+        result.append(map1[parse])
+    }
+    return result.toString()
+}
 
 /**
  * Очень сложная
@@ -268,4 +315,39 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String  {
+    val listUnits = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val listTens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val listFromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val listHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val listResult = mutableListOf<String>()
+    val lastDigit = n % 10
+    val thousand = when (n / 1000 % 10) {
+        1 -> "тысяча"
+        in 2..4 -> "тысячи"
+        else -> "тысяч"
+    }
+    val unit = when (lastDigit) {
+        1 -> "один"
+        2 -> "два"
+        else -> listUnits[lastDigit]
+    }
+    if (n > 999) {
+        listResult.add(listHundreds[n / 100000 % 10])
+        if (n / 1000 % 100 in 11..19) {
+            listResult.add(listFromTenToTwenty[n / 1000 % 10])
+            listResult.add("тысяч")
+        } else {
+            listResult.add(listTens[n / 10000 % 10])
+            listResult.add(listUnits[n / 1000 % 10])
+            listResult.add(thousand)
+        }
+    }
+    listResult.add(listHundreds[n / 100 % 10])
+    if (n % 100 in 11..19) listResult.add(listFromTenToTwenty[lastDigit])
+    else {
+        listResult.add(listTens[n / 10 % 10])
+        listResult.add(unit)
+    }
+    return listResult.filter { it != "" }.joinToString(" ")
+}

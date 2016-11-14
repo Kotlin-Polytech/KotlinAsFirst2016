@@ -84,19 +84,20 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val list = digital.split(".")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    if (list.size != 3) return ""
     try {
-        val parts = digital.split(".")
-        val day = parts[0].toInt()
-        val month = parts[1].toInt()
-        val year = parts[2].toInt()
-        if ((month !in 1..12) || (year < 0) || (day !in 1..31) || (parts.size != 3)) throw NumberFormatException()
-        return "${oneDigitStr(day)} ${list[month - 1]} ${year}"
+        val date = list[0].toInt()
+        if (list[1].toInt() % 100 - 1 !in 0..11) return ""
+        val month = months[list[1].toInt() % 100 - 1]
+        val year = list[2].toInt()
+        return String.format("%d %s %04d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
 }
-fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n%10}"
+
 
 /**
  * Сложная
@@ -111,9 +112,11 @@ fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n%10}"
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val list = phone.toMutableList()
-    if (list.filter { it !in "+0123456789-() " }.isEmpty()) return list.filter { it in "+0123456789" }.joinToString("")
-    return ""
+    val matchResult = Regex("""[^-0-9+()\s]""").find(phone)
+    if (matchResult != null) return ""
+    if (phone.indexOf("+") > 0) return ""
+    val phoneList = phone.split(" ", "-", "(", ")")
+    return phoneList.joinToString(separator = "")
 }
 
 /**
@@ -127,16 +130,16 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val parts = jumps.split(" ")
-    var best = -1
-    try {
-        for (part in parts) {
-            if ((part != "-") && (part != "%") && (part.toInt() > best)) best = part.toInt()
-        }
-        return best
-    } catch (e: NumberFormatException) {
-        return -1
+    val matchResult = Regex("""[^-0-9%\s]""").find(jumps)
+    if (matchResult != null) return -1
+    val matchResultNumbers = Regex("""[\d]""").find(jumps)
+    if (matchResultNumbers == null) return -1
+    val result = mutableListOf<Int>()
+    val jumpsList = jumps.split(" ", "-", "%")
+    for (element in jumpsList) {
+        if (element != "") result.add(element.toInt())
     }
+    return result.sorted()[result.size - 1]
 }
 
 /**
@@ -170,18 +173,11 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val parts = expression.split(" ")
-    var result = parts[0].toInt()
-    if (parts.size > 1) {
-        for (i in 2..parts.size step 2) {
-            if (parts[i-1] == "+") {
-                result += parts[i].toInt()
-            } else if (parts[i-1] == "-") {
-                result -= parts[i].toInt()
-            } else throw IllegalArgumentException(" ")
-        }
-    }
-    return result
+    val e = IllegalArgumentException("Description")
+    val check = Regex("""((\d)+(?=\s\d))|([-\+](?=\s[-\+]))|([-\+](?=[-\+]))|([^-\d\+\s])""").find(expression)
+    if (check != null) throw e
+    val result = Regex("""\s(?=\d)""").replace(expression, "").split(" ")
+    return result.map { it.toInt() }.sum()
 }
 
 /**
@@ -193,7 +189,12 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val workingStr = str.toLowerCase()
+    val matchResult = Regex("""([а-яa-z]+)\s\1""").find(workingStr)
+    if (matchResult == null) return -1
+    return workingStr.indexOf(matchResult.value)
+}
 
 /**
  * Сложная
@@ -206,8 +207,21 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
-
+fun mostExpensive(description: String): String {
+    val check = Regex("""[а-яА-Я]+\s(\d)+\.\d(;\s|$)""").find(description)
+    if (check == null) return ""
+    val checkExcess = Regex("""[^а-яА-Я\.\s;\d]""").find(description)
+    if (checkExcess != null) return ""
+    val price = Regex("""(\d)+.\d""").findAll(description)
+    val priceList = mutableListOf<String>()
+    for (i in price) {
+        priceList.add(i.value)
+    }
+    val mostPrice = priceList.map { it.toDouble() }.sorted().last().toString()
+    val result = Regex("""([а-яА-Я])+(?=\s$mostPrice)""").find(description)
+    if (result == null) return ""
+    return result.value.toString()
+}
 /**
  * Сложная
  *

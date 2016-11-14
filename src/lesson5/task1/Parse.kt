@@ -61,12 +61,18 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = str.split(" ")
-        if (list.indexOf(parts[1]) == -1) throw IllegalAccessException()
-        return "${twoDigitStr(parts[0].toInt())}.${twoDigitStr(list.indexOf(parts[1]) + 1)}.${parts[2]}"
-    } catch (e: Exception) {
+        if (parts.size != 3) throw IndexOutOfBoundsException()
+        val day = parts[0].toInt()
+        val month = list.indexOf(parts[1])
+        val year = parts[2].toInt()
+        if ((month == -1) || (year < 0) || (day !in 1..31)) throw NumberFormatException()
+        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.${year}"
+    } catch (e: NumberFormatException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
@@ -77,7 +83,20 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        val parts = digital.split(".")
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val year = parts[2].toInt()
+        if ((month !in 1..12) || (year < 0) || (day !in 1..31) || (parts.size != 3)) throw NumberFormatException()
+        return "${oneDigitStr(day)} ${list[month - 1]} ${year}"
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
+fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n%10}"
 
 /**
  * Сложная
@@ -91,7 +110,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val list = phone.toMutableList()
+    if (list.filter { it !in "+0123456789-() " }.isEmpty()) return list.filter { it in "+0123456789" }.joinToString("")
+    return ""
+}
 
 /**
  * Средняя
@@ -103,7 +126,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var best = -1
+    try {
+        for (part in parts) {
+            if ((part != "-") && (part != "%") && (part.toInt() > best)) best = part.toInt()
+        }
+        return best
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -115,7 +149,16 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var best = -1
+    for (part in 1..parts.size - 1 step 2) {
+        for (j in parts[part]) {
+            if ((j == '+') && (best < parts[part - 1].toInt())) best = parts[part - 1].toInt()
+        }
+    }
+    return best
+}
 
 /**
  * Сложная
@@ -126,7 +169,20 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var result = parts[0].toInt()
+    if (parts.size > 1) {
+        for (i in 2..parts.size step 2) {
+            if (parts[i-1] == "+") {
+                result += parts[i].toInt()
+            } else if (parts[i-1] == "-") {
+                result -= parts[i].toInt()
+            } else throw IllegalArgumentException(" ")
+        }
+    }
+    return result
+}
 
 /**
  * Сложная

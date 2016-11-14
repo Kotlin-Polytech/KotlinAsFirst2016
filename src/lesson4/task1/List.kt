@@ -181,7 +181,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var a = n
+    var i = 2
+    while (a > 1) {
+        if ((a % i) == 0) {
+            list.add(i)
+            a /= i
+        } else i++
+    }
+    return list.sorted()
+}
 
 /**
  * Сложная
@@ -189,7 +200,11 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    val list = factorize(n)
+    val ans = list.joinToString(separator = "*")
+    return ans
+}
 
 /**
  * Средняя
@@ -198,7 +213,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var a = n
+    while (a > 0 && base > 1) {
+        list.add(a % base)
+        a /= base
+    }
+    list.reverse()
+    return list
+}
 
 /**
  * Сложная

@@ -288,11 +288,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     val listOfDigits = mutableListOf<Int>()
-    for (i in str.length - 1 downTo 0) {
-        if (str[i] <= '9') {
-            listOfDigits.add(str[i] - '0')
+    for (element in str.reversed()) {
+        if (element <= '9') {
+            listOfDigits.add(element - '0')
         } else {
-            listOfDigits.add(str[i] - ('a' - 10))
+            listOfDigits.add(element - ('a' - 10))
         }
     }
     return decimal(listOfDigits.reversed(), base)
@@ -308,17 +308,17 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 fun roman(n: Int): String {
     var number = n
-    var result = ""
+    val result = StringBuilder()
     val list = mutableListOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C",
             90 to "XC", 50 to "L", 40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
     var i = 0
     while (number > 0) {
         if (number >= list[i].first) {
             number -= list[i].first
-            result += list[i].second
+            result.append(list[i].second)
         } else i++
     }
-    return result
+    return result.toString()
 }
 
 /**

@@ -58,10 +58,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = t2 * v2
     val s3 = t3 * v3
     val s = (s1 + s2 + s3) / 2
-    when {
-        s <= s1 -> return s / v1
-        s <= s1 + s2 -> return t1 + (s - s1) / v2
-        else -> return t1 + t2 + (s - s1 - s2) / v3
+    return when {
+        s <= s1 -> s / v1
+        s <= s1 + s2 -> t1 + (s - s1) / v2
+        else -> t1 + t2 + (s - s1 - s2) / v3
     }
 }
 
@@ -78,7 +78,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     val threatFrom1 = (kingX == rookX1 || kingY == rookY1)
     val threatFrom2 = (kingX == rookX2 || kingY == rookY2)
-    return when{
+    return when {
         threatFrom1 && threatFrom2 -> 3
         threatFrom2 -> 2
         threatFrom1 -> 1
@@ -101,9 +101,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     val threatFromRook = (kingX == rookX || kingY == rookY)
     val threatFromBishop = (abs(kingX - bishopX) == abs(kingY - bishopY))
     return when {
-        threatFromRook && threatFromBishop ->  3
+        threatFromRook && threatFromBishop -> 3
         threatFromBishop -> 2
-        threatFromRook ->  1
+        threatFromRook -> 1
         else -> 0
     }
 }
@@ -117,14 +117,17 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    when {
-        a + b > c && b + c > a && a + c > b ->
-        return when {
-            (sqr(a) + sqr(b) == sqr(c) || sqr(b) + sqr(c) == sqr(a) || sqr(a) + sqr(c) == sqr(b)) -> 1
-            (sqr(a) + sqr(b) < sqr(c) || sqr(b) + sqr(c) < sqr(a) || sqr(a) + sqr(c) < sqr(b)) -> 2
-            else -> 0
+    val list = listOf(a, b, c).sorted()
+    return when {
+        list[2] <= list[1] + list[0] -> {
+            val d = sqr(list[2]) - sqr(list[1]) - sqr(list[0])
+            when {
+                d < 0 -> 0
+                d > 0 -> 2
+                else -> 1
+            }
         }
-        else -> return -1
+        else -> -1
     }
 }
 
@@ -138,11 +141,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    when {
-        b in c..d && a in c..d -> return b - a
-        d in a..b && c in a..b -> return d - c
-        c in a..b -> return b - c
-        a in c..d -> return d - a
-        else -> return -1
+    return when {
+        b in c..d && a in c..d -> b - a
+        d in a..b && c in a..b -> d - c
+        c in a..b -> b - c
+        a in c..d -> d - a
+        else -> -1
     }
 }

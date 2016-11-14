@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE", "UNUSED_VALUE", "UNUSED_VALUE")
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -177,13 +177,13 @@ fun factorizeToString(n: Int): String = TODO()
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
     var result = listOf<Int>()
-    var list: List<Int>
+    var List : List<Int>
     do {
-        list = listOf(number % base)
-        result = list + result
+        List = listOf(number % base)
+        result += number % base
         number /= base
     } while (number > 0)
-    return result
+    return result.asReversed()
 }
 
 /**
@@ -196,12 +196,12 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val convert = convert(n, base)
-    var result = ""
+    val result = StringBuilder()
        for (element in convert) {
-           if (element > 9) result += ('a' + element - 10).toChar()
-           else result += element.toString()
+           if (element > 9) result.append('a' + element - 10)
+           else result.append(element)
        }
-    return result
+    return result.toString()
  }
 
 /**
@@ -258,7 +258,7 @@ fun russian(n: Int): String {
         val listFromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
         val listHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
         val listResult = mutableListOf<String>()
-        var result = ""
+
         val lastDigit = n % 10
         val thousand = when (n / 1000 % 10) {
             1 -> "тысяча"

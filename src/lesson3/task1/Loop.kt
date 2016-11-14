@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+
+
 /**
  * Пример
  *
@@ -57,17 +59,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int {
-    var number = n
-    var k = 0
-    if (n > 0) {
-        while (number != 0) {
-            number = number % 10
-            k += 1
-        }
-        return k
-        } else return 1
-}
+fun digitNumber(n: Int): Int =
+        if (n < 10) 1 else digitNumber(n / 10) + 1
 
 /**
  * Простая
@@ -75,7 +68,12 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    return when {
+        n > 2 -> fib(n - 2) + fib(n - 1)
+        else -> 1
+    }
+}
 
 /**
  * Простая
@@ -169,10 +167,6 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var square = 0
-    var sum = 0
-    var count = 1
-    var num : Int
     fun pow(number: Int, degree: Double): Int {
         var result = 1
         for (a in 1..degree.toInt()) {
@@ -180,6 +174,9 @@ fun squareSequenceDigit(n: Int): Int {
         }
         return result
     }
+    var square = 0
+    var sum = 0
+    var count = 1
     while (sum < n) {
         square = count * count
         count++

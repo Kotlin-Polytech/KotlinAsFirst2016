@@ -222,7 +222,7 @@ fun revert(n: Int): Int{
     }
     return r
 }
-
+ 
 /**
  * Средняя
  *

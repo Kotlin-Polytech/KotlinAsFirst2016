@@ -70,7 +70,7 @@ fun dateStrToDigit(str: String): String {
         val month = months.indexOf(list[1]) + 1
         if (month == 0) return ""
         val year = list[2].toInt()
-        return String.format("%02d.%02d.%04d", date, month, year)
+        return String.format("%02d.%02d.%d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -93,7 +93,7 @@ fun dateDigitToStr(digital: String): String {
         if (list[1].toInt() % 100 - 1 !in 0..11) return ""
         val month = months[list[1].toInt() % 100 - 1]
         val year = list[2].toInt()
-        return String.format("%d %s %04d", date, month, year)
+        return String.format("%d %s %d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -174,6 +174,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val e = IllegalArgumentException("Description")
+    if (expression.length == 0) throw e
     val check = Regex("""((\d)+(?=\s\d))|([-\+](?=\s[-\+]))|([-\+](?=[-\+]))|([^-\d\+\s])""").find(expression)
     if (check != null) throw e
     val result = Regex("""\s(?=\d)""").replace(expression, "").split(" ")
@@ -191,6 +192,8 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
+    val check = Regex("""[^A-ZА-Яа-яa-zё\s]""").find(str)
+    if (check != null) return -1
     val workingStr = str.toLowerCase()
     val matchResult = Regex("""([а-яa-z]+)\s\1""").find(workingStr)
     if (matchResult == null) return -1
@@ -209,20 +212,23 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val check = Regex("""[а-яА-Я]+\s(\d)+\.\d(;\s|$)""").find(description)
+    val check = Regex("""[а-яА-Яa-zA-Z]+\s(\d)+((\.\d(;\s|$))|(;\s|$))""").find(description)
     if (check == null) return ""
-    val checkExcess = Regex("""[^а-яА-Я\.\s;\d]""").find(description)
+    val checkExcess = Regex("""[^а-яА-Яa-zA-Z\.\s;\d]""").find(description)
     if (checkExcess != null) return ""
-    val price = Regex("""(\d)+.\d""").findAll(description)
+    val price = Regex("""(\d)+((.\d)|(?=((;\s)|($))))""").findAll(description)
     if (price == null) return ""
     val priceList = mutableListOf<String>()
     for (i in price) {
         priceList.add(i.value)
     }
-    val mostPrice = priceList.map { it.toDouble() }.sorted().last().toString()
-    val result = Regex("""([а-яА-Я])+(?=\s$mostPrice)""").find(description)
-    if (result == null) return ""
-    return result.value.toString()
+    var mostPrice = priceList.map { it.toDouble() }.sorted().last().toString()
+    var result = Regex("""([а-яА-Яa-zA-Z])+(?=\s$mostPrice)""").find(description)
+    if (result == null) {
+        mostPrice = priceList.map { it.toInt() }.sorted().last().toString()
+        result = Regex("""([а-яА-Яa-zA-Z])+(?=\s$mostPrice)""").find(description)
+    }
+    return result!!.value.toString()
 }
 
 /**

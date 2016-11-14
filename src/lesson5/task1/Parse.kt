@@ -212,10 +212,10 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val check = Regex("""[а-яА-Яa-zA-Z]+\s(\d)+((\.\d(;\s|$))|(;\s|$))""").find(description)
+    val check = Regex("""\s(\d+)+((\.(\d+)(;\s|$))|(;\s|$))""").find(description)
     if (check == null) return ""
-    val checkExcess = Regex("""[^а-яА-Яa-zA-Z\.\s;\d]""").find(description)
-    if (checkExcess != null) return ""
+    /*val checkExcess = Regex("""[^а-яА-Яa-zA-Z\.\s;\d]""").find(description)
+    if (checkExcess != null) return ""*/
     val price = Regex("""(\d)+((.\d)|(?=((;\s)|($))))""").findAll(description)
     if (price == null) return ""
     val priceList = mutableListOf<String>()

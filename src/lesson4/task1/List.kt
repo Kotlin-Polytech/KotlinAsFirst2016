@@ -108,10 +108,9 @@ fun abs(v: List<Double>): Double{
     var rez = 0.0
     if(v.isEmpty())
         return 0.0
-    else
-        for(element in v){
-            rez += element*element
-        }
+    for(element in v){
+        rez += element*element
+    }
     return Math.sqrt(rez)
 }
 
@@ -121,17 +120,14 @@ fun abs(v: List<Double>): Double{
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double{
+    if (list.isEmpty()) return 0.0
     var sum = 0.0
     var count = 0
-    if(list.isNotEmpty()) {
-        for (element in list) {
-            sum += element
-            count++
-        }
-        return sum / count
+    for (element in list) {
+        sum += element
+        count++
     }
-    else
-        return 0.0
+    return sum / count
 }
 
 /**
@@ -189,12 +185,11 @@ fun polynom(p: List<Double>, x: Double): Double{
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double>{
-    if(list.isNotEmpty()) {
-        var sum = list[0]
-        for (i in 1..list.size - 1) {
-            sum += list[i]
-            list[i] = sum
-        }
+    if(list.isEmpty()) return list
+    var sum = list[0]
+    for (i in 1..list.size - 1) {
+        sum += list[i]
+        list[i] = sum
     }
     return list
 }
@@ -267,14 +262,14 @@ fun convert(n: Int, base: Int): List<Int>{
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 
-fun convertToString(n: Int, base: Int): String = TODO()/*{
+fun convertToString(n: Int, base: Int): String{
     val rez = mutableListOf<Char>()
     var nn = n
     var it = 0
     while (nn >= base) {
         it = nn % base
         if(it <10)
-            rez.add((it).toChar()) //Как работает toChar
+            rez.add('0' + it)
         else
             rez.add((it+43).toChar())// Как можно по коду получить символ?
         nn/=base
@@ -282,7 +277,7 @@ fun convertToString(n: Int, base: Int): String = TODO()/*{
     rez.add(nn.toChar())
     rez.reversed()
     return rez.toString()
-}*/
+}
 
 /**
  * Средняя

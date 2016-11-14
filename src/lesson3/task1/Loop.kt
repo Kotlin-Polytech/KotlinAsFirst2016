@@ -111,7 +111,7 @@ fun lcm(m: Int, n: Int): Int = m*n/nod(m,n)
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int{
-    for(d in 3..Math.sqrt(n.toDouble()).toInt()){
+    for(d in 2..Math.sqrt(n.toDouble()).toInt()){
         if(n % d == 0)
             return d
     }
@@ -231,6 +231,8 @@ fun revert(n: Int): Int{
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean{
+    if (n<10)
+        return true
     val a = mutableListOf<Int>()
     var nn = n
     while (nn != 0){

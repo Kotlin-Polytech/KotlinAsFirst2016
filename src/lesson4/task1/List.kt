@@ -271,15 +271,18 @@ fun decimalFromString(str: String, base: Int): Int {
     var l = str.length
     var res = 0
     var con = pow(base, l)
-    for (q in str) {
-        con /= base
-        if (q in '0'..'9') {
-            res += (q - '0') * con
-        } else if (q in 'a'..'z') {
-            res += ((q - 'a') + 10) * con
+    if (base != 10) {
+        for (q in str) {
+            con /= base
+            if (q in '0'..'9') {
+                res += (q - '0') * con
+            } else if (q in 'a'..'z') {
+                res += ((q - 'a') + 10) * con
+            }
         }
+        return res
     }
-    return res
+    else return str.toInt()
 }
 
 fun pow(a: Int, b: Int): Int {

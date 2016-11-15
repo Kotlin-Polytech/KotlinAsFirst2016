@@ -68,6 +68,7 @@ data class Circle(val center: Point, val radius: Double) {
      */
     fun contains(p: Point): Boolean = p.distance(center) <= radius
 }
+
 /**
  * Отрезок между двумя точками
  */
@@ -239,6 +240,6 @@ fun minContainingCircle(vararg points: Point): Circle {
             elementMax = point
         }
     }
-    if (Math.abs(elementMax.distance(p)-radius) <= 1e-13) return Circle(p, nmax)
+    if (Math.abs(elementMax.distance(p) - radius) <= 1e-13) return Circle(p, nmax)
     else return circleByThreePoints(max1, max2, elementMax)
 }

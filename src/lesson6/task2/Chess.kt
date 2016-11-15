@@ -2,6 +2,7 @@
 package lesson6.task2
 
 import java.util.*
+val ALF = "abcdefgh"
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -23,7 +24,14 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (!(inside())) return ""
+        var result = String()
+        val column1 = ALF [column - 1]
+        result += column1
+        result+= row
+        return result
+    }
 }
 
 /**
@@ -33,7 +41,12 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (!(notation.first() in ALF) && !(notation.last().toInt() in 1..8) && !(notation.length == 2))
+        throw IllegalArgumentException(" ") else
+        return Square(ALF.indexOf(notation.first() + 1), (notation.last().toInt() - 48))
+}
+
 
 /**
  * Простая

@@ -236,14 +236,14 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
+    val result2 = convert(n, base)
     var result1 = String()
     val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
-    var m = n
-    while (m > 0) {
-        if (m % base < 10) result1 += (m % base) else result1 += ALPHABET[m % base - 10]
-        m /= base
+    for (m in result2) {
+        if (m < 10) result1 += m  else
+        result1 += ALPHABET[m - 10]
     }
-    return if (n == 0) "0" else result1.reversed()
+    return if (n == 0) "0" else result1
 }
 
 /**
@@ -292,7 +292,77 @@ fun decimalFromString(str: String, base: Int): Int{
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var result = String()
+    if (n / 1000 >= 1) {
+        var thousand = n / 1000
+        while (thousand > 0) {
+            result += 'M'
+            thousand--
+        }
+    }
+    var middle = n % 1000
+    if (middle / 100 >= 1) {
+        if (middle / 100 < 4) {
+            var hundred = middle / 100
+            while (hundred > 0) {
+                result += 'C'
+                hundred--
+            }
+        } else
+            if (middle / 100 == 4)
+                result += "CD" else
+                if (middle / 100 == 9) result += "CM" else {
+                    result += 'D'
+                    var plus = middle / 100 - 5
+                    while (plus > 0) {
+                        result += 'C'
+                        plus--
+                    }
+                }
+    }
+    middle %= 100
+    if (middle / 10 >= 1) {
+        if (middle / 10 < 4) {
+            var ten = middle / 100
+            while (ten > 0) {
+                result += 'X'
+                ten--
+            }
+        } else
+            if (middle / 10 == 4)
+                result += "XL" else
+                if (middle / 10 == 9) result += "XC" else {
+                    result += 'L'
+                    var plus = middle / 10 - 5
+                    while (plus > 0) {
+                        result += 'X'
+                        plus--
+                    }
+                }
+    }
+    middle %= 10
+    if (middle >= 1) {
+        if (middle < 4) {
+            var units = middle
+            while (units > 0) {
+                result += 'I'
+                units--
+            }
+        } else
+            if (middle == 4)
+                result += "IV" else
+                if (middle == 9) result += "IX" else {
+                    result += 'V'
+                    var plus = middle - 5
+                    while (plus > 0) {
+                        result += 'I'
+                        plus--
+                    }
+                }
+    }
+    return result
+}
 
 /**
  * Очень сложная

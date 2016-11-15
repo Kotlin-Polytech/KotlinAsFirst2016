@@ -81,7 +81,7 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    if (points.size < 2) throw IllegalAccessException()
+    if (points.size < 2) throw IllegalArgumentException()
     var maxdist = -1.0
     var result = Segment(points[0], points[0])
     for (i in 0..points.size - 2) {
@@ -164,7 +164,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-    if (circles.size < 2) throw IllegalAccessException()
+    if (circles.size < 2) throw IllegalArgumentException()
     var result = Pair (circles[0], circles[1])
     var mindist = circles[0].distance(circles[1]) + 1
     for (i in 0..circles.size - 2){

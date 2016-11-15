@@ -174,7 +174,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
-    if (expression.isEmpty() || parts.size == 0 || parts.size % 2 == 0) throw IllegalArgumentException()
+    if (parts.size == 0 || parts.size % 2 == 0) throw IllegalArgumentException()
     try {
         var result = parts[0].toInt()
         for (i in 1..parts.size - 2 step 2) {
@@ -186,8 +186,7 @@ fun plusMinus(expression: String): Int {
             }
         }
         return result
-    }
-    catch (e: NumberFormatException) {
+    } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }
 }
@@ -207,9 +206,9 @@ fun firstDuplicateIndex(str: String): Int {
     if (parts.size < 2) return -1
     if (parts[0] == parts[1]) return 0
     for (i in 1..parts.size - 2) {
-        numb += parts[i-1].length + 1
+        numb += parts[i - 1].length + 1
         if (parts[i] == parts[i + 1])
-        return numb
+            return numb
     }
     return -1
 }

@@ -44,7 +44,7 @@ interface Matrix<E> {
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): MatrixImpl<E> {
     if (height <= 0 || width <= 0) throw IllegalArgumentException()
-    return MatrixImpl<E>(height, width, e)
+    return MatrixImpl(height, width, e)
 }
 
 
@@ -87,22 +87,26 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun hashCode(): Int {
         var result = 13
-        result = result * 10 + height
-        result = result * 10 + width
+        result = result * 31 + height
+        result = result * 31 + width
         return result
     }
 
     override fun toString(): String {
-        var str: String = ""
+        val str = StringBuilder()
         for (i in 0..height-1) {
             for (j in 0..width-1) {
-                str += this[i,j]
-                str += "\t" //табулятор
+                str.append ("\t" + this[i,j])
             }
-            str += "\n" //новая строка
+            str.appendln()
         }
-        return str
+        return str.toString()
     }
+}
+
+fun main(args: Array<String>) {
+    val a = createMatrix(4, 4, 13)
+    println(a)
 }
 
 

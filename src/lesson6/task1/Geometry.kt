@@ -91,10 +91,10 @@ data class Segment(val begin: Point, val end: Point)
 fun diameter(vararg points: Point): Segment {
     var max = 0.0
     var segmentpoint1 = Point(0.0, 0.0)
-    var segmentpoint2 = Point(0.0,0.0)
+    var segmentpoint2 = Point(0.0, 0.0)
     for (i in points) {
-        for (j in points){
-            if (i.distance(j)>max){
+        for (j in points) {
+            if (i.distance(j) > max) {
                 max = i.distance(j)
                 segmentpoint1 = i
                 segmentpoint2 = j
@@ -110,10 +110,11 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle {
+fun circleByDiameter(diameter: Segment): Circle = TODO()/*{
     var radius = (diameter.begin.distance(diameter.end))/2
     var center = Point((diameter.begin.distance(diameter.end))/2)
 }
+*/
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.

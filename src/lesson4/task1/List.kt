@@ -150,11 +150,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var sumproizv = 0.0
+    var scalarproduct = 0.0
     for (i in 0..a.size - 1) {
-        sumproizv = sumproizv + (a[i] * b[i])
+        scalarproduct += (a[i] * b[i])
     }
-    return sumproizv
+    return scalarproduct
 }
 
 /**
@@ -270,9 +270,9 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
 fun decimalFromString(str: String, base: Int): Int {
     var l = str.length
     var res = 0
+    var con = pow(base, l)
     for (q in str) {
-        l--
-        var con = power(base, l)
+        con /= base
         if (q in '0'..'9') {
             res += (q - '0') * con
         } else if (q in 'a'..'z') {
@@ -282,7 +282,7 @@ fun decimalFromString(str: String, base: Int): Int {
     return res
 }
 
-fun power(a: Int, b: Int): Int {
+fun pow(a: Int, b: Int): Int {
     var res = 1
     for (i in 1..b) {
         res *= a
@@ -309,13 +309,14 @@ fun roman(n: Int): String = TODO()
  */
 fun russian(n: Int): String {
     var a = n.toString()
+    var l: List<String>
     var s = ""
     var s1 = ""
     var part = 0
     var thous = 0
     var hundr = 0
     var unit = 0
-    for (i in 0..a.length-1) {
+    for (i in 0..2) {
         when (i) {
             0 -> {
                 unit = n % 10
@@ -364,12 +365,17 @@ fun russian(n: Int): String {
                     7 -> s1 = "cемьсот " + s1
                     8 -> s1 = "восемьсот " + s1
                     else -> s1 = "девятьсот " + s1
-                }}
-            3 ->{
-
                 }
             }
         }
+    }
+    for (j in 3..a.length) {
+        when (j) {
+            3 -> {
+
+            }
+        }
+    }
 
     return s1
 }

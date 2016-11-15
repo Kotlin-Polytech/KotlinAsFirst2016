@@ -188,13 +188,12 @@ fun squareSequenceDigit(n: Int): Int {
     var element = 0
     var square = 0
     var s = 0
-    var ost = 0
     while (s < n) {
         element++
         square = element * element
         s = s + digitNumber(square)
     }
-    ost = s - n
+    var ost = s - n
     for (j in 1..ost) {
         square /= 10
     }
@@ -212,18 +211,14 @@ fun fibSequenceDigit(n: Int): Int {
     var element = 0
     var number = 0
     var s = 0
-    var ost = 0
-    var cur = 0
     while (s < n) {
         element++
         number = fib(element)
         s = s + digitNumber(number)
     }
-    ost = s - n
+    var ost = s - n
     for (j in 1..ost) {
         number /= 10
     }
-    cur = number % 10
-
-    return cur
+    return number % 10
 }

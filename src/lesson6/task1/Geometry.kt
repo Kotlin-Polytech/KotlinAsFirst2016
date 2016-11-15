@@ -61,8 +61,8 @@ data class Circle(val center: Point, val radius: Double) {
     fun distance(other: Circle): Double {
         val distanceCenter = center.distance(other.center)
         val radiusSum = radius + other.radius
-        if (distanceCenter <= radiusSum) return 0.0
         val result = distanceCenter - radiusSum
+        if (result < 0.0) return 0.0
         return result
     }
 
@@ -85,39 +85,23 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
-/*
+
 fun diameter(vararg points: Point): Segment {
     if (points.size < 2) throw IllegalArgumentException()
-    val setOfPoints = mutableListOf<Point>()
-    for (point in points){
-        setOfPoints += point
-    }
-
-    var firstPoint = Point(0.0, 0.0)
-    var maxDistance = 0.0
-    var secondPoint = Point(0.0, 0.0)
-    var switch = true
-    var pointsList = mutableListOf<Point>()
-    while (switch) {
-        for (point in (setOfPoints-pointsList)) {
-            val distance = point.distance(firstPoint)
-            if (distance >= maxDistance) {
-                maxDistance = distance
-                secondPoint = point
+    var distance = 0.0
+    var result = Segment(points[0], points[0])
+    for (pointOne in points) {
+        for (pointTwo in points) {
+            val thisDistance = pointOne.distance(pointTwo)
+            if (thisDistance > distance) {
+                distance = thisDistance
+                result = Segment(pointOne, pointTwo)
             }
         }
-        if (firstPoint == secondPoint) {
-            switch = false
-            pointsList += listOf(firstPoint)
-            pointsList += secondPoint
-        }
-
-        firstPoint = secondPoint
     }
-    return Segment(secondPoint, firstPoint)
+    return result
 }
-*/
+
 /**
  * Простая
  *
@@ -155,11 +139,9 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    var rad = 0.0
+    val rad: Double
     if (s.begin.x == s.end.x) {
         rad = PI / 2
-    } else if (s.begin.y == s.end.y) {
-
     } else {
         val cathetusOne = s.end.y - s.begin.y
         val cathetusTwo = s.end.x - s.begin.x
@@ -194,7 +176,22 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+    var distance = circles[0].distance(circles[1])
+    var result = Pair(circles[0], circles[1])
+    for (i in 0..circles.size - 2) {
+        for (j in i + 1..circles.size - 1) {
+            val thisDistance = circles[i].distance(circles[j])
+            if (thisDistance < distance) {
+                distance = thisDistance
+                result = Pair(circles[i], circles[j])
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная
@@ -218,5 +215,35 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
 
+fun minContainingCircle(vararg points: Point): Circle = TODO()
+/*
+fun minContainingCircle(vararg points: Point): Circle {
+    if(points.size < 2) return Circle(points[0], 0.0)
+    //ищем прямоугольник, содержащий все точки
+    var maxY = points[0].y
+    var minY = maxY
+    var maxX = points[0].x
+    var minX = maxX
+    for (point in points){
+        val pointY = point.y
+        val pointX = point.x
+        if(pointY > maxY) maxY = pointY
+        if(pointY < minY) minY = pointY
+        if(pointX > maxX) maxX = pointX
+        if(pointX < minX) minX = pointX
+    }
+
+    //находим центр прямоугольника
+    val centerY = (maxY + minY) / 2
+    val centerX = (maxX + minX) / 2
+    val center = Point(centerX,centerY)
+    var radius = 0.0
+    //находим самую отдаленную от центра точку
+    for (point in points){
+        val distance = center.distance(point)
+        if(distance>radius) radius = distance
+    }
+    return Circle(center, radius)
+}
+*/

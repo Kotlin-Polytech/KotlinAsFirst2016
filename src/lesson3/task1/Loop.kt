@@ -91,13 +91,23 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
+fun nod(m: Int, n: Int): Int {
+    var a = m
+    var b = n
+    while (b > 0){
+        val tmp = a % b
+        a = b
+        b = tmp
+    }
+    return a
+}
 fun lcm(m: Int, n: Int): Int {
-    val min = Math.min(n , m)
+    /*val min = Math.min(n , m)
     var nod = 1
     for (i in 2..min){
         if  (((m % i) == 0) && ((n % i) == 0)) nod = i
-    }
-    return (m * n / nod)
+    } */
+    return (m * n / nod(m,n))
 }
 
 /**
@@ -139,8 +149,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     for (i in 2..min) {
         if (((m % i) == 0) && ((n % i) == 0)) nod = i
     }
-        if (nod == 1) return true
-        else return false
+    return (nod == 1)
 }
 
 
@@ -229,8 +238,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    if (revert(n) == n) return true
-    else return false
+    return (revert(n) == n)
 }
 
 /**

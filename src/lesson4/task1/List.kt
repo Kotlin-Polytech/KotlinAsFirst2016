@@ -3,7 +3,23 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
-import org.jetbrains.annotations.Mutable
+
+
+fun pow (x: Int, i: Int): Int {
+    var number = 1
+    var ink = x
+    var power = i
+    while (power != 0) {
+        // println("power = $power; ink = $ink; number = $number")
+        if (power % 2 == 1)
+            number *= ink
+        ink *= ink
+        power = power.shr(1)
+
+    }
+    // println("----------")
+    return number
+}
 
 /**
  * Пример
@@ -139,7 +155,7 @@ fun mean(list: List<Double>): Double {
 fun center(list: MutableList<Double>): MutableList<Double> {
     val mean = mean(list)
     for (i in 0..list.size - 1) {
-     val element = list[i]
+        val element = list[i]
         list[i] = element - mean
 }
     return  list
@@ -171,7 +187,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var polynomial = 0.0
     for (i in 0..p.size - 1) {
-        polynomial += p[i] * Math.pow(x, i * 1.0)
+        polynomial += p[i] * Math.pow(x, i.toDouble())
     }
     return polynomial
 }
@@ -294,7 +310,7 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var number = 0.0
     for (i in 0..digits.reversed().size - 1) {
-        number += digits.reversed()[i] * Math.pow(base * 1.0, i * 1.0)
+        number += digits.reversed()[i] * pow(base, i)
     }
     return number.toInt()
 }
@@ -341,7 +357,7 @@ fun decimalFromString(str: String, base: Int): Int {
             else -> list.add((str[i] - '0').toDouble())
         }
     }
-    val number = list.reversed().mapIndexed { i, d -> d * Math.pow(base * 1.0, i * 1.0) }.sum()
+    val number = list.reversed().mapIndexed { i, d -> d * pow(base, i) }.sum()
     return number.toInt()
 }
 

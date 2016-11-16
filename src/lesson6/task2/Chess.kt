@@ -206,7 +206,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     val DistRow = end.row - start.row >= 0
     var StartX = start.column
     var StartY = start.row
-    while (StartX != end.column || StartY != end.row) {
+    while (StartX != end.column && StartY != end.row) {
         when {
             DistColumn && DistRow -> {
                 StartX += 1

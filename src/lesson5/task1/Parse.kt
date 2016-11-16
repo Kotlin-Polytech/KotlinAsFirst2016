@@ -253,7 +253,7 @@ fun mostExpensive(description: String): String {
             }
         }
 
-    } catch (e: Exception) {
+    } catch (e: NumberFormatException) {
         return ""
     }
     return name

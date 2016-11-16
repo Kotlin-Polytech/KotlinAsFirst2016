@@ -226,6 +226,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 fun minContainingCircle(vararg points: Point): Circle {
     if (points.size == 0) throw IllegalArgumentException()
     if (points.size == 1) return Circle(points[0], 0.0)
+    if (points.size == 2) return circleByDiameter(Segment(points[0], points[1]))
     val segment = diameter(*points)
     val max1 = segment.begin
     val max2 = segment.end
@@ -240,6 +241,6 @@ fun minContainingCircle(vararg points: Point): Circle {
             elementMax = point
         }
     }
-    if (Math.abs(elementMax.distance(p) - radius) <= 1e-13) return Circle(p, nmax)
+    if (Math.abs(elementMax.distance(p) - radius) <= 1e-12) return Circle(p, nmax)
     else return circleByThreePoints(max1, max2, elementMax)
 }

@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import lesson7.task2.fifteenGameMoves
-
 /**
  * Пример
  *
@@ -82,20 +80,16 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
+    val first = parts[0].toInt()
+    val third = parts[2].toInt()
     try {
-        for (i in 0..MONTH_LIST.size) {
-            if (parts[1].toInt() == i && parts[1].toInt() != 0) {
-                val a = parts[0].toInt()
-                val b = MONTH_LIST[i - 1]
-                val c = parts[2].toInt()
-                return "$a $b $c"
-
-            }
-        }
+        var indEx = parts[1].toInt()
+        if (indEx in 0..9) indEx %= 10
+        val myInd = MONTH_LIST[indEx]
+        return "$first $myInd $third"
     } catch (e: NumberFormatException) {
         return ""
     }
-    return ""
 }
 
 /**
@@ -129,25 +123,20 @@ fun flattenPhoneNumber(phone: String): String {
 
 fun bestLongJump(jumps: String): Int {
     try {
-        var max = 0
         val newList = mutableListOf<Int>()
         val list = jumps.split(" ").filter { it != "" }
-        for (i in 0..list.size - 1) {
-            if (list[i] != '-'.toString() && list[i] != '%'.toString()) {
-                newList.add(list[i].toInt())
-            }
+        for (jump in list) {
+            if (jump != "-" && jump != "%")
+                newList.add(jump.toInt())
         }
         if (newList.isEmpty()) return -1
-        for (i in 0..newList.size - 1) {
-            if (newList[i] > max)
-                max = newList[i]
-        }
-        if (max == 0) return 0
-        else return max
+        if (newList.max() == 0) return 0
+        else return newList.max()?.toInt()!!
     } catch (e: Exception) {
         return -1
     }
 }
+
 /**
  * Сложная
  *
@@ -159,7 +148,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-TODO()
+    TODO()
 }
 
 /**
@@ -176,20 +165,21 @@ fun plusMinus(expression: String): Int {
         val myList = expression.split(" ")
         var sum = myList[0].toInt()
         for (i in 0..myList.size - 1) {
-            if (myList[i] == '+'.toString()) {
+            if (myList[i] == "+") {
                 val a = myList[i + 1].toInt()
                 sum += a
             }
-            if (myList[i] == '-'.toString()) {
+            if (myList[i] == "-") {
                 val a = myList[i + 1].toInt()
                 sum -= a
             }
         }
         return sum
-    } catch (e: NumberFormatException){
+    } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }
 }
+
 /**
  * Сложная
  *
@@ -204,11 +194,11 @@ fun firstDuplicateIndex(str: String): Int {
     var index = 0
     var backSpace = 0
     val list = str.toLowerCase().split(" ")
-    for (i in 1..list.size-1){
-        backSpace = i-1
-        index +=list[i-1].toString().length
-        if (list[i] == list[i-1])
-        return str.indexOf(list[i-1], index - 2 - list[i - 1].length + backSpace)
+    for (i in 1..list.size - 1) {
+        backSpace = i - 1
+        index += list[i - 1].length
+        if (list[i] == list[i - 1])
+            return str.indexOf(list[i - 1], index - 2 - list[i - 1].length + backSpace)
     }
     return -1
 }
@@ -238,7 +228,7 @@ fun mostExpensive(description: String): String {
             }
         }
         return secList[myIndex - 1]
-    } catch (e : Exception){
+    } catch (e: Exception) {
         return ""
     }
 }

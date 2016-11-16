@@ -158,7 +158,19 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.isEmpty()) return -1
+    val matchResult = Regex("""[^0-9\s+%-]""").find(jumps)
+    if (matchResult != null) return -1
+
+    var jumpList = jumps.split(" ")
+    jumpList.filter{it != " " && it != "%" && it != "-"}
+    var success = mutableListOf<Int>()
+    for (i in 0..jumpList.size - 2) {
+        if (jumpList[i] != "+" && jumpList[i+1] == "+") success.add(jumpList[i].toInt())
+    }
+    return success.max() ?: -1
+}
 
 /**
  * Сложная
@@ -169,9 +181,6 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-
-/*  Всевышний прости меня за то, что я написал этой ночью: */
-
 
 fun plusMinus(expression: String): Int {
     if (expression.isEmpty()) throw IllegalArgumentException()
@@ -191,15 +200,33 @@ fun plusMinus(expression: String): Int {
 
     // Нужно серьезно переделать программу с этого момента (WORK IN PROGRESS)
 
-    var neg = listOf<Int>()
-    val min = Regex("""-(\d)+""").find(noSpacingExp)
-    if (min != null) neg = min.groupValues.map { -1 * it.toInt() }
+    var result = mutableListOf<Int>()
+    var count:Int
+    var number:Int
+    for (i in 0..noSpacingExp.length-1) {
+        if (noSpacingExp[i] == '+') {
+            count = i + 1
+            number = 0
+            while (count <= noSpacingExp.length-1 && noSpacingExp[count] != '-' && noSpacingExp[count] != '+') {
+                number *= 10
+                number += noSpacingExp[count] - '0'
+                count++
+            }
+            result.add(number)
+        }
+        if (noSpacingExp[i] == '-') {
+            count = i + 1
+            number = 0
+            while (count <= noSpacingExp.length-1 && noSpacingExp[count] != '-' && noSpacingExp[count] != '+') {
+                number *= 10
+                number += noSpacingExp[count] - '0'
+                count++
+            }
+            result.add(-number)
+        }
+    }
 
-    var pos = listOf<Int>()
-    val plus = Regex("""\+(\d)+""").find(noSpacingExp)
-    if (plus != null) pos = plus.groupValues.map { it.toInt() }
-
-    return (neg.subList(1, neg.size) + pos.subList(1, pos.size)).sum()
+    return result.sum()
 }
 
 /**

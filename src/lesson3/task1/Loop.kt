@@ -266,20 +266,19 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var digit = 0 // номер текущей цифры в последовательности
-    var number = 0 // целое число, крадрат которого вычисляется
-    var revertedSquare: Long // квадрат, записанный в обратном порядке
-    while (digit < n) {
-        number++
-        revertedSquare = (revert(number * number)).toLong()
-        for (i in 1..digitNumber(number * number)) {
-            val result = revertedSquare % 10
-            digit ++
-            if (digit == n) return result.toInt()
-            revertedSquare /= 10
+    var digit = 0 // номер цифры из последовательности
+    var number = 1 // число, которое возводим в квадрат
+    var square = 1 //// хранит число, номер последней цифры которого (digit) проверяется на соответствие n
+    while (digit != n) {
+        square = number * number
+        digit += digitNumber(square)
+        while (n < digit) {
+            square /= 10
+            digit--
         }
+        number++
     }
-    return 0
+    return square % 10
 }
 
 /**
@@ -290,18 +289,17 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var digit = 0 // номер искомой цифры в последовательности
-    var number = 0 // целое число, fib которого вычисляется
-    var revertedFib: Long
-    while (digit < n) {
-        number++
-        revertedFib = revert(fib(number)).toLong()
-        for (i in 1..digitNumber(fib(number))) {
-            val result = revertedFib % 10
-            digit ++
-            if (digit == n) return result.toInt()
-            revertedFib /= 10
+    var digit = 0 // номер текущей проверемой цифры из чила fib
+    var number = 1 // целое число, fib которого вычисляется
+    var fib = 1 // хранит число, номер последней цифры которого (digit) проверяется на соответствие n
+    while (n != digit) {
+        fib = fib(number)
+        digit += digitNumber(fib)
+        while (n < digit) {
+            fib /= 10
+            digit--
         }
+        number++
     }
-    return 0
+    return fib % 10
 }

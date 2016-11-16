@@ -86,7 +86,7 @@ fun fib(n: Int): Int {
     var box = 0
     for (i in 3..n) {
         box = next
-        next = previous + next
+        next += previous
         previous = box
     }
     return next

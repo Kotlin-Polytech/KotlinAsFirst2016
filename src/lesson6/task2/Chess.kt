@@ -2,6 +2,7 @@
 
 package lesson6.task2
 
+import lesson4.task1.abs
 import java.util.*
 
 /**
@@ -122,7 +123,13 @@ fun rookTrajectory(start: Square, end: Square): List<Square> =
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int = when {
+    start == end -> 0
+    Math.abs(end.column - start.column) == Math.abs(end.row - start.row) -> 1
+    (Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 0 -> 2
+    (Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 1 -> -1
+    else -> throw IllegalArgumentException("IllegalArgumentException")
+}
 
 /**
  * Сложная
@@ -142,7 +149,19 @@ fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> = when {
+    bishopMoveNumber(start,end) == -1 -> listOf()
+    bishopMoveNumber(start,end) == 0 -> listOf(start)
+    bishopMoveNumber(start,end) == 1 -> listOf(start, end)
+    else -> listOf(start, when {
+        (start.column + end.column + end.row - start.row) / 2 in 1..8 ->
+            Square((start.column + end.column + end.row - start.row) / 2,
+                    (start.column + end.column + end.row - start.row) / 2 - start.column + start.row)
+        else -> Square((start.column - end.column + end.row - start.row) / 2,
+                (start.column + end.column + end.row - start.row) / 2 - start.column + start.row)
+    }
+            , end)
+}
 
 /**
  * Средняя
@@ -164,7 +183,8 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int = Math.max(Math.abs(start.column - end.column),
+        Math.abs(start.row - end.row) )
 
 /**
  * Сложная
@@ -180,7 +200,54 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    val MoveList = mutableListOf<Square>(start)
+    val DistColumn = end.column - start.column >= 0
+    val DistRow = end.row - start.row >= 0
+    var StartX = start.column
+    var StartY = start.row
+    while (StartX != end.column || StartY != end.row) {
+        when {
+            DistColumn && DistRow -> {
+                StartX += 1
+                StartY += 1
+            }
+            DistColumn && !DistRow -> {
+                StartX += 1
+                StartY -= 1
+            }
+            !DistColumn && DistRow -> {
+                StartX -= 1
+                StartY += 1
+            }
+            else -> {
+                StartX -= 1
+                StartY -= 1
+            }
+        }
+        MoveList.add(Square(StartX, StartY))
+    }
+ if (StartX == StartY) return MoveList
+    if (StartY == end.row){
+        while (StartX != end.column){
+            when{
+                DistColumn -> StartX += 1
+                else -> StartX -= 1
+            }
+            MoveList.add(Square(StartX, StartY))
+        }
+    } else {
+        while (StartY != end.row){
+            when{
+                DistRow -> StartY += 1
+                else -> StartY -= 1
+            }
+            MoveList.add(Square(StartX, StartY))
+        }
+    }
+    return MoveList
+}
+
 
 /**
  * Сложная

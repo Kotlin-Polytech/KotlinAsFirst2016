@@ -213,32 +213,4 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = Circle(bisectorB
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle {
-    var MinSumDistance = 0.0
-    var MaxRadius = 0.0
-    var radius = 0.0
-    var center = points[0]
-    if (points.size == 1) return Circle(center, radius)
-    if (points.size <= 0) {
-        throw IllegalArgumentException("IllegalArgumentException")
-    } else {
-        for (i in 0..points.size - 1) {
-            var SumDistance = 0.0
-            for (j in 0..points.size - 1) {
-                if (points[i].distance(points[j]) > MaxRadius) {
-                    MaxRadius = points[i].distance(points[j])
-                }
-                SumDistance += points[i].distance(points[j])
-            }
-            if (i == 0) {
-                MinSumDistance = SumDistance / points.size
-            }
-            if (SumDistance / points.size < MinSumDistance) {
-                MinSumDistance = SumDistance / points.size
-                center = points[i]
-                radius = MaxRadius
-            }
-        }
-    }
-    return Circle(center, radius)
-}
+fun minContainingCircle(vararg points: Point): Circle = TODO()

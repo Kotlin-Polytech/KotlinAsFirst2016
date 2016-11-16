@@ -173,9 +173,9 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
 
     if (start.column - start.row != end.column - end.row) {
         loop@ for (i in 1..8) for (j in 1..8)
-            if ((i - j == start.column - start.row && 9 - i - j == 9 - end.column - end.row ||
+            if (    (i - j == start.column - start.row && 9 - i - j == 9 - end.column - end.row ||
                     i - j == end.column - end.row && 9 - i - j == 9 - start.column - start.row) &&
-                    i != start.column && j != start.row && i != end.column && i != end.row) {
+                    i != start.column && j != start.row && i != end.column && j != end.row) {
                 list.add(Square(i, j))
                 break@loop
             }

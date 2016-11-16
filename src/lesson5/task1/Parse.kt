@@ -78,18 +78,21 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val parts = digital.split(".")
-    if (parts.size != 3) return ""
-    val first = parts[0].toInt()
-    val third = parts[2].toInt()
     try {
-        var indEx = parts[1].toInt()
-        if (indEx in 0..9) indEx %= 10
-        val myInd = MONTH_LIST[indEx]
-        return "$first $myInd $third"
+        val parts = digital.split(".")
+        if (parts.size > 3) return ""
+        val first = parts[0].toInt()
+        var second = parts[1].toInt()
+        if (second.toInt() != 0) {
+            val third = parts[2].toInt()
+            if (second < 10) second %= 10
+            val inDex = MONTH_LIST[second - 1]
+            return "$first $inDex $third"
+        }
     } catch (e: NumberFormatException) {
         return ""
     }
+    return ""
 }
 
 /**

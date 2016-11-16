@@ -58,6 +58,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
         (hs < v1 * t1)  -> (hs / v1)
         (hs < (v1 * t1 + v2 * t2)) -> (((hs - v1 * t1) / v2) + t1)
         else -> (((hs - v1 * t1 - v2 * t2) / v3) + t1 + t2)
+
     }
 }
 

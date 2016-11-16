@@ -364,6 +364,12 @@ fun roman(n: Int): String {
     return result
 }
 
+val hd = listOf("сто ","двести ","триста ","четыреста ","пятьсот ","шестьсот ","семьсот ","восемьсот ","девятьсот ")
+val tn = listOf("двадцать ","тридцать ","сорок ","пятьдесят ","шестьдесят ","семьдесят ","восемьдесят ","девяносто ")
+val tn1 = listOf("десять","одиннадцать","двенадцать","тринадцать","четырнадцать","пятнадцать","шестнадцать","семнадцать","восемнадцать","девятнадцать")
+val un = listOf("одна ","две ","три ","четыре ","пять ","шесть ","семь ","восемь ","девять ")
+val un1 = listOf("один","два","три","четыре","пять","шесть","семь","восемь","девять")
+
 /**
  * Очень сложная
  *
@@ -371,4 +377,55 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var result = String()
+    if (n / 1000 > 0) {
+        val middle = n / 1000
+        if (middle / 100 >= 1) {
+            val th1 = middle / 100
+            result += hd[th1 - 1]
+        }
+        if ((middle % 100) / 10 == 1) {
+            val mid = middle % 10
+            result += tn1[mid]
+            if (n%1000>0) result+=" "
+        }
+        else if ((middle % 100) / 10 == 0){
+            val mid2 = middle % 10
+            if(mid2 == 0 )  result += ""
+            else result += un[mid2 -1]
+        } else {
+            val mid1 = middle % 100 / 10
+            result += tn[mid1 - 2]
+
+            val mid2 = middle % 10
+            result += un[mid2 - 1]
+        }
+        if (middle %10 ==1 ) result += "тысяча" else if (middle%10==2) result += "тысячи" else result += "тысяч"
+        if (n%1000>0) result += " "
+    }
+    val middle2 = n % 1000
+    if (middle2 / 100 >= 1) {
+        val th1 = middle2 / 100
+        result += hd[th1 - 1]
+    }
+    if ((middle2 % 100) / 10 == 1) {
+        val mid = middle2 % 10
+        result += tn1[mid]
+    }
+    else  if ((middle2 % 100) / 10 == 0){
+        val mid2 = middle2 % 10
+        if (mid2==0) result+= ""
+        else result += un1[mid2 - 1]
+    } else
+
+    {
+        val mid1 = middle2 % 100 / 10
+        result += tn[mid1 - 2]
+        val mid2 = middle2 % 10
+        result += un1[mid2 - 1]
+    }
+    return result
+}
+
+

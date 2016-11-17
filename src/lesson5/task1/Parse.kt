@@ -139,7 +139,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.length == 0) return ""
+    if (phone.length == 0) return "" //проверка условий
     for (i in 0..phone.length - 1) {
         if ((phone[i] != '(')
                 && (phone[i] != ')')
@@ -167,25 +167,11 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    for (i in 0..jumps.length - 1) {  //проверка на условия
-        if ((jumps[i] != '%')
-                && (jumps[i] != '-')
-                && (jumps[i] != ' ')
-                && (jumps[i] !in '0'..'9'))
-            return -1
-    }
-    val text = jumps.filter { (it in '0'..'9') || (it == ' ') }.split(" ") //удаление лишних символов
-    var max=-1
-    for (i in 0..text.size-1){
-        try { //из-за возможного пробела
-            if (max < text[i].toInt()) max = text[i].toInt()
-        }
-        catch (e: NumberFormatException) {
-            null
-        }
-    }
-    return max
+    if (jumps.matches(Regex("[-%0-9 ]+"))) {
+        return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
+    }else return -1
 }
+
 
 /**
  * Сложная
@@ -198,29 +184,11 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (jumps == "") return -1
-    var maxMax = -1
-    var maxI = -1
-    try {
-        var string = jumps.split(" ")
-        if (string.size % 2 == 1) return -1
-        for (i in 0..string.size - 1 step 2) {
-            if ((string[i].toInt() > maxMax) && (checkPlus(string[i + 1]) == true)) {
-                maxMax = string[i].toInt()
-                maxI = i
-            }
-        }
-        if (maxI == -1) return -1 else return string[maxI].toInt()
-    } catch (e: NumberFormatException) {
-        return -1
-    }
-
+    if (jumps.matches(Regex("[-+%0-9 ]+"))) {
+        return Regex("([0-9]+) [%-]*[+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
+    }else return -1
 }
 
-fun checkPlus(str: String): Boolean {
-    for (i in 0..str.length - 1) if (str[i] == '+') return true
-    return false
-}
 
 /**
  * Сложная
@@ -294,7 +262,29 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int =TODO()
+fun fromRoman(roman: String): Int {
+    val font_rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val font_ar = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var rezult = 0
+    var posit = 0
+    var n = font_ar.size - 1
+    if (roman.length == 1) { //когда один символ
+        while (n >= 0) {
+            if (roman[0].toString() == font_rom[n]) {
+                rezult += font_ar[n]
+                return rezult
+            } else n -= 2
+        }
+    }
+    while (n >= 0 && posit < roman.length) {
+        if (roman.substring(posit, font_rom[n].length + posit) == font_rom[n]) {
+            rezult += font_ar[n]
+            posit += font_rom[n].length
+        } else n--
+    }
+    if (rezult == 0) rezult = -1
+    return rezult
+}
 
 
 /**

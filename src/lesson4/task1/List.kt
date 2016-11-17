@@ -192,7 +192,6 @@ fun polynom(p: List<Double>, x: Double): Double =
 fun accumulate(list: MutableList<Double>): MutableList<Double> =
         if (list.isEmpty()) list
         else {
-
             var gap: Double = 0.0
             for (i in 0..list.size - 1) {
                 gap += list[i]
@@ -230,10 +229,8 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    val list = factorize(n)
-    return list.joinToString("*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString ( separator = "*" )
+
 
 /**
  * Средняя

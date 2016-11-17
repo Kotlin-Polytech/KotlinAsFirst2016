@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.*
 
 /**
  * Точка на плоскости
@@ -13,7 +14,7 @@ data class Point(val x: Double, val y: Double) {
      *
      * Рассчитать (по известной формуле) расстояние между двумя точками
      */
-    fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
+    fun distance(other: Point): Double = sqrt(sqr(x - other.x) + sqr(y - other.y))
 }
 
 /**
@@ -30,7 +31,7 @@ data class Triangle(val a: Point, val b: Point, val c: Point) {
      */
     fun area(): Double {
         val p = halfPerimeter()
-        return Math.sqrt(p * (p - a.distance(b)) * (p - b.distance(c)) * (p - c.distance(a)))
+        return sqrt(p * (p - a.distance(b)) * (p - b.distance(c)) * (p - c.distance(a)))
     }
 
     /**
@@ -83,19 +84,20 @@ data class Segment(val begin: Point, val end: Point)
  */
 fun diameter(vararg points: Point): Segment {
     var maxDist = 0.0
-    var point1 = Point(0.0,0.0)
-    var point2 = Point(0.0,0.0)
+    var point1 = Point(0.0, 0.0)
+    var point2 = Point(0.0, 0.0)
     if (points.size < 2) throw IllegalArgumentException()
     for (i in 0..points.size - 1) {
         for (j in 1..points.size - 1) {
-            if (points[i].distance(points[j]) > maxDist) {
-                maxDist = points[i].distance(points[j])
+            val distance = points[i].distance(points[j])
+            if (distance > maxDist) {
+                maxDist = distance
                 point1 = points[i]
                 point2 = points[j]
             }
         }
     }
-    return Segment(point1,point2)
+    return Segment(point1, point2)
 }
 
 /**
@@ -122,7 +124,20 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val k1 = tan(this.angle)
+        val k2 = tan(other.angle)
+        val b1 = -1 * (this.point.x * k1) + this.point.y
+        val b2 = -1 * (other.point.x * k2) + other.point.y
+        val x = (b2 - b1) / (k1 - k2)
+        val y: Double
+        when {
+            (this.angle == PI / 2 || this.angle == -PI / 2) -> y = other.point.y
+            (other.angle == PI / 2 || other.angle == -PI / 2) -> y = this.point.y
+            else -> y = (x - this.point.x) * k1 + this.point.y
+        }
+        return Point(x, y)
+    }
 }
 
 /**

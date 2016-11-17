@@ -151,7 +151,25 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
  * 10 13 16 18
  * 14 17 19 20
  */
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSnake(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    var startI = -1
+    var startJ = 1
+    var number = 0
+    while (number < height * width) {
+        var i = startI
+        var j = startJ
+        while (i + 1 < height && j - 1 >= 0) {
+            number += 1
+            i += 1
+            j -= 1
+            result[i, j] = number
+        }
+        if(startJ+1<=width) startJ+=1
+        else startI+=1
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -276,7 +294,7 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
 fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
-    val result = createMatrix(matrix.height, matrix.width,0)
+    val result = createMatrix(matrix.height, matrix.width, 0)
     for (i in 0..matrix.height - 1) {
         for (j in 0..matrix.width - 1) {
             for (i1 in 0..i) {

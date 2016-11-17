@@ -85,8 +85,7 @@ fun fib(n: Int): Int {
             val x = row[i - 1] + row[i - 2]
             row += x
         }
-        val result = row[nn]
-        return result
+        return row[nn]
     }
 }
 
@@ -117,11 +116,13 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var i = n - 1
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
+/*{
+    var i = n / minDivisor(n)
     while (n % i != 0) i--
     return i
 }
+*/
 
 /**
  * Простая
@@ -132,19 +133,8 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     val gcdMN = gcd(m, n)
-    if (gcdMN == 1) return true
-    else return false
+    return (gcdMN == 1)
 }
-//  var result = 0
-//  var i = m
-// while (i > 1) {
-//    if ((m % i == 0) and (n % i == 0)) result++
-//   i--
-// }
-// if (result > 0) return (false)
-// else return (true)
-// }
-
 
 /**
  * Простая
@@ -155,7 +145,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun sqr(x: Double): Double = x * x
 
-fun squareBetweenExists(m: Int, n: Int): Boolean = sqr(Math.floor(Math.sqrt(n.toDouble()))) >= m && sqr(Math.floor(Math.sqrt(n.toDouble()))) <= n
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    val sqrN = Math.floor(Math.sqrt(n.toDouble()))
+    return sqr(sqrN) >= m && sqr(sqrN) <= n
+}
 
 /**
  * Простая
@@ -169,11 +162,12 @@ fun sin(x: Double, eps: Double): Double {
     var ind = 1
     var sin = 0.0
     var newElement = x % (Math.PI * 2)
+    val piX = x % (Math.PI * 2)
     while (Math.abs(newElement) >= eps) {
         sin += mark * newElement
         ind += 2
-        newElement = Math.pow(x % (Math.PI * 2), ind.toDouble()) / factorial(ind)
-        mark = 0 - mark
+        newElement = Math.pow(piX, ind.toDouble()) / factorial(ind)
+        mark = -mark
     }
     return sin
 }
@@ -214,10 +208,8 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    val nn = revert(n)
-    return n == nn
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
+
 
 /**
  * Средняя
@@ -242,15 +234,6 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun amount(n: Int): Int {
-    var number = 0
-    var nn = n
-    while (nn > 0) {
-        nn /= 10
-        number++
-    }
-    return number
-}
 
 fun squareSequenceDigit(n: Int): Int {
     var nn = 0
@@ -258,15 +241,10 @@ fun squareSequenceDigit(n: Int): Int {
     for (i in 0..n) {
         if (number < n) {
             nn++
-            number += amount(nn * nn)
+            number += digitNumber(nn * nn)
         } else break
     }
-    /**
-    while (number < n) {
-    nn++
-    number += amount(nn * nn)
-    }
-     */
+
     var result = nn * nn
     (n..number - 1).forEach { i -> result /= 10 }
     return (result % 10)

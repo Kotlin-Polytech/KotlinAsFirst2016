@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.cos
 import lesson4.task1.abs
 
 /**
@@ -39,10 +40,8 @@ fun ageDescription(age: Int): String {
     val ten = age % 10
     val oneHundred = age % 100
     return when {
-        (ten == 1) ->
-            when { (oneHundred == 11) -> "$age лет"
-                else -> "$age год"
-            }
+        (ten == 1) && (oneHundred == 11) -> "$age лет"
+        (ten == 1) && (oneHundred != 11) -> "$age год"
         (oneHundred in 12..14) -> "$age лет"
         (ten in 2..4) -> "$age года"
         else -> "$age лет"
@@ -59,20 +58,18 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val sAll = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     val s1 = t1 * v1
     val s2 = t2 * v2
     val s12 = s1 + s2
-    return when {
-        (sAll > 0) ->
-            when {
-                (sAll <= s1) -> sAll / v1
-                (sAll > s1) and (sAll <= s12) -> (t1 + (sAll - s1) / v2)
-                (sAll > s12) -> (t1 + t2 + (sAll - s12) / v3)
-                else -> 0.0
-            }
-        else -> 0.0
-    }
+    val sAll = (s1 + s2 + t3 * v3) / 2
+    if (sAll > 0) {
+        return when {
+            (sAll <= s1) -> sAll / v1
+            (sAll > s1) and (sAll <= s12) -> (t1 + (sAll - s1) / v2)
+            (sAll > s12) -> (t1 + t2 + (sAll - s12) / v3)
+            else -> 0.0
+        }
+    } else return 0.0
 }
 
 
@@ -89,10 +86,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     val rook1Danger = (rookX1 == kingX) or (rookY1 == kingY)
     val rook2Danger = (rookX2 == kingX) or (rookY2 == kingY)
-    return when {((rook1Danger == true) or (rook2Danger == true)) ->
-        when {((rook1Danger == true) and (rook2Danger == true)) -> 3
-            (((rook1Danger == false) or (rook2Danger == false)) and (rook1Danger == true)) -> 1
-            (((rook1Danger == false) or (rook2Danger == false)) and (rook1Danger == false)) -> 2
+    return when {(rook1Danger || rook2Danger) ->
+        when {(rook1Danger && rook2Danger) -> 3
+            ((!rook1Danger || !rook2Danger) && rook1Danger) -> 1
+            ((!rook1Danger || !rook2Danger) && !rook1Danger) -> 2
             else -> 0
         }
         else -> 0
@@ -114,10 +111,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           bishopX: Int, bishopY: Int): Int {
     val bishopDanger = ((kingX - kingY) == (bishopX - bishopY)) or ((bishopX - kingX) == (bishopY - kingY)) or (bishopX - kingX == -(bishopY - kingY))
     val rookDanger = (rookX == kingX) or (rookY == kingY)
-    return when {(bishopDanger == true) and (rookDanger == true) -> 3
-        (bishopDanger == true) and (rookDanger == false) -> 2
-        (bishopDanger == false) and (rookDanger == true) -> 1
-        (bishopDanger == false) and (rookDanger == false) -> 0
+    return when {
+        bishopDanger && rookDanger -> 3
+        bishopDanger && !rookDanger -> 2
+        !bishopDanger && rookDanger -> 1
+        !bishopDanger && !rookDanger -> 0
         else -> 0
     }
 }
@@ -136,29 +134,33 @@ fun triangleKind(a: Double, b: Double, c: Double)
     var max = 0.0
     var min1 = 0.0
     var min2 = 0.0
-    if ((a >= b) && (a >= c)) {
+    when {((a >= b) && (a >= c)) -> {
         max = a
         min1 = b
         min2 = c
 
-    } else {
-        if ((b >= c) && (a <= b)) {
+    }
+        ((b >= c) && (a <= b)) -> {
             max = b
             min1 = a
             min2 = c
-        } else {
+        }
+        else -> {
             max = c
             min1 = a
             min2 = b
         }
     }
-    if (min1 + min2 > max) {
-        val cosMax = (min1 * min1 + min2 * min2 - max * max) / 2 * min1 * min2
-        if (cosMax >= 0.0) {
-            if (cosMax == 0.0) return 1
-            else return 0
-        } else return 2
-    } else return -1
+    val cosMax = (min1 * min1 + min2 * min2 - max * max) / 2 * min1 * min2
+    return when { (min1 + min2 > max) ->
+        when {
+            (cosMax > 0.0) -> 0
+            (cosMax == 0.0) -> 1
+            (cosMax < 0.0) -> 2
+            else -> -1
+        }
+        else -> -1
+    }
 }
 
 /**
@@ -171,20 +173,12 @@ fun triangleKind(a: Double, b: Double, c: Double)
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-        (a > d) or ((a < d) and (c > b)) -> -1
-        else ->
-            when {
-                (d <= b) ->
-                    when { (c < a) -> (d - a)
-                        else -> (d - c)
-                    }
-                (d > b) ->
-                    when { (c < a) -> b - a
-                        else -> b - c
-                    }
-                else -> 0
-            }
+        (a > d) || ((a < d) && (c > b)) -> -1
+        (d <= b) && (c < a) -> (d - a)
+        (d <= b) && (c >= a) -> (d - c)
+        (d > b) && (c < a) -> b - a
+        (d > b) && (c >= a) -> b - c
+        else -> 0
     }
-
 }
 

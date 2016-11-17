@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+
 //import lesson3.task1.minDivisor
 
 /**
@@ -190,12 +191,12 @@ fun polynom(p: List<Double>, x: Double): Double {
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return list
     else {
-        var forElemtnt = 0.0
+        var forElement: Double
         var sum = list[0]
         for (i in 1..list.size - 1) {
-            forElemtnt = list[i]
+            forElement = list[i]
             list[i] = list[i] + sum
-            sum += forElemtnt
+            sum += forElement
         }
         return list
     }
@@ -210,7 +211,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     var nn = n
-    var minDivisor = 0
+    var minDivisor: Int
     var result = listOf<Int>()
     while (nn > 1) {
         minDivisor = lesson3.task1.minDivisor(nn)
@@ -239,7 +240,7 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var result = mutableListOf<Int>()
+    val result = mutableListOf<Int>()
     if (n != 0) {
         var nn = n
         while (nn > 0) {
@@ -322,17 +323,17 @@ fun roman(n: Int): String = TODO()
  */
 
 
-fun russian(n: Int): String  = TODO()
-/**{
+fun russian(n: Int): String {
+    var f = 0
+    var char100: Int
+    var char10: Int
     var result = ""
-    var charF = 0
-    var char100 = 0
-    var f = 10
+    var number = 1
     var nn = n
     while (nn > 0) {
-        charF = nn % f
-        char100 = nn % (f * 10)
-        if ((f == 10) or (f == 10000)) {
+        char100 = nn % 100
+        char10 = nn % 10
+        if ((number == 1) and (f == 0)) {
             if ((char100 < 20) and (char100 >= 10)) {
                 result = when {
                     (char100 == 11) -> "одиннадцать"
@@ -346,28 +347,110 @@ fun russian(n: Int): String  = TODO()
                     (char100 == 19) -> "девятнадцать"
                     else -> "десять"
                 } + result
-                f *= 100
+                f = 1
                 nn /= 100
+                number += 1
             }
-            if ((charF >= 0) and (charF < 10)) {
+            if ((char10 >= 0) and (char10 < 10)) {
                 result = when {
-                    (charF == 1) -> "один"
-                    (charF == 2) -> "два"
-                    (charF == 3) -> "три"
-                    (charF == 4) -> "четыре"
-                    (charF == 5) -> "пять"
-                    (charF == 6) -> "шесть"
-                    (charF == 7) -> "семь"
-                    (charF == 8) -> "восемь"
-                    (charF == 9) -> "девять"
+                    (char10 == 1) -> "один"
+                    (char10 == 2) -> "два"
+                    (char10 == 3) -> "три"
+                    (char10 == 4) -> "четыре"
+                    (char10 == 5) -> "пять"
+                    (char10 == 6) -> "шесть"
+                    (char10 == 7) -> "семь"
+                    (char10 == 8) -> "восемь"
+                    (char10 == 9) -> "девять"
                     else -> ""
                 } + result
-                f *= 10
+                f = 1
                 nn /= 10
             }
 
         }
+        if ((number == 2) and (f == 0)) {
+            result = when {
+                (char10 == 2) -> "двадцать"
+                (char10 == 3) -> "тридцать"
+                (char10 == 4) -> "сорок"
+                (char10 == 5) -> "пятьдесят"
+                (char10 == 6) -> "шестьдесят"
+                (char10 == 7) -> "семьдесят"
+                (char10 == 8) -> "восемьдесят"
+                (char10 == 9) -> "девяносто"
+                else -> ""
+            } + result
+            f = 1
+            nn /= 10
+        }
+        if ((number == 3) and (f == 0)) {
+            result = when {
+                (char10 == 1) -> "сто"
+                (char10 == 2) -> "двести"
+                (char10 == 3) -> "триста"
+                (char10 == 4) -> "четыреста"
+                (char10 == 5) -> "пятьсот"
+                (char10 == 6) -> "шестьсот"
+                (char10 == 7) -> "семьсот"
+                (char10 == 8) -> "восемьсот"
+                (char10 == 9) -> "девятьсот"
+                else -> ""
+            } + result
+            f = 1
+            nn /= 10
+        }
+       number += 1
     }
+    return result
+}
+
+
+/**{
+var result = ""
+var charF = 0
+var char100 = 0
+var f = 10
+var nn = n
+while (nn > 0) {
+charF = nn % f
+char100 = nn % (f * 10)
+if ((f == 10) or (f == 10000)) {
+if ((char100 < 20) and (char100 >= 10)) {
+result = when {
+(char100 == 11) -> "одиннадцать"
+(char100 == 12) -> "двенадцать"
+(char100 == 13) -> "тринадцать"
+(char100 == 14) -> "четырнадцать"
+(char100 == 15) -> "пятнадцать"
+(char100 == 16) -> "шестнадцать"
+(char100 == 17) -> "семнадцать"
+(char100 == 18) -> "восемнадцать"
+(char100 == 19) -> "девятнадцать"
+else -> "десять"
+} + result
+f *= 100
+nn /= 100
+}
+if ((charF >= 0) and (charF < 10)) {
+result = when {
+(charF == 1) -> "один"
+(charF == 2) -> "два"
+(charF == 3) -> "три"
+(charF == 4) -> "четыре"
+(charF == 5) -> "пять"
+(charF == 6) -> "шесть"
+(charF == 7) -> "семь"
+(charF == 8) -> "восемь"
+(charF == 9) -> "девять"
+else -> ""
+} + result
+f *= 10
+nn /= 10
+}
+
 }
 }
-        */
+}
+}
+ */

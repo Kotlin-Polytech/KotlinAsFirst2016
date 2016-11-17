@@ -232,7 +232,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var m = n
     val list = mutableListOf<Int>()
     if (n == 0) list.add(0)
-    while (n > 0) {
+    while (m > 0) {
         list.add(m % base)
         m /= base
     }

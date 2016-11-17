@@ -313,3 +313,4 @@ fun fibSequenceDigit(n: Int): Int {
     }
     return (resalt % 10)
 }
+//

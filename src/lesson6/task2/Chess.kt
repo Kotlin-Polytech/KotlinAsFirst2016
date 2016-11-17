@@ -24,7 +24,7 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = if (column in 1..8 && row in 1..8) letters[column - 1] + "$row" else  ""
+    fun notation(): String = if (column in 1..8 && row in 1..8) letters[column - 1] + "$row" else ""
 
 }
 
@@ -40,13 +40,13 @@ fun square(notation: String): Square {
     val x = parts[1]
     val y = parts[2]
     var xInt = 0
-    if (x.matches(Regex("""[a-h]""")) && y.matches(Regex("""[1-8]"""))){
-        for ((i,element) in letters.withIndex()) {
+    if (x.matches(Regex("""[a-h]""")) && y.matches(Regex("""[1-8]"""))) {
+        for ((i, element) in letters.withIndex()) {
             if (x == element.toString()) {
                 xInt = i + 1
             }
         }
-        return Square(xInt,y.toInt())
+        return Square(xInt, y.toInt())
     } else throw IllegalArgumentException()
 }
 
@@ -74,7 +74,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (start.column in 1..8 && start.row in 1..8 && end.column in 1..8 && end.column in 1..8) {
+    if (start.column in 1..8 && start.row in 1..8 && end.column in 1..8 && end.row in 1..8) {
         when {
             start == end -> return 0
             start.column != end.column && start.row != end.row -> return 2

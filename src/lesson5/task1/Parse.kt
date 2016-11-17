@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,20 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    if (str.isEmpty()) return ""
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        if (parts[0].toInt() > 31 || parts[0].toInt() <= 0) return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    if (parts[1] in month)
+        return String.format("%02d.%02d.%02d", parts[0].toInt(), month.indexOf(parts[1]).toInt() + 1, parts[2].toInt())
+    else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +81,24 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    if (digital.isEmpty()) return ""
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        if (parts[0].toInt() > 31 || parts[0].toInt() <= 0 || parts[2].toInt() <= 0) return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    val day = parts[0].toInt()
+    val year = parts[2].toInt()
+    val month = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
+    val Month = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    if (parts[1] in month) {
+        val number = parts[1].toInt()
+        return String.format("%d %s %02d", day, Month[number - 1], year)
+    } else return ""
+}
 
 /**
  * Сложная
@@ -83,7 +112,14 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.isEmpty()) return ""
+    val phonenumber = phone.filter { it != ' ' && it != '-' }
+    if (phonenumber.matches(Regex("""(\(|\)|\d|\+)*"""))) return phonenumber.filter { it in '0'..'9' || it == '+' }
+    else return ""
+
+
+}
 
 /**
  * Средняя

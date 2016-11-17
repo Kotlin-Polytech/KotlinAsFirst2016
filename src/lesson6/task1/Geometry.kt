@@ -137,7 +137,7 @@ fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y - s.begin
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((a.y -b.y)/(a.x - b.x)))
+fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((a.y - b.y) / (a.x - b.x)))
 
 /**
  * Сложная
@@ -145,16 +145,8 @@ fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((a.y -b.y)/(a.x -
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val point = Point((a.x + b.x)/2, (a.y + b.y) / 2)
-    val angle :Double
-    val line = lineByPoints(a, b)
-    when {
-        line.angle == 0.0 -> angle = Math.PI/2
-        line.angle == Math.PI / 2 -> angle =0.0
-        line.angle > Math.PI / 2 ->  angle =Math.acos(Math.sin(line.angle))
-        else ->  angle = Math.PI-Math.acos(Math.sin(line.angle))
-    }
-    return Line (point, angle)
+    val point = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    return Line(point, (lineByPoints(a, b).angle + Math.PI / 2) % Math.PI)
 }
 
 /**
@@ -165,14 +157,14 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     if (circles.size < 2) throw IllegalArgumentException()
-    var result = Pair (circles[0], circles[1])
+    var result = Pair(circles[0], circles[1])
     var mindist = circles[0].distance(circles[1]) + 1
-    for (i in 0..circles.size - 2){
-        for (k in i + 1..circles.size - 1){
+    for (i in 0..circles.size - 2) {
+        for (k in i + 1..circles.size - 1) {
             val dist = circles[i].distance(circles[k])
             if (dist < mindist) {
                 mindist = dist
-                result = Pair (circles[i], circles[k])
+                result = Pair(circles[i], circles[k])
             }
         }
     }

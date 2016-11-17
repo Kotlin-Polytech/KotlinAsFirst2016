@@ -104,14 +104,26 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var result = 0.0
+    for (i in v)
+        result+=i*i
+    return (Math.sqrt(result))
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    var result = 0.0
+    for(i in list)
+        result+=i
+    if (list.size==0) result = 0.0
+    else result/=list.size
+    return result
+}
 
 /**
  * Средняя
@@ -119,8 +131,14 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
-
+fun center(list: MutableList<Double>): MutableList<Double> {
+    if (list.size!=0){
+        var a = mean(list)
+        for(i in 0..list.size-1)
+            list[i]-=a
+    }
+    return list
+}
 /**
  * Средняя
  *
@@ -165,7 +183,16 @@ fun polynom(p: List<Double>, x: Double): Double  {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty())
+        else {
+            for (i in 1..list.size - 1) {
+                list[list.size - i] = list.subList(0, list.size - i + 1).sum()
+            }
+        }
+    return list
+}
+
 
 /**
  * Средняя
@@ -174,7 +201,41 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun prime(n: Int):Boolean {
+    if (n % 2 == 0)
+        return n == 2
+    var d = 3
+    while ((d * d <= n) and (n % d != 0))
+        d += 2
+    return d * d > n
+}
+fun func(n:Int): Int{
+    var b = 0
+    var k = 2
+    while(b<n){
+        while(!prime(k))
+            k++
+        b++
+        k++
+    }
+    return k-1
+}
+fun factorize(n: Int): List<Int> {
+    var a = 1
+    var b: Int
+    var c = mutableListOf<Int>()
+    var l=n
+    while (!prime(l)){
+        b = func(a)
+        while (l%b==0) {
+            l/=b
+            c.add(b)
+        }
+        a++
+    }
+    if (l!=1) c.add(l)
+    return c
+}
 
 /**
  * Сложная

@@ -26,7 +26,7 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        if (inside() == false) return ""
+        if (!inside()) return ""
         val str = "abcdifgh"
         return str[column - 1] + "$row"
     }
@@ -158,7 +158,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (moveNumb == -1) return listOf()
     if (moveNumb == 0) return list
     val column1 = (start.row - end.row + start.column + end.column) / 2
-    val row1 = (start.column - end.column + start.row + end.row)/2
+    val row1 = (start.column - end.column + start.row + end.row) / 2
     val column2 = (start.column + end.column + end.row - start.row) / 2
     val row2 = (end.column - start.column + start.row + end.row) / 2
     if (moveNumb == 2) {
@@ -189,7 +189,10 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    return Math.max(Math.abs(start.column - end.column), Math.abs(start.row - end.row))
+}
 
 /**
  * Сложная

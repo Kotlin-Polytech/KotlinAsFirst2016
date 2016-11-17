@@ -210,13 +210,10 @@ fun squareSequenceDigit(n: Int): Int {
         val c = digitNumber(sq)
         digitNumb += c
     }
-    if (digitNumb == n) return sq % 10
-    else {
-        for (a in 1..digitNumb - n) {
-            sq /= 10
-        }
-        return sq % 10
+    for (a in 1..digitNumb - n) {
+        sq /= 10
     }
+    return sq % 10
 }
 
 /**

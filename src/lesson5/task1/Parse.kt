@@ -96,7 +96,35 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var result = ""
+    val a = digital.split(".")
+    if (a.size != 3) return ""
+    try {
+        if (a[0].toInt() in 1..9) result += (a[0].toInt()).toString() + " "
+        else if (a[0].toInt() in 10..31) result += a[0] + " "
+        else return ""
+        when {
+            a[1] == "01" -> result += "января"
+            a[1] == "02" -> result += "февраля"
+            a[1] == "03" -> result += "марта"
+            a[1] == "04" -> result += "апреля"
+            a[1] == "05" -> result += "мая"
+            a[1] == "06" -> result += "июня"
+            a[1] == "07" -> result += "июля"
+            a[1] == "08" -> result += "августа"
+            a[1] == "09" -> result += "сентября"
+            a[1] == "10" -> result += "октября"
+            a[1] == "11" -> result += "ноября"
+            a[1] == "12" -> result += "декабря"
+            else -> return ""
+        }
+        result += " " + a[2]
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -110,7 +138,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.matches(Regex("^[+]?[-()0-9 ]+"))) {
+        return phone.replace(Regex("[-() ]+"), "")
+    } else return ""
+}
 
 /**
  * Средняя
@@ -122,7 +154,11 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.matches(Regex("[-%0-9 ]+"))) {
+        return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
+    } else return -1
+}
 
 /**
  * Сложная
@@ -134,7 +170,11 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.matches(Regex("[-+%[0-9] ]+"))) {
+        return Regex("([0-9]+) [%-]*[+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
+    } else return -1
+}
 
 /**
  * Сложная

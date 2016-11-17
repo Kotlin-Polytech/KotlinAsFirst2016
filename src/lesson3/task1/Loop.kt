@@ -21,14 +21,15 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 
-fun isPrime(n: Int): Boolean {
+fun isPrime(n: Int): Boolean = TODO()
+/**{
     if (n < 2) return false
     for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
         if (n % m == 0) return false
     }
     return true
 }
-
+*/
 
 /**
  * Пример
@@ -312,4 +313,3 @@ fun fibSequenceDigit(n: Int): Int {
     }
     return (resalt % 10)
 }
-//

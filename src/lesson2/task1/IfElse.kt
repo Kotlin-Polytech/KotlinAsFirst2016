@@ -36,7 +36,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String = when {
     (age % 100 != 11 && age % 10 == 1) -> "$age год"
-    (age % 100 > 20 || age % 100 < 5) && (age % 10 in 2..4) -> "$age года"
+    (age !in 5..20) && (age % 10 in 2..4) -> "$age года"
     else -> "$age лет"
 }
 
@@ -106,19 +106,17 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val maxSide = Math.max(Math.max(a, b), c)
-    val side1 = if (maxSide == a) b
-    else a
-    val side2 = if (maxSide == c) b
-    else c
+    val side1 = if (maxSide == a) b else a
+    val side2 = if (maxSide == c) b else c
 
     val sqrMax = maxSide * maxSide
     val sqr1 = side1 * side1
     val sqr2 = side2 * side2
 
     return when {
-        Math.abs(side1 - side2) > maxSide || side1 + side2 < maxSide -> -1
+        side1 + side2 < maxSide -> -1
         sqrMax == sqr1 + sqr2 -> 1
-        ((sqr1 + sqr2 - sqrMax) / (2 * side1 * side2) < 0) -> 2
+        sqrMax > (sqr1 + sqr2) -> 2
         else -> 0
     }
 }

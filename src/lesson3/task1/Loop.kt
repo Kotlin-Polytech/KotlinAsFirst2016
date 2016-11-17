@@ -87,7 +87,7 @@ fun fib(n: Int): Int = when {
 /**
  * Функция для нахождения НОД чисел m и n по алгоритму Евклида
  */
-fun NOD(m: Int, n: Int): Int {
+fun gcd(m: Int, n: Int): Int {
     var digit1 = m
     var digit2 = n
     while (digit1 != 0 && digit2 != 0)
@@ -102,7 +102,7 @@ fun NOD(m: Int, n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = m * n / (NOD(m, n))
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Простая
@@ -136,10 +136,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    if (NOD(m, n) == 1) return true
-    else return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -150,7 +147,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     for (i in m..n) {
-        if (Math.sqrt(i.toDouble()) == Math.sqrt(i.toDouble()).toInt().toDouble()) return true
+        return (Math.sqrt(i.toDouble()) == Math.sqrt(i.toDouble()).toInt().toDouble())
     }
     return false
 }
@@ -234,6 +231,15 @@ fun hasDifferentDigits(n: Int): Boolean {
     return false
 }
 
+fun powInt(a: Int, b: Int): Int {
+    if (b == 0) return 1
+    var result = a
+    for (i in 1..b - 1) {
+        result *= a
+    }
+    return result
+}
+
 /**
  * Сложная
  *
@@ -248,8 +254,7 @@ fun squareSequenceDigit(n: Int): Int {
         currentDigit += 1
         count += digitNumber(currentDigit * currentDigit)
     }
-    if (count > n) currentDigit = (currentDigit * currentDigit) / Math.pow(10.0, (count - n).toDouble()).toInt()
-    else currentDigit *= currentDigit
+    currentDigit = (currentDigit * currentDigit) / powInt(10, (count - n))
     return currentDigit % 10
 }
 
@@ -276,6 +281,6 @@ fun fibSequenceDigit(n: Int): Int {
         currentFib = fib1 + fib2
         count += digitNumber(currentFib)
     }
-    if (count > n) currentFib /= Math.pow(10.0, (count - n).toDouble()).toInt()
+    currentFib /= powInt(10, (count - n))
     return currentFib % 10
 }

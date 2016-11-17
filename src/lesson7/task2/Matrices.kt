@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson7.task2
 
+import com.sun.org.apache.bcel.internal.generic.SWAP
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -392,7 +393,28 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    fun findNumber(number: Int): Pair<Int, Int> {
+        for (i in 0..matrix.height-1)
+            for (j in 0..matrix.width-1)
+                if (matrix[i, j] == number) return Pair(j,i)
+        throw IllegalStateException()
+    }
+
+    for (move in moves) {
+        val (xNum, yNum) = findNumber(move)
+        val (xZero, yZero) = findNumber(0)
+        if (Math.abs(yNum - yZero) == 1 && xNum == xZero ||
+            Math.abs(xNum - xZero) == 1 && yNum == yZero) {
+            val temp = matrix[yNum, xNum]
+            matrix[yNum, xNum] = matrix[yZero, xZero]
+            matrix[yZero, xZero] = temp
+        }
+        else throw IllegalStateException()
+    }
+
+    return matrix
+}
 
 /**
  * Очень сложная

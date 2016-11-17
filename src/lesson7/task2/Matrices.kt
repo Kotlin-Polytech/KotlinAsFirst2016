@@ -65,14 +65,25 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
 
     var x = 0
     var y = 0
+    val moves = listOf(Pair(1, 0), Pair(0, 1), Pair(-1, 0), Pair(0, -1))
+    var dir = 0
+
     while (true) {
         matrix[y, x] = count
-        if (x < width-1 && matrix[y, x + 1] == 0) x++
-        else if (y < height-1 && matrix[y + 1, x] == 0) y++
-        else if (x > 0 && matrix[y, x-1] == 0) x--
-        else if (y > 0 && matrix[y-1, x] == 0) y--
-        else break
         count++
+
+        val nextX = x + moves[dir].first
+        val nextY = y + moves[dir].second
+        if (nextX < 0 || nextX == matrix.width || nextY < 0 ||
+            nextY == matrix.height || matrix[nextY, nextX] != 0)
+                dir = (dir + 1) % 4
+
+        x += moves[dir].first
+        y += moves[dir].second
+
+        if (x < 0 || x == matrix.width || y < 0 ||
+            y == matrix.height || matrix[y, x] != 0)
+                break
     }
 
     return matrix
@@ -316,7 +327,9 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
         loop@ for (shiftX in 0..lock.width-key.width) {
             for (row in shiftY..shiftY+key.height-1)
                 for (column in shiftX..shiftX+key.width-1)
-                    if (lock[row, column] == key[row - shiftY, column - shiftX])
+                    if (lock[row, column] == key[row - shiftY, column - shiftX] ||
+                        lock[row, column] !in 0..1 ||
+                        key[row - shiftY, column - shiftX] !in 0..1)
                         continue@loop
             return Triple(true, shiftY, shiftX)
         }

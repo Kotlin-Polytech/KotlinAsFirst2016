@@ -2,8 +2,7 @@
 
 package lesson6.task2
 
-
-val listOfLetters = listOf(1 to "a", 2 to "b", 3 to "c", 4 to "d", 5 to "e", 6 to "f", 7 to "g", 8 to "h")
+val letters = "abcdefgh"
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -25,7 +24,7 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = "$listOfLetters[column]$row"
+    fun notation(): String = if (column in 1..8 && row in 1..8) letters[column - 1] + "$row" else  ""
 
 }
 
@@ -37,14 +36,14 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val parts = notation.split("")
+    val parts = if (notation.matches(Regex("""\w\d"""))) notation.split("") else throw IllegalArgumentException()
     val x = parts[1]
     val y = parts[2]
     var xInt = 0
     if (x.matches(Regex("""[a-h]""")) && y.matches(Regex("""[1-8]"""))){
-        for (element in listOfLetters) {
-            if (x == element.second) {
-                xInt = element.first
+        for ((i,element) in letters.withIndex()) {
+            if (x == element.toString()) {
+                xInt = i + 1
             }
         }
         return Square(xInt,y.toInt())
@@ -75,10 +74,12 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (start == end) return 0
     if (start.column in 1..8 && start.row in 1..8 && end.column in 1..8 && end.column in 1..8) {
-        if (start.column != end.column && start.row != end.row) return 2
-        else return 1
+        when {
+            start == end -> return 0
+            start.column != end.column && start.row != end.row -> return 2
+            else -> return 1
+        }
     } else throw IllegalArgumentException()
 }
 

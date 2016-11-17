@@ -165,8 +165,8 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
             j -= 1
             result[i, j] = number
         }
-        if(startJ+1<=width) startJ+=1
-        else startI+=1
+        if (startJ + 1 <= width) startJ += 1
+        else startI += 1
     }
     return result
 }
@@ -381,7 +381,44 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toSt
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    var i0 = 0
+    var j0 = 0
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {    //нашли положение нуля
+            if (matrix[i, j] == 0) {
+                i0 = i
+                j0 = j
+            }
+        }
+    }
+
+    for (i in 0..moves.size - 1) {         //идём по шагам
+        if (i0 - 1 >= 0 && matrix[i0 - 1, j0] == moves[i]) {   //проверяем верхнюю ячейку
+            val tmp = matrix[i0, j0]
+            matrix[i0, j0] = matrix[i0 - 1, j0]
+            matrix[i0 - 1, j0] = tmp
+            i0 -= 1
+        } else if (i0 + 1 < matrix.height && matrix[i0 + 1, j0] == moves[i]) {    // проверяем нижнюю ячейку
+            val tmp = matrix[i0, j0]
+            matrix[i0, j0] = matrix[i0 + 1, j0]
+            matrix[i0 + 1, j0] = tmp
+            i0 += 1
+        } else if (j0 - 1 >= 0 && matrix[i0, j0 - 1] == moves[i]) {    // проверяем левую ячейку
+            val tmp = matrix[i0, j0]
+            matrix[i0, j0] = matrix[i0, j0 - 1]
+            matrix[i0, j0 - 1] = tmp
+            j0 -= 1
+        } else if (j0 + 1 < matrix.width && matrix[i0, j0 + 1] == moves[i]) {    // проверяем правую ячейку
+            val tmp = matrix[i0, j0]
+            matrix[i0, j0] = matrix[i0, j0 + 1]
+            matrix[i0, j0 + 1] = tmp
+            j0 += 1
+        } else throw IllegalStateException()
+    }
+
+    return matrix
+}
 
 /**
  * Очень сложная

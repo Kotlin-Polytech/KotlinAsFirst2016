@@ -219,7 +219,37 @@ fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun knightMoveNumber(start: Square, end: Square): Int = TODO()
+fun steps(square: Square, set: Set<Square>): List<Square> {
+    val result = listOf(Square(square.column + 2, square.row - 1), Square(square.column + 2, square.row + 1),
+            Square(square.column - 2, square.row + 1), Square(square.column - 2, square.row - 1), Square(square.column - 1, square.row - 2),
+            Square(square.column - 1, square.row + 2), Square(square.column + 1, square.row - 2), Square(square.column + 1, square.row + 2))
+    return result.filter { it.inside() }.filter { it !in set }
+}
+
+
+fun knightMoveNumber(start: Square, end: Square): Int {
+    val set = mutableSetOf<Square>()
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    if (start == end) return 0
+    var list = mutableListOf(start)
+    var result = 0
+    var temp = list
+    while (end !in list) {
+        temp = list
+        list = mutableListOf<Square>()
+        for (element in temp) {
+            val steps = steps(element, set)
+            for (step in steps) {
+                list.add(step)
+
+                set.add(step)
+            }
+            if (end in list) break
+        }
+        result++
+    }
+    return result
+}
 
 /**
  * Очень сложная

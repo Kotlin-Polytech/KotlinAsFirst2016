@@ -67,27 +67,27 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var cursor = Cell(0, 0)
     result[cursor] = 1
     var j = 1
-    for (i in 0..floor(min(height, width) / 2.0).toInt()){
-    while(cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0){
-        j++
-        cursor = Cell(cursor.row, cursor.column + 1)
-        result[cursor] = j
-    }
-    while(cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0){
-        j++
-        cursor = Cell(cursor.row + 1, cursor.column)
-        result[cursor] = j
-    }
-    while(cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0){
-        j++
-        cursor = Cell(cursor.row, cursor.column - 1)
-        result[cursor] = j
-    }
-    while(cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0){
-        j++
-        cursor = Cell(cursor.row - 1, cursor.column)
-        result[cursor] = j
-    }
+    for (i in 0..floor(min(height, width) / 2.0).toInt()) {
+        while (cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0) {
+            j++
+            cursor = Cell(cursor.row, cursor.column + 1)
+            result[cursor] = j
+        }
+        while (cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0) {
+            j++
+            cursor = Cell(cursor.row + 1, cursor.column)
+            result[cursor] = j
+        }
+        while (cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0) {
+            j++
+            cursor = Cell(cursor.row, cursor.column - 1)
+            result[cursor] = j
+        }
+        while (cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0) {
+            j++
+            cursor = Cell(cursor.row - 1, cursor.column)
+            result[cursor] = j
+        }
     }
     return result
 }
@@ -111,20 +111,20 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     var cursor = Cell(0, 0)
     result[cursor] = 1
     var j = 1
-    for (i in 0..floor(min(height, width) / 2.0).toInt()){
-        while(cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0){
+    for (i in 0..floor(min(height, width) / 2.0).toInt()) {
+        while (cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0) {
             cursor = Cell(cursor.row, cursor.column + 1)
             result[cursor] = j
         }
-        while(cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0){
+        while (cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0) {
             cursor = Cell(cursor.row + 1, cursor.column)
             result[cursor] = j
         }
-        while(cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0){
+        while (cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0) {
             cursor = Cell(cursor.row, cursor.column - 1)
             result[cursor] = j
         }
-        while(cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0){
+        while (cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0) {
             cursor = Cell(cursor.row - 1, cursor.column)
             result[cursor] = j
         }
@@ -146,7 +146,36 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
  * 10 13 16 18
  * 14 17 19 20
  */
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSnake(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    var cursor = Cell(0, 0)
+    var temp = cursor
+    result[cursor] = 1
+    var j = 2
+    while (cursor.column + 2 <= width) {
+        for (i in 1..width - 1) {
+            cursor = Cell(cursor.row, cursor.column + 1)
+            temp = cursor
+            while (temp.row >= 0 && temp.column >= 0) {
+                result[temp] = j
+                j++
+                temp = Cell(temp.row + 1, temp.column - 1)
+            }
+        }
+    }
+    while (cursor.row + 2 <= height) {
+        for (i in 1..height - 1) {
+            cursor = Cell(cursor.row + 1, cursor.column)
+            temp = cursor
+            while (temp.row <= height - 1 && temp.column >= 0) {
+                result[temp] = j
+                j++
+                temp = Cell(temp.row + 1, temp.column - 1)
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Средняя

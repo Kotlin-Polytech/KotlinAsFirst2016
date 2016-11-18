@@ -5,6 +5,7 @@ package lesson7.task2
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 import lesson7.task1.Cell
+import java.lang.Math.*
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -64,16 +65,29 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val result = createMatrix(height, width, 0)
     var cursor = Cell(0, 0)
-    for (i in 1..height * width) {
-        when {
-            result[cursor] == 0 -> result[cursor] = i
-            cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0 -> cursor = Cell(cursor.row, cursor.column + 1)
-            cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0 -> cursor = Cell(cursor.row + 1, cursor.column)
-            cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0 -> cursor = Cell(cursor.row, cursor.column - 1)
-            cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0 -> cursor = Cell(cursor.row - 1, cursor.column)
-            else -> throw IllegalArgumentException()
-        }
-        result[cursor] = i
+    result[cursor] = 1
+    var j = 1
+    for (i in 0..floor(min(height, width) / 2.0).toInt()){
+    while(cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0){
+        j++
+        cursor = Cell(cursor.row, cursor.column + 1)
+        result[cursor] = j
+    }
+    while(cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0){
+        j++
+        cursor = Cell(cursor.row + 1, cursor.column)
+        result[cursor] = j
+    }
+    while(cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0){
+        j++
+        cursor = Cell(cursor.row, cursor.column - 1)
+        result[cursor] = j
+    }
+    while(cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0){
+        j++
+        cursor = Cell(cursor.row - 1, cursor.column)
+        result[cursor] = j
+    }
     }
     return result
 }

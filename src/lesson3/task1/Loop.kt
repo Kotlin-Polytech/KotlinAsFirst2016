@@ -2,6 +2,12 @@
 
 package lesson3.task1
 
+fun pow(number: Int, degree: Int): Int {
+    var result = 1
+    for (i in 1..degree) result *= number
+    return result
+}
+
 /**
  * Пример
  *
@@ -232,7 +238,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i = 1
+    var k = 0
+    var m = 0
+    while (m < n) {
+        k = i*i
+        m = m + digitNumber(k)
+        i = i + 1
+    }
+    i = m - n
+    return k / pow(10, i) % 10
+}
 
 /**
  * Сложная
@@ -241,4 +258,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var i = 1
+    var k = 0
+    var m = 0
+    while (m < n) {
+        k = fib(i)
+        m = m + digitNumber(k)
+        i = i + 1
+    }
+    i = m - n
+    return k / pow(10, i) % 10
+}

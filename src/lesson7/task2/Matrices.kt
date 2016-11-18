@@ -188,7 +188,13 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    val transpose = transpose(matrix)
+    val result = transpose(matrix)
+    for (i in 0..result.height - 1)
+        for (j in 0..result.width - 1) result[i, j] = transpose[i, result.width - 1 - j]
+    return result
+}
 
 /**
  * Сложная
@@ -203,7 +209,27 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    val n = matrix.height
+    for (i in 0..n - 1)
+        for (j in 0..n - 1) if (matrix[i,j] !in 1..n) return false
+    for (i in 0..n-1) {
+        val set = mutableSetOf<Int>()
+        for (j in 0..n-1) {
+            if (matrix[i,j] in set) return false
+            set.add(matrix[i,j])
+        }
+    }
+    for (i in 0..n-1) {
+        val set = mutableSetOf<Int>()
+        for (j in 0..n-1) {
+            if (matrix[j,i] in set) return false
+            set.add(matrix[j,i])
+        }
+    }
+    return true
+}
 
 /**
  * Средняя

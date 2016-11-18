@@ -39,7 +39,7 @@ fun ageDescription(age: Int): String {
     if (age in 10..19) ageResult = "$age лет"
     else if (age % 10 == 1) ageResult = "$age год"
     else if (age % 10 in 2..4) ageResult = "$age года"
-    else if (age % 10 > 5) ageResult = "$age лет"
+    else if (age % 10 >= 5) ageResult = "$age лет"
     else if (age % 10 == 0) ageResult = "$age лет"
         return (ageResult)
 }
@@ -53,13 +53,11 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    var s: Double
-    var time: Double
-    time = 0.0
-    s=t1*v1+t2*v2+t3*v3
-    if (t1*v1>s/2) time=s/(2*v1)
-    else if ((t1*v1+t2*v2>s/2)&&(t1*v1<s/2)) time=(s/2-t1*v1)/v2+t1
-    else if (t1*v1+t2*v2<s/2) time=(s/2-(t1*v1+t2*v2))/v3+t1+t2
+    val s = (t1*v1+t2*v2+t3*v3) / 2
+    val time: Double
+    if (t1*v1 >= s) time=s/v1
+    else if (t1*v1+t2*v2 >= s) time=(s-t1*v1)/v2+t1
+    else time = (s-(t1*v1+t2*v2))/v3+t1+t2
     return(time)
 }
 
@@ -134,5 +132,4 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     else if ((c<a)&&(d>b)) return b-a
     else if (((a==b)&&(c<a)&&(d>a)) or ((c==d)&&(a<c)&&(b>c)) or ((b==c)&&(a<b)&&(d>b)) or ((a==d)&&(c<a)&&(b>a))) return 0
     else return -1
-
 }

@@ -233,6 +233,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var m = n
     var reminder: Int
     val list = mutableListOf<Int>()
+    if (m == 0) return  listOf(0)
     while (m > 0) {
         reminder = m % base
         m /= base

@@ -206,9 +206,10 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun revert(n: Int): Int {
     var m = n
-    var result = 0.0
+    var result = 0
     for (i in digitNumber(n)-1 downTo 0) {
-        result += (m%10)*Math.pow(10.0,i*1.0)
+        result *= 10
+        result += m % 10
         m /= 10
     }
     return (result.toInt())
@@ -221,10 +222,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    if (revert(n) == n) return true
-    else return false
-}
+fun isPalindrome(n: Int): Boolean = n.toString().reversed() == n.toString()
 
 /**
  * Средняя

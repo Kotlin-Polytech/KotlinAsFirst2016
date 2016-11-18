@@ -203,7 +203,7 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
         val numbers = mutableListOf<Int>()               //массив подсчёта кол-ва одинаковых цифр
         for (k in 0..matrix.width) numbers.add(0)
         for (j in 0..matrix.width - 1) {    // проходим по row
-            if(matrix[i,j]>matrix.width) return false
+            if(matrix[i,j]>matrix.width || matrix[i,j]<0) return false
             numbers[matrix[i, j]] += 1
         }
         for (k in 1..matrix.width) {
@@ -215,7 +215,7 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
         val numbers = mutableListOf<Int>()             //массив подсчёта кол-ва одинаковых цифр
         for (k in 0..matrix.height) numbers.add(0)
         for (i in 0..matrix.height - 1) {
-            if(matrix[i,j]>matrix.height) return false
+            if(matrix[i,j]>matrix.height || matrix[i,j]<0) return false
             numbers[matrix[i, j]] += 1
         }
         for (k in 1..matrix.height) {

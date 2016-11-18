@@ -52,7 +52,11 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     private val map = mutableMapOf<Pair<Int, Int>, E>()
 
-    override fun get(row: Int, column: Int): E = map[Pair(row, column)]!!
+    override fun get(row: Int, column: Int): E {
+        val result = map[Pair(row, column)]
+        if (result == null) throw IllegalArgumentException()
+        else return result
+    }
 
     override fun get(cell: Cell): E = get(cell.row, cell.column)
 
@@ -83,10 +87,17 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun toString(): String {
         val sb = StringBuilder()
-        for (row in 0..height - 1)
-            for (column in 0..width - 1)
-                sb.append("\t" + this[row, column])
-        sb.appendln()
+        sb.append("[")
+        for (row in 0..height - 1) {
+            sb.append("[")
+            for (column in 0..width - 1) {
+                sb.append(this[row, column])
+                if (column < width - 1) sb.append(", ")
+            }
+            sb.append("]")
+            if (row < height - 1) sb.append(", ")
+        }
+        sb.append("]")
         return "$sb"
     }
 }

@@ -156,7 +156,7 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
         for (i in 1..width - 1) {
             cursor = Cell(cursor.row, cursor.column + 1)
             temp = cursor
-            while (temp.row >= 0 && temp.column >= 0) {
+            while (temp.row <= height - 1 && temp.column >= 0) {
                 result[temp] = j
                 j++
                 temp = Cell(temp.row + 1, temp.column - 1)

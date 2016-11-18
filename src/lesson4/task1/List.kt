@@ -4,20 +4,20 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
 
+val reference = "0123456789abcdefghijklmnopqrstuvwxyz"
+
 
 fun pow (x: Int, i: Int): Int {
     var number = 1
     var ink = x
     var power = i
     while (power != 0) {
-        // println("power = $power; ink = $ink; number = $number")
         if (power % 2 == 1)
             number *= ink
         ink *= ink
         power = power.shr(1)
 
     }
-    // println("----------")
     return number
 }
 
@@ -157,7 +157,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
     for (i in 0..list.size - 1) {
         val element = list[i]
         list[i] = element - mean
-}
+    }
     return  list
 }
 
@@ -262,42 +262,13 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var number = n
-    val list = mutableListOf<String>()
+    val str :StringBuilder = StringBuilder()
     if (number == 0) return "0"
     while (number != 0) {
-        val div = number % base
+        str.append(reference[number % base])
         number /= base
-        when (div) {
-            10 -> list.add ("a")
-            11 -> list.add ("b")
-            12 -> list.add ("c")
-            13 -> list.add ("d")
-            14 -> list.add ("e")
-            15 -> list.add ("f")
-            16 -> list.add ("g")
-            17 -> list.add ("h")
-            18 -> list.add ("i")
-            19 -> list.add ("j")
-            20 -> list.add ("k")
-            21 -> list.add ("l")
-            22 -> list.add ("m")
-            23 -> list.add ("n")
-            24 -> list.add ("o")
-            25 -> list.add ("p")
-            26 -> list.add ("q")
-            27 -> list.add ("r")
-            28 -> list.add ("s")
-            29 -> list.add ("t")
-            30 -> list.add ("u")
-            31 -> list.add ("v")
-            32 -> list.add ("w")
-            33 -> list.add ("x")
-            34 -> list.add ("y")
-            35 -> list.add ("z")
-            else -> list.add(div.toString())
-        }
     }
-    return list.reversed().joinToString(separator = "")
+    return str.toString().reversed()
 }
 
 /**
@@ -324,42 +295,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int {
-    val list = mutableListOf<Double>()
-    for (i in 0..str.length-1) {
-        when (str[i]) {
-            'a' -> list.add(10.0)
-            'b' -> list.add(11.0)
-            'c' -> list.add(12.0)
-            'd' -> list.add(13.0)
-            'e' -> list.add(14.0)
-            'f' -> list.add(15.0)
-            'g' -> list.add(16.0)
-            'h' -> list.add(17.0)
-            'i' -> list.add(18.0)
-            'j' -> list.add(19.0)
-            'k' -> list.add(20.0)
-            'l' -> list.add(21.0)
-            'm' -> list.add(22.0)
-            'n' -> list.add(23.0)
-            'o' -> list.add(24.0)
-            'p' -> list.add(25.0)
-            'q' -> list.add(26.0)
-            'r' -> list.add(27.0)
-            's' -> list.add(28.0)
-            't' -> list.add(29.0)
-            'u' -> list.add(30.0)
-            'v' -> list.add(31.0)
-            'w' -> list.add(32.0)
-            'x' -> list.add(33.0)
-            'y' -> list.add(34.0)
-            'z' -> list.add(35.0)
-            else -> list.add((str[i] - '0').toDouble())
-        }
-    }
-    val number = list.reversed().mapIndexed { i, d -> d * pow(base, i) }.sum()
-    return number.toInt()
-}
+fun decimalFromString(str: String, base: Int): Int =
+    str.reversed().mapIndexed { i, c -> reference.indexOf(c) * pow(base,i) }.sum()
+
 
 /**
  * Сложная
@@ -377,10 +315,10 @@ fun roman(n: Int): String  {
     while (number > 0) {
         val key = map.keys.last()
         if (number >= key) {
-            string.append(map[key])
+            string.append(map[key]) //добавляет в строку значение по ключу
             number -= key
         } else {
-            map.remove(key)
+            map.remove(key) //убирает последний ключ в массиве
         }
     }
     return string.toString()

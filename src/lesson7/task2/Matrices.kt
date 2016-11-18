@@ -106,7 +106,32 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    var cursor = Cell(0, 0)
+    result[cursor] = 1
+    var j = 1
+    for (i in 0..floor(min(height, width) / 2.0).toInt()){
+        while(cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0){
+            cursor = Cell(cursor.row, cursor.column + 1)
+            result[cursor] = j
+        }
+        while(cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0){
+            cursor = Cell(cursor.row + 1, cursor.column)
+            result[cursor] = j
+        }
+        while(cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0){
+            cursor = Cell(cursor.row, cursor.column - 1)
+            result[cursor] = j
+        }
+        while(cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0){
+            cursor = Cell(cursor.row - 1, cursor.column)
+            result[cursor] = j
+        }
+        j++
+    }
+    return result
+}
 
 /**
  * Сложная

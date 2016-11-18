@@ -156,7 +156,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val middle = circleByDiameter(Segment(a, b)).center
-    val angle = lineByPoints(a, b).angle + Math.PI / 2
+    val angle = (lineByPoints(a, b).angle + Math.PI / 2) % Math.PI
     return Line(middle, angle)
 }
 

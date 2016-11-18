@@ -197,7 +197,33 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    for (i in 0..matrix.height - 1) {
+        val numbers = mutableListOf<Int>()               //массив подсчёта кол-ва одинаковых цифр
+        for (k in 0..matrix.width) numbers.add(0)
+        for (j in 0..matrix.width - 1) {    // проходим по row
+            if(matrix[i,j]>matrix.width) return false
+            numbers[matrix[i, j]] += 1
+        }
+        for (k in 1..matrix.width) {
+            if (numbers[k] != 1) return false
+        }
+    }
+
+    for (j in 0..matrix.width - 1) {
+        val numbers = mutableListOf<Int>()             //массив подсчёта кол-ва одинаковых цифр
+        for (k in 0..matrix.height) numbers.add(0)
+        for (i in 0..matrix.height - 1) {
+            if(matrix[i,j]>matrix.height) return false
+            numbers[matrix[i, j]] += 1
+        }
+        for (k in 1..matrix.height) {
+            if (numbers[k] != 1) return false
+        }
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -352,14 +378,14 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> /*= TODO(this.toString())*/{
-    if(this.width!=other.height) throw IllegalArgumentException()
-    val result= createMatrix(this.height,other.width, 0)
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> /*= TODO(this.toString())*/ {
+    if (this.width != other.height) throw IllegalArgumentException()
+    val result = createMatrix(this.height, other.width, 0)
 
-    for(i in 0..this.height-1){
-        for(j in 0..other.width-1){
-            for(k in 0..this.width-1){
-                result[i,j]+=(this[i,k]*other[k,j])
+    for (i in 0..this.height - 1) {
+        for (j in 0..other.width - 1) {
+            for (k in 0..this.width - 1) {
+                result[i, j] += (this[i, k] * other[k, j])
             }
         }
     }

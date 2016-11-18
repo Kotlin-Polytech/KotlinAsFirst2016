@@ -352,7 +352,20 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> /*= TODO(this.toString())*/{
+    if(this.width!=other.height) throw IllegalArgumentException()
+    val result= createMatrix(this.height,other.width, 0)
+
+    for(i in 0..this.height-1){
+        for(j in 0..other.width-1){
+            for(k in 0..this.width-1){
+                result[i,j]+=(this[i,k]*other[k,j])
+            }
+        }
+    }
+
+    return result
+}
 
 /**
  * Сложная

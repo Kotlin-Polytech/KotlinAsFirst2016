@@ -1,8 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
+import lesson7.task1.Cell
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -59,7 +61,22 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    var cursor = Cell(0, 0)
+    for (i in 1..height * width) {
+        when {
+            result[cursor] == 0 -> result[cursor] = i
+            cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0 -> cursor = Cell(cursor.row, cursor.column + 1)
+            cursor.row + 2 <= height && result[Cell(cursor.row + 1, cursor.column)] == 0 -> cursor = Cell(cursor.row + 1, cursor.column)
+            cursor.column >= 1 && result[Cell(cursor.row, cursor.column - 1)] == 0 -> cursor = Cell(cursor.row, cursor.column - 1)
+            cursor.row >= 1 && result[Cell(cursor.row - 1, cursor.column)] == 0 -> cursor = Cell(cursor.row - 1, cursor.column)
+            else -> throw IllegalArgumentException()
+        }
+        result[cursor] = i
+    }
+    return result
+}
 
 /**
  * Сложная

@@ -213,19 +213,19 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     if (matrix.height != matrix.width) return false
     val n = matrix.height
     for (i in 0..n - 1)
-        for (j in 0..n - 1) if (matrix[i,j] !in 1..n) return false
-    for (i in 0..n-1) {
+        for (j in 0..n - 1) if (matrix[i, j] !in 1..n) return false
+    for (i in 0..n - 1) {
         val set = mutableSetOf<Int>()
-        for (j in 0..n-1) {
-            if (matrix[i,j] in set) return false
-            set.add(matrix[i,j])
+        for (j in 0..n - 1) {
+            if (matrix[i, j] in set) return false
+            set.add(matrix[i, j])
         }
     }
-    for (i in 0..n-1) {
+    for (i in 0..n - 1) {
         val set = mutableSetOf<Int>()
-        for (j in 0..n-1) {
-            if (matrix[j,i] in set) return false
-            set.add(matrix[j,i])
+        for (j in 0..n - 1) {
+            if (matrix[j, i] in set) return false
+            set.add(matrix[j, i])
         }
     }
     return true
@@ -248,7 +248,17 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    val nullMatrix = createMatrix(matrix.height + 2, matrix.width + 2, 0)
+    val result = createMatrix(matrix.height, matrix.width, 0)
+    if (matrix.height * matrix.width == 1) return result
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1) nullMatrix[i + 1, j + 1] = matrix[i, j]
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width) result[i - 1, j - 1] = nullMatrix[i + 1, j + 1] + nullMatrix[i + 1, j] + nullMatrix[i, j + 1] +
+                nullMatrix[i - 1, j - 1] + nullMatrix[i - 1, j + 1] + nullMatrix[i + 1, j - 1] + nullMatrix[i - 1, j] + nullMatrix[i, j - 1]
+    return result
+}
 
 /**
  * Средняя
@@ -265,7 +275,23 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+    val set = mutableSetOf<Int>()
+    val rows = mutableListOf<Int>()
+    val colums = mutableListOf<Int>()
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1) {
+            if (matrix[i, j] != 0) break
+            if (j == matrix.width - 1) rows.add(i)
+        }
+    for (j in 0..matrix.width - 1)
+        for (i in 0..matrix.height - 1) {
+            if (matrix[i, j] != 0) break
+            if (i == matrix.height - 1) colums.add(j)
+        }
+    return Holes(rows, colums)
+}
+
 
 /**
  * Класс для описания местонахождения "дырок" в матрице

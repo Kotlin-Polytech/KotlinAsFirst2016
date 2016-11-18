@@ -197,6 +197,7 @@ fun cos(x: Double, eps: Double): Double {
     return (cos)
 }
 
+
 /**
  * Средняя
  *

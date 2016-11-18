@@ -3,7 +3,10 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson3.task1.minDivisor
+import lesson3.task1.revert
 import org.jetbrains.annotations.Mutable
+
+val chars = "0123456789abcdefghijklmnopqrstuvwxyz"
 
 /**
  * Пример
@@ -106,7 +109,15 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var result = 0.0
+    if (v.isEmpty() == false) {
+        for (i in 0..v.size - 1) {
+            result += Math.pow(v[i], 2.0)
+        }
+        return Math.sqrt(result)
+    } else return 0.0
+}
 
 /**
  * Простая
@@ -218,7 +229,19 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var m = n
+    var reminder: Int
+    val list = mutableListOf<Int>()
+    while (m > 0) {
+        reminder = m % base
+        m /= base
+        list.add(reminder)
+    }
+    list.reverse()
+    list.joinToString(separator = " , ", postfix = " = ${list.sum()}")
+    return list
+}
 
 /**
  * Сложная

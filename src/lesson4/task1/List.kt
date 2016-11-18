@@ -8,14 +8,7 @@ import lesson1.task1.discriminant
  *
  * Найти все корни уравнения x^2 = y
  */
-fun sqRoots(y: Double) =
-        if (y < 0) listOf()
-        else if (y == 0.0) listOf(0.0)
-        else {
-            val root = Math.sqrt(y)
-            // Результат!
-            listOf(-root, root)
-        }
+fun sqRoots(y: Double) = TODO()
 
 /**
  * Пример
@@ -63,8 +56,6 @@ fun invertPositives(list: MutableList<Int>) {
             list[i] = -element
         }
     }
-}
-
 /**
  * Пример
  *

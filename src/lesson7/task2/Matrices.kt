@@ -435,7 +435,7 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
         k = false
         for (i in -1..1) {
             for (j in -1..1) {
-                if (move == nullMatrix[cursor.row + 1 + i, cursor.column + 1 + j]) {
+                if (move == nullMatrix[cursor.row + 1 + i, cursor.column + 1 + j] && abs(i+j) != 2) {
                     result[cursor] = move
                     nullMatrix[cursor.row + 1, cursor.column + 1] = move
                     cursor = Cell(cursor.row + i, cursor.column + j)

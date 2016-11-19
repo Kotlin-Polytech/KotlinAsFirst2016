@@ -419,7 +419,36 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    var cursor = Cell(row = 0, column = 0)
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1) {
+            if (matrix[i, j] !in 0..15) throw IllegalStateException()
+            if (matrix[i, j] == 0) cursor = Cell(i, j)
+        }
+    val result = matrix
+    val nullMatrix = createMatrix(matrix.height + 2, matrix.width + 2, 0)
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1) nullMatrix[i + 1, j + 1] = matrix[i, j]
+    var k = false
+    for (move in moves) {
+        k = false
+        for (i in -1..1) {
+            for (j in -1..1) {
+                if (move == nullMatrix[cursor.row + 1 + i, cursor.column + 1 + j]) {
+                    result[cursor] = move
+                    cursor = Cell(cursor.row + i, cursor.column + j)
+                    result[cursor] = 0
+                    k = true
+                    break
+                }
+            }
+            if (k) break
+            if (i == 1) throw IllegalStateException()
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная

@@ -37,7 +37,7 @@ class Tests {
 //    @Tag("Normal")
     fun dateDigitToStr() {
         assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
-        assertEquals("", dateDigitToStr("01.02.20.19"))
+        assertEquals("", dateDigitToStr("5601.02.20.19"))
         assertEquals("", dateDigitToStr("28.00.2000"))
         assertEquals("3 апреля 2011", dateDigitToStr("03.04.2011"))
         assertEquals("", dateDigitToStr("ab.cd.ef"))
@@ -51,6 +51,7 @@ class Tests {
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("89768798786", flattenPhoneNumber("8 (976) 879- - -- - 878    ---- - 6"))
     }
 
     @Test
@@ -87,6 +88,8 @@ class Tests {
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
         assertEquals(9, firstDuplicateIndex("Мы пошли прямо Прямо располагался магазин"))
+        assertEquals(7, firstDuplicateIndex("It was raining raining raining hard"))
+        assertEquals(7, firstDuplicateIndex("It was falling fALLing FaLlInG on the stars"))
     }
 
     @Test
@@ -106,6 +109,16 @@ class Tests {
         assertEquals(694, fromRoman("DCXCIV"))
         assertEquals(49, fromRoman("XLIX"))
         assertEquals(-1, fromRoman("Z"))
+        assertEquals(-1, fromRoman("VX"))
+        assertEquals(-1, fromRoman("IIII"))
+        assertEquals(-1, fromRoman("CCD"))
+        assertEquals(4000, fromRoman("MMMM"))
+        assertEquals(-1, fromRoman("IVL"))
+        assertEquals(-1, fromRoman("LCD"))
+        assertEquals(-1, fromRoman("XCM"))
+        assertEquals(-1, fromRoman("VIV"))
+        assertEquals(-1, fromRoman("CMCM"))
+        assertEquals(-1, fromRoman("IVLIV"))
     }
 
     @Test

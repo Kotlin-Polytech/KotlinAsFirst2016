@@ -65,13 +65,14 @@ fun dateStrToDigit(str: String): String {
     val listOfMonth = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
             "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
+        if (date.size != 3) return ""
         val day = date[0].toInt()
         val month = listOfMonth.indexOf(date[1]) + 1
         val year = date[2].toInt()
-        if ((date.size != 3) || (day !in 1..31) || (month == 0)) return ""
+        if ((day !in 1..31) || (month == 0)) return ""
         return String.format("%02d.%02d.%d", day, month, year)
     }
-    catch(e: Exception) {
+    catch(e: NumberFormatException) {
         return ""
     }
 }
@@ -88,13 +89,15 @@ fun dateDigitToStr(digital: String): String {
     val listOfMonth = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
             "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
+        if (date.size != 3) return ""
+        if (date[1].toInt() !in 1..12) return ""
         val day = date[0].toInt()
         val month = listOfMonth[date[1].toInt() - 1]
         val year = date[2].toInt()
-        if ((date.size != 3) || (day !in 1..31)) return ""
-        return String.format("%d %s %d", day, month, year)
+        if (day !in 1..31) return ""
+        return "$day $month $year"
     }
-    catch(e: Exception) {
+    catch(e: NumberFormatException) {
         return ""
     }
 }
@@ -124,18 +127,11 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val parts = jumps.split(" ")
-    val list = listOf("-", "%", "", " ")
-    var result = -1
-    try {
-        for (part in parts) {
-            if ((part !in list) && (part.toInt() > result)) result = part.toInt()
-        }
-        return result
-    }
-    catch (e: Exception) {
-        return -1
-    }
+    if (!jumps.matches(Regex("""[0-9 %-]+"""))) return -1
+    var listOfJumps = jumps.split(" ")
+    listOfJumps = listOfJumps.filter { it.matches(Regex("[0-9]+")) }
+    val listOfJumpsInt = listOfJumps.map {it.toInt()}
+    return listOfJumpsInt.max() ?: -1
 }
 
 /**
@@ -164,7 +160,7 @@ fun plusMinus(expression: String): Int {
     try {
         var result = parts[0].toInt()
         var i = 2
-        while (i <= parts.size - 1) {
+        while (i < parts.size) {
             when (parts[i - 1]) {
                 "+" -> result += parts[i].toInt()
                 "-" -> result -= parts[i].toInt()
@@ -174,7 +170,7 @@ fun plusMinus(expression: String): Int {
         }
         return result
     }
-    catch (e: Exception) {
+    catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }
 }
@@ -189,8 +185,7 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val strLow = str.toLowerCase()
-    val parts = strLow.split(" ")
+    val parts = str.toLowerCase().split(" ")
     var result = -1
     var index = -1
     for (i in 0..parts.size - 2) {
@@ -230,7 +225,7 @@ fun mostExpensive(description: String): String {
         }
         return thingWithMaxPrice
     }
-    catch (e: Exception) {
+    catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -247,27 +242,24 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    val listOfArabic = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-    val listOfRoman = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val listOfArabic = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
+    val listOfRoman = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
     var result = 0
     var i = 0
-    try {
-        while (i <= roman.length - 1) {
-            if (i + 3 < roman.length && roman[i] != 'M' && roman[i] == roman [i + 1] && roman[i] == roman [i + 2] && roman[i] == roman [i + 3])
-                return -1
-            var element = roman[i].toString()
-            if (i + 1 < roman.length && roman[i].toString() + roman[i + 1].toString() in listOfRoman) {
-                element = roman[i].toString() + roman[i + 1].toString()
-                i++
+    var f = false
+    if (roman.contains(Regex("""(D|C|L|X|V|I)\1\1\1"""))) return -1
+    while (i < roman.length) {
+        for ((index, element) in listOfRoman.withIndex()) {
+            if (roman.startsWith(element, i)) {
+                result += listOfArabic[index]
+                i += element.length
+                f = true
+                break
             }
-            result += listOfArabic[listOfRoman.indexOf(element)]
-            i++
         }
-        return result
+        if (!f) return -1
     }
-    catch (e: Exception) {
-        return -1
-    }
+    return result
 }
 
 /**

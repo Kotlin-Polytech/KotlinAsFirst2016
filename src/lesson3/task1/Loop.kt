@@ -2,7 +2,7 @@
 
 package lesson3.task1
 
-fun powInt (a: Int, b: Int): Int {
+fun pow(a: Int, b: Int): Int {
     var result = 1
     for (i in 1..b) result *= a
     return result
@@ -95,20 +95,22 @@ fun fib(n: Int): Int {
     }
 }
 
+fun gcd(m: Int, n: Int): Int {
+    var a = m
+    var b = n
+    while (a != 0 && b != 0) {
+        if (a >= b) a %= b else b %= a
+    }
+    return a + b
+}
+
 /**
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var k = Math.max(m, n)
-    do {
-        if ((k % m == 0) && (k % n == 0)) break
-        k++
-    } while (k <= m * n)
-    return k
-}
+fun lcm(m: Int, n: Int) = m * n / gcd(m, n)
 
 /**
  * Простая
@@ -117,11 +119,15 @@ fun lcm(m: Int, n: Int): Int {
  */
 fun minDivisor(n: Int): Int {
     var mind = 2
+    var flag = false
     do {
-        if (n % mind == 0) break
+        if (n % mind == 0){
+            flag = true
+            break
+        }
         mind++
-    } while (mind <= n)
-    return mind
+    } while (mind <= Math.ceil(Math.sqrt(n.toDouble())))
+    return if (flag) mind else n
 }
 
 /**
@@ -130,12 +136,16 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var maxd = n - 1
+    var maxd = n / 2
+    var flag = false
     do {
-        if (n % maxd == 0) break
+        if (n % maxd == 0) {
+            flag = true
+            break
+        }
         maxd--
-    } while (maxd >= 1)
-    return maxd
+    } while (maxd >= Math.floor(Math.sqrt(n.toDouble())))
+    return if (flag) maxd else 1
 }
 
 /**
@@ -145,14 +155,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = Math.min(m, n)
-    while (k > 1) {
-        if ((m % k == 0) && (n % k == 0)) return false
-        k--
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int) = gcd(m, n) == 1
 
 /**
  * Простая
@@ -162,12 +165,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = Math.sqrt(m.toDouble()).toInt()
-    do {
-        if (k * k in m..n) return true
-        k++
-    } while (k * k <= n)
-    return false
+    val k = (Math.ceil(Math.sqrt(m.toDouble())))
+    return (k * k in m..n)
 }
 
 /**
@@ -182,12 +181,14 @@ fun sin(x: Double, eps: Double): Double {
     var i = 1
     var result = 0.0
     var k = 1
+    var factorial = 1.0
     do {
-        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial(i)
-        else result -= Math.pow(x1, i.toDouble()) / factorial(i)
+        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial
+        else result -= Math.pow(x1, i.toDouble()) / factorial
         i += 2
         k++
-    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial(i)) >= eps)
+        factorial *= (i - 1) * i
+    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial) >= eps)
     return result
 }
 
@@ -203,12 +204,14 @@ fun cos(x: Double, eps: Double): Double {
     var i = 0
     var result = 0.0
     var k = 1
+    var factorial = 1.0
     do {
-        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial(i)
-        else result -= Math.pow(x1, i.toDouble()) / factorial(i)
+        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial
+        else result -= Math.pow(x1, i.toDouble()) / factorial
         i += 2
         k++
-    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial(i)) >= eps)
+        factorial *= (i - 1) * i
+    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial) >= eps)
     return result
 }
 
@@ -220,10 +223,9 @@ fun cos(x: Double, eps: Double): Double {
  */
 fun revert(n: Int): Int {
     var number = n
-    var num: Int
     var result = 0
     while (number > 0) {
-        num = number % 10
+        val num = number % 10
         number /= 10
         result = result * 10 + num
     }
@@ -274,11 +276,7 @@ fun squareSequenceDigit(n: Int): Int {
         i++
         currentN += digitNumber(i * i)
     }
-    if (currentN == n) return (i * i) % 10
-    else {
-        val ex = powInt(10, currentN - n)
-        return ((i * i) / ex) % 10
-    }
+    return ((i * i) / pow(10, currentN - n)) % 10
 }
 
 /**
@@ -289,15 +287,18 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var currentN = 0
-    var i = 0
-    while (currentN < n) {
-        i++
-        currentN += digitNumber(fib(i))
-    }
-    if (currentN == n) return (fib(i)) % 10
+    if (n < 3) return 1
     else {
-        val ex = powInt(10, currentN - n)
-        return ((fib(i)) / ex) % 10
+        var currentN = 3
+        var f1 = 1
+        var f2 = 2
+        var fib = 2
+        while (currentN < n) {
+            fib = f1 + f2
+            f1 = f2
+            f2 = fib
+            currentN += digitNumber(fib)
+        }
+        return ((fib) / pow(10, currentN - n)) % 10
     }
 }

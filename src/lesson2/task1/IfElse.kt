@@ -2,6 +2,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -33,16 +34,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    if ((age / 10) % 10 == 1) return "$age лет" else {
-        return when (age % 10) {
-            1       -> "$age год"
-            in 2..4 -> "$age года"
-            else    -> "$age лет"
+fun ageDescription(age: Int): String =
+        when {
+            (age / 10) % 10 != 1 && age % 10 == 1 -> "$age год"
+            (age / 10) % 10 != 1 && age % 10 in 2..4 -> "$age года"
+            else -> "$age лет"
         }
-    }
-}
-
 /**
  * Простая
  *
@@ -108,13 +105,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (((a + b) <= c) || ((a + c) <= b) || ((b + c) <= a)) return -1 else {
-        val cosa = (b * b + c * c - a * a) / (2 * b * c)
-        val cosb = (a * a + c * c - b * b) / (2 * a * c)
-        val cosc = (a * a + b * b - c * c) / (2 * a * b)
-        if ((Math.abs(cosa) < 0.00001) || (Math.abs(cosb) < 0.00001) || (Math.abs(cosc) < 0.00001)) return 1
-        else if ((cosa < 0) || (cosb < 0) || (cosc < 0)) return 2
-        else return 0
+    var max = Math.max(a, b)
+    val min1 = Math.min(a, b)
+    val min2 = Math.min(max, c)
+    max = Math.max(max, c)
+    return when {
+        max >= min1 + min2 -> -1
+        sqr(max) < sqr(min1) + sqr(min2) -> 0
+        sqr(max) > sqr(min1) + sqr(min2) -> 2
+        else -> 1
     }
 }
 

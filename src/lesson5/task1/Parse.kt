@@ -87,8 +87,9 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    if (parts.size != 3) return ""
+    if (parts.size != 3)  return ""
     try {
+        if (parts[0].toInt() !in 1..31) return ""
         val day = parts[0].toInt()
         val month: String
         val year = parts[2].toInt()

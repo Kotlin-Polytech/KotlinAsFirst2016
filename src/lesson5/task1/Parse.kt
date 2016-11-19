@@ -50,7 +50,7 @@ fun main(args: Array<String>) {
             println("Прошло секунд с начала суток: $seconds")
         }
     } else {
-        println(atan(PI/2))
+        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
 
@@ -66,15 +66,15 @@ fun dateStrToDigit(str: String): String {
     val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = str.split(" ")
-        if (parts.size != 3) throw IndexOutOfBoundsException()
         val day = parts[0].toInt()
         val month = list.indexOf(parts[1])
         val year = parts[2].toInt()
-        if ((month == -1) || (year < 0) || (day !in 1..31)) throw NumberFormatException()
-        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.${year}"
-    } catch (e: NumberFormatException) {
-        return ""
-    } catch (e: IndexOutOfBoundsException) {
+        return when {
+            parts.size != 3 -> ""
+            (month == -1) || (year < 0) || (day !in 1..31) -> "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.${year}"
+            else -> ""
+        }
+    } catch (e: Exception) {
         return ""
     }
 }
@@ -90,12 +90,15 @@ fun dateDigitToStr(digital: String): String {
     val list = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = digital.split(".")
+        if (parts.size != 3) throw IndexOutOfBoundsException()
         val day = parts[0].toInt()
         val month = parts[1].toInt()
         val year = parts[2].toInt()
         if ((month !in 1..12) || (year < 0) || (day !in 1..31) || (parts.size != 3)) throw NumberFormatException()
         return "${oneDigitStr(day)} ${list[month - 1]} ${year}"
     } catch (e: NumberFormatException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
@@ -113,10 +116,9 @@ fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n % 10}"
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-    val list = phone.toMutableList()
-    if (list.filter { it !in "+0123456789-() " }.isEmpty()) return list.filter { it in "+0123456789" }.joinToString("")
-    return ""
+fun flattenPhoneNumber(phone: String): String = when {
+    (phone.all { it in "+0123456789-() " }) -> phone.filter { it in "+0123456789" }
+    else -> ""
 }
 
 /**

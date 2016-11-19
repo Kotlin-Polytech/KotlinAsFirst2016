@@ -87,10 +87,10 @@ fun diameter(vararg points: Point): Segment {
     var p1 = points[0]
     var p2 = points[1]
     var distance = p1.distance(p2)
-    for (i in 1..points.size - 2) {
-        for (k in i..points.size - 2) {
-            p1 = points[k]
-            p2 = points[k + 1]
+    for (i in 0..points.size - 2) {
+        for (k in i + 1..points.size - 1) {
+            p1 = points[i]
+            p2 = points[k]
             val lengthSegment = p1.distance(p2)
             if (lengthSegment > distance) distance = lengthSegment
         }
@@ -104,7 +104,12 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = Circle(Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2), diameter.end.distance(diameter.begin) / 2)
+fun circleByDiameter(diameter: Segment): Circle {
+    val halfX = (diameter.begin.x + diameter.end.x) / 2
+    val halfY = (diameter.begin.y + diameter.end.y) / 2
+    val radius = diameter.end.distance(diameter.begin) / 2
+    return Circle(Point(halfX, halfY), radius)
+}
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -133,7 +138,7 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line = lineByPoints(s.begin, s.end)
 
 /**
  * Средняя
@@ -149,12 +154,10 @@ fun lineByPoints(a: Point, b: Point) = Line(a, atan((b.y - a.y) / (b.x - a.x)))
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val halfSegment = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    return when{
-        a.y==b.y -> lineByPoints(halfSegment, Point(halfSegment.x,halfSegment.y+1))
-        a.x==b.x -> lineByPoints(halfSegment,Point(halfSegment.x+1,halfSegment.y))
-        else -> {val pointBisector = Point(halfSegment.x + 1, sqr(b.y) - sqr(a.y) + sqr(b.x) - sqr(a.x) - 2 * (halfSegment.x + 1) * (a.x - b.x) / (b.y - a.y))
-        return lineByPoints(halfSegment, pointBisector)}
-    }
+    val line = Segment(a, b)
+    val angle = lineBySegment(line).angle
+    if (angle >= PI / 2) return Line(halfSegment, angle - PI / 2)
+    return Line(halfSegment, angle + PI / 2)
 }
 
 /**
@@ -163,7 +166,20 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+    var distance = circles[0].distance(circles[1])
+    var result = Pair(circles[0], circles[1])
+    for (i in 0..circles.size - 2)
+        for (k in i + 1..circles.size - 1) {
+            val distanceCircle = circles[i].distance(circles[k])
+            if (distanceCircle < distance) {
+                result = Pair(circles[i], circles[k])
+                distance = distanceCircle
+            }
+        }
+    return result
+}
 
 /**
  * Очень сложная
@@ -175,8 +191,8 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val line1 = bisectorByPoints(a,b)
-    val line2 = bisectorByPoints(b,c)
+    val line1 = bisectorByPoints(a, b)
+    val line2 = bisectorByPoints(b, c)
     val center = line1.crossPoint(line2)
     val radius = center.distance(a)
     return Circle(center, radius)

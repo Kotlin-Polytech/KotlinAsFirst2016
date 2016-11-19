@@ -297,11 +297,9 @@ fun roman(n: Int): String {
     val map1 = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M").toSortedMap()
     val result = StringBuilder()
     while (number > 0) {
-        val parse = map1.keys.findLast {it <= number}
-        if (parse != null) parse.toInt()
-        else continue
-        number -= parse
-        result.append(map1[parse])
+        val parse = map1.entries.findLast { it.key <= number }.toString().split("=")
+        result.append(parse[1])
+        number -= parse[0].toInt()
     }
     return result.toString()
 }

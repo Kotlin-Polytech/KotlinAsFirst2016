@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -134,6 +135,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
     for (i in 0..a.size - 1) length += a[i] * b[i]
     return length
 }
+
 /**
  * Средняя
  *
@@ -257,6 +259,7 @@ fun decimalFromString(str: String, base: Int): Int {
         else list += ((string1[i]).toInt() - 87)
     return decimal(list, base)
 }
+
 /**
  * Сложная
  *

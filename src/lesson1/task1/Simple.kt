@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -52,10 +53,11 @@ fun main(args: Array<String>) {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
-    val h=hours*3600
-    val m=minutes*60
-    val s=seconds
-    return h+m+s}
+    val h = hours * 3600
+    val m = minutes * 60
+    val s = seconds
+    return h + m + s
+}
 
 
 /**
@@ -67,11 +69,10 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val s = sagenes * 48 * 0.04445
- val a = arshins * 16 * 0.04445
+    val a = arshins * 16 * 0.04445
     val v = vershoks * 0.04445
-    return s + a + v}
-
-
+    return s + a + v
+}
 
 
 /**
@@ -79,10 +80,11 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val g=grad*3600
-    val m=min*60
-    val s=sec
-    return ((m+g+s)*PI)/648000}
+    val g = grad * 3600
+    val m = min * 60
+    val s = sec
+    return ((m + g + s) * PI) / 648000
+}
 
 
 /**
@@ -91,7 +93,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((sqr(x2-x1))+(sqr(y2-y1)))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((sqr(x2 - x1)) + (sqr(y2 - y1)))
 
 /**
  * Простая
@@ -99,7 +101,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt((
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = (number % 1000)/100
+fun thirdDigit(number: Int): Int = (number % 1000) / 100
 
 /**
  * Простая
@@ -108,7 +110,7 @@ fun thirdDigit(number: Int): Int = (number % 1000)/100
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrives: Int): Int = (hoursArrive*60)+ minutesArrives - (hoursDepart*60) - minutesDepart
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrives: Int): Int = (hoursArrive * 60) + minutesArrives - (hoursDepart * 60) - minutesDepart
 
 /**
  * Простая

@@ -68,8 +68,6 @@ fun timeForHalfWay(t1: Double, v1: Double,
 }
 
 
-
-
 /**
  * Простая
  *
@@ -111,7 +109,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 }
 
 
-
 /**
  * Простая
  *
@@ -127,7 +124,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         else return 0
     } else return -1
 }
-
 
 
 /**

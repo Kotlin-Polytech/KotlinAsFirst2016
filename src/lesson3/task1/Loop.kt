@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -79,13 +80,13 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     if (n in 1..2) return 1
-    var fibnach1:Int=1
-    var fibnach2:Int=1
-    var fibnach3:Int=0
-    for (i in 3..n){
-        fibnach3=fibnach2+fibnach1
-        fibnach1=fibnach2
-        fibnach2=fibnach3
+    var fibnach1: Int = 1
+    var fibnach2: Int = 1
+    var fibnach3: Int = 0
+    for (i in 3..n) {
+        fibnach3 = fibnach2 + fibnach1
+        fibnach1 = fibnach2
+        fibnach2 = fibnach3
     }
     return fibnach3
 
@@ -99,7 +100,6 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int = TODO()
-
 
 
 /**
@@ -124,16 +124,17 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var check:Int=n
-    for (i in n-1 downTo 1){
-        if (n==i*(n/i)){
-            check=i
+    var check: Int = n
+    for (i in n - 1 downTo 1) {
+        if (n == i * (n / i)) {
+            check = i
             break
         }
     }
     return check
 
 }
+
 /**
  * Простая
  *
@@ -142,9 +143,9 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (m%n==0) return false
-    for (i in 2..n-1){
-        if ((m%i==0)&&(n%i==0)) return(false)
+    if (m % n == 0) return false
+    for (i in 2..n - 1) {
+        if ((m % i == 0) && (n % i == 0)) return (false)
     }
     return true
 
@@ -158,8 +159,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in 0..n){
-        if (i*i in m..n) return true
+    for (i in 0..n) {
+        if (i * i in m..n) return true
     }
     return false
 }
@@ -173,14 +174,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i=0
-    var sinus:Double=x
-    var number:Double=x
-    while (Math.abs(number)>eps) {
+    var i = 0
+    var sinus: Double = x
+    var number: Double = x
+    while (Math.abs(number) > eps) {
         i++
-        number=Math.pow(x,i*2.0+1)/factorial(i*2+1)
-        if (i%2==1) sinus=sinus-number
-        else  sinus=sinus+number
+        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
+        if (i % 2 == 1) sinus = sinus - number
+        else sinus = sinus + number
 
     }
     return sinus
@@ -195,19 +196,18 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var i=0
-    var sinus:Double=x
-    var number:Double=x
-    while (Math.abs(number)>eps) {
+    var i = 0
+    var sinus: Double = x
+    var number: Double = x
+    while (Math.abs(number) > eps) {
         i++
-        number=Math.pow(x,i*2.0+1)/factorial(i*2+1)
-        if (i%2==1) sinus=sinus-number
-        else  sinus=sinus+number
+        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
+        if (i % 2 == 1) sinus = sinus - number
+        else sinus = sinus + number
 
     }
     return sinus
 }
-
 
 
 /**
@@ -219,11 +219,6 @@ fun cos(x: Double, eps: Double): Double {
 fun revert(n: Int): Int = TODO()
 
 
-
-
-
-
-
 /**
  * Средняя
  *
@@ -232,22 +227,22 @@ fun revert(n: Int): Int = TODO()
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    if (n/10==0) return true
-    val firstnumber:Int=n%10
-    val secondnumber:Int=n%100/10
-    var nforwhile:Int=n
-    var counter:Int=0
-    while (nforwhile>0){
-        nforwhile/=10
+    if (n / 10 == 0) return true
+    val firstnumber: Int = n % 10
+    val secondnumber: Int = n % 100 / 10
+    var nforwhile: Int = n
+    var counter: Int = 0
+    while (nforwhile > 0) {
+        nforwhile /= 10
         counter++
     }
-    nforwhile=1
-    for (i in 1..counter){
-        nforwhile*=10
+    nforwhile = 1
+    for (i in 1..counter) {
+        nforwhile *= 10
     }
-    val revertnumfirst:Int=n/(nforwhile/10)
-    val revertnumsecond:Int=n/(nforwhile/100)%10
-    if ((firstnumber==revertnumfirst)&&(secondnumber==revertnumsecond)) return true
+    val revertnumfirst: Int = n / (nforwhile / 10)
+    val revertnumsecond: Int = n / (nforwhile / 100) % 10
+    if ((firstnumber == revertnumfirst) && (secondnumber == revertnumsecond)) return true
     return false
 }
 
@@ -276,13 +271,13 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var countforn:Int=n
-    var output:Int=0
-    var munis:Int=2
+    var countforn: Int = n
+    var output: Int = 0
+    var munis: Int = 2
     if (n in 1..2) return 1
-    var fibnach1:Int=1
-    var fibnach2:Int=1
-    var fibnach3:Int=0
+    var fibnach1: Int = 1
+    var fibnach2: Int = 1
+    var fibnach3: Int = 0
     for (i in 3..n) {
         countforn -= munis
         fibnach3 = fibnach2 + fibnach1
@@ -290,7 +285,7 @@ fun fibSequenceDigit(n: Int): Int {
         fibnach2 = fibnach3
 
         if (countforn == 0) {
-            output= fibnach3 % 10
+            output = fibnach3 % 10
             break
         }
         if (countforn == -1) {

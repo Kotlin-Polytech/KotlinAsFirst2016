@@ -71,7 +71,7 @@ fun dateStrToDigit(str: String): String {
         if (month == 0) return ""
         val date = parts[0].toInt()
         val year = parts[2].toInt()
-        if(date !in 1..31) return ""
+        if (date !in 1..31) return ""
         return String.format("%02d.%02d.%d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
@@ -124,7 +124,21 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.isEmpty()) return -1
+    for (char in jumps) {
+        if (char != '-' && char != '%' && char != ' ' && char !in '0'..'9')
+            return -1
+    }
+    val parts = jumps.filter { it in '0'..'9' || it == ' ' }
+    val resultNumbers = parts.split(" ")
+    var result = -1
+    for (i in 0..resultNumbers.size - 1) {
+        if (resultNumbers[i] != "")
+            result = Math.max(result, resultNumbers[i].toInt())
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -172,7 +186,6 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String = TODO()
-
 /**
  * Сложная
  *

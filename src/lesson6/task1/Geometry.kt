@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -55,14 +56,21 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val distBetweenCircles = center.distance(other.center)
+        val radiusSum = radius + other.radius
+        if (distBetweenCircles <= radiusSum) return 0.0
+        else return distBetweenCircles - radiusSum
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        return p.distance(center) <= radius
+    }
 }
 
 /**
@@ -76,7 +84,23 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) throw IllegalArgumentException()
+    var maxDistance = 0.0
+    var point1 = Point(0.0, 0.0)
+    var point2 = Point(0.0, 0.0)
+    for (i in 0..points.size - 1) {
+        for (j in 1..points.size - 1) {
+            var dist = points[i].distance(points[j])
+            if (dist > maxDistance) {
+                maxDistance = dist
+                point1 = points[i]
+                point2 = points[j]
+            }
+        }
+    }
+    return Segment(point1, point2)
+}
 
 /**
  * Простая
@@ -85,7 +109,6 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle = TODO()
-
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)

@@ -140,8 +140,7 @@ fun NOD(a: Int, b: Int): Int {
 }
 
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (NOD(m, n) != 1) return false
-    else return true
+    return (NOD(m, n) != 1)
 }
 
 /**

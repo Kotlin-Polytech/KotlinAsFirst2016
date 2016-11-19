@@ -423,7 +423,7 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
     var cursor = Cell(row = 0, column = 0)
     for (i in 0..matrix.height - 1)
         for (j in 0..matrix.width - 1) {
-            if (matrix[i, j] !in 0..15) throw IllegalStateException()
+            if (matrix[i, j] !in 0..matrix.height * matrix.width - 1) throw IllegalStateException()
             if (matrix[i, j] == 0) cursor = Cell(i, j)
         }
     val result = matrix
@@ -437,8 +437,10 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
             for (j in -1..1) {
                 if (move == nullMatrix[cursor.row + 1 + i, cursor.column + 1 + j]) {
                     result[cursor] = move
+                    nullMatrix[cursor.row + 1, cursor.column + 1] = move
                     cursor = Cell(cursor.row + i, cursor.column + j)
                     result[cursor] = 0
+                    nullMatrix[cursor.row + 1, cursor.column + 1] = 0
                     k = true
                     break
                 }

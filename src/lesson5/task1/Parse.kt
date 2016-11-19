@@ -475,7 +475,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
         cellsResult.add(0)
 
     var indexCommands = 0
-    var indexCells = cells / 2
+    var indexCells = cellsResult.size  / 2
 
     if (countBrackets(library[2], commands) != countBrackets(library[3], commands))
         throw IllegalArgumentException()
@@ -488,7 +488,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
             throw IllegalArgumentException()
 
     while (indexCommands != (commands.length )){
-        if ((indexCells >= cellsResult.size) || (indexCells < 0))
+        if ((indexCells > cellsResult.size - 1) || (indexCells < 0))
             throw IllegalStateException()
         else
         {

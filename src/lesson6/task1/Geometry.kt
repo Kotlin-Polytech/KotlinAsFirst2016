@@ -87,14 +87,15 @@ fun diameter(vararg points: Point): Segment {
     var p1 = points[0]
     var p2 = points[1]
     var distance = p1.distance(p2)
-    for (i in 0..points.size - 2) {
+    for (i in 0..points.size - 2)
         for (k in i + 1..points.size - 1) {
-            p1 = points[i]
-            p2 = points[k]
-            val lengthSegment = p1.distance(p2)
-            if (lengthSegment > distance) distance = lengthSegment
+            val lengthSegment = points[i].distance(points[k])
+            if (lengthSegment > distance) {
+                distance = lengthSegment
+                p1 = points[i]
+                p2 = points[k]
+            }
         }
-    }
     return Segment(p1, p2)
 }
 
@@ -193,9 +194,15 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val line1 = bisectorByPoints(a, b)
     val line2 = bisectorByPoints(b, c)
+    val line3 = bisectorByPoints(a, c)
+    val center1 = line2.crossPoint(line3)
+    val center2 = line1.crossPoint(line3)
     val center = line1.crossPoint(line2)
+    if (center == center1 && center == center2 && center1 == center2){
     val radius = center.distance(a)
     return Circle(center, radius)
+    }
+    else throw IllegalArgumentException("<<<<ErorrOfBisectorByPoints>>>>")
 }
 
 /**

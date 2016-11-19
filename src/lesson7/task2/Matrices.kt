@@ -343,7 +343,19 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    for (row in 0..lock.height - key.height) {
+        for (column in 0..lock.width - key.width) {
+            val set = mutableSetOf<Boolean>()
+            for (i in 0..key.height - 1)
+                for (j in 0..key.width - 1) {
+                    set.add(key[i, j] == lock[row + i, column + j])
+                }
+            if (true !in set) return Triple(true, row, column)
+        }
+    }
+    return Triple(false, 0, 0)
+}
 
 /**
  * Простая
@@ -355,7 +367,7 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
     val result = this
     for (i in 0..result.height - 1)
         for (j in 0..result.width - 1)
-            result[i,j] = -this[i,j]
+            result[i, j] = -this[i, j]
     return result
 }
 
@@ -373,7 +385,7 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
     for (row in 0..this.height - 1)
         for (column in 0..other.width - 1) {
             for (i in 0..this.width - 1)
-                    result[row, column] += (this[row, i] * other[i, column])
+                result[row, column] += (this[row, i] * other[i, column])
         }
     return result
 }

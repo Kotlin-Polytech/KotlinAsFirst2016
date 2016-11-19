@@ -312,7 +312,16 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    val result = createMatrix(matrix.height, matrix.width, 0)
+    for (row in 0..matrix.height - 1)
+        for (column in 0..matrix.width - 1) {
+            for (i in 0..row)
+                for (j in 0..column)
+                    result[row, column] += matrix[i, j]
+        }
+    return result
+}
 
 /**
  * Сложная
@@ -342,7 +351,13 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    val result = this
+    for (i in 0..result.height - 1)
+        for (j in 0..result.width - 1)
+            result[i,j] = -this[i,j]
+    return result
+}
 
 /**
  * Средняя
@@ -352,7 +367,16 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (this.width != other.height) throw IllegalArgumentException()
+    val result = createMatrix(this.height, other.width, 0)
+    for (row in 0..this.height - 1)
+        for (column in 0..other.width - 1) {
+            for (i in 0..this.width - 1)
+                    result[row, column] += (this[row, i] * other[i, column])
+        }
+    return result
+}
 
 /**
  * Сложная

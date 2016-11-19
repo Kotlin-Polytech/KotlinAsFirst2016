@@ -195,7 +195,7 @@ fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     while (number != 1){
         var i = 2
-        while (number % i != 0) {
+        while ((number % i != 0) && (i < 2147483648)) {
             i++
         }
         number /= i

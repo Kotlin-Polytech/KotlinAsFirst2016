@@ -344,11 +344,13 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
 fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    if (lock.height < key.height || lock.width < key.width) return Triple(false, 0, 0)
     for (row in 0..lock.height - key.height) {
         for (column in 0..lock.width - key.width) {
             val set = mutableSetOf<Boolean>()
             for (i in 0..key.height - 1)
                 for (j in 0..key.width - 1) {
+                    if (lock[row + i, column + j] !in 0..1 || key[i, j] !in 0..1) return Triple(false, 0, 0)
                     set.add(key[i, j] == lock[row + i, column + j])
                 }
             if (true !in set) return Triple(true, row, column)

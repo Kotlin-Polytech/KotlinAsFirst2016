@@ -68,20 +68,7 @@ fun dateStrToDigit(str: String): String {
         val month = months.indexOf(list[1]) + 1
         if (month == 0) return ""
         val year = list[2].toInt()
-        if (year in 1000..9999) {
-            return String.format("%02d.%02d.%04d", date, month, year)
-        }
-        if (year in 1..9) {
-            return String.format("%02d.%02d.%01d", date, month, year)
-        }
-        if (year in 10..99) {
-            return String.format("%02d.%02d.%02d", date, month, year)
-        }
-        if (year in 100..999) {
-            return String.format("%02d.%02d.%03d", date, month, year)
-        }
-        return ""
-
+        return String.format("%02d.%02d.%d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }

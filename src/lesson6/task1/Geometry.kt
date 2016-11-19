@@ -3,6 +3,7 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import lesson4.task1.center
 
 /**
  * Точка на плоскости
@@ -108,7 +109,13 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val centerX = (diameter.begin.x + diameter.end.x) / 2
+    val centerY = (diameter.begin.y + diameter.end.y) / 2
+    val radius = (diameter.begin.distance(diameter.end)) / 2
+    return Circle(Point(centerX, centerY), radius)
+}
+
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)
@@ -128,21 +135,33 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    var angle = 0.0
+    if (s.begin != s.end) {
+        angle = Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
+    }
+    return Line(s.begin, angle)
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    return lineBySegment(Segment(a, b))
+}
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val point = circleByDiameter(Segment(a, b)).center
+    val angle = lineBySegment(Segment(a, b)).angle + Math.PI / 2
+    return Line(point, angle)
+}
 
 /**
  * Средняя

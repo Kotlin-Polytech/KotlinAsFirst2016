@@ -62,7 +62,7 @@ fun digitNumber(n: Int): Int {
     var number = n
     var result = 0
     if (n == 0) return 1
-    if (n<0) number = -n
+    if (n < 0) number = -n
     while (number > 0) {
         result++
         number /= 10
@@ -91,7 +91,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
+fun gcd(m: Int, n: Int): Int {
     var a = 0
     var b = 0
     var c = 0
@@ -107,7 +107,11 @@ fun lcm(m: Int, n: Int): Int {
         a = b
         b = c % b
     }
-    return n * m / b
+    return b
+}
+
+fun lcm(m: Int, n: Int): Int {
+    return n / gcd(m, n) * m
 }
 
 /**
@@ -144,21 +148,8 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var a = 1
-    var b = 1
-    if (m > n) {
-        a = m
-        b = n
-    } else {
-        a = n
-        b = m
-    }
-    for (div in 2..b) {
-        if ((a % div == 0) && (b % div == 0)) return false
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
+
 
 /**
  * Простая
@@ -182,11 +173,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var result = x
-    var num = x
+    var angle = x
+    while (angle > 2 * Math.PI) {
+        angle -= 2 * Math.PI
+    }
+    var result = angle
+    var num = angle
     var step = 3.0
     while (Math.abs(num) >= eps) {
-        num = -num * x * x / (step * (step - 1))
+        num = -num * angle * angle / (step * (step - 1))
         result += num
         step += 2
     }
@@ -202,11 +197,15 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
+    var angle = x
+    while (angle > 2 * Math.PI) {
+        angle -= 2 * Math.PI
+    }
     var result = 1.0
     var num = 1.0
     var step = 2.0
     while (Math.abs(num) > eps) {
-        num = -num * x * x / (step * (step - 1))
+        num = -num * angle * angle / (step * (step - 1))
         result += num
         step += 2
     }
@@ -237,10 +236,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    if (revert(n) == n) return true
-    return false
-}
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя

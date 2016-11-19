@@ -109,7 +109,6 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     val squares = v.map { it * it }
     return Math.sqrt(squares.sum())
-
 }
 
 /**
@@ -130,7 +129,6 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
     val center = mean(list)
     for (i in 0..list.size - 1) {
         list[i] -= center
@@ -247,11 +245,11 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val alphabet = listOf("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
-    val number = convert(n, base).map { "$it" }
+    val number = convert(n, base)
     val result = mutableListOf<String>()
     for (i in 0..number.size - 1) {
-        if (number[i].toInt() > 9) result.add((alphabet[number[i].toInt() - 10]).toString())
-        else result.add(number[i])
+        if (number[i] > 9) result.add((alphabet[number[i] - 10]).toString())
+        else result.add(number[i].toString())
     }
     return result.joinToString(separator = "")
 }

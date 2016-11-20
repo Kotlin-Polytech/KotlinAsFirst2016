@@ -63,12 +63,12 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val result = createMatrix(height, width, 0)
     val numb = (Math.min(height, width) + 1) / 2
-    var digit = 1
+    var digit = 0
     for (i in 0..numb - 1) {
         for (j in i..width - i - 1) result[i, j] = digit++
-        for (j in i..height - i - 1) result[j, width - i - 1] = digit++
-        for (j in width - i - 1 downTo i) result[height - i - 1, j] = digit++
-        for (j in height - i - 1 downTo i) result[j, i] = digit++
+        for (j in i + 1..height - i - 1) result[j, width - i - 1] = digit++
+        for (j in width - i - 2 downTo i) result[height - i - 1, j] = digit++
+        for (j in height - i - 2 downTo i + 1) result[j, i] = digit++
     }
     return result
 }

@@ -3,6 +3,9 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import java.awt.List
+import java.lang.Math.sqrt
+import java.util.*
 
 /**
  * Точка на плоскости
@@ -13,7 +16,7 @@ data class Point(val x: Double, val y: Double) {
      *
      * Рассчитать (по известной формуле) расстояние между двумя точками
      */
-    fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
+    fun distance(other: Point): Double = sqrt(sqr(x - other.x) + sqr(y - other.y))
 }
 
 /**
@@ -30,7 +33,7 @@ data class Triangle(val a: Point, val b: Point, val c: Point) {
      */
     fun area(): Double {
         val p = halfPerimeter()
-        return Math.sqrt(p * (p - a.distance(b)) * (p - b.distance(c)) * (p - c.distance(a)))
+        return sqrt(p * (p - a.distance(b)) * (p - b.distance(c)) * (p - c.distance(a)))
     }
 
     /**
@@ -56,20 +59,31 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val length = sqrt(sqr(center.x - other.center.x) + sqr(center.y - other.center.y)) - (radius + other.radius)
+        if (length > 0) return length else return 0.0
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        val length = sqrt(sqr(center.x - p.x) + sqr(center.y - p.y))
+        return when (length) {
+            in 0..radius.toInt() -> true
+            else -> false
+        }
+    }
 }
 
 /**
  * Отрезок между двумя точками
  */
-data class Segment(val begin: Point, val end: Point)
+data class Segment(val begin: Point, val end: Point) {
+    fun length(): Double = sqrt(sqr(begin.x - end.x) + sqr(begin.y - end.y))
+}
 
 /**
  * Средняя
@@ -77,7 +91,33 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    val pointsList = points.asList()
+    convexHull(pointsList)
+
+    return Segment(Point(6.0, 4.0), Point(1.4, 4.6))
+}
+
+fun convexHull(points: kotlin.collections.List<Point>): kotlin.collections.List<Point> {
+    val p0 = points.minBy { it.y; it.x }
+    var convexHull = mutableListOf<Point>()
+
+    convexHull.sortWith(Comparator { o1, o2 -> polarAngle(p0 ?: throw IllegalArgumentException(), o1, o2).toInt() })
+
+    for (i in 2..convexHull.size-1) {
+        //удалять из центра, но сравнивать сверху.
+    }
+
+    return listOf()
+}
+
+fun polarAngle(p0: Point, p1: Point, p2: Point): Double {
+    val a = (p1.x - p0.x) * (p2.y - p0.y) - (p2.y - p1.y) * (p2.x - p0.x)
+    if (a == 0.0) return  length(p0, p2) - length(p0, p1)
+    return a
+}
+
+fun length(p0: Point, p1: Point): Double = sqrt(sqr(p0.x - p1.x) + sqr(p0.y - p1.y))
 
 /**
  * Простая

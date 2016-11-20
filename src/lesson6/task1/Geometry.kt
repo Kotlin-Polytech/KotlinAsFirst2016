@@ -15,9 +15,6 @@ data class Point(val x: Double, val y: Double) {
      */
     fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
 
-    operator fun plus(p: Point): Point = TODO()
-
-    operator fun div(arg: Double): Point = TODO()
 }
 
 /**
@@ -72,15 +69,15 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean {
-        return p.distance(center) <= radius
-    }
+    fun contains(p: Point): Boolean =
+            p.distance(center) <= radius
 }
 
 /**
  * Отрезок между двумя точками
  */
 data class Segment(val begin: Point, val end: Point)
+
 
 /**
  * Средняя
@@ -90,18 +87,18 @@ data class Segment(val begin: Point, val end: Point)
  */
 fun diameter(vararg points: Point): Segment {
     var max = 0.0
-    var segmentpoint1 = Point(0.0, 0.0)
-    var segmentpoint2 = Point(0.0, 0.0)
+    var farPoint1 = Point(0.0, 0.0)
+    var farPoint2 = Point(0.0, 0.0)
     for (i in points) {
         for (j in points) {
             if (i.distance(j) > max) {
                 max = i.distance(j)
-                segmentpoint1 = i
-                segmentpoint2 = j
+                farPoint1 = i
+                farPoint2 = j
             }
         }
     }
-    return Segment(segmentpoint1, segmentpoint2)
+    return Segment(farPoint1, farPoint2)
 }
 
 /**
@@ -110,11 +107,9 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()/*{
-    var radius = (diameter.begin.distance(diameter.end))/2
-    var center = Point((diameter.begin.distance(diameter.end))/2)
-}
-*/
+fun circleByDiameter(diameter: Segment): Circle
+        = Circle(Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2), (diameter.begin.distance(diameter.end)) / 2)
+
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.

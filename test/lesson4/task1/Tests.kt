@@ -170,6 +170,8 @@ class Tests {
         assertEquals(250, decimalFromString("13c", 14))
         assertEquals(1000, decimalFromString("2ec", 19))
         assertEquals(35, decimalFromString("z", 36))
+        assertEquals(2147483647, decimalFromString("2147483647", 10))
+        assertEquals(2045002448, decimalFromString("46n1pdk", 28))
     }
 
     @Test

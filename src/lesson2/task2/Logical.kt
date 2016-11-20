@@ -41,12 +41,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    return (r2 - r1) >= (distance(x1, y1, x2, y2))
-}
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        r2 - r1 >= distance(x1, y1, x2, y2)
 
 fun distance(x0: Double, y0: Double, x: Double, y: Double) =
-        (Math.sqrt(sqr(x - x0) + sqr(y - y0)))
+        Math.sqrt(sqr(x - x0) + sqr(y - y0))
 
 /**
  * Средняя
@@ -57,4 +56,8 @@ fun distance(x0: Double, y0: Double, x: Double, y: Double) =
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val holeSquare=r*s
+    if ((a*b<=holeSquare)||(b*c<=holeSquare)||(a*c<=holeSquare))return true
+    else return false
+}

@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import lesson3.task1.pow
 
 /**
  * Пример
@@ -150,11 +151,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var scalarproduct = 0.0
+    var scalarProduct = 0.0
     for (i in 0..a.size - 1) {
-        scalarproduct += (a[i] * b[i])
+        scalarProduct += (a[i] * b[i])
     }
-    return scalarproduct
+    return scalarProduct
 }
 
 /**
@@ -197,7 +198,18 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    var l = mutableListOf<Int>()
+    var q = n
+    var d = 2
+    while (q > 1) {
+        if (q % d == 0) {
+            l.add(d)
+            q /= d
+        } else d++
+    }
+    return l
+}
 
 /**
  * Сложная
@@ -205,7 +217,19 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var l = mutableListOf<Int>()
+    var q = n
+    var d = 2
+    var s = ""
+    while (q > 1) {
+        if (q % d == 0) {
+            l.add(d)
+            q /= d
+        } else d++
+    }
+    return l.joinToString(separator = "*")
+}
 
 /**
  * Средняя
@@ -214,7 +238,18 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var l = mutableListOf<Int>()
+    var q = n
+    var a = 0
+    var c = pow(10, 0)
+    while (q > 0) {
+        a = q % base
+        l.add(0, a)
+        q /= base
+    }
+    return l
+}
 
 /**
  * Сложная
@@ -224,30 +259,17 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()/*{
-    var nat = n
-    var lat:Char
-    var res:String
-    var ost = 0
-    do {
-        ost = nat % base
-        if (ost > 9) {
-            when {
-                ost == 10 -> lat = 'a'
-                ost == 11 -> lat = 'b'
-                ost == 12 -> lat = 'c'
-                ost == 13 -> lat = 'd'
-                ost == 14 -> lat = 'e'
-                ost == 15 -> lat = 'f'
-            }
-        }
+fun convertToString(n: Int, base: Int): String {
+    val a = convert(n, base)
+    var s = ""
+    for (el in a) {
+        if (el > 9) {
+            s += ('a'.toInt() + el - 10).toChar()
+        } else s += el.toString()
+    }
+    return s
+}
 
-    res = res + ost
-        nat = nat / 10
-    } while (nat > 0)
-    val itog = res.toString()
-    return itog.reversed()
-}*/
 
 /**
  * Средняя
@@ -268,30 +290,20 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var l = str.length
+    val l = str.length
     var res = 0
-    var con = pow(base, l)
-    if (base != 10) {
-        for (q in str) {
-            con /= base
-            if (q in '0'..'9') {
-                res += (q - '0') * con
-            } else if (q in 'a'..'z') {
-                res += ((q - 'a') + 10) * con
-            }
+    var con = pow(base, l - 1)
+    for (q in str) {
+        if (q in '0'..'9') {
+            res += (q - '0') * con
+        } else if (q in 'a'..'z') {
+            res += ((q - 'a') + 10) * con
         }
-        return res
-    }
-    else return str.toInt()
-}
-
-fun pow(a: Int, b: Int): Int {
-    var res = 1
-    for (i in 1..b) {
-        res *= a
+        con /= base
     }
     return res
 }
+
 
 /**
  * Сложная

@@ -152,13 +152,26 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()/*{
-    var l = n.toString().length
-    var c  = Math.pow(10.toDouble(),(l-1).toDouble())
-    for (i in 1..l){
-
+fun revert(n: Int): Int {
+    var a = n
+    var l = digitNumber(n)
+    var result = 0
+    var c = pow(10, l - 1)
+    for (i in 1..l) {
+        result = result + a % 10 * c
+        a /= 10
+        c /= 10
     }
-}*/
+    return result
+}
+
+fun pow(a: Int, b: Int): Int {
+    var res = 1
+    for (i in 1..b) {
+        res *= a
+    }
+    return res
+}
 
 /**
  * Средняя
@@ -167,7 +180,7 @@ fun revert(n: Int): Int = TODO()/*{
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя
@@ -175,7 +188,16 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var sum = 0
+    var q=n
+    for (i in 0..digitNumber(n)-1){
+        sum+=q%10
+        q/=10
+    }
+    if (sum!=(n%10* digitNumber(n)))return true
+    else return false
+}
 
 /**
  * Сложная

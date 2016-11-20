@@ -63,44 +63,16 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     var d = 0
     var y = 0
-    var m = 0
-    var e = "q"
-    var k = 0
-    for (part in parts) {
-        if (part.isNotEmpty()) {
-            k++
-            try{
-            val i = part.first()
-            if ((k == 1) && (i in '0'..'9') && (part.length <= 2) && (part.length > 0)) {
-                d = part.toInt()
-            } else if ((k==2)&&(i in 'а'..'я')) {
-                when (part) {
-                    "января" -> m = 1
-                    "февраля" -> m = 2
-                    "марта" -> m = 3
-                    "апреля" -> m = 4
-                    "мая" -> m = 5
-                    "июня" -> m = 6
-                    "июля" -> m = 7
-                    "августа" -> m = 8
-                    "сентября" -> m = 9
-                    "октября" -> m = 10
-                    "ноября" -> m = 11
-                    "декабря" -> m = 12
-                }
-            } else if ((k==3)&&(i in '0'..'9') && (part.length >= 1)) {
-                y = part.toInt()
-            }}
-            catch (e:NumberFormatException){
-                return ""
-            }
-        } else e = ""
-    }
-    if ((d != 0) && (m != 0) && (y >= 0) && (e != "")) {
-        return String.format("%02d.%02d.%d", d, m, y)
-    } else {
-        e = ""
-        return e
+    val m = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    if (parts.size != 3) return ""
+    try {
+        d = parts[0].toInt()
+        val month = m.indexOf(parts[1]) + 1
+        if (month == 0) return ""
+        y = parts[2].toInt()
+        return String.format("%02d.%02d.%d", d, month, y)
+    } catch (e: NumberFormatException) {
+        return ""
     }
 }
 
@@ -116,42 +88,28 @@ fun dateDigitToStr(digital: String): String {
     var d1 = 0
     var y1 = 0
     var m1 = ""
-    var i = 0
-    var e1 = "q"
-    for (part in parts) {
-        if (part.isNotEmpty()) {
-            i++
-            try {
-                if ((i == 1) && (part.first() in '0'..'9')) {
-                    d1 = part.toInt()
-                } else if ((i == 2) && (part.first() in '0'..'9')) {
-                    when (part) {
-                        "01" -> m1 = "января"
-                        "02" -> m1 = "февраля"
-                        "03" -> m1 = "марта"
-                        "04" -> m1 = "апреля"
-                        "05" -> m1 = "мая"
-                        "06" -> m1 = "июня"
-                        "07" -> m1 = "июля"
-                        "08" -> m1 = "августа"
-                        "09" -> m1 = "сентября"
-                        "10" -> m1 = "октября"
-                        "11" -> m1 = "ноября"
-                        "12" -> m1 = "декабря"
-                    }
-                } else if ((i == 3) && (part.first() in '0'..'9')) {
-                    y1 = part.toInt()
-                }
-            } catch(e: NumberFormatException) {
-                return ""
-            }
-        } else e1 = ""
-    }
-    if ((d1 != 0) && (m1 != "") && (y1 >= 0) && (i <= 3) && (e1 != "")) {
+    if (parts.size != 3) return ""
+    try {
+        d1 = parts[0].toInt()
+        when (parts[1]) {
+            "01" -> m1 = "января"
+            "02" -> m1 = "февраля"
+            "03" -> m1 = "марта"
+            "04" -> m1 = "апреля"
+            "05" -> m1 = "мая"
+            "06" -> m1 = "июня"
+            "07" -> m1 = "июля"
+            "08" -> m1 = "августа"
+            "09" -> m1 = "сентября"
+            "10" -> m1 = "октября"
+            "11" -> m1 = "ноября"
+            "12" -> m1 = "декабря"
+            else -> return ""
+        }
+        y1 = parts[2].toInt()
         return String.format("%d %s %d", d1, m1, y1)
-    } else {
-        e1 = ""
-        return e1
+    } catch(e: NumberFormatException) {
+        return ""
     }
 }
 

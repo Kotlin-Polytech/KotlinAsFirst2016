@@ -92,7 +92,7 @@ fun isLeapYear(year: Int): Boolean {
 
 fun isCorrectDay(day: Int, month: Int, year: Int): Boolean = day in 1..dayInMonth(month, year)
 fun isCorrectMonth(month: Int): Boolean = month in 1..12
-fun isCorrectYear(year: Int): Boolean = year > 0
+fun isCorrectYear(year: Int): Boolean = year >= 0
 
 fun isCorrectDate(date: List<String>): Boolean {
     val isWord = Regex("""^[а-я]+$""")
@@ -320,6 +320,7 @@ fun fromRoman(roman: String): Int {
             checkFormat2.containsMatchIn(roman) ||
             checkFormat3.containsMatchIn(roman) ||
             checkFormat4.containsMatchIn(roman)) return -1
+    else if (roman == "") return 0
     else {
         var result: Int = 0
         var parts = roman.toList()

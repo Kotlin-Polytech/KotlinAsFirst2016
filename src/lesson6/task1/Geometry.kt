@@ -5,7 +5,6 @@ package lesson6.task1
 import lesson1.task1.sqr
 import java.lang.Math.*
 import java.util.*
-import kotlin.concurrent.thread
 
 /**
  * Точка на плоскости
@@ -218,12 +217,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val distanceOne = a.distance(b)
-    val distanceTwo = b.distance(c)
-    val distanceThree = a.distance(c)
-    val distanceSum = distanceOne + distanceTwo + distanceThree
-    val distanceMax = max(distanceOne, max(distanceTwo, distanceThree))
-    if (distanceMax >= distanceSum - distanceMax) throw IllegalArgumentException()
+    if ((a.x == b.x && b.x == c.x) || (a.y == b.y && b.y == c.y)) throw IllegalArgumentException()
     val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
     val radius = center.distance(a)
     return Circle(center, radius)
@@ -244,19 +238,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 fun minContainingCircle(vararg points: Point): Circle {
     if (points.isEmpty()) throw IllegalArgumentException()
     if (points.size == 1) return Circle(points[0], 0.0)
-
-    var distance = 0.0
-    var result = Segment(points[0], points[1])
-    for (i in 0..points.size - 2) {
-        for (j in i..points.size - 1) {
-            val thisDistance = points[i].distance(points[j])
-            if (thisDistance > distance) {
-                distance = thisDistance
-                result = Segment(points[i], points[j])
-            }
-        }
-    }
-
+    val result = diameter(*points)
     val p1 = result.begin
     val p2 = result.end
 

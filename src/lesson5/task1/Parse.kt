@@ -82,7 +82,21 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+
+    val list = digital.split(".")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    if (list.size != 3) return ""
+    try {
+        val date = list[0].toInt()
+        if (list[1].toInt() - 1 !in 0..11) return ""
+        val month = months[list[1].toInt() - 1]
+        val year = list[2].toInt()
+        return String.format("%d %s %04d", date, month, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Сложная

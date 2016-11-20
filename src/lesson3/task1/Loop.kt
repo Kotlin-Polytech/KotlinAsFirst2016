@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import lesson4.task1.pow
+
 /**
  * Пример
  *
@@ -59,8 +61,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var nn: Int = n
-    var count: Int = 0
+    var nn = n
+    var count = 0
     if (nn == 0) return 1
     else
         while (nn != 0) {
@@ -131,10 +133,8 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val gcdMN = gcd(m, n)
-    return (gcdMN == 1)
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
+
 
 /**
  * Простая
@@ -147,7 +147,7 @@ fun sqr(x: Double): Double = x * x
 
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     val sqrN = Math.floor(Math.sqrt(n.toDouble()))
-    return sqr(sqrN) >= m && sqr(sqrN) <= n
+    return sqr(sqrN) >= m
 }
 
 /**
@@ -190,9 +190,7 @@ fun cos(x: Double, eps: Double): Double = sin(x + Math.PI / 2, eps)
 fun revert(n: Int): Int {
     var result = 0
     var nn = n
-    var x = 10
-    while (nn % x != n) x *= 10
-    x /= 10
+    var x = pow(digitNumber(n) - 1, 10)
     while (nn > 0) {
         result += (nn % 10) * x
         nn /= 10
@@ -245,8 +243,7 @@ fun squareSequenceDigit(n: Int): Int {
         } else break
     }
 
-    var result = nn * nn
-    (n..number - 1).forEach { i -> result /= 10 }
+    var result = nn * nn / pow(number - n, 10) % 10
     return (result % 10)
 }
 

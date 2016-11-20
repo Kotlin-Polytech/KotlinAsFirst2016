@@ -165,6 +165,18 @@ class Tests {
     }
 
     @Test
+    fun pow() {
+        assertEquals(1, lesson4.task1.pow(0, 4))
+        assertEquals(4, lesson4.task1.pow(1, 4))
+        assertEquals(16, lesson4.task1.pow(2, 4))
+        assertEquals(64, lesson4.task1.pow(3, 4))
+        assertEquals(100, lesson4.task1.pow(2, 10))
+        assertEquals(25, lesson4.task1.pow(2, 5))
+        assertEquals(1000, lesson4.task1.pow(3, 10))
+    }
+
+
+    @Test
     @Tag("Hard")
     fun decimalFromString() {
         assertEquals(1, decimalFromString("1", 2))

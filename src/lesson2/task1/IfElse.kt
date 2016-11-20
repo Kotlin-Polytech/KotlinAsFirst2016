@@ -3,8 +3,6 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.cos
-import lesson4.task1.abs
 
 /**
  * Пример
@@ -62,6 +60,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s2 = t2 * v2
     val s12 = s1 + s2
     val sAll = (s1 + s2 + t3 * v3) / 2
+    //В прошлом сообщении, Вы написали: "Вот эту проверку лучше, наоборот, вытащить наружу (так как она проверяет входные данные на допустимость) в виде отдельного if с return"
     if (sAll > 0) {
         return when {
             (sAll <= s1) -> sAll / v1
@@ -86,12 +85,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     val rook1Danger = (rookX1 == kingX) or (rookY1 == kingY)
     val rook2Danger = (rookX2 == kingX) or (rookY2 == kingY)
-    return when {(rook1Danger || rook2Danger) ->
-        when {(rook1Danger && rook2Danger) -> 3
-            ((!rook1Danger || !rook2Danger) && rook1Danger) -> 1
-            ((!rook1Danger || !rook2Danger) && !rook1Danger) -> 2
-            else -> 0
-        }
+    return when {
+        (rook1Danger && rook2Danger) -> 3
+        (!rook2Danger && rook1Danger) -> 1
+        (!rook1Danger && rook2Danger) -> 2
         else -> 0
     }
 }
@@ -115,7 +112,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
         bishopDanger && rookDanger -> 3
         bishopDanger && !rookDanger -> 2
         !bishopDanger && rookDanger -> 1
-        !bishopDanger && !rookDanger -> 0
         else -> 0
     }
 }
@@ -152,17 +148,13 @@ fun triangleKind(a: Double, b: Double, c: Double)
         }
     }
     val cosMax = (min1 * min1 + min2 * min2 - max * max) / 2 * min1 * min2
-    return when { (min1 + min2 > max) ->
-        when {
-            (cosMax > 0.0) -> 0
-            (cosMax == 0.0) -> 1
-            (cosMax < 0.0) -> 2
-            else -> -1
-        }
+    return when {
+        (min1 + min2 > max) && (cosMax > 0.0) -> 0
+        (min1 + min2 > max) && (cosMax == 0.0) -> 1
+        (min1 + min2 > max) && (cosMax < 0.0) -> 2
         else -> -1
     }
 }
-
 /**
  * Средняя
  *
@@ -171,8 +163,7 @@ fun triangleKind(a: Double, b: Double, c: Double)
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
         (a > d) || ((a < d) && (c > b)) -> -1
         (d <= b) && (c < a) -> (d - a)
         (d <= b) && (c >= a) -> (d - c)
@@ -180,5 +171,5 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         (d > b) && (c >= a) -> b - c
         else -> 0
     }
-}
+
 

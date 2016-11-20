@@ -92,7 +92,7 @@ fun dateDigitToStr(digital: String): String {
         if (list[1].toInt() - 1 !in 0..11) return ""
         val month = months[list[1].toInt() - 1]
         val year = list[2].toInt()
-        return String.format("%d %s %04d", date, month, year)
+        return String.format("%d %s %d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }

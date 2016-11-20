@@ -2,7 +2,6 @@
 
 package lesson5.task1
 
-import jdk.nashorn.internal.runtime.regexp.RegExp
 
 /**
  * Пример
@@ -53,6 +52,9 @@ fun main(args: Array<String>) {
     }
 }
 
+
+val monthsGlobal = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 /**
  * Средняя
  *
@@ -63,11 +65,10 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val list = str.split(" ")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (list.size != 3) return ""
     try {
         val date = list[0].toInt()
-        val month = months.indexOf(list[1]) + 1
+        val month = monthsGlobal.indexOf(list[1]) + 1
         if (month == 0) return ""
         val year = list[2].toInt()
         return String.format("%02d.%02d.%d", date, month, year)
@@ -86,12 +87,12 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val list = digital.split(".")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (list.size != 3) return ""
     try {
         val date = list[0].toInt()
-        if (list[1].toInt() % 100 - 1 !in 0..11) return ""
-        val month = months[list[1].toInt() % 100 - 1]
+        val monthToInt = list[1].toInt()
+        if (monthToInt !in 1..12) return ""
+        val month = monthsGlobal[monthToInt - 1]
         val year = list[2].toInt()
         return String.format("%d %s %d", date, month, year)
     } catch (e: NumberFormatException) {
@@ -139,7 +140,7 @@ fun bestLongJump(jumps: String): Int {
     for (element in jumpsList) {
         if (element != "") result.add(element.toInt())
     }
-    return result.sorted()[result.size - 1]
+    return result.max()!!
 }
 
 /**
@@ -160,7 +161,7 @@ fun bestHighJump(jumps: String): Int {
     for (i in matchResult) {
         result.add(i.value)
     }
-    return result.map { it.toInt() }.sorted().last()
+    return result.map { it.toInt() }.max()!!
 }
 
 /**
@@ -212,23 +213,38 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val check = Regex("""\s(\d+)+((\.(\d+)(;\s|$))|(;\s|$))""").find(description)
+    /*val check = Regex("""\s(\d+)+((\.(\d+)(;\s|$))|(;\s|$))""").find(description)
     if (check == null) return ""
-    /*val checkExcess = Regex("""[^а-яА-Яa-zA-Z\.\s;\d]""").find(description)
-    if (checkExcess != null) return ""*/
     val price = Regex("""(\d)+((.\d)|(?=((;\s)|($))))""").findAll(description)
     if (price == null) return ""
     val priceList = mutableListOf<String>()
     for (i in price) {
         priceList.add(i.value)
     }
-    var mostPrice = priceList.map { it.toDouble() }.sorted().last().toString()
+    var mostPrice = priceList.map { it.toDouble() }.max().toString()
     var result = Regex("""([а-яА-Яa-zA-Z])+(?=\s$mostPrice)""").find(description)
     if (result == null) {
-        mostPrice = priceList.map { it.toInt() }.sorted().last().toString()
+        mostPrice = priceList.map { it.toInt() }.max().toString()
         result = Regex("""([а-яА-Яa-zA-Z])+(?=\s$mostPrice)""").find(description)
     }
-    return result!!.value.toString()
+    return result!!.value.toString()*/
+    val prices = Regex("""((\d+)+\.+(\d+))(?=(;\s)|$)|(\d+)(?=(;\s)|$)""").find(description)
+    if (prices == null) return ""
+    val products = description.split(";")
+    var bestPrice = Regex("""((\d+)+\.+(\d+))(?=(;\s)|$)|(\d+)(?=(;\s)|$)""").find(products[0])!!.value.toDouble()
+    var nBestPrice = 0
+    var price = 0.0
+    var i = 0
+    for (element in products) {
+        price = Regex("""((\d+)+\.+(\d+))(?=(;\s)|$)|(\d+)(?=(;\s)|$)""").find(element)!!.value.toDouble()
+        if (price > bestPrice) {
+            bestPrice = price
+            nBestPrice = i
+        }
+        i++
+    }
+    val result = products[nBestPrice].trim()
+    return result.removeRange(result.indexOf(" ", 1), result.length)
 }
 
 /**

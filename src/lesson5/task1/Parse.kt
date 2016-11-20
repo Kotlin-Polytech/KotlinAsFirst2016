@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 /**
  * Пример
  *
@@ -61,7 +63,6 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val list = str.split(" ")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (list.size != 3) return ""
     try {
         val date = list[0].toInt()
@@ -85,7 +86,6 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
 
     val list = digital.split(".")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (list.size != 3) return ""
     try {
         val date = list[0].toInt()

@@ -1,8 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
 package lesson7.task1
 
-import java.lang.reflect.Type
-
 /**
  * Ячейка матрицы: row = ряд, column = колонка
  */
@@ -54,31 +52,28 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E> (override val height: Int, override val width: Int) : Matrix<E> {
 
-    private val map = mutableMapOf<Pair<Int, Int>,E>()
+    private val map = mutableMapOf<Cell,E>()
 
     override fun get(row: Int, column: Int): E {
-        val result = map[Pair(row, column)]
+        val result = map[Cell(row, column)]
         if (result != null) return result else throw IllegalArgumentException()
     }
 
     override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        map[Pair(row, column)] = value
+        map[Cell(row, column)] = value
     }
 
     override fun set(cell: Cell, value: E) {
         set(cell.row, cell.column, value)
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other is MatrixImpl<*> &&
+    override fun equals(other: Any?): Boolean =
+            other is MatrixImpl<*> &&
             height == other.height &&
-            width == other.width) {
-            for(i in 0..height-1) for (j in 0..width-1) if (other[i, j] != map[Pair(i, j)]) return false
-        }
-        return true
-    }
+            width == other.width &&
+            map == other.map
 
 
     override fun toString(): String {

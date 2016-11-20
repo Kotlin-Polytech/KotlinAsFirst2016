@@ -100,7 +100,7 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
             result[j, width - i - 1] = digit
             result[j, i] = digit
         }
-        digit ++
+        digit++
     }
     return result
 }

@@ -278,8 +278,8 @@ fun mostExpensive(description: String): String {
     val goods = description.split("; ")
     var maxPrice: Double = 0.0
     var name: String = ""
-    val findPrice = Regex("""\d+.\d{1,2}$""")
-    val findName = Regex(""".+(?= \d+.\d{1,2}$)""")
+    val findPrice = Regex("""\d+(\.\d+)?$""")
+    val findName = Regex(""".+(?= \d+(\.\d+)?$)""")
     for (i in goods) {
         val temp = findPrice.find(i)?.value?.toDouble() ?: return ""
         if (temp > maxPrice) {
@@ -401,7 +401,7 @@ fun createComputeDevice(cells: Int): ComputeDevice {
  *      conveyor - представление конвейера ячеек.
  *      current - текущее положение датчика.
  */
-class ComputeDeviceImpl(val cells: Int): ComputeDevice{
+open class ComputeDeviceImpl(val cells: Int): ComputeDevice{
     private val conveyor: MutableList<Int>
     private var current: Int
     init {

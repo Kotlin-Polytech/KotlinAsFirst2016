@@ -209,7 +209,7 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun kingTrajectory(start: Square, end: Square): List<Square> {
-    val list = mutableListOf(start)
+    val result = mutableListOf(start)
     var square = start
     while (square != end) {
         square = when {
@@ -222,9 +222,9 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
             square.row > end.row && square.column == end.column -> Square(square.row - 1, square.column)
             else -> Square(square.row + 1, square.column)
         }
-        list.add(square)
+        result.add(square)
     }
-    return list
+    return result
 }
 
 /**

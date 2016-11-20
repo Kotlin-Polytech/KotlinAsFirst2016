@@ -67,6 +67,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     for (i in 0..numb - 1) {
         for (j in i..width - i - 1) result[i, j] = digit++
         for (j in i + 1..height - i - 1) result[j, width - i - 1] = digit++
+        if (height == 1 || width == 1) break
         for (j in width - i - 2 downTo i) result[height - i - 1, j] = digit++
         for (j in height - i - 2 downTo i + 1) result[j, i] = digit++
     }

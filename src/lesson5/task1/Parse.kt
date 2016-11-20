@@ -175,14 +175,13 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var newJumps = jumps
+    var max = -1
     if (jumps.contains(Regex("""[^-+%\d\s]"""))) return -1
-    newJumps = Regex("""[^\d\s+]""").replace(newJumps, "")
-    newJumps += " "
-    newJumps = Regex("""[\d]+\s\s""").replace(newJumps, "")
-    newJumps = Regex("""[\s]""").replace(newJumps, "")
-    val parts = newJumps.split("+")
-    return parts.filter { it.isNotEmpty() }.map { it.toInt() }.max() ?: -1
+    val parts = jumps.split(" ")
+    for (i in 0..parts.size - 2) {
+        if (parts[i + 1].contains(Regex("""[+]""")) && parts[i].toInt() > max) max = parts[i].toInt()
+    }
+    return max
 }
 
 /**
@@ -247,9 +246,15 @@ fun mostExpensive(description: String): String {
     for (i in 0..groups.size - 1) {
         val pairs = groups[i].trim().split(" ")
         if (pairs.size <= 1) return ""
-        if (pairs[1].contains(Regex("""[^\d.]""")) || pairs[1].toDouble() < 0) return ""
-        if (pairs[1].toDouble() >= max) {
-            max = pairs[1].toDouble()
+        val el: Double
+        try {
+            el = pairs[1].toDouble()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        if (pairs[1].contains(Regex("""[^\d.]""")) || el < 0) return ""
+        if (el >= max) {
+            max = el
             mostExpensive = pairs[0]
         }
 

@@ -56,9 +56,10 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double =
-            if (center.distance(other.center) > radius + other.radius) center.distance(other.center) - (radius + other.radius)
-            else 0.0
+    fun distance(other: Circle): Double {
+        val dist = center.distance(other.center) - (radius + other.radius)
+        if (dist > 0.0) return dist else return 0.0
+    }
 
     /**
      * Тривиальная
@@ -80,14 +81,15 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) throw IllegalArgumentException()
     var max = points[0].distance(points[1])
     var p1 = points[0]
     var p2 = points[1]
-    if (points.size < 2) throw IllegalArgumentException()
     for (i in 0..points.size - 2) {
         for (k in i + 1..points.size - 1) {
-            if (points[i].distance(points[k]) >= max) {
-                max = points[i].distance(points[k])
+            val dist = points[i].distance(points[k])
+            if (dist >= max) {
+                max = dist
                 p1 = points[i]
                 p2 = points[k]
             }
@@ -127,7 +129,7 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = Line(s.begin, Math.asin(Math.abs(s.end.y - s.begin.y) / s.begin.distance(s.end)))
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
 
 
 /**

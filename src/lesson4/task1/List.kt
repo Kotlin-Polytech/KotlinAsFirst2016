@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -144,10 +145,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
-    if (a.size != 0) {
-        for (i in 0..a.size - 1) {
-            c += a[i] * b[i]
-        }
+    for (i in 0..a.size - 1) {
+        c += a[i] * b[i]
     }
     return c
 }
@@ -161,11 +160,11 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    var k = 0.0
+    var k = 1.0
     var result = 0.0
     for (i in 0..p.size - 1) {
-        result += p[i] * Math.pow(x, k)
-        k ++
+        result += p[i] * k
+        k *= x
     }
     return result
 }
@@ -179,12 +178,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var prevSum = 0.0
-    var crutch = 1.0
-    for (i in 0..list.size - 1) {
-        crutch = list[i]
-        list[i] += prevSum
-        prevSum += crutch
+    for (i in list.size - 1 downTo 0) {
+        for (j in i - 1 downTo 0) {
+            list[i] += list[j]
+        }
     }
     return list
 }
@@ -234,8 +231,10 @@ fun convertToString(n: Int, base: Int): String = TODO()
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
-    for (i in 0..digits.size - 1) {
-        result += intPower(base, digits.size - (i + 1)) * digits[i]
+    var weight = 1
+    for (i in digits.size - 1 downTo 0) {
+        result += digits[i] * weight
+        weight *= base
     }
     return result
 }
@@ -273,9 +272,8 @@ fun russian(n: Int): String {
     val digitsInWords = mutableListOf<String>()
     for (i in 0..6) digitsInWords += ""
     var digitsOfn = n
-    var digit = 1
     while (digitsOfn > 0) {
-        digit = digitsOfn % 10
+        val digit = digitsOfn % 10
         digitsInDigits += digit
         digitsOfn /= 10
     }
@@ -300,32 +298,32 @@ fun russian(n: Int): String {
     }
 
     //перевод десятков и единиц - начало
-     //перевод для случаев, когда десятков два или больше, или вовсе нет - начало
-        //перевод едениц - начало
-        if (digitsInDigits[0] == 1) digitsInWords[6] = "один"
-        if (digitsInDigits[0] == 2) digitsInWords[6] = "два"
-        if (digitsInDigits[0] == 3) digitsInWords[6] = "три"
-        if (digitsInDigits[0] == 4) digitsInWords[6] = "четыре"
-        if (digitsInDigits[0] == 5) digitsInWords[6] = "пять"
-        if (digitsInDigits[0] == 6) digitsInWords[6] = "шесть"
-        if (digitsInDigits[0] == 7) digitsInWords[6] = "семь"
-        if (digitsInDigits[0] == 8) digitsInWords[6] = "восемь"
-        if (digitsInDigits[0] == 9) digitsInWords[6] = "девять"
-        if (digitsInDigits[0] == 0) digitsInWords[6] = ""
-        //перевод единиц - конец
-        if (digitsInDigits.size > 1) {//перевод десятков - начало
-            if (digitsInDigits[1] == 2) digitsInWords[5] = "двадцать "
-            if (digitsInDigits[1] == 3) digitsInWords[5] = "тридцать "
-            if (digitsInDigits[1] == 4) digitsInWords[5] = "сорок "
-            if (digitsInDigits[1] == 5) digitsInWords[5] = "пятьдесят "
-            if (digitsInDigits[1] == 6) digitsInWords[5] = "шестьдесят "
-            if (digitsInDigits[1] == 7) digitsInWords[5] = "семьдесят "
-            if (digitsInDigits[1] == 8) digitsInWords[5] = "восемьдесят "
-            if (digitsInDigits[1] == 9) digitsInWords[5] = "девяносто "
-            if (digitsInDigits[1] == 0) digitsInWords[5] = ""
-            //перевод десятков - конец
-        }
-        //конец
+    //перевод для случаев, когда десятков два или больше, или вовсе нет - начало
+    //перевод едениц - начало
+    if (digitsInDigits[0] == 1) digitsInWords[6] = "один"
+    if (digitsInDigits[0] == 2) digitsInWords[6] = "два"
+    if (digitsInDigits[0] == 3) digitsInWords[6] = "три"
+    if (digitsInDigits[0] == 4) digitsInWords[6] = "четыре"
+    if (digitsInDigits[0] == 5) digitsInWords[6] = "пять"
+    if (digitsInDigits[0] == 6) digitsInWords[6] = "шесть"
+    if (digitsInDigits[0] == 7) digitsInWords[6] = "семь"
+    if (digitsInDigits[0] == 8) digitsInWords[6] = "восемь"
+    if (digitsInDigits[0] == 9) digitsInWords[6] = "девять"
+    if (digitsInDigits[0] == 0) digitsInWords[6] = ""
+    //перевод единиц - конец
+    if (digitsInDigits.size > 1) {//перевод десятков - начало
+        if (digitsInDigits[1] == 2) digitsInWords[5] = "двадцать "
+        if (digitsInDigits[1] == 3) digitsInWords[5] = "тридцать "
+        if (digitsInDigits[1] == 4) digitsInWords[5] = "сорок "
+        if (digitsInDigits[1] == 5) digitsInWords[5] = "пятьдесят "
+        if (digitsInDigits[1] == 6) digitsInWords[5] = "шестьдесят "
+        if (digitsInDigits[1] == 7) digitsInWords[5] = "семьдесят "
+        if (digitsInDigits[1] == 8) digitsInWords[5] = "восемьдесят "
+        if (digitsInDigits[1] == 9) digitsInWords[5] = "девяносто "
+        if (digitsInDigits[1] == 0) digitsInWords[5] = ""
+        //перевод десятков - конец
+    }
+    //конец
     if ((digitsInDigits.size > 1) && (digitsInDigits[1] == 1)) { //перевод для случаев, когда число десятков равно 1 - начало
         if (digitsInDigits[0] == 0) {
             digitsInWords[5] = "десять"
@@ -388,31 +386,31 @@ fun russian(n: Int): String {
     //перевод десятков и единиц тысяч - начало
     if (digitsInDigits.size > 3) {
         //перевод для случаев, когда десятков два или больше, или вовсе нет - начало
-            //перевод едениц тысяч - начало
-            if (digitsInDigits[3] == 1) digitsInWords[2] = "одна "
-            if (digitsInDigits[3] == 2) digitsInWords[2] = "две "
-            if (digitsInDigits[3] == 3) digitsInWords[2] = "три "
-            if (digitsInDigits[3] == 4) digitsInWords[2] = "четыре "
-            if (digitsInDigits[3] == 5) digitsInWords[2] = "пять "
-            if (digitsInDigits[3] == 6) digitsInWords[2] = "шесть "
-            if (digitsInDigits[3] == 7) digitsInWords[2] = "семь "
-            if (digitsInDigits[3] == 8) digitsInWords[2] = "восемь "
-            if (digitsInDigits[3] == 9) digitsInWords[2] = "девять "
-            if (digitsInDigits[3] == 0) digitsInWords[2] = ""
-            //перевод единиц тысяч - конец
-            if (digitsInDigits.size > 4) {//перевод десятков тысяч - начало
-                if (digitsInDigits[4] == 2) digitsInWords[1] = "двадцать "
-                if (digitsInDigits[4] == 3) digitsInWords[1] = "тридцать "
-                if (digitsInDigits[4] == 4) digitsInWords[1] = "сорок "
-                if (digitsInDigits[4] == 5) digitsInWords[1] = "пятьдесят "
-                if (digitsInDigits[4] == 6) digitsInWords[1] = "шестьдесят "
-                if (digitsInDigits[4] == 7) digitsInWords[1] = "семьдесят "
-                if (digitsInDigits[4] == 8) digitsInWords[1] = "восемьдесят "
-                if (digitsInDigits[4] == 9) digitsInWords[1] = "девяносто "
-                if (digitsInDigits[4] == 0) digitsInWords[1] = ""
-                //перевод десятков тысяч - конец
-            }
-            //конец
+        //перевод едениц тысяч - начало
+        if (digitsInDigits[3] == 1) digitsInWords[2] = "одна "
+        if (digitsInDigits[3] == 2) digitsInWords[2] = "две "
+        if (digitsInDigits[3] == 3) digitsInWords[2] = "три "
+        if (digitsInDigits[3] == 4) digitsInWords[2] = "четыре "
+        if (digitsInDigits[3] == 5) digitsInWords[2] = "пять "
+        if (digitsInDigits[3] == 6) digitsInWords[2] = "шесть "
+        if (digitsInDigits[3] == 7) digitsInWords[2] = "семь "
+        if (digitsInDigits[3] == 8) digitsInWords[2] = "восемь "
+        if (digitsInDigits[3] == 9) digitsInWords[2] = "девять "
+        if (digitsInDigits[3] == 0) digitsInWords[2] = ""
+        //перевод единиц тысяч - конец
+        if (digitsInDigits.size > 4) {//перевод десятков тысяч - начало
+            if (digitsInDigits[4] == 2) digitsInWords[1] = "двадцать "
+            if (digitsInDigits[4] == 3) digitsInWords[1] = "тридцать "
+            if (digitsInDigits[4] == 4) digitsInWords[1] = "сорок "
+            if (digitsInDigits[4] == 5) digitsInWords[1] = "пятьдесят "
+            if (digitsInDigits[4] == 6) digitsInWords[1] = "шестьдесят "
+            if (digitsInDigits[4] == 7) digitsInWords[1] = "семьдесят "
+            if (digitsInDigits[4] == 8) digitsInWords[1] = "восемьдесят "
+            if (digitsInDigits[4] == 9) digitsInWords[1] = "девяносто "
+            if (digitsInDigits[4] == 0) digitsInWords[1] = ""
+            //перевод десятков тысяч - конец
+        }
+        //конец
         if ((digitsInDigits.size > 4) && (digitsInDigits[4] == 1)) { //перевод для случаев, когда число десятков тысяч равно 1 - начало
             if (digitsInDigits[3] == 0) {
                 digitsInWords[1] = "десять "
@@ -456,5 +454,5 @@ fun russian(n: Int): String {
             }
         }
     }
-        return digitsInWords.joinToString("", "", "", -1)
+    return digitsInWords.joinToString("", "", "", -1)
 }

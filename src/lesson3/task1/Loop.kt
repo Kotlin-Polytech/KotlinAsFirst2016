@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+
 /**
  * Пример
  *
@@ -60,7 +61,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 0
     var number = n
-    while (number >= 0) {
+    while (number > 0) {
         count++
         number /= 10
     }
@@ -76,9 +77,8 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var prev1 = 1
     var prev2 = 1
-    var result:Int
     for (i in 3..n) {
-        result = prev1 + prev2
+        val result = prev1 + prev2
         prev2 = prev1
         prev1 = result
     }
@@ -92,13 +92,14 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    val cond = true
-    var mink = 1
-    while (cond) {
-        if ((mink % m == 0) && (mink % n == 0)) break
-        mink++
+    var a = m
+    var b = n
+    while (b != 0) {
+        val tmp = b % a
+        a = b
+        b = tmp
     }
-    return mink
+    return a
 }
 
 /**
@@ -107,11 +108,15 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    val i = 2
-    for (i in 2..n) {
-        if (n % i == 0) break
+    var minDiv = 2
+    for (i in 2..Math.sqrt(n.toDouble()).toInt()) {
+        if (n % i == 0){
+            minDiv = i
+            break
+        }
+        if (i == Math.sqrt(n.toDouble()).toInt() && n % i != 0) minDiv = n
     }
-    return i
+    return minDiv
 }
 
 /**
@@ -121,9 +126,12 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var maxDiv = n-1
-    for (i in n downTo 1) {
-        if (n % maxDiv == 0) break
-        maxDiv--
+    for (i in n - 1 downTo Math.sqrt(n.toDouble()).toInt()) {
+        if (n % i == 0) {
+            maxDiv = i
+            break
+        }
+        if (i == Math.sqrt(n.toDouble()).toInt() && n % i != 0) maxDiv = 1
     }
     return maxDiv
 }
@@ -164,12 +172,6 @@ fun sin(x: Double, eps: Double): Double = TODO()
  */
 fun cos(x: Double, eps: Double): Double = TODO()
 
-fun intPower(a: Int, b: Int): Int {
-    var basement = 1
-    if (b > 0) for (i in 1..b) basement *= a
-    return basement
-}
-
 /**
  * Средняя
  *
@@ -177,16 +179,10 @@ fun intPower(a: Int, b: Int): Int {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var numberOfDigits = 0
     var number = n
     var result = 0
     while (number > 0) {
-        numberOfDigits ++
-        number /= 10
-    }
-    number = n
-    for (i in 0..numberOfDigits - 1) {
-        result += intPower(10, numberOfDigits - i - 1) * (number % 10)
+        result = result * 10 + number % 10
         number /= 10
     }
     return result
@@ -227,9 +223,8 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  */
 fun fibSequenceDigit(n: Int): Int {
     var number = ""
-    var fibNumber = 0
     for (i in 1..n) {
-        fibNumber = fib(i)
+        val fibNumber = fib(i)
         number += "$fibNumber"
         if (number.length > n) break
     }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -59,7 +60,18 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    val numb = (Math.min(height, width) + 1) / 2
+    var digit = 1
+    for (i in 0..numb - 1) {
+        for (j in i..width - i - 1) result[i, j] = digit++
+        for (j in i..height - i - 1) result[j, width - i - 1] = digit++
+        for (j in width - i - 1 downTo i) result[height - i - 1, j] = digit++
+        for (j in height - i - 1 downTo i) result[j, i] = digit++
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -75,7 +87,23 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    val numb = (Math.min(height, width) + 1) / 2
+    var digit = 1
+    for (i in 0..numb - 1) {
+        for (j in i..width - i - 1) {
+            result[i, j] = digit
+            result[height - i - 1, j] = digit
+        }
+        for (j in i..height - i - 1) {
+            result[j, width - i - 1] = digit
+            result[j, i] = digit
+        }
+        digit ++
+    }
+    return result
+}
 
 /**
  * Сложная

@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson7.task2
 
-import com.sun.org.apache.bcel.internal.generic.SWAP
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -76,15 +75,17 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         val nextX = x + moves[dir].first
         val nextY = y + moves[dir].second
         if (nextX < 0 || nextX == matrix.width || nextY < 0 ||
-            nextY == matrix.height || matrix[nextY, nextX] != 0)
-                dir = (dir + 1) % 4
+            nextY == matrix.height || matrix[nextY, nextX] != 0) {
+            dir = (dir + 1) % 4
+        }
 
         x += moves[dir].first
         y += moves[dir].second
 
         if (x < 0 || x == matrix.width || y < 0 ||
-            y == matrix.height || matrix[y, x] != 0)
-                break
+            y == matrix.height || matrix[y, x] != 0) {
+            break
+        }
     }
 
     return matrix
@@ -231,8 +232,9 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
         for (i in -1..1) for (j in -1..1) {
             if (row + i >=0 && row + i < matrix.height &&
                 column + j >= 0 && column + j < matrix.width &&
-                !(i == 0 && j == 0))
+                !(i == 0 && j == 0)) {
                 result[row, column] += matrix[row + i, column + j]
+            }
         }
     }
 
@@ -330,8 +332,9 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
                 for (column in shiftX..shiftX+key.width-1)
                     if (lock[row, column] == key[row - shiftY, column - shiftX] ||
                         lock[row, column] !in 0..1 ||
-                        key[row - shiftY, column - shiftX] !in 0..1)
+                        key[row - shiftY, column - shiftX] !in 0..1) {
                         continue@loop
+                    }
             return Triple(true, shiftY, shiftX)
         }
     return Triple(false, 0, 0)
@@ -359,11 +362,14 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
  */
 operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
     if (this.width != other.height) throw IllegalArgumentException()
-    for (i in 0..this.width-1)
-        for (j in 0..this.height-1)
-            for (k in 0..other.width-1)
-                this[j, i] *= other[i, k]
-    return this
+
+    val result = createMatrix(this.height, other.width, 0)
+
+    for (i in 0..this.height-1)
+        for (j in 0..other.width-1)
+            for (k in 0..this.width-1)
+                result[i, j] += this[i, k] * other[k, j]
+    return result
 }
 
 /**

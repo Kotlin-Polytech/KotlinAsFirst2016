@@ -37,9 +37,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     return when {
         age % 10 == 0 -> "$age лет"
-        (age % 100 >= 10) && (age % 100 <= 19) -> "$age лет"
-        (age % 10 >= 2) && (age % 10 <= 4) -> "$age года"
-        (age % 10 >= 5) && (age % 10 <= 9) -> "$age лет"
+        (age % 100 in 10..19) -> "$age лет"
+    //(age % 100 >= 10) && (age % 100 <= 19) -> "$age лет"
+        (age % 10 in 2..4) -> "$age года"
+    // (age % 10 >= 2) && (age % 10 <= 4) -> "$age года"
+        (age % 10 in 5..9) -> "$age лет"
+    //(age % 10 >= 5) && (age % 10 <= 9) -> "$age лет"
         else -> "$age год"
     }
 }
@@ -98,9 +101,9 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val rook = (kingX==rookX)
-            ||(kingY==rookY)
-    val bishop = (Math.abs(kingX-bishopX)) == (Math.abs(kingY-bishopY))
+    val rook = (kingX == rookX)
+            || (kingY == rookY)
+    val bishop = (Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))
     return when {
         rook && bishop -> 3
         rook -> 1

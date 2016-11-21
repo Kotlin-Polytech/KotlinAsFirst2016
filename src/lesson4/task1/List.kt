@@ -137,9 +137,13 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
-    val midlelist = mean(list)
-    for (i in 0..list.size-1) list[i]=list[i]-midlelist
+    // if (list.isEmpty()) return list
+    try {
+        val midllelist = mean(list)
+        for (i in 0..list.size - 1) list[i] = list[i] - midllelist
+    } catch (e: Exception) {
+        return list
+    }
     return list
 }
 
@@ -171,13 +175,15 @@ fun times(a: List<Double>, b: List<Double>): Double =
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double =
-        if (p.isEmpty()) 0.0
-        else {
-            var sum= 0.0
+        //if (p.isEmpty()) 0.0
+        try {
+            var sum = 0.0
             for (i in 0..p.size - 1) {
                 sum += p[i] * Math.pow(x, i.toDouble())
             }
             sum
+        } catch (e: Exception) {
+            0.0
         }
 
 
@@ -208,16 +214,15 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> =
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var result: List<Int>
-    result = listOf()
+    var result: List<Int> = listOf()
     var n1 = n
     var divider = 1
     while (divider < n1) {
         divider++
-            while ((n1!=0)&&(n1 % divider) == 0) {
-                result+=divider
-                n1 /= divider
-            }
+        while ((n1 != 0) && (n1 % divider) == 0) {
+            result += divider
+            n1 /= divider
+        }
 
     }
     return result
@@ -229,7 +234,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = factorize(n).joinToString ( separator = "*" )
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 
 /**
@@ -241,7 +246,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString ( separator = 
  */
 fun convert(n: Int, base: Int): List<Int> {
     var n1 = n
-    var list= mutableListOf<Int>()
+    var list = mutableListOf<Int>()
     if (n == 0) list.add(0)
     while (n1 > 0) {
         list.add(n1 % base)
@@ -260,14 +265,16 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var list: List<Int>
-    var str1 = ""
-    if (n == 0) str1 = ""
+    var str1 = StringBuilder()
+    if (n == 0) return str1.toString()
     list = convert(n, base)
     for (i in 0..list.size - 1) {
-        if (list[i] > 9) str1 += (87 + list[i]).toChar()
-        else str1 += (list[i]).toString()
+        if (list[i] > 9) str1.append((87 + list[i]).toChar())
+        //if (list[i] > 9) str1 += (87 + list[i]).toChar()
+        else str1.append((list[i]).toString())
+        // else str1 += (list[i]).toString()
     }
-    return str1
+    return str1.toString()
 }
 
 /**
@@ -285,7 +292,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
 
 fun powInt(num: Int, b: Int): Int {//функция степени ,не готова
     if (b == -1) return 1 / num
-    if (b < 2) return num else return num*powInt(num, b-1)
+    if (b < 2) return num else return num * powInt(num, b - 1)
 }
 
 
@@ -299,9 +306,8 @@ fun powInt(num: Int, b: Int): Int {//функция степени ,не гот�
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var list: List<Int>
-    list = listOf()
-    var str1= str
+    var list: List<Int> = listOf()
+    var str1 = str
     for (i in 0..str1.length - 1) {
         if (str1[i] in '0'..'9') list += ((str1[i]).toInt() - 48)
         else list += ((str1[i]).toInt() - 87)
@@ -387,14 +393,13 @@ fun roman(n: Int): String {
                 }
             }
             else -> {
-                println("error")
                 n1 = 0
             }
         }
-        if (counter===4) return result.reversed()
+        if (counter == 4) return result.reversed() //revers из-за прохода с конца
         n1 /= 10
     }
-    return result.reversed()
+    return result.reversed() //revers из-за прохода с конца
 }
 
 

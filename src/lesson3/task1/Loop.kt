@@ -180,7 +180,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 
 fun sin(x: Double, eps: Double): Double {
     var counter = 0
-    val x1=x % (2 * Math.PI)
+    val x1 = x % (2 * Math.PI)
     var number = x1
     var sinus = x1
     while (Math.abs(number) > eps) {
@@ -200,15 +200,38 @@ fun sin(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var t = ""
     var n1 = n
-
-    do {
-        t += (n1 % 10).toString()
+    var result = 0
+    var decade = tenNumbers(digitNumber(n))
+    while (n1 != 0) {
+        result += decade * (n1 % 10)
+        decade /= 10
         n1 /= 10
-    } while (n1 >= 1)
-    return t.toInt()
+    }
+    return result
 }
+
+
+fun tenNumbers(n: Int): Int {
+    var result = 1
+    var n1 = n - 1
+    while (n1 != 0) {
+        result *= 10
+        n1 -= 1
+    }
+    return result
+}
+
+/**
+var t = ""
+var n1 = n
+do {
+t += (n1 % 10).toString()
+n1 /= 10
+} while (n1 >= 1)
+return t.toInt()
+}
+ */
 
 /**
  * Простая
@@ -219,7 +242,7 @@ fun revert(n: Int): Int {
  */
 fun cos(x: Double, eps: Double): Double {
     var i = 0
-    val x1=x % (2 * Math.PI)
+    val x1 = x % (2 * Math.PI)
     var cosus = 1.0
     var number = x1
     while (Math.abs(number) > eps) {
@@ -241,7 +264,9 @@ fun cos(x: Double, eps: Double): Double {
  * 15751 -- палиндром, 3653 -- нет.
  */
 
-fun isPalindrome(n: Int): Boolean {
+fun isPalindrome(n: Int): Boolean = revert(n)==n
+
+/*
     if (n in -9..9) return true
     val firstNumber = n % 10
     val secondNumber = n % 100 / 10
@@ -255,6 +280,8 @@ fun isPalindrome(n: Int): Boolean {
     if ((firstNumber == revertNumFirst) && (secondNumber == revertNumSecond)) return true
     return false
 }
+**/
+
 
 /**
  * Средняя
@@ -263,7 +290,8 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean =
-        if ((n.toString().filter { it == n.toString()[0] }) != (n.toString())) true else false
+       // ((n.toString().filter {it-> it == n.toString()[0] }) != (n.toString()))
+  ((n.toString().filter { it == n.toString()[0] }) != (n.toString()))
 
 /**
  * Сложная

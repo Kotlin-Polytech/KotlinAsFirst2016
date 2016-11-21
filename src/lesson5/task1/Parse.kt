@@ -139,7 +139,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.length == 0) return "" //проверка условий
+    if (phone.isEmpty()) return "" //проверка условий
     for (i in 0..phone.length - 1) {
         if ((phone[i] != '(')
                 && (phone[i] != ')')
@@ -169,7 +169,7 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     if (jumps.matches(Regex("[-%0-9 ]+"))) {
         return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
-    }else return -1
+    } else return -1
 }
 
 
@@ -186,7 +186,7 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     if (jumps.matches(Regex("[-+%0-9 ]+"))) {
         return Regex("([0-9]+) [%-]*[+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
-    }else return -1
+    } else return -1
 }
 
 
@@ -236,7 +236,15 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var littleReg = str.toLowerCase().split(" ")
+    var summ = 0
+    for (i in 0..littleReg.size - 2) {
+        if ((littleReg[i] == littleReg[i + 1]) && (littleReg[i] != "")) return summ
+        summ += littleReg[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -249,7 +257,25 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.isEmpty()) return ""
+    var result =""
+    val maxNum = Regex("[0-9.]+").findAll(description).map { it.value.toDouble() }.max() // нахождение макс числа
+    try { //проверка на формат
+        var string = description.split("; ") //split по покупкам
+        for (i in 0..string.size - 1) {
+            var stringLittle = string[i].split(" ") //разделение на назв. покупки и цену
+            if (stringLittle.size == 2) { // проверка формат
+                if (stringLittle[1].toDouble() == maxNum){ //сравнение с макс числом
+                   return stringLittle[0] //вывод покупки
+                }
+            } else return ""
+        }
+    } catch (e: Exception) {
+        return ""
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -263,6 +289,7 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
+    if (roman.isEmpty()) return 0
     val font_rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
     val font_ar = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
     var rezult = 0
@@ -282,7 +309,7 @@ fun fromRoman(roman: String): Int {
             posit += font_rom[n].length
         } else n--
     }
-    if (rezult == 0) rezult = -1
+    if (rezult == 0) return -1
     return rezult
 }
 

@@ -32,7 +32,6 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
                 || (Math.abs(x1 - x2) == Math.abs(y1 - y2))
 
 
-
 /**
  * Средняя
  *
@@ -55,14 +54,14 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-            (a <= r && b <= s) ||
-            (a <= s && b <= r) ||
-            (a <= r && c <= s) ||
-            (a <= s && c <= r) ||
-            (a <= r && b <= s) ||
-            (a <= s && b <= r) ||
-            (c <= s && b <= r) ||
-            (c <= r && b <= s)
+        (a <= r && b <= s) ||
+                (a <= s && b <= r) ||
+                (a <= r && c <= s) ||
+                (a <= s && c <= r) ||
+                (a <= r && b <= s) ||
+                (a <= s && b <= r) ||
+                (c <= s && b <= r) ||
+                (c <= r && b <= s)
 
 
 

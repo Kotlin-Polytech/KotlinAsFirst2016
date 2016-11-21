@@ -38,7 +38,6 @@ fun ageDescription(age: Int): String {
     val ten = age % 10
     val oneHundred = age % 100
     return when {
-        (ten == 1) && (oneHundred == 11) -> "$age лет"
         (ten == 1) && (oneHundred != 11) -> "$age год"
         (oneHundred in 12..14) -> "$age лет"
         (ten in 2..4) -> "$age года"
@@ -83,8 +82,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val rook1Danger = (rookX1 == kingX) or (rookY1 == kingY)
-    val rook2Danger = (rookX2 == kingX) or (rookY2 == kingY)
+    val rook1Danger = (rookX1 == kingX) || (rookY1 == kingY)
+    val rook2Danger = (rookX2 == kingX) || (rookY2 == kingY)
     return when {
         (rook1Danger && rook2Danger) -> 3
         (!rook2Danger && rook1Danger) -> 1
@@ -106,8 +105,8 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val bishopDanger = ((kingX - kingY) == (bishopX - bishopY)) or ((bishopX - kingX) == (bishopY - kingY)) or (bishopX - kingX == -(bishopY - kingY))
-    val rookDanger = (rookX == kingX) or (rookY == kingY)
+    val bishopDanger = ((kingX - kingY) == (bishopX - bishopY)) || ((bishopX - kingX) == (bishopY - kingY)) || (bishopX - kingX == -(bishopY - kingY))
+    val rookDanger = (rookX == kingX) || (rookY == kingY)
     return when {
         bishopDanger && rookDanger -> 3
         bishopDanger && !rookDanger -> 2

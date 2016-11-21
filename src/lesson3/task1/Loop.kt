@@ -133,7 +133,7 @@ fun maxDivisor(n: Int): Int = n / minDivisor(n)
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 
 /**
@@ -236,7 +236,7 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var nn = 0
     var number = 0
-    for (i in 0..n) {
+    for (i in 0..n) { //В прошлых исправлениях Вы писали "Менять внешнюю переменную внутри лямбды --- очень плохой стиль, лучше воспользоваться старым добрым циклом for"
         if (number < n) {
             nn++
             number += digitNumber(nn * nn)

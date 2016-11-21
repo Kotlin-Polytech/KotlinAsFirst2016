@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import kotlin.comparisons.reverseOrder
 
 //import lesson3.task1.minDivisor
 
@@ -184,13 +183,11 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
-    else {
-        for (i in 1..list.size - 1)
-            list[i] = list[i] + list[i - 1]
-        return list
-    }
+    for (i in 1..list.size - 1)
+        list[i] = list[i] + list[i - 1]
+    return list
 }
+
 
 /**
  * Средняя
@@ -203,8 +200,7 @@ fun factorize(n: Int): List<Int> {
     var nn = n
     var result = listOf<Int>()
     while (nn > 1) {
-        var minDivisor: Int
-        minDivisor = lesson3.task1.minDivisor(nn)
+        val minDivisor = lesson3.task1.minDivisor(nn)
         result += minDivisor
         nn /= minDivisor
     }
@@ -251,14 +247,11 @@ fun convertToString(n: Int, base: Int): String {
     var result: String = ""
     val number = convert(n, base)
     for (i in 0..number.size - 1) {
-        if (number[i] >= 10) result += (number[i] + 87).toChar()
+        if (number[i] >= 10) result += ('a' - 10 + number[i]).toString()
         else result += "${number[i]}"
     }
     return result
 }
-/** 87, а не 42, потому что это не ответ на главный вопрос жизни, вселенной и всего такого, а всего лишь перевод числа 10 в символ a, с использованием таблицы ASCII
- * И если поменять toChar на toString, то всё сломается :'(
- */
 
 
 /**
@@ -269,13 +262,15 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun pow(base: Int, n: Int): Int {
-    var result = 1
-    if ((base != 0) && (n != 0)) {
+    var result = 0
+    if (base != 0) {
+        result++
         for (i in 1..base) {
             result *= n
         }
         return result
-    } else return result
+    } else if (n != 0) return result + 1
+    else return result
 }
 
 
@@ -299,11 +294,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var list = listOf<Int>()
     for (i in 0..str.length - 1)
-        if (str[i] in '0'..'9') list += ((str[i]).toInt() - 48)
+        if (str[i] in '0'..'9') list += (str[i] - 48).toInt()
         else list += ((str[i]).toInt() - 87)
     return decimal(list, base)
 }
-// Но это не магические константы, это таблица кодов аски :(
+
 /**
  * Сложная
  *

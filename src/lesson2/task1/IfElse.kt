@@ -103,13 +103,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
-/*fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (a + b < c || a + c < b || c + b < a)
-        return -1
-    val max = Math.max(Math.max(a,b),c)
-    if (max > a || max > b) val c
-}
-*/
 /**
  * Средняя
  *

@@ -111,7 +111,6 @@ tailrec fun gcd(m: Int, n: Int): Int {
     if (n > m)
         return gcd(n-m, m)
     else return gcd(m-n, n)
-
 }
 fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
@@ -141,22 +140,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO() /* {
-    var sum = 1.0
-    var i = 2
-    var j = 2
-    while(true) {
-      if (j % 2 == 0)
-          sum = sum - pow(x, i.toDouble()) / factorial(i)
-      else
-          sum = sum + pow(x, i.toDouble()) / factorial(i)
-        i = i + 2
-        j++
-    }
-    if ((pow(x, i.toDouble()) / factorial(i)) < eps)
-        return sum
-
-}*/
+fun cos(x: Double, eps: Double): Double = TODO()
 
 
 /**

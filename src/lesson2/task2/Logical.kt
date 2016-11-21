@@ -25,8 +25,6 @@ fun isNumberHappy(number: Int): Boolean {
     val b = (number / 100) % 10
     val a = number / 1000
     return a + b == c + d
-    //if (a + b == c + d) return true
-    //else return false
 }
 
 /**
@@ -55,7 +53,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
         else return false
     }
    else return false
-
 }
 
 /**

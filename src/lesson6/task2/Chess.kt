@@ -213,14 +213,14 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     var square = start
     while (square != end) {
         square = when {
-            square.row < end.row && square.column < end.column -> Square(square.row + 1, square.column + 1)
-            square.row == end.row && square.column < end.column -> Square(square.row, square.column + 1)
-            square.row < end.row && square.column > end.column -> Square(square.row + 1, square.column - 1)
-            square.row == end.row && square.column > end.column -> Square(square.row, square.column - 1)
-            square.row > end.row && square.column < end.column -> Square(square.row - 1, square.column + 1)
-            square.row > end.row && square.column > end.column -> Square(square.row - 1, square.column - 1)
-            square.row > end.row && square.column == end.column -> Square(square.row - 1, square.column)
-            else -> Square(square.row + 1, square.column)
+            square.row < end.row && square.column < end.column -> Square(square.column + 1, square.row + 1)  //
+            square.row == end.row && square.column < end.column -> Square(square.column + 1, square.row)
+            square.row < end.row && square.column > end.column -> Square(square.column - 1, square.row + 1)//
+            square.row == end.row && square.column > end.column -> Square(square.column - 1, square.row)
+            square.row > end.row && square.column < end.column -> Square(square.column + 1, square.row - 1)
+            square.row > end.row && square.column > end.column -> Square(square.column - 1, square.row - 1)
+            square.row > end.row && square.column == end.column -> Square(square.column, square.row - 1)
+            else -> Square(square.column, square.row + 1)
         }
         result.add(square)
     }

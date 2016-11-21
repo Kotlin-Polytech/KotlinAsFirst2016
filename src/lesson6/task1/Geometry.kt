@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -55,7 +56,7 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double  {
+    fun distance(other: Circle): Double {
         val d = center.distance(other.center) - (radius + other.radius)
         return if (d > 0) d
         else 0.0
@@ -66,7 +67,7 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = (center.x - p.x) + (center.y - p.y) <= radius
 }
 
 /**
@@ -88,7 +89,16 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val x1 = diameter.begin.x
+    val x2 = diameter.end.x
+    val y1 = diameter.begin.y
+    val y2 = diameter.end.y
+    val radius = Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) / 2.0
+    val x = ((Math.max(x1, x2) - Math.min(x1, x2)) / 2.0) + Math.min(x1, x2)
+    val y = ((Math.max(y1, y2) - Math.min(y1, y2)) / 2.0) + Math.min(y1, y2)
+    return Circle(Point(x, y), radius)
+}
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -109,14 +119,20 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val xDistance = s.end.x - s.begin.x
+    val yDistance = s.end.y - s.begin.y
+    val angle = if (xDistance == 0.0) Math.PI / 2
+    else Math.atan(yDistance / xDistance)
+    return Line(Point(s.begin.x, s.begin.y), angle)
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 /**
  * Сложная

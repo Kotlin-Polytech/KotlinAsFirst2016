@@ -200,7 +200,6 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
         if (list.size <= 1) {
             return list
         } else {
-            var first: Double = list.first()
             var k = 0.0
             val f=list.size-1
             for (index in 0..f) {

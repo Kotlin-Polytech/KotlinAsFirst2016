@@ -61,10 +61,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = (hours * 3600 + minut
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val x = sagenes * 48 * 0.04445 + arshins * 16 * 0.04445 + vershoks * 0.04445
-    return x
-}
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = (sagenes * 48 * 0.04445 + arshins * 16 *
+        0.04445 + vershoks * 0.04445)
 
 /**
  * Тривиальная
@@ -72,10 +70,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val x = grad / 180.0 * PI + min / 60.0 / 180 * PI + sec / 3600.0 / 180 * PI
-    return x
-}
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad / 180.0 * PI + min / 60.0 / 180 *
+        PI + sec / 3600.0 / 180 * PI)
 
 /**
  * Тривиальная
@@ -103,8 +99,7 @@ fun thirdDigit(number: Int): Int = (number / 100 % 10)
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
     val x1 = 60 - minutesDepart + minutesArrive
     val hours = hoursArrive - hoursDepart - 1
-    val minutes = x1 + 60 * hours
-    return minutes
+    return x1 + 60 * hours
 }
 
 /**

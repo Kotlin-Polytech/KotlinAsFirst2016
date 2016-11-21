@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import java.lang.Math.*
 
 /**
  * Пример
@@ -164,8 +163,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
             n1 -= m1
         }
     }
-    if (n1 == 1) return true
-    else return false
+    return n1 == 1
 }
 
 /**
@@ -296,6 +294,6 @@ fun fibSequenceDigit(n: Int): Int {
         x++
     }
     l = Math.abs(l)
-    m = m / pow(10.0, l * 1.0).toInt() % 10
+    m = m / Math.pow(10.0, l * 1.0).toInt() % 10
     return m
 }

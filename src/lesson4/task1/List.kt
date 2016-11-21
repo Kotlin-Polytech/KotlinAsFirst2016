@@ -108,10 +108,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var x = 0.0
     for (element in v) {
-        x +=Math.pow(element, 2.0)
+        x +=element*element
     }
-    val t = Math.sqrt(x)
-    return t
+    return Math.sqrt(x)
 }
 
 /**
@@ -122,8 +121,7 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
     else {
-        val t = list.sum() / list.size
-        return t
+        return list.sum() / list.size
     }
 }
 
@@ -175,7 +173,7 @@ fun polynom(p: List<Double>, x: Double): Double {
         p1 = (p1 + element * Math.pow(x, x1))
         x1++
     }
-    return p1 * 1.0
+    return p1
 }
 
 /**

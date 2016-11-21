@@ -174,9 +174,9 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int {
-    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    return max(abs(start.column - end.column), abs(start.row - end.row))
+fun kingMoveNumber(start: Square, end: Square): Int = when {
+    (!start.inside() || !end.inside()) -> throw IllegalArgumentException()
+    else -> max(abs(start.column - end.column), abs(start.row - end.row))
 }
 
 
@@ -237,13 +237,13 @@ fun knightMoveNumber(start: Square, end: Square): Int {
     while (end !in list) {
         temp = list
         list = mutableListOf<Square>()
-        for (element in temp) {
+        loop@ for (element in temp) {
             val steps = steps(element, set)
             for (step in steps) {
                 list.add(step)
                 set.add(step)
+                if (step == end) break@loop
             }
-            if (end in list) break
         }
         result++
     }
@@ -277,7 +277,7 @@ fun knightTrajectory(start: Square, end: Square): List<Square> {
     var list = mutableListOf(start)
     val listResult = mutableListOf(mutableListOf(start))
     var temp = list
-    while (end !in list) {
+    main@ while (end !in list) {
         temp = list
         list = mutableListOf<Square>()
         listResult.add(mutableListOf())
@@ -286,9 +286,9 @@ fun knightTrajectory(start: Square, end: Square): List<Square> {
             for (step in steps) {
                 list.add(step)
                 set.add(step)
-                listResult[listResult.size-1].add(step)
+                listResult[listResult.size - 1].add(step)
+                if (end == step) break@main
             }
-            if (end in list) break
         }
     }
     val setEnd = mutableSetOf(end)
@@ -296,28 +296,26 @@ fun knightTrajectory(start: Square, end: Square): List<Square> {
     list = mutableListOf(end)
     var i = 2
     var k = false
-    while (start !in list) {
+    main@ while (start !in list) {
         k = false
         temp = list
         list = mutableListOf<Square>()
-        for (element in temp) {
+        loop@ for (element in temp) {
             val steps = steps(element, setEnd)
             for (step in steps) {
                 list.add(step)
                 setEnd.add(step)
-                if (step in listResult[listResult.size-i]){
+                if (step in listResult[listResult.size - i]) {
                     i++
                     tempList.add(step)
                     list = mutableListOf(step)
-                    k = true
-                    break
+                    if (step == start) break@main
+                    break@loop
                 }
             }
-            if (k) break
-            if (start in list) break
         }
     }
     val result = mutableListOf<Square>()
-    for (j in 1..tempList.size) result.add(tempList[tempList.size-j])
+    for (j in 1..tempList.size) result.add(tempList[tempList.size - j])
     return result
 }

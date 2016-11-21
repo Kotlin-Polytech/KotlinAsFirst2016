@@ -67,7 +67,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var cursor = Cell(0, 0)
     result[cursor] = 1
     var j = 1
-    for (i in 0..floor(min(height, width) / 2.0).toInt()) {
+    for (i in 0..(min(height, width) / 2) + 1) {
         while (cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0) {
             j++
             cursor = Cell(cursor.row, cursor.column + 1)
@@ -111,7 +111,7 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     var cursor = Cell(0, 0)
     result[cursor] = 1
     var j = 1
-    for (i in 0..floor(min(height, width) / 2.0).toInt()) {
+    for (i in 0..(min(height, width) / 2) + 1) {
         while (cursor.column + 2 <= width && result[Cell(cursor.row, cursor.column + 1)] == 0) {
             cursor = Cell(cursor.row, cursor.column + 1)
             result[cursor] = j
@@ -189,10 +189,11 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
  * 7 8 9      9 6 3
  */
 fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
-    val transpose = transpose(matrix)
-    val result = transpose(matrix)
-    for (i in 0..result.height - 1)
-        for (j in 0..result.width - 1) result[i, j] = transpose[i, result.width - 1 - j]
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val result = createMatrix(matrix.width, matrix.height, matrix[0, 0])
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            result[i, j] = matrix[matrix.height - 1 - j, i]
     return result
 }
 
@@ -345,17 +346,23 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
  */
 fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
     if (lock.height < key.height || lock.width < key.width) return Triple(false, 0, 0)
-    for (row in 0..lock.height - key.height) {
+    for (i in 0..lock.height - 1)
+        for (j in 0..lock.width - 1)
+            if (lock[i, j] !in 0..1) return Triple(false, 0, 0)
+    for (i in 0..key.height - 1)
+        for (j in 0..key.width - 1)
+            if (key[i, j] !in 0..1) return Triple(false, 0, 0)
+
+    for (row in 0..lock.height - key.height)
         for (column in 0..lock.width - key.width) {
-            val set = mutableSetOf<Boolean>()
-            for (i in 0..key.height - 1)
+            var temp = true
+            keyLoop@ for (i in 0..key.height - 1)
                 for (j in 0..key.width - 1) {
-                    if (lock[row + i, column + j] !in 0..1 || key[i, j] !in 0..1) return Triple(false, 0, 0)
-                    set.add(key[i, j] == lock[row + i, column + j])
+                    temp = key[i, j] != lock[row + i, column + j]
+                    if (!temp) break@keyLoop
                 }
-            if (true !in set) return Triple(true, row, column)
+            if (temp) return Triple(true, row, column)
         }
-    }
     return Triple(false, 0, 0)
 }
 
@@ -426,30 +433,21 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
             if (matrix[i, j] !in 0..matrix.height * matrix.width - 1) throw IllegalStateException()
             if (matrix[i, j] == 0) cursor = Cell(i, j)
         }
-    val result = matrix
-    val nullMatrix = createMatrix(matrix.height + 2, matrix.width + 2, 0)
-    for (i in 0..matrix.height - 1)
-        for (j in 0..matrix.width - 1) nullMatrix[i + 1, j + 1] = matrix[i, j]
-    var k = false
     for (move in moves) {
-        k = false
-        for (i in -1..1) {
+        stepLoop@ for (i in -1..1) {
             for (j in -1..1) {
-                if (move == nullMatrix[cursor.row + 1 + i, cursor.column + 1 + j] && abs(i+j) != 2) {
-                    result[cursor] = move
-                    nullMatrix[cursor.row + 1, cursor.column + 1] = move
+                if (cursor.row + i != -1 && cursor.row + i != matrix.height && cursor.column + j != -1 && cursor.column + j != matrix.width
+                   && move == matrix[cursor.row + i, cursor.column + j] && abs(i + j) != 2) {
+                    matrix[cursor] = move
                     cursor = Cell(cursor.row + i, cursor.column + j)
-                    result[cursor] = 0
-                    nullMatrix[cursor.row + 1, cursor.column + 1] = 0
-                    k = true
-                    break
+                    matrix[cursor] = 0
+                    break@stepLoop
                 }
             }
-            if (k) break
             if (i == 1) throw IllegalStateException()
         }
     }
-    return result
+    return matrix
 }
 
 /**

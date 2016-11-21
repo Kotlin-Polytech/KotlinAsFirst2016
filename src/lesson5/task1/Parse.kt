@@ -196,6 +196,18 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     var res = 0
     if (expression.contains(Regex("""[^-+\d\s]""")) || expression == "") throw IllegalArgumentException()
+    if (expression.contains(Regex("""[-+]"""))) Double.NaN
+    else if (expression.contains(Regex("""[\s]"""))) throw IllegalArgumentException()
+    else return expression.toInt()
+    val symbols = Regex("""[^+-]""").replace(expression, "")
+    val parts = Regex("""[\s]""").replace(expression, "").split("+", "-")
+    res += parts.first().toInt()
+    for (i in 1..parts.size - 1) {
+        if (symbols[i - 1] == '+') res += parts[i].toInt() else res -= parts[i].toInt()
+    }
+    return res
+   /* var res = 0
+    if (expression.contains(Regex("""[^-+\d\s]""")) || expression == "") throw IllegalArgumentException()
     if (expression.contains(Regex("""[-+]"""))) {
     } else if (expression.contains(Regex("""[\s]"""))) throw IllegalArgumentException()
     else return expression.toInt()
@@ -204,7 +216,7 @@ fun plusMinus(expression: String): Int {
     for (i in 1..parts.size - 1 step 2) {
         if (parts[i] == "+") res += parts[i + 1].toInt() else res -= parts[i + 1].toInt()
     }
-    return res
+    return res*/
 }
 
 /**

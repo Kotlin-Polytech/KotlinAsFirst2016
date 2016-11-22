@@ -2,6 +2,7 @@
 
 package lesson7.task2
 
+import lesson2.task1.timeForHalfWay
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -60,7 +61,7 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO() /*{
     val result = createMatrix(height, width, 0)
     val numb = (Math.min(height, width) + 1) / 2
     var digit = 0
@@ -72,7 +73,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         for (j in height - i - 2 downTo i + 1) result[j, i] = digit++
     }
     return result
-}
+}*/
 
 /**
  * Сложная
@@ -155,7 +156,27 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    val list = mutableListOf<Int>()
+    val size = matrix.width
+    for (i in 0..size - 1) for (j in 0..size - 1) if (matrix[i, j] !in 1..size) return false
+    for (i in 0..size - 1) {
+        for (j in 0..size - 1) {
+            if (matrix[i, j] in list) return false
+            list.add(matrix[i, j])
+        }
+        list.clear()
+    }
+    for (i in 0..size - 1) {
+        for (j in 0..size - 1) {
+            if (matrix[j, i] in list) return false
+            list.add(matrix[j, i])
+        }
+        list.clear()
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -191,7 +212,19 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+    val rows = mutableListOf<Int>()
+    val columns = mutableListOf<Int>()
+    for (i in 0..matrix.height - 1) for (j in 0..matrix.width - 1) {
+        if (matrix[i, j] != 0) break
+        if (j == matrix.width - 1) rows.add(i)
+    }
+    for (i in 0..matrix.width - 1) for (j in 0..matrix.height - 1) {
+        if (matrix[j, i] != 0) break
+        if (j == matrix.height - 1) columns.add(i)
+    }
+    return Holes(rows, columns)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице

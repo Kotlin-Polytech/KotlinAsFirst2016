@@ -70,7 +70,7 @@ data class Circle(val center: Point, val radius: Double) {
      */
     fun contains(p: Point): Boolean {
         val dist = center.distance(p)
-        return dist < radius
+        return dist <= radius
     }
 }
 
@@ -87,18 +87,18 @@ data class Segment(val begin: Point, val end: Point)
      */
     fun diameter(vararg points: Point): Segment {
         if (points.size < 2) throw IllegalArgumentException()
-        var max = 1.00
-        var adress = Segment(points[0], points[0])
+        var maxDistance = -1.00
+        var addresSegment = Segment(points[0], points[0])
             for (i in 0..points.size - 2) {
                 for (j in i+1..points.size - 1) {
                     val dist = points[i].distance(points[j])
-                    if (dist > max){
-                        max = dist
-                        adress = Segment(points[i], points[j])
+                    if (dist > maxDistance){
+                        maxDistance = dist
+                        addresSegment = Segment(points[i], points[j])
                     }
                 }
             }
-        return adress
+        return addresSegment
     }
 
     /**

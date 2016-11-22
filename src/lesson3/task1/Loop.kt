@@ -104,9 +104,12 @@ fun minDivisor(n: Int): Int {
     if (n % 2 == 0) return 2
     else {
         var mindel = 3
-        while (n % mindel != 0)
-            mindel += 2
-        return mindel
+        while (mindel < n/2 ) {
+            if (n % mindel == 0) break
+            else mindel += 2
+        }
+        if (mindel >= n/2) return n
+        else return mindel
     }
 }
 

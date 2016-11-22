@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 import lesson3.task1.minDivisor
 
 /**
@@ -210,9 +211,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val list = mutableListOf<Int>()
     var n2 = n
-    while (n2 > 1) {
-        list.add(minDivisor(n2))
-        n2 /= minDivisor(n2)
+    for (i in 1..n) {
+        if (isPrime(i) == true) {
+            while ( n2 % i == 0){
+                list += i
+                n2 /= i
+            }
+        }
     }
     return list
 }

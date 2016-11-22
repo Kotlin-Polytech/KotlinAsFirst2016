@@ -318,7 +318,7 @@ fun russian(n: Int): String {
         number = n / 1000
         if (number / 100 % 10 == 0) Double.NaN else
             if (number >= 100) listRes += listHundred[(number % 1000) / 100]
-        val last = if (number % 10 !in 1..3) listUnits[number % 10] + " тысяч" else listThousands[number % 10]
+        val last = if (number % 10 !in 1..4) listUnits[number % 10] + " тысяч" else listThousands[number % 10]
         if (number % 100 == 0) listRes += " тысяч" else
             if (number % 100 in 10..19) listRes += " " + listUnits[number % 100] + " тысяч"
             else if (number % 100 in 20..99)

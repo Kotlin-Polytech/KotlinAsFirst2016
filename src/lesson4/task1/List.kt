@@ -316,24 +316,22 @@ fun russian(n: Int): String {
     var listRes = ""
     if (n >= 1000) {
         number = n / 1000
-        if (number / 100 % 10 == 0) Double.NaN else
-            if (number >= 100) listRes += listHundred[(number % 1000) / 100]
+        if (number / 100 % 10 == 0) Double.NaN
+        else if (number >= 100) listRes += listHundred[(number % 1000) / 100]
         val last = if (number % 10 !in 1..4) listUnits[number % 10] + " тысяч" else listThousands[number % 10]
-        if (number % 100 == 0) listRes += " тысяч" else
-            if (number % 100 in 10..19) listRes += " " + listUnits[number % 100] + " тысяч"
-            else if (number % 100 in 20..99)
-                listRes += " " + listDes[(number % 100) / 10] + " " + last
-            else listRes += " " + last
+        if (number % 100 == 0) listRes += " тысяч"
+        else if (number % 100 in 10..19) listRes += " " + listUnits[number % 100] + " тысяч"
+        else if (number % 100 in 20..99) listRes += " " + listDes[(number % 100) / 10] + " " + last
+        else listRes += " " + last
         number = n % 1000
     }
     //////
-    if (number / 100 % 10 == 0) Double.NaN else
-        if (number >= 100) listRes += " " + listHundred[(number % 1000) / 100]
+    if (number / 100 % 10 == 0) Double.NaN
+    else if (number >= 100) listRes += " " + listHundred[(number % 1000) / 100]
     val unit = " " + listUnits[number % 10]
-    if (number % 100 == 0) Double.NaN else
-        if (number % 100 in 10..19) listRes += " " + listUnits[number % 100]
-        else if (number % 100 in 20..99)
-            listRes += " " + listDes[(number % 100) / 10] + unit
-        else if (number % 10 in 1..9) listRes += unit
+    if (number % 100 == 0) Double.NaN
+    else if (number % 100 in 10..19) listRes += " " + listUnits[number % 100]
+    else if (number % 100 in 20..99) listRes += " " + listDes[(number % 100) / 10] + unit
+    else if (number % 10 in 1..9) listRes += unit
     return listRes.trim()
 }

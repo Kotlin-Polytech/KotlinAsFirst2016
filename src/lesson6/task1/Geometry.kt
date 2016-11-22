@@ -128,21 +128,25 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y - s.begin.y)/(s.end.x - s.begin.x)))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val middle =  circleByDiameter(Segment(a, b)).center
+    val angle = lineBySegment(Segment(a, b)).angle + Math.PI / 2
+    return Line(middle, angle)
+}
 
 /**
  * Средняя

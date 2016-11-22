@@ -24,7 +24,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun dateStrToDigit() {
-        assertEquals("", dateStrToDigit("29 февраля 2011"))
+        assertEquals("02.11.0", dateStrToDigit("02 ноября 0"))
         assertEquals("29.02.2000", dateStrToDigit("29 февраля 2000"))
         assertEquals("15.04.0", dateStrToDigit("15 апреля 0"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
@@ -48,24 +48,34 @@ class Tests {
         assertEquals("", dateDigitToStr("ab.cd.ef"))
     }
 
+
+    @Test
+    fun formatStringForFlattenPhoneNumber() {
+
+
+        assertEquals(22, formatStringForFlattenPhoneNumber("12 --  34- 5 -- 67 -98"))
+        assertEquals(11, formatStringForFlattenPhoneNumber("+12 (3) 4-5"))
+        assertEquals(18, formatStringForFlattenPhoneNumber("+7 (921) 123-45-67"))
+    }
+
     @Test
     @Tag("Hard")
     fun flattenPhoneNumber() {
-        assertEquals("+79211234567", flattenPhoneNumber("+7 (921) 123-45-67"))
-        assertEquals("123456798", flattenPhoneNumber("12 --  34- 5 -- 67 -98"))
         assertEquals("", flattenPhoneNumber("ab-123"))
-        assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("123456798", flattenPhoneNumber("12 --  34- 5 -- 67 -98"))
+        assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
+        assertEquals("+79211234567", flattenPhoneNumber("+7 (921) 123-45-67"))
     }
+
 
     @Test
     @Tag("Normal")
     fun bestLongJump() {
-        assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
-        assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
-
+        assertEquals(717, bestLongJump("706 % 400 - 717"))
+        assertEquals(754, bestLongJump("700 717 707 % 754"))
     }
 
     @Test

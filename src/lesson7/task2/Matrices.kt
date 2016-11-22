@@ -60,7 +60,7 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO() /*{
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val result = createMatrix(height, width, 0)
     val numb = (Math.min(height, width) + 1) / 2
     var digit = 0
@@ -72,7 +72,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO() /*{
         for (j in height - i - 2 downTo i + 1) result[j, i] = digit++
     }
     return result
-}*/
+}
 
 /**
  * Сложная

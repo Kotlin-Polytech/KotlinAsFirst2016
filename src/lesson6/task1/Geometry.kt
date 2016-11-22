@@ -58,7 +58,7 @@ data class Circle(val center: Point, val radius: Double) {
      */
     fun distance(other: Circle): Double {
         val dist = center.distance(other.center) - (radius + other.radius)
-        if (dist > 0.0) return dist else return 0.0
+        return if (dist > 0.0) dist else 0.0
     }
 
     /**
@@ -105,9 +105,13 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle =
-        Circle(Point((diameter.begin.x + diameter.end.x) / 2.0,
-                (diameter.begin.y + diameter.end.y) / 2.0),
-                diameter.begin.distance(other = diameter.end) / 2.0)
+        Circle(
+                Point(
+                        (diameter.begin.x + diameter.end.x) / 2.0,
+                        (diameter.begin.y + diameter.end.y) / 2.0
+                ),
+                diameter.begin.distance(other = diameter.end) / 2.0
+        )
 
 
 /**
@@ -146,8 +150,13 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line =
-        Line(Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0),
-                lineByPoints(a, b).angle + Math.PI / 2)
+        Line(
+                Point(
+                        (a.x + b.x) / 2.0,
+                        (a.y + b.y) / 2.0
+                ),
+                lineByPoints(a, b).angle + Math.PI / 2
+        )
 
 
 /**

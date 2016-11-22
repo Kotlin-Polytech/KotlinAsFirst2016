@@ -167,9 +167,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * В заданном списке list каждый элемент, кроме первого, заменить
  * суммой данного элемента и всех предыдущих.
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
- * Пустой список не следует изменять. Вернуть изменённый список. */
-
-
+ * Пустой список не следует изменять. Вернуть изменённый список.
+ */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     for (i in 1..list.size - 1) {
         list[i] += list[i - 1]
@@ -209,7 +208,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  *
  * Перевести заданное натуральное число n в систему счисления с основанием base > 1.
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
- * например: n = 100, basre = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
+ * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
@@ -278,12 +277,12 @@ fun decimalFromString(str: String, base: Int): Int = decimal(str.map { symbolToN
  */
 
 fun roman(n: Int): String {
-    var number = n
-    var res = ""
     val listAll = listOf("I" to 1, "IV" to 4, "V" to 5, "IX" to 9, "X" to 10, "XL" to 40, "L" to 50,
             "XC" to 90, "C" to 100, "CD" to 400, "D" to 500, "CM" to 900, "M" to 1000)
+    var number = n
     if (number <= 0) return ""
     else {
+        var res = ""
         while (number > 0) {
             for (i in listAll.size - 1 downTo 0) {
                 if (number - listAll[i].second >= 0) {
@@ -304,26 +303,37 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()/*{
+fun russian(n: Int): String {
     var number = n
-    val listUnits = listOf("edin", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
+    val listUnits = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
             "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятьнадцать",
             "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val listHundred = listOf("sotochki", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val listDes = listOf("des", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val listThousands = listOf("tisacha", "одна тысяча", "две тысячи", "три тысячи")
-    val listRes = mutableListOf<String>()
-
+    val listDes = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят",
+            "восемьдесят", "девяносто")
+    val listHundred = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот",
+            "восемьсот", "девятьсот")
+    val listThousands = listOf("", "одна тысяча", "две тысячи", "три тысячи")
+    var listRes = ""
+    if (n >= 1000) {
+        number = n / 1000
+        if (number / 100 % 10 == 0) Double.NaN else
+            if (number >= 100) listRes += listHundred[(number % 1000) / 100]
+        val last = if (number % 10 !in 1..3) listUnits[number % 10] + " тысяч" else listThousands[number % 10]
+        if (number % 100 == 0) listRes += " тысяч" else
+            if (number % 100 in 10..19) listRes += " " + listUnits[number % 100] + " тысяч"
+            else if (number % 100 in 20..99)
+                listRes += " " + listDes[(number % 100) / 10] + " " + last
+            else listRes += " " + last
+        number = n % 1000
+    }
+    //////
     if (number / 100 % 10 == 0) Double.NaN else
-        if (number >= 100) listRes += listHundred[(number % 1000) / 100]
-
+        if (number >= 100) listRes += " " + listHundred[(number % 1000) / 100]
+val unit=" " + listUnits[number % 10]
     if (number % 100 == 0) Double.NaN else
-        if (number % 100 in 10..19) listRes += listUnits[number % 100] else if (number % 100 in 20..99) listRes += listDes[(number % 100) / 10] + " " + listUnits[number % 10]
-        else if (number % 10 in 1..9) listRes += listUnits[number % 10]
-
-//    if (number >= 1000) {
-//        number /= 1000
-//        if (number % 100 == 0 || number < 100) listRes += "тысяч"
-//    }
-    return listRes.joinToString()
-}*/
+        if (number % 100 in 10..19) listRes += " " + listUnits[number % 100]
+        else if (number % 100 in 20..99)
+            listRes += " " + listDes[(number % 100) / 10] + unit
+        else if (number % 10 in 1..9) listRes += unit
+    return listRes.trim()
+}

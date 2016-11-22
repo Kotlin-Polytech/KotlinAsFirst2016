@@ -175,12 +175,11 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var max = -1
     if (jumps.contains(Regex("""[^-+%\d\s]"""))) return -1
     val parts = jumps.split(" ")
-    for (i in 0..parts.size - 2) {
+    var max = -1
+    for (i in 0..parts.size - 2 step 2)
         if (parts[i + 1].contains(Regex("""[+]""")) && parts[i].toInt() > max) max = parts[i].toInt()
-    }
     return max
 }
 
@@ -252,7 +251,6 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var max = 0.0
     var mostExpensive = ""
-    if (description == "") return ""
     val groups = description.split(";")
     for (i in 0..groups.size - 1) {
         val pairs = groups[i].trim().split(" ")
@@ -263,7 +261,7 @@ fun mostExpensive(description: String): String {
         } catch (e: NumberFormatException) {
             return ""
         }
-        if (pairs[1].contains(Regex("""[^\d.]""")) || el < 0) return ""
+        if (el < 0) return ""
         if (el >= max) {
             max = el
             mostExpensive = pairs[0]

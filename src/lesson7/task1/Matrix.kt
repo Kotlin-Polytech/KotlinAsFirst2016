@@ -57,10 +57,10 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  * Реализация интерфейса "матрица"
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<E> {
-    private val listMap = mutableMapOf<Cell, E>()
+    private val map = mutableMapOf<Cell, E>()
 
     override fun get(row: Int, column: Int): E {
-        val res = listMap[Cell(row, column)]
+        val res = map[Cell(row, column)]
         if (res == null) throw  IllegalArgumentException()
         else return res
     }
@@ -68,7 +68,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
     override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        listMap[Cell(row, column)] = value
+        map[Cell(row, column)] = value
     }
 
     override fun set(cell: Cell, value: E) {
@@ -76,20 +76,22 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
     }
 
     override fun equals(other: Any?) =
-            other is MatrixImpl<*> && height == other.height && width == other.width && listMap == other.listMap
+            other is MatrixImpl<*> && height == other.height && width == other.width && map == other.map
 
     override fun toString(): String {
-        var res = "["
+        val res = StringBuilder()
+        res.append("[")
         for (row in 0..height - 1) {
-            res += "["
+            res.append("[")
             for (col in 0..width - 1) {
-                res += this[row, col]
-                if (col != width - 1) res += ","
+                res.append(this[row, col])
+                if (col != width - 1) res.append(",")
             }
-            res += "]"
-            if (row != height - 1) res += ","
+            res.append("]")
+            if (row != height - 1) res.append(",")
         }
-        return res + "]"
+        res.append("]")
+        return res.toString()
     }
 }
 

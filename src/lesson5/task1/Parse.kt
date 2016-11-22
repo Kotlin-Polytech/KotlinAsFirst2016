@@ -68,7 +68,8 @@ fun formatStringToDateStrToDigit(str: String): Boolean {
     var temp = ""
     var temp2 = ""
     for (part in parts) {
-        if ((n == 2) && (part > "0")) {
+        if (n == 3) n += 100
+        if ((n == 2) && (part >= "0")) {
             n += 1
             if ((part.toInt() % 4 != 0) && (temp2 == "февраля") && (temp == "29")) n += 100
         }
@@ -89,7 +90,7 @@ fun formatStringToDateStrToDigit(str: String): Boolean {
             }
             temp2 = part
         }
-        if ((n == 0) && (part > "1") && (part < "32")) {
+        if ((n == 0) && (part >= "1") && (part < "32")) {
             n += 1
             temp = part
         }
@@ -142,7 +143,8 @@ fun formatStringToDateDigitToStr(str: String): Boolean {
     var temp = ""
     var temp2 = ""
     for (part in parts) {
-        if ((n == 2) && (part > "0")) {
+        if (n == 3) n += 100
+        if ((n == 2) && (part >= "0")) {
             n += 1
             if ((part.toInt() % 4 != 0) && (temp2 == "02") && (temp == "29")) n += 100
         }
@@ -163,7 +165,7 @@ fun formatStringToDateDigitToStr(str: String): Boolean {
             }
             temp2 = part
         }
-        if ((n == 0) && (part > "01") && (part < "32")) {
+        if ((n == 0) && (part >= "01") && (part < "32")) {
             n += 1
             temp = part
         }
@@ -194,7 +196,7 @@ fun dateDigitToStr(digital: String): String {
                 (number == "10") && (f == 2) -> " октября "
                 (number == "11") && (f == 2) -> " ноября "
                 (number == "12") && (f == 2) -> " декабря "
-                (number == "01") && (f == 2) -> "1"
+                (number == "01") && (f == 1) -> "1"
                 (number == "02") && (f == 1) -> "2"
                 (number == "03") && (f == 1) -> "3"
                 (number == "04") && (f == 1) -> "4"

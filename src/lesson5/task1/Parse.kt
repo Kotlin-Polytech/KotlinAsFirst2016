@@ -109,15 +109,15 @@ fun dateStrToDigit(str: String): String {
             f += 1
             val number = part
             result += when {
-                (number == "января") || (number == "1") || (number == "01") -> "01."
-                (number == "февраля") || (number == "2") || (number == "02") -> "02."
-                (number == "марта") || (number == "3") || (number == "03") -> "03."
-                (number == "апреля") || (number == "4") || (number == "04") -> "04."
-                (number == "мая") || (number == "5") || (number == "05") -> "05."
-                (number == "июня") || (number == "6") || (number == "06") -> "06."
-                (number == "июля") || (number == "7") || (number == "07") -> "07."
-                (number == "августа") || (number == "8") || (number == "08") -> "08."
-                (number == "сентября") || (number == "9") || (number == "09") -> "09."
+                (f <= 2) && ((number == "января") || (number == "1") || (number == "01")) -> "01."
+                (f <= 2) && ((number == "февраля") || (number == "2") || (number == "02")) -> "02."
+                (f <= 2) && ((number == "марта") || (number == "3") || (number == "03")) -> "03."
+                (f <= 2) && ((number == "апреля") || (number == "4") || (number == "04")) -> "04."
+                (f <= 2) && ((number == "мая") || (number == "5") || (number == "05")) -> "05."
+                (f <= 2) && ((number == "июня") || (number == "6") || (number == "06")) -> "06."
+                (f <= 2) && ((number == "июля") || (number == "7") || (number == "07")) -> "07."
+                (f <= 2) && ((number == "августа") || (number == "8") || (number == "08")) -> "08."
+                (f <= 2) && ((number == "сентября") || (number == "9") || (number == "09")) -> "09."
                 (number == "октября") -> "10."
                 (number == "ноября") -> "11."
                 (number == "декабря") -> "12."
@@ -287,7 +287,7 @@ fun bestLongJump(jumps: String): Int {
             if (jumps[i] in '0'..'9') numberTemp += jumps[i]
             else f = 1
             if ((i == jumps.length - 1) && (jumps[i] in '0'..'9')) f = 1
-            if (numberTemp > number) {
+            if (numberTemp >= number) {
                 if (f == 1) {
                     number = numberTemp
                     numberTemp = ""

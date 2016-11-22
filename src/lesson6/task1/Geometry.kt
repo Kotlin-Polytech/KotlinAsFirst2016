@@ -121,7 +121,7 @@ fun diameter(vararg points: Point): Segment {
  */
 fun circleByDiameter(diameter: Segment): Circle {
     val radius = diameter.begin.distance(diameter.end) / 2
-    val center = Point (abs(diameter.end.x - diameter.begin.x) / 2, abs(diameter.end.y - diameter.begin.y) / 2)
+    val center = Point (abs(diameter.end.x + diameter.begin.x) / 2, abs(diameter.end.y + diameter.begin.y) / 2)
     return Circle(center, radius)
 }
 
@@ -199,7 +199,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val bisector1 = bisectorByPoints(a,b)
-    val bisector2 = bisectorByPoints(a,c)
+    val bisector2 = bisectorByPoints(b,c)
     val centre = bisector1.crossPoint(bisector2)
     val triangle = Triangle(a,b,c)
     val radius = a.distance(b) * a.distance(c) * b.distance(c) / (4 * triangle.area())

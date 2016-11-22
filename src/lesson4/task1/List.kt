@@ -178,10 +178,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for (i in list.size - 1 downTo 0) {
-        for (j in i - 1 downTo 0) {
-            list[i] += list[j]
-        }
+    for (i in 1..list.size - 1) {
+        list[i] += list[i - 1]
     }
     return list
 }

@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
+import lesson3.task1.maxDivisor
+
+val slist = listOf("0","1","2","3","4","5","6","7")
 /**
  * Пример
  *
@@ -110,7 +113,13 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var newPhone = phone
+    if (phone.contains(Regex("""[^-+0123456789()\s]"""))) return ""
+    else newPhone.filter{it == ')' || it == '('|| (it in '0'..'9') || (it == '+')}
+    if (newPhone.contains(Regex("""(\+\d\)?(\(\d+\)?(\d+)))"""))) return newPhone
+    else return newPhone.filter {(it == '+') || (it in '0'..'9')}
+}
 
 /**
  * Средняя
@@ -122,7 +131,19 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val newJumps = jumps
+    if (newJumps.contains(Regex("""[^\d\s%-]"""))) return -1
+    if (newJumps.contains(Regex("""\d"""))) {
+       val newNewJumps = newJumps.split(" ").filter { it.toString().contains(Regex("""\d""")) }
+        var max = newNewJumps[0].toInt()
+        for (i in 0..newNewJumps.size - 2) {
+            if (newNewJumps[i + 1].toInt() > newNewJumps[i].toInt()) max = newNewJumps[i + 1].toInt()
+        }
+        return max
+    }
+    else return -1
+}
 
 /**
  * Сложная
@@ -169,7 +190,22 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val list = description.split("; ").toMutableList()
+    var max = 0
+    var maxIndex = 0
+    for (i in 0..list.size-1) {
+        val matchResult = Regex("""(\d+.\d)​?""").find(list[i], 0)
+        if (matchResult == null) return ""
+        var a = matchResult.value
+        if (a.toInt() > max)
+        max = matchResult.value.toInt()
+        maxIndex = i
+    }
+    val matchResult = Regex("""(а-я)+""").find(list[maxIndex],0)
+    if (matchResult == null) return ""
+    else return matchResult.value
+}
 
 /**
  * Сложная

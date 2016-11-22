@@ -121,12 +121,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     var max = Math.max(Math.max(a, b), c)
     var min = Math.min(Math.min(a, b), c)
     var mid = (a + b + c) - max - min
-    if (a > b + c || b > c + a || c > a + b) return -1 else {
-        if (max * max == mid * mid + min * min) return 1
-        else {
-            if (max * max < mid * mid + min * min) return 0
-            else return 2
-        }
+    when {
+        max > mid + min -> return -1
+        max * max == mid * mid + min * min -> return 1
+        max * max < mid * mid + min * min -> return 0
+        else -> return 2
     }
 }
 

@@ -107,8 +107,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var a = 0.0
-    for (i in 0..v.size - 1) {
-        a = a + v[i] * v[i]
+    for (i in v) {
+        a = a + i * i
     }
     return Math.sqrt(a)
 }
@@ -119,8 +119,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    val sum = list.sum()
-    if (list.isEmpty()) return 0.0 else return sum / (list.size.toDouble())
+    if (list.isEmpty()) return 0.0 else return list.sum() / (list.size)
 }
 
 /**
@@ -130,12 +129,9 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val sum = list.sum()
-    var mean = sum / list.size
-    if (list.isNotEmpty()) {
-        for (i in 0..list.size - 1) {
-            list[i] = list[i] - mean
-        }
+    var mean = mean(list)
+    for (i in 0..list.size - 1) {
+        list[i] = list[i] - mean
     }
     return list
 }
@@ -148,11 +144,11 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var C = 0.0
+    var scalarProduct = 0.0
     for (i in 0..a.size - 1) {
-        C = C + a[i] * b[i]
+        scalarProduct = scalarProduct + a[i] * b[i]
     }
-    return C
+    return scalarProduct
 }
 
 /**
@@ -165,10 +161,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var pp = 0.0
-    var n = 0.0
     for (i in 0..p.size - 1) {
-        pp = pp + p[i] * Math.pow(x, n)
-        n++
+        pp = pp + p[i] * Math.pow(x, i.toDouble())
     }
     return pp
 }
@@ -183,7 +177,7 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
-    for (i: Int in 0..list.size - 1) {
+    for (i in 0..list.size - 1) {
         sum = sum + list[i]
         list[i] = sum
     }
@@ -197,27 +191,17 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun isPrime(n: Int): Boolean {
-    if (n < 2) return false
-    else if (n == 2) return true
-    else for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
-        if (n % m == 0) return false
-    }
-    return true
-}
 
 fun factorize(n: Int): List<Int> {
-    var list: List<Int>
-    list = listOf()
-    var i = 0
-    var number: Int = n
+    var list = listOf<Int>()
+    var i = 1
+    var number = n
     while (i < number) {
         i++
-        if (isPrime(i) == true)
-            while (number % i == 0) {
-                list = list + i
-                number = number / i
-            }
+        while (number % i == 0) {
+            list = list + i
+            number = number / i
+        }
     }
     return list
 }
@@ -231,27 +215,7 @@ fun factorize(n: Int): List<Int> {
 
 
 fun factorizeToString(n: Int): String {
-    fun isPrime(n: Int): Boolean {
-        if (n < 2) return false
-        else if (n == 2) return true
-        else for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
-            if (n % m == 0) return false
-        }
-        return true
-    }
-
-    var list: List<Int>
-    list = listOf()
-    var i = 0
-    var number: Int = n
-    while (i < number) {
-        i++
-        if (isPrime(i) == true)
-            while (number % i == 0) {
-                list = list + i
-                number = number / i
-            }
-    }
+    var list = factorize(n)
     return list.joinToString(separator = "*")
 }
 
@@ -264,8 +228,7 @@ fun factorizeToString(n: Int): String {
  */
 fun convert(n: Int, base: Int): List<Int> {
     var nn = n
-    var list: List<Int>
-    list = listOf()
+    var list = listOf<Int>()
     if (n == 0) list = list + 0
     while (nn > 0) {
         list = list + nn % base
@@ -284,15 +247,13 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var list: List<Int>
-    var str: String = ""
-    if (n == 0) str = ""
-    list = convert(n, base)
-    for (i in 0..list.size - 1) {
-        if (list[i] > 9) str = str + (87 + list[i]).toChar()
-        else str = str + (list[i]).toString()
+    var str = listOf<String>()
+    var list = convert(n, base)
+    for (i in list) {
+        if (i > 9) str = str + ('a' - 10 + i).toString()
+        else str = str + i.toString()
     }
-    return str
+    return str.joinToString(separator = "")
 }
 
 /**
@@ -302,17 +263,21 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
+fun pow(a: Int, b: Int): Int {
+    var result = 1
+    for (i in 1..b) result *= a
+    return result
+}
+
 fun decimal(digits: List<Int>, base: Int): Int {
     var list = digits.reversed()
-    var n = 0.0
-    var k = 0.0
-    var basee = base.toDouble()
+    var n = 0
+    var k = 0
     for (i in 0..list.size - 1) {
-        n = n + list[i] * Math.pow(basee, k)
+        n = n + list[i] * pow(base, k)
         k++
     }
-    var m = n.toInt()
-    return m
+    return n
 }
 
 /**

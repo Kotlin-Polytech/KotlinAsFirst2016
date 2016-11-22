@@ -62,7 +62,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var nn = Math.abs(n)
-    if (n == 0) return 1 else {
+    if (n == 0) {return 1}
+    else {
         var k = 0
         while (nn > 0) {
             nn = nn / 10
@@ -88,7 +89,7 @@ fun fib(n: Int): Int {
         fib3 = fib1
 
     }
-    if (n == 1 || n == 2) return 1 else return fib1
+    return if (n == 1 || n == 2) 1 else fib1
 }
 
 /**
@@ -97,7 +98,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun nod(m: Int, n: Int): Int {
+fun gcd(m: Int, n: Int): Int {
     var mm = m
     var nn = n
     while (mm != nn) {
@@ -111,8 +112,8 @@ fun nod(m: Int, n: Int): Int {
 }
 
 fun lcm(m: Int, n: Int): Int {
-    var mm = nod(m, n)
-    var nok = (m * n) / mm
+    var safeM = gcd(m, n)
+    var nok = (m * n) / safeM
     return nok
 }
 
@@ -146,8 +147,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var max = nod(m, n)
-    if (max == 1) return true else return false
+    var maxCoDivisor = gcd(m, n)
+    return maxCoDivisor == 1
 }
 
 /**
@@ -159,7 +160,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = ceil(sqrt(m.toDouble()))
-    return (k * k >= m && k * k <= n)
+    return  k * k <= n
 }
 
 /**
@@ -214,8 +215,7 @@ fun revert(n: Int): Int {
     var m = 0
     var nn = n
     while (nn > 0) {
-        var last = nn % 10
-        m = m * 10 + last
+        m = m * 10 + nn % 10
         nn = nn / 10
     }
     return m
@@ -228,10 +228,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var answer = revert(n)
-    return (answer == n)
-}
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 /**
  * Средняя
@@ -245,7 +242,6 @@ fun hasDifferentDigits(n: Int): Boolean {
     while (nn > 0) {
         if (nn % 10 != digit) return true
         nn = nn / 10
-
     }
     return false
 }
@@ -280,24 +276,13 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    fun quantity(n: Int): Int {
-        var k = 0
-        var nn = n
-        while (nn > 0) {
-            nn = nn / 10
-            k++
-        }
-        return k
-    }
-
     var i = 0
     var number = 0
-    var answer = 0
     while (number < n) {
         i++
-        number = number + quantity(fib(i))
+        number = number + digitNumber(fib(i))
     }
-    answer = fib(i)
+    var answer = fib(i)
     for (i in (n..number - 1)) {
         answer = answer / 10
     }

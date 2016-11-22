@@ -130,11 +130,10 @@ data class Line(val point: Point, val angle: Double) {
         val b1 = -1 * (this.point.x * k1) + this.point.y
         val b2 = -1 * (other.point.x * k2) + other.point.y
         val x = (b2 - b1) / (k1 - k2)
-        val y: Double
-        when {
-            (this.angle == PI / 2 || this.angle == -PI / 2) -> y = other.point.y
-            (other.angle == PI / 2 || other.angle == -PI / 2) -> y = this.point.y
-            else -> y = (x - this.point.x) * k1 + this.point.y
+        val y = when {
+            (this.angle == PI / 2 || this.angle == -PI / 2) -> other.point.y
+            (other.angle == PI / 2 || other.angle == -PI / 2) -> this.point.y
+            else -> (x - this.point.x) * k1 + this.point.y
         }
         return Point(x, y)
     }

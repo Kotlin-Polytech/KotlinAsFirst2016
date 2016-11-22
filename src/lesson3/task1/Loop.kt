@@ -14,9 +14,8 @@ fun pow(x: Double, y: Int): Double {
     return result
 }
 
-fun gcd(a: Int, b: Int): Int {
-    return if (b == 0) a else gcd(b, a % b)
-}
+fun gcd(a: Int, b: Int): Int = if (b == 0) a else gcd(b, a % b)
+
 
 /**
  * Пример
@@ -154,7 +153,7 @@ fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = pow(ceil(sqrt(m.toDouble())),2) <= n
+fun squareBetweenExists(m: Int, n: Int): Boolean = pow(ceil(sqrt(m.toDouble())), 2) <= n
 
 /**
  * Простая

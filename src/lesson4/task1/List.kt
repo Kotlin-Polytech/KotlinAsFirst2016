@@ -312,7 +312,7 @@ fun russian(n: Int): String {
             "восемьдесят", "девяносто")
     val listHundred = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот",
             "восемьсот", "девятьсот")
-    val listThousands = listOf("", "одна тысяча", "две тысячи", "три тысячи")
+    val listThousands = listOf("", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи")
     var listRes = ""
     if (n >= 1000) {
         number = n / 1000
@@ -329,7 +329,7 @@ fun russian(n: Int): String {
     //////
     if (number / 100 % 10 == 0) Double.NaN else
         if (number >= 100) listRes += " " + listHundred[(number % 1000) / 100]
-val unit=" " + listUnits[number % 10]
+    val unit = " " + listUnits[number % 10]
     if (number % 100 == 0) Double.NaN else
         if (number % 100 in 10..19) listRes += " " + listUnits[number % 100]
         else if (number % 100 in 20..99)

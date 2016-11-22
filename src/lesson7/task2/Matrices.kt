@@ -136,9 +136,10 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
     if (matrix.height != matrix.width) throw IllegalArgumentException()
     val transpose = transpose(matrix)
     val result = createMatrix(matrix.height, matrix.width, matrix[0, 0])
-    for (i in 0..transpose.height - 1) for (j in 0..transpose.width - 1) {
-        result[i, j] = transpose[i, transpose.width - j - 1]
-    }
+    for (i in 0..transpose.height - 1)
+        for (j in 0..transpose.width - 1) {
+            result[i, j] = transpose[i, transpose.width - j - 1]
+        }
     return result
 }
 
@@ -207,14 +208,16 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
 fun findHoles(matrix: Matrix<Int>): Holes {
     val rows = mutableListOf<Int>()
     val columns = mutableListOf<Int>()
-    for (i in 0..matrix.height - 1) for (j in 0..matrix.width - 1) {
-        if (matrix[i, j] != 0) break
-        if (j == matrix.width - 1) rows.add(i)
-    }
-    for (i in 0..matrix.width - 1) for (j in 0..matrix.height - 1) {
-        if (matrix[j, i] != 0) break
-        if (j == matrix.height - 1) columns.add(i)
-    }
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1) {
+            if (matrix[i, j] != 0) break
+            if (j == matrix.width - 1) rows.add(i)
+        }
+    for (i in 0..matrix.width - 1)
+        for (j in 0..matrix.height - 1) {
+            if (matrix[j, i] != 0) break
+            if (j == matrix.height - 1) columns.add(i)
+        }
     return Holes(rows, columns)
 }
 
@@ -238,12 +241,12 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
 fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
-    val result = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    val result = createMatrix(matrix.height, matrix.width, 0)
     for (row in 0..matrix.height - 1)
         for (column in 0..matrix.width - 1)
             for (i in 0..row)
                 for (j in 0..column)
-                    result[i, j] += matrix[i, j]
+                    result[row, column] += matrix[i, j]
     return result
 }
 

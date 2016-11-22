@@ -61,10 +61,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
 
-    override fun get(row: Int, column: Int): E {
-        val result = list[width * row + column]
-        if (result != null) return result else throw IllegalArgumentException()
-    }
+    override fun get(row: Int, column: Int): E = list[width * row + column]
+
 
     override fun get(cell: Cell): E = get(cell.row, cell.column)
 
@@ -76,7 +74,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         set(cell.row, cell.column, value)
     }
 
-    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width
+    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && list == other.list
 
     override fun hashCode(): Int {
         var result = 5
@@ -96,7 +94,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
             sb.append("]")
         }
         sb.append("]")
-        return "$sb"
+        return sb.toString()
     }
 }
 

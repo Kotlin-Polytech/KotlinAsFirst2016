@@ -82,7 +82,7 @@ fun fib(n: Int): Int = if (n < 3) 1 else fib(n - 1) + fib(n - 2)
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun GCD(m: Int, n: Int): Int {
+fun gcd(m: Int, n: Int): Int {
     var max = Math.max(m, n)
     var min = Math.min(m, n)
     while (max % min != 0) {
@@ -93,7 +93,7 @@ fun GCD(m: Int, n: Int): Int {
     return min
 }
 
-fun lcm(m: Int, n: Int): Int = m * n / GCD(m, n)
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Простая
@@ -126,7 +126,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = GCD(m, n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -136,8 +136,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = GCD(m, n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val sqRoot_m = Math.ceil(Math.sqrt(m.toDouble())).toInt()
-    val sqRoot_n = Math.floor(Math.sqrt(n.toDouble())).toInt()
+    val sqRoot_m = Math.ceil(Math.sqrt(m.toDouble()))
+    val sqRoot_n = Math.floor(Math.sqrt(n.toDouble()))
     return sqRoot_n - sqRoot_m >= 0
 }
 
@@ -207,8 +207,7 @@ fun squareSequenceDigit(n: Int): Int {
     while (digitNumb < n) {
         digit += 1
         sq = digit * digit
-        val c = digitNumber(sq)
-        digitNumb += c
+        digitNumb += digitNumber(sq)
     }
     for (a in 1..digitNumb - n) {
         sq /= 10

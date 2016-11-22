@@ -2,7 +2,6 @@
 
 package lesson7.task2
 
-import lesson2.task1.timeForHalfWay
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -158,22 +157,15 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  */
 fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     if (matrix.height != matrix.width) return false
-    val list = mutableListOf<Int>()
     val size = matrix.width
-    for (i in 0..size - 1) for (j in 0..size - 1) if (matrix[i, j] !in 1..size) return false
     for (i in 0..size - 1) {
+        val set1 = mutableSetOf<Int>()
+        val set2 = mutableSetOf<Int>()
         for (j in 0..size - 1) {
-            if (matrix[i, j] in list) return false
-            list.add(matrix[i, j])
+            if (matrix[i, j] !in 1..size || matrix[i, j] in set1 || matrix[j, i] in set2) return false
+            set1.add(matrix[i, j])
+            set2.add(matrix[j, i])
         }
-        list.clear()
-    }
-    for (i in 0..size - 1) {
-        for (j in 0..size - 1) {
-            if (matrix[j, i] in list) return false
-            list.add(matrix[j, i])
-        }
-        list.clear()
     }
     return true
 }
@@ -245,7 +237,15 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    val result = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    for (row in 0..matrix.height - 1)
+        for (column in 0..matrix.width - 1)
+            for (i in 0..row)
+                for (j in 0..column)
+                    result[i, j] += matrix[i, j]
+    return result
+}
 
 /**
  * Сложная

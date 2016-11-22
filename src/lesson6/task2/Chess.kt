@@ -67,14 +67,12 @@ fun square(notation: String): Square {
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int {
-    when {
+fun rookMoveNumber(start: Square, end: Square): Int = when {
         !start.inside() || !end.inside() -> throw IllegalArgumentException()
-        start == end -> return 0
-        start.column == end.column || start.row == end.row -> return 1
-        else -> return 2
+        start == end ->  0
+        start.column == end.column || start.row == end.row -> 1
+        else -> 2
     }
-}
 
 /**
  * Средняя
@@ -211,11 +209,20 @@ fun kingMoveNumber(start: Square, end: Square): Int {
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     val result = mutableListOf(start)
     var square = start
+    //val row = square.row.compareTo(end.row)
+    //val column = square.column.compareTo(end.column)
     while (square != end) {
         square = when {
-            square.row < end.row && square.column < end.column -> Square(square.column + 1, square.row + 1)  //
+            /*row < 0 && column < 0 -> Square(square.column + 1, square.row + 1)
+            row == 0 && column < 0 -> Square(square.column + 1, square.row)
+            row < 0 && column > 0 -> Square(square.column - 1, square.row + 1)
+            row == 0 && column > 0 -> Square(square.column - 1, square.row)
+            row > 0 && column < 0 -> Square(square.column + 1, square.row - 1)
+            row > 0 && column > 0 -> Square(square.column - 1, square.row - 1)
+            row > 0 && column == 0 -> Square(square.column, square.row - 1)*/
+            square.row < end.row && square.column < end.column -> Square(square.column + 1, square.row + 1)
             square.row == end.row && square.column < end.column -> Square(square.column + 1, square.row)
-            square.row < end.row && square.column > end.column -> Square(square.column - 1, square.row + 1)//
+            square.row < end.row && square.column > end.column -> Square(square.column - 1, square.row + 1)
             square.row == end.row && square.column > end.column -> Square(square.column - 1, square.row)
             square.row > end.row && square.column < end.column -> Square(square.column + 1, square.row - 1)
             square.row > end.row && square.column > end.column -> Square(square.column - 1, square.row - 1)

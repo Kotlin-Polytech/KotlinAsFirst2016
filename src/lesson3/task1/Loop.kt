@@ -143,13 +143,15 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (m % n == 0) return false
-    for (i in 2..n - 1) {
-        if ((m % i == 0) && (n % i == 0)) return (false)
-    }
-    return true
-
+var del = 2 //на что делим в цикле
+val minMN = Math.min(m, n)
+while (del <= minMN) {
+    if (m%del == 0 && n%del == 0) return false
+    del++
 }
+return true
+}
+
 
 /**
  * Простая
@@ -174,15 +176,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i = 0
-    var sinus: Double = x
-    var number: Double = x
+    var counter = 0
+    val x1 = x % (2 * Math.PI)
+    var number = x1
+    var sinus = x1
     while (Math.abs(number) > eps) {
-        i++
-        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
-        if (i % 2 == 1) sinus = sinus - number
-        else sinus = sinus + number
-
+        counter++
+        number = Math.pow(x1, counter * 2.0 + 1) / factorial(counter * 2 + 1)
+        if (counter % 2 == 1) sinus -= number
+        else sinus += number
     }
     return sinus
 }
@@ -197,16 +199,17 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var i = 0
-    var sinus: Double = x
-    var number: Double = x
+    val x1 = x % (2 * Math.PI)
+    var cosus = 1.0
+    var number = x1
     while (Math.abs(number) > eps) {
         i++
-        number = Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
-        if (i % 2 == 1) sinus = sinus - number
-        else sinus = sinus + number
+        number = Math.pow(x1, i * 2.0) / factorial(i * 2)
+        if (i % 2 == 1) cosus -= number
+        else cosus += number
 
     }
-    return sinus
+    return cosus % (2 * Math.PI)
 }
 
 
@@ -216,7 +219,30 @@ fun cos(x: Double, eps: Double): Double {
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var n1 = n
+    var result = 0
+    var decade = decadeNumber(digitNumber(n))
+    while (n1 != 0) {
+        result += decade * (n1 % 10)
+        decade /= 10
+        n1 /= 10
+    }
+    return result
+}
+
+
+fun decadeNumber(n: Int): Int {
+    var result = 1
+    var n1 = n - 1
+    while (n1 != 0) {
+        result *= 10
+        n1 -= 1
+    }
+    return result
+}
+
+
 
 
 /**
@@ -252,7 +278,9 @@ fun isPalindrome(n: Int): Boolean {
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean =
+        if ((n.toString().filter { it == n.toString()[0] }) != (n.toString())) true else false
+
 
 /**
  * Сложная
@@ -261,7 +289,21 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i = 0
+    var number = 0
+    var resalt = 0
+    while (number < n) {
+        i++
+        number += digitNumber(i * i)
+    }
+    resalt = i * i
+    for (i in n..number - 1) {
+        resalt = resalt / 10
+    }
+    return (resalt % 10)
+}
+
 
 /**
  * Сложная
@@ -271,28 +313,17 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var countforn: Int = n
-    var output: Int = 0
-    var munis: Int = 2
-    if (n in 1..2) return 1
-    var fibnach1: Int = 1
-    var fibnach2: Int = 1
-    var fibnach3: Int = 0
-    for (i in 3..n) {
-        countforn -= munis
-        fibnach3 = fibnach2 + fibnach1
-        fibnach1 = fibnach2
-        fibnach2 = fibnach3
-
-        if (countforn == 0) {
-            output = fibnach3 % 10
-            break
-        }
-        if (countforn == -1) {
-            output = fibnach3 / 10
-            break
-        }
+    var i = 0
+    var number = 0
+    var result = 0
+    while (number < n) {
+        i++
+        number += digitNumber(fib(i))
     }
-    return output
+    result = fib(i)
+    for (i in n..number - 1) {
+        result /= 10
+    }
+    return (result % 10)
 }
 

@@ -140,4 +140,15 @@ class Tests {
             assertTrue(result.contains(p))
         }
     }
+
+    @Test
+    fun pointOnTsheLine() {
+        val c1 = Point(1.0, 1.0)
+        val c2 = Point(2.0, 2.0)
+        val c3 = Point(3.0, 3.0)
+        val c4 = Point(4.0, 5.0)
+        assertTrue(pointsOnTheLine(c1, c2))
+        assertTrue(pointsOnTheLine(c2, c3, c1))
+        assertFalse(pointsOnTheLine(c2, c3, c4))
+    }
 }

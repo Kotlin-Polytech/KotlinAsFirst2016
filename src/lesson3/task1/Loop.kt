@@ -169,14 +169,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var i = 1
-    var sin = x
-    while (Math.abs(Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)) >= eps) {
-        if (i % 2 == 0) sin += Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
-        else sin -= Math.pow(x, i * 2.0 + 1) / factorial(i * 2 + 1)
-        i++
+    var a = 0
+    val b = x % (2 * Math.PI)
+    var sin = b
+    var c = b
+    while (Math.abs(c) >= eps) {
+        a++
+        c = Math.pow(b, a * 2.0 + 1) / factorial(a * 2 + 1)
+        if ((a % 2) == 1) sin -= c
+        else sin += c
     }
-    return (sin)
+    return sin
 }
 
 /**
@@ -187,15 +190,21 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var i = 1
+    var a = 1
+    val b = x % (2 * Math.PI)
     var cos = 1.0
-    while (Math.abs(Math.pow(x, i * 2.0) / factorial(i * 2)) >= eps) {
-        if (i % 2 == 0) cos += Math.pow(x, i * 2.0) / factorial(i * 2)
-        else cos -= Math.pow(x, i * 2.0) / factorial(i * 2)
-        i++
-    }
+    var increase = 1.0
+    var comp: Double
+    do {
+        increase *= b * b
+        if (a % 2 != 0) comp = -1 * increase / factorial(a * 2)
+        else comp = increase / factorial(a * 2)
+        cos += comp
+        a++
+    } while (Math.abs(comp) > Math.abs(eps))
     return (cos)
 }
+
 
 
 /**

@@ -121,8 +121,17 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point { //еще не решена
-        val x = (other.point.y - point.y) / ((Math.tan(angle) - Math.tan(other.angle)) * (other.point.x * Math.tan(other.angle) - point.x * Math.tan(angle)))
-        val y = (x - point.x) * Math.tan(angle) + other.point.y
+        val x = when {
+            (Math.cos(angle) == Math.cos(Math.PI / 2)) -> point.x
+            (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
+            else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
+                    (Math.tan(angle) - Math.tan(other.angle))
+        }
+        val y = when {
+            (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) ->
+                (x - other.point.x) * Math.tan(other.angle) + other.point.y
+            else -> (x - point.x) * Math.tan(angle) + point.y
+        }
         return Point(x, y)
     }
 }
@@ -132,7 +141,10 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan(Math.abs((s.begin.y - s.end.y) / (s.begin.x - s.end.x))))
+fun lineBySegment(s: Segment): Line {
+   return if (s.begin.x == s.end.x) Line(s.begin, Math.PI / 2)
+       else Line(s.begin, Math.atan(Math.abs((s.end.y - s.begin.y) / (s.end.x - s.begin.x))))
+}
 
 /**
  * Средняя
@@ -147,7 +159,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    return if (a.x != b.x) Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), Math.PI / 2 + Math.atan(Math.abs((a.y - b.y) / (a.x - b.x))))
+    return if (Math.abs(a.x - b.x) > Math.pow(10.0, -10.0)) Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), Math.PI / 2 + Math.atan(Math.abs((a.y - b.y) / (a.x - b.x))))
     else Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), 0.0)
 }
 
@@ -157,7 +169,20 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+    var min = circles[0].distance(circles[1])
+    var min1 = Pair(circles[0], circles[1])
+    for (circle1 in circles) {
+        for(circle2 in circles) {
+            if ((circle1.distance(circle2) < min) && (circle1 != circle2)) {
+                min = circle1.distance(circle2)
+                min1 = Pair(circle1, circle2)
+            }
+        }
+    }
+    return min1
+}
 
 /**
  * Очень сложная

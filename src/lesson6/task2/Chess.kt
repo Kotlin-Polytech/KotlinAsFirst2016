@@ -46,7 +46,8 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     val columnStr = mapOf<Char, Int>('a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5, 'f' to 6, 'g' to 7, 'h' to 8)
     val e = IllegalArgumentException("Description")
-    if (notation[0] !in 'a'..'h' || notation[1] !in '1'..'8' || notation.length != 2) throw e
+    if (notation.length != 2) throw e
+    if (notation[0] !in 'a'..'h' || notation[1] !in '1'..'8') throw e
     val column = columnStr[notation[0]]
     val row = notation[1].toInt() - 48
     return Square(column!!, row)

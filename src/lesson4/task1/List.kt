@@ -108,7 +108,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    (0..v.size - 1).forEach { i -> sum += (v[i] * v[i]) }
+    for (i in 0..v.size - 1) {
+        sum += (v[i] * v[i])
+    }
     return Math.sqrt(sum)
 }
 
@@ -117,26 +119,21 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double {
-    if (list.isEmpty())
-        return 0.0
-     else
-        return list.sum() / list.size
+fun mean(list: List<Double>): Double = when(list.size) {
+    0  -> 0.0
+    else -> list.sum() / list.size
 }
 
-/**
- * Средняя
- *
- * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
- * Если список пуст, не делать ничего. Вернуть изменённый список.
- */
-fun center(list: MutableList<Double>): MutableList<Double> {
+
+        /**
+         * Средняя
+         *
+         * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
+         * Если список пуст, не делать ничего. Вернуть изменённый список.
+         */
+        fun center(list: MutableList<Double>): MutableList<Double> {
     val a = mean(list)
-    if (list.isEmpty())
-    else
-        for (i in 0..list.size - 1) {
-            list[i] = list[i] - a
-        }
+        for (i in 0..list.size - 1) list[i] = list[i] - a
     return list
 }
 
@@ -203,18 +200,17 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    val list = mutableListOf<Int>()
+    val factorazeList = mutableListOf<Int>()
     var s = n
     var i = 2
-    while (s > 0) {
+    while (s != 1) {
         while (s % i == 0) {
-            list.add(i)
+            factorazeList.add(i)
             s /= i
         }
-        if (i >= s) break
-        else i += 1
+        i++
     }
-    return list
+    return factorazeList
 }
 
 /**
@@ -256,18 +252,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val list = convert(n, base).toMutableList()
-    val res = mutableListOf<Char>()
+    val list = convert(n, base).toList()
+    val resListChar = mutableListOf<Char>()
     if (n == 0) {
         return "0"
     } else {
-        for (i in 0..list.size - 1) {
+        for (e in list) {
             when {
-                list[i] <= 9 -> res.add('0' + list[i])
-                else -> res.add('a' + list[i] - 10)
+                e <= 9 -> resListChar.add('0' + e)
+                else -> resListChar.add('a' + e - 10)
             }
         }
-        return res.joinToString("")
+        return resListChar.joinToString("")
     }
 }
 
@@ -278,16 +274,18 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun powInt(a: Int, b: Int): Int {
+fun pow(a: Int, b: Int): Int {
     var result = 1
-    (1..b).forEach { i -> result *= a }
+    for (e in 1..b) {
+        result *= a
+    }
     return result
 }
 
 fun decimal(digits: List<Int>, base: Int): Int {
     var number = 0
     for (i in 0..digits.size - 1) {
-        number += digits[i] * powInt(base, digits.size - i - 1)
+        number += digits[i] * pow(base, digits.size - i - 1)
     }
     return number
 }
@@ -303,10 +301,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     var list = listOf<Int>()
-    val str1 = str
-    for (i in 0..str1.length - 1)
-        if (str1[i] in '0'..'9') list += (str1[i] - '0').toInt()
-        else list += ((str[i]) - 'a' + 10).toInt()
+    for (e in str)
+        if (e in '0'..'9') list += (e - '0').toInt()
+        else list += (e - 'a' + 10).toInt()
     return decimal(list, base)
 }
 

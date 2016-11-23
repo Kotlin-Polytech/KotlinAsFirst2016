@@ -92,8 +92,9 @@ fun diameter(vararg points: Point): Segment {
     } else {
         for (i in 0..points.size - 1) {
             for (index in (i + 1)..points.size - 1) {
-                if (points[i].distance(points[index]) > maxdistance) {
-                    maxdistance = points[i].distance(points[index])
+                val distansePoints = points[i].distance(points[index])
+                if (distansePoints > maxdistance) {
+                    maxdistance = distansePoints
                     point1 = points[i]
                     point2 = points[index]
                 }
@@ -125,13 +126,13 @@ data class Line(val point: Point, val angle: Double) {
      */
     fun crossPoint(other: Line): Point {
         val x = when {
-            (Math.cos(angle) == Math.cos(Math.PI / 2)) -> point.x
-            (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
+            angle == Math.PI / 2 -> point.x
+            other.angle == Math.PI / 2 -> other.point.x
             else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
                     (Math.tan(angle) - Math.tan(other.angle))
         }
         val y = when {
-            (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) ->
+            angle == Math.PI / 2 ->
                 (x - other.point.x) * Math.tan(other.angle) + other.point.y
             else -> (x - point.x) * Math.tan(angle) + point.y
         }
@@ -168,24 +169,24 @@ fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x) / 2,
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-    var NearestCircle1 = circles[0]
-    var NearestCircle2 = circles[1]
-    var mindistance = (circles[0].center.distance(circles[1].center)).toDouble() - circles[0].radius - circles[1].radius
+    var nearestCircle1 = circles[0]
+    var nearestCircle2 = circles[1]
+    var minDistance = circles[0].center.distance(circles[1].center) - circles[0].radius - circles[1].radius
     if (circles.size <= 1) {
         throw IllegalArgumentException("IllegalArgumentException")
     } else {
         for (i in 0..circles.size - 1) {
             for (index in (i + 1)..circles.size - 1) {
-                if (mindistance == 0.0) return Pair(NearestCircle1, NearestCircle2)
+                if (minDistance == 0.0) return Pair(nearestCircle1, nearestCircle2)
                 val LengthCircles = circles[i].distance(circles[index])
-                if (LengthCircles < mindistance) {
-                    mindistance = LengthCircles
-                    NearestCircle1 = circles[i]
-                    NearestCircle2 = circles[index]
+                if (LengthCircles < minDistance) {
+                    minDistance = LengthCircles
+                    nearestCircle1 = circles[i]
+                    nearestCircle2 = circles[index]
                 }
             }
         }
-        return Pair(NearestCircle1, NearestCircle2)
+        return Pair(nearestCircle1, nearestCircle2)
     }
 }
 
@@ -199,8 +200,13 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = Circle(bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c)),
-        a.distance(bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))))
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val bisectorAB = bisectorByPoints(a, b)
+    val bisectorAC = bisectorByPoints(a, c)
+    return Circle(bisectorAB.crossPoint(bisectorAC),
+            a.distance(bisectorAB.crossPoint(bisectorAC)))
+}
+
 
 /**
  * Очень сложная

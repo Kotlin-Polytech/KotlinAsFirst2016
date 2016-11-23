@@ -2,8 +2,8 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import lesson2.task1.MediumofThree
-import lesson2.task1.MinofThree
+import lesson2.task1.mediumofThree
+import lesson2.task1.minofThree
 
 /**
  * Пример
@@ -35,7 +35,8 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = Math.abs(x1-x2) == Math.abs(y1-y2) || x1 == x2 || y1 == y2
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
+        Math.abs(x1 - x2) == Math.abs(y1 - y2) || x1 == x2 || y1 == y2
 
 
 /**
@@ -47,7 +48,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = Math.abs(x1-x2
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean  =
-        r1 <= r2 && Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) <= r2-r1
+        Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) <= r2 - r1
 /**
  * Средняя
  *
@@ -59,8 +60,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val min = MinofThree(a.toDouble(),b.toDouble(),c.toDouble()).toInt()
-    val nor = MediumofThree(a.toDouble(),b.toDouble(),c.toDouble()).toInt()
+    val min = minofThree(a.toDouble(), b.toDouble(), c.toDouble())
+    val nor = mediumofThree(a.toDouble(), b.toDouble(), c.toDouble())
     return (r >= nor && s >= min) || (r >= min && s >= nor)
 }
 

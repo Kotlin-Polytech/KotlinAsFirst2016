@@ -42,7 +42,7 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square =
         when {
-            notation[0] in 'a'..'h' && notation[1] in '1'..'8' && notation.length == 2 ->
+            notation[0] in 'a'..'h' && notation[1] in '1'..'8' ->
                 Square((notation[0] - 'a').toInt() + 1, notation[1].toString().toInt())
             else -> throw IllegalArgumentException("IllegalArgumentException")
         }
@@ -93,9 +93,9 @@ fun rookMoveNumber(start: Square, end: Square): Int =
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> =
-        when {
-            rookMoveNumber(start, end) == 2 -> listOf(start, Square(start.column, end.row), end)
-            rookMoveNumber(start, end) == 1 -> listOf(start, end)
+        when (rookMoveNumber(start, end)) {
+            2 -> listOf(start, Square(start.column, end.row), end)
+            1 -> listOf(start, end)
             else -> listOf(start)
         }
 
@@ -201,51 +201,53 @@ fun kingMoveNumber(start: Square, end: Square): Int = Math.max(Math.abs(start.co
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun kingTrajectory(start: Square, end: Square): List<Square> {
-    val MoveList = mutableListOf<Square>(start)
-    val DistColumn = end.column - start.column >= 0
-    val DistRow = end.row - start.row >= 0
-    var StartX = start.column
-    var StartY = start.row
-    while (StartX != end.column && StartY != end.row) {
+    val moveList = mutableListOf<Square>(start)
+    val distanceColumn = end.column - start.column >= 0
+    val distanceRow = end.row - start.row >= 0
+    var kingX = start.column
+    var kingY = start.row
+    while (kingX != end.column && kingY != end.row) {
         when {
-            DistColumn && DistRow -> {
-                StartX += 1
-                StartY += 1
+            distanceColumn && distanceRow -> {
+                kingX += 1
+                kingY += 1
             }
-            DistColumn && !DistRow -> {
-                StartX += 1
-                StartY -= 1
+            distanceColumn && !distanceRow -> {
+                kingX += 1
+                kingY -= 1
             }
-            !DistColumn && DistRow -> {
-                StartX -= 1
-                StartY += 1
+            !distanceColumn && distanceRow -> {
+                kingX -= 1
+                kingY += 1
             }
             else -> {
-                StartX -= 1
-                StartY -= 1
+                kingX -= 1
+                kingY -= 1
             }
         }
-        MoveList.add(Square(StartX, StartY))
+        moveList.add(Square(kingX, kingY))
     }
- if (StartX == StartY) return MoveList
-    if (StartY == end.row){
-        while (StartX != end.column){
+ if (kingX == kingY){
+     return moveList
+ }
+    if (kingY == end.row){
+        while (kingX != end.column){
             when{
-                DistColumn -> StartX += 1
-                else -> StartX -= 1
+                distanceColumn -> kingX += 1
+                else -> kingX -= 1
             }
-            MoveList.add(Square(StartX, StartY))
+            moveList.add(Square(kingX, kingY))
         }
     } else {
-        while (StartY != end.row){
+        while (kingY != end.row){
             when{
-                DistRow -> StartY += 1
-                else -> StartY -= 1
+                distanceRow -> kingY += 1
+                else -> kingY -= 1
             }
-            MoveList.add(Square(StartX, StartY))
+            moveList.add(Square(kingX, kingY))
         }
     }
-    return MoveList
+    return moveList
 }
 
 

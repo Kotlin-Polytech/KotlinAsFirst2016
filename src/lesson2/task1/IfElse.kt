@@ -38,7 +38,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     return when {
         age % 10 == 1 && age / 10 != 1 && age / 10 != 11 -> "$age год"
-        age % 10 in 1..4 && age / 10 != 1 && age / 10 != 11 -> "$age года"
+        age % 10 in 2..4 && age / 10 != 1 && age / 10 != 11 -> "$age года"
         else -> "$age лет"
     }
 }
@@ -77,12 +77,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val FirstRook = (kingX == rookX1 || kingY == rookY1)
+    val firstRook = (kingX == rookX1 || kingY == rookY1)
     val SecondRook = (kingX == rookX2 || kingY == rookY2)
     return when {
-        !FirstRook && !SecondRook -> 0
-        FirstRook && !SecondRook -> 1
-        !FirstRook && SecondRook -> 2
+        !firstRook && !SecondRook -> 0
+        firstRook && !SecondRook -> 1
+        !firstRook && SecondRook -> 2
         else -> 3
     }
 }
@@ -100,12 +100,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val BishopThreaten = (abs(kingX - bishopX) == abs(kingY - bishopY))
-    val RookThreaten = (kingX == rookX) || (kingY == rookY)
+    val bishopThreaten = (abs(kingX - bishopX) == abs(kingY - bishopY))
+    val rookThreaten = (kingX == rookX) || (kingY == rookY)
     return when {
-        RookThreaten && !BishopThreaten -> 1
-        !RookThreaten && BishopThreaten -> 2
-        RookThreaten && BishopThreaten -> 3
+        rookThreaten && !bishopThreaten -> 1
+        !rookThreaten && bishopThreaten -> 2
+        rookThreaten && bishopThreaten -> 3
         else -> 0
 
     }
@@ -120,32 +120,44 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  *
  */
-fun MaxofThree(a: Double, b: Double, c: Double): Double {
+fun maxofThree(a: Double, b: Double, c: Double): Double {
     var max = 0.0
-    if (a > b) {max = a} else {max = b}
-    if (c > max) {max = c}
+    if (a > b){
+        max = a
+    } else {
+        max = b
+    }
+    if (c > max){
+        max = c}
     return max
 }
 
-fun MinofThree(a: Double, b: Double, c: Double): Double{
+fun minofThree(a: Double, b: Double, c: Double): Double{
     var min= 0.0
-    if (a < b) {min = a} else {min = b}
-    if (c < min) {min = c}
+    if (a < b){
+        min = a
+    } else {
+        min = b
+    }
+    if (c < min){
+        min = c
+    }
     return min
 }
 
-fun MediumofThree(a: Double, b: Double, c: Double): Double = a + b + c - MinofThree(a,b,c) - MaxofThree(a,b,c)
+fun mediumofThree(a: Double, b: Double, c: Double): Double =
+        a + b + c - minofThree(a ,b, c) - maxofThree(a, b, c)
 
-fun quad(x: Double) = x * x
+fun sqr(x: Double) = x * x
 
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val min = MinofThree(a,b,c)
-    val medium =  MediumofThree(a,b,c)
-    val max = MaxofThree(a,b,c)
+    val min = minofThree(a, b, c)
+    val medium =  mediumofThree(a, b, c)
+    val max = maxofThree(a, b, c)
     return when {
         max >= min + medium -> -1
-        quad(min)  + quad(medium) == quad(max) -> 1
-        quad(min) + quad(medium)< quad(max) -> 2
+        sqr(min) + sqr(medium) == sqr(max) -> 1
+        sqr(min) + sqr(medium) < sqr(max) -> 2
         else -> 0
     }
 }

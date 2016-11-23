@@ -148,15 +148,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var i = 2
-    if (n % i == 0) {
-        return n / i
-    } else {
-        while (n % i != 0) i++
-        return n / i
-    }
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -192,7 +184,7 @@ fun sin(x: Double, eps: Double): Double {
     var k = 0
     var sin = x
     var number = x
-    while (Math.abs(number) * 1000 > eps) {
+    while (Math.abs(number) > eps) {
         k += 1
         number = Math.pow(x, k.toDouble() * 2 + 1) / factorial(k * 2 + 1)
         if (k % 2 == 1) {
@@ -216,7 +208,7 @@ fun cos(x: Double, eps: Double): Double {
     var k = 0
     var cos = 1.0
     var number = x
-    while (Math.abs(number) * 1000 > eps) {
+    while (Math.abs(number) > eps) {
         k += 1
         number = Math.pow(x, k.toDouble() * 2) / factorial(k * 2)
         if (k % 2 == 1) {
@@ -280,26 +272,16 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun count(n: Int): Int {
-    var k = 0
-    var s = n
-    while (s > 0) {
-        s /= 10
-        k ++
-    }
-    return k
-}
 
 
 fun squareSequenceDigit(n: Int): Int {
     var numberi = 0
     var number = 0
-    var result = 0
     while (number < n) {
         numberi++
-        number += count(numberi * numberi)
+        number += digitNumber(numberi * numberi)
     }
-    result = numberi * numberi
+   var result = numberi * numberi
     for (numberi in n..number - 1) {
         result /= 10
     }
@@ -318,12 +300,11 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var numberi = 0
     var number = 0
-    var result = 0
     while (number < n) {
         numberi ++
-        number += count(fib(numberi))
+        number += digitNumber(fib(numberi))
     }
-    result = fib(numberi)
+    var result = fib(numberi)
     for (i in n..number - 1) {
         result /= 10
     }

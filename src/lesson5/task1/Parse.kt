@@ -63,34 +63,37 @@ fun main(args: Array<String>) {
 
 
 fun dateStrToDigit(str: String): String {
-    var StringBuilder = ""
     val parts = str.split(" ")
+    val listDate = mutableListOf<String>()
     if (parts.size == 3) {
         try {
-            var day = parts[0].toInt()
-            if (day in 0..9) StringBuilder = '0' + day.toString() + "."
-            else StringBuilder = day.toString() + "."
-            StringBuilder += when (parts[1]) {
-                "января" -> "01."
-                "февраля" -> "02."
-                "марта" -> "03."
-                "апреля" -> "04."
-                "мая" -> "05."
-                "июня" -> "06."
-                "июля" -> "07."
-                "августа" -> "08."
-                "сентября" -> "09."
-                "октября" -> "10."
-                "ноября" -> "11."
-                "декабря" -> "12."
+            listDate.add(
+            when {
+                parts[0].toInt() in 1..9 -> twoDigitStr(parts[0].toInt())
+                parts[0].toInt() > 32 -> return ""
+                else -> parts[0]
+            })
+            listDate.add(
+            when (parts[1]) {
+                "января" -> ".01."
+                "февраля" -> ".02."
+                "марта" -> ".03."
+                "апреля" -> ".04."
+                "мая" -> ".05."
+                "июня" -> ".06."
+                "июля" -> ".07."
+                "августа" -> ".08."
+                "сентября" -> ".09."
+                "октября" -> ".10."
+                "ноября" -> ".11."
+                "декабря" -> ".12."
                 else -> return ""
-            }
-
-            StringBuilder += parts[2].toInt().toString()
+            })
+            listDate.add(parts[2])
         } catch (e: NumberFormatException) {
             return ""
         }
-        return StringBuilder
+        return listDate.joinToString("")
     } else return ""
 }
 
@@ -151,7 +154,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     val phonefilter = phone.filter { it != ' ' && it != '-' }
-    val phoneResult = Regex("""(\+\d+)?(\(\d+\))?\d+""")
+    val phoneResult = Regex("""(?:\+\d+)?(\(\d+\))?\d+""")
     if (!phoneResult.matches(phonefilter)) return ""
     return phonefilter.filter { it != '(' && it != ')' }
 }
@@ -234,7 +237,6 @@ fun plusMinus(expression: String): Int {
         } else {
             val parts = expression.split(" ")
             var sum = parts[0].toInt()
-            if (parts.size == 1) return sum
             for (i in 0..parts.size - 3 step 2) {
                 if (parts[i + 1] == "+") {
                     sum += parts[i + 2].toInt()
@@ -245,7 +247,7 @@ fun plusMinus(expression: String): Int {
             return sum
         }
     } catch (e: NumberFormatException) {
-        throw NumberFormatException("IllegalArgumentException")
+        throw IllegalArgumentException("IllegalArgumentException")
     }
 }
 
@@ -260,19 +262,19 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
+    val listOfWords = mutableListOf<String>()
     var index = 0
-    if (parts.size == 1) {
-        return -1
-    } else {
-        for (i in 0..parts.size - 2) {
-            if ((parts[i] == parts[i + 1]) && (parts[i] != "")) {
+    for (part in parts){
+        if (part != "" ) listOfWords.add(part)
+    }
+        for (i in 0..listOfWords.size - 2) {
+            if (listOfWords[i] == listOfWords[i + 1]) {
                 return index
             }
-            index += parts[i].length + 1
+            index += listOfWords[i].length + 1
         }
         return -1
     }
-}
 
 /**
  * Сложная

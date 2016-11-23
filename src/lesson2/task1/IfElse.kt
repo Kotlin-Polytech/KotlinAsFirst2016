@@ -37,11 +37,10 @@ fun ageDescription(age: Int): String{
     if ((age %10 in 5..9)||(age %100 in 11..19)||(age %10==0)) {
         return "$age лет"
     }
+    else if(age % 10 == 1)
+        return "$age год"
     else
-        if(age % 10 == 1)
-            return "$age год"
-        else
-            return "$age года"
+        return "$age года"
 }
 
 /**
@@ -100,7 +99,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     var count =0
     if (kingX == rookX || kingY == rookY)
         count+=1
-    if ((kingX - bishopX) == (kingY - bishopY) || (kingX - bishopX) == (bishopY - kingY))
+    if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
         count+=2
     return  count
 }

@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson4.task1
 
+import javafx.scene.control.Separator
 import lesson1.task1.discriminant
 
 /**
@@ -170,8 +171,8 @@ fun times(a: List<Double>, b: List<Double>): Double{
 fun polynom(p: List<Double>, x: Double): Double{
     var s = 0.0
     var xx = 1.0
-    for(i in 0..p.size-1){
-        s+=xx*p[i]
+    for(element in p){
+        s+=xx*element
         xx*= x
     }
     return s
@@ -203,17 +204,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double>{
 fun factorize(n: Int): List<Int>{
     val rez= mutableListOf<Int>()
     var nn = n
-    for(i in 2..n/2){
-        if(nn>1) {
-            while (nn % i == 0) {
-                rez.add(i)
-                nn /= i
-            }
+    var div = 2
+    while (div <= nn){
+        if (nn % div == 0){
+            rez.add(div)
+            nn/= div
         }
-        else return rez
-    }
-    if(nn==n){
-        rez.add(nn)
+        else div++
     }
     return rez
 }
@@ -224,16 +221,7 @@ fun factorize(n: Int): List<Int>{
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String{
-    val ll = factorize(n)
-    var str= ""
-    for(i in 0..ll.size-2){
-        str+=ll[i]
-        str+='*'
-    }
-    str+=ll[ll.size-1]
-    return str
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -263,20 +251,17 @@ fun convert(n: Int, base: Int): List<Int>{
  */
 
 fun convertToString(n: Int, base: Int): String{
+    val from_convert = convert(n,base)
     val rez = mutableListOf<Char>()
-    var nn = n
-    var it = 0
-    while (nn >= base) {
-        it = nn % base
-        if(it <10)
-            rez.add('0' + it)
-        else
-            rez.add((it+43).toChar())// Как можно по коду получить символ?
-        nn/=base
+    for(i in 0..from_convert.size-1) {
+        if (from_convert[i] < 10) {
+            rez.add((from_convert[i] + '0'.toInt()).toChar())
+        }
+        else{
+            rez.add((from_convert[i] + 'a'.toInt() - 10).toChar())
+        }
     }
-    rez.add(nn.toChar())
-    rez.reversed()
-    return rez.toString()
+    return rez.toString()// я не понял в чем косяк
 }
 
 /**
@@ -287,13 +272,11 @@ fun convertToString(n: Int, base: Int): String{
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int{
-    var k = 1
+    var b = 1
     var number = 0
-    for(i in 2..digits.size)
-        k*=base
-    for(element in digits){
-        number+= element*k
-        k/= base
+    for(i in digits.size-1 downTo 0 ){
+        number+= digits[i] * b
+        b *= base
     }
     return number
 }
@@ -307,7 +290,18 @@ fun decimal(digits: List<Int>, base: Int): Int{
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int{
+    var b=1
+    var rez = 0
+    for (i in 0..str.length-1){
+        if (str.reversed()[i] in '0'..'9')
+            rez += (str.reversed()[i] - '0') *b
+        else
+            rez += (str.reversed()[i] - 'a' + 10) *b
+        b *= base
+    }
+    return rez
+}
 
 /**
  * Сложная
@@ -326,4 +320,5 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+
 fun russian(n: Int): String = TODO()

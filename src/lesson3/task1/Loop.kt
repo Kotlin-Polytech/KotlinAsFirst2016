@@ -103,7 +103,7 @@ fun nod(mm: Int, nn: Int): Int{
     return (m+n)
 }
 
-fun lcm(m: Int, n: Int): Int = m*n/nod(m,n)
+fun lcm(m: Int, n: Int): Int = m/nod(m,n)*n
 
 /**
  * Простая
@@ -138,12 +138,7 @@ fun maxDivisor(n: Int): Int{
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean{
-    if(nod(m,n)>1)
-        return false
-    else
-        return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m,n)==1
 
 /**
  * Простая
@@ -222,7 +217,7 @@ fun revert(n: Int): Int{
     }
     return r
 }
- 
+
 /**
  * Средняя
  *

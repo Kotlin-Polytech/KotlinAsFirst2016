@@ -80,7 +80,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    isCorrect(start, end)
+    if(!isCorrect(start, end)) throw IllegalArgumentException()
     if (start == end) return 0
     if (start.column == end.column || start.row == end.row) return 1
     return 2
@@ -132,7 +132,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    isCorrect(start, end)
+    if(!isCorrect(start, end)) throw IllegalArgumentException()
     val startIsEven = (start.column + start.row) % 2 == 0
     val endIsEven = (end.column + end.row) % 2 == 0
     if (startIsEven != endIsEven) return -1

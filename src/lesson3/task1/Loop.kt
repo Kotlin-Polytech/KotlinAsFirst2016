@@ -2,6 +2,7 @@
 package lesson3.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.*
 
 /**
  * Пример
@@ -93,10 +94,11 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k: Int
-    k = m*n
-    for (i in  1..k) {
-        if ((i%m == 0) and (i%n == 0) and (i < k)) k = i
+    var k = 0
+    var count = n*m
+    while(count > 0) {
+        if ((count%m == 0) and (count%n == 0)) k = count
+        count --
     }
     return k
 }
@@ -107,8 +109,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n) {
-        if ((n%i == 0) and (i < n)) return i
+    for (i in 2..n-1) {
+        if (n%i == 0) return i
     }
     return n
 }
@@ -119,7 +121,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in (n-1) downTo 1) {
+    for (i in (n-2) downTo 2) {
         if ((n%i == 0) and (i > 1)) return i
     }
     return 1
@@ -132,14 +134,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = 1
-    for (i in 1..m) {
-        if ((m%i == 0)and (n%i == 0) and (i > k)) k = i
-    }
-    if (k > 1) return false
-    else return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = lcm (m, n) == m * n
 
 /**
  * Простая
@@ -149,13 +144,12 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k: Int = 0
-    for (i in 1..n) {
-        if ((m<=i*i) and (i*i<=n)) k = i
+    var k = 0
+    if (n < 0) return false
+    for (k in sqrtInt(m)..sqrtInt(n)) {
+        if ((m <= k * k) and (k * k <= n)) return true
     }
-    if ((k > 0) and (m!=0) and (n!=0)) return true
-    else if ((k == 0) and (m==0) and (n==0)) return true
-    else return false
+        return false
 }
 
 /**
@@ -222,15 +216,13 @@ fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var k = 0
     var m = 0
-    val number: Double
     while (m < n) {
         k = i*i
         m = m + digitNumber(k)
         i = i + 1
     }
     i = m - n
-    number = k.toDouble() / Math.pow(10.0, (i).toDouble())
-    return number.toInt() % 10
+    return k / powInt(10, i) % 10
 }
 
 /**
@@ -244,19 +236,25 @@ fun fibSequenceDigit(n: Int): Int {
     var i = 1
     var k = 0
     var m = 0
-    val number: Double
     while (m < n) {
         k = fib(i)
         m = m + digitNumber(k)
         i = i + 1
     }
     i = m - n
-    number = k.toDouble() / Math.pow(10.0, (i).toDouble())
-    return number.toInt() % 10
+    return k / powInt(10, i) % 10
 }
 
 fun powInt(number: Int, degree: Int): Int {
     var result = 1
     for (i in 1..degree) result *= number
     return result
+}
+
+fun sqrtInt(number: Int): Int {
+    var i = 1
+    for (i in 1..number) {
+        if ((i*i <= number) && (abs(number - (i*i)) < abs(number - (i + 1) * (i + 1)))) return i
+    }
+    return i
 }

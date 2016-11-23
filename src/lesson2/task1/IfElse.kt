@@ -53,12 +53,12 @@ fun ageDescription(age: Int): String  {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s: Double = (v1 * t1 + v2 * t2 + v3 * t3) / 2
     val s1: Double = v1 * t1
     val s2: Double = v2 * t2
+    val s: Double = (s1 + s2 + v3 * t3) / 2
     if (s1 >= s)  return s / v1
-    else if (s<=s1+s2) return (t1+(s-s1)/v2)
-    else return (t1+t2+(s-s1-s2)/v3)
+    else if (s <= s1 + s2) return (t1 + (s - s1) / v2)
+    else return (t1 + t2 + (s - s1 - s2) / v3)
 }
 
 /**
@@ -74,9 +74,9 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     val AttackRockX1: Boolean = (kingX == rookX1) || (kingY == rookY1)
     val AttackRockX2: Boolean = (kingX == rookX2) || (kingY == rookY2)
-    if ((AttackRockX1) and (!AttackRockX2)) return 1
-    else if ((!AttackRockX1) and (AttackRockX2)) return 2
-    else if ((AttackRockX1) and (AttackRockX2)) return 3
+    if ((AttackRockX1) and (AttackRockX2)) return 3
+    else if ((AttackRockX1) and (!AttackRockX2)) return 1
+    else if (AttackRockX2) return 2
     else return 0
 }
 
@@ -92,12 +92,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val a: Int = (kingX - bishopX)*(kingX - bishopX)
-    val b: Int = (kingY - bishopY)*(kingY - bishopY)
+    val AttackBishop = ((kingX - bishopX)*(kingX - bishopX) == (kingY - bishopY)*(kingY - bishopY))
     val AttackRock = ((kingX == rookX) || (kingY == rookY))
-    if ((AttackRock) and (a != b)) return 1
-    else if ((!AttackRock) and (a == b)) return 2
-    else if ((AttackRock) and (a == b)) return 3
+    if ((AttackRock) and (AttackBishop)) return 3
+    else if ((AttackRock) and (!AttackBishop)) return 1
+    else if (AttackBishop) return 2
     else return 0
 }
 
@@ -110,9 +109,27 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a + b <= c) || (a + c <= b) || (c + b <= a)) return -1
-    else if ((sqr(a) + sqr(b) == sqr(c)) || (sqr(a) + sqr(c) == sqr(b)) || (sqr(c) + sqr(b) == sqr(a))) return 1
-    else if ((sqr(a) + sqr(b) <= sqr(c)) || (sqr(a) + sqr(c) <= sqr(b)) || (sqr(c) + sqr(b) <= sqr(a))) return 2
+    val max: Double
+    val side1: Double
+    val side2: Double
+    if ((a >= b) && (a >= c)){
+        max = a
+        side1 = b
+        side2 = c
+    }
+    else if ((b > a) && (b > c)) {
+        max = b
+        side1 = a
+        side2 = c
+    }
+    else {
+        max = c
+        side1 = a
+        side2 = b
+    }
+    if (side1 + side2 <= max) return -1
+    else if (sqr(side1) + sqr(side2) == sqr(max)) return 1
+    else if (sqr(side1) + sqr(side2) < sqr(max)) return 2
     else return 0
 }
 

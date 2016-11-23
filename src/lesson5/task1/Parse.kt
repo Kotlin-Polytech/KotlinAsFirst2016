@@ -63,23 +63,18 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val monthNameStorage = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     val datePartStorage = str.split(" ")
-    if (datePartStorage.size != 3)
-        return ""
 
-    try {
-        datePartStorage[0].toInt()
-        datePartStorage[2].toInt()
-    } catch(e: NumberFormatException) {
-        return ""
-    }
+    if (datePartStorage.size != 3 ||
+        datePartStorage[1] !in monthNameStorage ||
+        !datePartStorage[0].matches(Regex("""\d+""")) ||
+        !datePartStorage[2].matches(Regex("""\d+"""))) return ""
 
     with(StringBuilder()) {
         append(datePartStorage[0].padStart(2, '0'))
         append('.')
 
         val monthNum = monthNameStorage.indexOf(datePartStorage[1]) + 1
-        if (monthNum !in 1..12)
-            return ""
+
         append(monthNum.toString().padStart(2, '0'))
 
         append('.')
@@ -126,7 +121,7 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int? {
+fun bestLongJump(jumps: String): Int {
     val jumpStorage = jumps.split(" ")
     val luckyJumpStorage: List<Int>
 
@@ -136,8 +131,7 @@ fun bestLongJump(jumps: String): Int? {
         return -1
     }
 
-    if (luckyJumpStorage.isEmpty()) return -1
-    return luckyJumpStorage.max()
+    return if (luckyJumpStorage.isEmpty()) -1 else luckyJumpStorage?.max() ?: -1
 }
 
 /**
@@ -152,11 +146,13 @@ fun bestLongJump(jumps: String): Int? {
  */
 fun bestHighJump(jumps: String): Int? {
     // Проверка на кривые символы
-    if (jumps.any { it !in "0123456789 +-%" }) return -1
+    if (jumps.any { it !in "0123456789 +-%" })
+        return -1
 
     val jumpStorage = jumps.split(" ") // Разбиение на части
     val attemptStorage = mutableListOf <Int>()
-    if (jumpStorage.isEmpty() || jumpStorage.size % 2 == 1) return -1 // Проверка на парность.
+    if (jumpStorage.isEmpty() || jumpStorage.size % 2 == 1) // Проверка на парность.
+        return -1
 
     // Формирование списка из удачных попыток
     for (i in 0..jumpStorage.size - 1 step 2) {
@@ -170,10 +166,9 @@ fun bestHighJump(jumps: String): Int? {
             return -1
         }
     }
-    if (attemptStorage.isEmpty()) return -1
 
     // Выбор максимального значения
-    return attemptStorage.max()
+    return if (attemptStorage.isEmpty()) -1 else attemptStorage.max()
 }
 
 /**
@@ -187,13 +182,12 @@ fun bestHighJump(jumps: String): Int? {
  */
 fun plusMinus(expression: String): Int {
     val expressionStorage = expression.split(" ").filter { !it.isEmpty() }
-    var target: Int
 
     if (expressionStorage.isEmpty() || expressionStorage.size % 2 == 0)
         throw IllegalArgumentException("null")
 
     try {
-        target = expressionStorage[0].toInt()
+        var target = expressionStorage[0].toInt()
 
         for (i in 1..expressionStorage.size - 1 step 2) {
             if (expressionStorage[i] == "+") {
@@ -232,15 +226,13 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  */
 fun mostExpensive(description: String): String {
     val goods = description.split("; ")
-    var separator: Int
     var name = ""
-    var currentPrice: Double
     var maxPrice = 0.0
 
     try {
         for (element in goods) {
-            separator = element.lastIndexOf(" ")
-            currentPrice = element.drop(separator + 1).toDouble()
+            val separator = element.lastIndexOf(" ")
+            val currentPrice = element.drop(separator + 1).toDouble()
             if (currentPrice >= maxPrice) {
                 name = element.take(separator)
                 maxPrice = currentPrice

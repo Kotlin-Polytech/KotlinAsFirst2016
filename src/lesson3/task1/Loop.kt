@@ -59,16 +59,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var digits_amount = 0
-    var current_number = n
+    var digitsAmount = 0
+    var currentNumber = n
 
     do {
-        ++digits_amount
-        current_number /= 10
+        ++digitsAmount
+        currentNumber /= 10
 
-    } while (current_number != 0)
+    } while (currentNumber != 0)
 
-    return digits_amount
+    return digitsAmount
 }
 
 /**
@@ -80,14 +80,13 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var f = 1
     var fPrev = 1
-    var fTemp: Int
 
 
     if (n == 1 || n == 2) return 1
 
     for (i in 3..n) {
-        fTemp = f
-        f = f + fPrev
+        val fTemp = f
+        f += fPrev
         fPrev = fTemp
     }
 
@@ -100,7 +99,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun gcd(m: Int, n: Int): Int = if(n == 0) m else gcd(n, m % n)
+fun gcd(m: Int, n: Int): Int = if (n == 0) m else gcd(n, m % n)
 
 fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
@@ -110,8 +109,8 @@ fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for(i in 2..n / 2) {
-        if(n % i == 0) return i
+    for (i in 2..n / 2) {
+        if (n % i == 0) return i
     }
     return n
 }
@@ -158,12 +157,12 @@ fun sin(x: Double, eps: Double): Double {
         part = Math.pow(angle, i.toDouble()) / factorial(i)
         i += 2
         total -= part
-        if(Math.abs(eps) > Math.abs(part)) break
+        if (Math.abs(eps) > Math.abs(part)) break
 
         part = Math.pow(angle, i.toDouble()) / factorial(i)
         i += 2
         total += part
-        if(Math.abs(eps) > Math.abs(part)) break
+        if (Math.abs(eps) > Math.abs(part)) break
     }
 
     return total

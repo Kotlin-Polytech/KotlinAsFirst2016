@@ -28,7 +28,7 @@ data class Square(val column: Int, val row: Int) {
     fun notation(): String {
         val str = "abcdefgh"
         if (!inside()) return ""
-        else return "${str[column - 1]}" + "$row"
+        else return "${str[column - 1]}$row"
     }
 }
 
@@ -41,9 +41,8 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     val column = notation[0]
-    val row = notation[1].toString().toInt()
-    val str = "abcdefgh"
-    val result = Square(str.indexOf(column) + 1, row)
+    val row = notation[1].toInt()-48
+    val result = Square(column.toInt()-96, row)
     if (!result.inside()) throw IllegalArgumentException()
     else return result
 }
@@ -72,8 +71,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    val inside = start.inside() && end.inside()
-    if (inside)
+    if (start.inside() && end.inside())
         return when {
             start == end -> 0
             start.column == end.column || start.row == end.row -> 1
@@ -98,9 +96,9 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     val rookMoveNumber = rookMoveNumber(start, end)
-    return when {
-        rookMoveNumber == 0 -> listOf(start)
-        rookMoveNumber == 1 -> listOf(start, end)
+    return when (rookMoveNumber) {
+        0 -> listOf(start)
+        1 -> listOf(start, end)
         else -> listOf(start, Square(start.column, end.row), end)
     }
 }
@@ -129,11 +127,13 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    val inside = start.inside() && end.inside()
-    var result =false
-    if (inside) {
+    var result = false
+    if (start.inside() && end.inside()) {
         for (i in 1..8) {
-            if (start.column == end.column + abs(i) && start.row == end.row + abs(i)) result = true
+            if (start.column == end.column + i && start.row == end.row + i){
+                result = true
+                break
+            }
         }
         return when {
             start == end -> 0
@@ -141,8 +141,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
             result -> 2
             else -> -1
         }
-    }
-    else throw IllegalArgumentException()
+    } else throw IllegalArgumentException()
 }
 
 /**
@@ -163,7 +162,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> =TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
 
 /**
  * Средняя

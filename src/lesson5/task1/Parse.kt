@@ -113,7 +113,7 @@ fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n % 10}"
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String = when {
-    (phone.all { it in "+0123456789-() " }) -> phone.filter { it in "+0123456789" }
+    phone.all { it in "+0123456789-() " } -> phone.filter { it in "+0123456789" }
     else -> ""
 }
 
@@ -220,3 +220,28 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+/*
+*Купюрами следует выплатить денежную сумму
+ */
+fun change(sum: Double, coins: String): List<String> {
+    if (coins.all { it in "0123456789., " }) {
+        try {
+            var sum1 = sum
+            val coinsList = coins.split(", ")
+            val result = mutableListOf<String>()
+            for (count in 0..coinsList.size - 1) {
+                val element = coinsList[count].toDouble()
+                if (sum1 > element) {
+                    val number = (sum1 / element).toInt()
+                    if (element % 1 == 0.0) result.add("$number x ${element.toInt()}")
+                    else result.add("$number x ${coinsList[count]}")
+                    sum1 -= number * element
+                }
+            }
+            return result
+        } catch (e: NumberFormatException) {
+            throw IllegalArgumentException()
+        }
+    } else throw IllegalArgumentException()
+}

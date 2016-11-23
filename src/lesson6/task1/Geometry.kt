@@ -216,11 +216,16 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
+
+
+/**
+ * ДОПОЛНИТЕЛЬНАЯ ФУНКЦИЯ
+ * */
 fun pointsOnTheLine(vararg points: Point): Boolean {
     if (points.size >= 2) {
         val angle = lineByPoints(points[0], points[1]).angle
         for (i in 1..points.size - 1) {
-            if ((points[i].y - points[0].y) * cos(angle) != (points[i].x - points[0].x) * sin(angle)) return false
+            if (abs(((points[i].y - points[0].y) * cos(angle) - (points[i].x - points[0].x) * sin(angle))) > 1E-5) return false
         }
     }
     return true
@@ -245,47 +250,36 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * соединяющий две самые удалённые точки в данном множестве.
  */
 
+/**
+ * ДОПОЛНИТЕЛЬНАЯ ФУНКЦИЯ
+ * */
+
+fun minContainingCircle(vararg points: Point): Circle = TODO()
+/*
 fun minContainingCircle(vararg points: Point): Circle {
     if (points.isEmpty()) throw IllegalArgumentException()
     if (points.size == 1) return Circle(points[0], 0.0)
     val result = diameter(*points)
-    val p1 = result.begin
-    val p2 = result.end
-
-    val center = Point((p1.x + p2.x) / 2, (p1.y + p2.y) / 2)
-    val radius = p1.distance(p2) / 2
+    val pointOne = result.begin
+    val pointTwo = result.end
+    var pointThree = points[0]
+    var maxArea = 0.0
     for (point in points) {
-        if ((point.distance(center) >= radius) && point != p1 && point != p2) return circleByThreePoints(point, p1, p2)
+        val newMaxArea = Triangle(pointOne, pointTwo, point).area()
+        if (newMaxArea > maxArea) {
+            maxArea = newMaxArea
+            pointThree = point
+        }
     }
+    val a = pointOne.distance(pointTwo)
+    val b = pointOne.distance(pointThree)
+    val c = pointTwo.distance(pointThree)
+    val isObtuse = (sqr(a) > sqr(b) + sqr(c)) || (sqr(b) > sqr(a) + sqr(c)) || (sqr(c) > sqr(a) + sqr(b))
+    if (!isObtuse) {
+        return circleByThreePoints(pointOne, pointTwo, pointThree)
+    }
+    val center = Point((pointOne.x + pointTwo.x)/2, (pointOne.y + pointTwo.y)/2)
+    val radius = a / 2
     return Circle(center, radius)
 }
-
-/**
- * Дополнительная задача
- */
-fun myFun(examResults: List<String>, threshold: Double): List<String> {
-    var students: List<String> = listOf()
-    var discAndEval: List<String> = listOf()
-    var averageEval: List<Double> = listOf()
-    var result: List<String> = listOf()
-    for (results in examResults) {
-        val studentAndEval = results.split("-")
-        students += studentAndEval[0].trim()
-        discAndEval += studentAndEval[1].trim()
-        try {
-            val evals = studentAndEval[1].filter { it in '0'..'9' }.map { it - '0' }
-            averageEval += evals.sum().toDouble() / evals.size
-        } catch (e: NumberFormatException) {
-            throw IllegalArgumentException()
-        }
-
-    }
-    var i = 0
-    for (eval in averageEval) {
-        if (eval >= threshold) {
-            result += students[i]
-        }
-        i++
-    }
-    return result
-}
+*/

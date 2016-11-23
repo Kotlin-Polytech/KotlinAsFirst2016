@@ -278,17 +278,24 @@ fun formatStringForBestLongJump(jumps: String): Boolean {
     else true
 }
 
-fun comparison(str1: String, str2:String): Boolean {
-    var f = 0
+fun comparison(str1: String, str2: String): Boolean {
+    var f1 = 0
     if (str1.length == str2.length) {
         for (i in 0..str1.length - 1) {
             if (str1[i] >= str2[i]) {
-                f += 1
-            } else break
+                if (str1[i] > str2[i]) {
+                    f1 += 1
+                    if (str1[i] > str2[i]) break
+                }
+            } else {
+                if (f1 == 0){
+                    break
+                }
+            }
         }
-        return if (f == 0) false
+        return if (f1 == 0) false
         else true
-    } else return if (str1.length > str2.length)  true
+    } else return if (str1.length > str2.length) true
     else false
 }
 

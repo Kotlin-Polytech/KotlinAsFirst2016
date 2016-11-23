@@ -35,10 +35,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    when {
-        age % 10 == 1 && age % 100 != 11 -> return "$age год"
-        age % 10 in 2..4 && age / 10 != 1 && age / 10 % 10 != 1 -> return "$age года"
-        else -> return "$age лет"
+    return when {
+        age % 10 == 1 && age % 100 != 11 -> "$age год"
+        age % 10 in 2..4 && age / 10 != 1 && age / 10 % 10 != 1 -> "$age года"
+        else -> "$age лет"
     }
 
 }
@@ -53,9 +53,9 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    var s1 = v1 * t1
-    var s2 = v2 * t2
-    var s3 = v3 * t3
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
     val s = (s1 + s2 + s3) / 2
     return when {
         s1 >= s -> s / v1
@@ -118,14 +118,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var max = Math.max(Math.max(a, b), c)
-    var min = Math.min(Math.min(a, b), c)
-    var mid = (a + b + c) - max - min
-    when {
-        max > mid + min -> return -1
-        max * max == mid * mid + min * min -> return 1
-        max * max < mid * mid + min * min -> return 0
-        else -> return 2
+    val max = Math.max(Math.max(a, b), c)
+    val min = Math.min(Math.min(a, b), c)
+    val mid = (a + b + c) - max - min
+    return when {
+        max > mid + min -> -1
+        max * max == mid * mid + min * min -> 1
+        max * max < mid * mid + min * min -> 0
+        else -> 2
     }
 }
 
@@ -137,12 +137,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        a > d || c > b -> -1
-        b >= d && a >= c && a <= d -> (d - a)
-        b >= d && c >= a && c <= b -> (d - c)
-        d >= b && c >= a && c <= b -> (b - c)
-        else -> (b - a)
-    }
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    a > d || c > b -> -1
+    b >= d && a >= c && a <= d -> (d - a)
+    b >= d && c >= a && c <= b -> (d - c)
+    d >= b && c >= a && c <= b -> (b - c)
+    else -> (b - a)
 }

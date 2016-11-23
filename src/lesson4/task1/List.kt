@@ -108,7 +108,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var a = 0.0
     for (i in v) {
-        a = a + i * i
+        a += i * i
     }
     return Math.sqrt(a)
 }
@@ -129,7 +129,7 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    var mean = mean(list)
+    val mean = mean(list)
     for (i in 0..list.size - 1) {
         list[i] = list[i] - mean
     }
@@ -146,7 +146,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var scalarProduct = 0.0
     for (i in 0..a.size - 1) {
-        scalarProduct = scalarProduct + a[i] * b[i]
+        scalarProduct += a[i] * b[i]
     }
     return scalarProduct
 }
@@ -162,7 +162,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var pp = 0.0
     for (i in 0..p.size - 1) {
-        pp = pp + p[i] * Math.pow(x, i.toDouble())
+        pp += p[i] * Math.pow(x, i.toDouble())
     }
     return pp
 }
@@ -178,7 +178,7 @@ fun polynom(p: List<Double>, x: Double): Double {
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
     for (i in 0..list.size - 1) {
-        sum = sum + list[i]
+        sum += list[i]
         list[i] = sum
     }
     return list
@@ -187,7 +187,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 /**
  * Средняя
  *
- * Разложить заданное натуральное число n > 1 на ПРОСТЫЕ множители.
+ * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
@@ -199,8 +199,8 @@ fun factorize(n: Int): List<Int> {
     while (i < number) {
         i++
         while (number % i == 0) {
-            list = list + i
-            number = number / i
+            list += i
+            number /= i
         }
     }
     return list
@@ -214,10 +214,7 @@ fun factorize(n: Int): List<Int> {
  */
 
 
-fun factorizeToString(n: Int): String {
-    var list = factorize(n)
-    return list.joinToString(separator = "*")
-}
+fun factorizeToString(n: Int) = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -229,10 +226,10 @@ fun factorizeToString(n: Int): String {
 fun convert(n: Int, base: Int): List<Int> {
     var nn = n
     var list = listOf<Int>()
-    if (n == 0) list = list + 0
+    if (n == 0) return list
     while (nn > 0) {
-        list = list + nn % base
-        nn = nn / base
+        list += nn % base
+        nn /= base
     }
     return list.reversed()
 }
@@ -248,10 +245,10 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var str = listOf<String>()
-    var list = convert(n, base)
+    val list = convert(n, base)
     for (i in list) {
-        if (i > 9) str = str + ('a' - 10 + i).toString()
-        else str = str + i.toString()
+        if (i > 9) str += ('a' - 10 + i).toString()
+        else str += i.toString()
     }
     return str.joinToString(separator = "")
 }
@@ -270,16 +267,13 @@ fun pow(a: Int, b: Int): Int {
 }
 
 fun decimal(digits: List<Int>, base: Int): Int {
-    var list = digits.reversed()
+    val list = digits.reversed()
     var n = 0
-    var k = 0
     for (i in 0..list.size - 1) {
-        n = n + list[i] * pow(base, k)
-        k++
+        n += list[i] * pow(base, i)
     }
     return n
 }
-
 /**
  * Сложная
  *
@@ -289,7 +283,14 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var list = listOf<Int>()
+for (i in str) {
+    if (i in '0'..'9') list += (i - '0')
+    else list += (i + 10 - 'a')
+}
+return decimal(list, base)
+}
 
 /**
  * Сложная

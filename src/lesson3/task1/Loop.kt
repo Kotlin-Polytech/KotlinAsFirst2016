@@ -62,11 +62,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var nn = Math.abs(n)
-    if (n == 0) {return 1}
-    else {
+    if (n == 0) {
+        return 1
+    } else {
         var k = 0
         while (nn > 0) {
-            nn = nn / 10
+            nn /= 10
             k++
         }
         return k
@@ -80,7 +81,7 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fib1 = 0
+    var fib1 = 1
     var fib2 = 1
     var fib3 = 1
     for (i in 3..n) {
@@ -89,7 +90,7 @@ fun fib(n: Int): Int {
         fib3 = fib1
 
     }
-    return if (n == 1 || n == 2) 1 else fib1
+    return fib1
 }
 
 /**
@@ -103,17 +104,16 @@ fun gcd(m: Int, n: Int): Int {
     var nn = n
     while (mm != nn) {
         if (mm > nn) {
-            mm = mm - nn
+            mm -= nn
         } else {
-            nn = nn - mm
+            nn -= mm
         }
     }
     return mm
 }
 
 fun lcm(m: Int, n: Int): Int {
-    var safeM = gcd(m, n)
-    var nok = (m * n) / safeM
+    val nok = (m * n) / gcd(m, n)
     return nok
 }
 
@@ -147,8 +147,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var maxCoDivisor = gcd(m, n)
-    return maxCoDivisor == 1
+    return gcd(m, n) == 1
 }
 
 /**
@@ -159,8 +158,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = ceil(sqrt(m.toDouble()))
-    return  k * k <= n
+    val k = ceil(sqrt(m.toDouble()))
+    return k * k <= n
 }
 
 /**
@@ -172,14 +171,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var n = 0
-    var sin = x
     var fraction = x
-    var xx = x % (2 * PI)
+    val xx = x % (2 * PI)
+    var sin = xx
     while (Math.abs(fraction) > Math.abs(eps)) {
         n++
         fraction = Math.pow(xx, n * 2.0 + 1) / factorial(n * 2 + 1)
-        if (n % 2 == 0) sin = sin + fraction
-        else sin = sin - fraction
+        if (n % 2 == 0) sin += fraction
+        else sin -= fraction
     }
     return sin
 }
@@ -195,12 +194,12 @@ fun cos(x: Double, eps: Double): Double {
     var n = 0
     var cos = 1.0
     var fraction = x
-    var xx = x % (2 * PI)
+    val xx = x % (2 * PI)
     while (Math.abs(fraction) > Math.abs(eps)) {
         n++
         fraction = Math.pow(xx, n * 2.0) / factorial(n * 2)
-        if (n % 2 == 0) cos = cos + fraction
-        else cos = cos - fraction
+        if (n % 2 == 0) cos += fraction
+        else cos -= fraction
     }
     return cos
 }
@@ -216,7 +215,7 @@ fun revert(n: Int): Int {
     var nn = n
     while (nn > 0) {
         m = m * 10 + nn % 10
-        nn = nn / 10
+        nn /= 10
     }
     return m
 }
@@ -238,10 +237,10 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var nn = n
-    var digit = n % 10
+    val digit = n % 10
     while (nn > 0) {
         if (nn % 10 != digit) return true
-        nn = nn / 10
+        nn /= 10
     }
     return false
 }
@@ -256,14 +255,13 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var i = 0
     var number = 0
-    var answer = 0
     while (number < n) {
         i++
-        number = number + digitNumber(i * i)
+        number += digitNumber(i * i)
     }
-    answer = i * i
+    var answer = i * i
     for (i in (n..number - 1)) {
-        answer = answer / 10
+        answer /= 10
     }
     return (answer % 10)
 }
@@ -280,11 +278,11 @@ fun fibSequenceDigit(n: Int): Int {
     var number = 0
     while (number < n) {
         i++
-        number = number + digitNumber(fib(i))
+        number += digitNumber(fib(i))
     }
     var answer = fib(i)
     for (i in (n..number - 1)) {
-        answer = answer / 10
+        answer /= 10
     }
     return (answer % 10)
 }

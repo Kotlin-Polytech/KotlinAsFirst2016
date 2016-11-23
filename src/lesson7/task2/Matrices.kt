@@ -2,6 +2,7 @@
 package lesson7.task2
 
 import lesson7.task1.Matrix
+import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -61,6 +62,8 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  */
 fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
 
+
+
 /**
  * Сложная
  *
@@ -103,7 +106,22 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width)
+        throw IllegalArgumentException()
+    val matrixResult = MatrixImpl(matrix.height, matrix.width, matrix[0,0])
+    var row = 0
+    var column = 0
+    for (i in 0..matrix.width -1) {
+        for (j in matrix.height - 1 downTo 0 step 1) {
+            matrixResult[row, column] = matrix[j, i]
+            column++
+        }
+        column = 0
+        row++
+    }
+    return matrixResult
+}
 
 /**
  * Сложная
@@ -118,7 +136,55 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+/*
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    var sumRow = 0
+    var sumColumn = 0
+    var sum = 0
+    val matrixReference = MatrixImpl(1,matrix.width , 0)
+    val matrixEquals = MatrixImpl(1,matrix.width , 0)
+    for (i in 0..matrix.width - 1 )
+        matrixReference[0, i] = i + 1
+
+    for (i in 0..0)
+        for(j in 0..matrix.width - 1) {
+            sumRow += matrix[i, j]
+            matrixEquals[0,j] = matrix[i, j]
+        }
+
+    for (i in 1..matrix.height -1) {
+        sum = 0
+        for (j in 0..matrix.width - 1) {
+            sum += matrix[i, j]
+            matrixEquals[0,j] = matrix[i, j]
+        }
+        if ((sum != sumRow) && (matrixEquals != matrixReference))
+        return false
+    }
+
+    for (i in 0..0)
+        for(j in 0..matrix.height - 1) {
+            sumColumn += matrix[j, i]
+            matrixEquals[0,j] = matrix[i, j]
+        }
+
+    for (i in 1..matrix.width - 1) {
+        sum = 0
+        for (j in 0..matrix.height- 1) {
+            sum += matrix[j, i]
+            matrixEquals[0,j] = matrix[i, j]
+        }
+        if ((sum != sumColumn) && (matrixEquals != matrixReference))
+            return false
+    }
+
+    if ((sumColumn == sumRow) && (matrixEquals == matrixReference))
+        return true
+    else
+        return false
+
+}
+*/
 
 /**
  * Средняя

@@ -137,7 +137,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     val endIsEven = (end.column + end.row) % 2 == 0
     if (startIsEven != endIsEven) return -1
     if (start == end) return 0
-    if (abs(start.column - start.row) == abs(end.column - end.row)) return 1
+    if (start.column - start.row == end.column - end.row) return 1
     return 2
 }
 

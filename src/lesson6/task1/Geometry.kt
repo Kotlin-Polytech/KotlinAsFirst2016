@@ -133,10 +133,10 @@ data class Line(val point: Point, val angle: Double) {
     }
 }
 
-fun crossPoint(a: Line, b: Line): Point {
+fun crossPoint(a: Line, b: Line, c: Line): Point {
     val x = (a.point.x * Math.tan(a.angle) - b.point.x * Math.tan(b.angle) + b.point.y - a.point.y) /
             (Math.tan(a.angle) - Math.tan(b.angle))
-    val y = (x - b.point.x) * Math.tan(b.angle) + b.point.y
+    val y = (x - c.point.x) * Math.tan(c.angle) + c.point.y
     return Point(x, y)
 }
 
@@ -187,8 +187,9 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val bisectorAB = bisectorByPoints(a, b)
+    val bisectorBC = bisectorByPoints(b, c)
     val bisectorAC = bisectorByPoints(a, c)
-    val center = crossPoint(bisectorAB, bisectorAC)
+    val center = crossPoint(bisectorAB, bisectorBC, bisectorAC)
     val radius = center.distance(a)
     return Circle(center, radius)
 

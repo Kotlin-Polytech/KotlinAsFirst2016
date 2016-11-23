@@ -108,7 +108,9 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         val resultX = (other.point.y - point.y + ((point.x * Math.sin(angle) * Math.cos(other.angle) - other.point.x * Math.sin(other.angle) * Math.cos(angle)) / Math.cos(angle) / Math.cos(other.angle))) /
                 ((Math.sin(angle) * Math.cos(other.angle) - Math.cos(angle) * Math.sin(other.angle)) / Math.cos(angle) / Math.cos(other.angle))
-        val resultY = ((resultX - other.point.x) * Math.sin(other.angle) / Math.cos(other.angle)) + other.point.y
+        var resultY = 0.0
+        if (resultX>=0) resultY=((resultX - other.point.x) * Math.sin(other.angle) / Math.cos(other.angle)) + other.point.y
+        else resultY = ((resultX - point.x) * Math.sin(angle) / Math.cos(angle)) + point.y
         return Point(resultX, resultY)
     }
 }
@@ -143,7 +145,7 @@ fun lineByPoints(a: Point, b: Point): Line {
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    var angle = Math.atan2(a.y - b.y, a.x - b.x)
+    var angle = atan2(a.y - b.y, a.x - b.x)
     if (angle == PI || angle == -PI) angle = 0.0
     if (angle < 0) angle = PI + angle
     angle = PI / 2 + angle

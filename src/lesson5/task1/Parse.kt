@@ -188,14 +188,18 @@ fun plusMinus(expression: String): Int {
     var result = members[0].toInt()
     val RightNumber = Regex("""\d""")
     val RightSymbol = Regex("""[+-]""")
-    for (i in 0..(members.size - 2)) {
-        val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)
-        val TwoNumbers = members[i].contains(RightNumber) && members[i + 1].contains(RightNumber)
-        val WrongString = TwoPluses || TwoNumbers
-        if (WrongString) throw IllegalArgumentException("Wrong")
-        else {
-            if (members[i] == "+") result += members[i + 1].toInt()
-            if (members[i] == "-") result -= members[i + 1].toInt()
+    val NotRightFormat = Regex("""[^\d +-]""")
+    if (members[0].contains(NotRightFormat)) throw IllegalArgumentException("Wrong")
+    else {
+        for (i in 0..(members.size - 2)) {
+            val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)
+            val TwoNumbers = members[i].contains(RightNumber) && members[i + 1].contains(RightNumber)
+            val WrongString = TwoPluses || TwoNumbers
+            if (WrongString) throw IllegalArgumentException("Wrong")
+            else {
+                if (members[i] == "+") result += members[i + 1].toInt()
+                if (members[i] == "-") result -= members[i + 1].toInt()
+            }
         }
     }
     return result

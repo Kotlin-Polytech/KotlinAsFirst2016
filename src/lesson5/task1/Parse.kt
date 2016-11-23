@@ -189,7 +189,7 @@ fun plusMinus(expression: String): Int {
     val LengthOfString = members.size
     val RightNumber = Regex("""\d""")
     val RightSymbol = Regex("""[+-]""")
-    val NotRightFormat = Regex("""[^\d +-]""")
+    val NotRightFormat = Regex("""[^\d+-]""")
     if ((LengthOfString == 1) && (members[0].contains(NotRightFormat)) || expression == "") throw IllegalArgumentException("Wrong")
     else {
         for (i in 0..(members.size - 2)) {

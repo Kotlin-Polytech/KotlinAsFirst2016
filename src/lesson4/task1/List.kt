@@ -186,12 +186,11 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
-    val result = mutableListOf<Double>()
-    for (element in list) {
-        sum += element
-        result.add(sum)
+    for (i in 0..list.size-1 ) {
+        sum += list[i]
+        list[i] = sum
     }
-    return result
+    return list
 }
 
 /**
@@ -209,7 +208,6 @@ fun factorize(n: Int): List<Int> {
         if (nn % divider == 0) {
             list.add(divider)
             nn /= divider
-            //divider--
         }
         else divider++
     }
@@ -222,7 +220,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -231,7 +229,15 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var nn = n
+    while (nn > 0) {
+        result.add(nn % base)
+        nn /= base
+    }
+    return result.reversed()
+}
 
 /**
  * Сложная
@@ -250,7 +256,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0
+    var expBase = 1
+    for (i in digits.size - 1 downTo 0) {
+        result += digits[i] * expBase
+        expBase *= base
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -261,7 +275,18 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var result = 0
+    var expBase = 1
+    var piece: Int
+    for (i in str.length - 1 downTo 0) {
+        if (str[i] in '0'..'9') piece = str[i] - '0'
+        else piece = str[i] - 'a' + 10
+        result += piece * expBase
+        expBase *= base
+    }
+    return result
+}
 
 /**
  * Сложная

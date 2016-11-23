@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -58,9 +59,10 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double {
-        return if (center.distance(other.center)> radius+other.radius) center.distance(other.center)-(radius+other.radius)
-        else  0.0
+        return if (center.distance(other.center) > radius + other.radius) center.distance(other.center) - (radius + other.radius)
+        else 0.0
     }
+
     /**
      * Тривиальная
      *
@@ -107,10 +109,10 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    val radius = (diameter.begin.distance(diameter.end ))/2
-    val xcenter = (diameter.begin.x + diameter.end.x)/2
-    val ycenter = (diameter.begin.y + diameter.end.y)/2
-    return Circle(Point(xcenter,ycenter) ,radius)
+    val radius = (diameter.begin.distance(diameter.end)) / 2
+    val xcenter = (diameter.begin.x + diameter.end.x) / 2
+    val ycenter = (diameter.begin.y + diameter.end.y) / 2
+    return Circle(Point(xcenter, ycenter), radius)
 }
 
 /**

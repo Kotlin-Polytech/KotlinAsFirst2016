@@ -175,8 +175,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for (i in 1..list.size - 1){
-        list[i] += list[i-1]
+    for (i in 1..list.size - 1) {
+        list[i] += list[i - 1]
     }
     return list
 }
@@ -191,8 +191,8 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     var m = n
-    for (i in 2..n){
-        while (m % i == 0){
+    for (i in 2..n) {
+        while (m % i == 0) {
             m = m / i
             result.add(i)
         }
@@ -206,7 +206,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int) : String = factorize(n).joinToString(separator = "*")
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 
 /**
@@ -236,14 +236,14 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val result2 = convert(n, base)
-    var result1 = String()
+    val middleResult = convert(n, base)
+    var result = ""
     val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
-    for (m in result2) {
-        if (m < 10) result1 += m  else
-        result1 += ALPHABET[m - 10]
+    for (m in middleResult) {
+        if (m < 10) result += m
+        else result += ALPHABET[m - 10]
     }
-    return if (n == 0) "0" else result1
+    return if (n == 0) "0" else result
 }
 
 /**
@@ -275,13 +275,13 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int{
+fun decimalFromString(str: String, base: Int): Int {
     val middle = mutableListOf<Int>()
     for (i in 0..str.length - 1) {
         if (str[i] in '0'..'9')
             middle.add(str[i] - '0') else middle.add(str[i] - 'a' + 10)
-        }
-    return if (str.length == 1) middle[0] else decimal (middle,base)
+    }
+    return if (str.length == 1) middle[0] else decimal(middle, base)
 }
 
 /**
@@ -292,8 +292,23 @@ fun decimalFromString(str: String, base: Int): Int{
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
+fun romanMiddle(k: Int, one: String, five: String, ten: String): String {
+    return when (k) {
+        0 -> ""
+        1 -> one
+        2 -> one + one
+        3 -> one + one + one
+        4 -> one + five
+        5 -> five
+        6 -> five + one
+        7 -> five + one + one
+        8 -> five + one + one + one
+        else -> one + ten
+    }
+}
+
 fun roman(n: Int): String {
-    var result = String()
+    var result = ""
     if (n / 1000 >= 1) {
         var thousand = n / 1000
         while (thousand > 0) {
@@ -301,74 +316,21 @@ fun roman(n: Int): String {
             thousand--
         }
     }
-    var middle = n % 1000
-    if (middle / 100 >= 1) {
-        if (middle / 100 < 4) {
-            var hundred = middle / 100
-            while (hundred > 0) {
-                result += 'C'
-                hundred--
-            }
-        } else
-            if (middle / 100 == 4)
-                result += "CD" else
-                if (middle / 100 == 9) result += "CM" else {
-                    result += 'D'
-                    var plus = middle / 100 - 5
-                    while (plus > 0) {
-                        result += 'C'
-                        plus--
-                    }
-                }
-    }
-    middle %= 100
-    if (middle / 10 >= 1) {
-        if (middle / 10 < 4) {
-            var ten = middle / 100
-            while (ten > 0) {
-                result += 'X'
-                ten--
-            }
-        } else
-            if (middle / 10 == 4)
-                result += "XL" else
-                if (middle / 10 == 9) result += "XC" else {
-                    result += 'L'
-                    var plus = middle / 10 - 5
-                    while (plus > 0) {
-                        result += 'X'
-                        plus--
-                    }
-                }
-    }
-    middle %= 10
-    if (middle >= 1) {
-        if (middle < 4) {
-            var units = middle
-            while (units > 0) {
-                result += 'I'
-                units--
-            }
-        } else
-            if (middle == 4)
-                result += "IV" else
-                if (middle == 9) result += "IX" else {
-                    result += 'V'
-                    var plus = middle - 5
-                    while (plus > 0) {
-                        result += 'I'
-                        plus--
-                    }
-                }
-    }
+    val hundred = n / 100 % 10
+    result += romanMiddle(hundred, "C", "D", "M")
+    val ten = n % 100 / 10
+    result += romanMiddle(ten, "X", "L", "C")
+    val units = n % 10
+    result += romanMiddle(units, "I", "V", "X")
     return result
 }
 
-val hd = listOf("сто ","двести ","триста ","четыреста ","пятьсот ","шестьсот ","семьсот ","восемьсот ","девятьсот ")
-val tn = listOf("двадцать ","тридцать ","сорок ","пятьдесят ","шестьдесят ","семьдесят ","восемьдесят ","девяносто ")
-val tn1 = listOf("десять","одиннадцать","двенадцать","тринадцать","четырнадцать","пятнадцать","шестнадцать","семнадцать","восемнадцать","девятнадцать")
-val un = listOf("одна ","две ","три ","четыре ","пять ","шесть ","семь ","восемь ","девять ")
-val un1 = listOf("один","два","три","четыре","пять","шесть","семь","восемь","девять")
+
+val hd = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+val tn = listOf("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+val tn1 = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+val un = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val un1 = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
 
 /**
  * Очень сложная
@@ -377,55 +339,36 @@ val un1 = listOf("один","два","три","четыре","пять","шес�
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String {
-    var result = String()
-    if (n / 1000 > 0) {
-        val middle = n / 1000
-        if (middle / 100 >= 1) {
-            val th1 = middle / 100
-            result += hd[th1 - 1]
-        }
-        if ((middle % 100) / 10 == 1) {
-            val mid = middle % 10
-            result += tn1[mid]
-            if (n%1000>0) result+=" "
-        }
-        else if ((middle % 100) / 10 == 0){
-            val mid2 = middle % 10
-            if(mid2 == 0 )  result += ""
-            else result += un[mid2 -1]
-        } else {
-            val mid1 = middle % 100 / 10
-            result += tn[mid1 - 2]
 
-            val mid2 = middle % 10
-            result += un[mid2 - 1]
-        }
-        if (middle %10 ==1 ) result += "тысяча" else if (middle%10==2) result += "тысячи" else result += "тысяч"
-        if (n%1000>0) result += " "
+fun russianMiddle(middle: Int, hundred: List<String>, ten: List<String>, ten1: List<String>, units: List<String>): List<String> {
+    val result = mutableListOf<String>()
+    if (middle / 100 >= 1) {
+        val hd = middle / 100
+        result.add(hundred[hd - 1])
     }
-    val middle2 = n % 1000
-    if (middle2 / 100 >= 1) {
-        val th1 = middle2 / 100
-        result += hd[th1 - 1]
-    }
-    if ((middle2 % 100) / 10 == 1) {
-        val mid = middle2 % 10
-        result += tn1[mid]
-    }
-    else  if ((middle2 % 100) / 10 == 0){
-        val mid2 = middle2 % 10
-        if (mid2==0) result+= ""
-        else result += un1[mid2 - 1]
-    } else
-
-    {
-        val mid1 = middle2 % 100 / 10
-        result += tn[mid1 - 2]
-        val mid2 = middle2 % 10
-        result += un1[mid2 - 1]
+    if (middle % 100 / 10 == 1) {
+        val tn1 = middle % 10
+        result.add(ten1[tn1])
+    } else if (middle % 100 / 10 == 0) {
+        val un = middle % 10
+        if (un >= 1) result.add(units[un - 1])
+    } else {
+        val tn = middle % 100 / 10
+        result.add(ten[tn - 2])
+        val un = middle % 10
+        if (un >= 1) result.add(units[un - 1])
     }
     return result
 }
 
-
+fun russian(n: Int): String {
+    val result = mutableListOf<String>()
+    val part1 = n / 1000
+    if (part1 > 0) {
+        result.addAll(russianMiddle(part1, hd, tn, tn1, un))
+        if (part1 % 10 == 1) result.add("тысяча") else if (part1 % 10 == 2 || part1 % 10 == 3 || part1 % 10 == 4) result.add("тысячи") else result.add("тысяч")
+    }
+    val part2 = n % 1000
+    result.addAll(russianMiddle(part2, hd, tn, tn1, un1))
+    return result.joinToString(separator = " ")
+}

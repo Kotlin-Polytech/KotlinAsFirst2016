@@ -97,17 +97,16 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var k: Int
-    if (n > m) k = n else k = m
-    for (i in k..Int.MAX_VALUE) {
-        if (i % m == 0 && i % n == 0) {
-            k = i
-            break
-        }
-    }
-    return k
+fun nod(k: Int, l: Int): Int = when {
+    k == 0 -> l
+    l == 0 -> k
+    k >= l -> nod(k % l, l)
+    l > k -> nod(l % k, k)
+    else -> 0
 }
+
+fun lcm(m: Int, n: Int): Int = (m * n) / nod(m, n)
+
 
 /**
  * Простая

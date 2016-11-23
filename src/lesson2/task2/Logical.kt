@@ -56,8 +56,5 @@ fun distance(x0: Double, y0: Double, x: Double, y: Double) =
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val holeSquare=r*s
-    if ((a*b<=holeSquare)||(b*c<=holeSquare)||(a*c<=holeSquare))return true
-    else return false
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+        ((a<=r)||(b<=r)||(c<=r))&&((a<=s)||(b<=s)||(c<=s))

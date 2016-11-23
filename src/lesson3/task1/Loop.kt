@@ -167,7 +167,7 @@ fun revert(n: Int): Int {
 
 fun pow(a: Int, b: Int): Int {
     var res = 1
-    for (i in 1..b) {
+    for (i in 0..b - 1) {
         res *= a
     }
     return res
@@ -190,13 +190,12 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var sum = 0
-    var q=n
-    for (i in 0..digitNumber(n)-1){
-        sum+=q%10
-        q/=10
+    var q = n
+    for (i in 0..digitNumber(n) - 1) {
+        sum += q % 10
+        q /= 10
     }
-    if (sum!=(n%10* digitNumber(n)))return true
-    else return false
+    return sum != n % 10 * digitNumber(n)
 }
 
 /**

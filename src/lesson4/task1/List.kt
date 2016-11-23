@@ -153,7 +153,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var scalarProduct = 0.0
     for (i in 0..a.size - 1) {
-        scalarProduct += (a[i] * b[i])
+        scalarProduct += a[i] * b[i]
     }
     return scalarProduct
 }
@@ -199,16 +199,16 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var l = mutableListOf<Int>()
+    val listOfMultipliers = mutableListOf<Int>()
     var q = n
     var d = 2
     while (q > 1) {
         if (q % d == 0) {
-            l.add(d)
+            listOfMultipliers.add(d)
             q /= d
         } else d++
     }
-    return l
+    return listOfMultipliers
 }
 
 /**
@@ -217,19 +217,8 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    var l = mutableListOf<Int>()
-    var q = n
-    var d = 2
-    var s = ""
-    while (q > 1) {
-        if (q % d == 0) {
-            l.add(d)
-            q /= d
-        } else d++
-    }
-    return l.joinToString(separator = "*")
-}
+fun factorizeToString(n: Int): String =
+        factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -239,14 +228,16 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var l = mutableListOf<Int>()
+    val l = mutableListOf<Int>()
     var q = n
-    var a = 0
-    var c = pow(10, 0)
-    while (q > 0) {
-        a = q % base
-        l.add(0, a)
-        q /= base
+    if (n < base) {
+        l.add(0, n)
+    } else {
+        while (q > 0) {
+            val a = q % base
+            l.add(0, a)
+            q /= base
+        }
     }
     return l
 }
@@ -261,13 +252,17 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val a = convert(n, base)
-    var s = ""
-    for (el in a) {
-        if (el > 9) {
-            s += ('a'.toInt() + el - 10).toChar()
-        } else s += el.toString()
+    var result = ""
+    if (base < 1) {
+        result = n.toString()
+    } else {
+        for (el in a) {
+            if (el > 9) {
+                result += ('a' + el - 10)
+            } else result += el.toString()
+        }
     }
-    return s
+    return result
 }
 
 
@@ -313,7 +308,19 @@ fun decimalFromString(str: String, base: Int): Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String = TODO()/*{
+    var romanDigits = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    var arabicDigits = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var a = n.toString()
+    var z = n
+    var result = ""
+    if (z in arabicDigits) {
+        result = romanDigits[arabicDigits.indexOf(z)]
+    } else {
+
+    }
+    return result
+}*/
 
 /**
  * Очень сложная
@@ -323,12 +330,12 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    var a = n.toString().length
+    val a = n.toString().length
     var s = ""
     var s1 = ""
     var r = ""
     var r1 = ""
-    var unit = n % 10
+    val unit = n % 10
     when (unit) {
         1 -> s = "один"
         2 -> s = "два"
@@ -341,7 +348,7 @@ fun russian(n: Int): String {
         9 -> s = "девять"
         0 -> s = ""
     }
-    var hundr = (n / 10) % 10
+    val hundr = (n / 10) % 10
     when (hundr) {
         1 -> {
             when (unit) {
@@ -360,7 +367,7 @@ fun russian(n: Int): String {
         9 -> s1 = "девяносто " + s
         0 -> s1 = "" + s
     }
-    var thous = (n / 100) % 10
+    val thous = (n / 100) % 10
     when (thous) {
         1 -> s1 = "сто " + s1
         2 -> s1 = "двести " + s1
@@ -368,21 +375,22 @@ fun russian(n: Int): String {
         4 -> s1 = "четыреста " + s1
         5 -> s1 = "пятьсот " + s1
         6 -> s1 = "шестьсот " + s1
-        7 -> s1 = "cемьсот " + s1
+        7 -> s1 = "семьсот " + s1
         8 -> s1 = "восемьсот " + s1
         9 -> s1 = "девятьсот " + s1
     }
     if (a > 3) {
-        var unit1 = (n / 1000) % 10
-        if ((unit == 0) && (hundr == 0) && (thous == 0)) { s1 = "тысяч" + s1}
-        else {
+        val unit1 = (n / 1000) % 10
+        if ((unit == 0) && (hundr == 0) && (thous == 0)) {
+            s1 = "тысяч" + s1
+        } else {
             when (unit1) {
                 1 -> s1 = "тысяча " + s1
                 2, 3, 4 -> s1 = "тысячи " + s1
                 else -> s1 = "тысяч " + s1
             }
         }
-        var hundr1 = (n / 10000) % 10
+        val hundr1 = (n / 10000) % 10
         when (unit1) {
             1 -> r = "одна "
             2 -> r = "две "
@@ -413,15 +421,15 @@ fun russian(n: Int): String {
             9 -> r1 = "девяносто " + r
             0 -> r1 = "" + r
         }
-        var thous = n / 100000
-        when (thous) {
+        val thous1 = n / 100000
+        when (thous1) {
             1 -> r1 = "сто " + r1
             2 -> r1 = "двести " + r1
             3 -> r1 = "триста " + r1
             4 -> r1 = "четыреста " + r1
             5 -> r1 = "пятьсот " + r1
             6 -> r1 = "шестьсот " + r1
-            7 -> r1 = "cемьсот " + r1
+            7 -> r1 = "семьсот " + r1
             8 -> r1 = "восемьсот " + r1
             9 -> r1 = "девятьсот " + r1
         }

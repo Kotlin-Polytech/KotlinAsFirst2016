@@ -186,11 +186,11 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     val members = expression.split(" ")
     var result = members[0].toInt()
-    val StringLength = members.size
+    val LengthOfString = members.size
     val RightNumber = Regex("""\d""")
     val RightSymbol = Regex("""[+-]""")
     val NotRightFormat = Regex("""[^\d +-]""")
-    if (((members[0].contains(NotRightFormat)) && (StringLength == 1)) || (expression == "")) throw IllegalArgumentException("Wrong")
+    if (((members[0].contains(NotRightFormat)) && (LengthOfString == 1)) || (expression == "")) throw IllegalArgumentException("Wrong")
     else {
         for (i in 0..(members.size - 2)) {
             val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)

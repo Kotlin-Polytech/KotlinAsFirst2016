@@ -132,16 +132,11 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun NOD(a: Int, b: Int): Int {
-    var a1 = a
-    var b1 = b
-    if (b1 == 0) return a1
-    else return NOD(b, a1 % b1)
-
+    if (b == 0) return a
+    else return NOD(b, a % b)
 }
 
-fun isCoPrime(m: Int, n: Int): Boolean {
-    return !(NOD(m, n) != 1)
-}
+fun isCoPrime(m: Int, n: Int): Boolean = NOD(m, n) == 1
 
 /**
  * Простая
@@ -200,10 +195,8 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    val revertNum = revert(n)
-    return revertNum == n
-}
+fun isPalindrome(n: Int): Boolean = revert(n) == n
+
 
 /**
  * Средняя

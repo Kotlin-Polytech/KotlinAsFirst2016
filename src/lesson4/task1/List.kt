@@ -381,16 +381,18 @@ fun russian(n: Int): String {
     }
     if (a > 3) {
         val unit1 = (n / 1000) % 10
+        val hundr1 = (n / 10000) % 10
         if ((unit == 0) && (hundr == 0) && (thous == 0)) {
             s1 = "тысяч" + s1
         } else {
-            when (unit1) {
-                1 -> s1 = "тысяча " + s1
-                2, 3, 4 -> s1 = "тысячи " + s1
-                else -> s1 = "тысяч " + s1
-            }
+            if (hundr1 != 1) {
+                when (unit1) {
+                    1 -> s1 = "тысяча " + s1
+                    2, 3, 4 -> s1 = "тысячи " + s1
+                    else -> s1 = "тысяч " + s1
+                }
+            } else s1 = "тысяч " + s1
         }
-        val hundr1 = (n / 10000) % 10
         when (unit1) {
             1 -> r = "одна "
             2 -> r = "две "
@@ -408,7 +410,7 @@ fun russian(n: Int): String {
                 when (unit1) {
                     4, 5, 6, 7, 8, 9 -> r1 = r.substring(0, r.length - 2) + "надцать "
                     2, 3 -> r1 = r.substring(0, r.length - 1) + "надцать "
-                    else -> r1 = r.substring(0, r.length - 2) + "иннадцать "
+                    else -> r1 = r.substring(0, r.length - 3) + "иннадцать "
                 }
             }
             2 -> r1 = "двадцать " + r

@@ -160,11 +160,11 @@ fun isCoPrime(m: Int, n: Int): Boolean = gcd(m,n) == 1
  */
 
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var result = false
+    var res = false
     for (i in 0..n )
         if ((i*i >= m)  && (i*i <= n))
-            result = true
-    return result
+            res = true
+    return res
 }
 
 

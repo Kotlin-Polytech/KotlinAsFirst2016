@@ -133,12 +133,6 @@ data class Line(val point: Point, val angle: Double) {
     }
 }
 
-fun crossPoint(a: Line, b: Line, c: Line): Point {
-    val x = (a.point.x * Math.tan(a.angle) - b.point.x * Math.tan(b.angle) + b.point.y - a.point.y) /
-            (Math.tan(a.angle) - Math.tan(b.angle))
-    val y = (x - c.point.x) * Math.tan(c.angle) + c.point.y
-    return Point(x, y)
-}
 
 /**
  * Средняя
@@ -155,7 +149,10 @@ fun lineBySegment(s: Segment): Line {
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    val segment = Segment(a, b)
+    return lineBySegment(segment)
+}
 
 /**
  * Сложная
@@ -174,7 +171,23 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    val quantity = circles.size
+    if (quantity < 2) throw IllegalArgumentException("Less than 2 circles")
+    var minDistance = circles[0].distance(circles[1])
+    var result = Pair(circles[0], circles[1])
+    for (i in 0..quantity - 2) {
+        for (j in i + 1..quantity - 1) {
+            val distance = circles[i].distance(circles[j])
+            if (distance < minDistance) {
+                minDistance = distance
+                result = Pair(circles[i], circles[j])
+            }
+        }
+    }
+    return result
+}
+
 
 /**
  * Очень сложная
@@ -187,12 +200,10 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val bisectorAB = bisectorByPoints(a, b)
-    val bisectorBC = bisectorByPoints(b, c)
     val bisectorAC = bisectorByPoints(a, c)
-    val center = crossPoint(bisectorAB, bisectorBC, bisectorAC)
+    val center = bisectorAB.crossPoint(bisectorAC)
     val radius = center.distance(a)
     return Circle(center, radius)
-
 }
 
 /**

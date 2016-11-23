@@ -190,12 +190,13 @@ fun plusMinus(expression: String): Int {
     val RightNumber = Regex("""\d""")
     val RightSymbol = Regex("""[+-]""")
     val NotRightFormat = Regex("""[^\d +-]""")
-    if (((members[0].contains(NotRightFormat)) && (LengthOfString == 1)) || (expression == "") || (members[0].contains(NotRightFormat))) throw IllegalArgumentException("Wrong")
+    if (((members[0].contains(NotRightFormat)) && (LengthOfString == 1)) || (expression == "")) throw IllegalArgumentException("Wrong")
     else {
         for (i in 0..(members.size - 2)) {
             val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)
             val TwoNumbers = members[i].contains(RightNumber) && members[i + 1].contains(RightNumber)
-            val WrongString = TwoPluses || TwoNumbers
+            val AllNotRightSymbols = members[i].contains(NotRightFormat) && members[i + 1].contains(NotRightFormat)
+            val WrongString = TwoPluses || TwoNumbers || AllNotRightSymbols
             if (WrongString) throw IllegalArgumentException("Wrong")
             else {
                 if (members[i] == "+") result += members[i + 1].toInt()

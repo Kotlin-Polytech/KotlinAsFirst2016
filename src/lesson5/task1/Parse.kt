@@ -190,7 +190,9 @@ fun plusMinus(expression: String): Int {
     val RightNumber = Regex("""\d""")
     val RightSymbol = Regex("""[+-]""")
     val NotRightFormat = Regex("""[^\d+-]""")
-    if ((LengthOfString == 1) && ((members[0].contains(NotRightFormat))  || expression == "")) throw IllegalArgumentException("Wrong")
+    if ((LengthOfString == 1) && ((members[0].contains(NotRightFormat))  || expression == "")) {
+        throw IllegalArgumentException("Wrong")
+    }
     else {
         for (i in 0..LengthOfString - 2) {
             val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)

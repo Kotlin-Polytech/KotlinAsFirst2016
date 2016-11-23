@@ -136,55 +136,11 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  * 1 2 3
  * 3 1 2
  */
-/*
-fun isLatinSquare(matrix: Matrix<Int>): Boolean {
-    var sumRow = 0
-    var sumColumn = 0
-    var sum = 0
-    val matrixReference = MatrixImpl(1,matrix.width , 0)
-    val matrixEquals = MatrixImpl(1,matrix.width , 0)
-    for (i in 0..matrix.width - 1 )
-        matrixReference[0, i] = i + 1
 
-    for (i in 0..0)
-        for(j in 0..matrix.width - 1) {
-            sumRow += matrix[i, j]
-            matrixEquals[0,j] = matrix[i, j]
-        }
+fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
 
-    for (i in 1..matrix.height -1) {
-        sum = 0
-        for (j in 0..matrix.width - 1) {
-            sum += matrix[i, j]
-            matrixEquals[0,j] = matrix[i, j]
-        }
-        if ((sum != sumRow) && (matrixEquals != matrixReference))
-        return false
-    }
 
-    for (i in 0..0)
-        for(j in 0..matrix.height - 1) {
-            sumColumn += matrix[j, i]
-            matrixEquals[0,j] = matrix[i, j]
-        }
 
-    for (i in 1..matrix.width - 1) {
-        sum = 0
-        for (j in 0..matrix.height- 1) {
-            sum += matrix[j, i]
-            matrixEquals[0,j] = matrix[i, j]
-        }
-        if ((sum != sumColumn) && (matrixEquals != matrixReference))
-            return false
-    }
-
-    if ((sumColumn == sumRow) && (matrixEquals == matrixReference))
-        return true
-    else
-        return false
-
-}
-*/
 
 /**
  * Средняя

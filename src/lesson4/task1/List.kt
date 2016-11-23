@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.digitCountInNumber
 import lesson3.task1.minDivisor
 import lesson3.task1.revert
 import org.jetbrains.annotations.Mutable
@@ -239,9 +240,7 @@ fun convert(n: Int, base: Int): List<Int> {
         m /= base
         list.add(reminder)
     }
-    list.reverse()
-    list.joinToString(separator = " , ", postfix = " = ${list.sum()}")
-    return list
+    return list.reversed()
 }
 
 /**
@@ -252,7 +251,46 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    var m = n
+    var reminder: Int
+    val list = mutableListOf<String>()
+    if (m == 0) return "0"
+    while (m > 0) {
+        reminder = m % base
+        m /= base
+        if (reminder<10) list.add(reminder.toString())
+        else when (reminder) {
+            10 -> list.add("a")
+            11 -> list.add("b")
+            12 -> list.add("c")
+            13 -> list.add("d")
+            14 -> list.add("e")
+            15 -> list.add("f")
+            16 -> list.add("g")
+            17 -> list.add("h")
+            18 -> list.add("i")
+            19 -> list.add("j")
+            20 -> list.add("k")
+            21 -> list.add("l")
+            22 -> list.add("m")
+            23 -> list.add("n")
+            24 -> list.add("o")
+            25 -> list.add("p")
+            26 -> list.add("q")
+            27 -> list.add("r")
+            28 -> list.add("s")
+            29 -> list.add("t")
+            30 -> list.add("u")
+            31 -> list.add("v")
+            32 -> list.add("w")
+            33 -> list.add("x")
+            34 -> list.add("y")
+            35 -> list.add("z")
+        }
+    }
+    return list.reversed().joinToString(separator = "")
+}
 
 /**
  * Средняя
@@ -261,7 +299,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0.0
+    var j=0.0
+    for (i in digits.size - 1 downTo 0) {
+        result += digits[i] * Math.pow(base * 1.0, j)
+        j++
+    }
+    return result.toInt()
+}
 
 /**
  * Сложная

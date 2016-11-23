@@ -278,6 +278,20 @@ fun formatStringForBestLongJump(jumps: String): Boolean {
     else true
 }
 
+fun comparison(str1: String, str2:String): Boolean {
+    var f = 0
+    if (str1.length == str2.length) {
+        for (i in 0..str1.length - 1) {
+            if (str1[i] >= str2[i]) {
+                f += 1
+            } else break
+        }
+        return if (f == 0) false
+        else true
+    } else return if (str1.length > str2.length)  true
+    else false
+}
+
 fun bestLongJump(jumps: String): Int {
     var number = ""
     var numberTemp = ""
@@ -287,7 +301,7 @@ fun bestLongJump(jumps: String): Int {
             if (jumps[i] in '0'..'9') numberTemp += jumps[i]
             else f = 1
             if ((i == jumps.length - 1) && (jumps[i] in '0'..'9')) f = 1
-            if (numberTemp >= number) {
+            if (comparison(numberTemp, number)) {
                 if (f == 1) {
                     number = numberTemp
                     numberTemp = ""

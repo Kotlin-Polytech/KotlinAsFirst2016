@@ -159,7 +159,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
         bishopMoveNumber(start, end) == -1 -> listOf()
         bishopMoveNumber(start, end) == 0 -> listOf(start)
         bishopMoveNumber(start, end) == 1 -> listOf(start, end)
-        else -> // задание недоделано
+        else -> listOf()// задание недоделано
     }
 }
 

@@ -126,10 +126,18 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) / (Math.tan(this.angle) - Math.tan(other.angle))
+        val x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
+                (Math.tan(this.angle) - Math.tan(other.angle))
         val y = (x - other.point.x) * Math.tan(other.angle) + other.point.y
         return Point(x, y)
     }
+}
+
+fun crossPoint(a: Line, b: Line): Point {
+    val x = (a.point.x * Math.tan(a.angle) - b.point.x * Math.tan(b.angle) + b.point.y - a.point.y) /
+            (Math.tan(a.angle) - Math.tan(b.angle))
+    val y = (x - b.point.x) * Math.tan(b.angle) + b.point.y
+    return Point(x, y)
 }
 
 /**
@@ -177,7 +185,14 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val bisectorAB = bisectorByPoints(a, b)
+    val bisectorBC = bisectorByPoints(b, c)
+    val center = crossPoint(bisectorAB, bisectorBC)
+    val radius = center.distance(a)
+    return Circle(center, radius)
+
+}
 
 /**
  * Очень сложная

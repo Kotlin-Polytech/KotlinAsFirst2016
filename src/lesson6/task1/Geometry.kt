@@ -85,33 +85,22 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    var maxDistanceX = 0.0
-    var maxDistanceY = 0.0
+    var maxDistance = 0.0
     var pointX1 = Point(0.0, 0.0)
     var pointX2 = Point(0.0, 0.0)
-    var pointY1 = Point(0.0, 0.0)
-    var pointY2 = Point(0.0, 0.0)
-    if (points.size < 2)
+       if (points.size < 2)
         throw IllegalArgumentException()
     for (i in 0..points.size - 1 step 1){
         for (j in i + 1..points.size - 1 step 1) {
-            if (abs(points[i].x - points[j].x) > maxDistanceX ){
-                maxDistanceX = abs(points[i].x - points[j].x)
+            if (points[i].distance(points[j]) > maxDistance){
+                maxDistance = points[i].distance(points[j])
                 pointX1 = points[i]
                 pointX2 = points[j]
             }
-            if (abs(points[i].y - points[j].y) > maxDistanceY ){
-                maxDistanceY = abs(points[i].y - points[j].y)
-                pointY1 = points[i]
-                pointY2 = points[j]
-            }
         }
     }
-    if (maxDistanceX >= maxDistanceY)
-        return Segment(pointX1, pointX2)
-    else
-        return Segment(pointY1,pointY2)
-}
+    return Segment(pointX1, pointX2)
+ }
 
 /**
  * Простая
@@ -121,7 +110,7 @@ fun diameter(vararg points: Point): Segment {
  */
 fun circleByDiameter(diameter: Segment): Circle {
     val radius = diameter.begin.distance(diameter.end) / 2
-    val center = Point (abs(diameter.end.x + diameter.begin.x) / 2, abs(diameter.end.y + diameter.begin.y) / 2)
+    val center = Point ((diameter.end.x + diameter.begin.x) / 2, (diameter.end.y + diameter.begin.y) / 2)
     return Circle(center, radius)
 }
 
@@ -186,7 +175,27 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    var maxDistance = 0.0
+    var maxRadius = 0.0
+    var circle1 = Circle(Point(0.0, 0.0), 0.0)
+    var circle2 = Circle(Point(0.0, 0.0), 0.0)
+    if (circles.size < 2)
+        throw IllegalArgumentException()
+    for (i in 0..circles.size - 1 step 1){
+        for (j in i + 1..circles.size - 1 step 1) {
+            if (abs(circles[i].radius - circles[j].radius) > maxRadius) {
+                maxDistance = circles[i].center.distance((circles[j].center))
+                maxRadius = abs(circles[i].radius - circles[j].radius)
+                circle1 = circles[i]
+                circle2 = circles[j]
+            }
+        }
+    }
+    return Pair(circle1, circle2)
+}
+
+
 
 /**
  * Очень сложная
@@ -197,15 +206,13 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    var centre = bisectorByPoints(b,c).crossPoint(bisectorByPoints(a,b))
-    val triangle = Triangle(a,b,c)
-    val radius = a.distance(b) * a.distance(c) * b.distance(c) / (4 * triangle.area())
-    if (sqr(a.x - centre.x) + sqr(a.y - centre.y) != sqr(radius))
-        centre = bisectorByPoints(b,c).crossPoint(bisectorByPoints(a,c))
-    return Circle(centre, radius)
 
-}
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+
+
+
+
+
 
 /**
  * Очень сложная

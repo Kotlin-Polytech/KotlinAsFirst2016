@@ -195,7 +195,7 @@ fun plusMinus(expression: String): Int {
         for (i in 0..(members.size - 2)) {
             val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)
             val TwoNumbers = members[i].contains(RightNumber) && members[i + 1].contains(RightNumber)
-            val AllNotRightSymbols = members[i].contains(NotRightFormat) && members[i + 1].contains(NotRightFormat)
+            val AllNotRightSymbols = members[i].contains(NotRightFormat) || members[i + 1].contains(NotRightFormat)
             val WrongString = TwoPluses || TwoNumbers || AllNotRightSymbols
             if (WrongString) throw IllegalArgumentException("Wrong")
             else {

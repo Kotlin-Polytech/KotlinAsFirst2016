@@ -110,7 +110,10 @@ data class Line(val point: Point, val angle: Double) {
                 ((sin(angle) * cos(other.angle) - cos(angle) * sin(other.angle)) / cos(angle) / cos(other.angle))
         val resultY1 = ((resultX - other.point.x) * sin(other.angle) / cos(other.angle)) + other.point.y
         val resultY2 = ((resultX - point.x) * sin(angle) / cos(angle)) + point.y
-        return Point(resultX, min(abs(resultY1),abs(resultY2)))
+        var resultY = 0.0
+        if (abs(resultY1)> abs(resultY2)) resultY=resultY2
+        else resultY=resultY1
+        return Point(resultX, resultY)
     }
 }
 

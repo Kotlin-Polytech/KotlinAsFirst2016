@@ -55,9 +55,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     val min1 = Math.min(a, b)
     var min2 = Math.max(a, b)
-    if (min1 == Math.min(min1, c))
+    if (min1 == Math.min(min1, c)) {
         min2 = Math.min(min2, c)
-    else min2 = c // нахождение 2 меньших сторон
-    if (Math.min(min1, min2) <= Math.min(r, s) && Math.max(min1, min2) <= Math.max(r, s)) return true
-    return false
+    } else min2 = c // нахождение 2 меньших сторон
+    return (Math.min(min1, min2) <= Math.min(r, s) && Math.max(min1, min2) <= Math.max(r, s))
 }

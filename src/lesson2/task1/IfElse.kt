@@ -34,13 +34,11 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String {
-    return when {
-        age % 100 in 5..20 -> "$age лет"
-        age % 10 == 1 -> "$age год"
-        age % 10 in 2..4 -> "$age года"
-        else -> "$age лет"
-    }
+fun ageDescription(age: Int): String = when {
+    age % 100 in 5..20 -> "$age лет"
+    age % 10 == 1 -> "$age год"
+    age % 10 in 2..4 -> "$age года"
+    else -> "$age лет"
 }
 
 
@@ -110,12 +108,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (a + b <= c || a + c <= b || b + c <= a) return -1
-    val cos = when {
-        a > b && a > c -> (c * c + b * b - a * a) / (2 * c * b)
-        b > c && b > a -> (a * a + c * c - b * b) / (2 * a * c)
-        else -> (a * a + b * b - c * c) / (2 * a * b)
-    }
-    when {
+    val maxEdge = Math.max(Math.max(a, b), c)
+    val minEdge1 = Math.min(a, b)
+    val minEdge2 = Math.min(Math.max(a, b), c)
+    val cos = (minEdge1 * minEdge1 + minEdge2 * minEdge2 - maxEdge * maxEdge) / (2 * minEdge1 * minEdge2)
+    return when {
         cos > 0 -> return 0
         cos == 0.0 -> return 1
         else -> return 2
@@ -130,12 +127,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        (c <= a && d >= b) -> b - a
-        (d >= a && d <= b && c <= a) -> d - a
-        (c >= a && c <= b && d >= b) -> b - c
-        (c <= b && c >= a && d <= b) -> d - c
-        else -> -1
-    }
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    (c <= a && d >= b) -> b - a
+    (d >= a && d <= b && c <= a) -> d - a
+    (c >= a && c <= b && d >= b) -> b - c
+    (c <= b && c >= a && d <= b) -> d - c
+    else -> -1
 }

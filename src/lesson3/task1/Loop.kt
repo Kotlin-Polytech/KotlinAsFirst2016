@@ -92,11 +92,11 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun gCD(a: Int, b: Int): Int {
+fun gcd(a: Int, b: Int): Int {
     var max = a
     var min = b
-    var k = 1
     while (max % min > 0) {
+        var k = 1
         k = max
         max = min
         min = k % min
@@ -105,9 +105,9 @@ fun gCD(a: Int, b: Int): Int {
 }
 
 fun lcm(m: Int, n: Int): Int {
-    var a = Math.max(m, n)
-    var b = Math.min(m, n)
-    return m * n / gCD(a, b)
+    val a = Math.max(m, n)
+    val b = Math.min(m, n)
+    return m * n / gcd(a, b)
 }
 
 /**
@@ -142,7 +142,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = gCD(m, n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -152,8 +152,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = gCD(m, n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val sqrtK = Math.sqrt(n.toDouble()).toInt()
-    return (m <= sqrtK * sqrtK && sqrtK * sqrtK <= n)
+    val sqrtK = Math.floor(Math.sqrt(n.toDouble()))
+    return (m <= sqrtK * sqrtK)
 }
 
 /**
@@ -164,16 +164,15 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
-    var a = x
-    var b = x
-    var c = 3.0
-    while (Math.abs(b) > eps) {
-        b = -b * x * x / (c * (c - 1))
-        a = a + b
-        if (Math.abs(Math.sin(a)) > 1) break   // Не знаю, как можно ограничить еще.
-        c = c + 2
+    var set = x
+    var element = x
+    var den = 3.0
+    while (Math.abs(element) > eps) {
+        element = -element * x * x / (den * (den - 1))
+        set = set + element
+        den = den + 2
     }
-    return a
+    return set
 }
 
 /**
@@ -184,16 +183,15 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
-    var a = 1.0
-    var b = 1.0
-    var c = 2.0
-    while (Math.abs(b) > eps) {
-        b = -b * x * x / (c * (c - 1))
-        a = a + b
-        if (Math.abs(Math.cos(a)) > 1) break // Аналогично sin.
-        c = c + 2
+    var set = 1.0
+    var element = 1.0
+    var den = 2.0
+    while (Math.abs(element) > eps) {
+        element = -element * x * x / (den * (den - 1))
+        set = set + element
+        den = den + 2
     }
-    return a
+    return set
 }
 
 /**
@@ -207,7 +205,7 @@ fun revert(n: Int): Int {
     val count = digitNumber(n)
     var reverse = 0
     for (i in count downTo 1) {
-        reverse = reverse + initial % 10 * powInt(10, i - 1)
+        reverse = reverse + initial % 10 * pow(10, i - 1)
         initial = initial / 10
     }
     return reverse
@@ -220,7 +218,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun powInt(m: Int, n: Int): Int {
+fun pow(m: Int, n: Int): Int {
     var res = 1
     for (i in 1..n) {
         res *= m
@@ -238,14 +236,14 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var N = n
-    while (N / 10 != 0) {
-        var a = 0
-        var b = 0
-        a = N % 10
-        N = N / 10
-        b = N % 10
-        if (a != b) return true
+    var number = n
+    while (number / 10 != 0) {
+        var mod1 = 0
+        var mod2 = 0
+        mod1 = number % 10
+        number = number / 10
+        mod2 = number % 10
+        if (mod1 != mod2) return true
     }
     return false
 }

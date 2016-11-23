@@ -142,7 +142,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
-        assertEquals(listOf(0),convert(0,443))
+        assertEquals(listOf(0), convert(0, 443))
     }
 
     @Test
@@ -153,7 +153,7 @@ class Tests {
         assertEquals("1210", convertToString(100, 4))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
-        assertEquals("0",convertToString(0,22))
+        assertEquals("0", convertToString(0, 22))
     }
 
     @Test
@@ -179,18 +179,18 @@ class Tests {
     @Test
     @Tag("Hard")
     fun roman() {
-          assertEquals("I", roman(1))
-          assertEquals("VII", roman(7))
-          assertEquals("MMM", roman(3000))
-          assertEquals("CM", roman(900))
-          assertEquals("MMMCM", roman(3900))
-          assertEquals("MDCC", roman(1700))
-          assertEquals("MCCC", roman(1300))
-          assertEquals("MCD", roman(1400))
-          assertEquals("MCMLXXVIII", roman(1978))
-          assertEquals("DCXCIV", roman(694))
-          assertEquals("XLIX", roman(49))
-          assertEquals("MMMMMMMMMMMMMMMCMXXXV", roman(15935))
+        assertEquals("I", roman(1))
+        assertEquals("VII", roman(7))
+        assertEquals("MMM", roman(3000))
+        assertEquals("CM", roman(900))
+        assertEquals("MMMCM", roman(3900))
+        assertEquals("MDCC", roman(1700))
+        assertEquals("MCCC", roman(1300))
+        assertEquals("MCD", roman(1400))
+        assertEquals("MCMLXXVIII", roman(1978))
+        assertEquals("DCXCIV", roman(694))
+        assertEquals("XLIX", roman(49))
+        assertEquals("MMMMMMMMMMMMMMMCMXXXV", roman(15935))
     }
 
     @Test
@@ -199,11 +199,12 @@ class Tests {
         assertEquals("двенадцать", russian(12))
         assertEquals("тридцать семь", russian(37))
         assertEquals("триста семьдесят пять", russian(375))
-        //assertEquals("двадцать две тысячи девятьсот шестьдесят четыре", russian(22964))
-        //assertEquals("сто девятнадцать тысяч пятьсот восемь", russian(119508))
-        //assertEquals("две тысячи три", russian(2003))
-        //assertEquals("двести тысяч два", russian(200002))
-        //assertEquals("девятьсот тысяч", russian(900000))
-
+        assertEquals("двадцать две тысячи девятьсот шестьдесят четыре", russian(22964))
+        assertEquals("сто девятнадцать тысяч пятьсот восемь", russian(119508))
+        assertEquals("две тысячи три", russian(2003))
+        assertEquals("двести тысяч два", russian(200002))
+        assertEquals("девятьсот тысяч", russian(900000))
+        assertEquals("шестьсот семьдесят тысяч триста тридцать", russian(670330))
+        assertEquals("четыреста сорок тысяч триста девяносто четыре", russian(440394))
     }
 }

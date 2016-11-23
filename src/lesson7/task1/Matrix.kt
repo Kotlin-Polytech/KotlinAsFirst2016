@@ -58,7 +58,6 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<E> {
     private val map = mutableMapOf<Cell, E>()
-
     override fun get(row: Int, column: Int): E {
         val res = map[Cell(row, column)]
         if (res == null) throw  IllegalArgumentException()

@@ -103,7 +103,7 @@ class Tests {
         assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
-        assertEquals("", mostExpensive("999.0"))
+        assertEquals("", mostExpensive("Хлеб 39.9; 999.9"))
         assertEquals("", mostExpensive("ջ骳赮涏쫱՘鲾苝 6416441,12"))
         assertEquals("", mostExpensive("燈ꎚ盅与 21474836,47; ∈ꓲ唯Π獟䟡怿陀饩朙ը≯遠㹣ᥩ槤嵝㛴翏ｩ辧⯛棋䶶ᨑ뵋䃫瓑郔䨏䷐끤뤞ޢ꧝??ᨕഛ䮊嬢纏器괍㻑⨘ヤ䟟腔瘮搭㑮Ｇ꼂巃竐韾䈤๠㧎돾⠳칳襤᷎ឤ 0; | 21474836,47; 煎瞾뚩̔뭏ꈃ앉ନ 21474836,47"))
     }
@@ -128,4 +128,12 @@ class Tests {
         assertEquals(listOf(0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0),
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++{--< <[<] >+[>+] >++}"))
     }
+
+   /* @Test
+    @Tag("Hard")
+    fun myFun() {
+        assertEquals((listOf("Петров Иван", "Иванов Иван")), myFun(listOf("Петров Иван - Математика 3, Физика 3, Химия 3", "Иванов Иван - Математика 4, Физика 4, Химия 5"), 3.0))
+        assertEquals((listOf("Петров Иван")), myFun(listOf("Петров Иван  - Математика   3"), 3.0))
+
+    }*/
 }

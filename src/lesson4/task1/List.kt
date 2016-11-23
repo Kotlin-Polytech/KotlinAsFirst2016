@@ -312,26 +312,28 @@ fun russian(n: Int): String {
             "восемьдесят", "девяносто")
     val listHundred = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот",
             "восемьсот", "девятьсот")
-    val listThousands = listOf("", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи")
-    var listRes = ""
+    val listThousands = listOf("", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи", "пять тысяч",
+            "шесть тысяч", "семь тысяч", "восемь тысяч", "девять тысяч")
+    val listRes = StringBuilder()
     if (n >= 1000) {
         number = n / 1000
-        if (number / 100 % 10 == 0) Double.NaN
-        else if (number >= 100) listRes += listHundred[(number % 1000) / 100]
-        val last = if (number % 10 !in 1..4) listUnits[number % 10] + " тысяч" else listThousands[number % 10]
-        if (number % 100 == 0) listRes += " тысяч"
-        else if (number % 100 in 10..19) listRes += " " + listUnits[number % 100] + " тысяч"
-        else if (number % 100 in 20..99) listRes += " " + listDes[(number % 100) / 10] + " " + last
-        else listRes += " " + last
+        if (number / 100 % 10 != 0 && number >= 100) listRes.append(listHundred[(number % 1000) / 100])
+        val last = if (number % 10 in 1..9) listThousands[number % 10] else "тысяч"
+        when (number % 100) {
+            0 -> listRes.append(" тысяч")
+            in 10..19 -> listRes.append(" " + listUnits[number % 100] + " тысяч")
+            in 20..99 -> listRes.append(" " + listDes[(number % 100) / 10] + " " + last)
+            else -> listRes.append(" " + last)
+        }
         number = n % 1000
     }
     //////
-    if (number / 100 % 10 == 0) Double.NaN
-    else if (number >= 100) listRes += " " + listHundred[(number % 1000) / 100]
+    if (number / 100 % 10 != 0 && number >= 100) listRes.append(" " + listHundred[(number % 1000) / 100])
     val unit = " " + listUnits[number % 10]
-    if (number % 100 == 0) Double.NaN
-    else if (number % 100 in 10..19) listRes += " " + listUnits[number % 100]
-    else if (number % 100 in 20..99) listRes += " " + listDes[(number % 100) / 10] + unit
-    else if (number % 10 in 1..9) listRes += unit
-    return listRes.trim()
+    when (number % 100) {
+        in 10..19 -> listRes.append(" " + listUnits[number % 100])
+        in 20..99 -> listRes.append(" " + listDes[(number % 100) / 10] + unit)
+        in 1..9 -> listRes.append(unit)
+    }
+    return listRes.toString().trim()
 }

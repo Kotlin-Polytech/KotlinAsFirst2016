@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,18 +58,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int {
-    var number = n
-    var count = 0
-    if (number > 0) {
-        while (number > 0) {
-            count++
-            number /= 10
-        }
-        return count
-    }
-    else return 0 // НЕ ДОДЕЛАНА !!!
-}
+fun digitNumber(n: Int): Int = TODO()
 
 /**
  * Простая
@@ -93,7 +83,7 @@ fun lcm(m: Int, n: Int): Int {
         else num_n %= num_m
     }
     val count = num_m + num_n
-    return multiplication/count
+    return multiplication / count
 
 
 }
@@ -158,7 +148,7 @@ fun revert(n: Int): Int {
     var m = 0
     var num = n
     do {
-        m = (m*10 + (num%10))
+        m = (m * 10 + (num % 10))
         num /= 10
     } while (num > 0)
     return m

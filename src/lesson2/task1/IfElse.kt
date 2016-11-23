@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -34,9 +35,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age%100 in 5..20) return "$age лет"
-    if (age%10 == 1) return "$age год"
-    if (age%10 in 2..4) return "$age года"
+    if (age % 100 in 5..20) return "$age лет"
+    if (age % 10 == 1) return "$age год"
+    if (age % 10 in 2..4) return "$age года"
     return "$age лет"
 }
 
@@ -53,10 +54,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s1 = v1 * t1
     val s2 = v2 * t2
     val s3 = v3 * t3
-    val h = (s1 + s2 + s3)/2
-    return if (h <= s1) h/v1
-     else if ((h > s1) and (h <= s1 +s2))  t1+((h-s1)/v2)
-             else t1 + t2 + ((h - s1 - s2)/v3)
+    val h = (s1 + s2 + s3) / 2
+    return if (h <= s1) h / v1
+    else if ((h > s1) and (h <= s1 + s2)) t1 + ((h - s1) / v2)
+    else t1 + t2 + ((h - s1 - s2) / v3)
 }
 
 /**
@@ -70,9 +71,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return if (((kingX != rookX1) and (kingY != rookY1)) and ((kingX != rookX2) and (kingY != rookY2))) 0
-    else if (((kingX == rookX1) or (kingY == rookY1)) and ((kingX != rookX2) and (kingY != rookY2))) 1
-    else if (((kingX != rookX1) and (kingY != rookY1)) and ((kingX == rookX2) or (kingY == rookY2))) 2
+    return if (((kingX != rookX1) && (kingY != rookY1)) && ((kingX != rookX2) && (kingY != rookY2))) 0
+    else if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX != rookX2) && (kingY != rookY2))) 1
+    else if (((kingX != rookX1) && (kingY != rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) 2
     else 3
 }
 
@@ -120,7 +121,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         return -1
     } else return -1
 }
-
 
 
 /**

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -106,12 +107,12 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    var abswithoutsqrt = 0.0
-    for (i in 0..(v.size - 1)) {
-        val ex = sqr(v[i])
-        abswithoutsqrt += ex
+    var absWithoutSqrt = 0.0
+    for (element in v) {
+        val ex = sqr(element)
+        absWithoutSqrt += ex
     }
-    val abs = Math.sqrt(abswithoutsqrt)
+    val abs = Math.sqrt(absWithoutSqrt)
     return abs
 }
 
@@ -121,11 +122,11 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-        val k = list.size
-        val sum = list.sum()
+    val k = list.size
+    val sum = list.sum()
     if (k == 0) return 0.0
     if (k == 1) return sum
-    else return sum/k
+    else return sum / k
 }
 
 /**
@@ -141,8 +142,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
             list[i] -= sr
         }
         return list
-    }
-    else return list
+    } else return list
 }
 
 /**
@@ -155,13 +155,12 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var C = 0.0
     if (a.size == b.size) {
-        for (i in 0..(a.size-1)) {
+        for (i in 0..(a.size - 1)) {
             val multiplication = a[i] * b[i]
             C += multiplication
         }
         return C
-    }
-    else return 0.0
+    } else return 0.0
 }
 
 /**
@@ -185,10 +184,10 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     if (list.isNotEmpty()) {
         var sum = 0.0
-        val large = list.size-1
+        val large = list.size - 1
         for (i in 0..large) {
             sum += list[i]
-            list[i]=sum
+            list[i] = sum
         }
         return list
     }

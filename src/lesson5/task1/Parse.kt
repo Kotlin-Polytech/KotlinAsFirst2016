@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -142,16 +141,16 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-        val members = jumps.split(" ")
-        val NotTheRightMembers = Regex("""[^\d%-]""")
-        val RightNumber = Regex("""\d""")
-        var max = -1
-        for (i in 0..members.size-1) {
-            if (members[i].contains(NotTheRightMembers)) return -1
-            else {
-                if ((members[i].contains(RightNumber)) && (members[i].toInt() > max)) max = members[i].toInt()
-            }
+    val members = jumps.split(" ")
+    val NotTheRightMembers = Regex("""[^\d%-]""")
+    val RightNumber = Regex("""\d""")
+    var max = -1
+    for (i in 0..members.size - 1) {
+        if (members[i].contains(NotTheRightMembers)) return -1
+        else {
+            if ((members[i].contains(RightNumber)) && (members[i].toInt() > max)) max = members[i].toInt()
         }
+    }
     return max
 }
 
@@ -168,7 +167,7 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     val members = jumps.split(" ")
     var max = -1
-    for (i in 1..members.size-1 step 2) {
+    for (i in 1..members.size - 1 step 2) {
         val jump = members[i - 1].toInt()
         if (members[i].contains("+") && (jump > max)) max = jump
     }
@@ -184,7 +183,23 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val members = expression.split(" ")
+    var result = members[0].toInt()
+    val RightNumber = Regex("""\d""")
+    val RightSymbol = Regex("""[+-]""")
+    for (i in 0..(members.size - 2)) {
+        val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)
+        val TwoNumbers = members[i].contains(RightNumber) && members[i + 1].contains(RightNumber)
+        val WrongString = TwoPluses || TwoNumbers
+        if (WrongString) throw IllegalArgumentException("Wrong")
+        else {
+            if (members[i] == "+") result += members[i + 1].toInt()
+            if (members[i] == "-") result -= members[i + 1].toInt()
+        }
+    }
+    return result
+}
 
 /**
  * Сложная

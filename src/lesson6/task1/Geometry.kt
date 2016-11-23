@@ -119,7 +119,9 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val angle = Math.atan(Math.abs(s.begin.y - s.end.y) / Math.abs(s.begin.x - s.end.x))
+    var angle = Math.atan2(s.begin.y - s.end.y, s.begin.x - s.end.x)
+    if (angle == PI || angle == -PI) angle = 0.0
+    if (angle < 0) angle += PI
     return Line(s.begin, angle)
 }
 
@@ -129,7 +131,9 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line {
-    val angle = Math.atan(Math.abs(a.y - b.y) / Math.abs(a.x - b.x))
+    var angle = Math.atan2(a.y - b.y, a.x - b.x)
+    if (angle == PI || angle == -PI) angle = 0.0
+    if (angle < 0) angle += PI
     return Line(a, angle)
 }
 
@@ -139,9 +143,11 @@ fun lineByPoints(a: Point, b: Point): Line {
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    var angle = PI - atan((a.x - b.x) / (a.y - b.y))
-    if (a.x == b.x) angle = 0.0
-    else if (a.y == b.y) angle = PI / 2
+    var angle = Math.atan2(a.y - b.y, a.x - b.x)
+    if (angle == PI || angle == -PI) angle = 0.0
+    if (angle < 0) angle = PI + angle
+    angle = PI / 2 + angle
+    if (angle == PI || angle == -PI) angle = 0.0
     val distanceX: Double
     val distanceY: Double
     when {

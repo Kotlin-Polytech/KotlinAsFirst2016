@@ -5,6 +5,7 @@ package lesson6.task2
 import lesson8.task1.alignFile
 import java.util.*
 import lesson6.task1.*
+import java.lang.Math.*
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -34,16 +35,11 @@ data class Square(val column: Int, val row: Int) {
     }
 }
 
-fun isCorrect(vararg squares: Square) {
+fun isCorrect(vararg squares: Square): Boolean {
     for (square in squares) {
-        try {
-            square.column.toInt()
-            square.row.toInt()
-        } catch (e: NumberFormatException) {
-            throw IllegalArgumentException()
-        }
+        if (((square.column < 1) or (square.column > 8)) or ((square.row < 1) or (square.row > 8))) return false
     }
-
+    return true
 }
 
 /**
@@ -85,7 +81,7 @@ fun square(notation: String): Square {
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
     isCorrect(start, end)
-    if (start.column == end.column && start.row == end.row) return 0
+    if (start == end) return 0
     if (start.column == end.column || start.row == end.row) return 1
     return 2
 }
@@ -140,8 +136,8 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     val startIsEven = (start.column + start.row) % 2 == 0
     val endIsEven = (end.column + end.row) % 2 == 0
     if (startIsEven != endIsEven) return -1
-    if (start==end) return 0
-    if (start.column - start.row == end.column - end.row) return 1
+    if (start == end) return 0
+    if (abs(start.column - start.row) == abs(end.column - end.row)) return 1
     return 2
 }
 

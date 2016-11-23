@@ -285,7 +285,7 @@ fun comparison(str1: String, str2: String): Boolean {
             if (str1[i] >= str2[i]) {
                 if (str1[i] > str2[i]) {
                     f1 += 1
-                    if (str1[i] > str2[i]) break
+                    break
                 }
             } else {
                 if (f1 == 0){

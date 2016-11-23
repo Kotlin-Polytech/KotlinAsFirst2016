@@ -220,6 +220,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
 
 /**
  * ДОПОЛНИТЕЛЬНАЯ ФУНКЦИЯ
+ * Определяем лежат ли точки на одной прямой
  * */
 fun pointsOnTheLine(vararg points: Point): Boolean {
     if (points.size >= 2) {
@@ -250,36 +251,4 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * соединяющий две самые удалённые точки в данном множестве.
  */
 
-/**
- * ДОПОЛНИТЕЛЬНАЯ ФУНКЦИЯ
- * */
-
 fun minContainingCircle(vararg points: Point): Circle = TODO()
-/*
-fun minContainingCircle(vararg points: Point): Circle {
-    if (points.isEmpty()) throw IllegalArgumentException()
-    if (points.size == 1) return Circle(points[0], 0.0)
-    val result = diameter(*points)
-    val pointOne = result.begin
-    val pointTwo = result.end
-    var pointThree = points[0]
-    var maxArea = 0.0
-    for (point in points) {
-        val newMaxArea = Triangle(pointOne, pointTwo, point).area()
-        if (newMaxArea > maxArea) {
-            maxArea = newMaxArea
-            pointThree = point
-        }
-    }
-    val a = pointOne.distance(pointTwo)
-    val b = pointOne.distance(pointThree)
-    val c = pointTwo.distance(pointThree)
-    val isObtuse = (sqr(a) > sqr(b) + sqr(c)) || (sqr(b) > sqr(a) + sqr(c)) || (sqr(c) > sqr(a) + sqr(b))
-    if (!isObtuse) {
-        return circleByThreePoints(pointOne, pointTwo, pointThree)
-    }
-    val center = Point((pointOne.x + pointTwo.x)/2, (pointOne.y + pointTwo.y)/2)
-    val radius = a / 2
-    return Circle(center, radius)
-}
-*/

@@ -40,10 +40,10 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val column = notation[0]
-    val row = notation[1].toInt()-48
-    val result = Square(column.toInt()-96, row)
-    if (!result.inside()) throw IllegalArgumentException()
+    val charDigitToInt = 48
+    val charLetterToInt = 96
+    val result = Square(notation[0].toInt() - charLetterToInt, notation[1].toInt() - charDigitToInt)
+    if (!result.inside() || notation.length !=2 ) throw IllegalArgumentException()
     else return result
 }
 
@@ -130,7 +130,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     var result = false
     if (start.inside() && end.inside()) {
         for (i in 1..8) {
-            if (start.column == end.column + i && start.row == end.row + i){
+            if (start.column == end.column + i && start.row == end.row + i) {
                 result = true
                 break
             }

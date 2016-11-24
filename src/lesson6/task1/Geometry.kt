@@ -128,11 +128,13 @@ data class Line(val point: Point, val angle: Double) {
         val cos1 = cos(angle)
         val sin2 = sin(other.angle)
         val cos2 = cos(other.angle)
-        val sinCosDifference = sin2 * cos1 - sin1 * cos2
+        val sinCos12 = sin1 * cos2
+        val sinCos21 = sin2 * cos1
         val cos12 = cos1 * cos2
-        val expression = other.point.x * sin2 * cos1 - point.x * sin1 * cos2 + point.y * cos12 - other.point.y * cos12
-        val crossX = expression / sinCosDifference
-        val crossY = (crossX - other.point.x) * tan(other.angle) + other.point.y
+        val x2 = other.point.x
+        val y2 = other.point.y
+        val crossX = x2 * sinCos21 - point.x * sinCos12 + point.y * cos12 - y2 * cos12 / sinCos21 - sinCos12
+        val crossY = (crossX - x2) * sin2 / cos2 + y2
         return Point(crossX, crossY)
     }
 }

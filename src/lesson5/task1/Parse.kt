@@ -62,17 +62,20 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val monthStr = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
-    val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = str.split(" ")
         if (parts.size != 3) return ""
         val day = parts[0].toInt()
-        val month = list.indexOf(parts[1])
+        val month = monthStr.indexOf(parts[1])
         val year = parts[2].toInt()
         if (month == -1 || day !in 1..31) return ""
         return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.$year"
-    } catch (e: Exception) {
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -85,7 +88,6 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         val parts = digital.split(".")
         if (parts.size != 3) return ""
@@ -93,13 +95,15 @@ fun dateDigitToStr(digital: String): String {
         val month = parts[1].toInt()
         val year = parts[2].toInt()
         if (month !in 1..12 || day !in 1..31) return ""
-        return "${oneDigitStr(day)} ${list[month - 1]} ${year}"
-    } catch (e: Exception) {
+        return "$day ${monthStr[month - 1]} ${year}"
+    } catch (e: NumberFormatException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }
 
-fun oneDigitStr(n: Int) = if (n !in 0..9) "$n" else "${n % 10}"
+
 /**
  * Сложная
  *

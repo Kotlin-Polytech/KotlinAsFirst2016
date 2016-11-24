@@ -57,8 +57,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int =
-        hours * 3600 + minutes * 60 + seconds
+fun digitNumber(n: Int): Int = if (n < 10) 1 else digitNumber(n / 10) + 1
 
 
 

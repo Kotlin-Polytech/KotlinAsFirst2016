@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task1
 
+import com.sun.xml.internal.bind.v2.TODO
 import lesson1.task1.sqr
 import lesson4.task1.squares
 
@@ -148,10 +149,11 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val point = Point(((a.x + b.x) / 2), (a.y + b.y) / 2)
-    var angle = Math.PI / 2 + Math.atan(Math.abs((a.y - b.y) / (a.x - b.x)))
-    if (a.x == b.x) angle = 0.0
-    return Line(point, angle)
+    val line = Segment(a, b)
+    val angle = lineBySegment(line).angle
+    if (angle >= Math.PI / 2)
+        return Line(Point(((line.end.x + line.begin.x) / 2), (line.end.y + line.begin.y) / 2), angle - Math.PI / 2)
+    else return Line(Point(((line.end.x + line.begin.x) / 2), (line.end.y + line.begin.y) / 2), angle + Math.PI / 2)
 }
 
 /**

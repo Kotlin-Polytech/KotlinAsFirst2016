@@ -67,8 +67,7 @@ fun digitNumber(n: Int): Int {
         number /= 10
         count += 1
     } while (number > 0)
-    return if (n == -2147483648) 10
-    else return count
+    return  count
 }
 
 /**
@@ -86,12 +85,17 @@ fun fib(n: Int): Int = TODO()
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var multiple = (m * n)
-    for (i in multiple downTo 1) {
-        if ((i % m == 0) && (i % n == 0)) multiple = i
+    var m1 = m
+    var n1 = n
+    while (m1 != n1) {
+        if (m1 > n1) m1 %= n1
+        if (m1 < n1) n1 %= m1
     }
-    return multiple
+    val multiple = m1 + n1
+    if (n == m) return n else
+        return multiple
 }
+
 
 /**
  * Простая
@@ -155,7 +159,7 @@ fun revert(n: Int): Int = TODO()
  * Средняя
  *
  * Проверить, является ли заданное число n палиндромом:
- * первая цифра равна последней, вторая -- предпоследней и так далее.
+ * первая цифра равна последней , вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {

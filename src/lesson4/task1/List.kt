@@ -106,8 +106,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     val result = Math.sqrt(v.map { it * it }.sum())
-    return if (v.isEmpty()) 0.0
-    else result
+    return  result
 }
 
 /**
@@ -149,8 +148,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
     for (i in 0..a.size - 1) {
         result += a[i] * b[i]
     }
-    return if (a.isEmpty() || b.isEmpty()) 0.0
-    else result
+    return result
 
 }
 
@@ -207,14 +205,7 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     val result = mutableListOf<Int>()
-    var del = 2
-    var n0 = n
-    while (del <= n0) {
-        if (n0 % del == 0) {
-            n0 /= del
-            result.add(del)
-        } else del += 1
-    }
+   factorize(n)
         var string = ""
         string += result[0]
         for (i in 1..result.size - 1) {

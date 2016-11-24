@@ -176,16 +176,17 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun sin(x: Double, eps: Double): Double {
+    val angle = x % (2 * Math.PI)
     var result = 0.0
     var count = 1
     var n = 1
-    while (Math.abs(Math.pow(x, n.toDouble()) / factorial(n)) >= Math.abs(eps)) {
+    while (Math.abs(Math.pow(angle, n.toDouble()) / factorial(n)) >= Math.abs(eps)) {
         if (count % 2 != 0) {
-            result += (Math.pow(x, n.toDouble()) / factorial(n))
+            result += (Math.pow(angle, n.toDouble()) / factorial(n))
             count++
             n += 2
         } else if (count % 2 == 0) {
-            result -= (Math.pow(x, n.toDouble()) / factorial(n))
+            result -= (Math.pow(angle, n.toDouble()) / factorial(n))
             count++
             n += 2
         }
@@ -201,16 +202,17 @@ fun sin(x: Double, eps: Double): Double {
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
 fun cos(x: Double, eps: Double): Double {
+    val angle = x % (2 * Math.PI)
     var result = 1.0
-    var n = 2
+    var n = 2  // степень
     var count = 2
-    while (Math.abs(Math.pow(x, n.toDouble()) / factorial(n)) >= Math.abs(eps)) {
+    while (Math.abs(Math.pow(angle, n.toDouble()) / factorial(n)) >= Math.abs(eps)) {
         if (count % 2 == 0) {
-            result -= (Math.pow(x, n.toDouble()) / factorial(n))
+            result -= (Math.pow(angle, n.toDouble()) / factorial(n))
             n += 2
             count++
         } else if (count % 2 != 0) {
-            result += (Math.pow(x, n.toDouble()) / factorial(n))
+            result += (Math.pow(angle, n.toDouble()) / factorial(n))
             n += 2
             count++
         }

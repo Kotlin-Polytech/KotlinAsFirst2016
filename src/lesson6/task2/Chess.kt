@@ -43,10 +43,10 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if ((notation.length!=2)||(notation[0] !in 'a'..'h')||(notation[1] !in '1'..'8'))
+    if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8'))
         throw IllegalAccessException()
     val list_lat = mapOf('a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5, 'f' to 6, 'g' to 7, 'h' to 8)
-        return Square(list_lat[notation[0]]!!, notation[1].toString().toInt())
+    return Square(list_lat[notation[0]]!!, notation[1].toString().toInt())
 }
 
 /**
@@ -74,17 +74,14 @@ fun square(notation: String): Square {
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
     var index = 0
-    if ((start.column in 1..8) && (start.row in 1..8) && (end.column in 1..8) && (end.row in 1..8)) {
-        when {
+    if (!(start.inside()) || !(end.inside())) throw IllegalAccessException()
+    when {
             ((start.column == end.column) && (start.row == end.row)) -> index = 0
             ((start.column == end.column) && (start.row != end.row)) -> index = 1
             ((start.column != end.column) && (start.row == end.row)) -> index = 1
             ((start.column != end.column) && (start.row != end.row)) -> index = 2
         }
-    } else
-        throw IllegalAccessException()
-    return index
-
+return index
 }
 
 /**
@@ -104,10 +101,10 @@ fun rookMoveNumber(start: Square, end: Square): Int {
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     var result = mutableListOf<Square>()
     result.add(Square(start.column, start.row))
-   if (start.column != end.column){
-       result.add(Square(end.column, start.row))
-   }
-    if (start.row != end.row){
+    if (start.column != end.column) {
+        result.add(Square(end.column, start.row))
+    }
+    if (start.row != end.row) {
         result.add(Square(end.column, end.row))
     }
     return result
@@ -138,18 +135,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    if ((start.column in 1..8) && (start.row in 1..8) && (end.column in 1..8) && (end.row in 1..8)) {
-        var index = 10
-        when {
-            (start == end) -> index = 0
-            (Math.abs(start.column - end.column) == (Math.abs(start.row - end.row))) -> index = 1
-            (start.column + start.row) % 2 != (end.column + end.row) % 2 -> index = -1
-            else -> index = 2
-
-        }
-        return  index
-    } else throw IllegalAccessException()
-
+    if (!(start.inside()) || !(end.inside())) throw IllegalAccessException()
+    var index : Int
+    index = when {
+        (start == end) -> 0
+        (Math.abs(start.column - end.column) == (Math.abs(start.row - end.row))) -> 1
+        (start.column + start.row) % 2 != (end.column + end.row) % 2 -> -1
+        else -> 2
+    }
+    return index
 }
 
 /**
@@ -193,7 +187,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square):Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int = TODO()
 
 /**
  * Сложная

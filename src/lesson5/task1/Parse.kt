@@ -38,7 +38,7 @@ fun timeSecondsToStr(seconds: Int): String {
 /**
  * Пример: консольный ввод
  */
-fun main(args: Array<String>) {
+/*fun main(args: Array<String>) {
     println("Введите время в формате ЧЧ:ММ:СС")
     val line = readLine()
     if (line != null) {
@@ -51,7 +51,7 @@ fun main(args: Array<String>) {
     } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
-}
+} */
 
 /**
  * Средняя
@@ -278,7 +278,28 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var max = -1.0
+    var name = ""
+
+    val parts1 = description.split("; ")
+    if (description.isNotEmpty()) {
+        try {
+            for (element in parts1) {
+                var part2 = element.split(" ")
+                if (part2[1].toDouble() > max) {
+                    name = part2[0]
+                    max = part2[1].toDouble()
+                }
+            }
+
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+    }
+    return name
+}
+
 
 /**
  * Сложная
@@ -291,7 +312,8 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int = TODO ()
+
 
 /**
  * Сложная

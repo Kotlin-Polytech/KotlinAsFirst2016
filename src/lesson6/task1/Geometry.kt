@@ -144,15 +144,11 @@ fun lineBySegment(s: Segment): Line = Line(s.begin, corner(s.begin, s.end))
  * Построить прямую по двум точкам
  */
 fun corner(a: Point, b: Point): Double {
-    val x = b.x - a.y
-    val y = a.y - b.y
-    if (a.x != b.x) {
-        return Math.abs(Math.atan(y / x))
-    } else
+    val x = b.x - a.x
+    val y = b.y - a.y
+        return Math.atan(y / x)
 
-        return Math.PI / 2
 }
-
 
 
 fun lineByPoints(a: Point, b: Point): Line = Line(a, corner(a, b))

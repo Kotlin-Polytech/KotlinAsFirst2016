@@ -59,7 +59,62 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    var result = ""
+    var checkForParts = 0
+    for (part in parts) {
+        checkForParts++
+        when {
+            checkForParts == 1 -> result = result + checkForDate(part)
+            checkForParts == 2 -> result = result + checkForMonth(part)
+            checkForParts == 3 -> result = result + checkForYear(part)
+        }
+    }
+    val checkResult = result.split(".")
+    var checkFinal = 0
+    for (part in checkResult) {
+        checkFinal++
+    }
+    if ((checkForParts == 3) && (checkFinal == 3)) return result
+    return ""
+}
+
+fun checkForDate(n: String): String {
+    val c = n.toInt()
+    if (c in 1..31) {
+        if (c in 1..9) return "0" + n + "."
+        else return  n + "."
+    } else return ""
+}
+
+fun checkForYear(n: String): String {
+    var c: Boolean = false
+    for (i in 0..n.length) {
+        c = (n in "0".."9")
+    }
+    if (c == true) return n
+    else return ""
+}
+
+fun checkForMonth(n: String): String {
+    var c: String = ""
+    when {
+        n == "января" -> c = "01."
+        n == "февраля" -> c = "02."
+        n == "марта" -> c = "03."
+        n == "апреля" -> c = "04."
+        n == "мая" -> c = "05."
+        n == "июня" -> c = "06."
+        n == "июля" -> c = "07."
+        n == "августа" -> c = "08."
+        n == "сентября" -> c = "09."
+        n == "октября" -> c = "10."
+        n == "ноября" -> c = "11."
+        n == "декабря" -> c = "12."
+    }
+    return c
+}
 
 /**
  * Средняя

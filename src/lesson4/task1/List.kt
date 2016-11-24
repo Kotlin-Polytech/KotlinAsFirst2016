@@ -301,10 +301,10 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0.0
-    var j=0.0
-    for (i in digits.size - 1 downTo 0) {
-        result += digits[i] * Math.pow(base * 1.0, j)
-        j++
+    var i=0.0
+    for (digit in digits.reversed()) {
+        result += digit * Math.pow(base * 1.0, i)
+        i++
     }
     return result.toInt()
 }

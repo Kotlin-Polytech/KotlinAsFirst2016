@@ -140,7 +140,13 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String =
+    if (phone.matches(Regex("[0-9-+() ]+"))) {
+        phone.replace(Regex("[-() ]"),"")
+    } else {
+        ""
+    }
+
 
 /**
  * Средняя
@@ -153,15 +159,9 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val parts = jumps.split(" ")
-    val list = mutableListOf<Int>()
-    if (jumps.matches(Regex("[0-9-% ]+"))) {
-        for (i in 0..parts.size - 1) {
-            if (jumps.matches(Regex("[-% ]+"))) return -1
-            if ((parts[i] != "-") && (parts[i] != "%")) list.add(parts[i].toInt())
-        }
-        return list.max() ?: 0
-    } else return -1
+    if (jumps.matches(Regex("[0-9-% ]+")))
+        return Regex("([0-9]+)").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
+    else return -1
 }
 
 /**

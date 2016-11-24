@@ -45,9 +45,13 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     // 96 & 48 - conversion constants coming from the symbol code
-    val column = notation.first().toInt() - 96
-    val row = notation.last().toInt() - 48
-    return Square(column, row)
+    if (notation.contains(Regex("""[^1-8a-h]""")) || notation.length > 2) {
+        throw IllegalArgumentException("Wrong notation format")
+    } else {
+        val column = notation.first().toInt() - 96
+        val row = notation.last().toInt() - 48
+        return Square(column, row)
+    }
 }
 
 /**
@@ -74,12 +78,14 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    val sameColumnOrRow = start.column == end.column || start.row == end.row
-    when {
-        start == end -> return 0
-        sameColumnOrRow -> return 1
-        else -> return 2
-    }
+    if (start.inside() && end.inside()) {
+        val sameColumnOrRow = start.column == end.column || start.row == end.row
+        when {
+            start == end -> return 0
+            sameColumnOrRow -> return 1
+            else -> return 2
+        }
+    } else throw IllegalArgumentException("Wrong square format")
 }
 
 /**
@@ -97,12 +103,14 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
-    val moveNumber = rookMoveNumber(start, end)
-    return when (moveNumber) {
-        0 -> listOf(start)
-        1 -> listOf(start, end)
-        else -> listOf(start, Square(start.column, end.row), end)
-    }
+    if (start.inside() && end.inside()) {
+        val moveNumber = rookMoveNumber(start, end)
+        return when (moveNumber) {
+            0 -> listOf(start)
+            1 -> listOf(start, end)
+            else -> listOf(start, Square(start.column, end.row), end)
+        }
+    } else throw IllegalArgumentException("Wrong square format")
 }
 
 /**
@@ -129,12 +137,14 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    val columnChange = Math.abs(end.column - start.column)
-    val rowChange = Math.abs(end.row - start.row)
-    if (start == end) return 0
-    if ((columnChange % 2 == 1) || (rowChange % 2 == 1)) return -1
-    if (columnChange == rowChange) return 1
-    else return 2
+    if (start.inside() && end.inside()) {
+        val columnChange = Math.abs(end.column - start.column)
+        val rowChange = Math.abs(end.row - start.row)
+        if (start == end) return 0
+        if ((columnChange % 2 == 1) || (rowChange % 2 == 1)) return -1
+        if (columnChange == rowChange) return 1
+        else return 2
+    } else throw IllegalArgumentException("Wrong square format")
 }
 
 /**

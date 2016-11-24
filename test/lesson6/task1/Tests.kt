@@ -66,6 +66,10 @@ class Tests {
         assertEquals(Segment(p3, p4), diameter(p1, p2, p3, p4))
         assertEquals(Segment(p2, p4), diameter(p1, p2, p4))
         assertEquals(Segment(p1, p4), diameter(p1, p4))
+        try {
+            assertEquals(Segment(p1, p4), diameter(p1))
+            fail("No exception")
+        } catch (e: IllegalArgumentException) {}
     }
 
     @Test

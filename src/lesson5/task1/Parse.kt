@@ -70,7 +70,7 @@ fun dateStrToDigit(str: String): String {
         val day = parts[0].toInt()
         val month: Int
         val year = parts[2].toInt()
-        if (parts[1] in months) month = months.indexOf(parts[1])+1
+        if (parts[1] in months) month = months.indexOf(parts[1]) + 1
         else return ""
         return String.format("%02d.%02d.%d", day, month, year)
     } catch (e: NumberFormatException) {
@@ -87,7 +87,7 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    if (parts.size != 3)  return ""
+    if (parts.size != 3) return ""
     try {
         if (parts[0].toInt() !in 1..31) return ""
         val day = parts[0].toInt()
@@ -113,7 +113,13 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val resPhone = phone
+    if (phone.contains(Regex("""[^0-9-+()\s]"""))) return ""
+    else resPhone.filter { it in "+()0123456789"}
+    if (resPhone.contains(Regex("""(\+\d\)?(\(\d+\)?(\d+)))"""))) return resPhone
+    else return resPhone.filter { it in "+0123456789" }
+}
 
 /**
  * Средняя
@@ -125,7 +131,19 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val results = jumps
+    if (results.contains(Regex("""[^\d\s%-]"""))) return -1
+    if (results.contains(Regex("""\d"""))) {
+        val newJumps = results.split(" ").filter { it.toString().contains(Regex("""\d"""))}
+        var max = newJumps[0].toInt()
+        for (i in 0..newJumps.size - 2) {
+            if (newJumps[i + 1].toInt() > newJumps[i].toInt()) max = newJumps[i + 1].toInt()
+        }
+        return max
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -135,7 +153,7 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Здесь + соответствует удачной попытке, % неудачной, - пропущенной.
  * Высота и соответствующие ей попытки разделяются пробелом.
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
- * При нарушении формата входной строки вернуть -1.
+ * При нарушении формата входной строки вернуть -1.1
  */
 fun bestHighJump(jumps: String): Int = TODO()
 

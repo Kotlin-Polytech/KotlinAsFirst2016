@@ -60,7 +60,7 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-val listOfMonths = listOf("января", "ферваля", "марта", "апреля", "мая", "июня",
+val listOfMonths = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
         "июля", "августа", "сентября", "октября", "ноября", "декабря") // используется для 2-х следующих ф-ций
 
 fun dateStrToDigit(str: String): String {
@@ -124,7 +124,7 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val normalJumps = jumps.split(" ").filter { it != "-" && it != "%" } // нарезать на фрагменты, отфильтровать НЕ числа
+    val normalJumps = jumps.split(" ").filter { it != "-" && it != "%" }.filter { it != "" } // нарезать на фрагменты, отфильтровать НЕ числа
     if (normalJumps.isEmpty()) return -1 // отсутствие чисел во входной строке
     try {
         val digitNormalJumps = normalJumps.map { it.toInt() } // полученные фрагменты перевести в Int'ы

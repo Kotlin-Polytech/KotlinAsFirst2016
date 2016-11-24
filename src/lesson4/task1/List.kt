@@ -299,19 +299,19 @@ fun roman(n: Int): String {
             200 to "CC", 300 to "CCC", 400 to "CD", 500 to "D", 600 to "DC", 700 to "DCC", 800 to "DCCC", 900 to "CM")
     val translate1 = mutableListOf<String>()
     val translate2 = mutableListOf<String>()
-    val nPart1 = n / 1000
-    var nPart2 = n % 1000
+    val number1 = n / 1000
+    var number2 = n % 1000
     var i = 10
-    while (nPart2 > 0) {
-        if (nPart2 % i == 0) {
+    while (number2 > 0) {
+        if (number2 % i == 0) {
             i *= 10
             continue
         }
-        translate1.add(0, romans[nPart2 % i]!!)
-        nPart2 -= nPart2 % i
+        translate1.add(0, romans[number2 % i]!!)
+        number2 -= number2 % i
     }
-    if (nPart1 == 0) return translate1.joinToString(separator = "")
-    for (j in 1..nPart1) translate2.add("M")
+    if (number1 == 0) return translate1.joinToString(separator = "")
+    for (j in 1..number1) translate2.add("M")
     return (translate2 + translate1).joinToString(separator = "")
 }
 

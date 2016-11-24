@@ -213,10 +213,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var a = revert(n)
-    return (a == n)
-}
+fun isPalindrome(n: Int): Boolean = (revert(n) == n)
 
 /**
  * Средняя
@@ -232,7 +229,7 @@ fun hasDifferentDigits(n: Int): Boolean {
         if (a % 10 != mem) failed = false
         a = a / 10
     }
-    if (failed == false) return true else return false
+    return (!failed)
 }
 
 /**
@@ -255,16 +252,16 @@ fun quantity(n: Int): Int {
 fun squareSequenceDigit(n: Int): Int {
     var i = 0
     var number = 0
-    var resalt = 0
+    var result = 0
     while (number < n) {
         i++
         number = number + quantity(i * i)
     }
-    resalt = i * i
+    result = i * i
     for (i in n..number - 1) {
-        resalt = resalt / 10
+        result = result / 10
     }
-    return (resalt % 10)
+    return (result % 10)
 }
 
 /**

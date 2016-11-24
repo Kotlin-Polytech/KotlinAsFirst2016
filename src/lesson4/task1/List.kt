@@ -107,7 +107,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     val n: Int = v.size
-    var length: Double = 0.0
+    var length = 0.0
     for (i: Int in 0..n - 1) {
         length = length + v[i] * v[i]
     }

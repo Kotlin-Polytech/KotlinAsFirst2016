@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
+
+import kotlin.comparisons.compareValues
 
 /**
  * Пример
@@ -42,12 +45,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +61,32 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    var builderString = ""
+    val parts = str.split(" ")
+    if (parts.size == 3) {
+        val day = parts[0].toInt()
+        if (day in 1..9) builderString = builderString + '0' + day.toString() + "."
+        else builderString += day.toString() + "."
+        builderString += when (parts[1]) {
+            "января" -> "01."
+            "февраля" -> "02."
+            "марта" -> "03."
+            "апреля" -> "04."
+            "мая" -> "05."
+            "июня" -> "06."
+            "июля" -> "07."
+            "августа" -> "08."
+            "сентября" -> "09."
+            "октября" -> "10."
+            "ноября" -> "11."
+            "декабря" -> "12."
+            else -> return ""
+        }
+    } else return ""
+    builderString += parts[2].toString()
+    return builderString
+}
 
 /**
  * Средняя
@@ -69,24 +95,63 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var builderString = ""
+    val parts = digital.split(".")
+    if (parts.size == 3) {
+        try {
+            val day = parts[0].toInt()
+            if (day !in 1..31)
+                return ""
+            else {
+                builderString = day.toString()
+                builderString += when (parts[1]) {
+                    "01" -> " января "
+                    "02" -> " февраля "
+                    "03" -> " марта "
+                    "04" -> " апреля "
+                    "05" -> " мая "
+                    "06" -> " июня "
+                    "07" -> " июля "
+                    "08" -> " августа "
+                    "09" -> " сентября "
+                    "10" -> " октября "
+                    "11" -> " ноября "
+                    "12" -> " декабря "
+                    else -> return ""
+                }
+            }
+            builderString += parts[2].toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return builderString
+    } else return ""
+}
 
 /**
  * Сложная
  *
  * Номер телефона задан строкой вида "+7 (921) 123-45-67".
- * Префикс (+7) может отсутствовать, код города (в скобках) также может отсутствовать.
- * Может присутствовать неограниченное количество пробелов и чёрточек,
- * например, номер 12 --  34- 5 -- 67 -98 тоже следует считать легальным.
- * Перевести номер в формат без скобок, пробелов и чёрточек (но с +), например,
- * "+79211234567" или "123456789" для приведённых примеров.
+ * Префикс (+7) может отсутствовать, код города (в скобках) также может отсутствовать
+ * Может быть неограниченное колличество пробелов и черточек,
+ * например, номер 12 -- 34- 5 -- 67 -98 тоже следует считать легальным.
+ * Перевести номер в формат без скобок, пробелов и черточек (но с +), например,
+ * "+79211234567" или "123456789" для приведенных примеров.
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val numberPhoneFilter = phone.filter { it != ' ' && it != '-' }
+    val superNumber = Regex("""(\+\d+)?(\(\d+\))?\d+""")
+    if (!superNumber.matches(numberPhoneFilter)) return ""
+    return numberPhoneFilter.filter { it != '(' && it != ')' }
+
+}
+
 
 /**
- * Средняя
+ *Средняя
  *
  * Результаты спортсмена на соревнованиях в прыжках в длину представлены строкой вида
  * "706 - % 717 % 703".
@@ -95,7 +160,22 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var maxHeight = -1
+    try {
+        for (part in parts) {
+            if (part != "%" && part != "-") {
+                val number = part.toInt()
+                if (maxHeight < number) maxHeight = number
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return maxHeight
+}
+
 
 /**
  * Сложная
@@ -107,7 +187,26 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var maxHeight = 0
+    var count = 0
+    val parts = jumps.split(" ")
+    if (parts.size == 1) return -1
+    for (i in 0..parts.size - 1 step 2) {
+        val heightJumpFilter = Regex("""\d+(\+|\%|\-)+""")
+        if (!heightJumpFilter.matches(parts[i] + parts[i + 1])) return -1
+        if ('+' in parts[i + 1] && parts[i].toInt() >= maxHeight) {
+            maxHeight = parts[i].toInt()
+            count++
+        }
+    }
+    if (count > 0) {
+        return maxHeight
+    }
+     else
+        return -1
+
+}
 
 /**
  * Сложная
@@ -118,7 +217,28 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val filterString = Regex("""((\d+\ +(\+|\-)\ +)+)?\d+""")
+    try {
+        if (!filterString.matches(expression)) {
+            throw IllegalArgumentException("IllegalArgumentException")
+        } else {
+                val parts = expression.split(" ")
+                var answer = parts[0].toInt()
+                if (parts.size == 1) return answer
+                for (i in 0..parts.size - 3 step 2) {
+                    if (parts[i +1] == "+") {
+                        answer += parts[i + 2].toInt()
+                    }  else {
+                        answer -= parts[i +2].toInt()
+                    }
+                }
+             return answer
+        }
+    }catch (e: NumberFormatException){
+        throw NumberFormatException("IllegalArgumentException")
+    }
+}
 
 /**
  * Сложная

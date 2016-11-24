@@ -190,14 +190,14 @@ fun plusMinus(expression: String): Int {
     val RightNumber = Regex("""\d""")
     val RightSymbol = Regex("""[+-]""")
     val NotRightFormat = Regex("""[^\d+-]""")
-    if ((LengthOfString == 1) && ((members[0].contains(NotRightFormat)) || expression == "")) throw IllegalArgumentException(" ")
+    if ((LengthOfString == 1) && ((members[0].contains(NotRightFormat)) || expression == "")) throw IllegalArgumentException("java.lang.IllegalArgumentException: java.lang.NumberFormatException: For input string: $expression")
     else {
         for (i in 0..LengthOfString - 2) {
             val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)
             val TwoNumbers = members[i].contains(RightNumber) && members[i + 1].contains(RightNumber)
             val AllNotRightSymbols = members[i].contains(NotRightFormat) || members[i + 1].contains(NotRightFormat)
             val WrongString = TwoPluses || TwoNumbers || AllNotRightSymbols
-            if (WrongString) throw IllegalArgumentException(" ")
+            if (WrongString) throw IllegalArgumentException("java.lang.IllegalArgumentException: java.lang.NumberFormatException: For input string: $expression")
             else {
                 if (members[i] == "+") result += members[i + 1].toInt()
                 if (members[i] == "-") result -= members[i + 1].toInt()
@@ -229,7 +229,28 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val Members = description.split(" ")
+    var Max = 0
+    var Result = ""
+    if (description == "") return ""
+    else {
+        for (i in 1..Members.size - 1 step 2) {
+            if (Members[i].matches(Regex("""[0-9]+.[0-9]"""))) {
+                val BothMembers = Members[i].split(".")
+                var BothMem = BothMembers[0].toInt()
+                if (BothMembers[1].toInt() >= 5) BothMem += 1
+                else BothMem -= 0
+                if (BothMem > Max) {
+                    Max = BothMem
+                    Result = Members[i - 1]
+                }
+            }
+
+        }
+    }
+    return Result
+} // НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!!
 
 /**
  * Сложная

@@ -90,12 +90,14 @@ fun diameter(vararg points: Point): Segment {
     if (points.size < 2) throw IllegalArgumentException()
     else {
         for (i in 1..points.size - 1) {
-            val dist = points[i].distance(points[i - 1])
-            if (dist > myDistance) {
-                myDistance = dist.toInt()
-                mySegment = Segment(points[i - 1], points[i])
-            }
+            for (j in 1..points.size - 1) {
+                val dist = points[i].distance(points[j - 1])
+                if (dist > myDistance) {
+                    myDistance = dist.toInt()
+                    mySegment = Segment(points[j - 1], points[i])
+                }
 
+            }
         }
         return mySegment
     }
@@ -117,7 +119,7 @@ fun circleByDiameter(diameter: Segment): Circle {
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)
  */
-data class Line(val point: Point, val angle: Double) {
+data class  Line(val point: Point, val angle: Double) {
     /**
      * Средняя
      *
@@ -143,6 +145,8 @@ fun lineBySegment(s: Segment): Line {
  *
  * Построить прямую по двум точкам
  */
+
+//уравнение прямой проходящей через 2 точки
 fun lineByPoints(a: Point, b: Point): Line = TODO()
 
 /**
@@ -150,6 +154,7 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
+//
 fun bisectorByPoints(a: Point, b: Point): Line = TODO()
 
 /**

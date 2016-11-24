@@ -76,7 +76,7 @@ fun dateStrToDigit(str: String): String {
     for (part in checkResult) {
         checkFinal++
     }
-    if ((checkForParts == 3) && (checkFinal == 3)) return result
+    if ((checkForParts == 3) && (checkFinal == 3)) return result.trim()
     return ""
 }
 

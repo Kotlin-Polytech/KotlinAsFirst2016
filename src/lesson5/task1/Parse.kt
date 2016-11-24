@@ -122,16 +122,13 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val jumpStorage = jumps.split(" ")
-    val luckyJumpStorage: List<Int>
-
     try {
-        luckyJumpStorage = jumpStorage.filter { it !in "-%" }.map { it.toInt() }
+        val jumpStorage = jumps.split(" ")
+        val luckyJumpStorage = jumpStorage.filter { it !in "-%" }.map { it.toInt() }
+        return luckyJumpStorage?.max() ?: -1
     } catch(e: NumberFormatException) {
         return -1
     }
-
-    return if (luckyJumpStorage.isEmpty()) -1 else luckyJumpStorage?.max() ?: -1
 }
 
 /**
@@ -150,7 +147,7 @@ fun bestHighJump(jumps: String): Int? {
         return -1
 
     val jumpStorage = jumps.split(" ") // Разбиение на части
-    val attemptStorage = mutableListOf <Int>()
+    val attemptStorage = mutableListOf<Int>()
     if (jumpStorage.isEmpty() || jumpStorage.size % 2 == 1) // Проверка на парность.
         return -1
 
@@ -168,7 +165,7 @@ fun bestHighJump(jumps: String): Int? {
     }
 
     // Выбор максимального значения
-    return if (attemptStorage.isEmpty()) -1 else attemptStorage.max()
+    return attemptStorage?.max() ?: -1
 }
 
 /**
@@ -184,7 +181,7 @@ fun plusMinus(expression: String): Int {
     val expressionStorage = expression.split(" ").filter { !it.isEmpty() }
 
     if (expressionStorage.isEmpty() || expressionStorage.size % 2 == 0)
-        throw IllegalArgumentException("null")
+        throw IllegalArgumentException()
 
     try {
         var target = expressionStorage[0].toInt()
@@ -194,11 +191,11 @@ fun plusMinus(expression: String): Int {
                 target += expressionStorage[i + 1].toInt()
             } else if (expressionStorage[i] == "-") {
                 target -= expressionStorage[i + 1].toInt()
-            } else throw IllegalArgumentException("null")
+            } else throw IllegalArgumentException()
         }
         return target
     } catch(e: NumberFormatException) {
-        throw IllegalArgumentException("null")
+        throw IllegalArgumentException()
     }
 }
 

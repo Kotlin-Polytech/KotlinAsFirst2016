@@ -58,13 +58,13 @@ fun circleInside(x1: Double, y1: Double, r1: Double, x2: Double, y2: Double, r2:
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
 	val min1 : Int
 	val min2 : Int
-	if ( a < b ) {
+	if (a < b) {
 		min1 = a
-		if ( b < c ) min2 = b
+		if (b < c) min2 = b
 		else min2 = c
 	} else {
 		min1 = b
-		if ( a < c ) min2 = a
+		if (a < c) min2 = a
 		else min2 = c
 	}
 	

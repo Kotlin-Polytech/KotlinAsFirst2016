@@ -192,12 +192,6 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun numberIsPrime(n: Int): Boolean {
-    if (n in -1..1)
-        return false
-    for (i in 2..Math.abs(n / 2)) if (n % i == 0) return false
-    return true
-}
 
 fun factorize(n: Int): List<Int> {
     val primeDivisorsStorage = mutableListOf <Int>()
@@ -228,10 +222,12 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    if (n < 0 || base < 2) return listOf()
-    if (n == 0) return listOf(0)
+    if (n < 0 || base < 2)
+        return listOf()
+    if (n == 0)
+        return listOf(0)
 
-    val digitStorage = mutableListOf <Int>()
+    val digitStorage = mutableListOf<Int>()
     var currentNumber = n
 
     while (currentNumber > 0) {
@@ -299,15 +295,15 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val digit_1 = listOf("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX") // 1 2 3 4 5 6 7 8 9
-    val digit_10 = listOf("", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC") // 0 10 20 30 40 50 60 70 80 90
-    val digit_100 = listOf("", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM") // 0 100 200 300 400 500 600 700 800 900
+    val digit1 = listOf("", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX") // 1 2 3 4 5 6 7 8 9
+    val digit10 = listOf("", "X", "XX", "XXX", "XL", "L", "LX", "LXX", "LXXX", "XC") // 0 10 20 30 40 50 60 70 80 90
+    val digit100 = listOf("", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM") // 0 100 200 300 400 500 600 700 800 900
 
     with(StringBuilder()) {
         for (i in 0..(n / 1000 - 1)) append("M")
-        append(digit_100[(n % 1000) / 100])
-        append(digit_10[(n % 100) / 10])
-        append(digit_1[n % 10])
+        append(digit100[(n % 1000) / 100])
+        append(digit10[(n % 100) / 10])
+        append(digit1[n % 10])
 
         return this.toString()
     }

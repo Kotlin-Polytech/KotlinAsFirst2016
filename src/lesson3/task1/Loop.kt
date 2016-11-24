@@ -65,7 +65,6 @@ fun digitNumber(n: Int): Int {
     do {
         ++digitsAmount
         currentNumber /= 10
-
     } while (currentNumber != 0)
 
     return digitsAmount
@@ -81,9 +80,7 @@ fun fib(n: Int): Int {
     var f = 1
     var fPrev = 1
 
-
     if (n == 1 || n == 2) return 1
-
     for (i in 3..n) {
         val fTemp = f
         f += fPrev
@@ -254,11 +251,12 @@ fun squareSequenceDigit(n: Int): Int {
 
     for (i in 1..n) {
         lastSequenceElement = "${i * i}"
-        if (sequenceLen + lastSequenceElement.length >= n) return (lastSequenceElement[n - sequenceLen - 1] - '0').toInt()
+        if (sequenceLen + lastSequenceElement.length >= n)
+            return (lastSequenceElement[n - sequenceLen - 1] - '0').toInt()
         sequenceLen += lastSequenceElement.length
     }
 
-    return (lastSequenceElement [n - 1] - '0').toInt()
+    return (lastSequenceElement[n - 1] - '0').toInt()
 }
 
 /**

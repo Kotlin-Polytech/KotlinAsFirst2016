@@ -61,7 +61,7 @@ fun timeForHalfWay(t1: Double, v1: Double, t2: Double, v2: Double, t3: Double, v
 
     return when {
         (half <= s1) -> half / v1
-        (half > s1 && half <= s1 + s2) -> t1 + ((half - s1) / v2)
+        (half <= s1 + s2) -> t1 + ((half - s1) / v2)
         else -> t1 + t2 + (half - s1 - s2) / v3
     }
 }
@@ -120,7 +120,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
     // ========[a]######[b]=======[c]######[d]=========> -
     // ========[a]######[c]|||||||[b]######[d]=========> b - c
     // ========[a]######[c]|||||||[d]######[b]=========> d - c
@@ -128,7 +128,7 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     // ========[c]######[a]|||||||[b]######[d]=========> b - a
     // ========[c]######[d]=======[a]######[b]=========> -
 
-    return when {
+    when {
         (c > b || a > d) -> -1
         (a <= c && c <= b && b <= d) -> b - c
         (a <= c && c <= d && d <= b) -> d - c
@@ -136,4 +136,3 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         (c <= a && a <= b && b <= d) -> b - a
         else -> -1
     }
-}

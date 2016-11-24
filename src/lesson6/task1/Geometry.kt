@@ -72,9 +72,7 @@ data class Circle(val center: Point, val radius: Double) {
 /**
  * Отрезок между двумя точками
  */
-data class Segment(val begin: Point, val end: Point) {
-    fun length(): Double = begin.distance(end)
-}
+data class Segment(val begin: Point, val end: Point)
 
 /**
  * Средняя
@@ -82,6 +80,11 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
+
+fun Segment.length(): Double = begin.distance(end)
+
+fun Segment.mid(): Point = Point((begin.x + end.x) / 2, (begin.y + end.y) / 2)
+
 fun diameter(vararg points: Point): Segment {
     var longestSegment = Segment(Point(0.0, 0.0), Point(0.0, 0.0))
     for (e1 in points) {
@@ -98,7 +101,7 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle = Circle(diameter.mid(), diameter.length() / 2)
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -138,21 +141,25 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((b.y - a.y) / (b.x - a.x)))
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val m = Segment(a, b).mid()
+    val ang = Math.atan((b.y - a.y) / (b.x - a.x)) + Math.PI / 2
+    return Line(m, ang)
+}
 
 /**
  * Средняя

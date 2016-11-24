@@ -62,7 +62,12 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        if ((p.x - center.x) * (p.x - center.x) + (p.y - center.y) * (p.y - center.y) <= radius * radius)
+            return true
+        else
+            return false
+    }
 }
 
 /**
@@ -77,6 +82,7 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment = TODO()
+
 
 /**
  * Простая

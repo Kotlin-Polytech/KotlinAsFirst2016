@@ -181,6 +181,8 @@ fun bestHighJump(jumps: String): Int {
 }
 
 
+
+
 /**
  * Сложная
  *

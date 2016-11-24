@@ -144,12 +144,12 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     var x = -1
-    var t: String
+    val t: String
     var u: Int
     try {
         if (jumps.matches(Regex("[-% 0-9]"))) {
             t = jumps.replace(Regex("[-%]"), "")
-            var y = t.split(" ").toMutableList()
+            val y = t.split(" ").toMutableList()
             y.remove("")
             for (element in y) {
                 u = element.toInt()

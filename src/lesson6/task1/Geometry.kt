@@ -129,16 +129,14 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point = TODO()
+}
 
 /**
  * Средняя
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    val angle = Math.atan(Math.abs(s.begin.y - s.end.y) / Math.abs(s.begin.x - s.end.x))
-    return Line(s.begin, angle)
-}
+fun lineBySegment(s: Segment): Line = TODO()
 
 /**
  * Средняя
@@ -171,13 +169,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = {
-    val lineAB = bisectorByPoints(a,b)
-    val lineAC = bisectorByPoints(a,c)
-    val center = lineAB.crossPoint(lineAC)
-    val radius = center.distance(a)
-    return Circle(center, radius)
-}
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
 
 /**
  * Очень сложная

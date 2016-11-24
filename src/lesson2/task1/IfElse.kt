@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -50,15 +51,12 @@ fun ageDescription(age: Int): String {
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double{
-    val s = (t1*v1 + t2*v2 + t3*v3) / 2
-    if (t1*v1 >= s){
-        return s / v1 }
-    else if (t1*v1 + t2*v2 >= s){
-        return t1 + (s - v2*t2) / v2}
-    else if (t1*v1 + t2*v2 + t3*v3 >= s){
-        return t1 + t2 + (s - v3*t3) / v3}
-    else return Double.NaN
+                   t3: Double, v3: Double): Double {
+    val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if (s < t1 * v1) return (s / v1)
+    if (s < (t1 * v1) + (t2 * v2)) return (t1 + (s - v1 * t1) / v2)
+    if (s < (t1 * v1) + (t2 * v2) + (t3 * v3)) return t1 + t2 + (s - (v1 * t1 + v2 * t2)) / v3
+    return 0.0
 }
 
 /**
@@ -74,11 +72,11 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     if ((kingX == rookX2 || kingY == rookY2) && (kingX == rookX1 || kingY == rookY1))
         return 3
-    if (kingX == rookX1 || kingY == rookY1)
+    else if (kingX == rookX1 || kingY == rookY1)
         return 1
-    if (kingX == rookX2 || kingY == rookY2)
+    else if (kingX == rookX2 || kingY == rookY2)
         return 2
-    return 0
+    else return 0
 }
 
 /**
@@ -103,6 +101,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+
 /**
  * Средняя
  *

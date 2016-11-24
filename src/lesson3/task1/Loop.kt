@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
 import java.lang.Math.*
+
 /**
  * Пример
  *
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -60,7 +63,6 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int = if (n / 10 == 0) 1 else digitNumber(n / 10) + 1
 
 
-
 /**
  * Простая
  *
@@ -75,13 +77,7 @@ fun fib(n: Int): Int = if ((n == 1) || (n == 2)) 1 else fib(n - 1) + fib(n - 2)
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var k = max(n, m)
-    while (true) {
-    if (k % n == 0 && k % m == 0) return k
-    else ++k
-    }
-}
+fun lcm(m: Int, n: Int): Int = n * m / gcd(n, m)
 
 
 /**
@@ -106,12 +102,11 @@ fun maxDivisor(n: Int): Int = TODO()
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 tailrec fun gcd(m: Int, n: Int): Int {
-    if (n == m)
-        return n
-    if (n > m)
-        return gcd(n-m, m)
-    else return gcd(m-n, n)
+    if (n == m) return n
+    if (n > m) return gcd(n - m, m)
+    else return gcd(m - n, n)
 }
+
 fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 
@@ -152,7 +147,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var ans = 0
     var n2 = n
-    while(n2 > 0) {
+    while (n2 > 0) {
         ans = (ans * 10) + (n2 % 10)
         n2 /= 10
     }
@@ -177,7 +172,7 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
 fun hasDifferentDigits(n: Int): Boolean {
     var num = n
     var ld = num % 10
-    while (num != 0){
+    while (num != 0) {
         if (ld != num % 10) return true
         ld = num % 10
         num /= 10
@@ -193,6 +188,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int = TODO()
+
 /**
  * Сложная
  *

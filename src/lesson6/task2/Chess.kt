@@ -2,6 +2,8 @@
 package lesson6.task2
 
 import java.util.*
+import java.sql.SQLNonTransientException
+
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -58,7 +60,15 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside())
+        throw IllegalArgumentException()
+        if (start == end) return 0
+        if (start.column == end.column) return 1
+        if (start.row == end.row) return 1
+        else return 2
+    }
+
 
 /**
  * Средняя
@@ -74,7 +84,17 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    val mutabellist = mutableListOf<Square>(start)
+    val numeric = rookMoveNumber(start, end)
+    if (numeric == 0)
+        return mutabellist
+    if (numeric == 2) {
+        mutabellist.add(Square(start.column, end.row))
+    }
+    mutabellist.add(end)
+    return mutabellist
+}
 
 /**
  * Простая

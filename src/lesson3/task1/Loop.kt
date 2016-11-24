@@ -68,7 +68,6 @@ fun digitNumber(n: Int): Int {
             count += 1
             number /= 10
         }
-
     return count
 }
 
@@ -78,10 +77,16 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = when {
-    n == 1 -> 1
-    n == 2 -> 1
-    else -> fib(n - 1) + fib(n - 2)
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    var result = 1
+    for (i in 3..n) {
+        result = fib1 + fib2
+        fib1 = fib2
+        fib2 = result
+    }
+    return result
 }
 
 /**
@@ -145,12 +150,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in m..n) {
-        return (Math.sqrt(i.toDouble()) == Math.sqrt(i.toDouble()).toInt().toDouble())
-    }
-    return false
-}
+fun squareBetweenExists(m: Int, n: Int): Boolean = (m == n && (Math.round(Math.sqrt(m.toDouble()))).toDouble() == Math.sqrt(m.toDouble())) ||
+        (Math.ceil(Math.sqrt(m.toDouble())) <= Math.floor(Math.sqrt(n.toDouble())))
+
 
 /**
  * Простая
@@ -162,12 +164,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 //И sin, и cos фейлятся на тестах с точностью 1.0Е-10, хотя условие по идее выполняется
 //Как это можно исправить?
 fun sin(x: Double, eps: Double): Double {
+    var argument = x
+    while (argument >= 2 * Math.PI) argument -= 2 * Math.PI
     var result = 0.0
     var currentMember = eps
     var count = 1
     while (Math.abs(currentMember) >= eps) {
-        if ((count + 1) % 4 == 0) currentMember = -Math.pow(x, count.toDouble()) / factorial(count)
-        else currentMember = Math.pow(x, count.toDouble()) / factorial(count)
+        if ((count + 1) % 4 == 0) currentMember = -Math.pow(argument, count.toDouble()) / factorial(count)
+        else currentMember = Math.pow(argument, count.toDouble()) / factorial(count)
         result += currentMember
         count += 2
     }
@@ -231,7 +235,7 @@ fun hasDifferentDigits(n: Int): Boolean {
     return false
 }
 
-fun powInt(a: Int, b: Int): Int {
+fun pow(a: Int, b: Int): Int {
     if (b == 0) return 1
     var result = a
     for (i in 1..b - 1) {
@@ -254,7 +258,7 @@ fun squareSequenceDigit(n: Int): Int {
         currentDigit += 1
         count += digitNumber(currentDigit * currentDigit)
     }
-    currentDigit = (currentDigit * currentDigit) / powInt(10, (count - n))
+    currentDigit = (currentDigit * currentDigit) / pow(10, (count - n))
     return currentDigit % 10
 }
 
@@ -265,22 +269,16 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-//Kotlin-Polytech-Bot фейлит один из тестов, ибо тот не проходится за 10 сек.
-//Через добавленный AssertEquals для значений зафейленного теста прога проходит за 21 сек.
-//Как можно ускорить работу?
-//UPD:Всё, вроде придумал
 fun fibSequenceDigit(n: Int): Int {
     var count = 1
-    var fib1 = 0
-    var fib2 = fib1
     var currentFib = 1
+    var fibCount = 2
 
     while (count < n) {
-        fib1 = fib2
-        fib2 = currentFib
-        currentFib = fib1 + fib2
-        count += digitNumber(currentFib)
+        count += digitNumber(fib(fibCount))
+        currentFib = fib(fibCount)
+        fibCount += 1
     }
-    currentFib /= powInt(10, (count - n))
+    currentFib /= pow(10, (count - n))
     return currentFib % 10
 }

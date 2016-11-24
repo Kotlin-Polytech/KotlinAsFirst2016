@@ -203,20 +203,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    var result = ""
-    var number = n
-    var factor = 2
-    while (number > 1) {
-        while (number % factor == 0) {
-            result += "*$factor"
-            number /= factor
-        }
-        factor += 1
-        while (!isPrime(factor)) factor += 1
-    }
-    return result.substring(1, result.length)
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
 
 /**
  * Средняя
@@ -245,8 +232,8 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var number = n
-    var current = 0
-    var currentLetter = ' '
+    var current: Int
+    var currentLetter: Char 
     var result = ""
     while (number != 0) {
         current = number % base

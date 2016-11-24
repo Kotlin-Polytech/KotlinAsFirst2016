@@ -141,6 +141,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
+    if (phone == "") return ""
     for (i in 0..phone.length - 1) {
         if ((phone[i] != '+') && (phone[i] != '-') && (phone[i] != ' ')
                 && (phone[i] !in '0'..'9') && (phone[i] != '(') && (phone[i] != ')'))
@@ -219,7 +220,7 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     for (i in 0..expression.length - 1) {
-        if ((expression[i] != '+') && (expression[i] != '-') && (expression[i] !in '0'..'9') && (expression[i] != ' '))
+        if ((expression == "") || (expression[i] != '+') && (expression[i] != '-') && (expression[i] !in '0'..'9') && (expression[i] != ' '))
             throw IllegalArgumentException("IllegalArgumentException")
     }
     var result = 0
@@ -250,22 +251,13 @@ fun firstDuplicateIndex(str: String): Int {
     str.toLowerCase()
     val string = str
     val parse = string.split(" ")
-    var index = 0
-    for (i in 0..parse.size - 2) {
-        if (parse[i] == parse[i + 1]) index = i
-    }
-    var count = 0
     var result = 0
-    if (index == 0) return -1
-    else for (i in 0..str.length - 1) {
-        if (str[i] == ' ') {
-            count++
-            result = i + 1
-            if (count == index) break
-        }
-
+    for (i in 0..parse.size - 2) {
+        if ((parse[i] == parse[i + 1]) && (parse[i] != "")) return result
+        result += parse[i].length + 1
     }
-    return result
+
+    return -1
 }
 
 

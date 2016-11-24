@@ -61,22 +61,26 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val a = str.split(" ").toMutableList()
-    when {
-        a[1] == "января" -> a[1] = "01"
-        a[1] == "февраля" -> a[1] = "02"
-        a[1] == "марта" -> a[1] = "03"
-        a[1] == "апреля" -> a[1] = "04"
-        a[1] == "мая" -> a[1] = "05"
-        a[1] == "июня" -> a[1] = "06"
-        a[1] == "июля" -> a[1] = "07"
-        a[1] == "августа" -> a[1] = "08"
-        a[1] == "сентября" -> a[1] = "09"
-        a[1] == "октября" -> a[1] = "10"
-        a[1] == "ноября" -> a[1] = "11"
-        a[1] == "декабря" -> a[1] = "12"
-        else -> return String()
+    try {
+        when {
+            a[1] == "января" -> a[1] = "01"
+            a[1] == "февраля" -> a[1] = "02"
+            a[1] == "марта" -> a[1] = "03"
+            a[1] == "апреля" -> a[1] = "04"
+            a[1] == "мая" -> a[1] = "05"
+            a[1] == "июня" -> a[1] = "06"
+            a[1] == "июля" -> a[1] = "07"
+            a[1] == "августа" -> a[1] = "08"
+            a[1] == "сентября" -> a[1] = "09"
+            a[1] == "октября" -> a[1] = "10"
+            a[1] == "ноября" -> a[1] = "11"
+            a[1] == "декабря" -> a[1] = "12"
+            else -> return String()
+        }
+        return String.format("%02d.%s.%s", a[0].toInt(), a[1], a[2])
+    } catch (e: Exception) {
+        return ""
     }
-    return  a.joinToString (separator = "." )
 }
 
 /**
@@ -86,7 +90,17 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val ml = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        val a = digital.split(".")
+        if (a.size != 3) return ""
+        else return String.format("%d %s %s", a[0].toInt(), ml[a[1].toInt() - 1], a[2])
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -100,7 +114,15 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    try {
+        val a = phone.filter { it != ' ' && it != '-' && it != '(' && it != ')' }
+        return a
+    } catch (e:NumberFormatException) {
+        return ""
+    }
+
+}
 
 /**
  * Средняя
@@ -112,7 +134,18 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    try {
+        val a = (jumps.filter { it != '-' && it != '%' }).split(" ")
+        var b = a[0]
+        for (i in 0..a.size-2) {
+            if (a[i+1].toInt() > a[1].toInt())  b = a[i+1]
+        }
+        return b.toInt()
+    } catch (e:Exception) {
+        return -1
+    }
+}
 
 /**
  * Сложная

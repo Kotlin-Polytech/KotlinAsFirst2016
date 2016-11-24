@@ -201,7 +201,7 @@ fun factorize(n: Int): List<Int> {
     while (number > 1) {
         if (number % plural == 0) {
             result.add(plural)
-            number = number /plural
+            number = number / plural
         } else plural++
     }
     return result
@@ -241,7 +241,10 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val letters = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z")
+    return convert(n, base).map { letters[it] }.joinToString(separator = "")
+}
 
 /**
  * Средняя
@@ -250,7 +253,17 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var sum = 0
+    var Pow = 1
+    var mySize = digits.size - 1
+    for (i in 0..digits.size - 1) {
+        sum += digits[mySize] * Pow
+        Pow *= base
+        mySize--
+    }
+    return sum
+}
 
 /**
  * Сложная
@@ -261,7 +274,16 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var n = 0
+    var lat = 1
+    for (i in str.length - 1 downTo 0) {
+        if (str[i] <= '9') n += (str[i] - '0') * lat
+        else n += (str[i] - ('a' - 10)) * lat
+        lat *= base
+    }
+    return n
+}
 
 /**
  * Сложная
@@ -271,7 +293,27 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val romans = mapOf<Int, String>(1 to "I", 2 to "II", 3 to "III", 4 to "IV", 5 to "V", 6 to "VI", 7 to "VII", 8 to "VIII", 9 to "IX", 10 to "X",
+            20 to "XX", 30 to "XXX", 40 to "XL", 50 to "L", 60 to "LX", 70 to "LXX", 80 to "LXXX", 90 to "XC", 100 to "C",
+            200 to "CC", 300 to "CCC", 400 to "CD", 500 to "D", 600 to "DC", 700 to "DCC", 800 to "DCCC", 900 to "CM")
+    val translate1 = mutableListOf<String>()
+    val translate2 = mutableListOf<String>()
+    val nPart1 = n / 1000
+    var nPart2 = n % 1000
+    var i = 10
+    while (nPart2 > 0) {
+        if (nPart2 % i == 0) {
+            i *= 10
+            continue
+        }
+        translate1.add(0, romans[nPart2 % i]!!)
+        nPart2 -= nPart2 % i
+    }
+    if (nPart1 == 0) return translate1.joinToString(separator = "")
+    for (j in 1..nPart1) translate2.add("M")
+    return (translate2 + translate1).joinToString(separator = "")
+}
 
 /**
  * Очень сложная

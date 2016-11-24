@@ -248,8 +248,7 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    str.toLowerCase()
-    val string = str
+    val string = str.toLowerCase()
     val parse = string.split(" ")
     var result = 0
     for (i in 0..parse.size - 2) {

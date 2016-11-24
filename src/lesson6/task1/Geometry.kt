@@ -191,7 +191,7 @@ fun bisectorByPoints(a: Point, b: Point): Line{
                 }
             }
         }
-        return Pair(circles[answer.first], circles[answer.second])
+        return Pair (circles[answer.first], circles[answer.second])
 
     }
 

@@ -147,7 +147,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
             else -> index = 2
 
         }
-        return index
+        return  index
     } else throw IllegalAccessException()
 
 }

@@ -91,7 +91,8 @@ data class Segment(val begin: Point, val end: Point) {
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    val convexHull = convexHull(points)
+
+    val convexHull = if (points.size >= 3) points.asList() else convexHull(points)
 
     val segments = mutableListOf<Segment>()
     for (i in convexHull.withIndex()) {

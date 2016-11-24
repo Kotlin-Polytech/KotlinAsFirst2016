@@ -79,15 +79,15 @@ fun fib(n: Int): Int {
     if (n in 1..2)
         return 1
     else {
-        var num1 = 1
+        var num1 = 1 // Не понял, как объявлять в цикле. На каждой итерации значение обновляется :(
         var num2 = 1
-        var answer = 0
+        var counter = 0
         for (i in 3..n) {
-            answer = num1 + num2
-            num1 = num2
-            num2 = answer
+            counter = num2
+            num2 += num1
+            num1 = counter
         }
-        return answer
+        return num2
     }
 
 }
@@ -105,20 +105,19 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var devider = 2
+    while (n % devider != 0)
+        devider++
+    return devider
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var divider = n / 2
-    while (n % divider != 0) {
-        divider -= 1
-    }
-    return divider
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -165,11 +164,11 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var number = n
     var result = 0
-    while (number > 9) {
-        result = (result + number % 10) * 10
+    while (number > 0) {
+        result = result * 10 + number % 10
         number /= 10
     }
-    return result + number % 10
+    return result
 }
 
 /**

@@ -35,17 +35,7 @@ fun <E> transpose(matrix: Matrix<E>): Matrix<E> {
  * Складывать можно только матрицы совпадающего размера -- в противном случае бросить IllegalArgumentException.
  * При сложении попарно складываются соответствующие элементы матриц
  */
-operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
-    if (width != other.width || height != other.height) throw IllegalArgumentException()
-    if (width < 1 || height < 1) return this
-    val result = createMatrix(height, width, this[0, 0])
-    for (i in 0..height - 1) {
-        for (j in 0..width - 1) {
-            result[i, j] = this[i, j] + other[i, j]
-        }
-    }
-    return result
-}
+operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> = TODO()
 
 /**
  * Сложная

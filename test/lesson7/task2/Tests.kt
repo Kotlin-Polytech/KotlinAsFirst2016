@@ -209,7 +209,7 @@ class Tests {
     @Tag("Hard")
     fun fifteenGameMoves() {
         val start = createMatrix(4, 4, listOf(listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
-                                              listOf(9, 10, 11, 12), listOf(13, 14, 15, 0)))
+                listOf(9, 10, 11, 12), listOf(13, 14, 15, 0)))
         assertEquals(start, fifteenGameMoves(start, listOf()))
         assertEquals(start, fifteenGameMoves(createMatrix(4, 4, listOf(listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
                                                                        listOf(9, 10, 11, 12), listOf(0, 13, 14, 15))),

@@ -211,10 +211,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    val NewList = factorize(n)
-    return NewList.joinToString("*")
-}
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
@@ -224,16 +221,14 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var list: List<Int>
-    var answer = listOf<Int>()
+    var list = mutableListOf<Int>()
     var number = n
     if (n != 0) {
         while (number > 0) {
-            list = listOf(number % base)
-            answer = list + answer
+            list.add(number % base)
             number /= base
         }
-        return answer
+        return list.reversed()
     } else
         return listOf(0)
 }

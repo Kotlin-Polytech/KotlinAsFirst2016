@@ -121,9 +121,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val crossingFirst = (d >= a) && (b >= c)
-    val crossingSecond = (d != a) && (b != c)
     return when {
-        crossingFirst && crossingSecond -> min(b, d) - max(a, c)
+        crossingFirst -> min(b, d) - max(a, c)
         crossingFirst -> 0
         else -> -1
     }

@@ -77,9 +77,6 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     else if (r1Threat) return 1
     else if (r2Threat) return 2
     else return 0
-
-
-
 }
 
 /**
@@ -116,18 +113,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val side1: Double
     val side2: Double
 
-    if (a + b < c || a + c < b || b + c < a) return -1
-
-    if (a > b) {
-        if (a > c) {
-            max = a
-            side1 = b
-            side2 = c
-        } else {
-            max = c
-            side1 = a
-            side2 = b
-        }
+    if (a > b && a>c) {
+        max = a
+        side1 = b
+        side2 = c
     } else {
         if (b > c) {
             max = b
@@ -139,10 +128,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
             side2 = b
         }
     }
-    if (side1 * side1 + side2 * side2 > max * max) return 0
-    else if (side1 * side1 + side2 * side2 < max * max) return 2
-    else return 1
-
+    when {
+        side1 + side2 < max -> return -1
+        max * max < side1 * side1 + side2 * side2 -> return 0
+        max * max > side1 * side1 + side2 * side2 -> return 2
+        else -> return 1
+    }
 }
 
 /**

@@ -61,11 +61,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var count = 0
     var nVar = n
+    if (n == 0) return 1
     while (nVar != 0) {
         nVar /= 10
         count += 1
     }
-    if (n == 0) count = 1
+
     return count
 }
 
@@ -76,8 +77,8 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var fib1: Int = 1
-    var fib2: Int = 1
+    var fib1 = 1
+    var fib2 = 1
     for (i in 3..n) {
         if (i % 2 == 1) fib1 += fib2
         else fib2 += fib1
@@ -93,10 +94,10 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
 
+fun lcm(m: Int, n: Int): Int {
     var nod = 2
-    while (m % nod != 0 && n % nod != 0) nod+=1
+    while (m % nod != 0 && n % nod != 0) nod += 1
     return m * n / nod
 }
 
@@ -106,7 +107,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var del: Int = 2
+    var del = 2
     while (n % del != 0) del += 1
     return del
 }
@@ -117,7 +118,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var del: Int = n - 1
+    var del = n / 2
     while (n % del != 0) del -= 1
     return del
 }
@@ -130,13 +131,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    val min: Int
-    if (m < n) {
-        min = m
-    } else {
-        min = n
-    }
-    for (i in 2..min) {
+
+    for (i in 2..Math.min(m, n)) {
         if ((m % i == 0) && (n % i == 0)) return false
     }
     return true
@@ -179,20 +175,18 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun pow (a: Int, b: Int) : Int{
-    var result: Int = 1
+    var result = 1
     for (i in 1..b) result *= a
     return result
 }
 fun revert(n: Int): Int {
     if (n < 10) return n
     var nn = n
-    var result: Int = 0
-    var ext: Int
-    val count = digitNumber(n)
+    var result = 0
 
-    for (i in count downTo 1) {
-        ext = pow(10, i - 1)
-        result += nn % 10 * ext
+    while (nn > 0) {
+        result *= 10
+        result += nn % 10
         nn /= 10
     }
     return result
@@ -215,10 +209,10 @@ fun isPalindrome(n: Int): Boolean = TODO()
  */
 fun hasDifferentDigits(n: Int): Boolean {
     if (n < 10) return false
-    val samenum: Int = n % 10
+    val samedigit = n % 10
     var nn = n
     while (nn != 0) {
-        if (nn % 10 != samenum) return true
+        if (nn % 10 != samedigit) return true
         nn /= 10
     }
 

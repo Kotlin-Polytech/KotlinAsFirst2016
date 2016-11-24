@@ -47,7 +47,7 @@ fun square(notation: String): Square {
     // 96 & 48 - conversion constants coming from the symbol code
     val digitConversion = 48
     val letterConversion = 96
-    val result = Square(notation.first().toInt() - letterConversion, notation.last().toInt() - digitConversion)
+    val result = Square(notation[0].toInt() - letterConversion, notation[1].toInt() - digitConversion)
     if (result.inside() && notation.length == 2) return result
     else throw IllegalArgumentException("Wrong notation format")
 }

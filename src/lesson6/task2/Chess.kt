@@ -42,8 +42,10 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     val charDigitToInt = 48
     val charLetterToInt = 96
-    val result = Square(notation[0].toInt() - charLetterToInt, notation[1].toInt() - charDigitToInt)
-    if (!result.inside() || notation.length !=2 ) throw IllegalArgumentException()
+    var result = Square(0,0)
+    if (notation.length ==2)
+        result = Square(notation[0].toInt() - charLetterToInt, notation[1].toInt() - charDigitToInt)
+    if (!result.inside()) throw IllegalArgumentException()
     else return result
 }
 

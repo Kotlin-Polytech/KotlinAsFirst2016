@@ -176,25 +176,19 @@ fun factorizeToString(n: Int): String = TODO()
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    val additional = mutableListOf<Int>()
-    var number = n
     val result = mutableListOf<Int>()
+    var number = n
     if (n < base) {
-        additional.add(n)
-        return additional
+        result.add(n)
+        return result
     } else {
         while (number > base - 1) {
             val forList: Int = number - number / base * base
-            additional.add(forList)
+            result.add(forList)
             number = number / base
         }
-        additional.add(number)
-        var l: Int = additional.size - 1
-        while (l != 0) {
-            result.add(additional[l])
-            l = l - 1
-        }
-        result.add(additional[0])
+        result.add(number)
+        result.reverse()
         return result
     }
 }

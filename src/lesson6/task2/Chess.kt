@@ -45,13 +45,11 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     // 96 & 48 - conversion constants coming from the symbol code
-    if (notation.contains(Regex("""[^1-8a-h]""")) || notation.length > 2) {
-        throw IllegalArgumentException("Wrong notation format")
-    } else {
-        val column = notation.first().toInt() - 96
-        val row = notation.last().toInt() - 48
-        return Square(column, row)
-    }
+    val digitConversion = 48
+    val letterConversion = 96
+    val result = Square(notation.first().toInt() - letterConversion, notation.last().toInt() - digitConversion)
+    if (result.inside() || notation.length == 2) return result
+    else throw IllegalArgumentException("Wrong notation format")
 }
 
 /**
@@ -141,9 +139,9 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
         val columnChange = Math.abs(end.column - start.column)
         val rowChange = Math.abs(end.row - start.row)
         if (start == end) return 0
-        if ((columnChange % 2 == 1) || (rowChange % 2 == 1)) return -1
         if (columnChange == rowChange) return 1
-        else return 2
+        if (((columnChange % 2 == 1) && (rowChange % 2 == 1)) || ((columnChange % 2 != 1) && (rowChange % 2 != 1))) return 2
+        else return -1
     } else throw IllegalArgumentException("Wrong square format")
 }
 

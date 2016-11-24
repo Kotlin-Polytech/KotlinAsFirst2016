@@ -36,7 +36,7 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if(!notation.matches(Regex("""[a-h]\d"""))) throw IllegalArgumentException()
+    if(!notation.matches(Regex("""[a-h][1-8]"""))) throw IllegalArgumentException()
     return Square(notation[0] - 'a' + 1, notation[1] - '0')
 }
 
@@ -68,6 +68,7 @@ fun Square.onLineWith(other: Square): Boolean = column == other.column || row ==
 fun Square.similarWith(other: Square): Boolean = column == other.column && row == other.row
 
 fun rookMoveNumber(start: Square, end: Square): Int = when {
+    !start.inside() || !end.inside() -> throw IllegalArgumentException()
     start.similarWith(end) -> 0
     start.onLineWith(end) -> 1
     else -> 2
@@ -88,6 +89,7 @@ fun rookMoveNumber(start: Square, end: Square): Int = when {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> = when {
+    !start.inside() || !end.inside() -> throw IllegalArgumentException()
     start.similarWith(end) -> listOf<Square>(start)
     start.onLineWith(end) -> listOf<Square>(start, end)
     else -> listOf<Square>(start, Square(start.column, end.row), end)

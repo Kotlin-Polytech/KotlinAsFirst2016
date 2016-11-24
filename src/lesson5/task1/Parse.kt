@@ -229,28 +229,7 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String {
-    val Members = description.split(" ")
-    var Max = 0
-    var Result = ""
-    if (description == "") return ""
-    else {
-        for (i in 1..Members.size - 1 step 2) {
-            if (Members[i].matches(Regex("""[0-9]+.[0-9]"""))) {
-                val BothMembers = Members[i].split(".")
-                var BothMem = BothMembers[0].toInt()
-                if (BothMembers[1].toInt() >= 5) BothMem += 1
-                else BothMem -= 0
-                if (BothMem > Max) {
-                    Max = BothMem
-                    Result = Members[i - 1]
-                }
-            }
-
-        }
-    }
-    return Result
-} // НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!!
+fun mostExpensive(description: String): String = TODO()
 
 /**
  * Сложная

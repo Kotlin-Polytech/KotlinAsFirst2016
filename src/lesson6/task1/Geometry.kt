@@ -3,8 +3,7 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
-import java.awt.List
-import java.lang.Math.sqrt
+import java.lang.Math.*
 import java.util.*
 
 /**
@@ -92,32 +91,42 @@ data class Segment(val begin: Point, val end: Point) {
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    val pointsList = points.asList()
-    convexHull(pointsList)
+    val convexHull = convexHull(points)
 
-    return Segment(Point(6.0, 4.0), Point(1.4, 4.6))
-}
-
-fun convexHull(points: kotlin.collections.List<Point>): kotlin.collections.List<Point> {
-    val p0 = points.minBy { it.y; it.x }
-    var convexHull = mutableListOf<Point>()
-
-    convexHull.sortWith(Comparator { o1, o2 -> polarAngle(p0 ?: throw IllegalArgumentException(), o1, o2).toInt() })
-
-    for (i in 2..convexHull.size-1) {
-        //удалять из центра, но сравнивать сверху.
+    val segments = mutableListOf<Segment>()
+    for (i in convexHull.withIndex()) {
+        for (z in convexHull.withIndex()) { // можно ли начать итерацию не с самого начала листа, а с определёенного индекса (в данном случае с i индекса)?
+            if (z.index > i.index) segments.add(Segment(i.value, z.value))
+        }
     }
 
-    return listOf()
+    return segments.maxBy { it.length() }!!
+
 }
+
+
+fun convexHull(points: Array<out Point>): List<Point> {
+    val p0 = points.minWith(Comparator { o1, o2 -> if (o1.y == o2.y) (o1.x - o2.x).toInt() else (o1.y - o2.y).toInt() })!!
+    val pointsList = points.sortedWith(Comparator { o1, o2 -> -(polarAngle(p0, o1, o2).toInt()) }).toMutableList()
+    val convexHullList = mutableListOf<Point>()
+    convexHullList.add(p0)
+    convexHullList.add(pointsList[1])
+
+    for (i in 2..points.size - 1) {
+        while (polarAngle(convexHullList[convexHullList.size - 2], convexHullList[convexHullList.size - 1], pointsList[i]) < 0)
+            convexHullList.removeAt(convexHullList.size - 1)
+        convexHullList.add(pointsList[i])
+    }
+
+    return convexHullList
+}
+
 
 fun polarAngle(p0: Point, p1: Point, p2: Point): Double {
-    val a = (p1.x - p0.x) * (p2.y - p0.y) - (p2.y - p1.y) * (p2.x - p0.x)
-    if (a == 0.0) return  length(p0, p2) - length(p0, p1)
-    return a
+    val a = (p1.x - p0.x) * (p2.y - p1.y) - (p1.y - p0.y) * (p2.x - p1.x)
+    if (a == 0.0) return Segment(p0, p2).length() - Segment(p0, p1).length() else return a
 }
 
-fun length(p0: Point, p1: Point): Double = sqrt(sqr(p0.x - p1.x) + sqr(p0.y - p1.y))
 
 /**
  * Простая
@@ -125,8 +134,14 @@ fun length(p0: Point, p1: Point): Double = sqrt(sqr(p0.x - p1.x) + sqr(p0.y - p1
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val xCenter = (diameter.begin.x + diameter.end.x) / 2
+    val yCenter = (diameter.begin.y + diameter.end.y) / 2
+    val center = Point(xCenter, yCenter)
+    val radius = diameter.length() / 2
 
+    return (Circle(center, radius))
+}
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)
@@ -138,29 +153,73 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val k = when {
+            (tan(angle) == tan(PI / 2)) || (tan(angle) == tan(-PI / 2)) -> 0.0
+            else -> tan(angle)
+        } // угловой коэффициент первой прямой
+        val c = -point.x * k + point.y //штука первой прямой
+        val m = when {
+            (tan(other.angle) == tan(PI / 2)) || (tan(other.angle) == tan(-PI / 2)) -> 0.0
+            else -> tan(other.angle)
+        } // угловой коэфф второй прямой
+        val b = -other.point.x * m + other.point.y //штука второй прямой
+
+        if ((k == 0.0) && (m == 0.0)) return when {
+            (tan(angle) == tan(PI / 2)) || (tan(angle) == tan(-PI / 2)) -> Point(point.x, b)
+            else -> Point(other.point.x, c)
+        }
+
+        val X = (b - c) / (k - m)
+        val Y = when {
+            k == 0.0 -> (X - other.point.x) * tan(other.angle) + other.point.y
+            m == 0.0 -> (X - point.x) * tan(angle) + point.y
+            else -> (X - point.x) * tan(angle) + point.y
+
+        }
+        return Point(X, Y)
+    }
 }
+
 
 /**
  * Средняя
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val projection = s.end.x - s.begin.x
+    val module = s.end.y - s.begin.y
+    val angle = atan(module/projection)
+    return(Line(s.begin, angle))
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    return lineBySegment(Segment(a, b))
+}
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val angle = lineByPoints(a, b).angle
+    val center = Point((a.x + b.x)/2, (a.y + b.y)/2)
+    val asin = when {
+        angle == 0.0 -> PI/2
+        angle == PI/2 || angle == -PI/2 -> 0.0
+        angle < PI/2 -> -PI/2 - angle
+        else -> PI/2-angle
+
+    }
+    return Line(center, asin)
+}
 
 /**
  * Средняя

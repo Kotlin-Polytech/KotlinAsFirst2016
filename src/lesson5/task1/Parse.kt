@@ -83,7 +83,7 @@ fun dateStrToDigit(str: String): String {
 fun checkForDate(n: String): String {
     val c = n.toInt()
     if (c in 1..31) {
-        if (c in 1..9) return "0" + n + "."
+        if ((c in 1..9)&& (n[0] != '0')) return "0" + n + "."
         else return  n + "."
     } else return ""
 }

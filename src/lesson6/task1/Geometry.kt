@@ -129,14 +129,16 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point = TODO()
-}
 
 /**
  * Средняя
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val angle = Math.atan(Math.abs(s.begin.y - s.end.y) / Math.abs(s.begin.x - s.end.x))
+    return Line(s.begin, angle)
+}
 
 /**
  * Средняя

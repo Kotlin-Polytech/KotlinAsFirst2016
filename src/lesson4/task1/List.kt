@@ -109,9 +109,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sum = 0.0
-    for (i in 0..v.size - 1) {
-        val element = v[i]
-        sum += element * element
+    for (e in v) {
+        sum += e * e
     }
     return sqrt(sum)
 }
@@ -242,15 +241,19 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val NewConvert = convert(n, base)
-    var answer = ""
-    for (element in NewConvert) {
-        if (element > 9)
-            answer += ('a' - 10 + element).toChar()
-        else
-            answer += element.toString()
+    val NewConvert = convert(n, base).toList()
+    val Answer = mutableListOf<Char>()
+    if (n == 0) {
+        return "0"
+    } else {
+        for (element in NewConvert) {
+            when {
+                element <= 9 -> Answer.add('0' + element)
+                else -> Answer.add('a' + element - 10)
+            }
+        }
+        return Answer.joinToString("")
     }
-    return answer
 }
 
 /**

@@ -160,10 +160,16 @@ fun maxDivisor(n: Int): Int {
 
  */
 
-fun sqr(x: Int) = x * x
 
-fun squareBetweenExists(m: Int, n: Int): Boolean =
-        m <= sqr(Math.sqrt(n.toDouble()).toInt())
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    for (result in m..n) {
+        val sqrtResult = Math.sqrt(result.toDouble())
+        if (sqrtResult % 1 == 0.0) {
+            if (sqrtResult * sqrtResult in m..n) return true
+        }
+    }
+    return false
+}
 
 
 /**
@@ -252,7 +258,6 @@ fun squareSequenceDigit(n: Int): Int {
     var number = 0
     var nn = 0
     var dif = 0
-    var result = 0
     while (n > count) {
         number = i * i
         nn = number
@@ -264,10 +269,14 @@ fun squareSequenceDigit(n: Int): Int {
 
     }
     dif = count - n
-    if (n == count) result = nn % 10
-    else
-        result = (nn / Math.pow(10.0, dif.toDouble()).toInt()) % 10
-    return result
+    if (n != count) {
+        while (dif > 0) {
+            nn /= 10
+            dif--
+        }
+    }
+
+    return nn % 10
 }
 
 

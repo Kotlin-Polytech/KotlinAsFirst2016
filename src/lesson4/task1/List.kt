@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -109,8 +110,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     val n = v.size
     var result = 0.0
-    for (i in 0..n-1){
-        result+=v[i]*v[i]}
+    for (i in 0..n - 1) {
+        result += v[i] * v[i]
+    }
     return Math.sqrt(result)
 }
 
@@ -120,10 +122,10 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-   val sum= list.sum()
-    val n= list.size
-    if (n==0)  return 0.0
-    else return sum/n
+    val sum = list.sum()
+    val n = list.size
+    if (n == 0) return 0.0
+    else return sum / n
 }
 
 /**
@@ -133,15 +135,16 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val n= mean(list)
-    if(list.size==0) return list else
-    for (i in 0..list.size - 1) {
-        val element = list[i]
-            list[i] = element-n
+    val n = mean(list)
+    if (list.size == 0) return list else
+        for (i in 0..list.size - 1) {
+            val element = list[i]
+            list[i] = element - n
 
-    }
+        }
     return list
 }
+
 /**
  * Средняя
  *
@@ -150,11 +153,12 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    val n= a.size
+    val n = a.size
     var result = 0.0
-    if ((a.size==0)&&(b.size==0)) return 0.0 else
-        for (i in 0..n-1){
-        result+=a[i]*b[i]}
+    if ((a.size == 0) && (b.size == 0)) return 0.0 else
+        for (i in 0..n - 1) {
+            result += a[i] * b[i]
+        }
     return result
 
 }
@@ -168,14 +172,13 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    val n= p.size
+    val n = p.size
     var result = 0.0
-    if (p.isEmpty()==true ) return 0.0 else
-        for (i in 0..n-1){
-            result+=p[i]*Math.pow(x,i.toDouble())
+    if (p.isEmpty() == true) return 0.0 else
+        for (i in 0..n - 1) {
+            result += p[i] * Math.pow(x, i.toDouble())
         }
     return result
-
 
 
 }
@@ -189,15 +192,15 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    var sum=0.0
-    val n= list.size
-    if(list.isEmpty()==true) return list else
-         for (i in 0..n - 1) {
-            sum+=  list[i]
+    var sum = 0.0
+    val n = list.size
+    if (list.isEmpty() == true) return list else
+        for (i in 0..n - 1) {
+            sum += list[i]
             list[i] = sum
         }
-    return list}
-
+    return list
+}
 
 
 /**
@@ -208,13 +211,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    var number =n
-    var element=0
+    var number = n
+    var element = 0
     val result = mutableListOf<Int>()
-    while (number !=1) {
+    while (number != 1) {
         element = minDivisor(number)
         result.add(element)
-        number/=element
+        number /= element
 
     }
     return result
@@ -228,10 +231,9 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     val list = factorize(n)
-    var a =""
-    a= list.joinToString(separator = "*")
-    if (isPrime(n)==true ) return "$n" else return a
+    return list.joinToString("*")
 }
+
 
 /**
  * Средняя
@@ -240,7 +242,20 @@ fun factorizeToString(n: Int): String {
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var residue = 0
+    var nn = n
+    if (n == 0) result.add(0)
+    while (nn > 0) {
+        residue = nn % base
+        result.add(0, residue)
+        nn /= base
+
+    }
+    return result
+
+}
 
 /**
  * Сложная
@@ -250,7 +265,16 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val list: List<Int>
+    var result = ""
+    list = convert(n, base)
+    for (i in 0..list.size - 1) {
+        if (list[i] > 9) result += (87 + list[i]).toChar() else
+            result += (list[i]).toString()
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -259,7 +283,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var n = 0.0
+    var exp = 0.0
+    for (i in (digits.size - 1) downTo 0) {
+        n += digits[i] * Math.pow(base.toDouble(), exp)
+        exp++
+    }
+    return n.toInt()
+}
 
 /**
  * Сложная
@@ -270,7 +302,16 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var list: List<Int>
+    list = listOf()
+    for (i in 0..str.length - 1) {
+        if (str[i] in '0'..'9') list += ((str[i]).toInt() - 48) else
+            list += ((str[i]).toInt() - 87)
+    }
+    return decimal(list, base)
+
+}
 
 /**
  * Сложная

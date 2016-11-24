@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -34,23 +35,22 @@ fun timeSecondsToStr(seconds: Int): String {
 
 /**
  * Пример: консольный ввод
- */
+
 fun main(args: Array<String>) {
-    println("Введите время в формате ЧЧ:ММ:СС")
-    val line = readLine()
-    if (line != null) {
-        val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
-            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
-            println("Прошло секунд с начала суток: $seconds")
-        }
-    }
-    else {
-        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-    }
+println("Введите время в формате ЧЧ:ММ:СС")
+val line = readLine()
+if (line != null) {
+val seconds = timeStrToSeconds(line)
+if (seconds == -1) {
+println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
+} else {
+println("Прошло секунд с начала суток: $seconds")
 }
+} else {
+println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
+}
+}
+ */
 
 /**
  * Средняя
@@ -60,7 +60,37 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parse = str.split(" ")
+    var result = ""
+    if (parse.size == 3) {
+        try {
+            if (parse[0].toInt() in 1..9)
+                result += "0" + parse[0].toInt().toString() + "."
+            else result += parse[0].toString() + "."
+            result += when (parse[1]) {
+                "января" -> "01"
+                "февраля" -> "02"
+                "марта" -> "03"
+                "апреля" -> "04"
+                "мая" -> "05"
+                "июня" -> "06"
+                "июля" -> "07"
+                "августа" -> "08"
+                "сентября" -> "09"
+                "октября" -> "10"
+                "ноября" -> "11"
+                "декабря" -> "12"
+                else -> return ""
+            }
+            result += "." + parse[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
+
 
 /**
  * Средняя
@@ -69,7 +99,34 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var result = ""
+    val parse = digital.split(".")
+    if (parse.size == 3) {
+        try {
+            result += parse[0].toInt().toString() + " "
+            result += when (parse[1]) {
+                "01" -> "января"
+                "02" -> "февраля"
+                "03" -> "марта"
+                "04" -> "апреля"
+                "05" -> "мая"
+                "06" -> "июня"
+                "07" -> "июля"
+                "08" -> "августа"
+                "09" -> "сентября"
+                "10" -> "октября"
+                "11" -> "ноября"
+                "12" -> "декабря"
+                else -> return ""
+            }
+            result += " " + parse[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Сложная
@@ -83,7 +140,22 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    for (i in 0..phone.length - 1) {
+        if ((phone[i] != '+') && (phone[i] != '-') && (phone[i] != ' ')
+                && (phone[i] !in '0'..'9') && (phone[i] != '(') && (phone[i] != ')'))
+            return ""
+    }
+    var string = phone.filter { (it in '0'..'9') || (it == '+') }
+    val firstel = string[0]
+    var result = ""
+    for (i in 1..string.length - 1) {
+        if (string [i] != '+') result += string[i]
+    }
+
+    return firstel + result
+
+}
 
 /**
  * Средняя
@@ -95,7 +167,23 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    for (i in 0..jumps.length - 1) {
+        if ((jumps[i] != '%') && (jumps[i] != '-') && (jumps[i] != ' ')
+                && (jumps[i] !in '0'..'9'))
+            return -1
+    }
+    val parse = jumps.filter { (it in '0'..'9') || (it == ' ') }.split(" ")
+    var max = -1
+    for (i in 0..parse.size - 1)
+        try {
+            if (parse[i].toInt() > max) max = parse[i].toInt()
+        } catch (e: NumberFormatException) {
+            null
+        }
+    return max
+}
+
 
 /**
  * Сложная
@@ -107,7 +195,18 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    try {
+        var parse = jumps.split(" ")
+        var max = -1
+        for (i in 0..parse.size - 1 step 2) {
+            if ((parse[i].toInt() > max) && ('+' in parse[i + 1])) max = parse [i].toInt()
+        }
+        return max
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -118,7 +217,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    for (i in 0..expression.length - 1) {
+        if ((expression[i] != '+') && (expression[i] != '-') && (expression[i] !in '0'..'9') && (expression[i] != ' '))
+            throw IllegalArgumentException("IllegalArgumentException")
+    }
+    var result = 0
+
+    val foo = expression.split(" ")
+    try {
+        result += foo[0].toInt()
+        for (i in 2..foo.size - 1 step 2)
+            if (foo[i - 1] == "-") result -= foo[i].toInt()
+            else result += foo[i].toInt()
+    } catch (e: NumberFormatException) {
+        throw NumberFormatException("IllegalArgumentException")
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -129,7 +246,28 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    str.toLowerCase()
+    val string = str
+    val parse = string.split(" ")
+    var index = 0
+    for (i in 0..parse.size - 2) {
+        if (parse[i] == parse[i + 1]) index = i
+    }
+    var count = 0
+    var result = 0
+    if (index == 0) return -1
+    else for (i in 0..str.length - 1) {
+        if (str[i] == ' ') {
+            count++
+            result = i + 1
+            if (count == index) break
+        }
+
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -188,3 +326,9 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+fun main(args: Array<String>) {
+    val f = "Он пошёл в в школу"
+    val x = firstDuplicateIndex(f)
+    println(x)
+}

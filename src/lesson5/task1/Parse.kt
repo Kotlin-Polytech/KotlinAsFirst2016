@@ -220,11 +220,10 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     for (i in 0..expression.length - 1) {
-        if ((expression == "") || (expression[i] != '+') && (expression[i] != '-') && (expression[i] !in '0'..'9') && (expression[i] != ' '))
+        if ((expression == "") || !((expression[i] == '+') || (expression[i] == '-') || (expression[i] in '0'..'9') || (expression[i] == ' ')))
             throw IllegalArgumentException("IllegalArgumentException")
     }
     var result = 0
-
     val foo = expression.split(" ")
     try {
         result += foo[0].toInt()

@@ -55,14 +55,20 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val center = center.distance(other.center)
+        val sum = radius + other.radius
+        val result = center - sum
+        if (result < 0.0) return 0.0
+        return result
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = center.distance(p) <= radius
 }
 
 /**
@@ -105,7 +111,12 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    var a = Math.atan2(s.begin.y - s.end.y, s.begin.x - s.end.x)
+    if (a == Math.PI || a == -Math.PI) a = 0.0
+    if (a < 0) a += Math.PI
+    return Line(s.begin, a)
+}
 
 /**
  * Средняя

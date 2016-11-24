@@ -89,7 +89,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         }
 
 
-        while ( i > countCoils  ){
+        while ( i > countCoils + countStep ){
             value += 1
             matrix[i - 1,j - 1 ] = value
             i -= 1

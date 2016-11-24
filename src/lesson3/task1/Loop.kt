@@ -191,11 +191,12 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
 fun hasDifferentDigits(n: Int): Boolean {
     var sum = 0
     var q = n
-    for (i in 0..digitNumber(n) - 1) {
+    return digitCountInNumber(q,q%10)!= digitNumber(n)
+    /*for (i in 0..digitNumber(n) - 1) {
         sum += q % 10
         q /= 10
     }
-    return sum != n % 10 * digitNumber(n)
+    return sum != n % 10 * digitNumber(n)*/
 }
 
 /**

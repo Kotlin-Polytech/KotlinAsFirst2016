@@ -188,7 +188,12 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    val columnChange = Math.abs(end.column - start.column)
+    val rowChange = Math.abs(end.row - start.row)
+    if (start.inside() && end.inside()) return Math.max(columnChange, rowChange)
+    else throw IllegalArgumentException("Wrong square format")
+}
 
 /**
  * Сложная
@@ -204,7 +209,32 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException("Wrong square format")
+    var currentSquare = start
+    val kingTrajectory = mutableListOf<Square>(start)
+    while (currentSquare != end) {
+        currentSquare = when {
+            (currentSquare.column < end.column) && (currentSquare.row < end.row) ->
+                                Square(currentSquare.column + 1, currentSquare.row + 1)
+                        (currentSquare.column > end.column) && (currentSquare.row < end.row) ->
+                                Square(currentSquare.column - 1, currentSquare.row + 1)
+                        (currentSquare.column > end.column) && (currentSquare.row > end.row) ->
+                                Square(currentSquare.column - 1, currentSquare.row - 1)
+                        (currentSquare.column < end.column) && (currentSquare.row > end.row) ->
+                                Square(currentSquare.column + 1, currentSquare.row - 1)
+                        (currentSquare.column < end.column) && (currentSquare.row == end.row) ->
+                                Square(currentSquare.column + 1, currentSquare.row)
+                        (currentSquare.column == end.column) && (currentSquare.row > end.row) ->
+                                Square(currentSquare.column, currentSquare.row - 1)
+                        (currentSquare.column > end.column) && (currentSquare.row == end.row) ->
+                                Square(currentSquare.column - 1, currentSquare.row)
+                        else -> Square(currentSquare.column, currentSquare.row + 1)
+        }
+        kingTrajectory.add(currentSquare)
+    }
+    return kingTrajectory
+}
 
 /**
  * Сложная

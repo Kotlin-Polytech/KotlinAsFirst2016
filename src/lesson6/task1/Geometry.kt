@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task1
 
+
 import lesson1.task1.sqr
 
 /**
@@ -55,14 +56,21 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val distCenter = center.distance(other.center)
+        val radSum = radius + other.radius
+        if (distCenter < radSum) return 0.0
+        else return distCenter - radSum
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        return center.distance(p) <= radius
+    }
 }
 
 /**
@@ -76,7 +84,22 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    var myDistance = 0
+    var mySegment = Segment(points[0], points[1])
+    if (points.size < 2) throw IllegalArgumentException()
+    else {
+        for (i in 1..points.size - 1) {
+            val dist = points[i].distance(points[i - 1])
+            if (dist > myDistance) {
+                myDistance = dist.toInt()
+                mySegment = Segment(points[i - 1], points[i])
+            }
+
+        }
+        return mySegment
+    }
+}
 
 /**
  * Простая
@@ -84,7 +107,11 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+   val radius = diameter.begin.distance(diameter.end)/2
+    val center = Point(diameter.begin.x/2, diameter.end.y/2)
+    return Circle(center, radius)
+}
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -97,7 +124,9 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        TODO()
+    }
 }
 
 /**
@@ -105,7 +134,9 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    TODO()
+}
 
 /**
  * Средняя

@@ -116,7 +116,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * использующее целые положительные числа, плюсы и минусы, разделённые пробелами.
  * Наличие двух знаков подряд "13 + + 10" или двух чисел подряд "1 2" не допускается.
  * Вернуть значение выражения (6 для примера).
- * Про нарушении формата входной строки бросить исключение IllegalArgumentException
+ * При нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
 
@@ -129,7 +129,18 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int{
+    val words = str.toUpperCase().split(' ')
+    var rez = 0
+    for (i in 0..words.size-2) {
+        if (words[i].equals(words[i+1])){
+            for(j in 0..i-1)
+                rez+= words[j].length + 1
+            return rez
+        }
+    }
+    return -1
+}
 
 /**
  * Сложная

@@ -261,7 +261,7 @@ fun convertToString(n: Int, base: Int): String{
             rez.add((from_convert[i] + 'a'.toInt() - 10).toChar())
         }
     }
-    return rez.toString()// я не понял в чем косяк
+    return rez.joinToString("")
 }
 
 /**
@@ -291,16 +291,16 @@ fun decimal(digits: List<Int>, base: Int): Int{
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int{
-    var b=1
-    var rez = 0
+    val to_decimal = mutableListOf<Int>()
     for (i in 0..str.length-1){
-        if (str.reversed()[i] in '0'..'9')
-            rez += (str.reversed()[i] - '0') *b
-        else
-            rez += (str.reversed()[i] - 'a' + 10) *b
-        b *= base
+        if (str[i] in '0'..'9') {
+            to_decimal.add(str[i].toInt() - '0'.toInt())
+        }
+        else{
+            to_decimal.add(str[i].toInt() - 'a'.toInt() + 10)
+        }
     }
-    return rez
+    return decimal(to_decimal,base)
 }
 
 /**

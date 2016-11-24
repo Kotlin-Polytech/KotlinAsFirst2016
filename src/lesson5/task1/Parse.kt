@@ -321,7 +321,7 @@ fun fromRoman(roman: String): Int{
             return - 1
     val libraryNumber = listOf(1, 5, 10, 50, 100, 500, 1000)
     var indexRoman = 0
-    while (indexRoman != roman.length){
+    while (indexRoman != roman.length ){
         when (roman[indexRoman]){
             'I' ->{
                 if ( indexRoman != roman.length - 1 ) {
@@ -474,7 +474,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
     for (i in 0..cells - 1 step 1)
         cellsResult.add(0)
 
-    var indexCommands = 0
+    var indexCommands = 1
     var indexCells = cellsResult.size  / 2
 
     if (countBrackets(library[2], commands) != countBrackets(library[3], commands))
@@ -487,46 +487,46 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
         if (commands[i] !in library)
             throw IllegalArgumentException()
 
-    while (indexCommands != (commands.length )){
-        if ((indexCells > cellsResult.size - 1) || (indexCells < 0))
+    while (indexCommands  <= (commands.length )){
+        if ((indexCells < 0 ) || (indexCells + 1 > cellsResult.size ))
             throw IllegalStateException()
         else
         {
-            when (commands[indexCommands]){
+            when (commands[indexCommands - 1]){
                 '>' -> {
-                    if (commands[indexCommands] == '>') {
+                    if (commands[indexCommands - 1] == '>') {
                         indexCells++
                     }
                 }
                 '<' -> {
-                    if (commands[indexCommands] == '<'){
+                    if (commands[indexCommands - 1] == '<'){
                         indexCells--
                     }
                 }
                 '+' -> {
-                    if (commands[indexCommands] == '+'){
+                    if (commands[indexCommands - 1] == '+'){
                         cellsResult[indexCells]++
                     }
                 }
                 '-' -> {
-                    if (commands[indexCommands] == '-'){
+                    if (commands[indexCommands - 1] == '-'){
                         cellsResult[indexCells]--
                     }
                 }
                 '[' -> {
                     if (cellsResult[indexCells] == 0) {
                         var indexSquare = indexCommands
-                        while (commands[indexSquare] != ']'){
+                        while (commands[indexSquare - 1] != ']'){
                             indexSquare++
                             indexCommands++
                         }
                     }
                 }
                 ']' -> {
-                    if (commands[indexCommands] == ']'){
+                    if (commands[indexCommands - 1] == ']'){
                         if (cellsResult[indexCells] != 0) {
                             var indexSquare = indexCommands
-                            while (commands[indexSquare] != '[') {
+                            while (commands[indexSquare - 1] != '[') {
                                 indexSquare--
                                 indexCommands--
                             }
@@ -534,10 +534,10 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
                     }
                 }
                 '{' -> {
-                    if (commands[indexCommands] == '{'){
+                    if (commands[indexCommands - 1] == '{'){
                         if (cellsResult[indexCells] == 0) {
                             var indexSquare = indexCommands
-                            while (commands[indexSquare] != '}') {
+                            while (commands[indexSquare - 1] != '}') {
                                 indexSquare++
                                 indexCommands++
                             }
@@ -547,7 +547,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
                 '}' -> {
                     if (cellsResult[indexCells] != 0){
                         var indexSquare = indexCommands
-                        while (commands[indexSquare] != '{'){
+                        while (commands[indexSquare - 1] != '{'){
                             indexSquare--
                             indexCommands--
                         }
@@ -557,5 +557,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
             indexCommands++
         }
     }
+    if ((indexCells < 0 ) || (indexCells + 1 > cellsResult.size ))
+        throw IllegalStateException()
     return cellsResult
 }

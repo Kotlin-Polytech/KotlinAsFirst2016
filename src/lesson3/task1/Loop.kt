@@ -153,8 +153,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     val rootM = Math.sqrt(m.toDouble())
     val rootN = Math.sqrt(n.toDouble())
     val difference = Math.floor(rootN) - Math.ceil(rootM)
-    return if (difference >= 0) true
-    else false
+    return difference >= 0
 }
 
 /**
@@ -240,7 +239,7 @@ fun squareSequenceDigit(n: Int): Int {
         i++
         curN += digitNumber(i * i)
     }
-    return ((i * i) / pow(10, curN - n)) % 10
+    return (i * i / pow(10, curN - n)) % 10
 }
 
 /**

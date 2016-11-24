@@ -19,7 +19,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean =
-        (number % 10 + number / 10 % 10) == (number / 100 % 10 + number / 1000)
+        (number % 10 + number / 10 % 10) ==
+                (number / 100 % 10 + number / 1000)
 
 /**
  * Простая
@@ -28,7 +29,8 @@ fun isNumberHappy(number: Int): Boolean =
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
-        ((x1 == x2) || (y2 == y1))
+        ((x1 == x2)
+                || (y2 == y1))
                 || (Math.abs(x1 - x2) == Math.abs(y1 - y2))
 
 
@@ -41,7 +43,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean =
-        ((Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2)
+        (Math.sqrt(sqr(x2 - x1) + sqr(y2 - y1)) + r1) <= r2
 
 
 /**
@@ -53,15 +55,19 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-        (a <= r && b <= s) ||
-                (a <= s && b <= r) ||
-                (a <= r && c <= s) ||
-                (a <= s && c <= r) ||
-                (a <= r && b <= s) ||
-                (a <= s && b <= r) ||
-                (c <= s && b <= r) ||
-                (c <= r && b <= s)
-
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    var min1: Int
+    var min2: Int
+    if (a >= b) {
+        min1 = b
+        if (a >= c) min2 = c
+        else min2 = a
+    } else {
+        min1 = a
+        if (b >= c) min2 = c
+        else min2 = b
+    }
+    return (min1 <= r && min2 <= s) || (min1 <= s && min2 <= r)
+}
 
 

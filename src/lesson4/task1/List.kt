@@ -137,11 +137,10 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    // if (list.isEmpty()) return list
     try {
-        val midllelist = mean(list)
-        for (i in 0..list.size - 1) list[i] = list[i] - midllelist
-    } catch (e: Exception) {
+        val midlleNumInList = mean(list)
+        for (i in 0..list.size - 1) list[i] = list[i] - midlleNumInList
+    } catch (e: NumberFormatException) {
         return list
     }
     return list
@@ -182,7 +181,7 @@ fun polynom(p: List<Double>, x: Double): Double =
                 sum += p[i] * Math.pow(x, i.toDouble())
             }
             sum
-        } catch (e: Exception) {
+        } catch (e: NumberFormatException) {
             0.0
         }
 
@@ -195,16 +194,14 @@ fun polynom(p: List<Double>, x: Double): Double =
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> =
-        if (list.isEmpty()) list
-        else {
-            var gap: Double = 0.0
-            for (i in 0..list.size - 1) {
-                gap += list[i]
-                list[i] = gap
-            }
-            list
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+        var gap = 0.0
+        for (i in 0..list.size - 1) {
+            gap += list[i]
+            list[i] = gap
         }
+        return list
+    }
 
 /**
  * Средняя
@@ -266,13 +263,11 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var list: List<Int>
     var str1 = StringBuilder()
-    if (n == 0) return str1.toString()
+    if (n == 0) return ""
     list = convert(n, base)
     for (i in 0..list.size - 1) {
         if (list[i] > 9) str1.append((87 + list[i]).toChar())
-        //if (list[i] > 9) str1 += (87 + list[i]).toChar()
         else str1.append((list[i]).toString())
-        // else str1 += (list[i]).toString()
     }
     return str1.toString()
 }
@@ -286,14 +281,21 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
-    for (i in (digits.size - 1) downTo 0) result += (digits[i] * Math.pow(base.toDouble(), ((digits.size - 1) - i).toDouble())).toInt()
+    for (i in (digits.size - 1) downTo 0) result += (digits[i] * pow(base, ((digits.size - 1) - i)))
     return result
 }
 
-fun powInt(num: Int, b: Int): Int {//функция степени ,не готова
-    if (b == -1) return 1 / num
-    if (b < 2) return num else return num * powInt(num, b - 1)
-}
+fun pow(num: Int, n: Int): Int {
+        if (n==0)
+            return 1
+        else if (n==1)
+            return num
+        else if (n % 2 == 0 )
+            return pow( num * num, n/2)
+        else
+            return pow( num * num, n /2)*num
+    }
+
 
 
 /**
@@ -307,10 +309,9 @@ fun powInt(num: Int, b: Int): Int {//функция степени ,не гот�
  */
 fun decimalFromString(str: String, base: Int): Int {
     var list: List<Int> = listOf()
-    var str1 = str
-    for (i in 0..str1.length - 1) {
-        if (str1[i] in '0'..'9') list += ((str1[i]).toInt() - 48)
-        else list += ((str1[i]).toInt() - 87)
+    for (i in 0..str.length - 1) {
+        if (str[i] in '0'..'9') list += ((str[i]).toInt() - 48)
+        else list += ((str[i]).toInt() - 87)
     }
     return decimal(list, base)
 }
@@ -324,83 +325,20 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var n1 = n
-    var counter = 0
-    var result = ""
-    while (n1 != 0) {
-        counter++
-        val num: Int = n1 % 10
-        when (counter) {   //translate number
-            1 -> { //блок перевода разряда
-                when {
-                    (num >= 1) && (num <= 3) -> {
-                        for (i in 1..num) {
-                            result += "I"
-                        }
-                    }
-                    num == 4 -> result += "VI" //число пишется наоборот ,так как идем по числу с конца
-                    num == 5 -> result += "V"
-                    (num > 5) && (num < 9) -> {
-                        for (i in 1..(num - 5)) {
-                            result += "I"
-                        }
-                        result += "V"
-                    }
-                    num == 9 -> result += "XI"
-                }
+        var result = StringBuilder()
+        var n2 = n
+        val rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M" )
+        val dec = listOf( 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+        var i = 12
+        while (n2 != 0) {
+            while (n2 >= dec[i]) {
+                n2 -= dec[i]
+                result.append(rom[i])
             }
-            2 -> {//блок перевода разряда
-                when {
-                    (num >= 1) && (num <= 3) -> {
-                        for (i in 1..num) {
-                            result += "X"
-                        }
-                    }
-                    num == 4 -> result += "LX"
-                    num == 5 -> result += "L"
-                    (num > 5) && (num < 9) -> {
-                        for (i in 1..(num - 5)) {
-                            result += "X"
-                        }
-                        result += "L"
-                    }
-                    num == 9 -> result += "CX"
-                }
-            }
-            3 -> {//блок перевода разряда
-                when {
-                    (num >= 1) && (num <= 3) -> {
-                        for (i in 1..num) {
-                            result += "C"
-                        }
-                    }
-                    num == 4 -> result += "DC"
-                    num == 5 -> result += "D"
-                    (num > 5) && (num < 9) -> {
-                        for (i in 1..(num - 5)) {
-                            result += "C"
-                        }
-                        result += "D"
-                    }
-                    num == 9 -> result += "MC"
-                }
-            }
-            4 -> {//блок перевода последнего разряда
-                if (n1 >= 1) {
-                    for (i in 1..n1) {
-                        result += "M"
-                    }
-                }
-            }
-            else -> {
-                n1 = 0
-            }
+            i--
         }
-        if (counter == 4) return result.reversed() //revers из-за прохода с конца
-        n1 /= 10
+        return result.toString()
     }
-    return result.reversed() //revers из-за прохода с конца
-}
 
 
 /**

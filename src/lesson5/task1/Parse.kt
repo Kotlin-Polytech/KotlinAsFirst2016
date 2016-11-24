@@ -61,12 +61,11 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val parse = str.split(" ")
-    var result = ""
+    var result = StringBuilder()
     if (parse.size == 3) {
         try {
-            if (parse[0].toInt() in 1..9) result += "0" + parse[0].toInt().toString() + "."
-            else result += parse[0].toString() + "."
-            result += when (parse[1]) {
+            result.append(parse[0].padStart(2, '0') + ".")
+            result.append(when (parse[1]) {
                 "января" -> "01"
                 "февраля" -> "02"
                 "марта" -> "03"
@@ -80,12 +79,12 @@ fun dateStrToDigit(str: String): String {
                 "ноября" -> "11"
                 "декабря" -> "12"
                 else -> return ""
-            }
-            result += "." + parse[2].toInt().toString()
+            })
+            result.append("." + parse[2].toInt().toString())
         } catch (e: NumberFormatException) {
             return ""
         }
-        return result
+        return result.toString()
     } else return ""
 }
 
@@ -98,12 +97,12 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parse = digital.split(".")
-    var result = ""
+    var result = StringBuilder()
     if (parse.size == 3) {
         try {
-            if (parse[0][1].toInt() in 1..9) result += parse[0].toInt().toString() + " "
-            else result += parse[0].toInt().toString() + " "
-            result += when (parse[1]) {
+            if (parse[0][1].toInt() in 1..9) result.append(parse[0].toInt().toString() + " ")
+            else result.append(parse[0].toInt().toString() + " ")
+            result.append(when (parse[1]) {
                 "01" -> "января"
                 "02" -> "февраля"
                 "03" -> "марта"
@@ -117,12 +116,12 @@ fun dateDigitToStr(digital: String): String {
                 "11" -> "ноября"
                 "12" -> "декабря"
                 else -> return ""
-            }
-            result += " " + parse[2].toInt().toString()
+            })
+            result.append(" " + parse[2].toInt().toString())
         } catch (e: NumberFormatException) {
             return ""
         }
-        return result
+        return result.toString()
     } else return ""
 }
 
@@ -210,19 +209,15 @@ fun plusMinus(expression: String): Int {
     var resultExpression = expression
     val parts = resultExpression.split(" ")
     var result = 0
-    try {
-        if ((parts[0] == "-") || (parts[0] == "+"))
-            for (i in 1..parts.size - 1 step 2)
-                if (parts[i - 1] == "-") result -= parts[i].toInt()
-                else result += parts[i].toInt()
-        else {
-            result += parts[0].toInt()
-            for (i in 2..parts.size - 1 step 2)
-                if (parts[i - 1] == "-") result -= parts[i].toInt()
-                else result += parts[i].toInt()
-        }
-    } catch (e: NumberFormatException) {
-        throw NumberFormatException("IllegalArgumentException")
+    if ((parts[0] == "-") || (parts[0] == "+"))
+        for (i in 1..parts.size - 1 step 2)
+            if (parts[i - 1] == "-") result -= parts[i].toInt()
+            else result += parts[i].toInt()
+    else {
+        result += parts[0].toInt()
+        for (i in 2..parts.size - 1 step 2)
+            if (parts[i - 1] == "-") result -= parts[i].toInt()
+            else result += parts[i].toInt()
     }
     return result
 }
@@ -238,10 +233,10 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     var littleReg = str.toLowerCase().split(" ")
-    var summ = 0
+    var sum = 0
     for (i in 0..littleReg.size - 2) {
-        if ((littleReg[i] == littleReg[i + 1]) && (littleReg[i] != "")) return summ
-        summ += littleReg[i].length + 1
+        if ((littleReg[i] == littleReg[i + 1]) && (littleReg[i] != "")) return sum
+        sum += littleReg[i].length + 1
     }
     return -1
 }
@@ -259,19 +254,19 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
-    var result =""
+    var result = ""
     val maxNum = Regex("[0-9.]+").findAll(description).map { it.value.toDouble() }.max() // нахождение макс числа
     try { //проверка на формат
-        var string = description.split("; ") //split по покупкам
-        for (i in 0..string.size - 1) {
-            var stringLittle = string[i].split(" ") //разделение на назв. покупки и цену
+        var purchases = description.split("; ") //split по покупкам
+        for (i in 0..purchases.size - 1) {
+            var stringLittle = purchases[i].split(" ") //разделение на назв. покупки и цену
             if (stringLittle.size == 2) { // проверка формат
-                if (stringLittle[1].toDouble() == maxNum){ //сравнение с макс числом
-                   return stringLittle[0] //вывод покупки
+                if (stringLittle[1].toDouble() == maxNum) { //сравнение с макс числом
+                    return stringLittle[0] //вывод покупки
                 }
             } else return ""
         }
-    } catch (e: Exception) {
+    } catch (e: NumberFormatException) {
         return ""
     }
     return result
@@ -289,28 +284,28 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    if (roman.isEmpty()) return 0
-    val font_rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-    val font_ar = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-    var rezult = 0
+    if (roman.isEmpty()) return -1
+    val font_Rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val font_Ar = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var result = 0
     var posit = 0
-    var n = font_ar.size - 1
+    var n = font_Ar.size - 1
     if (roman.length == 1) { //когда один символ
         while (n >= 0) {
-            if (roman[0].toString() == font_rom[n]) {
-                rezult += font_ar[n]
-                return rezult
+            if (roman[0].toString() == font_Rom[n]) {
+                result += font_Ar[n]
+                return result
             } else n -= 2
         }
     }
     while (n >= 0 && posit < roman.length) {
-        if (roman.substring(posit, font_rom[n].length + posit) == font_rom[n]) {
-            rezult += font_ar[n]
-            posit += font_rom[n].length
+        if (roman.substring(posit, font_Rom[n].length + posit) == font_Rom[n]) {
+            result += font_Ar[n]
+            posit += font_Rom[n].length
         } else n--
     }
-    if (rezult == 0) return -1
-    return rezult
+    if (result == 0) return -1
+    return result
 }
 
 

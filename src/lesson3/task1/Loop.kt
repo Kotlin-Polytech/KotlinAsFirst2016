@@ -114,15 +114,11 @@ fun lcm(m: Int, n: Int): Int =
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var check = 1
-    for (i in 2..n) {
-        if (n % i == 0) {
-            check = i
-            break
-        }
-    }
-    return check
+    var i: Int = 2
+    while (n % i != 0) i++
+    return i
 }
+
 
 
 /**
@@ -131,14 +127,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var check = n
-    for (i in n - 1 downTo 1) {
-        if (n % i == 0) {
-            check = i
-            break
-        }
-    }
-    return check
+    var i: Int = n - 1
+    while (n % i != 0) i--
+    return i
 }
 
 /**
@@ -182,14 +173,15 @@ fun sin(x: Double, eps: Double): Double {
     var counter = 0
     val x1 = x % (2 * Math.PI)
     var number = x1
-    var sinus = x1
+    var sines = x1
     while (Math.abs(number) > eps) {
         counter++
-        number = Math.pow(x1, counter * 2.0 + 1) / factorial(counter * 2 + 1)
-        if (counter % 2 == 1) sinus -= number
-        else sinus += number
+        number = Math.pow(x1, counter * 2.0 + 1) /
+                factorial(counter * 2 + 1)
+        if (counter % 2 == 1) sines -= number
+        else sines += number
     }
-    return sinus
+    return sines
 }
 
 
@@ -222,16 +214,6 @@ fun tenNumbers(n: Int): Int {
     return result
 }
 
-/**
-var t = ""
-var n1 = n
-do {
-t += (n1 % 10).toString()
-n1 /= 10
-} while (n1 >= 1)
-return t.toInt()
-}
- */
 
 /**
  * Простая
@@ -243,16 +225,16 @@ return t.toInt()
 fun cos(x: Double, eps: Double): Double {
     var i = 0
     val x1 = x % (2 * Math.PI)
-    var cosus = 1.0
+    var cosine = 1.0
     var number = x1
     while (Math.abs(number) > eps) {
         i++
         number = Math.pow(x1, i * 2.0) / factorial(i * 2)
-        if (i % 2 == 1) cosus -= number
-        else cosus += number
+        if (i % 2 == 1) cosine -= number
+        else cosine += number
 
     }
-    return cosus % (2 * Math.PI)
+    return cosine % (2 * Math.PI)
 }
 
 
@@ -264,23 +246,7 @@ fun cos(x: Double, eps: Double): Double {
  * 15751 -- палиндром, 3653 -- нет.
  */
 
-fun isPalindrome(n: Int): Boolean = revert(n)==n
-
-/*
-    if (n in -9..9) return true
-    val firstNumber = n % 10
-    val secondNumber = n % 100 / 10
-    var nForWhile = 1
-    val counter = digitNumber(n)
-    for (i in 1..counter) {
-        nForWhile *= 10
-    }
-    val revertNumFirst = n / (nForWhile / 10)
-    val revertNumSecond = n / (nForWhile / 100) % 10
-    if ((firstNumber == revertNumFirst) && (secondNumber == revertNumSecond)) return true
-    return false
-}
-**/
+fun isPalindrome(n: Int): Boolean = revert(n) == n
 
 
 /**
@@ -289,9 +255,19 @@ fun isPalindrome(n: Int): Boolean = revert(n)==n
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean =
-       // ((n.toString().filter {it-> it == n.toString()[0] }) != (n.toString()))
-  ((n.toString().filter { it == n.toString()[0] }) != (n.toString()))
+fun hasDifferentDigits(n: Int): Boolean {
+    var count = 0
+    var n1 = n
+    val number = n % 10
+    val digitNum = digitNumber(n)
+    if (digitNum == 1) return false
+    while (n1 != 0) {
+        if (n1 % 10 == number) count++
+        n1 /= 10
+    }
+    if (count == digitNum) return false
+    return true
+}
 
 /**
  * Сложная
@@ -303,16 +279,16 @@ fun hasDifferentDigits(n: Int): Boolean =
 fun squareSequenceDigit(n: Int): Int {
     var i = 0
     var number = 0
-    var resalt = 0
+    var result: Int
     while (number < n) {
         i++
         number += digitNumber(i * i)
     }
-    resalt = i * i
-    for (i in n..number - 1) {
-        resalt = resalt / 10
+    result = i * i
+    for (p in n..number - 1) {
+        result /= 10
     }
-    return (resalt % 10)
+    return (result % 10)
 }
 
 
@@ -328,13 +304,13 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var i = 0
     var number = 0
-    var result = 0
+    var result: Int
     while (number < n) {
         i++
         number += digitNumber(fib(i))
     }
     result = fib(i)
-    for (i in n..number - 1) {
+    for (p in n..number - 1) {
         result /= 10
     }
     return (result % 10)

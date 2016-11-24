@@ -226,7 +226,7 @@ fun factorizeToString(n: Int) = factorize(n).joinToString(separator = "*")
 fun convert(n: Int, base: Int): List<Int> {
     var nn = n
     var list = listOf<Int>()
-    if (n == 0) return list
+    if (n == 0) return (list+0)
     while (nn > 0) {
         list += nn % base
         nn /= base
@@ -274,6 +274,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
     }
     return n
 }
+
 /**
  * Сложная
  *
@@ -285,11 +286,11 @@ fun decimal(digits: List<Int>, base: Int): Int {
  */
 fun decimalFromString(str: String, base: Int): Int {
     var list = listOf<Int>()
-for (i in str) {
-    if (i in '0'..'9') list += (i - '0')
-    else list += (i + 10 - 'a')
-}
-return decimal(list, base)
+    for (i in str) {
+        if (i in '0'..'9') list += (i - '0')
+        else list += (i + 10 - 'a')
+    }
+    return decimal(list, base)
 }
 
 /**

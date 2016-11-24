@@ -104,8 +104,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  *
  * Найти модуль заданного вектора, представленного в виде списка v,
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
- * Модуль пустого вектора считать равным 0.0.
- */
+* Модуль пустого вектора считать равным 0.0.
+*/
 fun abs(v: List<Double>): Double {
     var x = 0.0
     for (element in v) {

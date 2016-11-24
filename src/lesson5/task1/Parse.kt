@@ -65,7 +65,7 @@ fun dateStrToDigit(str: String): String {
     if (parts.size != 3)
         return ""
     var date = parts[0]
-    var year = parts[2]
+    val year = parts[2]
     var month = parts[1]
     if (month == "января") month = "01" else
         if (month == "феврвля") month = "02" else
@@ -96,7 +96,7 @@ fun dateDigitToStr(digital: String): String {
     if (parts.size != 3)
         return ""
     var date = parts[0]
-    var year = parts[2]
+    val year = parts[2]
     var month = parts[1]
     if (month == "01") month = "января" else
         if (month == "02") month = "феврвля" else

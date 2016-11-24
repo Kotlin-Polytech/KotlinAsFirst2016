@@ -22,10 +22,7 @@ fun isNumberHappy(number: Int): Boolean {
     val b = (number / 10) % 10
     val c = (number / 100) % 10
     val d = number / 1000
-    return when{
-        (a + b) == (c + d) -> true
-        else -> false
-    }
+    return a + b == c + d
 }
 
 /**
@@ -45,8 +42,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if (Math.sqrt(sqr(Math.abs(x2 - x1)) + sqr(Math.abs(y2 - y1))) + r1 > r2) return false
-    else return true
+    return !(Math.sqrt(sqr(Math.abs(x2 - x1)) + sqr(Math.abs(y2 - y1))) + r1 > r2)
 }
 
 /**

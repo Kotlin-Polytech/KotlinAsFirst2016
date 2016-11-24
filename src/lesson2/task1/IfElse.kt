@@ -36,10 +36,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if ((age % 10 == 0) || (age / 10 == 1) || (age / 10 == 11) || (age % 10 in 5..9)) return "$age лет"
     val a = (age - 1) % 10
-    if (a == 0) return "$age год"
-    else return "$age года"
+    return when {
+        (((age % 10 == 0) || (age / 10 == 1) || (age / 10 == 11) || (age % 10 in 5..9))) -> "$age лет"
+        (a == 0) -> "$age год"
+        else -> "$age года"
+    }
 }
 
 /**
@@ -52,14 +54,14 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val S1 = v1 * t1
-    val S2 = v2 * t2
-    val S3 = v3 * t3
-    val HalfS = (S1 + S2 + S3) / 2
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val halfS = (s1 + s2 + s3) / 2
     return when {
-        HalfS <= S1 -> HalfS / v1
-        HalfS <= S1 + S2 -> (HalfS - S1) / v2 + t1
-        else -> (HalfS - S1 - S2) / v3 + t1 + t2
+        halfS <= s1 -> halfS / v1
+        halfS <= s1 + s2 -> (halfS - s1) / v2 + t1
+        else -> (halfS - s1 - s2) / v3 + t1 + t2
 
     }
 
@@ -106,7 +108,24 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    var cos = 0.0
+    if ((a>=b) && (a>=c))
+        cos=(c*c+b*b-a*a)/(2*c*b)
+    if ((b>=c) && (b>=a))
+        cos=(c*c+a*a-b*b)/(2*a*c)
+    if ((c>=a) && (c>=b))
+        cos=(a*a+b*b-c*c)/(2*a*b)
+    if ((cos>=1) || (cos<=-1)) return -1
+    if (cos < 0) return 2
+    if (cos == 0.0) return 1
+    if (cos > 0) return 0
+    else return 0
+
+
+
+
+}
 
 /**
  * Средняя
@@ -116,4 +135,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    var min=0.0
+    if (((c>=a) && (c<=b)) && (d<=b))
+        return d-c
+    if (((a>=c) && (c<=d)) && (b<=d))
+        return b-a
+    if (!(((b>=c)&&(b<=d)) || ((c>=a)&&(c<=b)) || ((d>=a)&&(d<=b)) || ((a>=c)&&(a<=d)))) return -1
+    if ((b-c)<=(d-a)) return b-c
+    else
+        return d-a
+}

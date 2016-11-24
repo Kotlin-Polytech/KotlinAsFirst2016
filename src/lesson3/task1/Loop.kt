@@ -74,7 +74,11 @@ fun digitNumber(n: Int): Int {
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (n<=2) return 1
+    else
+        return fib(n-1)+fib(n-2)
+}
 
 /**
  * Простая
@@ -91,7 +95,7 @@ fun lcm(m: Int, n: Int): Int = TODO()
  */
 fun minDivisor(n: Int): Int {
     var d = 2
-    for (i in 1..n) {
+    for (i in 1..n-2) {
         if (n % d == 0) return d
         d++
     }
@@ -105,7 +109,7 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var d = n - 1
-    for (i in 1..n) {
+    for (i in 1..n-2) {
         if (n % d == 0) return d
         d -= 1
     }
@@ -119,7 +123,23 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean {
+    var i = 2
+    if (m>n) {
+        for (i in 2..n)
+        {if ((m % i == 0) && (n % i == 0))
+                return false}
+    }
+    else
+    {
+        for (i in 2..m)
+        {if ((m % i == 0) && (n % i == 0))
+                return false}
+    }
+
+    return true
+
+}
 
 /**
  * Простая
@@ -128,7 +148,14 @@ fun isCoPrime(m: Int, n: Int): Boolean = TODO()
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var i = 1
+    for (i in 1..n) {
+        if (((i*i)>=m) && ((i*i)<=n)) return true
+    }
+    return false
+}
+
 
 /**
  * Простая

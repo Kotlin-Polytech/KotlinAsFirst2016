@@ -108,7 +108,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var a = 0.0
     (0..v.size - 1).forEach { i -> a += sqr(v[i]) }
-    return sqr(a)
+    return Math.sqrt(a)
 }
 
 /**
@@ -117,7 +117,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.size == 0) return 0.0
+    if (list.isEmpty() == true) return 0.0
     else return list.sum() / list.size
 }
 

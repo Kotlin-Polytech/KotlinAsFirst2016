@@ -180,52 +180,35 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 
+fun bishopWalk(start: Square, end: Square, quarter: Int): List<Square> {
+    var x = start.column
+    var y = start.row
+    while ((x in 1..8) && (y in 1..8)) {
+        if (Square(x, y).bishopOnLine(end)) {
+            if (end == Square(x, y)) return listOf(start, end)
+            else return listOf(start, Square(x, y), end)
+        }
+        if (quarter == 1 || quarter == 4) x += 1
+        else x -= 1
+        if (quarter == 1 || quarter == 2) y += 1
+        else y -= 1
+    }
+    return emptyList()
+}
+
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if ((!start.inside()) || (!end.inside())) return emptyList()
     if ((Math.abs(start.column - end.column) + Math.abs(start.row - end.row)) % 2 != 0) return emptyList()
     if (start == end) return listOf(start)
     if (start.bishopOnLine(end)) return listOf(start, end)
-    var x = start.column
-    var y = start.row
-    while ((x in 1..8) && (y in 1..8)) {   //1 четверть
-        if (Square(x, y).bishopOnLine(end)) {
-            if (end == Square(x, y)) return listOf(start, end)
-            else return listOf(start, Square(x, y), end)
-        }
-        x += 1
-        y += 1
-    }
-    x = start.column
-    y = start.row
-    while ((x in 1..8) && (y in 1..8)) {   //2 четверть
-        if (Square(x, y).bishopOnLine(end)) {
-            if (end == Square(x, y)) return listOf(start, end)
-            else return listOf(start, Square(x, y), end)
-        }
-        x -= 1
-        y += 1
-    }
-    x = start.column
-    y = start.row
-    while ((x in 1..8) && (y in 1..8)) {   //3 четверть
-        if (Square(x, y).bishopOnLine(end)) {
-            if (end == Square(x, y)) return listOf(start, end)
-            else return listOf(start, Square(x, y), end)
-        }
-        x -= 1
-        y -= 1
-    }
-    x = start.column
-    y = start.row
-    while ((x in 1..8) && (y in 1..8)) {   //4 четверть
-        if (Square(x, y).bishopOnLine(end)) {
-            if (end == Square(x, y)) return listOf(start, end)
-            else return listOf(start, Square(x, y), end)
-        }
-        x += 1
-        y -= 1
-    }
-    return emptyList()
+    var result= listOf<Square>()
+
+    if(bishopWalk(start, end, 1).isNotEmpty()) result= bishopWalk(start, end, 1) //проходим по четвертям
+    if(bishopWalk(start, end, 2).isNotEmpty()) result= bishopWalk(start, end, 2)
+    if(bishopWalk(start, end, 3).isNotEmpty()) result= bishopWalk(start, end, 3)
+    if(bishopWalk(start, end, 4).isNotEmpty()) result= bishopWalk(start, end, 4)
+
+    return result
 }
 
 /**

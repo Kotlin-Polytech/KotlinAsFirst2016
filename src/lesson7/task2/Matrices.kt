@@ -109,10 +109,9 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
     if (matrix.width != matrix.height) throw  IllegalArgumentException()
     val M = createMatrix(matrix.height, matrix.width, matrix[0, 0])
     val side = matrix.width - 1
-    for (i in 0..side) {
+    for (i in 0..side)
         for (k in side downTo 0)
             M[i, side - k] = matrix[k, i]
-    }
     return M
 }
 
@@ -148,7 +147,25 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    val M = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    M[0, 0] = 0
+    if (matrix.width == 1 && matrix.height == 1) return M
+    for (i in 0..matrix.height - 1)
+        for (k in 0..matrix.width - 1) {
+            var sum = 0
+            if (i < matrix.height - 1) sum += matrix[i + 1, k]
+            if (i > 0) sum += matrix[i - 1, k]
+            if (k < matrix.width - 1) sum += matrix[i, k + 1]
+            if (k > 0) sum += matrix[i, k - 1]
+            if (i < matrix.height - 1 && k < matrix.width - 1) sum += matrix[i + 1, k + 1]
+            if (i > 0 && k > 0) sum += matrix[i - 1, k - 1]
+            if (i < matrix.height - 1 && k > 0) sum += matrix[i + 1, k - 1]
+            if (k < matrix.width - 1 && i > 0) sum += matrix[i - 1, k + 1]
+            M[i, k] = sum
+        }
+    return M
+}
 
 /**
  * Средняя

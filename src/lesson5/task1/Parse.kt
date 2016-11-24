@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import com.sun.javafx.binding.StringFormatter
-
 /**
  * Пример
  *

@@ -159,11 +159,10 @@ fun bestLongJump(jumps: String): Int =
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
+fun bestHighJump(jumps: String): Int =
     if (jumps.matches(Regex("""[0-9-+% ]+"""))) {
-       return Regex("""([0-9]+) [-%]*\+""").findAll(jumps).map { it.groupValues[1].toInt()}.max() ?: -1
-    }else return -1
-}
+        Regex("""([0-9]+) [-%]*\+""").findAll(jumps).map { it.groupValues[1].toInt()}.max() ?: -1
+    }else -1
 
 /**
  * Сложная
@@ -174,7 +173,12 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression.matches(Regex("""^[0-9]+(\s+[+-]\s+[0-9]+)*$"""))) {
+        val rg = expression.replace(Regex("""\s+"""), "")
+        return  Regex("""([+|-]?[0-9]+)""").findAll(rg).sumBy {it.value.toInt()}
+    }else throw IllegalArgumentException()
+}
 
 /**
  * Сложная

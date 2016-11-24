@@ -103,7 +103,14 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException("IllegalArgumentException")
+    val reserveMatrix = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.height - 1)
+            reserveMatrix[i, j] = matrix[matrix.height - j - 1, i]
+        return reserveMatrix
+}
 
 /**
  * Сложная
@@ -118,7 +125,34 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if(matrix.height != matrix.width) throw IllegalArgumentException("IllegalArgumentException")
+    for (i in 0..matrix.width - 1) {
+        for (j in 0..matrix.height - 1) {
+            for (k in 0..matrix.height - 1) {
+                if ((matrix[i, j] == matrix[i, k] && j != k) ||
+                        matrix[i, j] > matrix.width) {
+                    return false
+                }
+            }
+        }
+    }
+
+    for (l in 0..matrix.height - 1) {
+        for (m in 0..matrix.width - 1) {
+            for (n in 0..matrix.width - 1) {
+                if ((matrix[l, m] == matrix[l, n] && m != n) || matrix[l, m] > matrix.width){
+                    return false
+                }
+            }
+        }
+    }
+    return true
+}
+
+
+
+
 
 /**
  * Средняя

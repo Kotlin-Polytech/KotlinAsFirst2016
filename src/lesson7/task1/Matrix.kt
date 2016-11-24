@@ -50,7 +50,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
         }
     }
     if (height <= 0 || width <= 0)
-        throw IllegalArgumentException()
+        throw IllegalArgumentException("IllegalArgumentException")
         return matrix
 }
 
@@ -79,9 +79,30 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         listOfCell[cell.row * width + cell.column] = value
 }
 
+    override fun equals(other: Any?): Boolean{
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
 
-    override fun equals(other: Any?) = TODO()
+        other as MatrixImpl<*>
 
-    override fun toString(): String = TODO()
+        if (height != other.height) return false
+        if (width != other.width) return false
+        if (listOfCell != other.listOfCell) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int{
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + listOfCell.hashCode()
+        return result
+    }
+
+    override fun toString(): String{
+        return "MatrixImpl(height=$height, width=$width, listOfCell=$listOfCell)"
+    }
+
+
 }
 

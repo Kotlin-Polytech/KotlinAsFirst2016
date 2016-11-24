@@ -42,9 +42,9 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square =
         when {
-            notation[0] in 'a'..'h' && notation[1] in '1'..'8' ->
-                Square((notation[0] - 'a').toInt() + 1, notation[1].toString().toInt())
-            else -> throw IllegalArgumentException("IllegalArgumentException")
+            notation[0] !in 'a'..'h' || notation[1] !in '1'..'8' || notation.length != 2 ->
+                throw IllegalArgumentException("IllegalArgumentException")
+            else -> Square((notation[0] - 'a').toInt() + 1, notation[1].toString().toInt())
         }
 
 /**
@@ -70,12 +70,15 @@ fun square(notation: String): Square =
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int =
-        when {
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (start.inside() && end.inside()) {
+        return when {
             (start.column == end.column).xor(start.row == end.row) -> 1
             (start.column == end.column).or(start.row == end.row) -> 0
             else -> 2
         }
+    } else throw IllegalArgumentException("IllegalArgumentException")
+}
 
 
 /**
@@ -123,12 +126,16 @@ fun rookTrajectory(start: Square, end: Square): List<Square> =
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = when {
-    start == end -> 0
-    Math.abs(end.column - start.column) == Math.abs(end.row - start.row) -> 1
-    (Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 0 -> 2
-    (Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 1 -> -1
-    else -> throw IllegalArgumentException("IllegalArgumentException")
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    if (start.inside() && end.inside()) {
+      return when {
+            start == end -> 0
+            Math.abs(end.column - start.column) == Math.abs(end.row - start.row) -> 1
+            (Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 0 -> 2
+            (Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 1 -> -1
+            else -> throw IllegalArgumentException("IllegalArgumentException")
+        }
+    } else throw IllegalArgumentException("IllegalArgumentException")
 }
 
 /**
@@ -149,18 +156,26 @@ fun bishopMoveNumber(start: Square, end: Square): Int = when {
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = when {
-    bishopMoveNumber(start,end) == -1 -> listOf()
-    bishopMoveNumber(start,end) == 0 -> listOf(start)
-    bishopMoveNumber(start,end) == 1 -> listOf(start, end)
-    else -> listOf(start, when {
-        (start.column + end.column + end.row - start.row) / 2 in 1..8 ->
-            Square((start.column + end.column + end.row - start.row) / 2,
-                    (start.column + end.column + end.row - start.row) / 2 - start.column + start.row)
-        else -> Square((start.column - end.column + end.row - start.row) / 2,
-                (start.column + end.column + end.row - start.row) / 2 - start.column + start.row)
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    if ((Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 1) {
+        return listOf()
+    } else {
+       return when {
+            bishopMoveNumber(start, end) == -1 -> listOf()
+            bishopMoveNumber(start, end) == 0 -> listOf(start)
+            bishopMoveNumber(start, end) == 1 -> listOf(start, end)
+            else -> listOf(start, when {
+                (start.column + end.column + end.row - start.row) / 2 in 1..8 ->
+                    Square((start.column + end.column + end.row - start.row) / 2,
+                           (start.column + end.column + end.row - start.row) / 2
+                                   - start.column + start.row)
+                else -> Square((start.column - end.column + end.row - start.row) / 2,
+                               (start.column + end.column + end.row - start.row) / 2
+                                       - start.column + start.row)
+            }
+                           , end)
+        }
     }
-            , end)
 }
 
 /**

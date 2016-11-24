@@ -107,13 +107,10 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var div = 2
-    do {
-        if (n % div == 0) break
-        div += 1
-
-    } while (div <= n)
-    return div
+    for (i in 2..n / 2) {
+        if (n % i == 0) return i
+    }
+    return n
 }
 
 /**
@@ -122,12 +119,10 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var div = n - 1
-    do {
-        if (n % div == 0) break
-        div -= 1
-    } while (div >= 1)
-    return div
+    for (i in n / 2 downTo 2) {
+        if (n % i == 0) return i
+    }
+    return 1
 }
 
 /**

@@ -89,11 +89,11 @@ fun dateDigitToStr(digital: String): String {
         try {
             val day = parts[0].toInt()
             val monthNumbers = parts[1].toInt()
-            if (monthNumbers in 1..12) {
-                val month = monthNames[monthNumbers - 1]
-                return String.format("%d %s %s", day, month, parts[2])
+            if (monthNumbers !in 1..12) {
+                return ""
             }
-            return ""
+            val month = monthNames[monthNumbers - 1]
+            return String.format("%d %s %s", day, month, parts[2])
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -203,11 +203,10 @@ fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
     var numb = 0
     if (parts.size < 2) return -1
-    if (parts[0] == parts[1]) return 0
-    for (i in 1..parts.size - 2) {
-        numb += parts[i - 1].length + 1
-        if (parts[i] == parts[i + 1])
+    for (i in 1..parts.size - 1) {
+        if (parts[i] == parts[i - 1])
             return numb
+        numb += parts[i - 1].length + 1
     }
     return -1
 }

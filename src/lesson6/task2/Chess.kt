@@ -91,9 +91,9 @@ fun rookMoveNumber(start: Square, end: Square): Int = when {
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     val result = mutableListOf<Square>(start)
     val moveNumb = rookMoveNumber(start, end)
-    if (moveNumb == 0) return result
-    if (moveNumb == 2) {
-        result.add(Square(start.column, end.row))
+    when (moveNumb) {
+        0 -> return result
+        2 -> result.add(Square(start.column, end.row))
     }
     result.add(end)
     return result
@@ -153,8 +153,10 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val list = mutableListOf<Square>(start)
     val moveNumb = bishopMoveNumber(start, end)
-    if (moveNumb == -1) return listOf()
-    if (moveNumb == 0) return list
+    when (moveNumb) {
+        -1 -> return listOf()
+        0 -> return list
+    }
     val column1 = (start.row - end.row + start.column + end.column) / 2
     val row1 = (start.column - end.column + start.row + end.row) / 2
     val column2 = (start.column + end.column + end.row - start.row) / 2
@@ -209,26 +211,10 @@ fun kingMoveNumber(start: Square, end: Square): Int {
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     val result = mutableListOf(start)
     var square = start
-    //val row = square.row.compareTo(end.row)
-    //val column = square.column.compareTo(end.column)
     while (square != end) {
-        square = when {
-        /*row < 0 && column < 0 -> Square(square.column + 1, square.row + 1)
-        row == 0 && column < 0 -> Square(square.column + 1, square.row)
-        row < 0 && column > 0 -> Square(square.column - 1, square.row + 1)
-        row == 0 && column > 0 -> Square(square.column - 1, square.row)
-        row > 0 && column < 0 -> Square(square.column + 1, square.row - 1)
-        row > 0 && column > 0 -> Square(square.column - 1, square.row - 1)
-        row > 0 && column == 0 -> Square(square.column, square.row - 1)*/
-            square.row < end.row && square.column < end.column -> Square(square.column + 1, square.row + 1)
-            square.row == end.row && square.column < end.column -> Square(square.column + 1, square.row)
-            square.row < end.row && square.column > end.column -> Square(square.column - 1, square.row + 1)
-            square.row == end.row && square.column > end.column -> Square(square.column - 1, square.row)
-            square.row > end.row && square.column < end.column -> Square(square.column + 1, square.row - 1)
-            square.row > end.row && square.column > end.column -> Square(square.column - 1, square.row - 1)
-            square.row > end.row && square.column == end.column -> Square(square.column, square.row - 1)
-            else -> Square(square.column, square.row + 1)
-        }
+        val row = square.row.compareTo(end.row)
+        val column = square.column.compareTo(end.column)
+        square = Square(square.column - column, square.row - row)
         result.add(square)
     }
     return result

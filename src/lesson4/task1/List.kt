@@ -257,7 +257,7 @@ fun convertToString(n: Int, base: Int): String {
             result.append('a' - 10 + element)
         }
     }
-    return result.toString()
+    return "$result"
 }
 
 /**
@@ -318,7 +318,7 @@ fun roman(n: Int): String {
             result.append(list[i].second)
         } else i++
     }
-    return result.toString()
+    return "$result"
 }
 
 /**

@@ -318,7 +318,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int =
+    str.reversed().mapIndexed { i, c -> (if (c in '0'..'9') c - '0' else c - 'a' + 10) * Math.pow(base * 1.0, i * 1.0)}.sum().toInt()
 
 /**
  * Сложная

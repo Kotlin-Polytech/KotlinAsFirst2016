@@ -175,7 +175,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (jumps.matches(Regex("[0-9-+%+ ]+"))) {
+    if (jumps.matches(Regex("[0-9-+% ]+"))) {
         return Regex("""([0-9]+)\s+[%-]*\+""").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
     } else return -1
 }
@@ -192,7 +192,16 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression.matches(Regex("""[0-9]+(\s[-+]\s[0-9]+)*"""))) {
+        return Regex("[-+]?[0-9]+").findAll(expression.replace(" ", "")).map { it.value.toInt() }.sum()
+    } else throw IllegalArgumentException()
+}
+
+
+
+//[0-9]+(\s[-+]\s[0-9]+)*
+//[-+]?[0-9]+
 
 /**
  * Сложная

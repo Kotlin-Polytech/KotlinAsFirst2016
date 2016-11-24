@@ -166,12 +166,14 @@ fun plusMinus(expression: String): Int {
     if (expression.isEmpty()) throw IllegalArgumentException()
     val parts = expression.split(" ")
     try {
+        if (parts.size % 2 == 0) throw IllegalArgumentException()
         var result = parts[0].toInt()
         var i = 2
         while (i < parts.size) {
             when (parts[i - 1]) {
                 "+" -> result += parts[i].toInt()
                 "-" -> result -= parts[i].toInt()
+                else -> throw IllegalArgumentException()
             }
             i += 2
         }

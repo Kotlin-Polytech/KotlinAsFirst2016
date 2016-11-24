@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -111,6 +112,7 @@ fun abs(v: List<Double>): Double {
     if (ans == 0.0) return 0.0
     else return Math.sqrt(ans)
 }
+
 /**
  * Простая
  *
@@ -262,7 +264,19 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var a = n
+    var ans = ""
+    val romanNum = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val num = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var i = num.size - 1
+    while (a > 0) {
+        while (a < num[i]) i--
+        ans += romanNum[i]
+        a -= num[i]
+    }
+    return ans
+}
 
 /**
  * Очень сложная

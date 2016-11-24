@@ -180,9 +180,6 @@ fun bestHighJump(jumps: String): Int {
     } else return -1
 }
 
-
-
-
 /**
  * Сложная
  *
@@ -198,11 +195,6 @@ fun plusMinus(expression: String): Int {
     } else throw IllegalArgumentException()
 }
 
-
-
-//[0-9]+(\s[-+]\s[0-9]+)*
-//[-+]?[0-9]+
-
 /**
  * Сложная
  *
@@ -212,7 +204,19 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val list = str.toLowerCase().split(" ")
+    for (i in 0..list.size - 2) {
+        if (list[i] == list[i + 1]) {
+            val point = list.subList(0, i)
+            return point.joinToString(" ").length + 1
+        }
+    }
+    return -1
+}
+
+
+//str.reversed().mapIndexed { i, c -> (if (c in '0'..'9') c - '0' else c - 'a' + 10) * Math.pow(base * 1.0, i * 1.0)}.sum().toInt()
 
 /**
  * Сложная

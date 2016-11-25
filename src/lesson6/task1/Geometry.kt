@@ -154,7 +154,9 @@ fun lineBySegment(s: Segment): Line {
  */
 
 fun lineByPoints(a: Point, b: Point): Line {
-     return lineBySegment(Segment(a,b))
+    //додумать позже
+    // return lineBySegment(Segment(a,b))
+    TODO()
 }
 
 /**

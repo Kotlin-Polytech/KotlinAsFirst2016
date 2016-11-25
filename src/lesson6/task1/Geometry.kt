@@ -25,7 +25,7 @@ data class Triangle(val a: Point, val b: Point, val c: Point) {
     fun halfPerimeter() = (a.distance(b) + b.distance(c) + c.distance(a)) / 2.0
 
     /**
-     * Пример: площаь
+     * Пример: площадь
      */
     fun area(): Double {
         val p = halfPerimeter()

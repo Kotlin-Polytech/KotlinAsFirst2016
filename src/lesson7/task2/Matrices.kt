@@ -8,10 +8,10 @@ import java.lang.Math.*
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
 fun <E> Matrix<E>.getRow(row: Int): List<E> =
-        if (row in 0..height - 1) (0..width).map { this[row, it] } else throw IllegalArgumentException("Index out of bounds: $row")
+        if (row in 0..height - 1) (0..width - 1).map { this[row, it] } else throw IllegalArgumentException("Index out of bounds: $row")
 
 fun <E> Matrix<E>.getColumn(column: Int): List<E> =
-        if (column in 0..width - 1) (0..height).map { this[it, column] } else throw IllegalArgumentException("Index out of bounds: $column")
+        if (column in 0..width - 1) (0..height - 1).map { this[it, column] } else throw IllegalArgumentException("Index out of bounds: $column")
 
 fun <E> Matrix<E>.contains(row: Int, column: Int): Boolean = row in 0..this.height - 1 && column in 0..this.width - 1
 /**

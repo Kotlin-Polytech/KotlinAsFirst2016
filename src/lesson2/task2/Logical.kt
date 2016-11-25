@@ -57,6 +57,8 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     var min2 = Math.max(a, b)
     if (min1 == Math.min(min1, c)) {
         min2 = Math.min(min2, c)
-    } else min2 = c // нахождение 2 меньших сторон
+    } else {
+        min2 = c
+    }
     return (Math.min(min1, min2) <= Math.min(r, s) && Math.max(min1, min2) <= Math.max(r, s))
 }

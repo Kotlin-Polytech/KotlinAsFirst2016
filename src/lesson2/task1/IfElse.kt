@@ -112,9 +112,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val minEdge1 = Math.min(a, b)
     val minEdge2 = Math.min(Math.max(a, b), c)
     val cos = (minEdge1 * minEdge1 + minEdge2 * minEdge2 - maxEdge * maxEdge) / (2 * minEdge1 * minEdge2)
-    return when {
-        cos > 0 -> return 0
-        cos == 0.0 -> return 1
+    return when (cos) {
+        0.0 -> return 1
+        in 0.0..1.0 -> return 0
         else -> return 2
     }
 }

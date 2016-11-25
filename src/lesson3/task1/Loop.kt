@@ -2,8 +2,6 @@
 
 package lesson3.task1
 
-import lesson4.task1.abs
-
 /**
  * Пример
  *
@@ -96,8 +94,7 @@ fun gcd(a: Int, b: Int): Int {
     var max = a
     var min = b
     while (max % min > 0) {
-        var k = 1
-        k = max
+        var k = max
         max = min
         min = k % min
     }
@@ -238,11 +235,9 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
 fun hasDifferentDigits(n: Int): Boolean {
     var number = n
     while (number / 10 != 0) {
-        var mod1 = 0
-        var mod2 = 0
-        mod1 = number % 10
+        var mod1 = number % 10
         number = number / 10
-        mod2 = number % 10
+        var mod2 = number % 10
         if (mod1 != mod2) return true
     }
     return false

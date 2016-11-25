@@ -69,13 +69,10 @@ data class Circle(val center: Point, val radius: Double) {
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
     fun contains(p: Point): Boolean {
-        val length = sqrt(sqr(center.x - p.x) + sqr(center.y - p.y))
-        return when (length) {
-            in 0..radius.toInt() -> true
-            else -> false
+        return (p.distance(center) <= radius)
         }
     }
-}
+
 
 /**
  * Отрезок между двумя точками
@@ -212,16 +209,9 @@ fun lineByPoints(a: Point, b: Point): Line {
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val angle = lineByPoints(a, b).angle
     val center = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    val asin = when {
-        angle == 0.0 -> PI / 2
-        angle == PI / 2 || angle == -PI / 2 -> 0.0
-        angle < PI / 2 -> -PI / 2 - angle
-        else -> PI / 2 - angle
-
-    }
-    return Line(center, asin)
+    val angle = atan2(b.y - a.y, b.x - a.x) + PI / 2
+    return Line(center, angle)
 }
 
 /**
@@ -230,7 +220,18 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+
+    val distances = mutableMapOf<Pair<Circle, Circle>, Double>()
+
+    for (i in circles.withIndex())
+        circles.withIndex()
+                .filter { i.index < it.index }
+                .forEach { distances.put(Pair(i.value, it.value), i.value.distance(it.value)) }
+
+    return distances.minBy { it.value }!!.key
+}
 
 /**
  * Очень сложная

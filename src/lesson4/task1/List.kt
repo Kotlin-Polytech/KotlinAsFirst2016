@@ -321,7 +321,7 @@ fun russian(n: Int): String {
         when (number % 100) {
             0 -> res.append(" тысяч")
             in 10..19 -> res.append(" " + listUnits[number % 100] + " тысяч")
-            else -> res.append(" " + (if (number % 100 in 20..99) listDes[(number % 100) / 10] else "") + " " + last)
+            else -> res.append(" " + (if (number % 100 in 20..99) listDes[(number % 100) / 10] + " " else "") + last)
         }
         number = n % 1000
     }

@@ -83,12 +83,16 @@ class Tests {
         assertTrue(Point(2.0, 2.0).distance(Line(Point(0.0, 0.0), Math.PI / 4).crossPoint(Line(Point(0.0, 4.0), -Math.PI / 4))) < 1e-5)
         val p = Point(1.0, 3.0)
         assertTrue(p.distance(Line(p, 1.0).crossPoint(Line(p, 2.0))) < 1e-5)
+        val p1 = Point(7.0, -8.5)
+        assertTrue(Line(p, 3.5).crossPoint(Line(p1, 3.5)) == Point(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY))
+        assertTrue(Line(p, Math.PI/6).crossPoint(Line(p1, 25*Math.PI/6)) == Point(Double.POSITIVE_INFINITY, Double.NEGATIVE_INFINITY))
     }
 
     @Test
 //    @Tag("Normal")
     fun lineBySegment() {
         assertEquals(Line(Point(0.0, 0.0), 0.0), lineBySegment(Segment(Point(0.0, 0.0), Point(7.0, 0.0))))
+        assertEquals(Line(Point(0.0, 0.0), 0.0), lineBySegment(Segment(Point(7.0, 0.0), Point(0.0, 0.0))))
         assertEquals(Line(Point(0.0, 0.0), Math.PI / 2), lineBySegment(Segment(Point(0.0, 0.0), Point(0.0, 8.0))))
         assertEquals(Line(Point(1.0, 1.0), Math.PI / 4), lineBySegment(Segment(Point(1.0, 1.0), Point(3.0, 3.0))))
     }

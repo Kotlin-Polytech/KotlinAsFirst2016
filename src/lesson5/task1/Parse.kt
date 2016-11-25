@@ -135,11 +135,11 @@ fun bestLongJump(jumps: String): Int {
     val results = jumps
     if (results.contains(Regex("""[^\d\s%-]"""))) return -1
     if (results.contains(Regex("""\d"""))) {
-        val newJumps = results.split(" ").filter { it.toString().contains(Regex("""\d"""))}
+        val newJumps = results.split(" ").filter {it.toString().contains(Regex("""\d"""))}
         var max = newJumps[0].toInt()
-        for (i in 0..newJumps.size - 2) {
-            if (newJumps[i + 1].toInt() > newJumps[i].toInt()) max = newJumps[i + 1].toInt()
-        }
+       for (i in 0..newJumps.size-1){
+           if (newJumps[i].toInt() > max) max = newJumps[i].toInt()
+       }
         return max
     }
     return -1

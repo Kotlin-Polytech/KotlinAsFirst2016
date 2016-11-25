@@ -83,7 +83,7 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    if (points.size < 2) throw IllegalArgumentException ()
+    if (points.size < 2) throw IllegalArgumentException()
     var max = 0.0
     var maxSegment = Segment(points[0], points[0])
     for (i in 0..points.size - 1) {
@@ -104,10 +104,11 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    val centerOfCircle = Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y)/2)
+    val centerOfCircle = Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2)
     val radiusOfCircle = diameter.begin.distance(diameter.end) / 2
     return Circle(centerOfCircle, radiusOfCircle)
 }
+
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)
@@ -129,21 +130,30 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineAngle(s: Segment): Double = Math.abs(Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x)))
+
+fun lineBySegment(s: Segment): Line {
+    val line = Line(s.begin, lineAngle(s))
+    return line
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
+
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun centerOfSegment(a: Point, b: Point): Point = Point(((a.x + b.x) / 2), ((a.y + b.y) / 2))
+
+fun bisectorByPoints(a: Point, b: Point): Line = Line(centerOfSegment(a, b), lineAngle(Segment(a, b)) + Math.PI / 2)
+
 
 /**
  * Средняя

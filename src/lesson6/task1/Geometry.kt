@@ -79,7 +79,7 @@ data class Circle(val center: Point, val radius: Double) {
  */
 data class Segment(val begin: Point, val end: Point) {
     fun length(): Double = sqrt(sqr(begin.x - end.x) + sqr(begin.y - end.y))
-    fun middle(): Point = Point((begin.x -end.x)/2,(begin.y - end.y)/2 )
+    fun middle(): Point = Point((begin.x - end.x) / 2, (begin.y - end.y) / 2)
 }
 
 /**
@@ -156,10 +156,14 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         val x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
                 (Math.tan(this.angle) - Math.tan(other.angle))
+        val y = (this.point.y * 1 / tan(this.angle) - other.point.y * 1 / tan(other.angle) + other.point.x - this.point.x) /
+                (1 / tan(this.angle) - 1 / tan(other.angle))
+        /*
         val y = when {
             (x != point.x) -> (x - point.x) * tan(angle) + point.y
             else -> (x - other.point.x) * tan(other.angle) + other.point.y
         }
+        */
         return Point(x, y)
     }
 }
@@ -249,14 +253,15 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 fun minContainingCircle(vararg points: Point): Circle {
     when (points.size) {
         0 -> throw IllegalArgumentException()
-        1 -> return Circle(Point(0.0,0.0),0.0)
-        2 -> return Circle (Point((points[0].x - points[1].x)/2, (points[0].y - points[1].y)/2), Segment(points[0], points[1]).length()/2)
+        1 -> return Circle(Point(0.0, 0.0), 0.0)
+        2 -> return Circle(Point((points[0].x - points[1].x) / 2, (points[0].y - points[1].y) / 2), Segment(points[0], points[1]).length() / 2)
         else -> {
             val s = diameter2(points)
-            return Circle(s.middle(), s.length()/2)
+            return Circle(s.middle(), s.length() / 2)
         }
     }
 }
+
 fun diameter2(points: Array<out Point>): Segment {
 
     val convexHull = if (points.size <= 3) points.asList() else convexHull(points)

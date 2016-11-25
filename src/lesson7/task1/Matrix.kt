@@ -84,12 +84,15 @@ class MatrixImpl<E> : Matrix<E> {
 
     override fun get(cell: Cell): E  = get(cell.row, cell.column)
 
+    @Override
     override fun getRow(row: Int): List<E> =
             if (row in 0..height - 1) this.cells[row] else throw IllegalArgumentException("Index out of bounds: $row")
 
+    @Override
     override fun getColumn(column: Int): List<E> =
             if (column in 0..width - 1) this.cells.map { it[column] } else throw IllegalArgumentException("Index out of bounds: $column")
 
+    @Override
     override fun set(row: Int, column: Int, value: E) {
         check(row, column)
         this.cells[row][column] = value

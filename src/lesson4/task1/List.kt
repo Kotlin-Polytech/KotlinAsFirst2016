@@ -217,7 +217,9 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*")
+fun factorizeToString(n: Int): String =
+    factorize(n).joinToString(separator = "*")
+
 
 /**
  * Средняя
@@ -285,7 +287,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int =
-    str.reversed().mapIndexed { i, c -> (if (c in '0'..'9') c - '0' else c - 'a' + 10) * Math.pow(base.toDouble(), i.toDouble())}.sum().toInt()
+    str.reversed().mapIndexed { i, c -> (if (c in '0'..'9') c - '0' else c - 'a' + 10) * Math.pow(base.toDouble(), i.toDouble()) }.sum().toInt()
+
 
 /**
  * Сложная

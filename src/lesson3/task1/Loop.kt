@@ -63,8 +63,8 @@ fun digitNumber(n: Int): Int {
         var number = n
         var count = 0
         while (number != 0) {
-            number = number / 10
-            count = count + 1
+            number /= 10
+            count += 1
         }
         return (count)
     }
@@ -114,9 +114,9 @@ fun lcm(m: Int, n: Int): Int {
 fun minDivisor(n: Int): Int {
     for (i in 2..n) {
         if (n % i == 0)
-            return (i)
+            return i
     }
-    return (n)
+    return n
 }
 
 /**
@@ -129,7 +129,7 @@ fun maxDivisor(n: Int): Int {
     for (i in 2..n - 1) {
         if (n % i == 0) divisor = i
     }
-    return (divisor)
+    return divisor
 }
 
 /**
@@ -218,7 +218,7 @@ fun revert(n: Int): Int {
         result += m % 10
         m /= 10
     }
-    return (result.toInt())
+    return result.toInt()
 }
 
 /**
@@ -241,11 +241,11 @@ fun hasDifferentDigits(n: Int): Boolean {
     var num = n
     for (i in digitNumber(n) downTo 1) {
         if (num % 10 != digit) {
-            return (true)
+            return true
         }
         num /= 10
     }
-    return (false)
+    return false
 }
 
 
@@ -271,7 +271,6 @@ fun squareSequenceDigit(n: Int): Int {
         leftBound = rightBound
     }
     return digit
-
 }
 
 /**

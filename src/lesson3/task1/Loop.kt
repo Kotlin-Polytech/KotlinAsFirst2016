@@ -165,7 +165,8 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = (m == n && (Math.round(Math.s
 //Как это можно исправить?
 fun sin(x: Double, eps: Double): Double {
     var argument = x
-    while (argument >= 2 * Math.PI) argument -= 2 * Math.PI
+    while (Math.abs(argument) >= 2 * Math.PI) if (argument > 0) argument -= 2 * Math.PI
+    else argument += 2 * Math.PI
     var result = 0.0
     var currentMember = eps
     var count = 1
@@ -176,7 +177,6 @@ fun sin(x: Double, eps: Double): Double {
         count += 2
     }
     return result
-
 }
 
 /**

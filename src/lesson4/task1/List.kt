@@ -235,15 +235,15 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var conStr = ""
     val conList = convert(n, base)
+    val conStr :StringBuilder = StringBuilder()
     for (element in conList) {
         if (element > 9) {
-            conStr += ('a'.toInt() + element - 10).toChar()
+            conStr.append(('a'.toInt() + element - 10).toChar())
         }
-        else conStr += "$element"
+        else conStr.append(element)
     }
-    return conStr
+    return conStr.toString()
 }
 
 /**

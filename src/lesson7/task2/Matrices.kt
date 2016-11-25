@@ -113,39 +113,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> {
-    val matrix = MatrixImpl(height, width, 0)
-    var countCoils = 0
-    var value = 0
-    while (value <= width / 2){
-        var i = countCoils
-        var j = countCoils - 1
-        value ++
-        while (( j < width - 1 ) && (matrix[i, j + 1] == 0)){
-            j++
-            matrix[i, j] = value
-        }
-
-        while (( i < height - 1 ) && (matrix[i + 1, j] == 0)){
-            i++
-            matrix[i, j ] = value
-        }
-
-
-        while (( j > 0 ) && (matrix[i, j - 1] == 0)){
-            j -= 1
-            matrix[i, j] = value
-        }
-
-
-        while (( i > 0 ) && (matrix[i -1, j] == 0)) {
-            i -= 1
-            matrix[i, j] = value
-        }
-        countCoils +=1
-    }
-    return matrix
-}
+fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
 
 
 /**

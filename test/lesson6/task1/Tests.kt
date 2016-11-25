@@ -120,9 +120,15 @@ class Tests {
     @Test
     @Tag("Impossible")
     fun circleByThreePoints() {
-        val result = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
-        assertTrue(result.center.distance(Point(0.0, 0.0)) < 1e-5)
-        assertEquals(5.0, result.radius, 1e-5)
+        val a = Point(x=-632.0, y=-632.0)
+        val b = Point(x=-999.1243063977258, y=-632.0)
+        val c = Point(x=-632.0, y=-999.6643804587314)
+        val result1 = circleByThreePoints(a, b, c)
+        assertTrue(result1.center.distance(Point(x=-815.562153198863, y=-1250.882319379864)) < 1e-5)
+        assertEquals(645.5310909073263, result1.radius, 1e-5)
+        val result2 = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
+        assertTrue(result2.center.distance(Point(0.0, 0.0)) < 1e-5)
+        assertEquals(5.0, result2.radius, 1e-5)
     }
 
     @Test

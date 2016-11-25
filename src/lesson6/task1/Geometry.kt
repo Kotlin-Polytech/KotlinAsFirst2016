@@ -136,8 +136,15 @@ data class  Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
+
 fun lineBySegment(s: Segment): Line {
-    TODO()
+    val myPoint = Point(s.begin.x, s.begin.y)
+    if (s.begin.x == s.end.x){
+        return Line(myPoint, Math.PI/2)
+    }
+    val firstKat = s.end.x - s.begin.x
+    val secondKat = s.end.y - s.begin.y
+    return Line (myPoint, Math.atan(secondKat/firstKat))
 }
 
 /**
@@ -146,16 +153,22 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 
-//уравнение прямой проходящей через 2 точки
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    val mySegment = Segment(a,b)
+     return lineBySegment(mySegment)
+}
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-//
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val center = Point((a.x + b.x)/2, (a.y + b.y)/2)
+    if (a.x == b.x) return Line(center, 0.0)
+    return Line(center,  Math.PI/2)
+}
 
 /**
  * Средняя

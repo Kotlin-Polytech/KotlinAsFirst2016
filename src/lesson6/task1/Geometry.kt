@@ -4,7 +4,6 @@ import lesson1.task1.sqr
 import lesson3.task1.cos
 import lesson3.task1.sin
 
-
 /**
  * Точка на плоскости
  */
@@ -68,8 +67,7 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean =
-    center.distance(p) <= radius
+    fun contains(p: Point): Boolean = center.distance(p) <= radius
 
 }
 
@@ -133,14 +131,19 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    var newAngle = Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.y))
+    if (s.begin.x == s.end.x) newAngle = Math.PI/2
+    return Line(s.begin,newAngle)
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
+
 
 /**
  * Сложная

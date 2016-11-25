@@ -139,20 +139,7 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    val point = Point(s.begin.x, s.begin.y)
-
-    if ((s.end.x - s.begin.x) != 0.0)
-        if ((s.end.y != Double.NaN) && (s.begin.y != Double.NaN))
-            return Line(point, atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
-        else
-            return Line(point, Double.NaN)
-    else
-        if  (((s.end.y - s.begin.y) != 0.0) && ((s.end.y != Double.NaN) && (s.begin.y != Double.NaN)))
-            return Line(point, PI / 2)
-        else
-            return Line(point, Double.NaN)
-}
+fun lineBySegment(s: Segment): Line =TODO()
 
 /**
  * Средняя

@@ -3,15 +3,8 @@ package lesson7.task2
 
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
-import lesson4.task1.accumulate
 import java.lang.Math.*
 
-enum class MatrixDirection(val id: Int) {
-    Right(1),
-    Bottom(2),
-    Left(3),
-    Top(4)
-}
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
 /**
@@ -197,7 +190,7 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
                 m[i,j] = -matrix[i,j]
                 for (k in -1..1)
                     for (l in -1..1)
-                        if (m.contains(i + k, j + l))
+                        if (m.contains<Int>(i + k, j + l))
                             m[i,j] += matrix[i + k, j + l]
             }
     return m

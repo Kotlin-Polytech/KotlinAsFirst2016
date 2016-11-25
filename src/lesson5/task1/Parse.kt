@@ -200,7 +200,7 @@ fun plusMinus(expression: String): Int {
         for (i in 1..parts.size - 1 step 2) {
             if (parts[i] == "+") sum += parts[i + 1].toInt()
             else if (parts[i] == "-") sum -= parts[i + 1].toInt()
-            else throw  IllegalArgumentException()
+            else throw  IllegalArgumentException(expression)
         }
         return sum
     } catch (e: IllegalArgumentException) {

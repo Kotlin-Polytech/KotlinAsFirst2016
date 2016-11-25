@@ -34,7 +34,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-   return if ((age in (5..20)) || (age in (115..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
+    return if ((age in (5..20)) || (age in (115..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
     else {
         if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
         else "$age год"
@@ -55,12 +55,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t3: Double, v3: Double): Double {
 
     val HalfWay: Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    if  (HalfWay / (t1 * v1) < 1) {
+    if  (HalfWay / (t1 * v1) < 1)
         return HalfWay / v1
-    }  else
-        if (HalfWay / (t1 * v1 + t2 * v2) < 1) {
-            return (HalfWay - v1 * t1) / v2 + t1
-        } else
+       else
+        if (HalfWay / (t1 * v1 + t2 * v2) < 1)  return (HalfWay - v1 * t1) / v2 + t1
+            else
             return ((HalfWay - (v1 * t1 + v2 * t2)) / v3 + t1 + t2)
 }
 
@@ -75,10 +74,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return when {((kingX == rookX1) && (kingY == rookY2)) -> 3
+    return when {
+        ((kingX == rookX1) && (kingY == rookY2)) -> 3
         ((kingX == rookX2) && (kingY == rookY1)) -> 3
         ((kingY == rookY1) && (kingY == rookY2)) -> 3
-        (kingX == rookX1 && kingX == rookX2) -> 3
+        ((kingX == rookX1) && (kingX == rookX2)) -> 3
         ((kingX == rookX1) || (kingY == rookY1)) -> 1
         ((kingX == rookX2) || (kingY == rookY2)) -> 2
         else -> 0
@@ -113,7 +113,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
      * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
      * Если такой треугольник не существует, вернуть -1.
      */
-    fun triangleKind(a: Double, b: Double, c: Double): Int {
+fun triangleKind(a: Double, b: Double, c: Double): Int {
         return when {
 
             ((a + b < c) || (a + c < b) || (b + c < a)) -> -1
@@ -132,14 +132,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
      */
     fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
         val maxComa: Int = Math.max(Math.max(a, b), Math.max(c, d))
-       return when {
+        return when {
 
-        (((maxComa == a) && (maxComa == b)) && ((maxComa == c) && (maxComa == d)) || (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b)) || (a == d) || (c == b)) -> 0
-        ((maxComa == b) && (a >= c) && (a < d)) -> (d-a)
-        ((maxComa == d) && (c >= a) && (c < b)) -> (b-c)
-        ((maxComa == b) && (a <= c) && (b > d)) -> (d-c)
-        ((maxComa == d) && (c <= a) && (d > b)) -> (b-a)
-        else ->-1
+            (((maxComa == a) && (maxComa == b)) && ((maxComa == c) && (maxComa == d)) ) ->0
+            (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b)) || (a == d) || (c == b)-> 0
+            ((maxComa == b) && (a >= c) && (a < d)) -> (d - a)
+            ((maxComa == d) && (c >= a) && (c < b)) -> (b - c)
+            ((maxComa == b) && (a <= c) && (b > d)) -> (d - c)
+            ((maxComa == d) && (c <= a) && (d > b)) -> (b - a)
+            else -> -1
+        }
     }
-}
 

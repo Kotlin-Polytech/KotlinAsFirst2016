@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.minDivisor
 
 /**
  * Пример
@@ -105,7 +106,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double{
-    var sqrSum = 0.0 // sqrSum == summa abs = sqrt(a1^2 + a2^2 + ... + aN^2).
+    var sqrSum = 0.0
     if (v.isEmpty()) return 0.0
     for (element in v) {
         sqrSum += element * element
@@ -196,17 +197,11 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     var n1 = n
-    var del=0
     var list = listOf<Int>()
-    while (n1>1){
-        for (i in 2..n1){
-        if (n1%i==0)
-            del=i
-            list+=i
-            break
-        }
-       n1/=del
-    }
+    while (n1>1)
+        list +=  minDivisor(n1)
+          n1 /= minDivisor(n1)
+
         return list.sorted()
 }
 
@@ -216,33 +211,7 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String {
-    var del = n
-    var list = listOf<Int>()
-    if (del % 2 == 0) {
-        while (del % 2 == 0) {
-            del = del / 2
-            list += 2
-        }
-    }
-        for (i in 2..n) {
-            if (del % i == 0) {
-                list += del / i
-                del = del / i
-            }
-        }
-            if (del%2!=0)
-            for (i in 2..n) {
-                if (del % i == 0) {
-                    list += del / i
-                    del = del / i
-                }
-                del = del / i
-            }
-            return list.joinToString(separator = " * ")
-        }
-
-
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 /**
  * Средняя
  *

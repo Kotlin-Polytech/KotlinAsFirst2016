@@ -173,7 +173,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var i = 0
+    val arg = x % (2 * Math.PI)
+    var f = arg
+    var t = arg
+    while (Math.abs(t) >= eps) {
+        i++
+        t = Math.pow(arg, i * 2.0 + 1) / factorial(i * 2 + 1)
+        if (i % 2 == 1) f -= t
+        else f += t
+
+    }
+    return f
+}
 
 /**
  * Простая
@@ -182,7 +195,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double = sin(Math.PI / 2 - x, eps)
 
 /**
  * Средняя
@@ -207,7 +220,10 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    val revers = revert(n)
+    return revers == n
+}
 
 /**
  * Средняя
@@ -215,7 +231,16 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var a = n
+    var re: Boolean = true
+    var d = a % 10
+    while (a > 0) {
+        if (a % 10 != d) re = false
+        a /= 10
+    }
+    return (re == false)
+}
 
 /**
  * Сложная
@@ -224,7 +249,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int):Int {
+    var i = 1
+    var k = 0
+    var m = 0
+    while (m < n) {
+        k = i * i
+        m += digitNumber(k)
+        i += 1
+    }
+    i = m - n
+    return k / Math.pow(10.0, i*1.0).toInt() % 10
+}
 
 /**
  * Сложная
@@ -233,4 +269,16 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var i = 1
+    var k = 0
+    var m = 0
+    while (m < n) {
+        k = fib(i)
+        m += digitNumber(k)
+        i += 1
+    }
+    i = m - n
+    return k / Math.pow(10.0, i*1.0).toInt() % 10
+
+}

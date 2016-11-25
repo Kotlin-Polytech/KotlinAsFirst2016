@@ -83,19 +83,18 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) throw IllegalArgumentException()
     var max = 0.0
     var result = Segment(points[0], points[0])
     for (i in 0..points.size - 1) {
         for (j in i + 1..points.size - 1) {
-            if (points[i].distance(points[j]) > max){
-                max = points[i].distance(points[j])
-                val begin = points[i]
-                val end = points[j]
-                result = Segment(begin, end)
+            val dis = points[i].distance(points[j])
+            if (dis > max){
+                max = dis
+                result = Segment(points[i], points[j])
             }
         }
     }
-    if (points.size < 2) throw IllegalArgumentException()
     return result
 }
 
@@ -106,8 +105,8 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    val center = Point(Math.abs((diameter.begin.x - diameter.end.x) / 2),
-            Math.abs((diameter.begin.y - diameter.end.y) / 2))
+    val center = Point((diameter.begin.x + diameter.end.x) / 2.0,
+            (diameter.begin.y + diameter.end.y) / 2.0)
     val radius = center.distance(diameter.end)
     return Circle(center, radius)
 }

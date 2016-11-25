@@ -164,7 +164,7 @@ data class Line(val point: Point, val angle: Double) {
         } // угловой коэфф второй прямой
         val b = -other.point.x * m + other.point.y //штука второй прямой
 
-        if ((k == 0.0) && (m == 0.0)) return when {
+        if ((k == 0.0) || (m == 0.0)) return when {
             (tan(angle) == tan(PI / 2)) || (tan(angle) == tan(-PI / 2)) -> Point(point.x, b)
             else -> Point(other.point.x, c)
         }

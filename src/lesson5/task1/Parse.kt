@@ -260,7 +260,7 @@ fun firstDuplicateIndex(str: String): Int{
     val parth = str.toLowerCase().split(" ")
     for (i in 0..parth.size -1 step 1) {
         for (j in i + 1..parth.size - 1 step 1)
-            if ((parth[i].length == parth[j].length) && (parth[i] in parth[j])) {
+            if (parth[i] == parth[j]) {
                 result = index + i
                 break
             }
@@ -286,14 +286,16 @@ fun mostExpensive(description: String): String {
     val parth = description.split("; ", " ")
     var max = 0.0
     try{
-        for (i in 1..parth.size - 1 step 2 )
-            if (parth[i].toDouble() < 0)
+        for (i in 1..parth.size - 1 step 2 ) {
+            val next = parth[i].toDouble()
+            if (next < 0)
                 return ""
             else
-                if (parth[i].toDouble() >= max) {
-                    max = parth[i].toDouble()
+                if (next >= max) {
+                    max = next
                     result = parth[i - 1]
                 }
+        }
     }
     catch(e: NumberFormatException){
         return ""
@@ -493,26 +495,10 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
         else
         {
             when (commands[indexCommands - 1]){
-                '>' -> {
-                    if (commands[indexCommands - 1] == '>') {
-                        indexCells++
-                    }
-                }
-                '<' -> {
-                    if (commands[indexCommands - 1] == '<'){
-                        indexCells--
-                    }
-                }
-                '+' -> {
-                    if (commands[indexCommands - 1] == '+'){
-                        cellsResult[indexCells]++
-                    }
-                }
-                '-' -> {
-                    if (commands[indexCommands - 1] == '-'){
-                        cellsResult[indexCells]--
-                    }
-                }
+                '>' -> indexCells++
+                '<' -> indexCells--
+                '+' -> cellsResult[indexCells]++
+                '-' ->  cellsResult[indexCells]--
                 '[' -> {
                     if (cellsResult[indexCells] == 0) {
                         var indexSquare = indexCommands

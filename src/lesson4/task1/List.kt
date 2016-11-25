@@ -432,7 +432,7 @@ fun roman(n: Int): String {
 fun toRussian (n: Int, y: Int): String
 {
     val digit = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    var result = ""
+    var result = StringBuilder()
     var count = y
     var value = n
     if (count == 3)
@@ -440,10 +440,10 @@ fun toRussian (n: Int, y: Int): String
         val number = value / powInt(10, count - 1)
         when (number)
         {
-            1 -> result += "сто "
-            2 -> result += "двести "
-            in 3..4 -> result += digit[number - 1] + "ста "
-            in 5..9 -> result += digit[number - 1] + "сот "
+            1 -> result.append("сто ")
+            2 -> result.append("двести ")
+            in 3..4 -> result.append(digit[number - 1]).append("ста ")
+            in 5..9 -> result.append(digit[number - 1]).append("сот ")
         }
         value %=  powInt(10, count -1)
         count -= 1
@@ -458,18 +458,18 @@ fun toRussian (n: Int, y: Int): String
                 val temp = value % powInt(10, count - 1)
                 when (temp)
                 {
-                    0 -> result += "десять"
-                    1 -> result += digit[temp - 1] + "надцать"
-                    2 -> result += digit[temp - 1].substring(0, digit[temp - 1].length - 1 ) + "енадцать"
-                    3 -> result += digit[temp - 1] + "надцать"
-                    in 4..9 -> result += digit[temp - 1].substring(0, digit[temp - 1].length - 1 ) + "надцать"
+                    0 -> result.append("десять")
+                    1 -> result.append(digit[temp - 1]).append("надцать")
+                    2 -> result.append(digit[temp - 1].substring(0, digit[temp - 1].length - 1 )).append("енадцать")
+                    3 -> result.append(digit[temp - 1]).append("надцать")
+                    in 4..9 -> result.append(digit[temp - 1].substring(0, digit[temp - 1].length - 1 )).append("надцать")
                 }
                 count -= 1
             }
-            in 2..3 -> result += digit[number - 1] + "дцать "
-            4 -> result += "сорок "
-            in 5..8 -> result += digit[number - 1] + "десят "
-            9 -> result += "девяносто "
+            in 2..3 -> result.append(digit[number - 1]).append("дцать ")
+            4 -> result.append("сорок ")
+            in 5..8 -> result.append(digit[number - 1]).append("десят ")
+            9 -> result.append("девяносто ")
         }
         value %=  powInt(10, count - 1)
         count -= 1
@@ -479,16 +479,16 @@ fun toRussian (n: Int, y: Int): String
         val number = value / powInt(10, count - 1)
         when (number)
         {
-            in 1..9 -> result += digit[number - 1]
+            in 1..9 -> result.append(digit[number - 1])
         }
         value %=  powInt(10, count - 1)
         count -= 1
     }
-    return result
+    return "$result"
 }
 fun russian(n: Int): String
 {
-    var result = ""
+    var result = StringBuilder()
     val value = n
     val left = value / 1000
     val right = value % 1000
@@ -499,15 +499,16 @@ fun russian(n: Int): String
         if ((left % 100 ) / 10 != 1)
             when (left % 10)
             {
-                0 -> result += toRussian(left, countLeft) + "тысяч "
-                1 -> result += toRussian(left, countLeft).dropLast(4) + "одна тысяча "
-                2 -> result += toRussian(left, countLeft).dropLast(3) + "две тысячи "
-                in 3..4 -> result += toRussian(left, countLeft) + " тысячи "
-                in 5..9 -> result += toRussian(left, countLeft) + " тысяч "
+                0 -> result.append(toRussian(left, countLeft) + "тысяч ")
+                1 -> result.append(toRussian(left, countLeft).dropLast(4) + "одна тысяча ")
+                2 -> result.append(toRussian(left, countLeft).dropLast(3) + "две тысячи ")
+                in 3..4 -> result.append(toRussian(left, countLeft) + " тысячи ")
+                in 5..9 -> result.append(toRussian(left, countLeft) + " тысяч ")
             }
         else
-            result += toRussian(left, countLeft) + " тысяч "
+            result.append(toRussian(left, countLeft) + " тысяч ")
     }
-    result += toRussian(right, countRight)
-    return result.trim()
+    result.append(toRussian(right, countRight))
+    val res = result.toString()
+    return res.trim()
 }

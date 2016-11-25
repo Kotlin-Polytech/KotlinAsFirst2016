@@ -88,7 +88,7 @@ fun diameter(vararg points: Point): Segment {
     var maxDistance = 0.0
     var pointX1 = Point(0.0, 0.0)
     var pointX2 = Point(0.0, 0.0)
-       if (points.size < 2)
+    if (points.size < 2)
         throw IllegalArgumentException()
     for (i in 0..points.size - 1 step 1){
         for (j in i + 1..points.size - 1 step 1) {
@@ -153,7 +153,11 @@ fun lineBySegment(s: Segment): Line {
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = Line(Point(a.x, a.y),atan( (b.y - a.y) / (b.x - a.x)))
+fun lineByPoints(a: Point, b: Point): Line =
+        if ((b.x - a.x) != 0.0)
+            Line(Point(a.x, a.y), atan( (b.y - a.y) / (b.x - a.x)))
+        else
+            Line(Point(a.x, a.y), PI /2)
 
 /**
  * Сложная
@@ -166,7 +170,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     if (b.y - a.y == 0.0)
         return Line(Point((b.x + a.x) / 2 , (b.y + a.y) / 2), Math.PI / 2)
     else
-        return Line (Point((b.x + a.x) / 2 , (b.y + a.y) / 2), atan( (- 1) * 1 /((b.y - a.y)/(b.x - a.x))))
+        return Line (Point((b.x + a.x) / 2 , (b.y + a.y) / 2), atan( (- 1) * 1 / ((b.y - a.y) / (b.x - a.x))))
 }
 
 /**

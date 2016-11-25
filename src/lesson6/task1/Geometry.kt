@@ -156,9 +156,11 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         val x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
                 (Math.tan(this.angle) - Math.tan(other.angle))
-        val y = (x - other.point.x) * Math.tan(other.angle) + other.point.y
+        val y = when {
+            (x != point.x) -> (x - point.x) * tan(angle) + point.y
+            else -> (x - other.point.x) * tan(other.angle) + other.point.y
+        }
         return Point(x, y)
-
     }
 }
 

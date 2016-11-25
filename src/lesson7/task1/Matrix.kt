@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
 package lesson7.task1
 
+import com.sun.org.apache.xpath.internal.operations.Bool
+
 
 /**
  * Ячейка матрицы: row = ряд, column = колонка
@@ -23,6 +25,12 @@ interface Matrix<E> {
      */
     operator fun get(row: Int, column: Int): E
     operator fun get(cell: Cell): E
+
+    fun getRow(row: Int): List<E>
+    fun getColumn(column: Int): List<E>
+
+    fun contains(row: Int, column: Int): Boolean
+    fun contains(cell: Cell): Boolean
 
     /**
      * Запись в ячейку.
@@ -67,7 +75,7 @@ class MatrixImpl<E> : Matrix<E> {
 
     private fun check(row: Int, column: Int) {
         if (height !in 0..this.height && width !in 0..this.width)
-            throw IllegalArgumentException("Index out of bounds")
+            throw IllegalArgumentException("Index out of bounds: [$row;$column]")
     }
 
     override fun get(row: Int, column: Int): E  {
@@ -77,6 +85,12 @@ class MatrixImpl<E> : Matrix<E> {
 
     override fun get(cell: Cell): E  = get(cell.row, cell.column)
 
+    override fun getRow(row: Int): List<E> =
+            if (row in 0..height - 1) this.cells[row] else throw IllegalArgumentException("Index out of bounds: $row")
+
+    override fun getColumn(column: Int) : List<E> =
+            if (column in 0..width - 1) this.cells.map { it[column] } else throw IllegalArgumentException("Index out of bounds: $column")
+
     override fun set(row: Int, column: Int, value: E) {
         check(row, column)
         this.cells[row][column] = value
@@ -85,6 +99,10 @@ class MatrixImpl<E> : Matrix<E> {
     override fun set(cell: Cell, value: E) {
         set(cell.row, cell.column, value)
     }
+
+    override fun contains(row: Int, column: Int): Boolean = row in 0..this.height - 1 && column in 0..this.width- 1
+
+    override fun contains(cell: Cell): Boolean = cell.row in 0..this.height - 1 && cell.column in 0..this.width -1
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && other.height == this.height &&
         other.width == this.width && other.cells == this.cells

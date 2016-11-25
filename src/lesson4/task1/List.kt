@@ -329,7 +329,7 @@ fun hundreds(n: Int): String =
     }
 fun keyword(n: Int): String =
     when {
-        ((n>4 && n<21) || n%10 == 0 || n%10 > 4) ->  "тысяч"
+        ((n%100 in 4..20) || n%10 == 0 || n%10 > 4) ->  "тысяч"
         n%10 == 1 -> "тысяча"
         else -> "тысячи"
     }

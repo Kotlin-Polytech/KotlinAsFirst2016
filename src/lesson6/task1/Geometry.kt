@@ -153,7 +153,7 @@ fun lineByPoints(a: Point, b: Point): Line =
             else
                 Line(Point(a.x, a.y), Double.NaN)
         else
-            if (((b.y - a.y) != 0.0) && ((a.y != Double.NaN) && (b.y != Double.NaN)))
+            if (((b.y - a.y) != 0.0) &&((b.x - a.x) != 0.0) && ((a.y != Double.NaN) && (b.y != Double.NaN)))
                 Line(Point(a.x, a.y), PI / 2)
             else
                 Line(Point(a.x, a.y), Double.NaN)

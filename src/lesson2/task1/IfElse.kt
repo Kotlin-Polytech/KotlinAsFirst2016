@@ -55,11 +55,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s1 = t1 * v1
     val s2 = t2 * v2
     val s3 = t3 * v3
-    val s_sred = (s1 + s2 + s3) / 2
-    if (s_sred <= s1) return s_sred / v1
-    else if ((s_sred > s1) && (s_sred <= (s1 + s2))) return t1 + ((s_sred - s1) / v2)
-    else if ((s_sred > (s1 + s2))) return t1 + t2 + ((s_sred - s1 - s2) / v3)
-    else return 0.0
+    val sSred = (s1 + s2 + s3) / 2
+    val firstTime = when {
+        (sSred <= s1) -> sSred / v1
+        ((sSred > s1) && (sSred <= (s1 + s2))) -> t1 + ((sSred - s1) / v2)
+        ((sSred > (s1 + s2))) -> t1 + t2 + ((sSred - s1 - s2) / v3)
+        else -> 0.0
+    }
+    return firstTime
 }
 
 /**
@@ -73,11 +76,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX !== rookX2) && (kingY !== rookY2))) return 1
-    if (((kingX == rookX2) || (kingY == rookY2)) && ((kingX !== rookX1) && (kingY !== rookY1))) return 2
-    if (((kingX == rookX2) || (kingY == rookY2) && (kingX == rookX1) || (kingY == rookY1))) return 3
-    if (((kingX != rookX1) && (kingY !== rookY1) && (kingX !== rookX2) && (kingY !== rookY2))) return 0
-    else return 0
+    val attackFirst = (((kingX == rookX1) || (kingY == rookY1)) && ((kingX !== rookX2) && (kingY !== rookY2)))
+    val attackSecond = (((kingX == rookX2) || (kingY == rookY2)) && ((kingX !== rookX1) && (kingY !== rookY1)))
+    val attackBoth = (((kingX == rookX2) || (kingY == rookY2) && (kingX == rookX1) || (kingY == rookY1)))
+    val attack = when {
+        attackFirst -> 1
+        attackSecond -> 2
+        attackBoth -> 3
+        else -> 0
+    }
+    return attack
 }
 
 /**
@@ -92,14 +100,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if ((kingX == rookX) || (kingY == rookY)) {
-        if ((Math.abs(kingX - bishopX) == (Math.abs(kingY - bishopY)))) return 3
-        else return 1
+    val attackRook = ((kingX == rookX) || (kingY == rookY))
+    val attackKing = (Math.abs(kingX - bishopX) == (Math.abs(kingY - bishopY)))
+    val attack = when{
+        attackRook && !attackKing -> 1
+        attackKing && !attackRook-> 2
+        attackRook && attackKing -> 3
+        else -> 0
     }
-    if (Math.abs(kingX - bishopX) == (Math.abs(kingY - bishopY))) {
-        if ((kingX == rookX) || (kingY == rookY)) return 3
-        else return 2
-    } else return 0
+    return attack
 }
 
 /**

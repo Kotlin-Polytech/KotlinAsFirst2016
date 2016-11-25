@@ -3,7 +3,6 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import lesson4.task1.sqRoots
 
 /**
  * Пример
@@ -24,8 +23,7 @@ fun isNumberHappy(number: Int): Boolean {
     val numb2 = (number / 100) % 10
     val numb3 = ((number % 1000) / 10) % 10
     val numb4 = (((number % 1000)) % 100) % 10
-    if ((numb1 + numb2) == (numb3 + numb4)) return true
-    else return false
+    return ((numb1 + numb2) == (numb3 + numb4))
 }
 
 /**
@@ -35,9 +33,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    if (x1 == x2) return true
-    if (y1 == y2) return true
-    return (Math.abs(x1 - x2) == Math.abs(y1 - y2))
+    return ((Math.abs(x1 - x2) == Math.abs(y1 - y2)) || (x1 == x2) || (y1 == y2))
 }
 
 /**
@@ -48,7 +44,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
+                  x2: Double, y2: Double, r2: Double): Boolean {
     return ((sqr(x1 - x2) + sqr(y1 - y2) <= sqr(r2)) && (Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2))
 }
 

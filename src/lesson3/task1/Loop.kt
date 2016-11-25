@@ -80,17 +80,14 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     var fibn1 = 1
-    var fibn2 = 1
+    var fibn2 = 0
     var fibnn = 0
-    if (n > 2) {
-        for (i in 3..n) {
-            fibnn = fibn1 + fibn2
-            fibn1 = fibn2
-            fibn2 = fibnn
-        }
-        return fibnn
+    for (i in 1..n) {
+        fibnn = fibn1 + fibn2
+        fibn1 = fibn2
+        fibn2 = fibnn
     }
-    return 1
+    return fibnn
 }
 
 /**
@@ -99,16 +96,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var evc = m
-    var evc2 = n
-    var k = m * n
-    while (evc != evc2) {
-        if (evc > evc2) evc = evc - evc2
-        else evc2 = evc2 - evc
-    }
-    return k / evc
-}
+fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
 
 /**
  * Простая
@@ -194,8 +182,10 @@ fun sin(x: Double, eps: Double): Double {
     var summ = 0.0
     var n = 1
     while (Math.abs(Math.pow(fir, i.toDouble()) / factorial(i)) >= eps) {
-        if (n % 2 == 1) summ += Math.pow(fir, i.toDouble()) / factorial(i)
-        else summ -= Math.pow(fir, i.toDouble()) / factorial(i)
+        var pow = Math.pow(fir, i.toDouble())
+        var fact = factorial(i)
+        if (n % 2 == 1) summ += pow / fact
+        else summ -= pow / fact
         i += 2
         n++
     }
@@ -215,8 +205,10 @@ fun cos(x: Double, eps: Double): Double {
     var i = 0
     var n = 1
     while (Math.abs(Math.pow(fir, i.toDouble())) / factorial(i) >= eps) {
-        if (n % 2 == 1) summ += Math.pow(fir, i.toDouble()) / factorial(i)
-        else summ -= Math.pow(fir, i.toDouble()) / factorial(i)
+        var pow = Math.pow(fir, i.toDouble())
+        var fact = factorial(i)
+        if (n % 2 == 1) summ += pow / fact
+        else summ -= pow / fact
         i += 2
         n++
     }
@@ -246,10 +238,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var result = revert(n)
-    return (result == n)
-}
+fun isPalindrome(n: Int): Boolean = (revert(n) == n)
 
 /**
  * Средняя
@@ -275,17 +264,16 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun strok(n: Int): Int = n.toString().length
+fun strok(n: Int) = n.toString().length
 
 fun squareSequenceDigit(n: Int): Int {
     var number = 0
-    var result = 0
     var k = 0
     while (number < n) {
         k++
         number += strok(k * k)
     }
-    result = k * k
+    var result = k * k
     (n..number - 1).forEach { k -> result /= 10 }
     return (result % 10)
 }

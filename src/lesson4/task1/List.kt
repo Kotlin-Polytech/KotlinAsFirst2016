@@ -121,10 +121,9 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    val sp = list.sum()
     val n = list.size
     if (n > 0) {
-        return (sp / n)
+        return (list.sum() / n)
     } else return 0.0
 }
 
@@ -172,15 +171,12 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var sum = 0.0
-    var index: Int = 0
-    val list = p
-    if (p.isNotEmpty()) {
-        for ((index, list) in p.withIndex()) {
-            sum += list * Math.pow(x, index.toDouble())
-        }
-        return sum
-    } else return 0.0
+    for ((index, list) in p.withIndex()) {
+        sum += list * Math.pow(x, index.toDouble())
+    }
+    return sum
 }
+
 
 /**
  * Средняя
@@ -217,7 +213,7 @@ fun factorize(n: Int): List<Int> {
         list.add(minimum)
         number /= minimum
     }
-    return list.sorted()
+    return list
 }
 
 /**
@@ -271,17 +267,8 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun mpow(a: Int, b: Int): Int {
-    var num = 1
-    for (n in 0..b) {
-        if (n == 0) num = 1
-        else num *= a
-    }
-    return num
-}
-
 fun decimal(digits: List<Int>, base: Int): Int {
-    return digits.reversed().mapIndexed { i, d -> d * mpow(base, i) }.sum()
+    return digits.reversed().mapIndexed { i, d -> d * pow(base, i) }.sum()
 }
 
 /**
@@ -301,7 +288,7 @@ fun pow(a: Int, b: Int): Int {
 
 fun decimalFromString(str: String, base: Int): Int {
     val char = "0123456789abcdefghijklmnopqrstuvwxyz"
-    var i: Int = 0
+    var i = 0
     return str.reversed().sumBy { char.indexOf(it) * pow(base, i++) }
 }
 

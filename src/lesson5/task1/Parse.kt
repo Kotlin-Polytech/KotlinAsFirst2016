@@ -146,7 +146,20 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    try {
+        val parts = jumps.split(" ", "-", "%")
+        var max = -1
+        for (i in 0..parts.size - 1) {
+            if ((parts[i] != "") && (parts[i].toInt() > max)) {
+                max = parts[i].toInt()
+            }
+        }
+        return max
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -164,7 +177,7 @@ fun bestHighJump(jumps: String): Int {
     for (i in 1..parts.size - 1 step 2) {
         for (j in parts[i]) {
             if ((j == '+') && (maxHigh < parts[i - 1].toInt())) {
-                maxHigh = parts[i - 1].toInt()
+                    maxHigh = parts[i - 1].toInt()
             }
         }
     }
@@ -180,7 +193,22 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    try {
+        val parts = expression.split(" ")
+        var sum = parts[0].toInt()
+        for (i in 1..parts.size - 1 step 2) {
+            if (parts[i] == "+") sum += parts[i + 1].toInt()
+            else if (parts[i] == "-") sum -= parts[i + 1].toInt()
+            else throw  IllegalArgumentException()
+        }
+        return sum
+    } catch (e: IllegalArgumentException) {
+        throw e
+    } catch (e: StringIndexOutOfBoundsException) {
+        throw IllegalArgumentException(expression)
+    }
+}
 
 /**
  * Сложная
@@ -191,7 +219,25 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    try {
+        val parts = str.toLowerCase().split(" ")
+        var i = 0
+        var result = -1
+        while ((parts[i] != parts[i + 1]) && (i < parts.size)){
+            i++
+        }
+        if (i == parts.size) return result
+        else {
+            for (j in 0..i - 1) {
+                result += (parts[j].length + 1)
+            }
+        }
+        return result + 1
+    } catch (e: IndexOutOfBoundsException) {
+        return -1
+    }
+}
 
 /**
  * Сложная

@@ -36,8 +36,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String  {
     return if ((age in (5..20)) || (age in (105..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
     else {
-        return if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
-        else return "$age год"
+        if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
+        else "$age год"
     }
 
 }
@@ -77,11 +77,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX2: Int, rookY2: Int): Int {
     var attack: Int
     if ((kingX == rookX1) || (kingY == rookY1)) attack = 1
-        else attack = 0
+    else attack = 0
     if ((kingX == rookX2) || (kingY == rookY2)) {
         attack += 2
     }
-    else attack = attack
     return attack
 }
 
@@ -126,12 +125,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    val maxComa : Int = Math.max (Math.max (a, b), Math.max (c, d))
-    if (((maxComa == a) && (maxComa == b)) && ((maxComa == c) && (maxComa == d))) return 0
-    else if ((maxComa == b) && (a >= c) && (a < d)) return (d-a)
-      else if ((maxComa == d) && (c >= a) && (c < b)) return (b-c)
-        else if ((maxComa == b) && (a <= c) && (b > d)) return (d-c)
-          else if ((maxComa == d) && (c <= a) && (d > b)) return (b-a)
-           else if (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || ( c == b ) || (a == d)) return 0
-            else return -1
+    val maxComa: Int = Math.max(Math.max(a, b), Math.max(c, d))
+    return when (maxComa) {
+        a, b, c, d -> 0
+        b -> if ((a <= c) && (b > d)) d - c
+        else d - a
+        d -> if ((c >= a) && (c < b)) b - c
+        else b - a
+        else -> if (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b) || (a == d)) return 0
+        else -1
+    }
 }

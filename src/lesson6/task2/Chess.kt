@@ -44,7 +44,7 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8'))
-        throw IllegalAccessException()
+        throw IllegalArgumentException()
     val list_lat = mapOf('a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5, 'f' to 6, 'g' to 7, 'h' to 8)
     return Square(list_lat[notation[0]]!!, notation[1].toString().toInt())
 }
@@ -74,7 +74,7 @@ fun square(notation: String): Square {
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
     var index = 0
-    if (!(start.inside()) || !(end.inside())) throw IllegalAccessException()
+    if (!(start.inside()) || !(end.inside())) throw IllegalArgumentException()
     when {
             ((start.column == end.column) && (start.row == end.row)) -> index = 0
             ((start.column == end.column) && (start.row != end.row)) -> index = 1
@@ -135,7 +135,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    if (!(start.inside()) || !(end.inside())) throw IllegalAccessException()
+    if (!(start.inside()) || !(end.inside())) throw IllegalArgumentException()
     var index : Int
     index = when {
         (start == end) -> 0

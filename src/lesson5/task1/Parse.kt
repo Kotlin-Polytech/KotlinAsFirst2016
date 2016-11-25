@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
+import lesson4.task1.elem
 /**
  * Пример
  *
@@ -60,7 +61,30 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    var answ = ""
+    if (parts[1] == "31") return ""
+    else  if (parts[1] == "10") answ += "0"
+    answ += parts[1]
+    answ += "."
+    if (parts[2] == "января") answ += "01."
+    if (parts[2] == "февраля") answ += "02."
+    if (parts[2] == "марта") answ += "03."
+    if (parts[2] == "апреля") answ += "04."
+    if (parts[2] == "мая") answ += "05."
+    if (parts[2] == "июня") answ += "06."
+    if (parts[2] == "июля") answ += "07."
+    if (parts[2] == "августа") answ += "08."
+    if (parts[2] == "сентября") answ += "09."
+    if (parts[2] == "октября") answ += "10."
+    if (parts[2] == "ноября") answ += "11."
+    if (parts[2] == "декабря") answ += "12."
+    answ += parts[3]
+    answ += "."
+    if (answ.length < 11) return ""
+    return answ
+}
 
 /**
  * Средняя
@@ -83,7 +107,26 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var forError = 0
+    val iNeedIt = "1234567890+-() "
+    for (i in 0..phone.length - 1) {
+        for (j in 0..iNeedIt.length - 1) {
+            if (phone[i] == iNeedIt[j]) forError += 1
+        }
+        if (forError != 1) return ""
+        forError = 0
+    }
+    val parts = phone.split(" ")
+    var strAnsw = ""
+    if (phone[0] == iNeedIt[11]) strAnsw += "+"
+    for (part in parts) {
+       for (i in 0..part.length - 1) {
+           if ((part[i] != iNeedIt[11]) && (part[i] != iNeedIt[12]) && (part[i] != iNeedIt[13]) && (part[i] != iNeedIt[14])) strAnsw += part[i]
+       }
+    }
+    return strAnsw
+}
 
 /**
  * Средняя
@@ -95,7 +138,40 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var result = ""
+    var answ = 0
+    var forError = 0
+    val iNeedIt = "0123456789-% "
+    for (i in 0..jumps.length - 1) {
+        for (j in 0..iNeedIt.length - 1) {
+            if (jumps[i] == iNeedIt[j]) forError += 1
+        }
+        if (forError != 1) return -1
+        forError = 0
+    }
+    var parts = jumps.split(" ")
+    for (part in parts)
+            if ((part[0] != iNeedIt[10]) and (part[0] != iNeedIt[11])) result += part + " "
+    var mnojitel = 1
+    var element = 0
+    if (result.length == 0) return (-1)
+    parts = result.split(" ")
+    for (part in parts) {
+        for (i in part.length - 1 downTo 0) {
+            for (j in 0..9) {
+                if (iNeedIt[j] == part[i]) {
+                    element += j * mnojitel
+                    mnojitel *= 10
+                }
+            }
+        }
+            if (element > answ) answ = element
+            mnojitel = 1
+            element = 0
+        }
+    return answ
+}
 
 /**
  * Сложная
@@ -107,7 +183,44 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var mbAnsw = ""
+    var bestJump = 0
+    var forError = 0
+    val iNeedIt = "0123456789+-% "
+    for (i in 0..jumps.length - 1) {
+        for (j in 0..iNeedIt.length - 1) {
+            if (jumps[i] == iNeedIt[j]) forError += 1
+        }
+        if (forError != 1) return -1
+        forError = 0
+    }
+    var parts = jumps.split(" ")
+    var element = ""
+    for (part in parts) {
+        for (i in 0..part.length - 1)
+            if (part[i] == iNeedIt[10]) mbAnsw += element + " "
+        element = part
+    }
+    var mnojitel = 1
+    var elementInt = 0
+    if (mbAnsw.length == 0) return (-1)
+    parts = mbAnsw.split(" ")
+    for (part in parts) {
+        for (i in part.length - 1 downTo 0) {
+            for (j in 0..9) {
+                if (iNeedIt[j] == part[i]) {
+                    elementInt += j * mnojitel
+                    mnojitel *= 10
+                }
+            }
+        }
+        if (elementInt > bestJump) bestJump = elementInt
+        mnojitel = 1
+        elementInt = 0
+    }
+    return bestJump
+}
 
 /**
  * Сложная
@@ -118,7 +231,44 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    var answ = 0
+    var forError = 0
+    val iNeedIt = "0123456789+- "
+    for (i in 0..expression.length - 1) {
+        for (j in 0..iNeedIt.length - 1) {
+            if (expression[i] == iNeedIt[j]) forError += 1
+        }
+        if (forError != 1) throw IllegalArgumentException()
+        forError = 0
+    }
+    var parts = expression.split(" ")
+    var mnojitel = 1
+    var element = "+"
+    var elementInt = 0
+    for (part in parts){
+        for (i in 0..iNeedIt.length -1) {
+            if (element[0] == iNeedIt[i]) {
+                if ((i > 9) && ((part[0] == iNeedIt[10]) || (part[0] == iNeedIt[11]))) throw IllegalArgumentException()
+                    if ((i < 10) && (part[0] != iNeedIt[10]) && (part[0] != iNeedIt[11])) throw IllegalArgumentException()
+            }
+        }
+        for (i in part.length - 1 downTo 0) {
+            for (j in 0..9) {
+                if (iNeedIt[j] == part[i]) {
+                    elementInt += j * mnojitel
+                    mnojitel *= 10
+                }
+            }
+        }
+        if (element[0] == iNeedIt[10]) answ += elementInt
+        if (element[0] == iNeedIt[11]) answ -= elementInt
+        element = part
+        mnojitel = 1
+        elementInt = 0
+    }
+    return answ
+}
 
 /**
  * Сложная
@@ -129,7 +279,28 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var parts = str.split(" ")
+    var counter = 0
+    var element = ""
+    var answ = -1
+    for (part in parts) {
+        counter += 1
+    }
+    if (counter == 1) return -1
+    for (i in 0..counter - 2) {
+        if (parts[i].capitalize() == parts[i+1].capitalize()) {
+            answ += 1
+            break
+        } else {
+            answ += parts[i].length + 1
+            continue
+        }
+    }
+    if (str.length - parts[counter - 1].length == answ ) return -1
+    return answ
+}
+
 
 /**
  * Сложная

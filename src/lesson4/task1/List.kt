@@ -233,14 +233,11 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
 
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
-    var mList = mutableListOf<Int>()
-    while (number > base) {
-        var mod = 1
-        mod = number % base
-        mList.add(mod)
+    val mList = mutableListOf<Int>()
+    while (number != 0) {
+        mList += number % base
         number /= base
     }
-    mList.add(number)
     return mList.asReversed()
 }
 
@@ -316,6 +313,7 @@ fun decimalFromString(str: String, base: Int): Int {
 
 
 fun roman(n: Int): String = TODO()
+
 /**
  * Очень сложная
  *

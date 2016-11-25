@@ -65,20 +65,18 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((kingX == rookX1) || (kingY == rookY1)) && ((kingX == rookX2) || (kingY == rookY2))) return 3
-    else if ((kingX == rookX1) || (kingY == rookY1)) return 1
-    else if ((kingX == rookX2) || (kingY == rookY2)) return 2
-    var ladyaFirst = 0
-    var ladyaSecond = 0
-    if ((kingX == rookX1) || (kingY == rookY1)) ladyaFirst = 1
-    if ((kingX == rookX2) || (kingY == rookY2)) ladyaSecond = 1
-    if ((ladyaFirst == 1) && (ladyaSecond == 1)) return 3
-    else if (ladyaFirst == 1) return 1
-    else if (ladyaSecond == 1) return 2
-    else return 0
+    val ladyaFirst = (kingX == rookX1 || kingY == rookY1)
+    val ladyaSecond = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2) -> 3
+        (kingX == rookX2 || kingY == rookY2) -> 2
+        (kingX == rookX1 || kingY == rookY1) -> 1
+        (ladyaFirst && ladyaSecond) -> 3
+        ladyaSecond -> 2
+        ladyaFirst -> 1
+        else -> 0
+    }
 }
-
-
 
 /**
  * Простая
@@ -113,10 +111,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-         ((c <= a) && (d <= b) && (d >= a)) -> (d - a)
-         ((c >= a) && (c <= b) && (d >= b)) -> (b - c)
-         ((c >= a) && (d <= b))             -> (d - c)
-         ((c <= a) && (b <= d))             -> (b - a)
+        ((c <= a) && (d <= b) && (d >= a)) -> (d - a)
+        ((c >= a) && (c <= b) && (d >= b)) -> (b - c)
+        ((c >= a) && (d <= b)) -> (d - c)
+        ((c <= a) && (b <= d)) -> (b - a)
         else -> -1
     }
 }

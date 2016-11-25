@@ -102,6 +102,8 @@ class Tests {
     fun bisectorByPoints() {
         assertEquals(Line(Point(2.0, 0.0), Math.PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
+        assertEquals(Line(Point(-999.5766886078866, -816.0), 3.13929205225673),
+                bisectorByPoints(Point(-999.1533772157732, -632.0), Point(-1000.0, -1000.0)))
     }
 
     @Test

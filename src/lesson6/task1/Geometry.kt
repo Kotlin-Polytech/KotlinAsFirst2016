@@ -154,8 +154,7 @@ fun lineBySegment(s: Segment): Line {
  */
 
 fun lineByPoints(a: Point, b: Point): Line {
-    val mySegment = Segment(a,b)
-     return lineBySegment(mySegment)
+     return lineBySegment(Segment(a,b))
 }
 
 /**
@@ -165,9 +164,11 @@ fun lineByPoints(a: Point, b: Point): Line {
  */
 
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val center = Point((a.x + b.x)/2, (a.y + b.y)/2)
-    if (a.x == b.x) return Line(center, 0.0)
-    return Line(center,  Math.PI/2)
+    val center = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    val myAngle = lineByPoints(a, b).angle
+    if (myAngle >= Math.PI / 2) {
+        return Line(center, myAngle - Math.PI / 2)
+    } else return Line(center, myAngle + Math.PI / 2)
 }
 
 /**

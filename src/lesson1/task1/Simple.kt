@@ -52,7 +52,7 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours*3600+minutes*60+seconds
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
 
 /**
  * Тривиальная
@@ -96,7 +96,7 @@ fun thirdDigit(number: Int): Int = number / 100 - ((number / 1000) * 10)
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = (minutesArrive+60*hoursArrive)-(minutesDepart+60*hoursDepart)
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = (minutesArrive + 60 * hoursArrive) - (minutesDepart + 60 * hoursDepart)
 
 /**
  * Простая
@@ -105,7 +105,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = (pow(1.0+percent/100.0,3.0)*initial)
+fun accountInThreeYears(initial: Int, percent: Int): Double = (pow(1.0 + percent / 100.0, 3.0) * initial)
 
 
  /* Простая
@@ -114,4 +114,4 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = (pow(1.0+percent/1
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int =(number/100)+(number%10*100)+(number%100-number%10)
+fun numberRevert(number: Int): Int = (number / 100) + (number % 10 * 100) + (number % 100 - number % 10)

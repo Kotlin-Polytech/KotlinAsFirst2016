@@ -138,13 +138,15 @@ data class  Line(val point: Point, val angle: Double) {
  */
 
 fun lineBySegment(s: Segment): Line {
+    var myRadius = 0.0
     val myPoint = Point(s.begin.x, s.begin.y)
     if (s.begin.x == s.end.x){
-        return Line(myPoint, Math.PI/2)
+        myRadius = Math.PI/2
     }
     val firstKat = s.end.x - s.begin.x
     val secondKat = s.end.y - s.begin.y
-    return Line (myPoint, Math.atan(secondKat/firstKat))
+     myRadius = Math.atan(secondKat/firstKat)
+    return Line (myPoint, myRadius)
 }
 
 /**
@@ -154,9 +156,7 @@ fun lineBySegment(s: Segment): Line {
  */
 
 fun lineByPoints(a: Point, b: Point): Line {
-    //додумать позже
-    // return lineBySegment(Segment(a,b))
-    TODO()
+    return lineBySegment(Segment(a,b))
 }
 
 /**

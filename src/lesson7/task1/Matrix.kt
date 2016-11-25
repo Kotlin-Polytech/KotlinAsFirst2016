@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
 package lesson7.task1
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 
 
 /**
@@ -25,11 +24,6 @@ interface Matrix<E> {
      */
     operator fun get(row: Int, column: Int): E
     operator fun get(cell: Cell): E
-
-    fun getRow(row: Int): List<E>
-    fun getColumn(column: Int): List<E>
-
-    fun contains(cell: Cell): Boolean
 
     /**
      * Запись в ячейку.
@@ -84,15 +78,6 @@ class MatrixImpl<E> : Matrix<E> {
 
     override fun get(cell: Cell): E  = get(cell.row, cell.column)
 
-    @Override
-    override fun getRow(row: Int): List<E> =
-            if (row in 0..height - 1) this.cells[row] else throw IllegalArgumentException("Index out of bounds: $row")
-
-    @Override
-    override fun getColumn(column: Int): List<E> =
-            if (column in 0..width - 1) this.cells.map { it[column] } else throw IllegalArgumentException("Index out of bounds: $column")
-
-    @Override
     override fun set(row: Int, column: Int, value: E) {
         check(row, column)
         this.cells[row][column] = value
@@ -102,7 +87,7 @@ class MatrixImpl<E> : Matrix<E> {
         set(cell.row, cell.column, value)
     }
 
-    override fun contains(cell: Cell): Boolean = cell.row in 0..this.height - 1 && cell.column in 0..this.width - 1
+
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && other.height == this.height &&
         other.width == this.width && other.cells == this.cells
@@ -129,3 +114,4 @@ class MatrixImpl<E> : Matrix<E> {
         return str.toString()
     }
 }
+

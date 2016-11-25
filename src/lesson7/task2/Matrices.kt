@@ -3,11 +3,17 @@ package lesson7.task2
 
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
-import lesson7.task1.Cell
 import java.lang.Math.*
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
+fun <E> Matrix<E>.getRow(row: Int): List<E> =
+        if (row in 0..height - 1) (0..width).map { this[row, it] } else throw IllegalArgumentException("Index out of bounds: $row")
+
+fun <E> Matrix<E>.getColumn(column: Int): List<E> =
+        if (column in 0..width - 1) (0..height).map { this[it, column] } else throw IllegalArgumentException("Index out of bounds: $column")
+
+fun <E> Matrix<E>.contains(row: Int, column: Int): Boolean = row in 0..this.height - 1 && column in 0..this.width - 1
 /**
  * Пример
  *
@@ -191,7 +197,7 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
                 m[i,j] = -matrix[i,j]
                 for (k in -1..1)
                     for (l in -1..1)
-                        if (m.contains(Cell(i + k, j + l)))
+                        if (m.contains(i + k, j + l))
                             m[i,j] += matrix[i + k, j + l]
             }
     return m

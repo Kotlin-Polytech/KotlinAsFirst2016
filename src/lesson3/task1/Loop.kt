@@ -61,7 +61,6 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int = if (Math.abs(n) < 10) 1 else digitNumber(n / 10) + 1
 
 
-
 /**
  * Простая
  *
@@ -84,12 +83,11 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n/2) {
-        if (n % i == 0)
-            return i
-
+    var a = 2
+    while (n % a != 0) {
+        a++
     }
-    return n
+    return a
 }
 
 /**
@@ -98,10 +96,11 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-            for (i in n - 1 downTo 1)
-            if ((n % i) == 0) return i
+    for (i in n / 2 downTo 1)
+        if ((n % i) == 0) return i
     return n
 }
+
 
 /**
  * Простая

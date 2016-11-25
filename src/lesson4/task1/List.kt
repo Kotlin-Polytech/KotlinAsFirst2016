@@ -313,26 +313,25 @@ fun russian(n: Int): String {
             "восемьсот", "девятьсот")
     val listThousands = listOf("", "одна тысяча", "две тысячи", "три тысячи", "четыре тысячи", "пять тысяч",
             "шесть тысяч", "семь тысяч", "восемь тысяч", "девять тысяч")
-    val listRes = StringBuilder()
+    val res = StringBuilder()
     if (n >= 1000) {
         number = n / 1000
-        if (number / 100 % 10 != 0 && number >= 100) listRes.append(listHundred[(number % 1000) / 100])
+        if (number / 100 % 10 != 0 && number >= 100) res.append(listHundred[(number % 1000) / 100])
         val last = if (number % 10 in 1..9) listThousands[number % 10] else "тысяч"
         when (number % 100) {
-            0 -> listRes.append(" тысяч")
-            in 10..19 -> listRes.append(" " + listUnits[number % 100] + " тысяч")
-            in 20..99 -> listRes.append(" " + listDes[(number % 100) / 10] + " " + last)
-            else -> listRes.append(" " + last)
+            0 -> res.append(" тысяч")
+            in 10..19 -> res.append(" " + listUnits[number % 100] + " тысяч")
+            else -> res.append(" " + (if (number % 100 in 20..99) listDes[(number % 100) / 10] else "") + " " + last)
         }
         number = n % 1000
     }
     //////
-    if (number / 100 % 10 != 0 && number >= 100) listRes.append(" " + listHundred[(number % 1000) / 100])
-    val unit = " " + listUnits[number % 10]
+    if (number / 100 % 10 != 0 && number >= 100) res.append(" " + listHundred[(number % 1000) / 100])
+    val unit = listUnits[number % 10]
     when (number % 100) {
-        in 10..19 -> listRes.append(" " + listUnits[number % 100])
-        in 20..99 -> listRes.append(" " + listDes[(number % 100) / 10] + unit)
-        in 1..9 -> listRes.append(unit)
+        in 10..19 -> res.append(" " + listUnits[number % 100])
+        else -> res.append(" " + (if (number % 100 in 20..99) listDes[(number % 100) / 10] + " " else "") + unit)
+
     }
-    return listRes.toString().trim()
+    return res.toString().trim()
 }

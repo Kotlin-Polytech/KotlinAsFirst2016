@@ -78,7 +78,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
             other is MatrixImpl<*> && height == other.height && width == other.width && map == other.map
 
     override fun toString(): String {
-        val res = StringBuilder()
+        /*val res = StringBuilder()
         res.append("[")
         for (row in 0..height - 1) {
             res.append("[")
@@ -90,6 +90,18 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
             if (row != height - 1) res.append(",")
         }
         res.append("]")
+        return res.toString() */
+
+        val res = StringBuilder()
+        res.append("\n")
+        for (col in 0..height - 1) {
+            for (row in 0..width - 1) {
+                res.append(this[row, col])
+                if (row != width - 1) res.append(" ")
+            }
+            if (col != height - 1) res.append("\n")
+        }
+        res.append("\n")
         return res.toString()
     }
 }

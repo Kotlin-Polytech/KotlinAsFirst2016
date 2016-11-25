@@ -205,17 +205,6 @@ fun plusMinus(expression: String): Int {
         if (symbols[i - 1] == '+') res += parts[i].toInt() else res -= parts[i].toInt()
     }
     return res
-    /* var res = 0
-     if (expression.contains(Regex("""[^-+\d\s]""")) || expression == "") throw IllegalArgumentException()
-     if (expression.contains(Regex("""[-+]"""))) {
-     } else if (expression.contains(Regex("""[\s]"""))) throw IllegalArgumentException()
-     else return expression.toInt()
-     val parts = expression.trim().split(" ")
-     res += parts.first().toInt()
-     for (i in 1..parts.size - 1 step 2) {
-         if (parts[i] == "+") res += parts[i + 1].toInt() else res -= parts[i + 1].toInt()
-     }
-     return res*/
 }
 
 /**
@@ -266,7 +255,6 @@ fun mostExpensive(description: String): String {
             max = el
             mostExpensive = pairs[0]
         }
-
     }
     return mostExpensive
 }

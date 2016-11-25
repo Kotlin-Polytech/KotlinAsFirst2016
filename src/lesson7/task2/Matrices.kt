@@ -106,7 +106,7 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 7 8 9      9 6 3
  */
 fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
-    if (matrix.width != matrix.height) throw  IllegalArgumentException()
+    if (matrix.height != matrix.width) throw  IllegalArgumentException()
     val M = createMatrix(matrix.height, matrix.width, matrix[0, 0])
     val side = matrix.width - 1
     for (i in 0..side)
@@ -148,8 +148,7 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  * 42 ===> 0
  */
 fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
-    val M = createMatrix(matrix.height, matrix.width, matrix[0, 0])
-    M[0, 0] = 0
+    val M = createMatrix(matrix.height, matrix.width, 0)
     if (matrix.width == 1 && matrix.height == 1) return M
     for (i in 0..matrix.height - 1)
         for (k in 0..matrix.width - 1) {

@@ -57,4 +57,4 @@ fun distance(x0: Double, y0: Double, x: Double, y: Double) =
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
-        ((a <= r) || (b <= r) || (c <= r)) && ((a <= s) || (b <= s) || (c <= s))
+        ((a <= r)|| (b <= r) || (c <= r)) && ((a <= s) || (b <= s) || (c <= s))

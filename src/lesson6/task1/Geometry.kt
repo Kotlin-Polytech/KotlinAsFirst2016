@@ -90,8 +90,8 @@ fun diameter(vararg points: Point): Segment {
     var farPoint1 = Point(0.0, 0.0)
     var farPoint2 = Point(0.0, 0.0)
     if (points.size < 2) throw IllegalArgumentException()
-    for (i in 0..points.size-1) {
-        for (j in i..points.size-1) {
+    for (i in 0..points.size - 1) {
+        for (j in i..points.size - 1) {
             if (points[i].distance(points[j]) > max) {
                 max = points[i].distance(points[j])
                 farPoint1 = points[i]

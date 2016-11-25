@@ -5,6 +5,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.pow
+import lesson3.task1.revert
 
 /**
  * Пример
@@ -231,15 +232,16 @@ fun convert(n: Int, base: Int): List<Int> {
     val l = mutableListOf<Int>()
     var q = n
     if (n < base) {
-        l.add(0, n)
+        l.add(n)
     } else {
         while (q > 0) {
             val a = q % base
-            l.add(0, a)
+            l.add(a)
             q /= base
         }
     }
-    return l
+    return l.reversed()
+
 }
 
 /**
@@ -252,17 +254,15 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val a = convert(n, base)
-    var result = ""
-    if (base < 1) {
-        result = n.toString()
-    } else {
+    var result = StringBuilder()
+    if (base >= 1) {
         for (el in a) {
             if (el > 9) {
-                result += ('a' + el - 10)
-            } else result += el.toString()
+                result.append('a' + el - 10)
+            } else result.append(el.toString())
         }
     }
-    return result
+    return "$result"
 }
 
 
@@ -306,20 +306,20 @@ fun decimalFromString(str: String, base: Int): Int {
  * Перевести натуральное число n в римскую систему.
  * Римские цифры: 1 = I, 4 = IV, 5 = V, 9 = IX, 10 = X, 40 = XL, 50 = L,
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
- * Например: 23 = XXIII, 44 = XLIV, 100 = C
+ * Например: 23 = XXIII, 44 = XLIV, 100 = C 23678111213
+ * 141516
  */
 fun roman(n: Int): String = TODO()/*{
-    var romanDigits = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
-    var arabicDigits = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-    var a = n.toString()
+    val romanDigits = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val arabicDigits = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    val a = n.toString()
     var z = n
-    var result = ""
-    if (z in arabicDigits) {
-        result = romanDigits[arabicDigits.indexOf(z)]
-    } else {
-
+    var result = StringBuilder()
+    while (z>0){
+        result.append(romanDigits[arabicDigits.indexOf(z)])
+        z-=arabicDigits[arabicDigits.indexOf(z)]
     }
-    return result
+    return "$result"
 }*/
 
 /**

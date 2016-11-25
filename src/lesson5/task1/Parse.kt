@@ -59,9 +59,10 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val m = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    val m = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size != 3) return ""
     try {
         val d = parts[0].toInt()
@@ -88,18 +89,18 @@ fun dateDigitToStr(digital: String): String {
         val d1 = parts[0].toInt()
         var m1 = ""
         when (parts[1]) {
-            "01" -> m1 = "января"
-            "02" -> m1 = "февраля"
-            "03" -> m1 = "марта"
-            "04" -> m1 = "апреля"
-            "05" -> m1 = "мая"
-            "06" -> m1 = "июня"
-            "07" -> m1 = "июля"
-            "08" -> m1 = "августа"
-            "09" -> m1 = "сентября"
-            "10" -> m1 = "октября"
-            "11" -> m1 = "ноября"
-            "12" -> m1 = "декабря"
+            "01" -> m1 = m[parts[1].toInt() - 1]
+            "02" -> m1 = m[parts[1].toInt() - 1]
+            "03" -> m1 = m[parts[1].toInt() - 1]
+            "04" -> m1 = m[parts[1].toInt() - 1]
+            "05" -> m1 = m[parts[1].toInt() - 1]
+            "06" -> m1 = m[parts[1].toInt() - 1]
+            "07" -> m1 = m[parts[1].toInt() - 1]
+            "08" -> m1 = m[parts[1].toInt() - 1]
+            "09" -> m1 = m[parts[1].toInt() - 1]
+            "10" -> m1 = m[parts[1].toInt() - 1]
+            "11" -> m1 = m[parts[1].toInt() - 1]
+            "12" -> m1 = m[parts[1].toInt() - 1]
             else -> return ""
         }
         val y1 = parts[2].toInt()
@@ -162,8 +163,8 @@ fun plusMinus(expression: String): Int {
     var result = 0
     var k = 0
     var z = 0
-    try {
-        for (part in parts) {
+    for (part in parts) {
+        try {
             if (k == 1 && part in "0".."9" || k == 2 && (part == "+" || part == "-")) throw IllegalArgumentException()
             if (part in "0".."9") {
                 k++
@@ -174,13 +175,13 @@ fun plusMinus(expression: String): Int {
                     z++
                 }
             }
-            if (part == "+" || part == "-") {
-                k = 2
-                if (part == "-") z = -1
-            }
+        } catch (e: NumberFormatException) {
+            throw IllegalArgumentException()
         }
-    } catch (e: IllegalArgumentException) {
-        throw e
+        if (part == "+" || part == "-") {
+            k = 2
+            if (part == "-") z = -1
+        }
     }
     return result
 }

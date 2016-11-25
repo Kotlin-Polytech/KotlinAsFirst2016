@@ -216,11 +216,20 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 /**
  * Средняя
  *
- * Перевести заданное натуральное число n в систему счисления с основанием base > 1.
+     * Перевести заданное натуральное число n в систему счисления с основанием base > 1.
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var newN = n
+    if (newN == 0) result.add(0)
+    while (newN > 0) {
+        result.add(0, newN % base)
+        newN /= base
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -239,7 +248,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var a = (digits.size - 1).toDouble()
+    var n = 0.0
+    for (element in digits) {
+        n += element * Math.pow(base.toDouble(), a)
+        a--
+    }
+    return n.toInt()
+}
 
 /**
  * Сложная

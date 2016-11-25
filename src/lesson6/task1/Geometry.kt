@@ -120,9 +120,9 @@ fun diameterByArray(points: Array<out Point>): Segment {
         var maxSegment: Segment = Segment(points[0], points[1])
         for (i in 0..(points.size - 2)) {
             for (j in (i + 1)..(points.size - 1)) {
-                if (points[i + 1].distance(points[j]) > maxDistance) {
-                    maxDistance = points[i + 1].distance(points[j])
-                    maxSegment = Segment(points[i + 1], points[j])
+                if (points[i].distance(points[j]) > maxDistance) {
+                    maxDistance = points[i].distance(points[j])
+                    maxSegment = Segment(points[i], points[j])
                 }
             }
         }

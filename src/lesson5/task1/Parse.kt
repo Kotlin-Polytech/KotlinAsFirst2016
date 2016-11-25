@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,16 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val MONTHS = listOf("января", "февраля", "марта", "апреля", "мая",
+        "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    if (parts[1] in MONTHS)
+        return String.format("%02d.%02d.%d", parts[0].toInt(), MONTHS.indexOf(parts[1]) + 1, parts[2].toInt())
+    else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +77,24 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        for (i in 0..MONTHS.size) {
+            if (parts[1].toInt() == i && parts[1].toInt() != 0) {
+                val a = parts[0].toInt()
+                val b = MONTHS[i - 1]
+                val c = parts[2].toInt()
+                return "$a $b $c"
+
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return ""
+}
 
 /**
  * Сложная
@@ -83,7 +108,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val siMob = phone.filter { it != ' ' && it != '-' }
+    if (!siMob.matches(Regex("""((\+\d+)?\(\d+\))?\d+"""))) return ""
+    return siMob.filter { it != '(' && it != ')' }
+}
 
 /**
  * Средняя

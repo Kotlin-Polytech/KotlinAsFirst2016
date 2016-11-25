@@ -107,7 +107,7 @@ fun nod(m: Int, n: Int): Int {
     return a
 }
 
-fun lcm(m: Int, n: Int): Int = n*m/nod(m,n)
+fun lcm(m: Int, n: Int): Int = n * m / nod(m, n)
 
 
 /**
@@ -171,15 +171,18 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var i = 1
-    var sinn = x
-    while (pow(x,(1+i*2.0)) / factorial(1+i*2) > eps) {
+    val xn =  x % (2 * PI)
+    var sin = x * x * x / 6
+    var element = x
+    while (element > eps) {
         if (i%2 == 1)
-            sinn -= pow(x,(1+i*2.0)) / factorial(1+i*2)
+            sin -= element
         else
-            sinn += pow(x,(1+i*2.0)) / factorial(1+i*2)
+            sin += element
         i++
+        element = pow(xn,(1 + i * 2.0)) / factorial( 1 + i * 2)
     }
-    return sinn
+    return sin
 }
 
 /**
@@ -191,13 +194,16 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var i = 1
+    val xn =  x % (2 * PI)
     var cos = 1.0
-    while (pow(x,(i*2.0)) / factorial(i*2) > eps) {
+    var element = x * x / 2
+    while (element > eps) {
         if (i%2 == 1)
-            cos -= (pow(x,(i*2.0)) / factorial(i*2))
+            cos -= element
         else
-            cos += (pow(x,(i*2.0)) / factorial(i*2))
+            cos += element
         i++
+        element = pow(xn,(1 + i * 2.0)) / factorial( 1 + i * 2)
     }
     return cos
 }
@@ -226,9 +232,8 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    return n.toString() == n.toString().reversed()
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
+
 
 /**
  * Средняя
@@ -237,13 +242,12 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var num = abs(n)
-    var lastNum = num%10
-    while (num > 0){
-        if (lastNum != num%10) {
+    var num = n
+    val lastNum = num % 10
+    while (num != 0){
+        if (lastNum != num % 10) {
             return true
         }
-        lastNum = num%10
         num /= 10
     }
     return false
@@ -260,16 +264,15 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var pointer = 0
-    var num = 0
     while (pointer < n){
         val iSqr = i*i
         val currentLength = pointer + digitNumber(iSqr)
         if (currentLength >= n)
-            num = (iSqr).toString()[n-pointer-1] - '0'
+            return (iSqr).toString()[n-pointer-1] - '0'
         pointer = currentLength
         i++
     }
-    return num
+    return 0
 }
 
 /**
@@ -282,14 +285,13 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int  {
     var i = 1
     var pointer = 0
-    var num = 0
     while (pointer < n){
         val fib = fib(i)
         val currentLength = pointer + digitNumber(fib)
         if (currentLength >= n)
-            num = fib.toString()[n-pointer-1] - '0'
+            return fib.toString()[n-pointer-1] - '0'
         pointer = currentLength
         i++
     }
-    return num
+    return 0
 }

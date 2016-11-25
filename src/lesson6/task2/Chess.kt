@@ -284,7 +284,7 @@ fun knightMoveNumber(start: Square, end: Square): Int {
             desk.addVertex(Sq.notation())
         }
     }
-    //Строим ребра, каждое с весо 1 (а по-другоу и нельзя)
+    //Строим ребра, каждое с весом 1 (а по-другоу и нельзя)
     for (i in 1..8) {
         for (j in 1..8) {
             val Sq = Square(i,j)

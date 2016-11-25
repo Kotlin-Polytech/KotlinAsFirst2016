@@ -32,7 +32,9 @@ class Graph {
      */
     fun bfs(start: String, finish: String) = bfs(this[start], this[finish])
 
+    //
     fun bfsPath(start: String, finish: String) = bfsPath(this[start], this[finish])
+    //
 
     private fun bfs(start: Vertex, finish: Vertex): Int {
         val queue = ArrayDeque<Vertex>()
@@ -50,6 +52,7 @@ class Graph {
         }
         return -1
     }
+    //
     //Алгоритм аналагичный реализованному вами поиску в ширину, только возвращающий путь, в качестве результата
     private fun bfsPath(start: Vertex, finish: Vertex): List<String> {
         val queue = ArrayDeque<Vertex>()
@@ -72,6 +75,7 @@ class Graph {
         }
         return listOf()
     }
+    //
 
     /**
      * Пример

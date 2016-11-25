@@ -3,7 +3,15 @@ package lesson7.task2
 
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
+import lesson4.task1.accumulate
+import java.lang.Math.*
 
+enum class MatrixDirection(val id: Int) {
+    Right(1),
+    Bottom(2),
+    Left(3),
+    Top(4)
+}
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
 /**
@@ -59,7 +67,35 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val m = createMatrix(height, width, 0)
+    //Создаем лист с максимальными значениями каждого "кольца", считаем по формуле, а потом проходимся по нему функцией,
+    //аналогичной accumulate (для матрицы 4х4 получим значения 0, 12, 16)
+    val squareEndValue: MutableList<Int> = mutableListOf(0)
+    (1..ceil(min(width, height) / 2.0).toInt()).forEach {
+        val space = 2 * ((width + height) - (2 + 4 * (it - 1)))
+        squareEndValue.add((if (space != 0) space else 1) + if (it > 1) squareEndValue[it-1] else 0)
+    }
+    //Проходимся по каждому "row" матрицы и считаем значения
+    for (i in 0..height-1) {
+        for (j in 0..width-1) {
+            //Значения обратные i,j соответсвенно
+            val revertI = height-i-1
+            val revertJ = width-j-1
+            //Находим, в каком "кольце" находится ячейка и от этого рассчиываем ее значение
+            val inside = min(if (i >= (height/2.0)) revertI else i, if (j >= (width/2.0)) revertJ else j)
+            //Правая верхняя часть матрицы
+            if (i == inside || revertJ == inside) {
+                m[i,j] = squareEndValue[inside] + ((width - revertJ + height - revertI) - (2 * inside) - 1)
+            //Левая нижняя часть матрицы
+            } else {
+                m[i,j] = squareEndValue[inside+1] - (width - revertJ + height - revertI - (2 * inside) - 3)
+            }
+
+        }
+    }
+    return m
+}
 
 /**
  * Сложная
@@ -75,7 +111,16 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val m = createMatrix(height, width, 0)
+    for (i in 0..height-1) {
+        for (j in 0..width-1) {
+            val inside = min(if (i >= (height/2.0)) height-i-1 else i, if (j >= (width/2.0)) width-j-1 else j)
+            m[i,j] = inside+1
+        }
+    }
+    return m
+}
 
 /**
  * Сложная
@@ -103,7 +148,9 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> =
+        if (matrix.height != matrix.width) throw IllegalAccessException("Height and width isn't equals")
+        else transpose(matrix)
 
 /**
  * Сложная

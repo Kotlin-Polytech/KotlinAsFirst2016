@@ -149,9 +149,8 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double {
-    return a.zip(b, { R,T -> R*T }).sum()
-}
+fun times(a: List<Double>, b: List<Double>): Double = a.zip(b, { R,T -> R * T }).sum()
+
 /**
  * Средняя
  *
@@ -160,9 +159,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double {
-    return p.mapIndexed { i, d -> d*pow(x,i.toDouble()) }.sum()
-}
+fun polynom(p: List<Double>, x: Double): Double = p.mapIndexed { i, d -> d * pow(x, i.toDouble()) }.sum()
 
 /**
  * Средняя
@@ -192,7 +189,7 @@ fun factorize(n: Int): List<Int> {
         list.add(min)
         num /= min
     }
-    return list.sorted()
+    return list
 }
 
 /**
@@ -229,9 +226,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String {
-    return convert(n,base).joinToString(separator="", transform = {chars[it].toString()})
-}
+fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString(separator="", transform = { chars[it].toString() })
 
 /**
  * Средняя
@@ -240,9 +235,7 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int {
-    return digits.reversed().mapIndexed { i, d -> d*pow(base, i) }.sum()
-}
+fun decimal(digits: List<Int>, base: Int): Int = digits.reversed().mapIndexed { i, d -> d*pow(base, i) }.sum()
 
 /** * Сложная
  *
@@ -252,10 +245,8 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int {
-    var i: Int = 0
-    return str.reversed().sumBy {chars.indexOf(it) * pow(base, i++)}
-}
+fun decimalFromString(str: String, base: Int): Int = str.reversed().mapIndexed { i, c -> chars.indexOf(c) * pow(base, i)}.sum()
+
 
 /**
  * Сложная
@@ -266,47 +257,21 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val s = arrayOf("","I","II","III","IV","V","VI","VII","VIII","IX")
-    //StringBuilder знаю только в теории из C#, поэтому не знаю, правильно ли я сделал
-    val str: StringBuilder = StringBuilder()
-    var num: Int = n
-    if (num / 1000 > 0)
-        for (i in 1..num / 1000)
-            str.append("M")
-    num %= 1000
-    if (num / 500 == 1)
-        if (num % 500 >= 400) {
-            str.append("CM")
-            num -= 900
+    val symbols = sortedMapOf(1 to "I", 4 to "IV", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L",
+        90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
+    var decValue = n
+    val str = StringBuilder()
+    while (decValue > 0){
+        print("$decValue ")
+        val key = symbols.keys.last() //Последний ключ (самое большое значение числа) в ассоц. массиве
+        println(key)
+        if (decValue >= key) {
+            str.append(symbols[key])
+            decValue -= key
         } else {
-            str.append("D")
-            num %= 500
+            symbols.remove(key)
         }
-    if (num / 100 > 0)
-        if (num / 100 == 4) {
-            str.append("CD")
-        } else {
-            for (i in 1..num / 100)
-                str.append("C")
-        }
-    num %= 100
-    if (num / 50 == 1)
-        if (num % 50 >= 40) {
-            str.append("XC")
-            num -= 90
-        } else {
-            str.append("L")
-            num %= 50
-        }
-    if (num / 10 > 0)
-        if (num / 10 == 4) {
-            str.append("XL")
-        } else {
-            for (i in 1..num / 10)
-                str.append("X")
-        }
-    num %= 10
-    str.append(s[num])
+    }
     return str.toString()
 }
 

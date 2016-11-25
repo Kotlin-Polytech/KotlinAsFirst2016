@@ -94,7 +94,7 @@ fun thirdDigit(number: Int): Int = (number % 1000 - number % 100) / 100
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
-    (hoursArrive*60 + minutesArrive) - (hoursDepart*60+minutesDepart)
+    (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 +   minutesDepart)
 
 
 /**
@@ -118,9 +118,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
 fun numberRevert(number: Int): Int {
     var n = number
     var result = 0
-    while (n> 0) {
-        result = result*10 + n%10
+    while (n > 0) {
+        result = result * 10 + n % 10
         n /= 10
-    }
-    return result
+     }
+     return result
 }

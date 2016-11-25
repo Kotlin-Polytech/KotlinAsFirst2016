@@ -36,10 +36,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
     var ageResult: String
     ageResult = " "
-    if (age%100 in 11..19 || age%10 > 4 || age%10 == 0) ageResult = "$age лет"
+    if (age % 100 in 11..19 || age % 10 > 4 || age % 10 == 0) ageResult = "$age лет"
     else if (age % 10 == 1) ageResult = "$age год"
     else if (age % 10 in 2..4) ageResult = "$age года"
-        return (ageResult)
+    return (ageResult)
 }
 /**
  * Простая
@@ -51,12 +51,13 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val s = (t1*v1+t2*v2+t3*v3) / 2
+    val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     val time: Double
-    if (t1*v1 >= s) time=s/v1
-    else if (t1*v1+t2*v2 >= s) time=(s-t1*v1)/v2+t1
-    else time = (s-(t1*v1+t2*v2))/v3+t1+t2
-    return(time)
+    when {(t1 * v1 >= s) -> time = s / v1
+        (t1 * v1 + t2 * v2 >= s) -> time = (s - t1 * v1) / v2 + t1
+        else -> time = (s - (t1 * v1 + t2 * v2)) / v3 + t1 + t2
+    }
+    return time
 }
 
 /**
@@ -70,10 +71,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((rookX1==kingX)||(rookY1==kingY))&&((rookX2!=kingX)&&(rookY2!=kingY))) return (1)
-    else if (((rookX1!=kingX)&&(rookY1!=kingY))&&((rookX2==kingX)||(rookY2==kingY))) return (2)
-    else if (((rookX1==kingX)||(rookY1==kingY))&&((rookX2==kingX)||(rookY2==kingY))) return (3)
-    else return (0)
+    when {
+        (((rookX1 == kingX) || (rookY1 == kingY)) && ((rookX2 != kingX) && (rookY2 != kingY))) -> return 1
+        (((rookX1 != kingX) && (rookY1 != kingY)) && ((rookX2 == kingX) || (rookY2 == kingY))) -> return 2
+        (((rookX1 == kingX) || (rookY1 == kingY)) && ((rookX2 == kingX) || (rookY2 == kingY))) -> return 3
+        else -> return 0
+    }
 }
 
 /**
@@ -88,10 +91,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if (((rookX==kingX)||(rookY==kingY))&&(Math.abs(kingX-bishopX)!=Math.abs(kingY-bishopY))) return (1)
-    else if (((rookX!=kingX)&&(rookY!=kingY))&&(Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY))) return (2)
-    else if (((rookX==kingX)||(rookY==kingY))&&(Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY))) return (3)
-    else return (0)
+    when {
+        (((rookX == kingX) || (rookY == kingY)) && (Math.abs(kingX - bishopX) != Math.abs(kingY - bishopY))) -> return 1
+        (((rookX != kingX) && (rookY != kingY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) -> return 2
+        (((rookX == kingX) || (rookY == kingY)) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))) -> return 3
+        else -> return 0
+    }
 }
 
 /**
@@ -103,14 +108,16 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if (((a + b) < c) || ((b + c) < a) || ((c + a) < b)) return (-1)
-    else if (((Math.pow(a, 2.0) + Math.pow(b, 2.0)) == Math.pow(c, 2.0))
-            || ((Math.pow(b, 2.0) + Math.pow(c, 2.0)) == Math.pow(a, 2.0)) ||
-            ((Math.pow(a, 2.0) + Math.pow(c, 2.0)) == Math.pow(b, 2.0))) return (1)
-    else if (((Math.pow(a, 2.0) + Math.pow(b, 2.0)) < Math.pow(c, 2.0))
-            || ((Math.pow(b, 2.0) + Math.pow(c, 2.0)) < Math.pow(a, 2.0)) ||
-            ((Math.pow(a, 2.0) + Math.pow(c, 2.0)) < Math.pow(b, 2.0))) return (2)
-    else return (0)
+    when {
+        ((a + b) < c) || ((b + c) < a) || ((c + a) < b) -> return -1
+        (((Math.pow(a, 2.0) + Math.pow(b, 2.0)) == Math.pow(c, 2.0))
+                || ((Math.pow(b, 2.0) + Math.pow(c, 2.0)) == Math.pow(a, 2.0)) ||
+                ((Math.pow(a, 2.0) + Math.pow(c, 2.0)) == Math.pow(b, 2.0))) -> return 1
+        (((Math.pow(a, 2.0) + Math.pow(b, 2.0)) < Math.pow(c, 2.0))
+                || ((Math.pow(b, 2.0) + Math.pow(c, 2.0)) < Math.pow(a, 2.0)) ||
+                ((Math.pow(a, 2.0) + Math.pow(c, 2.0)) < Math.pow(b, 2.0))) -> return 2
+        else -> return 0
+    }
 }
 
 /**

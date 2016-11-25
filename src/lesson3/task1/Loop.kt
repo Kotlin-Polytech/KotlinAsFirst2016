@@ -34,7 +34,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -98,12 +98,12 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k= Math.min(m,n)
-    var nod=1
+    var k = Math.min(m, n)
+    var nod = 1
     for (i in 2..k) {
-        if (((m%i)==0)&&((n%i)==0)) nod=i
+        if (((m % i) == 0) && ((n % i) == 0)) nod = i
     }
-    return ((m*n)/nod)
+    return ((m * n) / nod)
 }
 
 /**
@@ -126,8 +126,8 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var divisor = 1
-    for (i in 2..n-1) {
-        if (n % i == 0) divisor=i
+    for (i in 2..n - 1) {
+        if (n % i == 0) divisor = i
     }
     return (divisor)
 }
@@ -145,9 +145,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
     for (i in 2..k) {
         if (((m % i) == 0) && ((n % i) == 0)) nod = i
     }
-    if (nod == 1) return (true)
-    else return (false)
+    return nod == 1
 }
+
 /**
  * Простая
  *
@@ -155,11 +155,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    if (m==n) return true
-    else if (((Math.sqrt(1.0*n)).toInt()-(Math.sqrt(1.0*m)).toInt())>=1) return true
-    else return false
-}
+fun squareBetweenExists(m: Int, n: Int): Boolean =
+        (m == n)||(((Math.sqrt(1.0 * n)).toInt() - (Math.sqrt(1.0 * m)).toInt()) >= 1)
 
 /**
  * Простая
@@ -216,7 +213,7 @@ fun cos(x: Double, eps: Double): Double {
 fun revert(n: Int): Int {
     var m = n
     var result = 0
-    for (i in digitNumber(n)-1 downTo 0) {
+    for (i in digitNumber(n) - 1 downTo 0) {
         result *= 10
         result += m % 10
         m /= 10
@@ -266,10 +263,10 @@ fun squareSequenceDigit(n: Int): Int {
     var leftBound = 0
     var digit = 0
     while (leftBound < n) {
-        val sqr = i*i
+        val sqr = i * i
         val rightBound = leftBound + digitNumber(sqr)
         if (n <= rightBound)
-            digit = sqr.toString()[n-leftBound-1] - '0'
+            digit = sqr.toString()[n - leftBound - 1] - '0'
         i++
         leftBound = rightBound
     }

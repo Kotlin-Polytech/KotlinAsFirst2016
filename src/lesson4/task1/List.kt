@@ -2,13 +2,9 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson3.task1.digitCountInNumber
 import lesson3.task1.minDivisor
-import lesson3.task1.revert
-import org.jetbrains.annotations.Mutable
 
 val chars = "0123456789abcdefghijklmnopqrstuvwxyz"
-
 /**
  * Пример
  *
@@ -128,7 +124,7 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double {
     var result: Double
     result = list.sum() / list.size
-    if (list.isEmpty()==false) return result
+    if (list.isEmpty() == false) return result
     else return 0.0
 }
 
@@ -177,7 +173,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
     for (i in 0..p.size - 1) {
-        result += p[i] * Math.pow(x, i * 1.0)
+        result += p[i] * Math.pow(x, i.toDouble())
     }
     return result
 }
@@ -191,10 +187,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-        for (i in 1..list.size - 1) {
-            list[i] += list[i-1]
-        }
-        return list
+    for (i in 1..list.size - 1) {
+        list[i] += list[i - 1]
+    }
+    return list
 }
 
 /**
@@ -234,7 +230,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var m = n
     var reminder: Int
     val list = mutableListOf<Int>()
-    if (m == 0) return  listOf(0)
+    if (m == 0) return listOf(0)
     while (m > 0) {
         reminder = m % base
         m /= base
@@ -253,43 +249,13 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var m = n
-    var reminder: Int
-    val list = mutableListOf<String>()
+    val str: StringBuilder = StringBuilder()
     if (m == 0) return "0"
-    while (m > 0) {
-        reminder = m % base
+    while (m != 0) {
+        str.append(chars[m % base])
         m /= base
-        if (reminder<10) list.add(reminder.toString())
-        else when (reminder) {
-            10 -> list.add("a")
-            11 -> list.add("b")
-            12 -> list.add("c")
-            13 -> list.add("d")
-            14 -> list.add("e")
-            15 -> list.add("f")
-            16 -> list.add("g")
-            17 -> list.add("h")
-            18 -> list.add("i")
-            19 -> list.add("j")
-            20 -> list.add("k")
-            21 -> list.add("l")
-            22 -> list.add("m")
-            23 -> list.add("n")
-            24 -> list.add("o")
-            25 -> list.add("p")
-            26 -> list.add("q")
-            27 -> list.add("r")
-            28 -> list.add("s")
-            29 -> list.add("t")
-            30 -> list.add("u")
-            31 -> list.add("v")
-            32 -> list.add("w")
-            33 -> list.add("x")
-            34 -> list.add("y")
-            35 -> list.add("z")
-        }
     }
-    return list.reversed().joinToString(separator = "")
+    return str.toString().reversed()
 }
 
 /**
@@ -301,9 +267,9 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0.0
-    var i=0.0
+    var i = 0.0
     for (digit in digits.reversed()) {
-        result += digit * Math.pow(base * 1.0, i)
+        result += digit * Math.pow(base.toDouble(), i)
         i++
     }
     return result.toInt()
@@ -319,7 +285,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int =
-    str.reversed().mapIndexed { i, c -> (if (c in '0'..'9') c - '0' else c - 'a' + 10) * Math.pow(base * 1.0, i * 1.0)}.sum().toInt()
+    str.reversed().mapIndexed { i, c -> (if (c in '0'..'9') c - '0' else c - 'a' + 10) * Math.pow(base.toDouble(), i.toDouble())}.sum().toInt()
 
 /**
  * Сложная

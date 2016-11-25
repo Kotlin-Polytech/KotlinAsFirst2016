@@ -192,7 +192,7 @@ data class Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     val tan = (s.begin.y - s.end.y) / (s.begin.x - s.end.x)
     val angle = atan(tan)
-    return (Line(s.begin, abs(angle)))
+    return (Line(s.begin, angle))
 }
 
 /**

@@ -79,6 +79,7 @@ data class Circle(val center: Point, val radius: Double) {
  */
 data class Segment(val begin: Point, val end: Point) {
     fun length(): Double = sqrt(sqr(begin.x - end.x) + sqr(begin.y - end.y))
+    fun middle(): Point = Point((begin.x -end.x)/2,(begin.y - end.y)/2 )
 }
 
 /**
@@ -224,7 +225,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val fBisector = bisectorByPoints(a, b)
+    val fBisector = bisectorByPoints(b, a)
     val sBisector = bisectorByPoints(b, c)
     val center = fBisector.crossPoint(sBisector)
     val radius = Segment(center, a).length()
@@ -243,5 +244,27 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
+fun minContainingCircle(vararg points: Point): Circle {
+    when (points.size) {
+        0 -> throw IllegalArgumentException()
+        1 -> return Circle(Point(0.0,0.0),0.0)
+        2 -> return Circle (Point((points[0].x - points[1].x)/2, (points[0].y - points[1].y)/2), Segment(points[0], points[1]).length()/2)
+        else -> {
+            val s = diameter2(points)
+            return Circle(s.middle(), s.length()/2)
+        }
+    }
+}
+fun diameter2(points: Array<out Point>): Segment {
 
+    val convexHull = if (points.size <= 3) points.asList() else convexHull(points)
+
+    val segments = mutableListOf<Segment>()
+    for (i in convexHull.withIndex()) {
+        for (z in convexHull.withIndex()) { // можно ли начать итерацию не с самого начала листа, а с определёенного индекса (в данном случае с i индекса)?
+            if (z.index > i.index) segments.add(Segment(i.value, z.value))
+        }
+    }
+
+    return segments.maxBy { it.length() }!!
+}

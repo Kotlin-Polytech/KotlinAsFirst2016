@@ -143,6 +143,7 @@ fun circleByDiameter(diameter: Segment): Circle {
 
     return (Circle(center, radius))
 }
+
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)
@@ -189,10 +190,9 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val projection = s.end.x - s.begin.x
-    val module = s.end.y - s.begin.y
-    val angle = atan(module/projection)
-    return(Line(s.begin, angle))
+    val tan = (s.begin.y - s.end.y) / (s.begin.x - s.end.x)
+    val angle = atan(tan)
+    return (Line(s.begin, angle))
 }
 
 /**
@@ -211,12 +211,12 @@ fun lineByPoints(a: Point, b: Point): Line {
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val angle = lineByPoints(a, b).angle
-    val center = Point((a.x + b.x)/2, (a.y + b.y)/2)
+    val center = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
     val asin = when {
-        angle == 0.0 -> PI/2
-        angle == PI/2 || angle == -PI/2 -> 0.0
-        angle < PI/2 -> -PI/2 - angle
-        else -> PI/2-angle
+        angle == 0.0 -> PI / 2
+        angle == PI / 2 || angle == -PI / 2 -> 0.0
+        angle < PI / 2 -> -PI / 2 - angle
+        else -> PI / 2 - angle
 
     }
     return Line(center, asin)

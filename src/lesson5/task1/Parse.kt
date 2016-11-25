@@ -64,13 +64,17 @@ fun dateStrToDigit(str: String): String {
             "сентября", "октября", "ноября", "декабря")
     val parts = str.split(" ")
     if (parts.size != 3) return ""
-    val day = parts[0].toInt()
-    val month = months.indexOf(parts[1]) + 1
-    val year = parts[2].toInt()
-    if (parts[1] in months) return String.format("%02d.%02d.%d", day, month, year)
-    else return ""
+    try {
+        val day = parts[0].toInt()
+        val month = months.indexOf(parts[1]) + 1
+        val year = parts[2].toInt()
+        if ((day !in 1..31) || (parts[1] !in months)) return ""
+        return String.format("%02d.%02d.%d", day, month, year)
+    }
+    catch (e: NumberFormatException) {
+        return ""
+    }
 }
-
 /**
  * Средняя
  *

@@ -30,7 +30,8 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) = (x1 == x2) || (y1 == y2) || (x1 + y1 == x2 + y2) || (x1 - y1 == x2 - y2)
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) =
+        (x1 == x2) || (y1 == y2) || (x1 + y1 == x2 + y2) || (x1 - y1 == x2 - y2)
 /**
  * Средняя
  *
@@ -39,7 +40,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) = (x1 == x2) || (y1 == y2
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double) = (Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1) <= r2
+                 x2: Double, y2: Double, r2: Double) = Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
 /**
  * Средняя
  *

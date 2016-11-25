@@ -105,10 +105,10 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var max = Math.max(a, b)
+    val max0 = Math.max(a, b)
     val min1 = Math.min(a, b)
-    val min2 = Math.min(max, c)
-    max = Math.max(max, c)
+    val min2 = Math.min(max0, c)
+    val max = Math.max(max0, c)
     return when {
         max >= min1 + min2 -> -1
         sqr(max) < sqr(min1) + sqr(min2) -> 0
@@ -126,9 +126,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
-    ((b < c) || (d < a)) -> -1
-    ((a <= c) && (d <= b)) -> d - c
-    ((c <= a) && (b <= d)) -> b - a
-    ((c <= a) && (d <= b)) -> d - a
+    (b < c) || (d < a) -> -1
+    (a <= c) && (d <= b) -> d - c
+    (c <= a) && (b <= d) -> b - a
+    (c <= a) && (d <= b) -> d - a
     else -> b - c
 }

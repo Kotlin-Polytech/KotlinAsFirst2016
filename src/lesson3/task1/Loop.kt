@@ -119,15 +119,12 @@ fun lcm(m: Int, n: Int) = m * n / gcd(m, n)
  */
 fun minDivisor(n: Int): Int {
     var mind = 2
-    var flag = false
+    val border = Math.ceil(Math.sqrt(n.toDouble()))
     do {
-        if (n % mind == 0){
-            flag = true
-            break
-        }
+        if (n % mind == 0) return mind
         mind++
-    } while (mind <= Math.ceil(Math.sqrt(n.toDouble())))
-    return if (flag) mind else n
+    } while (mind <= border)
+    return n
 }
 
 /**
@@ -137,15 +134,12 @@ fun minDivisor(n: Int): Int {
  */
 fun maxDivisor(n: Int): Int {
     var maxd = n / 2
-    var flag = false
+    val border = Math.floor(Math.sqrt(n.toDouble()))
     do {
-        if (n % maxd == 0) {
-            flag = true
-            break
-        }
+        if (n % maxd == 0) return maxd
         maxd--
-    } while (maxd >= Math.floor(Math.sqrt(n.toDouble())))
-    return if (flag) maxd else 1
+    } while (maxd >= border)
+    return 1
 }
 
 /**
@@ -165,8 +159,8 @@ fun isCoPrime(m: Int, n: Int) = gcd(m, n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val k = (Math.ceil(Math.sqrt(m.toDouble())))
-    return (k * k in m..n)
+    val k = Math.ceil(Math.sqrt(m.toDouble()))
+    return k * k in m..n
 }
 
 /**
@@ -180,15 +174,14 @@ fun sin(x: Double, eps: Double): Double {
     val x1 = x % (2 * Math.PI)
     var i = 1
     var result = 0.0
-    var k = 1
     var factorial = 1.0
     do {
-        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial
-        else result -= Math.pow(x1, i.toDouble()) / factorial
+        val term = Math.pow(x1, i.toDouble()) / factorial
+        if ((i - 1) % 4 == 0) result += term
+        else result -= term
         i += 2
-        k++
         factorial *= (i - 1) * i
-    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial) >= eps)
+    } while (Math.abs(term) >= eps)
     return result
 }
 
@@ -203,15 +196,14 @@ fun cos(x: Double, eps: Double): Double {
     val x1 = x % (2 * Math.PI)
     var i = 0
     var result = 0.0
-    var k = 1
     var factorial = 1.0
     do {
-        if (k % 2 == 1) result += Math.pow(x1, i.toDouble()) / factorial
-        else result -= Math.pow(x1, i.toDouble()) / factorial
+        val term = Math.pow(x1, i.toDouble()) / factorial
+        if (i % 4 == 0) result += term
+        else result -= term
         i += 2
-        k++
         factorial *= (i - 1) * i
-    } while (Math.abs(Math.pow(x1, i.toDouble()) / factorial) >= eps)
+    } while (Math.abs(term) >= eps)
     return result
 }
 
@@ -251,11 +243,10 @@ fun hasDifferentDigits(n: Int): Boolean {
     var number = Math.abs(n)
     if (number < 10) return false
     else {
-        var num = number % 10
+        val num = number % 10
         number /= 10
         do {
             if (number % 10 != num) return true
-            num = number % 10
             number /= 10
         } while (number > 0)
         return false

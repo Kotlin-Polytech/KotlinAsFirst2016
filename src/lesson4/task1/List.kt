@@ -163,14 +163,11 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    if (p.isEmpty()) return 0.0
-    else {
-        var result = 0.0
-        for ((index, element) in p.withIndex()) {
-            result += element * Math.pow(x, index.toDouble())
-        }
-        return result
+    var result = 0.0
+    for ((index, element) in p.withIndex()) {
+        result += element * Math.pow(x, index.toDouble())
     }
+    return result
 }
 
 /**
@@ -261,7 +258,7 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
     for ((index, element) in digits.withIndex()) {
-        result += (element * pow(base, digits.size - index - 1))
+        result += element * pow(base, digits.size - index - 1)
     }
     return result
 }
@@ -298,10 +295,10 @@ fun roman(n: Int): String {
     var result = listOf<String>()
     var number = n
     while (number > 0) {
-        val i = map.keys.findLast { it <= number }
-        if (i!= null) {
-            number -= i
-            result += map[i].toString()
+        val i = map.entries.findLast { it.key <= number }
+        if (i != null) {
+            number -= i.key
+            result += i.value
         }
     }
     return result.joinToString(separator = "")
@@ -315,48 +312,36 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun numberBelowThousandToRussian(list: List<Int>, accompaniedByFeminineNoun: Boolean): List<String> {
-    val units = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val unitsOfFeminine = listOf("одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val from11to19 = listOf("одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
+    val units = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val unitsOfFeminine = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val from11to19 = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
             "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val decades = listOf("десять", "двадцать", "тридцать", "сорок",
+    val decades = listOf("", "десять", "двадцать", "тридцать", "сорок",
             "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val hundreds = listOf("сто", "двести", "триста", "четыреста",
+    val hundreds = listOf("", "сто", "двести", "триста", "четыреста",
             "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    var result = listOf<String>()
-    var f = false
-    for (i in Math.max(list.size - 3, 0)..list.size - 1) {
-        val element = list[i]
-        if (element != 0)
-            when {
-                i == list.size - 3 -> result += hundreds[element - 1]
-                (i == list.size - 2 && (element == 1)) -> {
-                    result += from11to19[list.last() - 1]
-                    f = true
-                }
-                i == list.size - 2 -> result += decades[element - 1]
-                (i == list.size - 1 && accompaniedByFeminineNoun) -> result += unitsOfFeminine[element - 1]
-                (i == list.size - 1 && !accompaniedByFeminineNoun) -> result += units[element - 1]
-            }
-        if (f) break
+    var result = listOf(hundreds[list.getOrNull(list.size - 3) ?: 0])
+    if (list.getOrNull(list.size - 2) == 1) result += from11to19[list.getOrNull(list.size - 1) ?: 0]
+    else {
+        result += decades[list.getOrNull(list.size - 2) ?: 0]
+        result += if (accompaniedByFeminineNoun)
+            unitsOfFeminine[list.lastOrNull() ?: 0] else units[list.lastOrNull() ?: 0]
     }
     return result
 }
 
 fun russian(n: Int): String {
     val thousands = listOf("тысяча", "тысячи", "тысяч")
-    val listInt = convert(n, 10)
-    val listBelowThousand = listInt.subList(Math.max(listInt.size - 3, 0), listInt.size)
+    val listOfNumbers = convert(n, 10)
+    val listBelowThousand = listOfNumbers.takeLast(3)
     var result = numberBelowThousandToRussian(listBelowThousand, false)
-    if (listInt.size > 3) {
-        val listOfThousands = listInt.subList(0, listInt.size - 3)
-        when {
-            (listOfThousands.size > 1 && listOfThousands[listOfThousands.size - 2] == 1) -> result = listOf(thousands[2]) + result
-            listOfThousands.last() == 1 -> result = listOf(thousands[0]) + result
-            listOfThousands.last() in 2..4 -> result = listOf(thousands[1]) + result
-            else -> result = listOf(thousands[2]) + result
-        }
-        result = numberBelowThousandToRussian(listOfThousands, true) + result
+    val listOfThousands = listOfNumbers.dropLast(3)
+    when {
+        listOfThousands.getOrNull(listOfThousands.size - 2) == 1 -> result = listOf(thousands[2]) + result
+        listOfThousands.lastOrNull() == 1 -> result = listOf(thousands[0]) + result
+        listOfThousands.lastOrNull() in 2..4 -> result = listOf(thousands[1]) + result
+        listOfThousands.isNotEmpty() -> result = listOf(thousands[2]) + result
     }
-    return result.joinToString(separator = " ")
+    result = numberBelowThousandToRussian(listOfThousands, true) + result
+    return result.filter { it != "" }.joinToString(separator = " ")
 }

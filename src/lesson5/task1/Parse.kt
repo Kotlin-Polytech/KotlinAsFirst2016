@@ -52,6 +52,9 @@ fun main(args: Array<String>) {
     }
 }
 
+val listOfMonth = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 /**
  * Средняя
  *
@@ -62,15 +65,13 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val date = str.split(" ")
-    val listOfMonth = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
-            "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         if (date.size != 3) return ""
         val day = date[0].toInt()
         val month = listOfMonth.indexOf(date[1]) + 1
         val year = date[2].toInt()
         if ((day !in 1..31) || (month == 0)) return ""
-        return String.format("%02d.%02d.%d", day, month, year)
+        return "${twoDigitStr(day)}.${twoDigitStr(month)}.$year"
     }
     catch(e: NumberFormatException) {
         return ""
@@ -86,8 +87,6 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val date = digital.split(".")
-    val listOfMonth = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
-            "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
         if (date.size != 3) return ""
         if (date[1].toInt() !in 1..12) return ""
@@ -128,10 +127,11 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  */
 fun bestLongJump(jumps: String): Int {
     if (!jumps.matches(Regex("""[0-9 %-]+"""))) return -1
-    var listOfJumps = jumps.split(" ")
-    listOfJumps = listOfJumps.filter { it.matches(Regex("[0-9]+")) }
-    val listOfJumpsInt = listOfJumps.map {it.toInt()}
-    return listOfJumpsInt.max() ?: -1
+    return jumps
+            .split(" ")
+            .filter { it.matches(Regex("[0-9]+")) }
+            .map { it.toInt() }
+            .max() ?: -1
 }
 
 /**
@@ -157,6 +157,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  */
 fun plusMinus(expression: String): Int {
     val parts = expression.split(" ")
+    if (parts.last() in listOf("+", "-")) throw IllegalArgumentException()
     try {
         var result = parts[0].toInt()
         var i = 2
@@ -186,17 +187,15 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
-    var result = -1
     var index = -1
     for (i in 0..parts.size - 2) {
         index++
         if (parts[i] == parts[i + 1]) {
-            result = index
-            break
+            return index
         }
         index += parts[i].length
     }
-    return result
+    return -1
 }
 
 /**
@@ -217,9 +216,11 @@ fun mostExpensive(description: String): String {
     try {
         for (part in parts) {
             val thingAndPrice = part.split(" ")
-            if (thingAndPrice.size != 2 || thingAndPrice[1].toDouble() < 0) return ""
+            if (thingAndPrice.size != 2) return ""
+            val price = thingAndPrice[1].toDouble()
+            if (price < 0) return ""
             if (thingAndPrice[1].toDouble() >= maxPrice) {
-                maxPrice = thingAndPrice[1].toDouble()
+                maxPrice = price
                 thingWithMaxPrice = thingAndPrice[0]
             }
         }
@@ -242,22 +243,17 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    val listOfArabic = listOf(1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1)
-    val listOfRoman = listOf("M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I")
+    val map = mapOf(1 to "I", 4 to "IV", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L",
+            90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
     var result = 0
     var i = 0
-    var f = false
     if (roman.contains(Regex("""(D|C|L|X|V|I)\1\1\1"""))) return -1
     while (i < roman.length) {
-        for ((index, element) in listOfRoman.withIndex()) {
-            if (roman.startsWith(element, i)) {
-                result += listOfArabic[index]
-                i += element.length
-                f = true
-                break
-            }
-        }
-        if (!f) return -1
+        val entry = map.entries.findLast { roman.startsWith(it.value, i) }
+        if (entry != null) {
+            result += entry.key
+            i += entry.value.length
+        } else return -1
     }
     return result
 }

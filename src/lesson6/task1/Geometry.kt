@@ -190,8 +190,9 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val tan = (s.end.y - s.begin.y) / (s.end.x - s.begin.x)
-    val angle = atan(tan)
+    val cat1 = s.end.y - s.begin.y
+    val cat2 = s.end.x - s.begin.x
+    val angle = atan(cat1/cat2)
     if (angle == -0.0) abs(angle)
     return (Line(s.begin, angle))
 }

@@ -73,8 +73,6 @@ fun dateStrToDigit(str: String): String {
         val year = parts[2].toInt()
         if (month == -1 || day !in 1..31) return ""
         return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.$year"
-    } catch (e: IndexOutOfBoundsException) {
-        return ""
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -97,8 +95,6 @@ fun dateDigitToStr(digital: String): String {
         if (month !in 1..12 || day !in 1..31) return ""
         return "$day ${monthStr[month - 1]} ${year}"
     } catch (e: NumberFormatException) {
-        return ""
-    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }

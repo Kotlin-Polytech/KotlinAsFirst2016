@@ -124,17 +124,10 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val sin1 = sin(angle)
-        val cos1 = cos(angle)
-        val sin2 = sin(other.angle)
-        val cos2 = cos(other.angle)
-        val sinCos12 = sin1 * cos2
-        val sinCos21 = sin2 * cos1
-        val cos12 = cos1 * cos2
-        val x2 = other.point.x
-        val y2 = other.point.y
-        val crossX = x2 * sinCos21 - point.x * sinCos12 + point.y * cos12 - y2 * cos12 / sinCos21 - sinCos12
-        val crossY = (crossX - x2) * sin2 / cos2 + y2
+        val sinOfDifferent = sin(other.angle) * cos(angle) - sin(angle) * cos(other.angle)
+        val cos12 = cos(angle) * cos(other.angle)
+        val crossX = (other.point.x * sin(other.angle) * cos(angle) - point.x * sin(angle) * cos(other.angle) + cos12 * (point.y - other.point.y)) / sinOfDifferent
+        val crossY = (crossX - other.point.x) * tan(other.angle) + other.point.y
         return Point(crossX, crossY)
     }
 }

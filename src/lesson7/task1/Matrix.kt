@@ -86,7 +86,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
             sb.append("]")
         }
         sb.append("]")
-        return "$sb"
+        return sb.toString()
     }
 }
 

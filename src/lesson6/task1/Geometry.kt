@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -55,9 +56,13 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = if (center.distance(other.center) <= radius + other.radius) 0.0
-    else {
-        center.distance(other.center) - radius - other.radius
+    fun distance(other: Circle): Double {
+        val centerDistance = center.distance(other.center)
+        val radiusSum = radius + other.radius
+        return if (centerDistance <= radiusSum) 0.0
+        else {
+            centerDistance - radiusSum
+        }
     }
 
     /**

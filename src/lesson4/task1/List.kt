@@ -119,7 +119,8 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.isEmpty()) return 0.0 else return list.sum() / (list.size)
+    if (list.isEmpty()) return 0.0
+    else return list.sum() / (list.size)
 }
 
 /**
@@ -226,7 +227,7 @@ fun factorizeToString(n: Int) = factorize(n).joinToString(separator = "*")
 fun convert(n: Int, base: Int): List<Int> {
     var nn = n
     var list = listOf<Int>()
-    if (n == 0) return (list+0)
+    if (n == 0) return listOf(0)
     while (nn > 0) {
         list += nn % base
         nn /= base
@@ -244,13 +245,13 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var str = listOf<String>()
+    var result = listOf<String>()
     val list = convert(n, base)
     for (i in list) {
-        if (i > 9) str += ('a' - 10 + i).toString()
-        else str += i.toString()
+        if (i > 9) result += ('a' - 10 + i).toString()
+        else result += i.toString()
     }
-    return str.joinToString(separator = "")
+    return result.joinToString(separator = "")
 }
 
 /**

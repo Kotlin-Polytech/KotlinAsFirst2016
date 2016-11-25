@@ -112,10 +112,7 @@ fun gcd(m: Int, n: Int): Int {
     return mm
 }
 
-fun lcm(m: Int, n: Int): Int {
-    val nok = (m * n) / gcd(m, n)
-    return nok
-}
+fun lcm(m: Int, n: Int) = (m * n) / gcd(m, n)
 
 /**
  * Простая
@@ -146,9 +143,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    return gcd(m, n) == 1
-}
+fun isCoPrime(m: Int, n: Int) = gcd(m, n) == 1
 
 /**
  * Простая
@@ -157,10 +152,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val k = ceil(sqrt(m.toDouble()))
-    return k * k <= n
-}
+fun squareBetweenExists(m: Int, n: Int) = Math.pow(ceil(sqrt(m.toDouble())), 2.0) <= n
 
 /**
  * Простая
@@ -237,9 +229,8 @@ fun isPalindrome(n: Int): Boolean = revert(n) == n
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var nn = n
-    val digit = n % 10
     while (nn > 0) {
-        if (nn % 10 != digit) return true
+        if (nn % 10 != n % 10) return true
         nn /= 10
     }
     return false

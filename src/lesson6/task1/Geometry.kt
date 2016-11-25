@@ -70,8 +70,8 @@ data class Circle(val center: Point, val radius: Double) {
      */
     fun contains(p: Point): Boolean {
         return (p.distance(center) <= radius)
-        }
     }
+}
 
 
 /**
@@ -153,30 +153,11 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val k = when {
-            (tan(angle) == tan(PI / 2)) || (tan(angle) == tan(-PI / 2)) -> 0.0
-            else -> tan(angle)
-        } // угловой коэффициент первой прямой
-        val c = -point.x * k + point.y //штука первой прямой
-        val m = when {
-            (tan(other.angle) == tan(PI / 2)) || (tan(other.angle) == tan(-PI / 2)) -> 0.0
-            else -> tan(other.angle)
-        } // угловой коэфф второй прямой
-        val b = -other.point.x * m + other.point.y //штука второй прямой
+        val x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
+                (Math.tan(this.angle) - Math.tan(other.angle))
+        val y = (x - other.point.x) * Math.tan(other.angle) + other.point.y
+        return Point(x, y)
 
-        if ((k == 0.0) || (m == 0.0)) return when {
-            (tan(angle) == tan(PI / 2)) || (tan(angle) == tan(-PI / 2)) -> Point(point.x, b)
-            else -> Point(other.point.x, c)
-        }
-
-        val X = (b - c) / (k - m)
-        val Y = when {
-            k == 0.0 -> (X - other.point.x) * tan(other.angle) + other.point.y
-            m == 0.0 -> (X - point.x) * tan(angle) + point.y
-            else -> (X - point.x) * tan(angle) + point.y
-
-        }
-        return Point(X, Y)
     }
 }
 
@@ -189,7 +170,7 @@ data class Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     val cat1 = s.end.y - s.begin.y
     val cat2 = s.end.x - s.begin.x
-    val angle = atan(cat1/cat2)
+    val angle = atan(cat1 / cat2)
     if (angle == -0.0) abs(angle)
     return (Line(s.begin, angle))
 }

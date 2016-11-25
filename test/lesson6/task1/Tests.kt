@@ -77,10 +77,15 @@ class Tests {
     @Test
     @Tag("Normal")
     fun crossPoint() {
+        val l1 = Line(point=Point(x=-999.3608407105896, y=-999.6046181381707), angle=0.0)
+        val l2 = Line(point=Point(x=-632.0, y=-999.4562234029594), angle=0.4076829484684751)
+        val p1 = Point(x=-632.3436023981205, y=-999.6046181381708)
+        assertTrue(p1.distance(l1.crossPoint(l2)) < 1e-5)
         assertTrue(Point(2.0, 3.0).distance(Line(Point(2.0, 0.0), Math.PI / 2).crossPoint(Line(Point(0.0, 3.0), 0.0))) < 1e-5)
         assertTrue(Point(2.0, 2.0).distance(Line(Point(0.0, 0.0), Math.PI / 4).crossPoint(Line(Point(0.0, 4.0), -Math.PI / 4))) < 1e-5)
         val p = Point(1.0, 3.0)
         assertTrue(p.distance(Line(p, 1.0).crossPoint(Line(p, 2.0))) < 1e-5)
+
     }
 
     @Test

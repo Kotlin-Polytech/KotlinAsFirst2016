@@ -64,7 +64,7 @@ fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     var newString = ""
     if (parts.size == 3){
-        var day = parts[0].toInt()
+        val day = parts[0].toInt()
         if (day in 1..9) newString = '0' + day.toString() + "."
             else newString = day.toString() + "."
         newString += when (parts[1]) {

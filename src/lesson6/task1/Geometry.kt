@@ -145,10 +145,10 @@ fun lineBySegment(s: Segment): Line {
     if ((s.end.x - s.begin.x) != 0.0)
         return Line(point, atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
     else
-        if  (((s.end.y - s.begin.y) != 0.0)&& ((s.end.y != Double.NaN) || (s.begin.y != Double.NaN)))
+        if  ((s.end.y - s.begin.y) != 0.0)
             return Line(point, PI / 2)
         else
-            return Line(point, Double.NaN)
+            return Line(point, atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
 }
 
 /**

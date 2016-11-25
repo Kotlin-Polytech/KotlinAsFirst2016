@@ -3,6 +3,7 @@ package lesson7.task2
 
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
+import lesson7.task1.Cell
 import java.lang.Math.*
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -190,7 +191,7 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
                 m[i,j] = -matrix[i,j]
                 for (k in -1..1)
                     for (l in -1..1)
-                        if (m.contains<Int>(i + k, j + l))
+                        if (m.contains(Cell(i + k, j + l)))
                             m[i,j] += matrix[i + k, j + l]
             }
     return m

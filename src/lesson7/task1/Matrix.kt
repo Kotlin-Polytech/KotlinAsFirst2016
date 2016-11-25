@@ -29,7 +29,7 @@ interface Matrix<E> {
     fun getRow(row: Int): List<E>
     fun getColumn(column: Int): List<E>
 
-    fun <E> contains(row: Int, column: Int): Boolean
+    fun contains(cell: Cell): Boolean
 
     /**
      * Запись в ячейку.
@@ -99,7 +99,7 @@ class MatrixImpl<E> : Matrix<E> {
         set(cell.row, cell.column, value)
     }
 
-    override fun <E> contains(row: Int, column: Int): Boolean = row in 0..this.height - 1 && column in 0..this.width - 1
+    override fun contains(cell: Cell): Boolean = cell.row in 0..this.height - 1 && cell.column in 0..this.width - 1
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && other.height == this.height &&
         other.width == this.width && other.cells == this.cells

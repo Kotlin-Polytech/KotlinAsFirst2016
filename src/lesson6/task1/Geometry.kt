@@ -287,7 +287,7 @@ fun minContainingCircle(vararg points: Point): Circle {
 
 fun diameter2(points: Array<out Point>): Segment {
 
-    val convexHull = if (points.size <= 3) points.asList() else convexHull(points)
+    val convexHull = points.asList()
 
     val segments = mutableListOf<Segment>()
     for (i in convexHull.withIndex()) {

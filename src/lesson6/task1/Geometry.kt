@@ -156,8 +156,8 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         var x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
                 (Math.tan(this.angle) - Math.tan(other.angle))
-        var y = (this.point.y / tan(this.angle) - other.point.y / tan(other.angle) + other.point.x - this.point.x) /
-                (1 / tan(this.angle) - 1 / tan(other.angle))
+        var y = (this.point.y * cos(angle) / sin(angle) - other.point.y * cos(other.angle) / sin(other.angle) + other.point.x - this.point.x) /
+                (cos(angle) / sin(angle) - cos(other.angle) / sin(other.angle))
 
         if (((angle == PI / 2) || (angle == -PI / 2)) && ((other.angle == 0.0) || (other.angle == PI / 2) || (other.angle == -PI / 2))) {
             x = this.point.x
@@ -279,8 +279,9 @@ fun minContainingCircle(vararg points: Point): Circle {
         2 -> return Circle(Point((points[0].x - points[1].x) / 2, (points[0].y - points[1].y) / 2), Segment(points[0], points[1]).length() / 2)
         else -> {
             val s = diameter2(points)
-            val radius = sqrt(sqr(s.begin.x - s.end.x) + sqr(s.begin.y - s.end.y))/2
-            return Circle(s.middle(), radius)
+            val radius = sqrt(sqr(s.begin.x - s.end.x) + sqr(s.begin.y - s.end.y)) / 2
+            val middle = Point((s.begin.x + s.end.x) / 2, (s.begin.y + s.end.y) / 2)
+            return Circle(middle, radius)
         }
     }
 }
@@ -296,5 +297,5 @@ fun diameter2(points: Array<out Point>): Segment {
         }
     }
 
-    return segments.maxBy { sqrt(sqr(it.begin.x - it.end.x) + sqr(it.begin.y - it.end.y))/2 }!!
+    return segments.maxBy { sqrt(sqr(it.begin.x - it.end.x) + sqr(it.begin.y - it.end.y)) / 2 }!!
 }

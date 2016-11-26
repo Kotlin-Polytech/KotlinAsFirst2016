@@ -177,9 +177,9 @@ data class Line(val point: Point, val angle: Double) {
             x = (y - point.y) / tan(angle) + point.x
 
         if ((angle == 0.0) || (angle == PI) || (angle == -PI))
-            y = (x - other.point.x) * tan(other.angle) + other.point.y
+            y = (x - other.point.x) / tan(other.angle) + other.point.y
         if ((other.angle == 0.0) || (other.angle == PI) || (other.angle == -PI))
-            y = (x - point.x) * tan(angle) + point.y
+            y = (x - point.x) / tan(angle) + point.y
         /*
         val y = when {
             (x != point.x) -> (x - point.x) * tan(angle) + point.y

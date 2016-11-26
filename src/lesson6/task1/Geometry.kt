@@ -159,8 +159,19 @@ data class Line(val point: Point, val angle: Double) {
         var y = (this.point.y * 1 / tan(this.angle) - other.point.y * 1 / tan(other.angle) + other.point.x - this.point.x) /
                 (1 / tan(this.angle) - 1 / tan(other.angle))
 
-        if ((angle == PI / 2) || (angle == -PI / 2))
-            x = (y - other.point.y) / tan(other.angle) + other.point.x
+        if (((angle == PI / 2) || (angle == -PI / 2)) && ((other.angle == 0.0) ||(other.angle == PI / 2) || (other.angle == -PI / 2))) {
+            x = this.point.x
+            y = other.point.y
+        }
+
+        if (((other.angle == PI / 2) || (other.angle == -PI / 2)) && ((angle == 0.0) || (angle == PI / 2) || (angle == -PI / 2))) {
+            x = other.point.x
+            y = this.point.y
+        }
+
+
+            if ((angle == PI / 2) || (angle == -PI / 2))
+                x = (y - other.point.y) / tan(other.angle) + other.point.x
         if ((other.angle == PI / 2) || (other.angle == -PI / 2))
             x = (y - point.y) / tan(angle) + point.x
 
@@ -176,9 +187,9 @@ data class Line(val point: Point, val angle: Double) {
         */
         return Point(x, y)
     }
-
-
 }
+
+
 
 
 /**

@@ -1,11 +1,22 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson7.task2
 
+import com.sun.org.apache.xpath.internal.operations.Bool
+import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 import java.lang.Math.*
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
+// По-нормальноу это должен быть статический параметр класса, но са класс Cell я менять не могу
+val NOT_EXISTS = Cell(-1, -1)
+
+fun Cell.near(other: Cell): Boolean {
+    if (this == other) throw IllegalArgumentException("Cells are the same")
+    else return ((this.row - other.row) == 0 && abs(this.column - other.column) == 1) ||
+            (abs(this.row - other.row) == 1 && this.column - other.column == 0)
+}
+
 
 fun <E> Matrix<E>.getRow(row: Int): List<E> =
         if (row in 0..height - 1) (0..width - 1).map { this[row, it] } else throw IllegalArgumentException("Index out of bounds: $row")
@@ -14,6 +25,8 @@ fun <E> Matrix<E>.getColumn(column: Int): List<E> =
         if (column in 0..width - 1) (0..height - 1).map { this[it, column] } else throw IllegalArgumentException("Index out of bounds: $column")
 
 fun <E> Matrix<E>.contains(row: Int, column: Int): Boolean = row in 0..this.height - 1 && column in 0..this.width - 1
+
+fun <E> Matrix<E>.contains(cell: Cell): Boolean = this.contains(cell.row, cell.column)
 
 fun <E> Matrix<E>.subMatrix(height: Int, width: Int, heightShift: Int, widthShift: Int): Matrix<E> {
     if (this.height < height + heightShift || this.width < width + widthShift)
@@ -25,6 +38,22 @@ fun <E> Matrix<E>.subMatrix(height: Int, width: Int, heightShift: Int, widthShif
                 m[i,j] = this[i + heightShift, j + widthShift]
         return m
     }
+}
+
+fun <E> Matrix<E>.indexOf(element: E): Cell {
+    for (i in 0..height - 1)
+        for (j in 0..width - 1)
+            if (this[i,j] == element)
+                return Cell(i, j)
+    return NOT_EXISTS
+}
+
+fun <E> Matrix<E>.swap(first: Cell, second: Cell) {
+    if (this.contains(first) && this.contains(second)) {
+        val tmp = this[first]
+        this[first] = this[second]
+        this[second] = tmp
+    } else throw IllegalArgumentException("No suck Cells in Matrix")
 }
 /**
  * Пример
@@ -372,7 +401,20 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    val m = matrix
+    var zeroCell: Cell = m.indexOf(0)
+    moves.forEach {
+        val moveCell = m.indexOf(it)
+        if (moveCell != NOT_EXISTS && moveCell.near(zeroCell)) {
+            m.swap(zeroCell, moveCell)
+            zeroCell = moveCell
+        } else {
+            throw IllegalStateException("Such turn is impossible or number isn't exists")
+        }
+    }
+    return m
+}
 
 /**
  * Очень сложная

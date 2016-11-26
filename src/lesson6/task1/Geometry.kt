@@ -139,20 +139,14 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    val angle = Math.atan2(s.end.y - s.begin.y, s.end.x - s.begin.x)
-    return Line(s.begin, angle)
-}
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan2(s.end.y - s.begin.y, s.end.x - s.begin.x))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line {
-    val segment = Segment(a, b)
-    return lineBySegment(segment)
-}
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 /**
  * Сложная

@@ -42,12 +42,9 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    // 96 & 48 - conversion constants coming from the symbol code
-    val digitConversion = 48
-    val letterConversion = 96
     var result = Square(0, 0)
     if (notation.length == 2) {
-        result = Square(notation[0].toInt() - letterConversion, notation[1].toInt() - digitConversion)
+        result = Square((notation[0] - '`').toInt(), (notation[1] - '0').toInt())
     }
     if (result.inside()) return result
     else throw IllegalArgumentException("Wrong notation format")
@@ -141,7 +138,8 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
         val rowChange = Math.abs(end.row - start.row)
         if (start == end) return 0
         if (columnChange == rowChange) return 1
-        if (((columnChange % 2 == 1) && (rowChange % 2 == 1)) || ((columnChange % 2 != 1) && (rowChange % 2 != 1))) return 2
+        if ((columnChange + rowChange) % 2 != 1) return 2
+        // if (((columnChange % 2 == 1) && (rowChange % 2 == 1)) || ((columnChange % 2 != 1) && (rowChange % 2 != 1))) return 2
         else return -1
     } else throw IllegalArgumentException("Wrong square format")
 }
@@ -167,9 +165,8 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (!start.inside() && !end.inside()) throw IllegalArgumentException("Wrong square format")
     val moveNumber = bishopMoveNumber(start, end)
-    val bishopTrajectory = mutableListOf<Square>()
-    if (moveNumber == -1) return bishopTrajectory
-    bishopTrajectory.add(start)
+    if (moveNumber == -1) return emptyList()
+    val bishopTrajectory = mutableListOf(start)
     if (moveNumber == 0) return bishopTrajectory
     if (moveNumber == 1) {
         bishopTrajectory.add(end)
@@ -235,7 +232,7 @@ fun kingMoveNumber(start: Square, end: Square): Int {
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException("Wrong square format")
     var currentSquare = start
-    val kingTrajectory = mutableListOf<Square>(start)
+    val kingTrajectory = mutableListOf(start)
     while (currentSquare != end) {
         currentSquare = when {
             (currentSquare.column < end.column) && (currentSquare.row < end.row) ->

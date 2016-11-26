@@ -14,6 +14,18 @@ fun <E> Matrix<E>.getColumn(column: Int): List<E> =
         if (column in 0..width - 1) (0..height - 1).map { this[it, column] } else throw IllegalArgumentException("Index out of bounds: $column")
 
 fun <E> Matrix<E>.contains(row: Int, column: Int): Boolean = row in 0..this.height - 1 && column in 0..this.width - 1
+
+fun <E> Matrix<E>.subMatrix(height: Int, width: Int, heightShift: Int, widthShift: Int): Matrix<E> {
+    if (this.height < height + heightShift || this.width < width + widthShift)
+        throw IllegalArgumentException("Sub Matrix is out of bounds of original")
+    else {
+        val m = createMatrix(height, width, this[0,0])
+        for (i in 0..height - 1)
+            for (j in 0..width - 1)
+                m[i,j] = this[i + heightShift, j + widthShift]
+        return m
+    }
+}
 /**
  * Пример
  *
@@ -135,7 +147,13 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
  * 10 13 16 18
  * 14 17 19 20
  */
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSnake(height: Int, width: Int): Matrix<Int>  {
+    val m = createMatrix(height, width, 0)
+    for (i in 0..height - 1)
+        for (j in 0..width - 1)
+            m[i,j] = 1 + if (i > 0 && j < width - 1) m[i - 1,j + 1]  else if (j > 0) m[i,j - 1] + min(j - 1, height - 1 - i) else 0
+    return m
+}
 
 /**
  * Средняя
@@ -171,8 +189,15 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
-
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.width == matrix.height) {
+        val list = (1..matrix.width).toList()
+        (0..matrix.height - 1).forEach {
+            if (matrix.getRow(it).sorted() != list || matrix.getColumn(it).sorted() != list) return false
+        }
+        return true
+    } else return false
+}
 /**
  * Средняя
  *
@@ -218,15 +243,9 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes {
-    val rows = mutableListOf<Int>()
-    val columns = mutableListOf<Int>()
-    for (i in 0..matrix.height - 1)
-        if (matrix.getRow(i).sum() == 0) rows.add(i)
-    for (i in 0..matrix.width - 1)
-        if (matrix.getColumn(i).sum() == 0) columns.add(i)
-    return Holes(rows,columns)
-}
+fun findHoles(matrix: Matrix<Int>): Holes =
+    Holes((0..matrix.height - 1).filter { matrix.getRow(it).sum() == 0 }, (0..matrix.width - 1).filter { matrix.getColumn(it).sum() == 0 })
+
 
 /**
  * Класс для описания местонахождения "дырок" в матрице
@@ -247,7 +266,18 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    val m = createMatrix(matrix.height, matrix.width, 0)
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1) {
+            m[i,j] = 0
+            for (k in -i..0)
+                for (l in -j..0)
+                    if (m.contains(i + k, j + l))
+                        m[i,j] += matrix[i + k, j + l]
+        }
+    return m
+}
 
 /**
  * Сложная
@@ -269,7 +299,18 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    if (key.height > lock.height || key.width > lock.width)
+        return Triple(false, 0, 0)
+    else {
+        val unlocked = createMatrix(key.height, key.width, 1)
+        for (i in 0..lock.height - key.height)
+            for (j in 0..lock.width - key.width)
+                if (lock.subMatrix(key.height, key.width, i, j) + key == unlocked)
+                    return Triple(true, i, j)
+        return Triple(false, 0, 0)
+    }
+}
 
 /**
  * Простая

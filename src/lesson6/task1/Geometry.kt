@@ -279,7 +279,8 @@ fun minContainingCircle(vararg points: Point): Circle {
         2 -> return Circle(Point((points[0].x - points[1].x) / 2, (points[0].y - points[1].y) / 2), Segment(points[0], points[1]).length() / 2)
         else -> {
             val s = diameter2(points)
-            return Circle(s.middle(), s.length() / 2)
+            val radius = sqrt(sqr(s.begin.x - s.end.x) + sqr(s.begin.y - s.end.y))/2
+            return Circle(s.middle(), radius)
         }
     }
 }

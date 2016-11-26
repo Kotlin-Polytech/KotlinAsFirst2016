@@ -126,9 +126,12 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
-                (Math.tan(this.angle) - Math.tan(other.angle))
-        val y = (x - other.point.x) * Math.tan(other.angle) + other.point.y
+        val x = (Math.cos(angle) * (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) -
+                Math.cos(other.angle) * (Math.sin(angle) * point.x - Math.cos(angle) * point.y)) /
+                (Math.sin(other.angle) * Math.cos(angle) - Math.sin(angle) * Math.cos(other.angle))
+        val y = (-(Math.sin(angle) * point.x - Math.cos(angle) * point.y) * Math.sin(other.angle) +
+                (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) * Math.sin(angle)) /
+                (Math.sin(other.angle) * Math.cos(angle) - Math.sin(angle) * Math.cos(other.angle))
         return Point(x, y)
     }
 }
@@ -154,6 +157,10 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
+    //val circle = circleByDiameter(Segment(a, b))
+    //val y = circle.center.y - b.y
+    //val x = b.x - circle.center.x
+    //return Line(circle.center, Math.atan2(x, y))
     val angle = Math.atan2(b.y - a.y, b.x - a.x) + Math.PI / 2
     val middlePoint = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
     return Line(middlePoint, angle)

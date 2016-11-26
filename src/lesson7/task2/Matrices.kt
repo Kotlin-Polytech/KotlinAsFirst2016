@@ -151,7 +151,8 @@ fun generateSnake(height: Int, width: Int): Matrix<Int>  {
     val m = createMatrix(height, width, 0)
     for (i in 0..height - 1)
         for (j in 0..width - 1)
-            m[i,j] = 1 + if (i > 0 && j < width - 1) m[i - 1,j + 1]  else if (j > 0) m[i,j - 1] + min(j - 1, height - 1 - i) else 0
+            m[i,j] = 1 + if (i > 0 && (j < width - 1 || j == 0)) m[i - 1,j + min(width - 1,1)]
+                    else if (j > 0) m[i,j - 1] + min(j - 1, height - 1 - i) else 0
     return m
 }
 

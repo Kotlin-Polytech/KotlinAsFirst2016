@@ -84,11 +84,12 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    var point1 = Point(0.0, 0.0)
-    var point2 = Point(0.0, 0.0)
+    if (points.size < 2) throw IllegalArgumentException()
+    var point1 = points[0]
+    var point2 = points[1]
     var max = 0.0
     for (i in 0..points.size - 1) {
-        for (j in 1..points.size - 1) {
+        for (j in i..points.size - 1) {
             val distance = points[i].distance(points[j])
             if (distance > max) {
                 point1 = points[i]
@@ -98,7 +99,6 @@ fun diameter(vararg points: Point): Segment {
             }
         }
     }
-    if (points.size < 2) throw IllegalArgumentException()
     return Segment(point1, point2)
 }
 

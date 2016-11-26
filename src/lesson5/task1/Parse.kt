@@ -110,9 +110,11 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = when {
-    (phone.all { it in "+0123456789-() " }) -> phone.filter { it in "+0123456789" }
-    else -> ""
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.all { it in "+0123456789-() " }) {
+        return phone.filter { it in "+0123456789" }
+    } else
+        return ""
 }
 
 /**

@@ -38,8 +38,8 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-inline fun <reified E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =
-        MatrixImpl(height, width, Array(height) { Array(width) { e } })
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =
+        MatrixImpl(height, width, e)
 
 /**
  * Средняя сложность
@@ -48,8 +48,18 @@ inline fun <reified E> createMatrix(height: Int, width: Int, e: E): Matrix<E> =
  */
 class MatrixImpl<E>(override val height: Int,
                     override val width: Int,
-                    array: Array<Array<E>>) : Matrix<E> {
-    private var matrix: Array<Array<E>> = array
+                    e: E) : Matrix<E> {
+    private var matrix: List<MutableList<E>> = listOf()
+
+    init {
+        for (i in 0..height - 1) {
+            val temp: MutableList<E> = mutableListOf()
+            for (j in 0..width - 1) {
+                temp.add(e)
+            }
+            matrix += listOf(temp)
+        }
+    }
 
     override fun get(row: Int, column: Int): E = matrix[row][column]
 

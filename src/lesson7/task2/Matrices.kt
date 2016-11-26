@@ -17,7 +17,7 @@ import lesson7.task1.createMatrix
  * 6 5 4      3 6 4 1
  * 3 2 1
  */
-inline fun <reified E> transpose(matrix: Matrix<E>): Matrix<E> {
+fun <E> transpose(matrix: Matrix<E>): Matrix<E> {
     if (matrix.width < 1 || matrix.height < 1) return matrix
     val result = createMatrix(height = matrix.width, width = matrix.height, e = matrix[0, 0])
     for (i in 0..matrix.width - 1) {

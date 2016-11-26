@@ -9,7 +9,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class Tests {
-    inline private fun <reified E> createMatrix(height: Int, width: Int, values: List<List<E>>): Matrix<E> {
+    private fun <E> createMatrix(height: Int, width: Int, values: List<List<E>>): Matrix<E> {
         val matrix = createMatrix<E>(height, width, values[0][0])
         for (row in 0..height - 1) {
             for (column in 0..width - 1) {
@@ -234,7 +234,7 @@ class Tests {
         }
     }
 
-    inline private fun <reified T> Matrix<T>.copy(): Matrix<T> {
+    private fun <T> Matrix<T>.copy(): Matrix<T> {
         val result = lesson7.task1.createMatrix(height, width, this[0, 0])
         for (row in 0..height - 1) {
             for (column in 0..width - 1) {

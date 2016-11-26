@@ -10,10 +10,7 @@ package lesson5.task1
 fun timeStrToSeconds(str: String): Int {
     val parts = str.split(":")
     var result = 0
-    for (part in parts) {
-        val number = part.toInt()
-        result = result * 60 + number
-    }
+    parts.asSequence().map { it.toInt() }.forEach { result = result * 60 + it }
     return result
 }
 
@@ -158,11 +155,8 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     val checkFormat = Regex("""^(\+?\d+)?[ -]*(\(\d+\))?[ -]*\d[ 0-9-]*$""")
-    if (!checkFormat.matches(phone)) return ""
-    else {
-        val result = phone.split(Regex("""[ ()-]+"""))
-        return result.joinToString("")
-    }
+    return if (!checkFormat.matches(phone)) ""
+    else phone.filterNot { it == ' ' || it == '(' || it == ')' || it == '-' }
 }
 
 /**
@@ -372,7 +366,7 @@ fun fromRoman(roman: String): Int {
 fun computeDeviceCells(cells: Int, commands: String): List<Int> {
     val computeDevice: ComputeDevice = createComputeDevice(cells)
     computeDevice.execute(commands)
-    return computeDevice.getConveyor()
+    return computeDevice.conveyor()
 }
 
 /**
@@ -384,7 +378,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
  */
 interface ComputeDevice {
     fun execute(commands: String): Unit
-    fun getConveyor(): List<Int>
+    fun conveyor(): List<Int>
 }
 
 /**
@@ -401,29 +395,32 @@ fun createComputeDevice(cells: Int): ComputeDevice {
  *      conveyor - представление конвейера ячеек.
  *      current - текущее положение датчика.
  */
-open class ComputeDeviceImpl(val cells: Int): ComputeDevice{
+class ComputeDeviceImpl(val cells: Int) : ComputeDevice{
     private val conveyor: MutableList<Int>
-    private var current: Int
+
+    private var current: Int = cells / 2
+
+    private var commandProcessingStrategy: CommandProcessingStrategy = RightAlgorithm(this)
+
     init {
         conveyor = mutableListOf()
-        current = cells / 2
         for (i in 0..cells - 1) {
             conveyor.add(0)
         }
     }
 
     ///Команда '+'
-    private fun plus(): Unit {
+    fun plus(): Unit {
         conveyor[current]++
     }
 
     ///Команда '-'
-    private fun minus(): Unit {
+    fun minus(): Unit {
         conveyor[current]--
     }
 
     ///Команда '>'
-    private fun right(): Unit {
+    fun right(): Unit {
         if (current != cells - 1) {
             current++
         }
@@ -431,7 +428,7 @@ open class ComputeDeviceImpl(val cells: Int): ComputeDevice{
     }
 
     ///Команда '<'
-    private fun left(): Unit {
+    fun left(): Unit {
         if (current != 0) {
             current--
         }
@@ -439,27 +436,38 @@ open class ComputeDeviceImpl(val cells: Int): ComputeDevice{
     }
 
     ///Команда ' '
-    private fun space(): Unit {}
+    fun space(): Unit {}
 
     ///Получение значения ячейки под датчиком.
     fun getCurrentCell(): Int = conveyor[current]
 
-    override fun getConveyor(): List<Int> = conveyor
-
     override fun execute(commands: String): Unit {
-        commandProcessing(commands)
+        commandProcessingStrategy.commandProcessing(commands)
     }
 
+    override fun conveyor(): List<Int> = conveyor
+
+    ///Перегрузка toString() для осмысленных диагностических сообщений. (При работе функции не используется)
+    override fun toString(): String {
+        return "[conveyor = $conveyor, current = $current]"
+    }
+}
+
+abstract class CommandProcessingStrategy(open var computeDevice: ComputeDeviceImpl) {
+    abstract fun commandProcessing(commands: String): ComputeDevice
+}
+
+class WrongAlgorithm(override var computeDevice: ComputeDeviceImpl) : CommandProcessingStrategy(computeDevice) {
     ///Обработка команд.
-    private fun commandProcessing(commands: String): ComputeDeviceImpl {
+    override fun commandProcessing(commands: String): ComputeDevice {
         var index: Int = 0
         while (index != commands.length) {
             when (commands[index]) {
-                '+' -> { plus(); index++ }
-                '-' -> { minus(); index++ }
-                '>' -> { right(); index++ }
-                '<' -> { left(); index++ }
-                ' ' -> { space(); index++ }
+                '+' -> { computeDevice.plus(); index++ }
+                '-' -> { computeDevice.minus(); index++ }
+                '>' -> { computeDevice.right(); index++ }
+                '<' -> { computeDevice.left(); index++ }
+                ' ' -> { computeDevice.space(); index++ }
                 '[' -> {
                     val expr = getComplicatedExpression(commands.drop(index+1), '[', ']')
                     loopProcessing(expr)
@@ -473,7 +481,7 @@ open class ComputeDeviceImpl(val cells: Int): ComputeDevice{
                 else -> throw IllegalArgumentException("Wrong symbol: ${commands[index]}.")
             }
         }
-        return this
+        return computeDevice
     }
 
     ///Извлечь выражение из цикла.
@@ -492,15 +500,66 @@ open class ComputeDeviceImpl(val cells: Int): ComputeDevice{
     }
 
     ///Обработка выражения в цикле.
-    private fun loopProcessing(expr: String): ComputeDeviceImpl{
-        while (getCurrentCell() != 0) {
+    private fun loopProcessing(expr: String): ComputeDeviceImpl {
+        while (computeDevice.getCurrentCell() != 0) {
             commandProcessing(expr)
         }
-        return this
+        return computeDevice
     }
 
-    ///Перегрузка toString() для осмысленных диагностических сообщений. (При работе функции не используется)
-    override fun toString(): String {
-        return "[conveyor = $conveyor, current = $current]"
+
+}
+
+class RightAlgorithm(override var computeDevice: ComputeDeviceImpl) : CommandProcessingStrategy(computeDevice) {
+    override fun commandProcessing(commands: String): ComputeDevice {
+        var index: Int = 0
+        while (index != commands.length) {
+            when (commands[index]) {
+                '+' -> { computeDevice.plus(); index++ }
+                '-' -> { computeDevice.minus(); index++ }
+                '>' -> { computeDevice.right(); index++ }
+                '<' -> { computeDevice.left(); index++ }
+                ' ' -> { computeDevice.space(); index++ }
+                '[' -> {
+                    if (computeDevice.getCurrentCell() == 0) {
+                        index += rightShiftTo(commands.drop(index + 1), ']')
+                    }
+                    else index++
+                }
+                ']' -> {
+                    if (computeDevice.getCurrentCell() != 0) {
+                        index -= leftShiftTo(commands.dropLast(commands.length - index), '[')
+                    }
+                    else index++
+                }
+                '{' -> {
+                    if (computeDevice.getCurrentCell() == 0) {
+                        index += rightShiftTo(commands.drop(index + 1), '}')
+                    }
+                    else index++
+                }
+                '}' -> {
+                    if (computeDevice.getCurrentCell() != 0) {
+                        index -= leftShiftTo(commands.drop(commands.length - index), '{')
+                    }
+                    else index++
+                }
+                else -> throw IllegalArgumentException("Wrong symbol: ${commands[index]}.")
+
+            }
+        }
+        return computeDevice
+    }
+
+    private fun rightShiftTo(str: String, symbol: Char): Int {
+        val temp: Int = str.indexOfFirst { it == symbol }
+        if (temp == -1) throw IllegalArgumentException("Unclosed bracket.")
+        else return temp + 1
+    }
+
+    private fun leftShiftTo(str: String, symbol: Char): Int {
+        val temp: Int = str.length - str.lastIndexOf(symbol)
+        if (temp == -1) throw IllegalArgumentException("Unclosed bracket.")
+        else return temp - 1
     }
 }

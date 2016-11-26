@@ -195,11 +195,16 @@ fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     while (number != 1){
         var i = 2
-        while ((number % i != 0) && (i < n)) {
+        while (number % i != 0) {
             i++
         }
+        if (i <= n/2) {
         number /= i
         result.add(i)
+        }
+        else {
+            return listOf(n)
+        }
     }
     return result
 }
@@ -250,10 +255,10 @@ fun convertToString(n: Int, base: Int): String {
         for (element in resultList) {
             if (element < 10) {
                 val number = element.toChar()
-                result.add(number + '0'.toInt())
+                result.add(number + '0'.toInt()) //Без "toInt()" не работает.
             } else {
                 val number = element.toChar()
-                result.add(number + 'W'.toInt())
+                result.add(number + 'a'.toInt() - 10 )
             }
         }
     return result.joinToString("","","")

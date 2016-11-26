@@ -79,7 +79,7 @@ data class Circle(val center: Point, val radius: Double) {
  */
 data class Segment(val begin: Point, val end: Point) {
     fun length(): Double = sqrt(sqr(begin.x - end.x) + sqr(begin.y - end.y))
-    fun middle(): Point = Point((begin.x - end.x) / 2, (begin.y - end.y) / 2)
+    fun middle(): Point = Point((begin.x + end.x) / 2, (begin.y + end.y) / 2)
 }
 
 /**
@@ -172,14 +172,14 @@ data class Line(val point: Point, val angle: Double) {
         }
 
         if ((angle == PI / 2) || (angle == -PI / 2))
-            x = point.x
+            x = (y - other.point.y) / tan(other.angle) + other.point.x
         if ((other.angle == PI / 2) || (other.angle == -PI / 2))
-            x = other.point.x
+            x = (y - point.y) / tan(angle) + point.x
 
         if ((angle == 0.0) || (angle == PI) || (angle == -PI))
-            y = other.point.y
+            y = (x - other.point.x) * tan(other.angle) + other.point.y
         if ((other.angle == 0.0) || (other.angle == PI) || (other.angle == -PI))
-            y = other.point.y
+            y = (x - point.x) * tan(angle) + point.y
         /*
         val y = when {
             (x != point.x) -> (x - point.x) * tan(angle) + point.y

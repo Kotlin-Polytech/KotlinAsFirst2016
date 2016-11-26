@@ -296,5 +296,5 @@ fun diameter2(points: Array<out Point>): Segment {
         }
     }
 
-    return segments.maxBy { it.length() }!!
+    return segments.maxBy { sqrt(sqr(it.begin.x - it.end.x) + sqr(it.begin.y - it.end.y))/2 }!!
 }

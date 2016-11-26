@@ -231,27 +231,21 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  */
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException("Wrong square format")
-    var currentSquare = start
+    var currentColumn = start.column
+    var currentRow = start.row
     val kingTrajectory = mutableListOf(start)
-    while (currentSquare != end) {
-        currentSquare = when {
-            (currentSquare.column < end.column) && (currentSquare.row < end.row) ->
-                Square(currentSquare.column + 1, currentSquare.row + 1)
-            (currentSquare.column > end.column) && (currentSquare.row < end.row) ->
-                Square(currentSquare.column - 1, currentSquare.row + 1)
-            (currentSquare.column > end.column) && (currentSquare.row > end.row) ->
-                Square(currentSquare.column - 1, currentSquare.row - 1)
-            (currentSquare.column < end.column) && (currentSquare.row > end.row) ->
-                Square(currentSquare.column + 1, currentSquare.row - 1)
-            (currentSquare.column < end.column) && (currentSquare.row == end.row) ->
-                Square(currentSquare.column + 1, currentSquare.row)
-            (currentSquare.column == end.column) && (currentSquare.row > end.row) ->
-                Square(currentSquare.column, currentSquare.row - 1)
-            (currentSquare.column > end.column) && (currentSquare.row == end.row) ->
-                Square(currentSquare.column - 1, currentSquare.row)
-            else -> Square(currentSquare.column, currentSquare.row + 1)
+    while (Square(currentColumn, currentRow) != end) {
+        currentColumn = when {
+            currentColumn > end.column -> currentColumn - 1
+            currentColumn < end.column -> currentColumn + 1
+            else -> currentColumn
         }
-        kingTrajectory.add(currentSquare)
+        currentRow = when {
+            currentRow > end.row -> currentRow - 1
+            currentRow < end.row -> currentRow + 1
+            else -> currentRow
+        }
+        kingTrajectory.add(Square(currentColumn, currentRow))
     }
     return kingTrajectory
 }

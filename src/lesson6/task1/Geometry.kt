@@ -162,11 +162,13 @@ data class Line(val point: Point, val angle: Double) {
         if (((angle == PI / 2) || (angle == -PI / 2)) && ((other.angle == 0.0) ||(other.angle == PI / 2) || (other.angle == -PI / 2))) {
             x = this.point.x
             y = other.point.y
+            return Point(x, y)
         }
 
         if (((other.angle == PI / 2) || (other.angle == -PI / 2)) && ((angle == 0.0) || (angle == PI / 2) || (angle == -PI / 2))) {
             x = other.point.x
             y = this.point.y
+            return Point(x, y)
         }
 
 

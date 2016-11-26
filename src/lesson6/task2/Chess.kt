@@ -5,6 +5,7 @@ package lesson6.task2
 import lesson8.task1.alignFile
 import java.util.*
 import lesson6.task1.*
+import lesson8.task1.centerFile
 import java.lang.Math.*
 
 /**
@@ -35,11 +36,10 @@ data class Square(val column: Int, val row: Int) {
     }
 }
 
-fun isCorrect(vararg squares: Square): Boolean {
+fun isCorrect(vararg squares: Square) {
     for (square in squares) {
-        if (((square.column < 1) or (square.column > 8)) or ((square.row < 1) or (square.row > 8))) return false
+        if (((square.column < 1) or (square.column > 8)) or ((square.row < 1) or (square.row > 8))) throw IllegalArgumentException()
     }
-    return true
 }
 
 /**
@@ -80,7 +80,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (!isCorrect(start, end)) throw IllegalArgumentException()
+    isCorrect(start, end)
     if (start == end) return 0
     if (start.column == end.column || start.row == end.row) return 1
     return 2
@@ -132,12 +132,12 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    if (!isCorrect(start, end)) throw IllegalArgumentException()
+    isCorrect(start, end)
     val startIsEven = (start.column + start.row) % 2 == 0
     val endIsEven = (end.column + end.row) % 2 == 0
     if (startIsEven != endIsEven) return -1
     if (start == end) return 0
-    val condition = abs(start.column - start.row) == abs(end.column - end.row)
+    val condition = abs(start.column - end.column) == abs(start.row - end.row)
     if (condition) return 1
     return 2
 }
@@ -160,8 +160,32 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    val moveNumber = bishopMoveNumber(start, end)
+    if (moveNumber == 0) return listOf(start)
+    if (moveNumber == 1) return listOf(start, end)
+    if (moveNumber == -1) return listOf()
 
+    var symbolRow = -1
+    var symbolColumn = 1
+    if (start.row > end.row) symbolRow = 1
+    if (start.column > end.column) symbolColumn = -1
+    var centerSquare = start
+    var switch = true
+    do {
+        centerSquare = Square(centerSquare.column + symbolColumn, centerSquare.row + symbolRow)
+        if ((centerSquare.row < 1) or (centerSquare.row > 8)) {
+            symbolRow *= -1
+            centerSquare = start
+        }
+        if ((centerSquare.column < 1) or (centerSquare.column > 8)) {
+            symbolColumn *= -1
+            centerSquare = start
+        }
+        if (bishopMoveNumber(centerSquare, end) == 1) switch = false
+    } while (switch)
+    return listOf(start, centerSquare, end)
+}
 
 /**
  * Средняя
@@ -183,7 +207,19 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    isCorrect(start, end)
+    val rowDistance = abs(start.row - end.row)
+    val columnDistance = abs(start.column - end.column)
+    val result = when {
+        rowDistance == columnDistance   ->  abs(start.column - end.column)
+        rowDistance == 0                ->  abs(start.column - end.column)
+        columnDistance == 0             ->  abs(start.row - end.row)
+        rowDistance > columnDistance    ->  rowDistance
+        else                            ->  columnDistance
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -199,7 +235,44 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    isCorrect(start, end)
+    val result = mutableListOf(start)
+    val symbolColumn = when {
+        start.column < end.column -> 1
+        start.column > end.column -> -1
+        else -> 0
+    }
+    val symbolRow = when {
+        start.row < end.row -> 1
+        start.row > end.row -> -1
+        else -> 0
+    }
+    var centerSquare: Square
+    if ((symbolColumn == 0) and (symbolRow == 0)) return result
+    centerSquare = Square(start.column, start.row)
+    do {
+        centerSquare = Square(centerSquare.column + symbolColumn, centerSquare.row + symbolRow)
+        result += centerSquare
+    } while ((centerSquare.column != end.column) and (centerSquare.row != end.row))
+
+    if (centerSquare == end) return result
+    val distanceColumn = abs(start.column - end.column)
+    val distanceRow = abs(start.row - end.row)
+    val whereGoColumn = when {
+        distanceColumn > distanceRow -> symbolColumn
+        else -> 0
+    }
+    val whereGoRow = when {
+        distanceRow > distanceColumn -> symbolRow
+        else -> 0
+    }
+    while (centerSquare != end) {
+        centerSquare = Square(centerSquare.column + whereGoColumn, centerSquare.row + whereGoRow)
+        result += centerSquare
+    }
+    return result
+}
 
 /**
  * Сложная

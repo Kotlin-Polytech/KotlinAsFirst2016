@@ -68,10 +68,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     val ladyaFirst = (kingX == rookX1 || kingY == rookY1)
     val ladyaSecond = (kingX == rookX2 || kingY == rookY2)
     return when {
-        (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingY == rookY2) -> 3
-        (kingX == rookX2 || kingY == rookY2) -> 2
-        (kingX == rookX1 || kingY == rookY1) -> 1
-        (ladyaFirst && ladyaSecond) -> 3
+        ladyaFirst && ladyaSecond -> 3
         ladyaSecond -> 2
         ladyaFirst -> 1
         else -> 0

@@ -83,11 +83,11 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-        for (i in 2..(Math.sqrt(n.toDouble()).toInt())) {
-                if (n % i == 0) return i
-            }
-        return n
+    for (i in 2..(Math.sqrt(n.toDouble()).toInt())) {
+        if (n % i == 0) return i
     }
+    return n
+}
 
 /**
  * Простая
@@ -180,15 +180,6 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 
-fun countNumbers(n: Int): Int {  //подсчет кол-ва цифр в числе
-    var a: Int = n
-    var k: Int = 0
-    while (a > 0) {
-        a /= 10
-        k++
-    }
-    return k
-}
 
 fun squareSequenceDigit(n: Int): Int {
     var number: Int = 0
@@ -196,7 +187,7 @@ fun squareSequenceDigit(n: Int): Int {
     var resalt: Int = 0
     while (number < n) {
         numberi++
-        number = number + countNumbers(numberi * numberi)
+        number += + digitNumber(numberi * numberi)
     }
     resalt = numberi * numberi
     for (numberi in n..number - 1) {

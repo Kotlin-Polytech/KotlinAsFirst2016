@@ -224,7 +224,7 @@ fun convertToString(n: Int, base: Int): String = TODO()
 fun decimal(digits: List<Int>, base: Int): Int {
     var number = 0
     for (i in 0..digits.size - 1) {
-        number = number + digits[i] * Math.pow(base.toDouble(), (digits.size - i - 1).toDouble()).toInt()
+        number += (digits[i] * Math.pow(base.toDouble(), (digits.size - i - 1).toDouble()).toInt()).toInt()
     }
     return number
 }

@@ -89,7 +89,7 @@ fun lcm(m: Int, n: Int): Int {
     var num_m = m
     var num_n = n
     val multiplication = (num_m * num_n)
-    while ((num_m != 0) and (num_n != 0)) {
+    while ((num_m != 0) && (num_n != 0)) {
         if (num_m > num_n) num_m %= num_n
         else num_n %= num_m
     }

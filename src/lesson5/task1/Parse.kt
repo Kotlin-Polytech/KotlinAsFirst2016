@@ -59,25 +59,13 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val sortedMonths = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
     if (str.matches(Regex("""([0-9]{1,2})\s([а-яА-Я]{2,16})\s[0-9]+"""))) {
         val part = str.split(" ")
         val day = part[0].toInt()
-        val month = when (part[1]) {
-            "января" -> 1
-            "февраля" -> 2
-            "марта" -> 3
-            "апреля" -> 4
-            "мая" -> 5
-            "июня" -> 6
-            "июля" -> 7
-            "августа" -> 8
-            "сентября" -> 9
-            "октября" -> 10
-            "ноября" -> 11
-            "декабря" -> 12
-            else -> 0
-        }
+        val month = sortedMonths.indexOf(part[1]) + 1
         val year = part[2].toInt()
         if (month != 0) return String.format("%02d.%02d.%d", day, month, year)
         else return ""
@@ -94,24 +82,14 @@ fun dateStrToDigit(str: String): String {
 fun dateDigitToStr(digital: String): String {
     if (digital.matches(Regex("""[0-9]+.[0-9]+.[0-9]+"""))) {
         val part = digital.split(".")
+        var month = ""
         val day = part[0].toInt()
-        val month = when (part[1]) {
-            "01" -> "января"
-            "02" -> "февраля"
-            "03" -> "марта"
-            "04" -> "апреля"
-            "05" -> "мая"
-            "06" -> "июня"
-            "07" -> "июля"
-            "08" -> "августа"
-            "09" -> "сентября"
-            "10" -> "октября"
-            "11" -> "ноября"
-            "12" -> "декабря"
-            else -> 0
+        val notMonth = part[1].toInt()
+        for (i in 1..sortedMonths.size) {
+            if (i == notMonth) month = sortedMonths[i - 1]
         }
         val year = part[2].toInt()
-        if (month != 0) return String.format("%d %s %d", day, month, year)
+        if (notMonth != 0) return String.format("%d %s %d", day, month, year)
         else return ""
     } else return ""
 }
@@ -142,13 +120,13 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  */
 fun bestLongJump(jumps: String): Int {
     val members = jumps.split(" ")
-    val NotTheRightMembers = Regex("""[^\d%-]""")
-    val RightNumber = Regex("""\d""")
+    val notTheRightMembers = Regex("""[^\d%-]""")
+    val rightNumber = Regex("""\d""")
     var max = -1
     for (i in 0..members.size - 1) {
-        if (members[i].contains(NotTheRightMembers)) return -1
+        if (members[i].contains(notTheRightMembers)) return -1
         else {
-            if ((members[i].contains(RightNumber)) && (members[i].toInt() > max)) max = members[i].toInt()
+            if ((members[i].contains(rightNumber)) && (members[i].toInt() > max)) max = members[i].toInt()
         }
     }
     return max
@@ -186,16 +164,16 @@ fun bestHighJump(jumps: String): Int {
 fun plusMinus(expression: String): Int {
     val members = expression.split(" ")
     var result = members[0].toInt()
-    val LengthOfString = members.size
-    val RightNumber = Regex("""\d""")
-    val RightSymbol = Regex("""[+-]""")
-    val NotRightFormat = Regex("""[^\d+-]""")
-    if ((LengthOfString == 1) && ((members[0].contains(NotRightFormat)) || expression == "")) throw IllegalArgumentException(" ")
+    val lengthOfString = members.size
+    val rightNumber = Regex("""\d""")
+    val rightSymbol = Regex("""[+-]""")
+    val notRightFormat = Regex("""[^\d+-]""")
+    if ((lengthOfString == 1) && ((members[0].contains(notRightFormat)) || expression == "")) throw IllegalArgumentException(" ")
     else {
-        for (i in 0..LengthOfString - 2) {
-            val TwoPluses = members[i].contains(RightSymbol) && members[i + 1].contains(RightSymbol)
-            val TwoNumbers = members[i].contains(RightNumber) && members[i + 1].contains(RightNumber)
-            val AllNotRightSymbols = members[i].contains(NotRightFormat) || members[i + 1].contains(NotRightFormat)
+        for (i in 0..lengthOfString - 2) {
+            val TwoPluses = members[i].contains(rightSymbol) && members[i + 1].contains(rightSymbol)
+            val TwoNumbers = members[i].contains(rightNumber) && members[i + 1].contains(rightNumber)
+            val AllNotRightSymbols = members[i].contains(notRightFormat) || members[i + 1].contains(notRightFormat)
             val WrongString = TwoPluses || TwoNumbers || AllNotRightSymbols
             if (WrongString) throw IllegalArgumentException(" ")
             else {

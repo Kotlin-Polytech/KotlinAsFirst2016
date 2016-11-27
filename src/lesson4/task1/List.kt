@@ -136,13 +136,11 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val sr = mean(list)
-        for (i in 0..(list.size - 1)) {
-            list[i] -= sr
-        }
-        return list
-    } else return list
+    val sr = mean(list)
+    for (i in 0..(list.size - 1)) {
+        list[i] -= sr
+    }
+    return list
 }
 
 /**
@@ -182,14 +180,11 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        var sum = 0.0
-        val large = list.size - 1
-        for (i in 0..large) {
-            sum += list[i]
-            list[i] = sum
-        }
-        return list
+    var sum = 0.0
+    val large = list.size - 1
+    for (i in 0..large) {
+        sum += list[i]
+        list[i] = sum
     }
     return list
 }
@@ -215,7 +210,6 @@ fun factorize(n: Int): List<Int> {
             number /= i
         } else i += 2
     }
-    result.sorted()
     return result
 }
 
@@ -226,20 +220,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    var number = n
-    val result = mutableListOf<Int>()
-    while ((number % 2) == 0) {
-        result.add(2)
-        number /= 2
-    }
-    var i = 3
-    while (i <= number) {
-        if ((number % i) == 0) {
-            result.add(i)
-            number /= i
-        } else i += 2
-    }
-    result.sorted()
+    val result = factorize(n)
     return result.joinToString(separator = "*")
 }
 
@@ -254,13 +235,13 @@ fun convert(n: Int, base: Int): List<Int> {
     val result = mutableListOf<Int>()
     if (n < base) result.add(n)
     else {
-        var Num = n
-        while (Num / base >= base) {
-            result.add(0, Num % base)
-            Num /= base
+        var num = n
+        while (num / base >= base) {
+            result.add(0, num % base)
+            num /= base
         }
-        result.add(0, Num % base)
-        result.add(0, Num / base)
+        result.add(0, num % base)
+        result.add(0, num / base)
     }
     return result
 }
@@ -275,8 +256,8 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     var result = ""
-    val Nums = convert(n, base)
-    for (i in Nums) {
+    val nums = convert(n, base)
+    for (i in nums) {
         result += if (i > 9) 'a' + (i - 10)
         else i
     }

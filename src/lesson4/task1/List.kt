@@ -223,11 +223,14 @@ fun convertToString(n: Int, base: Int): String = TODO()
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var number = 0
-    for (i in 0..digits.size - 1) {
-        number += (digits[i] * Math.pow(base.toDouble(), (digits.size - i - 1).toDouble()).toInt()).toInt()
+    var a = 1
+    for (i in digits.size - 1 downTo 0) {
+        number += digits[i] *a
+        a *= base
     }
     return number
 }
+
 
 /**
  * Сложная

@@ -80,12 +80,16 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
 fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     val M = createMatrix(height, width, 1)
     var count = 0
-    var lim = 0
-    while (lim < height * width) {
-        for (i in count..width - 1 - count) M[count, i] = count + 1; lim++
-        for (k in count + 1..height - 1 - count) M[k, width - 1 - count] = count + 1; lim++
-        for (j in width - 1 - count - 1 downTo count) M[height - 1 - count, j] = count + 1; lim++
-        for (l in height - 1 - count - 1 downTo count + 1) M[l, count] = count + 1; lim++
+    val replay = (Math.min(height, width) + 1) / 2
+    while (count < replay) {
+        for (i in count..width - 1 - count) {
+            M[count, i] = count + 1
+            M[height - 1 - count, i] = count + 1
+        }
+        for (k in count..height - count - 2) {
+            M[k, width - 1 - count] = count + 1
+            M[k, count] = count + 1
+        }
         count++
     }
     return M

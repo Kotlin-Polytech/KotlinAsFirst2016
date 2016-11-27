@@ -33,7 +33,16 @@ fun isNumberHappy(number: Int): Boolean {
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return ((Math.abs(x1 - x2) == Math.abs(y1 - y2)) || (x1 == x2) || (y1 == y2))
+    val horizon = (x1 == x2)
+    val vertical = (y1 == y2)
+    val diagonal = ((Math.abs(x1 - x2)) == Math.abs(y1 - y2))
+    val result = when {
+        horizon -> true
+        vertical -> true
+        diagonal -> true
+        else -> false
+    }
+    return result
 }
 
 /**
@@ -45,7 +54,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                   x2: Double, y2: Double, r2: Double): Boolean {
-    return ((sqr(x1 - x2) + sqr(y1 - y2) <= sqr(r2)) && (Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2))
+    return Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
 }
 
 /**

@@ -134,13 +134,11 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val sred = mean(list)
-        for (i in 0..(list.size - 1)) {
-            list[i] -= sred
-        }
-        return list
-    } else return list
+    val sred = mean(list)
+    for (i in 0..(list.size - 1)) {
+        list[i] -= sred
+    }
+    return list
 }
 
 /**
@@ -153,12 +151,10 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     val size = a.size
     var sum = 0.0
-    if ((a.isNotEmpty()) && (b.isNotEmpty())) {
-        for (i in 0..(size - 1)) {
-            sum += a[i] * b[i]
-        }
-        return sum
-    } else return 0.0
+    for (i in 0..(size - 1)) {
+        sum += a[i] * b[i]
+    }
+    return sum
 }
 
 /**
@@ -189,13 +185,11 @@ fun polynom(p: List<Double>, x: Double): Double {
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     val size = list.size
     var sum = 0.0
-    if (list.isNotEmpty()) {
-        for (i in 0..(size - 1)) {
-            list[i] = list[i] + sum
-            sum = list[i]
-        }
-        return list
-    } else return list
+    for (i in 0..(size - 1)) {
+        list[i] = list[i] + sum
+        sum = list[i]
+    }
+    return list
 }
 
 /**
@@ -267,6 +261,12 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
+fun pow(a: Int, b: Int): Int {
+    var result = 1
+    for (i in 1..b) result *= a
+    return result
+}
+
 fun decimal(digits: List<Int>, base: Int): Int {
     return digits.reversed().mapIndexed { i, d -> d * pow(base, i) }.sum()
 }
@@ -280,16 +280,19 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun pow(a: Int, b: Int): Int {
-    var result = 1
-    for (i in 1..b) result *= a
-    return result
-}
 
 fun decimalFromString(str: String, base: Int): Int {
-    val char = "0123456789abcdefghijklmnopqrstuvwxyz"
-    var i = 0
-    return str.reversed().sumBy { char.indexOf(it) * pow(base, i++) }
+    var min = 1
+    var result = 0
+    for (i in str.length - 1 downTo 0) {
+        if (str[i] <= '9') {
+            result += (str[i] - '0') * min
+        } else {
+            result += (str[i] - ('a' - 10)) * min
+        }
+        min *= base
+    }
+    return result
 }
 
 /**

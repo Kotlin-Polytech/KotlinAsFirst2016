@@ -193,16 +193,23 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    var res = 0
     if (expression.contains(Regex("""[^-+\d\s]""")) || expression == "") throw IllegalArgumentException()
     if (expression.contains(Regex("""[-+]"""))) Double.NaN
     else if (expression.contains(Regex("""[\s]"""))) throw IllegalArgumentException()
     else return expression.toInt()
-    val symbols = Regex("""[^+-]""").replace(expression, "")
-    val parts = Regex("""[\s]""").replace(expression, "").split("+", "-")
-    res += parts.first().toInt()
-    for (i in 1..parts.size - 1) {
-        if (symbols[i - 1] == '+') res += parts[i].toInt() else res -= parts[i].toInt()
+    val parts = expression.split(" ")
+    if (parts.size % 2 == 0) throw IllegalArgumentException()
+    var res: Int
+    try {
+        res = parts[0].toInt()
+        for (i in 1..parts.size - 2 step 2) {
+            when (parts[i]) {
+                "+" -> res += parts[i + 1].toInt()
+                "-" -> res -= parts[i + 1].toInt()
+            }
+        }
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
     }
     return res
 }

@@ -47,9 +47,9 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
     if (!pointInsideCircle(x1, y1, x2, y2, r2)) return false
     else if (pointInsideCircle(x1, y1, x2, y2, r2)){
         val a = sqrt(sqr(x2 - x1) + sqr(y2 - y1))
-        if (a + r1 <= r2) return true else return false
+        return a + r1 <= r2
     }
-   else return false
+    else return false
 }
 
 /**

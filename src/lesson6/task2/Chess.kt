@@ -49,7 +49,7 @@ fun square(notation: String): Square {
         if ((notation.length == 2) && (notation[1].toString().toInt() in 1..8) && (column != -1)) {
             return Square(column, notation[1].toString().toInt())
         } else throw IllegalArgumentException()
-    } catch (e: IndexOutOfBoundsException) {
+    } catch (e: StringIndexOutOfBoundsException) {
         throw IllegalArgumentException()
     }
 }

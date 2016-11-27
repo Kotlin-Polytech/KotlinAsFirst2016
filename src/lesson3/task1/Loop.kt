@@ -24,7 +24,7 @@ fun factorial(n: Int): Double {
  */
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m == 0) return false
     }
     return true
@@ -103,11 +103,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var min: Int = 2
-
-    for (k in 2..n) {
-        if (n % k == 0) break
-        else min++
+    var min = 2
+    while (n % min != 0) {
+        min++
     }
     return (min)
 }
@@ -118,10 +116,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var max: Int = n - 1
-    for (k in n - 1 downTo 1) {
-        if (n % max == 0) break
-        else max--
+    var max = n - 1
+    while (n % max != 0) {
+        max--
     }
     return (max)
 }

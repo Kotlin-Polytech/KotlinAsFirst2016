@@ -200,7 +200,7 @@ fun factorize(n: Int): List<Int> {
         a += divisor
     }
     return a
-    }
+}
 
 /**
  * Сложная
@@ -238,7 +238,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val list = convert(n, base).toMutableList()
+    val list = convert(n, base).toList()
     var list2 = listOf<Any>()
     for (i in 0..list.size - 1) {
         if (list[i] >= 10) {
@@ -293,8 +293,8 @@ fun roman(n: Int): String {
     var number = n
     var i = 0
     val listFin = mutableListOf<String>()
-    val listDigits = listOf(Pair(1000, "M"), Pair(900, "CM"), Pair(500, "D"), Pair(400, "CD"), Pair(100, "C"), Pair(90, "XC"), Pair(50, "L"),
-            Pair(40, "XL"), Pair(10, "X"), Pair(9, "IX"), Pair(5, "V"), Pair(4, "IV"), Pair(1, "I"))
+    val listDigits = listOf(1000 to "M", 900 to "CM", 500 to "D", 400 to "CD", 100 to "C", 90 to "XC", 50 to "L",
+            40 to "XL", 10 to "X", 9 to "IX", 5 to "V", 4 to "IV", 1 to "I")
     while (number > 0) {
         if (listDigits[i].first <= number) { //Сначала закончить с одним элементом, потом идти на другой
             number -= listDigits[i].first

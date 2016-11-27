@@ -276,20 +276,15 @@ fun decimalFromString(str: String, base: Int): Int = decimal(str.map { symbolToN
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    val listAll = listOf("I" to 1, "IV" to 4, "V" to 5, "IX" to 9, "X" to 10, "XL" to 40, "L" to 50,
-            "XC" to 90, "C" to 100, "CD" to 400, "D" to 500, "CM" to 900, "M" to 1000)
+    val listAll = listOf("M" to 1000, "CM" to 900, "D" to 500, "CD" to 400, "C" to 100, "XC" to 90, "L" to 50,
+            "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1)
     var number = n
     if (number <= 0) return ""
     else {
         var res = ""
         while (number > 0) {
-            for (i in listAll.size - 1 downTo 0) {
-                if (number - listAll[i].second >= 0) {
-                    res += listAll[i].first
-                    number -= listAll[i].second
-                    break
-                }
-            }
+            res += listAll.find { number - it.second >= 0 }?.first
+            number -= listAll.find { number - it.second >= 0 }!!.second
         }
         return res
     }

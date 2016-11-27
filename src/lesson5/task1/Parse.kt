@@ -168,14 +168,14 @@ fun plusMinus(expression: String): Int {
     val rightNumber = Regex("""\d""")
     val rightSymbol = Regex("""[+-]""")
     val notRightFormat = Regex("""[^\d+-]""")
-    if ((lengthOfString == 1) && ((members[0].contains(notRightFormat)) || expression == "")) throw IllegalArgumentException(" ")
+    if ((lengthOfString == 1) && ((members[0].contains(notRightFormat)) || expression == "")) throw IllegalArgumentException("Wrong data format")
     else {
         for (i in 0..lengthOfString - 2) {
             val TwoPluses = members[i].contains(rightSymbol) && members[i + 1].contains(rightSymbol)
             val TwoNumbers = members[i].contains(rightNumber) && members[i + 1].contains(rightNumber)
             val AllNotRightSymbols = members[i].contains(notRightFormat) || members[i + 1].contains(notRightFormat)
             val WrongString = TwoPluses || TwoNumbers || AllNotRightSymbols
-            if (WrongString) throw IllegalArgumentException(" ")
+            if (WrongString) throw IllegalArgumentException("Wrong data format")
             else {
                 if (members[i] == "+") result += members[i + 1].toInt()
                 if (members[i] == "-") result -= members[i + 1].toInt()

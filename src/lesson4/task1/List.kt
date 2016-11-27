@@ -195,13 +195,14 @@ fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
     var i = 2
     while (number != 1){
-        while (number % i != 0) {
-            i++
-        }
+        // Если в условии ниже поставить "<= 2" то программа будет работать неверно. Я думаю, что "< 2" это крайнее значение
         if (n/i < 2) {
             return listOf(n)
         }
         else {
+            while (number % i != 0) {
+                i++
+            }
             number /= i
             result.add(i)
         }

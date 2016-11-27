@@ -204,7 +204,7 @@ fun plusMinus(expression: String): Int {
         }
         return sum
     } catch (e: IllegalArgumentException) {
-        throw e
+        throw IllegalArgumentException(expression)
     } catch (e: StringIndexOutOfBoundsException) {
         throw IllegalArgumentException(expression)
     }

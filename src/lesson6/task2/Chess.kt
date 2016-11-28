@@ -58,6 +58,7 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     try {
+        if (notation.isEmpty()) throw IllegalArgumentException("")
         val x = when (notation[0]) {
             'a' -> 1
             'b' -> 2
@@ -201,12 +202,12 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if ((Math.abs(start.column - end.column) + Math.abs(start.row - end.row)) % 2 != 0) return emptyList()
     if (start == end) return listOf(start)
     if (start.bishopOnLine(end)) return listOf(start, end)
-    var result= listOf<Square>()
+    var result = listOf<Square>()
 
-    if(bishopWalk(start, end, 1).isNotEmpty()) result= bishopWalk(start, end, 1) //проходим по четвертям
-    if(bishopWalk(start, end, 2).isNotEmpty()) result= bishopWalk(start, end, 2)
-    if(bishopWalk(start, end, 3).isNotEmpty()) result= bishopWalk(start, end, 3)
-    if(bishopWalk(start, end, 4).isNotEmpty()) result= bishopWalk(start, end, 4)
+    if (bishopWalk(start, end, 1).isNotEmpty()) result = bishopWalk(start, end, 1) //проходим по четвертям
+    if (bishopWalk(start, end, 2).isNotEmpty()) result = bishopWalk(start, end, 2)
+    if (bishopWalk(start, end, 3).isNotEmpty()) result = bishopWalk(start, end, 3)
+    if (bishopWalk(start, end, 4).isNotEmpty()) result = bishopWalk(start, end, 4)
 
     return result
 }
@@ -256,30 +257,6 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     if (start == end) return listOf(start)
     listOfMoves.add(start)
 
-    if (start.kingOnLine(end)) {                                        // если на одной линии
-        if ((start.column == end.column) && (start.row < end.row)) {    //верх // модуль можно убрать
-            for (i in 1..(end.row - start.row)) {
-                listOfMoves.add(Square(start.column, start.row + i))
-            }
-        }
-        if ((start.column == end.column) && (start.row > end.row)) {  // низ
-            for (i in 1..(start.row - end.row)) {
-                listOfMoves.add(Square(start.column, end.row - i))
-            }
-        }
-        if ((start.row == end.row) && (start.column < end.column)) { //право
-            for (i in 1..(end.column - start.column)) {
-                listOfMoves.add(Square(start.column + i, start.row))
-            }
-        }
-        if ((start.row == end.row) && (start.column > end.column)) {  //лево
-            for (i in 1..(start.column - end.column)) {
-                listOfMoves.add(Square(start.column - i, start.row))
-            }
-        }
-        return listOfMoves
-    }
-
     for (i in 1..Math.min(Math.abs(start.column - end.column), Math.abs(start.row - end.row))) {   //идём по диагонали
         if ((start.column < end.column) && (start.row < end.row)) {
             listOfMoves.add(Square(start.column + i, start.row + i))   //1 четверть
@@ -305,7 +282,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         }
         if (square.row > end.row) {
             for (i in 1..square.row - end.row) {                             //низ
-                listOfMoves.add(Square(end.column, square.row - 1))
+                listOfMoves.add(Square(end.column, square.row - i))
             }
         }
         if (square.column < end.column) {
@@ -315,7 +292,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         }
         if (square.column > end.column) {
             for (i in 1..square.column - end.column) {                         //лево
-                listOfMoves.add(Square(square.column - 1, end.row))
+                listOfMoves.add(Square(square.column - i, end.row))
             }
         }
         return listOfMoves

@@ -31,8 +31,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
                 if (word.length + currentLineLength >= lineLength) {
                     outputStream.newLine()
                     currentLineLength = 0
-                }
-                else {
+                } else {
                     outputStream.write(" ")
                     currentLineLength++
                 }
@@ -54,7 +53,22 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    var oneString = ""
+    var j = 0
+    substrings.toMutableList()
+    val result = mutableMapOf<String, Int>()
+    for (line in File(inputName).readLines())
+        oneString += line + "\n"
+    oneString = oneString.toLowerCase()
+    for (i in substrings) {
+        result[i] = 0
+        j++
+        for (g in 0..oneString.length - i.length) {
+            if (oneString.substring(g, g + i.length) == i.toLowerCase())
+                result[i] = result[i]!! + 1
+        }
+    }
+    return result
 }
 
 
@@ -72,7 +86,18 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val map = mapOf<String, String>("Ы" to "И", "ы" to "и", "Я" to "А", "я" to "а", "Ю" to "У", "ю" to "у")
+    for (line in File(inputName).readLines())
+        if (line.length <= 1) outputStream.write("$line\n") else {
+            outputStream.write(line[0].toString())
+            for (char in 1..line.length - 1)
+                if ((line[char] in "ЫЯЮыяю") && (line[char - 1] in "ЖЧШЩжчшщ"))
+                    outputStream.write(map[line[char].toString()])
+                else outputStream.write(line[char].toString())
+            outputStream.write("\n")
+        }
+    outputStream.close()
 }
 
 /**
@@ -93,7 +118,38 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    var input2 = listOf<String>()
+    var first = -1
+    var end = -1
+    var maxLength = 0
+    val outputStream = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines()) {
+        for (i in 0..line.length - 1)
+            if (line[i] != ' ') {
+                first = i
+                break
+            }
+        for (i in line.length - 1 downTo 0)
+            if (line[i] != ' ') {
+                end = i
+                break
+            }
+        if (first != -1) {
+            input2 += line.substring(first, end + 1)
+            first = -1
+            end = -1
+        } else
+            input2 += ""
+    }
+    for (line in input2)
+        if (line.length >= maxLength) maxLength = line.length
+    for (line in input2) {
+        for (i in 1..(maxLength - line.length) / 2)
+            outputStream.write(" ")
+        outputStream.write(line)
+        outputStream.newLine()
+    }
+    outputStream.close()
 }
 
 /**

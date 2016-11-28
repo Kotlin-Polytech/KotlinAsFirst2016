@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
+import lesson6.task1.Point
+import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -59,7 +62,49 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+enum class Direction {
+    UP, LEFT, DOWN, RIGHT
+}
+
+fun turn(streamline: Direction): Direction {
+    return when (streamline) {
+        Direction.UP -> Direction.RIGHT
+        Direction.RIGHT -> Direction.DOWN
+        Direction.DOWN -> Direction.LEFT
+        else -> Direction.UP
+    }
+}
+
+fun edge(height: Int, width: Int, streamline: Direction): Cell {
+    return when (streamline) {
+        Direction.RIGHT -> Cell(height, width + 1)
+        Direction.DOWN -> Cell(height + 1, width)
+        Direction.LEFT -> Cell(height, width - 1)
+        else -> Cell(height - 1, width)
+    }
+
+}
+
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    var matrix = createMatrix(height, width, 0)
+    var streamline = Direction.RIGHT
+    var road = 0
+    var cell = Cell(0, 0)
+    while (road < height * width - 1) {
+        if ((edge(cell.row, cell.column, streamline).row !in 0..height - 1) ||
+                (edge(cell.row, cell.column, streamline).column !in 0..width - 1) ||
+                (matrix[edge(cell.row, cell.column, streamline)] != 0)) {
+            streamline = turn(streamline)
+        } else {
+            road++
+            matrix[cell] = road
+
+            cell = edge(cell.row, cell.column, streamline)
+        }
+    }
+    matrix[cell] = road + 1
+    return matrix
+}
 
 /**
  * Сложная
@@ -75,7 +120,32 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    var matrix = createMatrix(height, width, 0)
+    var streamline = Direction.RIGHT
+    var road = 0
+    var n = 1
+    var cell = Cell(0, 0)
+    while (road < height * width - 1) {
+        if ((edge(cell.row, cell.column, streamline).row !in 0..height - 1) ||
+                (edge(cell.row, cell.column, streamline).column !in 0..width - 1) ||
+                (matrix[edge(cell.row, cell.column, streamline)] != 0)) {
+            streamline = turn(streamline)
+            if (streamline == Direction.RIGHT) {
+                matrix[cell] = n
+                road++
+                cell = edge(cell.row, cell.column, streamline)
+                n++
+            }
+        } else {
+            matrix[cell] = n
+            road++
+            cell = edge(cell.row, cell.column, streamline)
+        }
+    }
+    matrix[cell] = n
+    return matrix
+}
 
 /**
  * Сложная
@@ -90,7 +160,33 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
  * 10 13 16 18
  * 14 17 19 20
  */
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
+
+
+fun generateSnake(height: Int, width: Int): Matrix<Int> {
+    var matrix = createMatrix(height, width, 1)
+    var pathBegin = listOf<Cell>()
+    var pathEnd = listOf<Cell>()
+    for (i in 0..width - 1) pathBegin += Cell(0, i)
+    for (i in 1..height - 1) pathBegin += Cell(i, width - 1)
+    for (i in 0..height - 1) pathEnd += Cell(i, 0)
+    for (i in 1..width - 1) pathEnd += Cell(height - 1, i)
+    var road = 0
+    var mainRoad = 1
+    var cell = Cell(0, 0)
+    while (mainRoad != height * width)
+        if (cell == pathEnd[road]) {
+            matrix[cell] = mainRoad
+            mainRoad++
+            road++
+            cell = pathBegin[road]
+        } else {
+            matrix[cell] = mainRoad
+            mainRoad++
+            cell = Cell(cell.row + 1, cell.column - 1)
+        }
+    matrix[cell] = mainRoad
+    return matrix
+}
 
 /**
  * Средняя
@@ -103,7 +199,14 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    var matrix2 = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.height - 1)
+            matrix2[i, j] = matrix[matrix.height - 1 - j, i]
+    return matrix2
+}
 
 /**
  * Сложная
@@ -118,7 +221,23 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    var list = listOf<Int>()
+    var list2 = listOf<Int>()
+    for (i in 1..matrix.height) list += i
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.height - 1)
+            list2 += matrix[i, j]
+        if (list2.sorted() != list) return false else list2 = listOf()
+    }
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.height - 1)
+            list2 += matrix[j, i]
+        if (list2.sorted() != list) return false else list2 = listOf()
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -137,7 +256,24 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    var matrix2 = createMatrix(matrix.height + 2, matrix.width + 2, 0)
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            matrix2[i + 1, j + 1] = matrix[i, j]
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width)
+            matrix[i - 1, j - 1] =
+                    matrix2[i - 1, j - 1] +
+                            matrix2[i - 1, j] +
+                            matrix2[i - 1, j + 1] +
+                            matrix2[i, j - 1] +
+                            matrix2[i, j + 1] +
+                            matrix2[i + 1, j - 1] +
+                            matrix2[i + 1, j] +
+                            matrix2[i + 1, j + 1]
+    return matrix
+}
 
 /**
  * Средняя
@@ -154,7 +290,27 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+    var rows = listOf<Int>()
+    var columns = listOf<Int>()
+    var faeled = true
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1)
+            if (matrix[i, j] != 0) faeled = false
+        if (faeled) {
+            rows += i
+        } else faeled = true
+    }
+
+    for (i in 0..matrix.width - 1) {
+        for (j in 0..matrix.height - 1)
+            if (matrix[j, i] != 0) faeled = false
+        if (faeled) {
+            columns += i
+        } else faeled = true
+    }
+    return Holes(rows = rows, columns = columns)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице
@@ -175,7 +331,20 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    var matrix2 = createMatrix(matrix.height + 1, matrix.width + 1, 0)
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width)
+            matrix2[i, j] =
+                    -matrix2[i - 1, j - 1] +
+                            matrix2[i - 1, j] +
+                            matrix2[i, j - 1] +
+                            matrix[i - 1, j - 1]
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            matrix[i, j] = matrix2[i + 1, j + 1]
+    return matrix
+}
 
 /**
  * Сложная
@@ -197,7 +366,26 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    var miniLock = key
+    var key2 = createMatrix(key.height, key.width, 0)
+    for (i in 0..key.height - 1)
+        for (j in 0..key.width - 1)
+            if (key[i, j] !in 0..1) return Triple(false, 0, 0)
+    for (i in 0..key.height - 1)
+        for (j in 0..key.width - 1)
+            if (key[i, j] == 0) key2[i, j] = 1
+            else key2[i, j] = 0
+
+    for (i in 0..lock.height - key.height)
+        for (j in 0..lock.width - key.width) {
+            for (i2 in 0..key.height - 1)
+                for (j2 in 0..key.width - 1)
+                    miniLock[i2, j2] = lock[i + i2, j + j2]
+            if (miniLock == key2) return Triple(true, i, j)
+        }
+    return Triple(false, 0, 0)
+}
 
 /**
  * Простая
@@ -205,7 +393,12 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..this.height - 1)
+        for (j in 0..this.width - 1)
+            this[i, j] = -this[i, j]
+    return this
+}
 
 /**
  * Средняя
@@ -215,7 +408,15 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (this.width != other.height) throw IllegalArgumentException()
+    var multiplication = createMatrix(this.height, other.width, 0)
+    for (i in 0..multiplication.height - 1)
+        for (j in 0..multiplication.width - 1)
+            for (g in 0..this.width - 1)
+                multiplication[i, j] += this[i, g] * other[g, j]
+    return multiplication
+}
 
 /**
  * Сложная
@@ -244,7 +445,78 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toSt
  * 0  4 13  6
  * 3 10 11  8
  */
-fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO()
+fun include(cell: Cell, matrix: Matrix<Int>): Boolean = (cell.column in 0..3) && (cell.row in 0..3)
+
+fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
+    var listSet = setOf<Int>()
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            listSet += matrix[i, j]
+    if (listSet.size != 16) throw IllegalStateException()
+    for (elment in moves)
+        if (elment !in 1..15) throw IllegalStateException()
+    var cell = Cell(0, 0)
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            if (matrix[i, j] == 0) cell = Cell(i, j)
+    var i = -1
+    var key: Int
+    while (i < moves.size - 1) {
+        i++
+        when {
+            (include(Cell(cell.row + 1, cell.column), matrix)) && (moves[i] == matrix[Cell(cell.row + 1, cell.column)]) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row + 1, cell.column)]
+                matrix[Cell(cell.row + 1, cell.column)] = key
+                cell = Cell(cell.row + 1, cell.column)
+            }
+            (include(Cell(cell.row + 1, cell.column + 1), matrix)) && (moves[i] == matrix[Cell(cell.row + 1, cell.column + 1)]) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row + 1, cell.column + 1)]
+                matrix[Cell(cell.row + 1, cell.column + 1)] = key
+                cell = Cell(cell.row + 1, cell.column + 1)
+            }
+            (include(Cell(cell.row + 1, cell.column - 1), matrix) && (moves[i] == matrix[Cell(cell.row + 1, cell.column - 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row + 1, cell.column - 1)]
+                matrix[Cell(cell.row + 1, cell.column - 1)] = key
+                cell = Cell(cell.row + 1, cell.column - 1)
+            }
+            (include(Cell(cell.row, cell.column - 1), matrix) && (moves[i] == matrix[Cell(cell.row, cell.column - 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row, cell.column - 1)]
+                matrix[Cell(cell.row, cell.column - 1)] = key
+                cell = Cell(cell.row, cell.column - 1)
+            }
+            (include(Cell(cell.row, cell.column + 1), matrix) && (moves[i] == matrix[Cell(cell.row, cell.column + 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row, cell.column + 1)]
+                matrix[Cell(cell.row, cell.column + 1)] = key
+                cell = Cell(cell.row, cell.column + 1)
+            }
+            (include(Cell(cell.row - 1, cell.column), matrix) && (moves[i] == matrix[Cell(cell.row - 1, cell.column)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row - 1, cell.column)]
+                matrix[Cell(cell.row - 1, cell.column)] = key
+                cell = Cell(cell.row - 1, cell.column)
+            }
+            (include(Cell(cell.row - 1, cell.column - 1), matrix) && (moves[i] == matrix[Cell(cell.row - 1, cell.column - 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row - 1, cell.column - 1)]
+                matrix[Cell(cell.row - 1, cell.column - 1)] = key
+                cell = Cell(cell.row - 1, cell.column - 1)
+            }
+            (include(Cell(cell.row - 1, cell.column + 1), matrix) && (moves[i] == matrix[Cell(cell.row - 1, cell.column + 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row - 1, cell.column + 1)]
+                matrix[Cell(cell.row - 1, cell.column + 1)] = key
+                cell = Cell(cell.row - 1, cell.column + 1)
+            }
+            else -> throw IllegalStateException()
+        }
+    }
+    return matrix
+}
 
 /**
  * Очень сложная

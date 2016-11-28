@@ -22,6 +22,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует или пуста
      */
     operator fun get(row: Int, column: Int): E
+
     operator fun get(cell: Cell): E
 
     /**
@@ -29,6 +30,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует
      */
     operator fun set(row: Int, column: Int, value: E)
+
     operator fun set(cell: Cell, value: E)
 }
 
@@ -52,6 +54,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
     private val list = mutableListOf<E>()
+
     init {
         for (i in 0..height * width - 1) {
             list.add(e)
@@ -60,7 +63,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
 
     override fun get(row: Int, column: Int): E {
-        return list[column + width * row ]
+        return list[column + width * row]
     }
 
     override fun get(cell: Cell): E = get(cell.row, cell.column)
@@ -75,9 +78,25 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width
 
-    override fun toString(): String = TODO()
+    override fun toString(): String {
+        val sb = StringBuilder()
+        sb.append("[\n")
+        for (row in 0..height - 1) {
+            sb.append("[ ")
+            for (column in 0..width - 1) {
+                var tabulation = "\t"
+                if (column == width - 1) tabulation = ""
+                val elem = this[row,column]
+                sb.append("$elem [$row, $column] $tabulation")
+            }
+            sb.append("]")
+            sb.append("\n")
+        }
+        sb.append("]")
+        return "$sb"
+    }
 
-    override fun hashCode(): Int{
+    override fun hashCode(): Int {
         var result = height
         result = 31 * result + width
         result = 31 * result + list.hashCode()

@@ -42,8 +42,8 @@ interface Matrix<E> {
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    if ((width <= 0) && (height <= 0)) throw IllegalArgumentException()
-    return MatrixImpl<E>(height, width, e)
+    if ((width <= 0) || (height <= 0)) throw IllegalArgumentException()
+    else return MatrixImpl<E>(height, width, e)
 }
 
 /**
@@ -54,8 +54,8 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
 class MatrixImpl<E>(override val height: Int,
                     override val width: Int,
                     e: E) : Matrix<E> {
-    private val map = mutableMapOf<Cell, E>()
 
+    private val map = mutableMapOf<Cell, E>()
     init {
         for (i in 0..height - 1) {
             for (z in 0..width - 1) {
@@ -63,6 +63,7 @@ class MatrixImpl<E>(override val height: Int,
             }
         }
     }
+
 
     fun exist(c: Cell) = ((c.row <= height) && (c.column <= width))
     fun exist(row: Int, column: Int) = ((row <= height) && (column <= width))

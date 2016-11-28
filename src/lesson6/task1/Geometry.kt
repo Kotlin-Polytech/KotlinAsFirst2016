@@ -160,7 +160,7 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         var x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
                 (Math.tan(this.angle) - Math.tan(other.angle))
-        var y = (this.point.y / tan(angle) - other.point.y / tan(angle) + other.point.x - point.x) /
+        var y = (this.point.y / tan(angle) - other.point.y / tan(other.angle) + other.point.x - point.x) /
                 (1 / tan(angle) - 1 / tan(other.angle))
 
         if (((ulpequals(abs(angle), PI / 2)) && ((ulpequals(abs(other.angle), 0.0)) || (ulpequals(abs(other.angle), PI))))) {

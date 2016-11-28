@@ -105,10 +105,10 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double {
-    if ( v.isEmpty() ) return 0.0
+    if (v.isEmpty()) return 0.0
     val squaresList = v.map { it * it }
     val result = squaresList.sum()
-    return Math.sqrt( result )
+    return Math.sqrt(result)
 }
 
 /**
@@ -116,7 +116,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if ( list.isEmpty() ) 0.0 else list.sum() / list.size.toDouble()
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size.toDouble()
 
 /**
  * Средняя
@@ -155,10 +155,10 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
 fun polynom(p: List<Double>, x: Double): Double {
     var px = 0.0
     var i = 0.0
-    if ( p.isEmpty() ) return px
+    if (p.isEmpty()) return px
     else {
-        for ( element in p ) {
-            px += element * Math.pow( x, i )
+        for (element in p) {
+            px += element * Math.pow(x, i)
             i++
         }
     }
@@ -174,9 +174,9 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if ( list.isEmpty() || list.size == 1 ) return list
+    if (list.isEmpty() || list.size == 1) return list
     else {
-        for ( i in 1..list.size - 1 ) {
+        for (i in 1..list.size - 1) {
             list[ i ] += list[ i - 1 ]
         }
         return list
@@ -210,9 +210,9 @@ fun factorizeToString(n: Int): String = TODO()
 fun convert(n: Int, base: Int): List<Int> {
     var number = n
     val result = mutableListOf<Int>()
-    if ( number == 0 ) result.add(0)
-    while ( number > 0 ) {
-        result.add( 0, number % base)
+    if (number == 0) result.add(0)
+    while (number > 0) {
+        result.add(0, number % base)
         number = number / base
     }
     return result

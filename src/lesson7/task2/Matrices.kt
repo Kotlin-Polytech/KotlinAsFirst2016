@@ -445,76 +445,76 @@ operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
  * 0  4 13  6
  * 3 10 11  8
  */
+fun include(cell: Cell, matrix: Matrix<Int>): Boolean = (cell.column in 0..3) && (cell.row in 0..3)
+
 fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
-    var faeled = true
-    for (n in 0..15) {
-        for (i in 0..matrix.height - 1)
-            for (j in 0..matrix.width - 1)
-                if (matrix[i, j] == n) faeled = false
-        if (faeled) throw IllegalStateException() else faeled = true
-    }
-    for (n in 0..moves.size - 1) if (moves[n] !in 1..15) throw IllegalStateException()
-    var matrix2 = createMatrix(matrix.height + 2, matrix.width + 2, 0)
+    var listSet = setOf<Int>()
     for (i in 0..matrix.height - 1)
         for (j in 0..matrix.width - 1)
-            matrix2[i + 1, j + 1] = matrix[i, j]
+            listSet += matrix[i, j]
+    if (listSet.size != 16) throw IllegalStateException()
+    for (elment in moves)
+        if (elment !in 1..15) throw IllegalStateException()
     var cell = Cell(0, 0)
-    for (i in 1..matrix.height)
-        for (j in 1..matrix.width)
-            if (matrix2[i, j] == 0) cell = Cell(i, j)
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            if (matrix[i, j] == 0) cell = Cell(i, j)
     var i = -1
+    var key: Int
     while (i < moves.size - 1) {
         i++
-        when (moves[i]) {
-            matrix2[Cell(cell.row + 1, cell.column)] -> {
-                matrix2[0, 0] = matrix2[cell]
-                matrix2[cell] = matrix2[Cell(cell.row + 1, cell.column)]
-                matrix2[Cell(cell.row + 1, cell.column)] = matrix2[0, 0]
+        when {
+            (include(Cell(cell.row + 1, cell.column), matrix)) && (moves[i] == matrix[Cell(cell.row + 1, cell.column)]) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row + 1, cell.column)]
+                matrix[Cell(cell.row + 1, cell.column)] = key
                 cell = Cell(cell.row + 1, cell.column)
             }
-            matrix2[Cell(cell.row + 1, cell.column + 1)] -> {
-                matrix2[0, 0] = matrix2[cell]
-                matrix2[cell] = matrix2[Cell(cell.row + 1, cell.column + 1)]
-                matrix2[Cell(cell.row + 1, cell.column + 1)] = matrix2[0, 0]
+            (include(Cell(cell.row + 1, cell.column + 1), matrix)) && (moves[i] == matrix[Cell(cell.row + 1, cell.column + 1)]) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row + 1, cell.column + 1)]
+                matrix[Cell(cell.row + 1, cell.column + 1)] = key
                 cell = Cell(cell.row + 1, cell.column + 1)
             }
-            matrix2[Cell(cell.row + 1, cell.column - 1)] -> {
-                matrix2[0, 0] = matrix2[cell]
-                matrix2[cell] = matrix2[Cell(cell.row + 1, cell.column - 1)]
-                matrix2[Cell(cell.row + 1, cell.column - 1)] = matrix2[0, 0]
+            (include(Cell(cell.row + 1, cell.column - 1), matrix) && (moves[i] == matrix[Cell(cell.row + 1, cell.column - 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row + 1, cell.column - 1)]
+                matrix[Cell(cell.row + 1, cell.column - 1)] = key
                 cell = Cell(cell.row + 1, cell.column - 1)
             }
-            matrix2[Cell(cell.row, cell.column - 1)] -> {
-                matrix2[0, 0] = matrix2[cell]
-                matrix2[cell] = matrix2[Cell(cell.row, cell.column - 1)]
-                matrix2[Cell(cell.row, cell.column - 1)] = matrix2[0, 0]
+            (include(Cell(cell.row, cell.column - 1), matrix) && (moves[i] == matrix[Cell(cell.row, cell.column - 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row, cell.column - 1)]
+                matrix[Cell(cell.row, cell.column - 1)] = key
                 cell = Cell(cell.row, cell.column - 1)
             }
-            matrix2[Cell(cell.row, cell.column + 1)] -> {
-                matrix2[0, 0] = matrix2[cell]
-                matrix2[cell] = matrix2[Cell(cell.row, cell.column + 1)]
-                matrix2[Cell(cell.row, cell.column + 1)] = matrix2[0, 0]
+            (include(Cell(cell.row, cell.column + 1), matrix) && (moves[i] == matrix[Cell(cell.row, cell.column + 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row, cell.column + 1)]
+                matrix[Cell(cell.row, cell.column + 1)] = key
                 cell = Cell(cell.row, cell.column + 1)
             }
-            matrix2[Cell(cell.row - 1, cell.column)] -> {
-                matrix2[0, 0] = matrix2[cell]
-                matrix2[cell] = matrix2[Cell(cell.row - 1, cell.column)]
-                matrix2[Cell(cell.row - 1, cell.column)] = matrix2[0, 0]
+            (include(Cell(cell.row - 1, cell.column), matrix) && (moves[i] == matrix[Cell(cell.row - 1, cell.column)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row - 1, cell.column)]
+                matrix[Cell(cell.row - 1, cell.column)] = key
                 cell = Cell(cell.row - 1, cell.column)
             }
-            matrix2[Cell(cell.row - 1, cell.column - 1)] -> {
-                matrix2[0, 0] = matrix2[cell]
-                matrix2[cell] = matrix2[Cell(cell.row - 1, cell.column - 1)]
-                matrix2[Cell(cell.row - 1, cell.column - 1)] = matrix2[0, 0]
+            (include(Cell(cell.row - 1, cell.column - 1), matrix) && (moves[i] == matrix[Cell(cell.row - 1, cell.column - 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row - 1, cell.column - 1)]
+                matrix[Cell(cell.row - 1, cell.column - 1)] = key
                 cell = Cell(cell.row - 1, cell.column - 1)
+            }
+            (include(Cell(cell.row - 1, cell.column + 1), matrix) && (moves[i] == matrix[Cell(cell.row - 1, cell.column + 1)])) -> {
+                key = matrix[cell]
+                matrix[cell] = matrix[Cell(cell.row - 1, cell.column + 1)]
+                matrix[Cell(cell.row - 1, cell.column + 1)] = key
+                cell = Cell(cell.row - 1, cell.column + 1)
             }
             else -> throw IllegalStateException()
         }
     }
-    for (i in 1..matrix.height)
-        for (j in 1..matrix.width)
-            matrix[i - 1, j - 1] =
-                    matrix2[i, j]
     return matrix
 }
 

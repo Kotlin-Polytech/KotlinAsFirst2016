@@ -121,19 +121,16 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        var x = 0.0
-        var y = 0.0
-        x = when {
-            (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) -> point.x
-            (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
+        val x = when {
+            Math.abs(Math.tan(angle)).isFinite() -> point.x
+            Math.abs(Math.tan(other.angle)).isFinite() -> other.point.x
             else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
                     (Math.tan(angle) - Math.tan(other.angle))
         }
-        if (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) {
-            y = (x - other.point.x) * Math.tan(other.angle) + other.point.y
-        } else
-            y = (x - point.x) * Math.tan(angle) + point.y
-        return Point(x, y)
+        if (Math.abs(Math.tan(angle)).isFinite())
+            return Point(x, (x - other.point.x) * Math.tan(other.angle) + other.point.y)
+         else
+            return Point(x, (x - point.x) * Math.tan(angle) + point.y)
     }
 }
 

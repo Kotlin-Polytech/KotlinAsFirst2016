@@ -32,6 +32,8 @@ interface Matrix<E> {
     operator fun set(row: Int, column: Int, value: E)
 
     operator fun set(cell: Cell, value: E)
+
+    fun toList(): List<E>
 }
 
 /**
@@ -64,6 +66,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         (0..height * width - 1).forEach { list.add(e) }
     }
 
+    override fun toList(): List<E> = list
+
     override fun get(row: Int, column: Int): E = list[row * width + column]
 
     override fun get(cell: Cell): E = list[cell.row * width + cell.column]
@@ -76,26 +80,19 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         list[cell.row * width + cell.column] = value
     }
 
+
     override fun toString(): String {
         val sb = StringBuilder()
-        sb.append("[")
         for (row in 0..height - 1) {
-            sb.append("[")
             for (column in 0..width - 1) {
                 sb.append(this[row, column])
+                sb.append(" ")
             }
-            sb.append("]")
+            sb.append("\n")
         }
-        sb.append("]")
         return "$sb"
     }
 
-    override fun hashCode(): Int {
-        var result = 5
-        result = result * 31 + height
-        result = result * 31 + width
-        return result
-    }
 
     override fun equals(other: Any?): Boolean {
         if (other is MatrixImpl<*> &&
@@ -105,6 +102,11 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         return true
     }
 
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + list.hashCode()
+        return result
+    }
+
 }
-
-

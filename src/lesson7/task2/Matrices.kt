@@ -558,3 +558,4 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
 fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+//test

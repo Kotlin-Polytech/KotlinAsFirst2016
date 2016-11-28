@@ -58,7 +58,7 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     try {
-        if (notation.isEmpty()) throw IllegalArgumentException("")
+        if (notation.length < 2) throw IllegalArgumentException("")
         val x = when (notation[0]) {
             'a' -> 1
             'b' -> 2

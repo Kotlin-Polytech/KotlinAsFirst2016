@@ -2,6 +2,9 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import lesson2.task1.ageDescription
+import lesson3.task1.hasDifferentDigits
+import lesson4.task1.factorizeToString
 
 /**
  * Точка на плоскости
@@ -141,27 +144,29 @@ fun lineBySegment(s: Segment): Line {
         angle = Math.atan(cath1/cath2)
     }
     return Line(s.begin, angle)
+
 }
 
-/**
+ /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point):Line {
-    val leftP:Point
-    val rightP:Point
-    if (a.x < b.x) {
-        leftP = a
-        rightP = b
-    } else {
-        leftP = b
-        rightP = a
-    }
-    var angle = Math.atan2((leftP.y - rightP.y) , (leftP.x - rightP.x))
-    while (angle < -(Math.PI/2)) angle += Math.PI
-    while (angle > Math.PI/2) angle -= Math.PI
-    return Line (leftP, angle)
+
+fun lineByPoints(a: Point, b: Point): Line {
+     val leftP:Point
+     val rightP:Point
+     if (a.x < b.x) {
+         leftP = a
+         rightP = b
+     } else {
+         leftP = b
+         rightP = a
+     }
+     var angle = Math.atan2((leftP.y - rightP.y) , (leftP.x - rightP.x))
+     while (angle < -(Math.PI/2)) angle += Math.PI
+     while (angle > Math.PI/2) angle -= Math.PI
+     return Line (leftP, angle)
 }
 
 /**

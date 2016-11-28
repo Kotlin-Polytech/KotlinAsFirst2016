@@ -150,12 +150,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     if (n < 0) return false
-    if (m <= 0) {
-        for (i in 0..Math.sqrt(n.toDouble()).toInt()) {
-            if (i * i >= m && i * i <= n) return true
-        }
-    } else for (i in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
-        if (i * i >= m && i * i <= n) return true
+    for (k in Math.sqrt(m.toDouble()).toInt()..Math.sqrt(n.toDouble()).toInt()) {
+        if (k * k >= m && k * k <= n) return true
     }
     return false
 }
@@ -184,7 +180,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var k = n
+    var rev = 0
+    while (k > 0) {
+        rev *= 10
+        rev += k % 10
+        k /= 10
+    }
+    return rev
+}
 
 /**
  * Средняя
@@ -193,13 +198,7 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    for (i in 1..digitNumber(n) / 2) {
-        if ((n / (Math.pow(10.0, digitNumber(n) - i.toDouble())).toInt()) % 10 != (n / (Math.pow(10.0, i.toDouble() - 1)).toInt()) % 10)
-            return false
-    }
-    return true
-}
+fun isPalindrome(n: Int): Boolean = n == revert(n)
 
 /**
  * Средняя

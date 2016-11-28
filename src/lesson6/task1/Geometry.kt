@@ -6,6 +6,10 @@ import lesson1.task1.sqr
 import java.lang.Math.*
 import java.util.*
 
+fun ulpequals(num1: Double, num2: Double): Boolean {
+    return (abs(num1 - num2) < abs(max(ulp(num1), ulp(num1))*1e5))
+}
+
 /**
  * Точка на плоскости
  */
@@ -156,29 +160,29 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         var x = (this.point.x * Math.tan(this.angle) - other.point.x * Math.tan(other.angle) + other.point.y - this.point.y) /
                 (Math.tan(this.angle) - Math.tan(other.angle))
-        var y = (this.point.y * cos(angle) / sin(angle) - other.point.y * cos(other.angle) / sin(other.angle) + other.point.x - this.point.x) /
-                (cos(angle) / sin(angle) - cos(other.angle) / sin(other.angle))
+        var y = (this.point.y / tan(angle) - other.point.y / tan(angle) + other.point.x - point.x) /
+                (1 / tan(angle) - 1 / tan(other.angle))
 
-        if (((angle == PI / 2) || (angle == -PI / 2)) && ((other.angle == 0.0) || (other.angle == PI / 2) || (other.angle == -PI / 2))) {
+        if (((ulpequals(abs(angle), PI / 2)) && ((ulpequals(abs(other.angle), 0.0)) || (ulpequals(abs(other.angle), PI))))) {
             x = this.point.x
             y = other.point.y
             return Point(x, y)
         }
 
-        if (((other.angle == PI / 2) || (other.angle == -PI / 2)) && ((angle == 0.0) || (angle == PI / 2) || (angle == -PI / 2))) {
+        if (((ulpequals(abs(other.angle), PI / 2)) && ((ulpequals(abs(angle), 0.0)) || (ulpequals(abs(angle), PI))))) {
             x = other.point.x
             y = this.point.y
             return Point(x, y)
         }
 
-        if ((angle == PI / 2) || (angle == -PI / 2))
+        if (ulpequals(abs(angle), PI / 2))
             x = (y - other.point.y) / tan(other.angle) + other.point.x
-        if ((other.angle == PI / 2) || (other.angle == -PI / 2))
+        if (ulpequals(abs(angle), PI / 2))
             x = (y - point.y) / tan(angle) + point.x
 
-        if ((angle == 0.0) || (angle == PI) || (angle == -PI))
+        if ((ulpequals(abs(angle), 0.0)) || (ulpequals(abs(angle), PI)))
             y = (x - other.point.x) * tan(other.angle) + other.point.y
-        if ((other.angle == 0.0) || (other.angle == PI) || (other.angle == -PI))
+        if ((ulpequals(abs(other.angle), 0.0)) || (ulpequals(abs(other.angle), PI)))
             y = (x - point.x) * tan(angle) + point.y
         /*
         val y = when {

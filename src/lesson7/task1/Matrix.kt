@@ -65,29 +65,30 @@ class MatrixImpl<E>(override val height: Int,
     }
 
 
-    fun exist(c: Cell) = ((c.row <= height) && (c.column <= width))
+    val Cell.exist: Boolean
+        get() = ((this.row <= height) && (this.column <= width))
     fun exist(row: Int, column: Int) = ((row <= height) && (column <= width))
 
     override fun get(row: Int, column: Int): E {
-        if (exist(row, column))
+        if (Cell(row, column).exist)
             return map[Cell(row, column)] ?: throw IllegalArgumentException()
         else throw IllegalArgumentException()
     }
 
     override fun get(cell: Cell): E {
-        if (exist(cell))
+        if (cell.exist)
             return map[cell] ?: throw IllegalArgumentException()
         else throw IllegalArgumentException()
     }
 
     override fun set(cell: Cell, value: E) {
-        if (exist(cell))
+        if (cell.exist)
             map[cell] = value
         else throw IllegalArgumentException()
     }
 
     override fun set(row: Int, column: Int, value: E) {
-        if (exist(row, column))
+        if (Cell(row, column).exist)
             map[Cell(row, column)] = value
         else throw IllegalArgumentException()
     }

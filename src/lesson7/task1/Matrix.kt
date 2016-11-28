@@ -64,8 +64,8 @@ class MatrixImpl<E>(override val height: Int,
         }
     }
 
-    fun exist(c: Cell) = ((c.column <= height) && (c.row <= width))
-    fun exist(row: Int, column: Int) = ((column <= height) && (row <= width))
+    fun exist(c: Cell) = ((c.row <= height) && (c.column <= width))
+    fun exist(row: Int, column: Int) = ((row <= height) && (column <= width))
 
     override fun get(row: Int, column: Int): E {
         if (exist(row, column))

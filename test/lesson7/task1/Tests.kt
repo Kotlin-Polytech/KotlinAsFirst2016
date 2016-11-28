@@ -8,9 +8,9 @@ class Tests {
     @Test
     @Tag("Easy")
     fun createMatrix() {
-        val matrix = createMatrix(4, 6, 0.0)
-        assertEquals(4, matrix.height)
-        assertEquals(6, matrix.width)
+        val matrix = createMatrix(6, 1, "#")
+        assertEquals(6, matrix.height)
+        assertEquals(1, matrix.width)
     }
 
     @Test
@@ -34,7 +34,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun getSetString() {
-        val matrix = createMatrix(2, 2, "")
+        val matrix = createMatrix(6, 1, "#")
         val strings = listOf("alpha", "beta", "gamma", "omega")
         var index = 0
         for (row in 0..matrix.height - 1) {

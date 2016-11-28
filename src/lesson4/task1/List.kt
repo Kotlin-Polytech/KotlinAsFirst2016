@@ -121,13 +121,11 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var result = 0.0
+    if (list.size == 0) return 0.0
     for (element in list) {
         result += element
     }
-    return when (result) {
-        0.0 -> 0.0
-        else -> result / list.size
-    }
+    return result / list.size
 }
 
 /**
@@ -184,11 +182,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.size == 0) return list
-    var sum = list[0]
     for (i in 1..list.size - 1) {
+        val sum = list[i - 1]
         list[i] += sum
-        sum = list[i]
+
     }
     return list
 }
@@ -252,8 +249,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val list = convert(n, base)
-    val symbols = listOf<Char>('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-            'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+    val symbols = "0123456789abcdefghijklmnopqrstuvwxyz"
     var result = String()
     for (element in list) {
         result += symbols[element]
@@ -270,10 +266,8 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
-    var countExp = 0
-    for (i in digits.size - 1 downTo 0) {
-        result += digits[i] * pow(base, countExp)
-        countExp++
+    for (i in 0..digits.size - 1) {
+        result += digits[i] * pow(base, digits.size - 1 - i)
     }
     return result
 }
@@ -288,19 +282,13 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0
-    var countExp = str.length - 1
-    val symbols = listOf<Char>('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
-            'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
+    var result = listOf<Int>()
+    val symbols = "0123456789abcdefghijklmnopqrstuvwxyz"
     for (i in 0..str.length - 1) {
-        for (n in 0..symbols.size - 1) {
-            if (str[i] == symbols[n]) {
-                result += n * pow(base, countExp)
-                countExp--
-            }
-        }
+        result += symbols.indexOf(str[i], 0).toInt()
     }
-    return result
+
+    return decimal(result, base)
 }
 
 /**

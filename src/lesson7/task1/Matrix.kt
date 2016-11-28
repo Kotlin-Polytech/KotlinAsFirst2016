@@ -33,7 +33,6 @@ interface Matrix<E> {
 
     operator fun set(cell: Cell, value: E)
 
-    fun toList(): List<E>
 }
 
 /**
@@ -65,8 +64,6 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     init {
         (0..height * width - 1).forEach { list.add(e) }
     }
-
-    override fun toList(): List<E> = list
 
     override fun get(row: Int, column: Int): E = list[row * width + column]
 

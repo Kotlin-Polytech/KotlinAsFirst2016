@@ -1,0 +1,6 @@
+<application>
+  <component name="CodeInsightSettings">
+    <EXCLUDED_PACKAGE NAME="java.awt.List" />
+    <EXCLUDED_PACKAGE NAME="java.util.List" />
+  </component>
+</application>

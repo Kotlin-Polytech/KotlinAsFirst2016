@@ -123,6 +123,19 @@ fun maxDivisor(n: Int): Int {
     return (max)
 }
 
+fun NOD(m: Int, n: Int): Int {
+    var a = m
+    var b = n
+    while (a!=0 && b!=0) {
+        if (a > b)
+            a %= b
+        else
+            b %= a
+    }
+    return (a+b)
+}
+
+
 /**
  * Простая
  *
@@ -131,12 +144,7 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var div = m
-    while (div > 1) {
-        if (n % minDivisor(div) == 0) return false
-        else div /= minDivisor(div)
-    }
-    return true
+    return NOD(m, n) == 1
 }
 
 /**

@@ -57,8 +57,8 @@ class MatrixImpl<E>(override val height: Int,
     private val map = mutableMapOf<Cell, E>()
 
     init {
-        for (i in 0..height) {
-            for (z in 0..width) {
+        for (i in 0..height - 1) {
+            for (z in 0..width - 1) {
                 map[Cell(i, z)] = e
             }
         }
@@ -108,8 +108,8 @@ class MatrixImpl<E>(override val height: Int,
         for (row in 0..height - 1) {
             sb.append("[")
             for (column in 0..width - 1) {
-                sb.append(map[Cell(row, column)])
-                sb.append("|")
+                    sb.append(map[Cell(row, column)])
+                    if (column != width-1 ) sb.append(",")
             }
             sb.append("]")
         }

@@ -247,10 +247,8 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var result = listOf<String>()
     val list = convert(n, base)
-    for (i in list) {
-        if (i > 9) result += ('a' - 10 + i).toString()
-        else result += i.toString()
-    }
+    for (i in list) if (i > 9) result += ('a' - 10 + i).toString()
+    else result += i.toString()
     return result.joinToString(separator = "")
 }
 

@@ -147,8 +147,8 @@ fun lineBySegment(s: Segment): Line {
     val x0 = (s.end.x - s.begin.x)
     val y0 = (s.end.y - s.begin.y)
     var angle = 0.0
-    if (x0 * y0 < 0.0) angle = Math.PI - Math.abs(Math.atan(y0 / x0)) else if (x0 == 0.0) angle = Math.PI / 2
-    else if (y0 == 0.0) angle = 0.0 else angle = Math.atan(y0 / x0)
+    if (x0 * y0 < 0.0) angle = Math.PI - Math.abs(Math.atan(y0 / x0))
+    else  angle = Math.atan(y0 / x0)
     return Line(s.begin, angle)
 }
 

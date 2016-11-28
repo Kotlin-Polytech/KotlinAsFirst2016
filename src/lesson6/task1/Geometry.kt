@@ -194,6 +194,18 @@ data class Line(val point: Point, val angle: Double) {
     }
 }
 
+fun angle(begin: Point, end: Point) :Double {
+    val cat1 = end.y - begin.y
+    val cat2 = end.x - begin.x
+    var angle = atan(cat1 / cat2)
+    when {
+        angle > PI -> angle == angle - PI
+        angle < -PI -> angle + PI
+    }
+    if (angle == -0.0) angle = abs(angle)
+    return angle
+}
+
 
 /**
  * Средняя
@@ -201,10 +213,7 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    val cat1 = s.end.y - s.begin.y
-    val cat2 = s.end.x - s.begin.x
-    val angle = atan(cat1 / cat2)
-    if (angle == -0.0) abs(angle)
+    val angle = angle(s.begin, s.end)
     return (Line(s.begin, angle))
 }
 
@@ -224,7 +233,7 @@ fun lineByPoints(a: Point, b: Point): Line {
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val center = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    val angle = atan2(b.y - a.y, b.x - a.x) + PI / 2
+    val angle = angle(a, b) + PI / 2
     return Line(center, angle)
 }
 

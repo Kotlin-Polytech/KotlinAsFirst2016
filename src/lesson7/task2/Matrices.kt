@@ -292,7 +292,10 @@ fun findHoles(matrix: Matrix<Int>): Holes {
     for (j in 0..matrix.width - 1) {
         var columnWithHoles = true
         for (i in 0..matrix.height - 1) {
-            if (matrix[i, j] != 0) columnWithHoles = false
+            if (matrix[i, j] != 0) {
+                columnWithHoles = false
+                break
+            }
         }
         if (columnWithHoles == true) ListOfColumnsWithHoles.add(j)
     }

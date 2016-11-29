@@ -117,6 +117,7 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     val matrix = MatrixImpl(height, width, 0)
     var countCoils = 0
     var value = 1
+    var countBorder = 0
     while (countCoils <= width / 2){
         var i = countCoils
         var j = countCoils - 1
@@ -226,7 +227,36 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  * 3 1 2
  */
 
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    val library = mutableListOf<Int>()
+    if (matrix.height != matrix.width)
+        return false
+    for (i in 0..matrix.height - 1)
+        library.add(i + 1)
+
+    for ( i in 0..matrix.height - 1) {
+        for (k in 0..library.size - 1) {
+            var countDigit = 0
+            for (j in 0..matrix.height - 1)
+                if (matrix[i, j] == library[k])
+                    countDigit++
+            if ((countDigit > 1) || (countDigit == 0))
+                return false
+        }
+    }
+    for ( i in 0..matrix.height - 1) {
+        for (k in 0..library.size - 1) {
+            var countDigit = 0
+            for (j in 0..matrix.height - 1)
+                if (matrix[j, i] == library[k])
+                    countDigit++
+            if ((countDigit > 1) || (countDigit == 0))
+                return false
+        }
+    }
+
+    return true
+}
 
 
 

@@ -111,7 +111,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun hashCode(): Int {
         var res = 9
-        for(elem in storage) {
+        for (elem in storage) {
             res = res * 23 + elem.hashCode()
         }
         return res

@@ -59,7 +59,39 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
+
+fun matrixMin(field: Matrix<Int>): Int {
+    var minimum = field[0, 0]
+    for (i in 0..field.height) {
+        for (j in 0..field.width) {
+            if (minimum > field[i, j]) minimum = field[i, j]
+        }
+    }
+    return minimum
+}
+
 fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+/*
+    var field = createMatrix(height, width, 0)
+    println(field) // DEBUG
+
+    var i = 0
+    var j = 0
+    var spiralNumber = 1
+    while(matrixMin(field) == 0) {
+        while (field.width > j && field[i, j] == 0) field[i, j++] = spiralNumber++ // Вправо
+        --j
+        while (field.height > i && field[i, j] == 0) field[i++, j] = spiralNumber++ // Вверх
+        --i
+        while (j > 0 && field[i, j] == 0) field[i, j--] = spiralNumber++ // Влево
+        ++j
+        while (i > 0 && field[i, j] == 0) field[i--, j] = spiralNumber++ // Вниз
+        ++i
+    }
+
+    return field
+}
+*/
 
 /**
  * Сложная

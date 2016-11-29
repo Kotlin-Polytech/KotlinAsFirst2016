@@ -58,7 +58,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     if (s <= s1) return s / v1
     else if (s <= s1 + s2) return t1 + (s - s1) / v2
     else return t1 + t2 + (s - s1 - s2) / v3
-    }
+}
 
 /**
  * Простая
@@ -88,7 +88,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     if ((kingX == rookX) || (kingY == rookY))  r += 1
     if  ((kingX + kingY == bishopX + bishopY) || (kingX - kingY == bishopX - bishopY)) r += 2
     return  r
-    }
+}
 
 /**
  * Простая
@@ -110,10 +110,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     return when {
-    ((b < c) || (d < a)) -> -1
-    ((a <= c) && (d <= b)) -> d - c
-    ((c <= a) && (b <= d)) -> b - a
-    ((c <= a) && (d <= b)) ->  d - a
+        ((b < c) || (d < a)) -> -1
+        ((a <= c) && (d <= b)) -> d - c
+        ((c <= a) && (b <= d)) -> b - a
+        ((c <= a) && (d <= b)) ->  d - a
         else -> b - c
     }
 }

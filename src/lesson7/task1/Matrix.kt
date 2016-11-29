@@ -76,7 +76,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
                 width == other.width) {
             for (i in 0..height - 1)
                 for (j in 0..width - 1)
-                    if (other[i, j] == map[Pair(i, j)]) return true
+                    if (other.map == map) return true
 
         }
         return false
@@ -95,14 +95,14 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
         for (row in 0..height - 1) {
             sb.append("[")
             for (column in 0..width - 1) {
-                sb.append(this[row, column])
-                if (column < width - 1) sb.append(", ")
+                sb.append(this[row, column], ", ")
             }
+            sb.removePrefix(", ")
             sb.append("]")
-            if (row < height - 1) sb.append(", ")
         }
+        sb.removePrefix(", ")
         sb.append("]")
-        return "$sb"
+        return sb.toString()
     }
 }
 

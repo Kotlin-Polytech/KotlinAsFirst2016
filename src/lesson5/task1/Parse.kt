@@ -67,13 +67,14 @@ val months = listOf("января", "февраля", "марта", "апрел�
 
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
+    if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
-        val month = months.indexOf(parts[1]) + 1
+        val month = parts[1]
+        if (day !in 1..31 || month !in months) return ""
         val year = parts[2].toInt()
-        if ((parts.size != 3) || (day !in 1..31) || (month == 0)) return ""
-        return String.format("%02d.%02d.%d", day, month, year)
-    } catch (e: Exception) {
+        return String.format("%02d.%02d.%d", day, months.indexOf(month) + 1, year)
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -87,13 +88,14 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
+    if (parts.size != 3) return ""
     try {
         val day = parts[0].toInt()
-        val month = months[parts[1].toInt() - 1]
+        val month = parts[1].toInt()
+        if (day !in 1..31 || month !in 1..12) return ""
         val year = parts[2].toInt()
-        if ((parts.size != 3) || (day !in 1..31)) return ""
-        return String.format("%d %s %d", day, month, year)
-    } catch (e: Exception) {
+        return String.format("%d %s %d", day, months[month - 1], year)
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -110,14 +112,9 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-    val permittedSymbols = listOf('(', ')', '-', ' ', '+')
-    for (i in 0..phone.length - 1) {
-        if ((phone[i] !in '0'..'9') && (phone[i] !in permittedSymbols))
-            return ""
-    }
-    return phone.filter { it in '0'..'9' || it == '+' }
-}
+fun flattenPhoneNumber(phone: String): String =
+        if (phone.matches(Regex("""[\d\s()+-]+"""))) phone.filter { it !in "()- " }
+        else ""
 
 /**
  * Средняя
@@ -130,17 +127,12 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val parts = jumps.split(" ")
-    var result = -1
-    val permittedSymbols = listOf("", "-", "%", " ")
-    try {
-        for (part in parts) {
-            if ((part !in permittedSymbols) && (part.toInt() > result)) result = part.toInt()
-        }
-        return result
-    } catch (e: NumberFormatException) {
-        return -1
-    }
+    if (!jumps.matches(Regex("""[\d %-]+"""))) return -1
+    return jumps
+            .split(" ")
+            .filter { it.matches(Regex("""[\d]+""")) }
+            .map { it.toInt() }
+            .max() ?: -1
 }
 
 /**
@@ -214,7 +206,6 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int = TODO()
-
 
 /**
  * Сложная

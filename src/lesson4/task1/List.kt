@@ -246,12 +246,12 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val number = convert(n, base)
-    var result = ""
+    var result = StringBuilder()
     for (i in number) {
-        result += if (i > 9) 'a' + (i - 10)
-        else i
+         if (i > 9) result.append('a' + (i - 10))
+        else result.append(i)
     }
-    return result
+    return result.toString()
 }
 
 /**

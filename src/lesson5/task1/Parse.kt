@@ -171,7 +171,7 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
+fun bestHighJump(jumps: String): Int { // не понимаю,что вы предлагаете сделать
     val parts = jumps.split(" ")
     var maxHigh = -1
     for (i in 1..parts.size - 1 step 2) {
@@ -263,11 +263,9 @@ fun mostExpensive(description: String): String {
         }
         if (parts.size != 1) return parts[maxindex - 1]
         else return ""
-    } catch (e : IndexOutOfBoundsException){
+    } catch (e: NumberFormatException) {
         return ""
-    }catch (e : StringIndexOutOfBoundsException){
-        return ""
-    }catch (e : NumberFormatException){
+    }catch (e: IndexOutOfBoundsException){
         return ""
     }
 }

@@ -2,6 +2,8 @@
 
 package lesson3.task1
 
+import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match
+
 /**
  * Пример
  *
@@ -104,15 +106,13 @@ fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var del = n
-    var min = 1
-    for (i in 2..n) {
-        if (del % i == 0) {
-            min = i
-            break
-        }
-    }
-    return min
+    var min = 2
+    val border = Math.ceil(Math.sqrt(n.toDouble()))
+    do {
+        if (n % min == 0) return min
+        min++
+    } while (min <= border)
+    return n
 }
 
 /**
@@ -121,15 +121,13 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var del = n
-    var max = 1
-    for (i in (n - 1) downTo 2) {
-        if (del % i == 0) {
-            max = i
-            break
-        }
-    }
-    return max
+    var max = n / 2
+    val boarder = Math.floor(Math.sqrt(n.toDouble()))
+    do {
+        if (n % max == 0) return max
+        max--
+    } while (max >= boarder)
+    return 1
 }
 
 /**
@@ -160,13 +158,8 @@ fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = 0
-    var quadr = 0
-    while (quadr < m) {
-        k++
-        quadr = k * k
-    }
-    return ((quadr <= n) && (quadr >= m))
+    var k = Math.ceil(Math.sqrt(m.toDouble()))
+    return k * k in m..n
 }
 
 /**
@@ -264,19 +257,20 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun strok(n: Int) = n.toString().length
+fun sqr(x: Int): Int = x * x
 
 fun squareSequenceDigit(n: Int): Int {
+    var str = ""
+    var i = 0
     var number = 0
-    var k = 0
-    while (number < n) {
-        k++
-        number += strok(k * k)
+    while (n > i) {
+        number += 1
+        str = sqr(number).toString()
+        i += str.length
     }
-    var result = k * k
-    (n..number - 1).forEach { k -> result /= 10 }
-    return (result % 10)
+    return (str[str.length - 1 - (i - n)]).toInt() - '0'.toInt()
 }
+
 
 /**
  * Сложная
@@ -286,15 +280,17 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var result = 0
-    var number = 0
-    var k = 0
-    while (number < n) {
-        k++
-        number += strok(fib(k))
+    var fir = 1
+    var sec = 1
+    var str = "11"
+    var i = 2
+    if (n in 1..2) return 1
+    while (n > i) {
+        str = (fir + sec).toString()
+        fir = sec
+        sec = str.toInt()
+        i += str.length
     }
-    result = fib(k)
-    (n..number - 1).forEach { k -> result /= 10 }
-    return (result % 10)
+    return (str[str.length - 1 - (i - n)]).toInt() - '0'.toInt()
 }
 

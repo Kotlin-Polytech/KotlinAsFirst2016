@@ -120,26 +120,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a == b) && (b == c) && (c == a)) return 0
-    if ((a > b) && (a > c)) {
-        if (b + c <= a) return -1
-        if ((sqr(b) + sqr(c)) > sqr(a)) return 0
-        if ((sqr(b) + sqr(c)) < sqr(a)) return 2
-        if ((sqr(b) + sqr(c)) == sqr(a)) return 1
-    }
-    if ((b > a) && (b > c)) {
-        if (a + c <= b) return -1
-        if ((sqr(a) + sqr(c)) > sqr(b)) return 0
-        if ((sqr(a) + sqr(c)) < sqr(b)) return 2
-        if ((sqr(a) + sqr(c)) == sqr(b)) return 1
-    }
-    if ((c > a) && (c > b)) {
-        if (a + b <= c) return -1
-        if ((sqr(b) + sqr(a)) > sqr(c)) return 0
-        if ((sqr(b) + sqr(a)) < sqr(c)) return 2
-        if ((sqr(b) + sqr(a)) == sqr(c)) return 1
-    }
-    return 0
+    val list = listOf(a, b, c).sorted()
+    if (list[2] < list[0] + list[1]) {
+        val tip = sqr(list[2]) - sqr(list[0]) - sqr(list[1])
+        when {
+            tip > 0 -> return 2
+            tip < 0 -> return 0
+            else -> return 1
+        }
+    } else return -1
 }
 
 /**

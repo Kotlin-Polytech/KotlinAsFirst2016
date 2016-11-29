@@ -121,49 +121,29 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    /**
-    val maxInNum:Double=max(a,b,c)
-    var maxInNum1:Double
-    var maxInNum2:Double
-    if (maxInNum==a) maxInNum1=max(0.0,b,c)
-    else{
-        if (maxInNum==b) maxInNum1=max(a,0.0,c)
-        else {
-            maxInNum1=max(a,b,0.0)
-        }
+    var max = a
+    var side = b
+    var side1 = c
+    if (b >= a && b >= c) {
+        max = b
+        side = a
+        side1 = c
+    } else if (c >= a && c >= b) {
+        max = c
+        side = a
+        side1 = b
     }
-*/
-
-    if ((a + b > c)
-            && (a + c > b)
-            && (c + b > a)) {
-        if ((a * a + b * b < c * c)
-                || (a * a + c * c < b * b)
-                || (b * b + c * c < a * a)) return 2
-        else if ((a * a + b * b == c * c)
-                || (a * a + c * c == b * b)
-                || (b * b + c * c == a * a)) return 1
-        else return 0
-    } else return -1
-
+    return when {
+        (max > side + side1) -> -1
+        (side * side + side1 * side1
+                == max * max) -> 1
+        (side * side + side1 * side1
+                <= max * max) -> 2
+        else -> 0
+    }
 }
 
 
-fun max(a:Double, b:Double, c: Double):Double{
-    var max: Double
-    if (a <= b) {
-        if (b <= c)
-            max = c
-        else
-            max = b
-    } else {
-        if (a<=c)
-            max=c
-        else
-            max = a
-    }
-    return max
-}
 
 
 /**

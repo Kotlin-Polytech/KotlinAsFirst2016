@@ -74,9 +74,9 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     if (kingX == rookX1 || kingY == rookY1) rookOneThreatens = true
     if (kingX == rookX2 || kingY == rookY2) rookTwoThreatens = true
     return when {
-        (rookOneThreatens == true && rookTwoThreatens == true) -> 3
-        (rookOneThreatens == false && rookTwoThreatens == true) -> 2
-        (rookOneThreatens == true && rookTwoThreatens == false) -> 1
+        rookOneThreatens && rookTwoThreatens -> 3
+        !rookOneThreatens && rookTwoThreatens -> 2
+        rookOneThreatens && !rookTwoThreatens -> 1
         else -> 0
     }
 }
@@ -98,9 +98,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     if (kingX == rookX || kingY == rookY) rookThreatens = true
     if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) bishopThreatens = true
     return when {
-        (rookThreatens == true && bishopThreatens == true) -> 3
-        (rookThreatens == false && bishopThreatens == true) -> 2
-        (rookThreatens == true && bishopThreatens == false) -> 1
+        rookThreatens && bishopThreatens -> 3
+        !rookThreatens && bishopThreatens -> 2
+        rookThreatens && !bishopThreatens -> 1
         else -> 0
     }
 }

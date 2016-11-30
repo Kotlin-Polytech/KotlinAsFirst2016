@@ -119,13 +119,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return (0.0)
-    var sum = 0.0
-    var size = 0
-    for (element in list) {
-        sum += element
-        size++
-    }
-    return sum / size
+    else return list.sum() / list.size
 }
 
 /**
@@ -169,8 +163,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
     var currentExpX = 1.0
-    for (i in 0..p.size - 1) {
-        result += p[i] * currentExpX
+    for (element in p) {
+        result += element * currentExpX
         currentExpX *= x
     }
     return result
@@ -277,16 +271,12 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var result = 0
-    var expBase = 1
-    var piece: Int
-    for (i in str.length - 1 downTo 0) {
-        if (str[i] in '0'..'9') piece = str[i] - '0'
-        else piece = str[i] - 'a' + 10
-        result += piece * expBase
-        expBase *= base
+    val digitsList = mutableListOf<Int>()
+    for (i in 0..str.length - 1) {
+        if (str[i] in '0'..'9') digitsList.add(str[i] - '0')
+        else digitsList.add(str[i] - 'a' + 10)
     }
-    return result
+    return decimal(digitsList, base)
 }
 
 /**

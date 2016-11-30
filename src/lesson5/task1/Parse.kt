@@ -128,7 +128,7 @@ fun bestLongJump(jumps: String): Int {
     if (normalJumps.isEmpty()) return -1 // отсутствие чисел во входной строке
     try {
         val digitNormalJumps = normalJumps.map { it.toInt() } // полученные фрагменты перевести в Int'ы
-        return digitNormalJumps.max() ?: -1 // найти max из Int'ов, вернуть -1, если ничего нет (я так понял смысл ":?")
+        return digitNormalJumps.max() ?: -1 // найти max из Int'ов, вернуть -1, если  .max() вернёт null
     } catch (e: NumberFormatException) {
         return -1
     }

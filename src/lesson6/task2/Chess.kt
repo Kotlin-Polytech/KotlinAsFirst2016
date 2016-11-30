@@ -1,8 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task2
 
-import java.util.*
-
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -23,7 +21,14 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+
+    fun notation(): String {
+        if (!this.inside()) return ""
+        else {
+            val symbols: String = "abcdefgh"
+            return symbols[column - 1] + row.toString()
+        }
+    }
 }
 
 /**
@@ -33,7 +38,16 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    val checkFormat = Regex("""[a-h][1-8]""")
+    if (!checkFormat.matches(notation)) throw IllegalArgumentException("Wrong format: $notation")
+    else {
+        val symbols: String = "abcdefgh"
+        val column: Int = symbols.indexOf(notation[0])+1
+        val row: Int = notation[1].toString().toInt()
+        return Square(column, row)
+    }
+}
 
 /**
  * Простая
@@ -58,7 +72,15 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    return when {
+        !start.inside()     -> throw IllegalArgumentException("Incorrect square: $start.")
+        !end.inside()       -> throw IllegalArgumentException("Incorrect square: $end.")
+        start == end                                        -> 0
+        start.row == end.row || start.column == end.column  -> 1
+        else                                                -> 2
+    }
+}
 
 /**
  * Средняя

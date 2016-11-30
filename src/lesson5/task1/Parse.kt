@@ -10,7 +10,7 @@ package lesson5.task1
 fun timeStrToSeconds(str: String): Int {
     val parts = str.split(":")
     var result = 0
-    parts.asSequence().map { it.toInt() }.forEach { result = result * 60 + it }
+    parts.asSequence().map(String::toInt).forEach { result = result * 60 + it }
     return result
 }
 
@@ -540,7 +540,7 @@ class RightAlgorithm(override var computeDevice: ComputeDeviceImpl) : CommandPro
                 }
                 '}' -> {
                     if (computeDevice.getCurrentCell() != 0) {
-                        index -= leftShiftTo(commands.drop(commands.length - index), '{')
+                        index -= leftShiftTo(commands.dropLast(commands.length - index), '{')
                     }
                     else index++
                 }

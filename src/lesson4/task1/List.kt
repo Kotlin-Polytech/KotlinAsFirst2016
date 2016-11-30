@@ -201,12 +201,12 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val listOfMultipliers = mutableListOf<Int>()
-    var q = n
+    var number = n
     var d = 2
-    while (q > 1) {
-        if (q % d == 0) {
+    while (number > 1) {
+        if (number % d == 0) {
             listOfMultipliers.add(d)
-            q /= d
+            number /= d
         } else d++
     }
     return listOfMultipliers
@@ -254,8 +254,8 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val a = convert(n, base)
-    var result = StringBuilder()
-    if (base >= 1) {
+    val result = StringBuilder()
+    if (base > 1) {
         for (el in a) {
             if (el > 9) {
                 result.append('a' + el - 10)
@@ -329,113 +329,35 @@ fun roman(n: Int): String = TODO()/*{
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String {
+fun russian(n: Int): String = TODO()/*{
     val a = n.toString().length
-    var s = ""
-    var s1 = ""
-    var r = ""
-    var r1 = ""
-    val unit = n % 10
-    when (unit) {
-        1 -> s = "один"
-        2 -> s = "два"
-        3 -> s = "три"
-        4 -> s = "четыре"
-        5 -> s = "пять"
-        6 -> s = "шесть"
-        7 -> s = "семь"
-        8 -> s = "восемь"
-        9 -> s = "девять"
-        0 -> s = ""
-    }
-    val hundr = (n / 10) % 10
-    when (hundr) {
-        1 -> {
-            when (unit) {
-                2 -> s1 = s.substring(0, s.length - 1) + "енадцать"
-                4, 5, 6, 7, 8, 9 -> s1 = s.substring(0, s.length - 1) + "надцать"
-                else -> s1 = s + "надцать"
-            }
-        }
-        2 -> s1 = "двадцать " + s
-        3 -> s1 = "тридцать " + s
-        4 -> s1 = "сорок " + s
-        5 -> s1 = "пятьдесят " + s
-        6 -> s1 = "шестьдесят " + s
-        7 -> s1 = "семьдесят " + s
-        8 -> s1 = "восемьдесят " + s
-        9 -> s1 = "девяносто " + s
-        0 -> s1 = "" + s
-    }
-    val thous = (n / 100) % 10
-    when (thous) {
-        1 -> s1 = "сто " + s1
-        2 -> s1 = "двести " + s1
-        3 -> s1 = "триста " + s1
-        4 -> s1 = "четыреста " + s1
-        5 -> s1 = "пятьсот " + s1
-        6 -> s1 = "шестьсот " + s1
-        7 -> s1 = "семьсот " + s1
-        8 -> s1 = "восемьсот " + s1
-        9 -> s1 = "девятьсот " + s1
-    }
-    if (a > 3) {
-        val unit1 = (n / 1000) % 10
-        val hundr1 = (n / 10000) % 10
-        if ((unit == 0) && (hundr == 0) && (thous == 0)) {
-            s1 = "тысяч" + s1
-        } else {
-            if (hundr1 != 1) {
-                when (unit1) {
-                    1 -> s1 = "тысяча " + s1
-                    2, 3, 4 -> s1 = "тысячи " + s1
-                    else -> s1 = "тысяч " + s1
-                }
-            } else s1 = "тысяч " + s1
-        }
-        when (unit1) {
-            1 -> r = "одна "
-            2 -> r = "две "
-            3 -> r = "три "
-            4 -> r = "четыре "
-            5 -> r = "пять "
-            6 -> r = "шесть "
-            7 -> r = "семь "
-            8 -> r = "восемь "
-            9 -> r = "девять "
-            0 -> r = ""
-        }
-        when (hundr1) {
-            1 -> {
-                when (unit1) {
-                    4, 5, 6, 7, 8, 9 -> r1 = r.substring(0, r.length - 2) + "надцать "
-                    2, 3 -> r1 = r.substring(0, r.length - 1) + "надцать "
-                    else -> r1 = r.substring(0, r.length - 3) + "иннадцать "
-                }
-            }
-            2 -> r1 = "двадцать " + r
-            3 -> r1 = "тридцать " + r
-            4 -> r1 = "сорок " + r
-            5 -> r1 = "пятьдесят " + r
-            6 -> r1 = "шестьдесят " + r
-            7 -> r1 = "семьдесят " + r
-            8 -> r1 = "восемьдесят " + r
-            9 -> r1 = "девяносто " + r
-            0 -> r1 = "" + r
-        }
-        val thous1 = n / 100000
-        when (thous1) {
-            1 -> r1 = "сто " + r1
-            2 -> r1 = "двести " + r1
-            3 -> r1 = "триста " + r1
-            4 -> r1 = "четыреста " + r1
-            5 -> r1 = "пятьсот " + r1
-            6 -> r1 = "шестьсот " + r1
-            7 -> r1 = "семьсот " + r1
-            8 -> r1 = "восемьсот " + r1
-            9 -> r1 = "девятьсот " + r1
-        }
+    var num = n
+    val units = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val hundrs = listOf("десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val thousands = listOf("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val s = StringBuilder()
+    var last = 0
 
+    var k = 0
+    while (num > 0) {
+        k++
+        val cur = num % 10
+        if (k == 1 && (num / 10) % 10 != 1) {
+            s.append(units[cur - 1])
+            last = cur
+        } else if (k == 2) {
+            if (cur == 1 && last != 0) {
+                when (last) {
+                    1, 3 -> s.append(units[cur - 1] + "надцать")
+                    4, 5, 6, 7, 8, 9 -> s.append(units[cur - 1].substring(0, units[cur - 1].length - 2) + "надцать")
+                    else -> s.append(units[cur - 1].substring(0, units[cur - 1].length - 2) + "енадцать")
+                }
+            } else s.append(hundrs[cur - 1])
+        } else if (k == 3) {
+            s.append(thousands[cur - 1])
+        } else if (k == 4) {
+
+        }
+        num /= 10
     }
-    return r1 + s1
-}
+}*/

@@ -61,8 +61,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     return when {
         s1 >= half -> half / v1
         s1 + s2 >= half -> t1 + (half - s1) / v2
-        s1 + s2 < half -> t1 + t2 + (half - s1 - s2) / v3
-        else -> Double.NaN
+        else -> t1 + t2 + (half - s1 - s2) / v3
     }
 }
 

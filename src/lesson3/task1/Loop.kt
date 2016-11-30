@@ -154,7 +154,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int {
     var a = n
-    var l = digitNumber(n)
+    val l = digitNumber(n)
     var result = 0
     var c = pow(10, l - 1)
     for (i in 1..l) {
@@ -188,16 +188,8 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean {
-    var sum = 0
-    var q = n
-    return digitCountInNumber(q,q%10)!= digitNumber(n)
-    /*for (i in 0..digitNumber(n) - 1) {
-        sum += q % 10
-        q /= 10
-    }
-    return sum != n % 10 * digitNumber(n)*/
-}
+fun hasDifferentDigits(n: Int): Boolean =
+        digitCountInNumber(n, n % 10) != digitNumber(n)
 
 /**
  * Сложная
@@ -215,7 +207,7 @@ fun squareSequenceDigit(n: Int): Int {
         square = element * element
         s = s + digitNumber(square)
     }
-    var ost = s - n
+    val ost = s - n
     for (j in 1..ost) {
         square /= 10
     }
@@ -238,7 +230,7 @@ fun fibSequenceDigit(n: Int): Int {
         number = fib(element)
         s = s + digitNumber(number)
     }
-    var ost = s - n
+    val ost = s - n
     for (j in 1..ost) {
         number /= 10
     }

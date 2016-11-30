@@ -88,21 +88,8 @@ fun dateDigitToStr(digital: String): String {
     try {
         val d1 = parts[0].toInt()
         var m1 = ""
-        when (parts[1]) {
-            "01" -> m1 = m[parts[1].toInt() - 1]
-            "02" -> m1 = m[parts[1].toInt() - 1]
-            "03" -> m1 = m[parts[1].toInt() - 1]
-            "04" -> m1 = m[parts[1].toInt() - 1]
-            "05" -> m1 = m[parts[1].toInt() - 1]
-            "06" -> m1 = m[parts[1].toInt() - 1]
-            "07" -> m1 = m[parts[1].toInt() - 1]
-            "08" -> m1 = m[parts[1].toInt() - 1]
-            "09" -> m1 = m[parts[1].toInt() - 1]
-            "10" -> m1 = m[parts[1].toInt() - 1]
-            "11" -> m1 = m[parts[1].toInt() - 1]
-            "12" -> m1 = m[parts[1].toInt() - 1]
-            else -> return ""
-        }
+        if (parts[1].toInt() in 1..12) m1 = m[parts[1].toInt() - 1]
+        else throw NumberFormatException()
         val y1 = parts[2].toInt()
         return String.format("%d %s %d", d1, m1, y1)
     } catch(e: NumberFormatException) {

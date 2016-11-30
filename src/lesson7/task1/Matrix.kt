@@ -2,7 +2,6 @@
 
 package lesson7.task1
 
-import lesson7.task2.canOpenLock
 
 /**
  * Ячейка матрицы: row = ряд, column = колонка
@@ -55,6 +54,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
     private val list = mutableListOf<E>()
+
     init {
         for (i in 0..height * width - 1) {
             list.add(e)
@@ -62,14 +62,14 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun get(row: Int, column: Int): E {
-        val cellMeaning = list[(row)*width+column]
-        if (row>=0&&column>=0&&row<=height&&column<=width) return cellMeaning else throw IllegalArgumentException()
-     }
+        val cellMeaning = list[(row) * width + column]
+        if (row >= 0 && column >= 0 && row <= height && column <= width) return cellMeaning else throw IllegalArgumentException()
+    }
 
     override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        list[(row)*width+column] = value
+        list[(row) * width + column] = value
     }
 
     override fun set(cell: Cell, value: E) {

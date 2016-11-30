@@ -59,8 +59,10 @@ data class Circle(val center: Point, val radius: Double) {
     fun distance(other: Circle): Double {
         val centerDistance = center.distance(other.center)
         val radiusSum = radius + other.radius
-        return if (centerDistance <= radiusSum) 0.0
-        else centerDistance - radiusSum
+        return when {
+            centerDistance <= radiusSum -> 0.0
+            else -> centerDistance - radiusSum
+        }
     }
 
     /**

@@ -70,25 +70,28 @@ fun dateStrToDigit(str: String): String {
             listDate.add(
             when {
                 parts[0].toInt() in 1..9 -> twoDigitStr(parts[0].toInt())
-                parts[0].toInt() > 32 -> return ""
                 else -> parts[0]
-            })
+            }
+            )
             listDate.add(
-            when (parts[1]) {
-                "января" -> ".01."
-                "февраля" -> ".02."
-                "марта" -> ".03."
-                "апреля" -> ".04."
-                "мая" -> ".05."
-                "июня" -> ".06."
-                "июля" -> ".07."
-                "августа" -> ".08."
-                "сентября" -> ".09."
-                "октября" -> ".10."
-                "ноября" -> ".11."
-                "декабря" -> ".12."
+            when {
+                parts[1] == "января" && parts[0].toInt() < 32 -> ".01."
+                parts[1] == "февраля" && parts[0].toInt() == 29 &&
+                        parts[2].toInt() % 4 == 0-> ".02."
+                parts[1] == "февраля" && parts[0].toInt() < 29 -> ".02."
+                parts[1] == "марта" && parts[0].toInt() < 32 -> ".03."
+                parts[1] == "апреля" && parts[0].toInt() < 31-> ".04."
+                parts[1] == "мая" && parts[0].toInt() < 32 -> ".05."
+                parts[1] == "июня" && parts[0].toInt() < 31 -> ".06."
+                parts[1] == "июля" && parts[0].toInt() < 32 -> ".07."
+                parts[1] == "августа" && parts[0].toInt() < 32 -> ".08."
+                parts[1] == "сентября" && parts[0].toInt() < 31 -> ".09."
+                parts[1] == "октября" && parts[0].toInt() < 32 -> ".10."
+                parts[1] == "ноября" && parts[0].toInt() < 31 -> ".11."
+                parts[1] == "декабря" && parts[0].toInt() < 32 -> ".12."
                 else -> return ""
-            })
+            }
+            )
             listDate.add(parts[2])
         } catch (e: NumberFormatException) {
             return ""
@@ -153,10 +156,10 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val phonefilter = phone.filter { it != ' ' && it != '-' }
-    val phoneResult = Regex("""(?:\+\d+)?(\(\d+\))?\d+""")
-    if (!phoneResult.matches(phonefilter)) return ""
-    return phonefilter.filter { it != '(' && it != ')' }
+    val phoneFilter = phone.filter { it != ' ' && it != '-' }
+    val phoneResult = Regex("""(?:\+\d+)?(?:\(\d+\))?\d+""")
+    if (!phoneResult.matches(phoneFilter)) return ""
+    return phoneFilter.filter { it !in '('..')' }
 }
 
 
@@ -171,13 +174,12 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val parts = jumps.split(" ")
+    val parts = jumps.split(" ").filter {it != ""}
     var max = -1
     try {
         for (part in parts) {
-            if (part == "%" || part == "-" || part == "") {
-                continue
-            } else {
+            if (part == "%" || part == "-") continue
+            else {
                 val number = part.toInt()
                 if (max < number) max = number
             }
@@ -202,15 +204,18 @@ fun bestHighJump(jumps: String): Int {
     var maxhigh = 0
     var count = 0
     val parts = jumps.split(" ")
-    if (parts.size == 1) return -1
-    for (i in 0..parts.size - 1 step 2) {
-        val jumpRegular = Regex("""\d+(\+|\%|\-)+""")
-        if (!jumpRegular.matches(parts[i] + parts[i + 1])) return -1
-        if ('+' in parts[i + 1] && parts[i].toInt() >= maxhigh) {
-            maxhigh = parts[i].toInt()
-            count++
-        }
+    try {
+        for (i in 0..parts.size - 1 step 2) {
+            val jumpRegular = Regex("""\d+[-+%]+""")
+            if (!jumpRegular.matches(parts[i] + parts[i + 1])) return -1
+            if ('+' in parts[i + 1] && parts[i].toInt() >= maxhigh) {
+                maxhigh = parts[i].toInt()
+                count++
+            }
 
+        }
+    } catch (e: IndexOutOfBoundsException){
+        return -1
     }
     if (count > 0) {
         return maxhigh
@@ -230,7 +235,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val sumstr = Regex("""((\d+\ +(\+|\-)\ +)+)?\d+""")
+    val sumstr = Regex("""(?:(\d+\s+[-+]\s+)+)?\d+""")
     try {
         if (!sumstr.matches(expression)) {
             throw IllegalArgumentException("IllegalArgumentException")
@@ -261,11 +266,11 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val parts = str.toLowerCase().split(" ")
+    val parts = str.toLowerCase().split(" ").filter { it != ""}
     val listOfWords = mutableListOf<String>()
     var index = 0
     for (part in parts){
-        if (part != "" ) listOfWords.add(part)
+        listOfWords.add(part)
     }
         for (i in 0..listOfWords.size - 2) {
             if (listOfWords[i] == listOfWords[i + 1]) {
@@ -289,9 +294,9 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     val parts = description.split(" ")
-    val priseRegex = Regex("""\S+\ \d+\.\d+((\;\ \S+\ \d+\.\d+)+)?""")
+    val priceRegex = Regex("""\S+\s\d+\.\d+((\;\s\S+\s\d+\.\d+)+)*""")
     var index = 0
-    if (!priseRegex.matches(description)) {
+    if (!priceRegex.matches(description)) {
         return ""
     } else {
         var max = 0.0

@@ -91,12 +91,12 @@ fun diameter(vararg points: Point): Segment {
         throw IllegalArgumentException("IllegalArgumentException")
     } else {
         for (i in 0..points.size - 1) {
-            for (index in (i + 1)..points.size - 1) {
-                val distansePoints = points[i].distance(points[index])
+            for (j in (i + 1)..points.size - 1) {
+                val distansePoints = points[i].distance(points[j])
                 if (distansePoints > maxdistance) {
                     maxdistance = distansePoints
                     point1 = points[i]
-                    point2 = points[index]
+                    point2 = points[j]
                 }
             }
         }
@@ -110,8 +110,11 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = Circle(Point((diameter.begin.x + diameter.end.x) / 2,
-        (diameter.begin.y + diameter.end.y) / 2), diameter.begin.distance(diameter.end) / 2)
+fun circleByDiameter(diameter: Segment): Circle = Circle(
+        Point(
+                (diameter.begin.x + diameter.end.x) / 2,
+                (diameter.begin.y + diameter.end.y) / 2),
+        diameter.begin.distance(diameter.end) / 2)
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -159,8 +162,11 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x) / 2,
-        (a.y + b.y) / 2), Math.atan((b.y - a.y) / (b.x - a.x)) + Math.PI / 2)
+fun bisectorByPoints(a: Point, b: Point): Line = Line(
+        Point(
+                (a.x + b.x) / 2,
+                (a.y + b.y) / 2),
+        Math.atan((b.y - a.y) / (b.x - a.x)) + Math.PI / 2)
 
 /**
  * Средняя
@@ -169,20 +175,21 @@ fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x) / 2,
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-    var nearestCircle1 = circles[0]
-    var nearestCircle2 = circles[1]
-    var minDistance = circles[0].center.distance(circles[1].center) - circles[0].radius - circles[1].radius
-    if (circles.size <= 1) {
+
+    if (circles.size < 2) {
         throw IllegalArgumentException("IllegalArgumentException")
     } else {
+        var nearestCircle1 = circles[0]
+        var nearestCircle2 = circles[1]
+        var minDistance = circles[0].distance(circles[1])
         for (i in 0..circles.size - 1) {
-            for (index in (i + 1)..circles.size - 1) {
+            for (j in (i + 1)..circles.size - 1) {
                 if (minDistance == 0.0) return Pair(nearestCircle1, nearestCircle2)
-                val LengthCircles = circles[i].distance(circles[index])
-                if (LengthCircles < minDistance) {
-                    minDistance = LengthCircles
+                val lengthCircles = circles[i].distance(circles[j])
+                if (lengthCircles < minDistance) {
+                    minDistance = lengthCircles
                     nearestCircle1 = circles[i]
-                    nearestCircle2 = circles[index]
+                    nearestCircle2 = circles[j]
                 }
             }
         }
@@ -221,32 +228,34 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  */
 fun minContainingCircle(vararg points: Point): Circle {
     var maxTriangleSquare = 0.0
-    var PointTriangleA = Point(0.0, 0.0)
-    var PointTriangleB = Point(0.0, 0.0)
-    var PointTriangleC = Point(0.0, 0.0)
+    var pointTriangleA = Point(0.0, 0.0)
+    var pointTriangleB = Point(0.0, 0.0)
+    var pointTriangleC = Point(0.0, 0.0)
+    if (points.size < 1) throw IllegalArgumentException("IllegalArgumentException")
     if (points.size == 1) return Circle(points[0], 0.0)
     if (points.size == 2) return circleByDiameter(Segment(points[0], points[1]))
-    if (points.size < 1) {
-        throw IllegalArgumentException("IllegalArgumentException")
+    var maxSegment = pointTriangleA.distance(pointTriangleB)
+    for (i in 0..points.size - 1) {
+        for (j in (i + 1)..points.size - 1) {
+            val distancePoints = points[i].distance(points[j])
+            if (distancePoints > maxSegment) {
+                maxSegment = distancePoints
+                pointTriangleA = points[i]
+                pointTriangleB = points[j]
+            }
+        }
+    }
+    for (i in 0..points.size - 1) {
+        val TriangleSquareOfPoints = Triangle(pointTriangleA, pointTriangleB, points[i]).area()
+        if (TriangleSquareOfPoints > maxTriangleSquare) {
+            maxTriangleSquare = TriangleSquareOfPoints
+            pointTriangleC = points[i]
+        }
+    }
+    if (sqr(pointTriangleA.distance(pointTriangleC)) +
+            sqr(pointTriangleB.distance(pointTriangleC)) < sqr(maxSegment)) {
+        return circleByDiameter(Segment(pointTriangleB, pointTriangleA))
     } else {
-        var maxSegment = PointTriangleA.distance(PointTriangleB)
-        for (i in 0..points.size - 1) {
-            for (index in (i + 1)..points.size - 1) {
-                val distancePoints = points[i].distance(points[index])
-                if (distancePoints > maxSegment) {
-                    maxSegment = distancePoints
-                    PointTriangleA = points[i]
-                    PointTriangleB = points[index]
-                }
-            }
-        }
-        for (i in 0..points.size - 1) {
-            val TriangleSquareOfPoints = Triangle(PointTriangleA, PointTriangleB, points[i]).area()
-            if (TriangleSquareOfPoints > maxTriangleSquare) {
-                maxTriangleSquare = TriangleSquareOfPoints
-                PointTriangleC = points[i]
-            }
-        }
-        return circleByThreePoints(PointTriangleA, PointTriangleB, PointTriangleC)
+        return circleByThreePoints(pointTriangleA, pointTriangleB, pointTriangleC)
     }
 }

@@ -1,8 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
 package lesson7.task1
-
-import java.awt.List
-import java.sql.Array
 import java.util.*
 
 /**

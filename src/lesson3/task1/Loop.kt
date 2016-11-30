@@ -139,7 +139,9 @@ fun lcm(m: Int, n: Int): Int = (m * n) / gcd(m, n)
  */
 fun minDivisor(n: Int): Int {
     var i = 2
-    while (n % i != 0) i ++
+    while (n % i != 0){
+        i ++
+    }
     return i
 }
 
@@ -277,11 +279,12 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var numberi = 0
     var number = 0
+    var result = 0
     while (number < n) {
         numberi++
         number += digitNumber(numberi * numberi)
     }
-   var result = numberi * numberi
+   result = numberi * numberi
     for (numberi in n..number - 1) {
         result /= 10
     }
@@ -300,11 +303,12 @@ fun squareSequenceDigit(n: Int): Int {
 fun fibSequenceDigit(n: Int): Int {
     var numberi = 0
     var number = 0
+    var result =0
     while (number < n) {
         numberi ++
         number += digitNumber(fib(numberi))
     }
-    var result = fib(numberi)
+    result = fib(numberi)
     for (i in n..number - 1) {
         result /= 10
     }

@@ -2,8 +2,8 @@
 package lesson2.task2
 
 import lesson1.task1.sqr
-import lesson2.task1.mediumofThree
-import lesson2.task1.minofThree
+import lesson2.task1.mediumOfThree
+import lesson2.task1.minOfThree
 
 /**
  * Пример
@@ -60,8 +60,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val min = minofThree(a.toDouble(), b.toDouble(), c.toDouble())
-    val nor = mediumofThree(a.toDouble(), b.toDouble(), c.toDouble())
+    val min = minOfThree(a.toDouble(), b.toDouble(), c.toDouble())
+    val nor = mediumOfThree(a.toDouble(), b.toDouble(), c.toDouble())
     return (r >= nor && s >= min) || (r >= min && s >= nor)
 }
 

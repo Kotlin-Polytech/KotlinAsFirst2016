@@ -133,7 +133,9 @@ fun mean(list: List<Double>): Double = when(list.size) {
          */
         fun center(list: MutableList<Double>): MutableList<Double> {
     val a = mean(list)
-        for (i in 0..list.size - 1) list[i] = list[i] - a
+        for (i in 0..list.size - 1){
+            list[i] = list[i] - a
+        }
     return list
 }
 
@@ -200,17 +202,17 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    val factorazeList = mutableListOf<Int>()
+    val factorizeList = mutableListOf<Int>()
     var s = n
     var i = 2
     while (s != 1) {
         while (s % i == 0) {
-            factorazeList.add(i)
+            factorizeList.add(i)
             s /= i
         }
         i++
     }
-    return factorazeList
+    return factorizeList
 }
 
 /**
@@ -252,18 +254,18 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val list = convert(n, base).toList()
-    val resListChar = mutableListOf<Char>()
+    val list = convert(n, base)
+    val res = mutableListOf<Char>()
     if (n == 0) {
         return "0"
     } else {
         for (e in list) {
             when {
-                e <= 9 -> resListChar.add('0' + e)
-                else -> resListChar.add('a' + e - 10)
+                e <= 9 -> res.add('0' + e)
+                else -> res.add('a' + e - 10)
             }
         }
-        return resListChar.joinToString("")
+        return res.joinToString("")
     }
 }
 
@@ -300,7 +302,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int {
-    var list = listOf<Int>()
+    val list = mutableListOf<Int>()
     for (e in str)
         if (e in '0'..'9') list += (e - '0').toInt()
         else list += (e - 'a' + 10).toInt()

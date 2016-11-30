@@ -142,6 +142,9 @@ class Tests {
         assertEquals(4, knightMoveNumber(square("h7"), square("f5")))
         assertEquals(4, knightMoveNumber(square("g7"), square("h8")))
         assertEquals(6, knightMoveNumber(square("a8"), square("h1")))
+        assertEquals(4, knightMoveNumber(square("g1"), square("a7")))
+        assertEquals(2, knightMoveNumber(square("f6"), square("f2")))
+        assertEquals(5, knightMoveNumber(square("h8"), square("a2")))
     }
 
     private fun List<Square>.assertKnightTrajectory(start: Square, end: Square, length: Int) {

@@ -29,10 +29,8 @@ fun isNumberHappy(number: Int): Boolean {
     sum2 = number1 % 10
     number1 = number1 / 10
     sum2 = sum2 + number1 % 10
-    if (sum1 == sum2) {
-        return true
-    }
-    return false
+    if (sum1 == sum2) return true
+    else return false
 }
 
 /**
@@ -41,9 +39,8 @@ fun isNumberHappy(number: Int): Boolean {
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    return ( ( x1 == x2 ) || ( y1 == y2 ) || Math.abs( x1 - x2 ) == Math.abs( y1 - y2 ))
-    }
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2) || (y1 == y2) || Math.abs(x1 - x2) == Math.abs(y1 - y2))
+
 
 /**
  * Средняя
@@ -54,9 +51,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean {
-    if ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2) {
-        return true
-    } else return false
+    if ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2) return true
+    else return false
 }
 
 /**
@@ -69,9 +65,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) || ((c <= s) && (a <= r)) || ((c <= r) && (a <= s)) || ((b <= s) && (c <= r)) || ((b <= r) && (c <= s))) {
-        return true
-    } else {
-        return false
-    }
+    if (((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) ||
+            ((c <= s) && (a <= r)) || ((c <= r) && (a <= s)) ||
+            ((b <= s) && (c <= r)) || ((b <= r) && (c <= s))) return true
+    else return false
 }

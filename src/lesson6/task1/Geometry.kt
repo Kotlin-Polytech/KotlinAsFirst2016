@@ -83,19 +83,19 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    var otr = Segment(points[0], points[0])
+    var longest = Segment(points[0], points[0])
     var result1 = -0.0
     for (i in 0..points.size - 2) {
         for (j in 1..points.size - 1) {
-            var result = points[i].distance(points[j])
+            val result = points[i].distance(points[j])
             if (result1 < result) {
                 result1 = result
-                otr = Segment(points[i], points[j])
+                longest = Segment(points[i], points[j])
             }
         }
     }
     if (points.size < 2) throw IllegalArgumentException()
-    return otr
+    return longest
 }
 
 /**
@@ -165,55 +165,58 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val x = a.x + ((b.x - a.x) / 2)
-    val y = a.y + ((b.y - a.y) / 2)
+    val x = a.x + (b.x - a.x) / 2
+    val y = a.y + (b.y - a.y) / 2
     return Line(Point(x, y), (lineByPoints(a, b).angle + Math.PI / 2) % Math.PI)
-}    /**
-     * Средняя
-     *
-     * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
-     * Если в списке менее двух окружностей, бросить IllegalArgumentException
-     */
-    fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-        var otr = Pair(circles[0], circles[0])
-        var result1 = -0.0
-        if (circles.size < 2) throw IllegalArgumentException()
-        for (i in 0..circles.size - 2) {
-            for (j in 1..circles.size - 1) {
-                var result = circles[i].distance(circles[j])
-                if (result1 < result) {
-                    result1 = result
-                    otr = Pair(circles[i], circles[j])
-                }
+}
+
+/**
+ * Средняя
+ *
+ * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
+ * Если в списке менее двух окружностей, бросить IllegalArgumentException
+ */
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    var otr = Pair(circles[0], circles[0])
+    var result1 = -0.0
+    if (circles.size < 2) throw IllegalArgumentException()
+    for (i in 0..circles.size - 2) {
+        for (j in 1..circles.size - 1) {
+            val result = circles[i].distance(circles[j])
+            if (result1 < result) {
+                result1 = result
+                otr = Pair(circles[i], circles[j])
             }
         }
-        return otr
     }
+    return otr
+}
 
-    /**
-     * Очень сложная
-     *
-     * Дано три различные точки. Построить окружность, проходящую через них
-     * (все три точки должны лежать НА, а не ВНУТРИ, окружности).
-     * Описание алгоритмов см. в Интернете
-     * (построить окружность по трём точкам, или
-     * построить окружность, описанную вокруг треугольника - эквивалентная задача).
-     */
-    fun circleByThreePoints(a: Point, b: Point, c: Point): Circle{
-               val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))
-               val radius = center.distance(a)
-        return Circle(center, radius)}
+/**
+ * Очень сложная
+ *
+ * Дано три различные точки. Построить окружность, проходящую через них
+ * (все три точки должны лежать НА, а не ВНУТРИ, окружности).
+ * Описание алгоритмов см. в Интернете
+ * (построить окружность по трём точкам, или
+ * построить окружность, описанную вокруг треугольника - эквивалентная задача).
+ */
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))
+    val radius = center.distance(a)
+    return Circle(center, radius)
+}
 
-    /**
-     * Очень сложная
-     *
-     * Дано множество точек на плоскости. Найти круг минимального радиуса,
-     * содержащий все эти точки. Если множество пустое, бросить IllegalArgumentException.
-     * Если множество содержит одну точку, вернуть круг нулевого радиуса с центром в данной точке.
-     *
-     * Примечание: в зависимости от ситуации, такая окружность может либо проходить через какие-либо
-     * три точки данного множества, либо иметь своим диаметром отрезок,
-     * соединяющий две самые удалённые точки в данном множестве.
-     */
-    fun minContainingCircle(vararg points: Point): Circle = TODO()
+/**
+ * Очень сложная
+ *
+ * Дано множество точек на плоскости. Найти круг минимального радиуса,
+ * содержащий все эти точки. Если множество пустое, бросить IllegalArgumentException.
+ * Если множество содержит одну точку, вернуть круг нулевого радиуса с центром в данной точке.
+ *
+ * Примечание: в зависимости от ситуации, такая окружность может либо проходить через какие-либо
+ * три точки данного множества, либо иметь своим диаметром отрезок,
+ * соединяющий две самые удалённые точки в данном множестве.
+ */
+fun minContainingCircle(vararg points: Point): Circle = TODO()
 

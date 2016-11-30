@@ -104,8 +104,8 @@ fun gcd (a: Int, b: Int): Int {
 }
 
 fun lcm(m: Int, n: Int): Int {
-    var n1 = n
-    var m1 = m
+    val n1 = n
+    val m1 = m
     val prod = m1 * n1
     return prod / gcd(m1,n1)
 }
@@ -217,12 +217,7 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var n2 = n
-    revert(n)
-    if (n2 == revert(n)) return true
-    else return false
-}
+fun isPalindrome(n: Int): Boolean = (n == revert(n))
 
 /**
  * Средняя
@@ -253,13 +248,12 @@ fun length(n: Int): Int = n.toString().length
 
 fun squareSequenceDigit(n: Int): Int {
     var number = 0
-    var result = 0
     var x = 0
     while (number < n) {
         x ++
         number += length( x * x)
     }
-    result = x * x
+    var result = x * x
     (n..number - 1).forEach { x -> result /= 10 }
     return result % 10
 }
@@ -274,13 +268,12 @@ fun squareSequenceDigit(n: Int): Int {
  */
 fun fibSequenceDigit(n: Int): Int {
     var number = 0
-    var result = 0
     var x = 0
     while (number < n) {
-        x += 1
+        x ++
         number += length(fib(x))
     }
-    result = fib(x)
+    var result = fib(x)
     (n..number - 1).forEach { x -> result /= 10 }
     return result % 10
 }

@@ -59,12 +59,13 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     if (parts.size == 3) {
         try {
             val day = parts[0].toInt()
-            val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
             val year = parts[2].toInt()
             if ((day in 1..31) && (parts[1] in months)) {
                 val month = months.indexOf(parts[1]) + 1
@@ -85,7 +86,6 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size == 3) {
         try {
             val day = parts[0].toInt()
@@ -115,7 +115,7 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var result = ""
     for (i in phone) {
-        if ((i.toInt() < 58) && (i.toInt() > 47) || (i.toInt() == 43)) result += i
+        if ((i <= '9' ) && (i >= '0') || (i == '+')) result += i
         else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
     }
     return result
@@ -175,7 +175,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    var parts = expression.split(" ")
+    val parts = expression.split(" ")
     var result = parts[0].toInt()
     if (parts.size > 1) {
         for (i in 2..parts.size step 2) {

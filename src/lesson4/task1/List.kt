@@ -161,7 +161,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
     if (a.size > 0 && b.size > 0) {
         var c: Double = 0.0
         for ((index, element) in a.withIndex()) {
-            c = c + a[index] * b[index]
+            c += element * b[index]
         }
         return c
     } else return 0.0
@@ -177,12 +177,12 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     if (p.size > 0) {
-        var func: Double = p.first()
+        var func = p.first()
         val last = p.size
-        val p1: List<Double> = p.subList(fromIndex = 1, toIndex = last)
+        val p1 = p.subList(fromIndex = 1, toIndex = last)
         for ((index, element) in p1.withIndex()) {
-            var index1: Double = index.toDouble()
-            func += p1[index] * Math.pow(x, index1 + 1)
+            val index1 = index.toDouble()
+            func += element * Math.pow(x, index1 + 1)
         }
         return func
     } else return 0.0
@@ -197,17 +197,17 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-        if (list.size <= 1) {
-            return list
-        } else {
-            var k = 0.0
-            val f=list.size-1
-            for (index in 0..f) {
-                k += list[index]
-                list[index]=k
-            }
-            return list
+    if (list.size <= 1) {
+        return list
+    } else {
+        var k = 0.0
+        val f = list.size - 1
+        for (index in 0..f) {
+            k += list[index]
+            list[index] = k
         }
+        return list
+    }
 }
 
 
@@ -242,7 +242,7 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    return factorize(n).joinToString ( separator = "*")
+    return factorize(n).joinToString(separator = "*")
 }
 
 /**
@@ -254,16 +254,16 @@ fun factorizeToString(n: Int): String {
  */
 fun convert(n: Int, base: Int): List<Int> {
     var n1 = n
-    var result = mutableListOf<Int>()
-    if (n==0) {
-        result.add(0,0)
+    val result = mutableListOf<Int>()
+    if (n == 0) {
+        result.add(0, 0)
         return result
     }
     while (n1 != 0) {
         result.add(0, n1 % base)
         n1 /= base
     }
-    var list1: List<Int> = result
+    val list1: List<Int> = result
     return list1
 }
 
@@ -294,9 +294,11 @@ fun convertToString(n: Int, base: Int): String {
  */
 
 fun decimal(digits: List<Int>, base: Int): Int {
-    var dec = 0
-    for (i in 0..digits.size - 1) dec += (Math.pow(base.toDouble(), i.toDouble()) * digits[digits.size - 1 - i]).toInt()
-    return dec
+    var result: Int = 0
+        for (i in digits) {
+                result = result * base + i
+            }
+        return result
 }
 
 /**

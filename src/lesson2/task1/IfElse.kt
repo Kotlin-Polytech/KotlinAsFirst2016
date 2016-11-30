@@ -54,19 +54,19 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    var semiLengthS = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    val semiLengthS = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     if (semiLengthS < t1 * v1) {
-        var semiT = semiLengthS / v1
+        val semiT = semiLengthS / v1
         return semiT
     }
     if (semiLengthS == t1 * v1) return t1
     if ((semiLengthS > t1 * v1) && (semiLengthS < t1 * v1 + t2 * v2)) {
-        var semiT = ((semiLengthS - t1 * v1) / v2) + t1
+        val semiT = ((semiLengthS - t1 * v1) / v2) + t1
         return semiT
     }
     if (semiLengthS == (t2 * v2 + t1 * v1)) return t2 + t1
     if (semiLengthS > t2 * v2) {
-        var semiT = ((semiLengthS - t1 * v1 - t2 * v2) / v3) + t1 + t2
+        val semiT = ((semiLengthS - t1 * v1 - t2 * v2) / v3) + t1 + t2
         return semiT
     }
     return 0.0
@@ -84,17 +84,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    if (((rookX1 == kingX) || (rookY1 == kingY)) && ((rookX2 == kingX) || (rookY2 == kingY))) {
-        return 3
+    if ((rookX1 == kingX) || (rookY1 == kingY))  {
+        if ((rookX2 != kingX) && (rookY2 != kingY)) return 1
+        else return 3
     }
-    if (((rookX1 != kingX) && (rookY1 != kingY)) && ((rookX2 == kingX) || (rookY2 == kingY))) {
-        return 2
-    }
-    if (((rookX1 == kingX) || (rookY1 == kingY)) && ((rookX2 != kingX) && (rookY2 != kingY))) {
-        return 1
-    }
-    if (((rookX1 != kingX) && (rookY1 != kingY)) && ((rookX2 != kingX) && (rookY2 != kingY))) {
-        return 0
+    if ((rookX1 != kingX) && (rookY1 != kingY)) {
+        if ((rookX2 == kingX) || (rookY2 == kingY)) return 2
+        else return 0
     }
     return 0
 }

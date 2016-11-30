@@ -190,14 +190,11 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val list = str.toLowerCase().split(" ")
-    for (i in 0..list.size - 2) {
-        if (list[i] == list[i + 1]) {
-            val point = list.subList(0, i)
-            return point.joinToString(" ").length + 1
-        }
-    }
-    return -1
+    val lowerCase = str.toLowerCase()
+    if (Regex("""(?<!\S)(\S+)\s\1(?!\S)""").containsMatchIn(lowerCase)) {
+        val index = Regex("""(?<!\S)(\S+)\s\1(?!\S)""").find(lowerCase)?.value ?:-1
+                return lowerCase.indexOf(index.toString())
+    } else return -1
 }
 
 /**

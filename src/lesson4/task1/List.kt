@@ -265,7 +265,7 @@ fun convertToString(n: Int, base: Int): String {
     val str :StringBuilder = StringBuilder()
     if (number == 0) return "0"
     while (number != 0) {
-        str.append(reference[number % base])
+        val append = str.append(reference[number % base])
         number /= base
     }
     return str.toString().reversed()

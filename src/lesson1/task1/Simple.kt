@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -62,7 +63,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-        sagenes  *48 * 4.445 / 100 + arshins * 16 * 4.445 / 100 + vershoks * 4.445 / 100
+        sagenes * 48 * 4.445 / 100 + arshins * 16 * 4.445 / 100 + vershoks * 4.445 / 100
 
 /**
  * Тривиальная
@@ -71,6 +72,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + (min / 60.0) + (sec / 3600.0)) / 180.0 * Math.PI
+
 /**
  * Тривиальная
  *
@@ -112,4 +114,28 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = (initial * pow(1 +
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = (number % 10 ) * 100 + (number / 10 % 10) * 10 + number / 100
+fun numberRevert(number: Int): Int = (number % 10) * 100 + (number / 10 % 10) * 10 + number / 100
+
+fun myFun(people: List<String>): MutableList<String> {
+    val result = mutableListOf<String>()
+    var colors = listOf<String>()
+    for (i in 0..people.size - 1) {
+        val person = people[i]
+        val parts = person.split(" #")
+        val color = parts[1]
+        for (i in 0..color.length - 1){
+            if ((color[i] in '0'..'9') && (color[i] in 'A'..'F')) else throw IllegalArgumentException()
+        }
+        colors += color
+    }
+    for (i in 0..people.size - 1) {
+        val person = people[i]
+        val parts = person.split(" #")
+        var k = 0
+        for (j in 0..colors.size - 1) {
+            if (parts[1] == colors[j]) k ++
+        }
+        if (k == 1) result.add("#" + parts[1] + " -> " + parts[0])
+    }
+    return result
+}

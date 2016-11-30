@@ -122,7 +122,7 @@ data class Line(val point: Point, val angle: Double) {
      */
     fun crossPoint(other: Line): Point { //еще не решена
         val x = when {
-            (Math.cos(angle) == Math.cos(Math.PI / 2)) -> point.x
+            (Math.cos(angle) - Math.cos(Math.PI / 2) < 1e-10) -> point.x
             (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
             else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
                     (Math.tan(angle) - Math.tan(other.angle))
@@ -159,7 +159,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    return if (Math.abs(a.x - b.x) > Math.pow(10.0, -10.0)) Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), Math.PI / 2 + Math.atan(Math.abs((a.y - b.y) / (a.x - b.x))))
+    return if (Math.abs(a.x - b.x) > 1e-10) Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), Math.PI / 2 + Math.atan(Math.abs((a.y - b.y) / (a.x - b.x))))
     else Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), 0.0)
 }
 

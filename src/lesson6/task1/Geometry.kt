@@ -112,7 +112,7 @@ fun lineBySegment(s: Segment): Line = TODO()
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = Line(a,Math.atan((a.x - b.x) / (a.y - b.y)))
+fun lineByPoints(a: Point, b: Point): Line = Line(a,Math.atan((a.y - b.y) / (a.x - b.x)))
 
 /**
  * Сложная
@@ -122,7 +122,7 @@ fun lineByPoints(a: Point, b: Point): Line = Line(a,Math.atan((a.x - b.x) / (a.y
 
 fun bisectorByPoints(a: Point, b: Point): Line =
         Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2),
-                Math.abs(Math.atan((a.x - b.x) / (a.y - b.y))))
+                Math.abs(Math.atan2((a.y - b.y),(a.x - b.x))) - (Math.PI)/2)
 /**
  * Средняя
  *

@@ -5,6 +5,7 @@ package lesson6.task2
 import lesson8.task1.alignFile
 import java.util.*
 import lesson6.task1.*
+import lesson6.task3.Graph
 import lesson8.task1.centerFile
 import java.lang.Math.*
 
@@ -212,11 +213,11 @@ fun kingMoveNumber(start: Square, end: Square): Int {
     val rowDistance = abs(start.row - end.row)
     val columnDistance = abs(start.column - end.column)
     val result = when {
-        rowDistance == columnDistance   ->  abs(start.column - end.column)
-        rowDistance == 0                ->  abs(start.column - end.column)
-        columnDistance == 0             ->  abs(start.row - end.row)
-        rowDistance > columnDistance    ->  rowDistance
-        else                            ->  columnDistance
+        rowDistance == columnDistance -> abs(start.column - end.column)
+        rowDistance == 0 -> abs(start.column - end.column)
+        columnDistance == 0 -> abs(start.row - end.row)
+        rowDistance > columnDistance -> rowDistance
+        else -> columnDistance
     }
     return result
 }
@@ -297,7 +298,65 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun knightMoveNumber(start: Square, end: Square): Int = TODO()
+
+//СОЗДАЕМ ГРАФ С ХОДАМИ КОНЯ
+fun chessGraph(): Graph {
+    val chessGraph = Graph()
+    //СОЗДАЕМ ШАХМАТНУЮ ДОСКУ
+    for (row in 8 downTo 1) {
+        for (column in 'a'..'h') {
+            chessGraph.addVertex("$column$row")
+        }
+    }
+    //СОЕДИНЯЕМ ВСЕ КЛЕТКИ ШАХМАТНОЙ ДОСКИ С ВОЗМОЖНЫМИ ХОДАМИ КОНЯ
+    for (row in 8 downTo 1) {
+        for (column in 'a'..'h') {
+
+            val rowOne = row - 1
+            val rowTwo = row - 2
+            //ДЛЯ СТРОК ОТ 3 ДО 8
+            if (row > 2) {
+                //УЧИТЫВАЕМ ГРАНИЦЫ СПРАВА
+                if (column < 'h') {
+                    val column2 = column + 1
+                    chessGraph.connect("$column$row", "$column2$rowTwo")
+                    if (column < 'g') {
+                        val column3 = column + 2
+                        chessGraph.connect("$column$row", "$column3$rowOne")
+                    }
+                }
+                //УЧИТЫВАЕМ ГРАНИЦЫ СЛЕВА
+                if (column > 'a') {
+                    val column4 = column - 1
+                    chessGraph.connect("$column$row", "$column4$rowTwo")
+                    if (column > 'b') {
+                        val column5 = column - 2
+                        chessGraph.connect("$column$row", "$column5$rowOne")
+                    }
+                }
+            }
+            //ДЛЯ ВТОРОГО РЯДА
+            if (row == 2) {
+                if (column < 'g') {
+                    val column3 = column + 2
+                    chessGraph.connect("$column$row", "$column3$rowOne")
+                }
+                if (column > 'b') {
+                    val column5 = column - 2
+                    chessGraph.connect("$column$row", "$column5$rowOne")
+                }
+            }
+        }
+    }
+    return chessGraph
+}
+
+
+fun knightMoveNumber(start: Square, end: Square): Int {
+    if (start.row !in 1..8 || end.column !in 1..8) throw IllegalArgumentException()
+    val graph =  chessGraph()
+    return graph.bfs(start.notation(), end.notation())
+}
 
 /**
  * Очень сложная
@@ -320,3 +379,13 @@ fun knightMoveNumber(start: Square, end: Square): Int = TODO()
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun knightTrajectory(start: Square, end: Square): List<Square> = TODO()
+//В ПРОЦЕССЕ...
+/*
+fun knightTrajectory(start: Square, end: Square): List<Square> {
+    if (start.row !in 1..8 || end.column !in 1..8) throw IllegalArgumentException()
+    val graph =  chessGraph()
+    val result = graph.bfsTrajectory(start.notation(), end.notation())
+    return result.map { square(it) }
+}
+*/
+

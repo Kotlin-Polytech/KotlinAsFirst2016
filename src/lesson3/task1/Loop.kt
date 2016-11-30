@@ -92,13 +92,13 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var x = 1
-    var y = 0
+    var support1 = 1
+    var support2 = 0
     var result = 0
     for (i in 1..n) {
-        result = x + y
-        x = y
-        y = result
+        result = support1 + support2
+        support1 = support2
+        support2 = result
     }
     return result
 }
@@ -252,7 +252,15 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var x = 1
+    var str = ""
+    while (str.length < n) {
+        str += x * x
+        x++
+    }
+    return str[n - 1].toInt() - 48
+}
 
 /**
  * Сложная
@@ -261,4 +269,12 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var i = 1
+    var str = ""
+    while (str.length < n) {
+        str += fib(i)
+        i++
+    }
+    return str[n - 1].toInt() - 48
+}

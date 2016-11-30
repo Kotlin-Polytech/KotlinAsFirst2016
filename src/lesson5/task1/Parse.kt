@@ -81,11 +81,13 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = if (digital.matches(Regex("""\d{2}\.\d{2}\.\d+"""))) digital.split(".") else return ""
-    val day = if (parts[0].toInt() in 1..31) parts[0].toInt() else return ""
-    val monthNum = if (parts[1].toInt() in 1..12) parts[1].toInt() - 1 else return ""
-    val month = listOfMonths[monthNum]
+    val day = parts[0].toInt()
+    val monthNum = if (parts[1].toInt() in 1..12) parts[1].toInt() else return ""
+    val month = listOfMonths[monthNum - 1]
     val year = parts[2].toInt()
-    return String.format("%d %s %d", day, month, year)
+    return if (day in 1..31) {
+        String.format("%d %s %d", day, month, year)
+    } else ""
 }
 
 /**
@@ -171,16 +173,12 @@ fun plusMinus(expression: String): Int {
     var result = 0
     if (expression.matches(Regex("""[\d +-]+"""))) {
         val parts = expression.split(" ")
-        result += parts[0].toInt()
+        result += if (parts[0] != "-" || parts[0] != "+") parts[0].toInt() else throw IllegalArgumentException()
         for (i in 1..parts.size - 1 step 2) {
-            if (parts[i + 1] != "+" || parts[i + 1] != "-") {
+            if (parts[i + 1].matches(Regex("""\d+"""))) {
                 if (parts[i] == "-") result -= parts[i + 1].toInt()
                 else if (parts[i] == "+") result += parts[i + 1].toInt()
             } else throw IllegalArgumentException()
-        }
-        for (i in 0..parts.size - 2 step 2) {
-            if (parts[i].matches(Regex("""\d+""")) && parts[i + 1].matches(Regex("""\d+""")))
-                throw IllegalArgumentException()
         }
     } else throw IllegalArgumentException()
     return result

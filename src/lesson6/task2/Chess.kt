@@ -42,13 +42,8 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     if (notation.length != 2) throw IllegalArgumentException()
     val x = if (notation[0] in 'a'..'h') notation[0] else throw IllegalArgumentException()
-    val y = if (notation[1] in '1'..'8') notation[1].toString().toInt() else throw IllegalArgumentException()
-    var xInt = 0
-    for (element in letters) {
-        if (x == letters[letters.indexOf(element)]) {
-            xInt = letters.indexOf(element) + 1
-        }
-    }
+    val y = if (notation[1] in '1'..'8') notation[1].toInt() - 48 else throw IllegalArgumentException()
+    val xInt = letters.indexOf("$x") + 1
     return Square(xInt, y)
 }
 
@@ -158,7 +153,23 @@ fun bishopMoveNumber(start: Square, end: Square): Int =
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> =
+        when (bishopMoveNumber(start, end)) {
+            0 -> listOf(start)
+            1 -> listOf(start, end)
+            2 -> {
+                val deltaX = abs(end.column - start.column)
+                val deltaY = abs(end.row - start.row)
+                val delta = (deltaX + deltaY) / 2
+                var medium = when {
+                    (start.row < end.row) -> Square(start.column + delta, start.row + delta)
+                    else -> Square(start.column - delta, start.row - delta)
+                }
+                if (!medium.inside()) medium = Square(delta, start.row + delta)
+                listOf(start, medium, end)
+            }
+            else -> listOf()
+        }
 
 /**
  * Средняя

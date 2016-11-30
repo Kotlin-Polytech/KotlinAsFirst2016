@@ -2,6 +2,7 @@
 
 package lesson7.task2
 
+import lesson4.task1.squares
 import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix

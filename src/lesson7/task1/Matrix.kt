@@ -89,11 +89,11 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
         for (row in 0..height - 1) {
             sb.append("[")
             for (column in 0..width - 1) {
-                sb.append(this[row, column])
-                if (column != width - 1) sb.append(",")
+                sb.append(this[row, column], ",")
             }
-            sb.append("]")
-            if (row != height - 1) sb.append(",")
+            sb.deleteCharAt(width - 1)
+            sb.append("],")
+            sb.deleteCharAt(height - 1)
         }
         sb.append("]")
         return "$sb"

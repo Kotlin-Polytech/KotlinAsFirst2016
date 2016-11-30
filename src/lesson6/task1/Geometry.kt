@@ -112,15 +112,17 @@ fun lineBySegment(s: Segment): Line = TODO()
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = Line(a,Math.atan((a.x - b.x) / (a.y - b.y)))
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
 
+fun bisectorByPoints(a: Point, b: Point): Line =
+        Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2),
+                Math.abs(Math.atan((a.x - b.x) / (a.y - b.y))))
 /**
  * Средняя
  *

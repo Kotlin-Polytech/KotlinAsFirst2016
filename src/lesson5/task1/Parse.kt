@@ -134,10 +134,8 @@ fun firstDuplicateIndex(str: String): Int{
     var rez = 0
     for (i in 0..words.size-2) {
         if (words[i].equals(words[i+1])){
-            for(j in 0..i-1)
-                rez+= words[j].length + 1
-            return rez
-        }
+            return rez }
+        rez+= words[i].length + 1
     }
     return -1
 }

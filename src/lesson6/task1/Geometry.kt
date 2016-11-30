@@ -82,8 +82,8 @@ data class Segment(val begin: Point, val end: Point)
  */
 fun diameter(vararg points: Point): Segment {
     if (points.size > 1) {
-        val x = points.sumByDouble { it.x } / points.size
-        val y = points.sumByDouble { it.y } / points.size
+        val x = points.sumByDouble { it.x } / points.size.toDouble()
+        val y = points.sumByDouble { it.y } / points.size.toDouble()
         val center = Point(x , y)
         var first = points.maxBy { it.distance(center) } ?: Point(0.0, 0.0)
         var second = points.maxBy { it.distance(first) } ?: Point(0.0, 0.0)

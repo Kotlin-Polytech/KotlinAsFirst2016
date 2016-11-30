@@ -35,21 +35,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    if (age <= 10) {
-        if (age == 1) return "$age год" else
-            if (age in 2..4) return "$age года" else return "$age лет"
-    }
-    if ((age > 10) && (age <= 100)) {
-        if (age in 11..20) return "$age лет" else
-            if ((age % 10) == 1) return "$age год" else
-                if ((age % 10) in 2..4) return "$age года" else return "$age лет"
-    }
-    if (age > 100) {
-        if (age in 111..120) return "$age лет" else
-            if ((age % 10) == 1) return "$age год" else
-                if ((age % 10) in 2..4) return "$age года" else return "$age лет"
-    }
-    return "More 200 yaer"
+    if ((age == 1) || ((age > 20) && ((age % 10) == 1))) return "$age год"
+    else if ((age in 2..4) || ((age > 20) && ((age % 10) in 2..4))) return "$age года"
+    else if ((age in 11..20) || (age in 111..120)) return "$age лет"
+    else return "$age лет"
 }
 
 /**
@@ -62,9 +51,9 @@ fun ageDescription(age: Int): String {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val halfAllWay = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     val firstPartWay = t1 * v1
-    val secondPartWay = t1 * v1 + t2 * v2
+    val secondPartWay = firstPartWay + t2 * v2
+    val halfAllWay = (secondPartWay + t3 * v3) / 2
     return when {
         halfAllWay < firstPartWay -> halfAllWay / v1
         halfAllWay < secondPartWay -> ((halfAllWay - firstPartWay) / v2) + t1

@@ -44,10 +44,8 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if (notation.isNotEmpty()) {
-        if ((notation.first() in 'a'..'h') && (notation.last() in '1'..'8') && (notation.length == 2)) {
-            return Square(ALF.indexOf(notation.first() + 1), (notation.last().toInt() - ('0').toInt()))
-        } else throw IllegalArgumentException()
+    if ((notation.length == 2) && (notation.first() in 'a'..'h') && (notation.last() in '1'..'8')) {
+        return Square(ALF.indexOf(notation.first()) + 1, notation.last().toInt() - ('0').toInt())
     } else throw IllegalArgumentException()
 }
 
@@ -76,11 +74,13 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
+    if ((start.column in 1..8) && (start.row in 1..8) && (end.column in 1..8) && (end.row in 1..8)) {
         return when {
             start == end -> 0
             (start.column == end.column) || (start.row == end.row) -> 1
             else -> 2
         }
+    } else throw IllegalArgumentException()
 }
 
 /**

@@ -65,7 +65,7 @@ fun <E> Matrix<E>.findMoves(cell: Cell): List<Cell> {
     }
     return list
 }
-fun <E> Matrix<E>.copy(): Matrix<E> {
+fun <E> Matrix<E>.copyN(): Matrix<E> {
     val m = createMatrix(height, width, this[0,0])
     for (i in 0..height - 1)
         for (j in 0..width - 1)
@@ -514,7 +514,7 @@ fun search(prev: Matrix<Int>, moved: Matrix<Int>, g: Int, bound: Int): Boolean {
     }
     val zero = moved.indexOf(0)
     for (n in moved.findMoves(zero)) {
-        val new = moved.copy()
+        val new = moved.copyN()
         new.swap(n, zero)
         if (new != prev) {
             val res = search(moved, new, g + 1, bound)
@@ -564,7 +564,7 @@ fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
         val zero = next.indexOf(0)
         val moves = mutableMapOf<Matrix<Int>, Int>()
         for (move in next.findMoves(zero)) {
-            val n = next.copy()
+            val n = next.copyN()
             n.swap(zero, move)
 
             if (n in visited) continue

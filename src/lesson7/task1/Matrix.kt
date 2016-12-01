@@ -40,6 +40,9 @@ interface Matrix<E> {
     operator fun get(row: Int, column: Int): E
     operator fun get(cell: Cell): E
 
+    fun getColumn(index: Int): Array<E>
+    fun getRow(index: Int): Array<E>
+
     /**
      * Запись в ячейку.
      * Методы могут бросить исключение, если ячейка не существует
@@ -67,22 +70,13 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
 
-    private var storage = mutableListOf<MutableList<E>>()
+    private fun createRow(length: Int, e: E) = Array<Any?>(length) { j -> e }
 
-    init {
-        for (i in 0..height - 1) {
-            val tempStorage = mutableListOf<E>()
-            for (j in 0..width - 1) {
-                tempStorage.add(e)
-            }
-            storage.add(tempStorage)
-        }
-        println()
-    }
+    private var storage = Array(height) { i -> createRow(width, e) }
 
-    override fun get(row: Int, column: Int): E  = storage[row][column]
+    override fun get(row: Int, column: Int): E  = storage[row][column] as E
 
-    override fun get(cell: Cell): E  = storage[cell.row][cell.column]
+    override fun get(cell: Cell): E  = storage[cell.row][cell.column] as E
 
     override fun set(row: Int, column: Int, value: E) {
         if (row !in 0..height - 1 || column !in 0..width - 1) return
@@ -133,5 +127,13 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
         return stringStorage.toString()
     }
+
+    override fun getColumn(index: Int): Array<E> {
+        val result = createRow(height, storage.first().first() as E)
+        for (i in 0..height - 1) result[i] = storage[i][index]
+        return result as Array<E>
+    }
+
+    override fun getRow(index: Int): Array<E> = storage[index] as Array<E>
 }
 

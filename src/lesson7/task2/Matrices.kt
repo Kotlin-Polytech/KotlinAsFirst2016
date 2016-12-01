@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -62,36 +63,38 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
 
 fun matrixMin(field: Matrix<Int>): Int {
     var minimum = field[0, 0]
-    for (i in 0..field.height) {
-        for (j in 0..field.width) {
+    for (i in 0..field.height - 1) {
+        for (j in 0..field.width - 1) {
             if (minimum > field[i, j]) minimum = field[i, j]
         }
     }
     return minimum
 }
 
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
-/*
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var field = createMatrix(height, width, 0)
-    println(field) // DEBUG
 
     var i = 0
     var j = 0
     var spiralNumber = 1
-    while(matrixMin(field) == 0) {
+    while (matrixMin(field) == 0) {
         while (field.width > j && field[i, j] == 0) field[i, j++] = spiralNumber++ // Вправо
         --j
+        ++i
         while (field.height > i && field[i, j] == 0) field[i++, j] = spiralNumber++ // Вверх
         --i
-        while (j > 0 && field[i, j] == 0) field[i, j--] = spiralNumber++ // Влево
+        --j
+        while (j >= 0 && field[i, j] == 0) field[i, j--] = spiralNumber++ // Влево
         ++j
-        while (i > 0 && field[i, j] == 0) field[i--, j] = spiralNumber++ // Вниз
+        --i
+        while (i >= 0 && field[i, j] == 0) field[i--, j] = spiralNumber++ // Вниз
         ++i
+        ++j
     }
 
     return field
 }
-*/
+
 
 /**
  * Сложная
@@ -150,7 +153,31 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    val D = matrix.height
+
+    for (i in 0..D - 1) {
+        // Пихаю в Set по одной строке и одному столбцу
+        val row = mutableSetOf<Int>()
+        val column = mutableSetOf<Int>()
+        for(j in 0..D - 1) {
+            row.add(matrix[j, i])
+            column.add(matrix[i, j])
+        }
+
+        println(column)
+        println(row)
+
+        if (
+            column.any { it !in 1..D } ||
+            row.any { it !in 1..D } ||
+            column.size != D ||
+            row.size != D
+        ) return false
+    }
+    return true
+}
 
 /**
  * Средняя

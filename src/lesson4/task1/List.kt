@@ -211,7 +211,7 @@ fun convert(n: Int, base: Int): List<Int> {
     var num: Int = n
     val list = mutableListOf<Int>()
     while (num >= base) {
-        list.add(num%base)
+        list.add(num % base)
         num /= base
     }
     list.add(num)
@@ -329,6 +329,7 @@ fun hundreds(n: Int): String =
     }
 fun keyword(n: Int): String =
     when {
+        n == 0 -> ""
         ((n%100 in 4..20) || n%10 == 0 || n%10 > 4) ->  "тысяч"
         n%10 == 1 -> "тысяча"
         else -> "тысячи"
@@ -344,10 +345,9 @@ fun russian(n: Int): String {
     list.add(hundreds(thousands / 100))
     list.add(tens(thTens))
     if (thTens !in 11..19) list.add(points(thousands % 10, true))
-    if (thousands != 0) list.add(keyword(thousands))
+    list.add(keyword(thousands))
     list.add(hundreds(remainder / 100))
     list.add(tens(remTens))
     if (remTens !in 11..19) list.add(points(remainder % 10, false))
-    list.removeAll { it == "" }
-    return list.joinToString (separator=" ")
+    return list.filter { it != "" }.joinToString (separator = " ")
 }

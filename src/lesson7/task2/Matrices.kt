@@ -1,13 +1,15 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson7.task2
 
-import com.sun.org.apache.xpath.internal.operations.Bool
 import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 import java.lang.Math.*
+import java.util.*
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
+
+//Extensions of Cell data class
 // По-нормальноу это должен быть статический параметр класса, но са класс Cell я менять не могу
 val NOT_EXISTS = Cell(-1, -1)
 
@@ -17,7 +19,7 @@ fun Cell.near(other: Cell): Boolean {
             (abs(this.row - other.row) == 1 && this.column - other.column == 0)
 }
 
-
+//Extensions of Matrix class
 fun <E> Matrix<E>.getRow(row: Int): List<E> =
         if (row in 0..height - 1) (0..width - 1).map { this[row, it] } else throw IllegalArgumentException("Index out of bounds: $row")
 
@@ -54,6 +56,21 @@ fun <E> Matrix<E>.swap(first: Cell, second: Cell) {
         this[first] = this[second]
         this[second] = tmp
     } else throw IllegalArgumentException("No suck Cells in Matrix")
+}
+fun <E> Matrix<E>.findMoves(cell: Cell): List<Cell> {
+    val list: MutableList<Cell> = mutableListOf()
+    (-1..0).forEach {
+        if (this.contains(cell.row + it, cell.column + it + 1)) list.add(Cell(cell.row + it, cell.column + it + 1))
+        if (this.contains(cell.row + it + 1, cell.column + it)) list.add(Cell(cell.row + it + 1, cell.column + it))
+    }
+    return list
+}
+fun <E> Matrix<E>.copy(): Matrix<E> {
+    val m = createMatrix(height, width, this[0,0])
+    for (i in 0..height - 1)
+        for (j in 0..width - 1)
+            m[i,j] = this[i,j]
+    return m
 }
 /**
  * Пример
@@ -455,4 +472,110 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
  *
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
-fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+//Я взял ваше решение, так как мне нужно создать 2 матрицы, которые будут являться решенияи
+fun createFilledMatrix(height: Int, width: Int, values: List<List<Int>>): Matrix<Int> {
+    val matrix = createMatrix(height, width, values[0][0])
+    for (row in 0..height - 1) {
+        for (column in 0..width - 1) {
+            matrix[row, column] = values[row][column]
+        }
+    }
+    return matrix
+}
+val solution1 = createFilledMatrix(4,4, listOf(listOf(1, 2, 3, 4),
+        listOf(5, 6, 7, 8),
+        listOf(9, 10, 11, 12),
+        listOf(13, 14, 15, 0)))
+val solution2 = createFilledMatrix(4,4, listOf(listOf(1, 2, 3, 4),
+        listOf(5, 6, 7, 8),
+        listOf(9, 10, 11, 12),
+        listOf(13, 15, 14, 0)))
+
+fun h(matrix: Matrix<Int>): Int {
+    var n = 0
+    for (i in 0..3)
+        for (j in 0..3)
+            if (matrix[i,j] != 0)
+                if (matrix[i,j] != i * 4 + j + 1)
+                    n += abs(matrix[i,j] / 4 - i) + abs(matrix[i,j] % 4 - j - 1)
+    return n
+}
+
+fun search(prev: Matrix<Int>, moved: Matrix<Int>, g: Int, bound: Int): Boolean {
+    val h = h(moved)
+    val f = g + h
+    if (h == 0) {
+        println("Found: $moved")
+        return true
+    }
+    if (f > bound) {
+        if (min > f) min = f
+        return false
+    }
+    val zero = moved.indexOf(0)
+    for (n in moved.findMoves(zero)) {
+        val new = moved.copy()
+        new.swap(n, zero)
+        if (new != prev) {
+            val res = search(moved, new, g + 1, bound)
+            if (res) {
+                return true
+            }
+        }
+    }
+    return false
+}
+var min = Int.MAX_VALUE
+
+fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
+    var N = 0
+    val list = mutableListOf<Int>()
+    for (i in 0..3)
+        list += matrix.getRow(i)
+    for (i in 0..15)
+        if (list[i] != 0) {
+            for (j in 0..i - 1)
+                if (list[j] > list[i])
+                    N++
+        } else N += 1 + i / 4
+    val solution = if (N % 2 == 0) solution1 else solution2
+    println("Solution: \r\n $solution")
+
+    /* Попытка IDA* */
+    /*
+    var bound = h(matrix)
+    while (bound <= 50) {
+        val res = search(matrix, matrix, 0, bound)
+        bound = min
+        if (res) break
+    }
+    */
+    // Попытка A* + поиск в шиину
+    val queue = ArrayDeque<Matrix<Int>>()
+    queue.add(matrix)
+
+    val visited = mutableMapOf(matrix to 0)
+    while (queue.isNotEmpty()) {
+        val next = queue.poll()
+        val distance = visited[next]!!
+        if (next == solution) {
+            break
+        }
+        val zero = next.indexOf(0)
+        val moves = mutableMapOf<Matrix<Int>, Int>()
+        for (move in next.findMoves(zero)) {
+            val n = next.copy()
+            n.swap(zero, move)
+
+            if (n in visited) continue
+            println("Swapped: ${n[zero]} and ${n[move]} / $distance; Estimate = ${h(n)}")
+            visited.put(n, distance + 1)
+            moves.put(n, distance + h(n))
+            //queue.add(n)
+        }
+        queue.add(moves.minBy { it.value }?.key ?: throw IllegalStateException("No moves? $next"))
+
+    }
+
+    return listOf()
+}

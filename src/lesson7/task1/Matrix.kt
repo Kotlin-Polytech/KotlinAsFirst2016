@@ -93,11 +93,13 @@ class MatrixImpl<E> : Matrix<E> {
         other.width == this.width && other.cells == this.cells
 
     override fun hashCode(): Int {
-        val primal = 31
+        val primal = 7
         var result = 1
         result = result * primal + height
         result = result * primal + width
-        cells.forEach { it.forEach { result += it?.hashCode() ?: 0 } }
+        for (i in 0..height - 1)
+            for (j in 0..width - 1)
+                result += (cells[i][j]?.hashCode() ?: 0) * ((i + 1) * width + j + 1)
         return result
     }
 

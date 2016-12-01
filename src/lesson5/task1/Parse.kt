@@ -134,11 +134,10 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-    if (phone.matches(Regex("^[+]?[-()0-9 ]+"))){
-        return phone.replace(Regex("[-() ]+"),"")
-    } else return ""
-}
+fun flattenPhoneNumber(phone: String): String =
+    if (phone.matches(Regex("""^\+?[-()0-9 ]+"""))){
+        phone.replace(Regex("[-() ]+"), "")
+    } else ""
 
 /**
  * Средняя
@@ -150,11 +149,11 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
+fun bestLongJump(jumps: String): Int =
     if(jumps.matches(Regex("[-%0-9 ]+"))){
-        return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
-    } else return -1
-}
+        Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
+    } else -1
+
 /**
  * Сложная
  *
@@ -165,11 +164,10 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
-    if(jumps.matches(Regex("[-+%[0-9] ]+"))){
-        return Regex("([0-9]+) [%-]*[+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
-    } else return -1
-}
+fun bestHighJump(jumps: String): Int =
+    if (jumps.matches(Regex("[-+%[0-9] ]+"))){
+        Regex("([0-9]+) [%-]*[+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
+    } else -1
 
 /**
  * Сложная
@@ -184,7 +182,7 @@ fun plusMinus(expression: String): Int {
     //Пробелы я убираю, чтобы правильно парсить число.
     //Как вообще работает метод trim()? Почему, когда я применяю его к строке, ничего не происходит?
     //По идее он же должен убирать все пробельные символы.
-    if (expression.matches(Regex("""^([0-9]+)(\s+[-+]\s+[0-9]+)*"""))) {
+    if (expression.matches(Regex("""^(?:[0-9]+)(?:\s+[-+]\s+[0-9]+)*"""))) {
         return Regex("[-+]?[0-9]+").findAll(expression.replace(" ","")).sumBy { it.value.toInt() }
     } else throw java.lang.IllegalArgumentException()
 }
@@ -199,19 +197,11 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var found = false
-    var last = " "
-    var passed = 0
-    for (w in str.split(' ')) {
-        if (w.toLowerCase() == last && w != " ") {
-            found = true
-            passed -= (w.length + 1)
-            break
-        }
-        passed += w.length + 1
-        last = w.toLowerCase()
-    }
-    return if (found) passed else -1
+    val low = str.toLowerCase()
+    val duplicated = Regex("""(?<!\S)(\S+)\s\1(?!\S)""").find(low)?.value
+    if (duplicated != null) {
+        return low.indexOf(duplicated)
+    } else return -1
 }
 
 /**
@@ -228,7 +218,7 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var most = ""
     var value = -1.0
-    for (one in description.split("; ")) {
+    for (one in description.split(Regex("""(?<=\d+); """))) {
         if (one.isNotEmpty()) {
             val values = one.split(" ")
             val name = values[0]
@@ -254,7 +244,7 @@ fun mostExpensive(description: String): String {
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int {
-    var count: Int = roman.length-1
+    var count = roman.length-1
     var num: Int = 0
     while (count >= 0) {
         when (roman[count]) {
@@ -353,13 +343,13 @@ fun findCycles(commands: String, open: Char, close: Char): MutableMap<Int,Int> {
     //Ассоциативный массив для результатов
     val map = mutableMapOf<Int,Int>()
     //Лист точек открывающих знаков цикла, для того, чтобы учесть вложенность
-    val openPointQueue = mutableListOf<Int>()
+    val openPointQueue = ArrayDeque<Int>()
     //
     for (i in 0..commands.length-1) {
         when (commands[i]) {
             //При нахождении открывающего знака, добавляем в очередь
             open -> {
-                openPointQueue.add(i)
+                openPointQueue.addFirst(i)
             }
             close -> {
                 //Если нет ни одного открывающего знака в очередь, выбрасываем ошибку, так как цикл будет непарным
@@ -367,10 +357,9 @@ fun findCycles(commands: String, open: Char, close: Char): MutableMap<Int,Int> {
                 //Если же хотя бы одна точка есть, то создаем две пары, чтобы можно было найти конец по началу
                 //и наоборот. Сохраняем в ассоциативный массив и удаляем последний элемент в списке
                 else {
-                    val openPoint = openPointQueue.last()
+                    val openPoint = openPointQueue.poll()
                     map.put(openPoint, i)
                     map.put(i, openPoint)
-                    openPointQueue.removeAt(openPointQueue.size-1)
                 }
             }
         }

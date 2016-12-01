@@ -82,13 +82,20 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
         res.append("\n")
         for (col in 0..height - 1) {
             for (row in 0..width - 1) {
-                res.append(this[col,row])
+                res.append(this[col, row])
                 res.append(" ")
             }
             res.deleteCharAt(res.lastIndex)
             res.append("\n")
         }
         return res.toString()
+    }
+
+    override fun hashCode(): Int {
+        var res = height
+        res = res * 19 + width
+        res = res * 19 + map.hashCode()
+        return res
     }
 }
 

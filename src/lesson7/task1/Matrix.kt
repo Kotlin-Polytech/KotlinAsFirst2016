@@ -82,12 +82,12 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
         res.append("\n")
         for (col in 0..height - 1) {
             for (row in 0..width - 1) {
-                res.append(this[row, col])
-                if (row != width - 1) res.append(" ")
+                res.append(this[col,row])
+                res.append(" ")
             }
-            if (col != height - 1) res.append("\n")
+            res.deleteCharAt(res.lastIndex)
+            res.append("\n")
         }
-        res.append("\n")
         return res.toString()
     }
 }

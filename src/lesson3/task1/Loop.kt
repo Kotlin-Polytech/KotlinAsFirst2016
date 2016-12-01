@@ -94,11 +94,7 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var r = Math.min(m, n)
-    while (r % m != 0 || r % n != 0) {
-        r++
-    }
-    return r
+   return (m * n)/NOD(m,n)
 }
 
 /**
@@ -139,8 +135,7 @@ fun NOD(a: Int, b: Int): Int {
     else return NOD(b, num1 % num2)
 }
 fun isCoPrime(m: Int, n: Int): Boolean {
-    if (NOD(m, n) != 1) return false
-    else return true
+    return NOD(m,n) == 1
     }
 
 

@@ -40,9 +40,6 @@ interface Matrix<E> {
     operator fun get(row: Int, column: Int): E
     operator fun get(cell: Cell): E
 
-    fun getColumn(index: Int): Array<E>
-    fun getRow(index: Int): Array<E>
-
     /**
      * Запись в ячейку.
      * Методы могут бросить исключение, если ячейка не существует
@@ -127,13 +124,5 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
         return stringStorage.toString()
     }
-
-    override fun getColumn(index: Int): Array<E> {
-        val result = createRow(height, storage.first().first() as E)
-        for (i in 0..height - 1) result[i] = storage[i][index]
-        return result as Array<E>
-    }
-
-    override fun getRow(index: Int): Array<E> = storage[index] as Array<E>
 }
 

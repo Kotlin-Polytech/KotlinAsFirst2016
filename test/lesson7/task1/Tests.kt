@@ -20,7 +20,7 @@ class Tests {
         var value = 0
         for (row in 0..matrix.height - 1) {
             for (column in 0..matrix.width - 1) {
-                matrix[row, column] = value++
+                 matrix[row, column] = value++
             }
         }
         value = 0

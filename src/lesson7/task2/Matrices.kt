@@ -496,36 +496,11 @@ fun h(matrix: Matrix<Int>): Int {
     for (i in 0..3)
         for (j in 0..3)
             if (matrix[i,j] != 0)
-                if (matrix[i,j] != i * 4 + j + 1)
-                    n += abs(matrix[i,j] / 4 - i) + abs(matrix[i,j] % 4 - j - 1)
+                if (matrix[i,j] != i * 4 + j + 1) {
+                    n += abs(matrix[i, j] / 4 - i) + abs(matrix[i, j] % 4 - j - 1)
+                }
     return n
 }
-
-fun search(prev: Matrix<Int>, moved: Matrix<Int>, g: Int, bound: Int): Boolean {
-    val h = h(moved)
-    val f = g + h
-    if (h == 0) {
-        println("Found: $moved")
-        return true
-    }
-    if (f > bound) {
-        if (min > f) min = f
-        return false
-    }
-    val zero = moved.indexOf(0)
-    for (n in moved.findMoves(zero)) {
-        val new = moved.copyN()
-        new.swap(n, zero)
-        if (new != prev) {
-            val res = search(moved, new, g + 1, bound)
-            if (res) {
-                return true
-            }
-        }
-    }
-    return false
-}
-var min = Int.MAX_VALUE
 
 fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
     var N = 0
@@ -541,40 +516,35 @@ fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
     val solution = if (N % 2 == 0) solution1 else solution2
     println("Solution: \r\n $solution")
 
-    /* Попытка IDA* */
-    /*
-    var bound = h(matrix)
-    while (bound <= 50) {
-        val res = search(matrix, matrix, 0, bound)
-        bound = min
-        if (res) break
-    }
-    */
     // Попытка A* + поиск в шиину
-    val queue = ArrayDeque<Matrix<Int>>()
-    queue.add(matrix)
+    data class State(val m: Matrix<Int>, val priority: Int) : Comparable<State> {
+        override fun compareTo (other: State) = when {
+            priority < other.priority -> -1
+            priority > other.priority -> 1
+            else -> 0
+        }
+    }
+
+    val queue = PriorityQueue<State>()
+    queue.add(State(matrix, h(matrix)))
 
     val visited = mutableMapOf(matrix to 0)
     while (queue.isNotEmpty()) {
-        val next = queue.poll()
-        val distance = visited[next]!!
-        if (next == solution) {
+        val next = queue.remove()
+        println("Taken with Estimate = ${next.priority}")
+        val distance = visited[next.m]!!
+        if (next.m == solution) {
             break
         }
-        val zero = next.indexOf(0)
-        val moves = mutableMapOf<Matrix<Int>, Int>()
-        for (move in next.findMoves(zero)) {
-            val n = next.copyN()
+        val zero = next.m.indexOf(0)
+        for (move in next.m.findMoves(zero)) {
+            val n = next.m.copyN()
             n.swap(zero, move)
 
             if (n in visited) continue
-            println("Swapped: ${n[zero]} and ${n[move]} / $distance; Estimate = ${h(n)}")
             visited.put(n, distance + 1)
-            moves.put(n, distance + h(n))
-            //queue.add(n)
+            queue.add(State(n, distance + 1 + h(n)))
         }
-        queue.add(moves.minBy { it.value }?.key ?: throw IllegalStateException("No moves? $next"))
-
     }
 
     return listOf()

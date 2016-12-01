@@ -180,7 +180,12 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+    val words = mutableMapOf<String, Int>()
+    for (word in Regex("[a-zа-яё]+").findAll(File(inputName).readText().toLowerCase())) {
+        val value = word.value
+        words.put(value, (words[value] ?: 0) + 1)
+    }
+    return words.toList().sortedByDescending { it.second }.take(20).toMap()
 }
 
 /**

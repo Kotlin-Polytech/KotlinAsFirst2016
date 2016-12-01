@@ -118,8 +118,8 @@ fun flattenPhoneNumber(phone: String): String {
         if ((i.toInt() < 58) && (i.toInt() > 47) || (i.toInt() == 43)) result += i
         else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
     }
-    return result
-
+    if (result.first() == '+' && result.length == 1) return ""
+    else return result
 }
 
 /**
@@ -133,18 +133,7 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
 */
 
-fun bestLongJump(jumps: String): Int {
-    val parts = jumps.split(" ")
-    var max = -1
-    for (part in parts) {
-        if (part != "-" && part != "%") try {
-            if (part.toInt() > max) max = part.toInt()
-        } catch (e : NumberFormatException){
-            return -1
-        }
-    }
-    return max
-}
+fun bestLongJump(jumps: String): Int = TODO()
 
 /**
  * Сложная
@@ -225,7 +214,24 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.length == 0) return ""
+    var maxvalue = 0.0
+    var maxproduct = ""
+    try {
+        val parts = description.split("; ")
+        for (part in parts) {
+            val partt = part.split(" ")
+            if (partt[1].toDouble() > maxvalue) {
+                maxvalue = partt[1].toDouble()
+                maxproduct = partt[0]
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return maxproduct
+}
 
 /**
  * Сложная
@@ -238,8 +244,24 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int = TODO() /* {
 
+    var result = 0
+    val amount = 0
+    try{
+        for (i in 0..roman.length - 1)
+            if(roman[i] == 'M' && roman[i + 1] !=) amount++
+        result += amount * 1000
+
+
+
+
+
+    }
+}
+*/
+
+////
 /**
  * Сложная
  *

@@ -150,7 +150,18 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.matches(Regex("""[\d\s+%\-]+"""))) {
+        val results = jumps.split(Regex("""[\s%\-]+"""))
+        val listOfJumps = mutableListOf<Int>()
+        for (i in 0..results.size - 1) {
+            if (results[i].matches(Regex("""\d+""")) &&results[i + 1].matches(Regex("""\+"""))) {
+                listOfJumps.add(results[i].toInt())
+            }
+        }
+        return listOfJumps.max() ?: -1
+    } else return -1
+}
 
 /**
  * Сложная
@@ -161,7 +172,22 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    var result = 0
+    if (expression.matches(Regex("""[\d +-]+"""))) {
+        val results = expression.split(" ")
+        for (i in 0..results.size - 1) {
+            when {
+                i == 0 -> result += results[i].toInt()
+                i % 2 != 0 -> {
+                    if (results[i] == "-") result -= results[i + 1].toInt()
+                    if (results[i] == "+") result += results[i + 1].toInt()
+                }
+            }
+        }
+    } else throw IllegalArgumentException()
+    return result
+}
 
 /**
  * Сложная

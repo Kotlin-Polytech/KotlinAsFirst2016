@@ -259,7 +259,41 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val keys = listOf(Triple("**", "<b>", "</b>"), Triple("*", "<i>", "</i>"),Triple("~~", "<s>", "</s>"))
+    val outputStream = File(outputName).bufferedWriter()
+    val space = "    "
+    outputStream.write("<html>\r\n")
+    outputStream.write("$space<body>\r\n")
+    outputStream.write("$space$space<p>\r\n")
+    for (line in File(inputName).readLines()){
+        if (line.isEmpty()) {
+            outputStream.write("\r\n$space$space</p>\r\n$space$space<p>\r\n")
+            continue
+        }
+        var str = line
+        for (key in keys) {
+            val temp = str.split(key.first)
+            if (temp.size == 1) continue
+            val sb = StringBuilder()
+            var k = true
+            for (i in 0..temp.size - 2) {
+                if (k) {
+                    sb.append((listOf(temp[i], temp[i + 1])).joinToString(separator = key.second))
+                    k = false
+                } else {
+                    sb.append(key.third)
+                    k = true
+                }
+            }
+            sb.append(temp[temp.size - 1])
+            str = sb.toString()
+        }
+        outputStream.write(str)
+    }
+    outputStream.write("\r\n$space$space</p>\r\n")
+    outputStream.write("$space</body>\r\n")
+    outputStream.write("</html>\r\n")
+    outputStream.close()
 }
 
 /**

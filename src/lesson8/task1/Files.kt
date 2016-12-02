@@ -261,7 +261,7 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val keys = listOf(Triple("**", "<b>", "</b>"), Triple("*", "<i>", "</i>"),Triple("~~", "<s>", "</s>"))
     val outputStream = File(outputName).bufferedWriter()
-    val space = "    "
+    val space = ""
     outputStream.write("<html>\r\n")
     outputStream.write("$space<body>\r\n")
     outputStream.write("$space$space<p>\r\n$space$space$space")

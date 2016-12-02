@@ -264,7 +264,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val space = "    "
     outputStream.write("<html>\r\n")
     outputStream.write("$space<body>\r\n")
-    outputStream.write("$space$space<p>\r\n")
+    outputStream.write("$space$space<p>\r\n$space$space$space")
     for (line in File(inputName).readLines()){
         if (line.isEmpty()) {
             outputStream.write("\r\n$space$space</p>\r\n$space$space<p>\r\n$space$space$space")

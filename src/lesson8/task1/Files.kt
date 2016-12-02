@@ -288,7 +288,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             sb.append(temp[temp.size - 1])
             str = sb.toString()
         }
-        outputStream.write(str)
+        outputStream.write("$space$space$space$str")
     }
     outputStream.write("\r\n$space$space</p>\r\n")
     outputStream.write("$space</body>\r\n")

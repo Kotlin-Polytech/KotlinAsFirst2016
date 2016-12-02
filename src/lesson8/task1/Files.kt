@@ -261,18 +261,23 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val keys = listOf(Triple("**", "<b>", "</b>"), Triple("*", "<i>", "</i>"),Triple("~~", "<s>", "</s>"))
     val outputStream = File(outputName).bufferedWriter()
-    outputStream.write("<html>")
-    outputStream.write("<body>")
-    outputStream.write("<p>")
+    val space = "    "
+    outputStream.write("<html>\r\n")
+    outputStream.write("$space<body>\r\n")
+    outputStream.write("$space$space<p>\r\n$space$space$space")
     for (line in File(inputName).readLines()){
         if (line.isEmpty()) {
-            outputStream.write("</p><p>")
+            outputStream.write("\r\n$space$space</p>\r\n$space$space<p>\r\n$space$space$space")
             continue
         }
         var str = line
         for (key in keys) {
-            val temp = str.split(key.first)
+            val temp = str.split(key.first).toMutableList()
             if (temp.size == 1) continue
+            if (temp.size % 2 == 0) {
+                temp[temp.size - 2] += key.first + temp[temp.size - 1]
+                temp.removeAt(temp.size - 1)
+            }
             val sb = StringBuilder()
             var k = true
             for (i in 0..temp.size - 2) {
@@ -289,9 +294,9 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         }
         outputStream.write(str)
     }
-    outputStream.write("</p>")
-    outputStream.write("</body>")
-    outputStream.write("</html>")
+    outputStream.write("\r\n$space$space</p>\r\n")
+    outputStream.write("$space</body>\r\n")
+    outputStream.write("</html>\r\n")
     outputStream.close()
 }
 

@@ -267,7 +267,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputStream.write("$space$space<p>\r\n")
     for (line in File(inputName).readLines()){
         if (line.isEmpty()) {
-            outputStream.write("\r\n$space$space</p>\r\n$space$space<p>\r\n")
+            outputStream.write("\r\n$space$space</p>\r\n$space$space<p>\r\n$space$space$space")
             continue
         }
         var str = line
@@ -288,7 +288,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             sb.append(temp[temp.size - 1])
             str = sb.toString()
         }
-        outputStream.write("$space$space$space$str")
+        outputStream.write(str)
     }
     outputStream.write("\r\n$space$space</p>\r\n")
     outputStream.write("$space</body>\r\n")

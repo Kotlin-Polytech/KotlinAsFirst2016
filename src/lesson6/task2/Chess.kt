@@ -24,11 +24,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
+
     fun notation(): String {
         if ((row in 1..8) && (column in 1..8)) {
             var result = ""
-            val list_lat = listOf("a", "b", "c", "d", "e", "f", "g", "h")
-            result += list_lat[column - 1]
+            val string_lat = "abcdefgh"
+            result += string_lat[column - 1]
             result += row
             return result
         } else return ""
@@ -43,10 +44,10 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8'))
-        throw IllegalArgumentException()
-    val list_lat = mapOf('a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5, 'f' to 6, 'g' to 7, 'h' to 8)
-    return Square(list_lat[notation[0]]!!, notation[1].toString().toInt())
+    if ((notation.length == 2) && (notation[0] in 'a'..'h') || (notation[1] in '1'..'8' )) {
+        val columnArray = "abcdefgh"
+        return Square(column = columnArray.indexOf(notation[0] + 1), row = notation[1].toString().toInt())
+    } else throw IllegalArgumentException()
 }
 
 /**
@@ -76,12 +77,11 @@ fun rookMoveNumber(start: Square, end: Square): Int {
     var index = 0
     if (!(start.inside()) || !(end.inside())) throw IllegalArgumentException()
     when {
-            ((start.column == end.column) && (start.row == end.row)) -> index = 0
-            ((start.column == end.column) && (start.row != end.row)) -> index = 1
-            ((start.column != end.column) && (start.row == end.row)) -> index = 1
-            ((start.column != end.column) && (start.row != end.row)) -> index = 2
-        }
-return index
+        (start.column == end.column && start.row == end.row) -> index = 0
+        (start.column == end.column && start.row != end.row) || (start.column != end.column && start.row == end.row) -> index = 1
+        (start.column != end.column && start.row != end.row) -> index = 2
+    }
+    return index
 }
 
 /**
@@ -100,12 +100,12 @@ return index
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     var result = mutableListOf<Square>()
-    result.add(Square(start.column, start.row))
+    result.add(start)
     if (start.column != end.column) {
         result.add(Square(end.column, start.row))
     }
     if (start.row != end.row) {
-        result.add(Square(end.column, end.row))
+        result.add(end)
     }
     return result
 }
@@ -136,7 +136,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     if (!(start.inside()) || !(end.inside())) throw IllegalArgumentException()
-    var index : Int
+    var index: Int
     index = when {
         (start == end) -> 0
         (Math.abs(start.column - end.column) == (Math.abs(start.row - end.row))) -> 1

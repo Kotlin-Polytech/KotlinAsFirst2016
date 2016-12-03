@@ -2,7 +2,6 @@
 
 package lesson5.task1
 
-import kotlin.system.exitProcess
 
 /**
  * Пример
@@ -123,28 +122,25 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var j = 0
     val result = phone.filter { (it in '0'..'9') || (it == '+') }
-    if (phone.isEmpty())
-        return ""
-    for (char in phone) {
-        if ((char != '(')
-                && (char != ')')
-                && (char != '-')
-                && (char != ' ')
-                && (char != '+')
-                && (char !in '0'..'9'))
+
+    for (i in 0..phone.length - 1)
+        if ((phone[i] != '(')
+                && (phone[i] != ')')
+                && (phone[i] != '-')
+                && (phone[i] != ' ')
+                && (phone[i] != '+')
+                && (phone[i] !in '0'..'9'))
             return ""
-    }
-    if (result[0] == '+')
-        j = 1
-    else
-        j = 0
-    for (i in j..result.length - 1)
-        if (result[i] !in '0'..'9') return ""
+    if (result.length > 0) {
+        if (result[0] == '+') {
+            for (i in 1..result.length - 1) if (result[i] !in '0'..'9') return ""
+        } else {
+            for (i in 0..result.length - 1) if (result[i] !in '0'..'9') return ""
+        }
+    } else return ""
 
     return result
-
 }
 
 
@@ -190,17 +186,16 @@ fun checkPlus(str: String): Boolean = str.any { str == "+" }
 fun bestHighJump(jumps: String): Int {
     if (jumps == "") return -1
     var maxMax = -1
-    var maxI = -1
     try {
-        var stringList = jumps.split(" ")
+        val stringList = jumps.split(" ")
         if (stringList.size % 2 == 1) return -1
         for (i in 0..stringList.size - 1 step 2) {
             if ((stringList[i].toInt() > maxMax) && (checkPlus(stringList[i + 1]))) {
                 maxMax = stringList[i].toInt()
-                maxI = i
+
             }
         }
-        if (maxI == -1) return -1 else return stringList[maxI].toInt()
+        if (maxMax == -1) return -1 else return maxMax
     } catch (e: NumberFormatException) {
         return -1
     }
@@ -312,7 +307,7 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO ()
+fun fromRoman(roman: String): Int = TODO()
 
 
 /**
@@ -346,3 +341,39 @@ fun fromRoman(roman: String): Int = TODO ()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+
+fun myFun(coins: String, sum: Double): List<String> {
+    if (coins == "") return listOf()
+    var sum = sum
+    val stringList: List<String>
+    var result = mutableListOf<Int>()
+    try {
+        stringList = coins.split(", ")
+        for (i in 0..stringList.size - 1) {
+            result.add(0)
+            while (sum - stringList[i].toDouble() >= 0) {
+                sum -= stringList[i].toDouble()
+                result[i] += 1
+            }
+        }
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+    var resultString = listOf<String>()
+    for (i in 0..stringList.size - 1) if (result[i] != 0) resultString += result[i].toString() + " * " + stringList[i]
+    return resultString
+}
+
+fun main(args: Array<String>) {
+    val str = "5000, 1000, 500, 100, 50, 10, 5, 2, 1, 0.50, 0.10, 0.05, 0.01"
+    val result = myFun(str, 7633.21)
+    println(result)
+    val str2 = ""
+    val result2 = myFun(str2, 7633.21)
+    println(result2)
+    val str3 = "abcd"
+    val result3 = myFun(str3, 123.4)
+    println(result3)
+
+}

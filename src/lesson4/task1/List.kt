@@ -106,15 +106,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    val result = mutableListOf<Double>()
-    for (i in 0..v.size - 1) {
-        val element = v[i] * v[i]
-        result.add(element)
-    }
-    val sum = result.sum()
-    return Math.sqrt(sum)
-}
+fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
 
 /**
  * Простая
@@ -134,12 +126,10 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val count = list.size
-    val sum = list.sum()
-    val arithmeticaverage = sum / count
-    if (sum != 0.0)
-        for (i in 0..count - 1) {
-            list[i] = list[i] - arithmeticaverage
+    val mean = mean(list)
+    if (mean != 0.0)
+        for (i in 0..list.size - 1) {
+            list[i] = list[i] - mean
         }
     return list
 }
@@ -194,7 +184,7 @@ fun polynom(p: List<Double>, x: Double): Double {
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
 
     var length = 0.0
-    for (i: Int in 0..list.size - 1) {
+    for (i in 0..list.size - 1) {
         length += list[i]
         list[i] = length
     }
@@ -236,21 +226,15 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    val result = mutableListOf<Int>()
-    var i = 0
     var nn = n
-    if (nn >= base) {
-        while (nn >= base) {
-            i = nn % base
-            nn = nn / base
-            result.add(i)
-        }
-        result.add(nn)
-    } else
-        if (nn >= 0) {
-            result.add(nn)
-        }
-    return result.reversed()
+    var list: List<Int>
+    list = listOf()
+    if (n == 0) list += 0
+    while (nn > 0) {
+        list += nn % base
+        nn /= base
+    }
+    return list.reversed()
 }
 
 
@@ -268,7 +252,7 @@ fun convertToString(n: Int, base: Int): String {
     result = convert(n, base)
     for (i in 0..result.size - 1) {
         if (result[i] > 9) {
-            result1 += (result[i] + 87).toChar()
+            result1 += (result[i] + 'a'.toInt()).toChar()
         } else
             result1 += result [i]
 
@@ -307,10 +291,11 @@ fun decimalFromString(str: String, base: Int): Int {
     list = listOf()
     var string1 = str
     for (i in 0..string1.length - 1)
-        if (string1[i] in '0'..'9') list += ((string1[i]).toInt() - 48)
-        else list += ((string1[i]).toInt() - 87)
+        if (string1[i] in '0'..'9') list += ((string1[i]).toInt() - '0'.toInt())
+        else list += ((string1[i]).toInt() - 'a'.toInt() + 10)
     return decimal(list, base)
 }
+
 
 /**
  * Сложная
@@ -321,10 +306,11 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  *
  */
-val UNITS_LIST = listOf<String>("", "I", "II", "III", "VI", "V", "IV", "IIV", "IIIV", "XI")
-val TENS_LIST = listOf<String>("", "X", "XX", "XXX", "LX", "L", "XL", "XXL", "XXXL", "CX")
-val HUNDREDS_LIST = listOf<String>("", "C", "CC", "CCC", "DC", "D", "CD", "CCD", "CCCD", "MC")
+
 fun roman(n: Int): String {
+    val UNITS_LIST = listOf("", "I", "II", "III", "VI", "V", "IV", "IIV", "IIIV", "XI")
+    val TENS_LIST = listOf("", "X", "XX", "XXX", "LX", "L", "XL", "XXL", "XXXL", "CX")
+    val HUNDREDS_LIST = listOf("", "C", "CC", "CCC", "DC", "D", "CD", "CCD", "CCCD", "MC")
     var result: String = ""
     var result2: String = ""
     var n2 = n
@@ -346,13 +332,32 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+val UNITS_LIST = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+val THOUSANDS_LIST = listOf("", "одна", "две")
+val TEEN_LIST = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+val TENS_LIST = listOf("", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+val HUNDREDS_LIST = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+
+fun less_thousand(a: Int, b: Int, c: Int, index: Int): String {
+    var result = ""
+    if ((result.length != 0) && (index == 2)) result += " "
+    if (a != 0) result += HUNDREDS_LIST[a]
+    if ((result.length != 0) && (b > 0 || c > 0)) result += " "
+    if (b == 1) result += TEEN_LIST [c]
+    if (b > 1) result += TENS_LIST[b - 1]
+    if (result.length != 0 && c >= 1 && b > 1) result += " "
+    if (b != 1 && c <= 2 && index == 1)
+        result += THOUSANDS_LIST[c]
+    if (b != 1 && c <= 2 && index == 2)
+        result += UNITS_LIST[c]
+    if (b != 1 && c > 2)
+        result += UNITS_LIST[c]
+    return result
+}
+
 
 fun russian(n: Int): String {
-    val UNITS_LIST = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val THOUSANDS_LIST = listOf("", "одна", "две")
-    val TEEN_LIST = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val TENS_LIST = listOf("", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val HUNDREDS_LIST = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+
     var result: String = ""
     var thousands100 = 0
     var thousands10 = 0
@@ -387,49 +392,22 @@ fun russian(n: Int): String {
             units = nn
         nn = -1
 
-
     }
-    result += HUNDREDS_LIST[thousands100]
-
-    if (thousands10 != 0 && thousands100 != 0)
-        result += " "
-    if (thousands10 == 1)
-        result += TEEN_LIST[thousands]
-    if (thousands10 > 1)
-        result += TENS_LIST[thousands10 - 1]
-    if (thousands != 0 && thousands10 != 1 && (thousands100 != 0 || thousands10 != 0))
-        result += " "
-    if ((thousands10 != 1) && (thousands == 1 || thousands == 2))
-        result += THOUSANDS_LIST[thousands]
-    if (thousands10 != 1 && thousands > 2)
-        result += UNITS_LIST[thousands]
+    result += less_thousand(thousands100, thousands10, thousands, 1)
+    if (thousands100 != 0 || thousands10 != 0 || thousands != 0) result += " "
     if ((thousands100 != 0) || (thousands10 != 0) || (thousands != 0)) {
         if ((thousands == 1) && (thousands10 != 1)) {
-            result += " тысяча"
+            result += "тысяча"
         } else
             if (((thousands == 2) || (thousands == 3) || (thousands == 4)) && (thousands10 != 1)) {
-                result += " тысячи"
+                result += "тысячи"
             } else
-                result += " тысяч"
+                result += "тысяч"
     }
-    if ((hundreds != 0) && ((thousands != 0) || (thousands100 != 0) || (thousands10 != 0)))
-        result += " "
-    result += HUNDREDS_LIST[hundreds]
-    if ((tens != 0) && ((hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0)))
-        result += " "
-    if (tens == 1)
-        result += TEEN_LIST[units]
-    if (tens > 1)
-        result += TENS_LIST[tens - 1]
-    if ((units != 0) && (tens != 1) && ((tens != 0) || (hundreds != 0) || (thousands != 0) || (thousands100 != 0) || (thousands10 != 0)))
-        result += " "
-    if ((tens != 1) && (units >= 1))
-        result += UNITS_LIST[units]
-
+    if ((result.length != 0) && (units != 0 || tens != 0 || hundreds != 0)) result += " "
+    result += less_thousand(hundreds, tens, units, 2)
     return result
 }
-
-
 
 
 

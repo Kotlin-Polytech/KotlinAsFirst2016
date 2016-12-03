@@ -59,8 +59,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var number: Int = 0
-    var n2: Int = n
+    var number= 0
+    var n2 = n
     if (n2 == 0) return 1
     else while (n2 != 0) {
         number++
@@ -107,10 +107,9 @@ fun lcm(m: Int, n: Int): Int = m / nod(m, n) * n
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var i: Int = 2
+    var i = 2
     while (n % i != 0) i++
     return i
-
 }
 
 
@@ -120,7 +119,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var count: Int = 1
+    var count = 1
     for (i in 2..(n - 1))
         if (n % i == 0) count = i
     return count
@@ -135,14 +134,9 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    val nn = Math.max(m, n)
-    var failed: Boolean = false
-    for (i in 2..nn) {
-        if ((n % i == 0) && (m % i == 0)) failed = true
-    }
-    if (failed == true) return false else return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
+
+
 
 
 /**
@@ -152,11 +146,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun sqr(x: Double) = x * x
 
-fun squareBetweenExists(m: Int, n: Int): Boolean =
-        if (m <= sqr(Math.sqrt(n.toDouble()).toInt().toDouble()) && sqr(Math.sqrt(n.toDouble()).toInt().toDouble()) <= n) true
-        else false
+fun sqr(x: Int) = x * x
+fun squareBetweenExists(m: Int, n: Int): Boolean =  m <= sqr(Math.sqrt (n.toDouble()).toInt())
+
 
 
 /**
@@ -212,15 +205,8 @@ fun revert(n: Int): Int {
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean {
-    var result = 0
-    var nn = n
-    while (nn > 0) {
-        result = result * 10 + nn % 10
-        nn /= 10
-    }
-    if (result == n) return true else return false
-}
+fun isPalindrome(n: Int): Boolean = revert(n) == n
+
 
 /**
  * Средняя
@@ -229,14 +215,13 @@ fun isPalindrome(n: Int): Boolean {
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    var nn1 = n % 10
+    var memory = n % 10
     var nn = n
-    var indicator = true
     while (nn > 0) {
-        if (nn % 10 != nn1) indicator = false
+        if (nn % 10 != memory) return true
         nn /= 10
     }
-    if (indicator == false) return true else return false
+    return false
 }
 
 

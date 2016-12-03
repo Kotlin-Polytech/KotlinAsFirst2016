@@ -298,7 +298,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
             result = line
             maxStringLength = line.length
         }
-        else if( line.length == maxStringLength && withoutRepetition(line.toLowerCase()) == true){
+        else if( !line.isEmpty() && line.length == maxStringLength && withoutRepetition(line.toLowerCase()) == true){
             result = result +", $line"
         }
     }

@@ -113,7 +113,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуь -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((sqr(a)== (sqr(b) + sqr(c))) || (sqr(b)== (sqr(a) + sqr(c))) || (sqr(c)== (sqr(b) + sqr(a)))) return 1
+    if ((a > b + c) || (b > a + c) || (c > b + a)) return -1
+    if ((((sqr(b) + sqr(c) - sqr(a))/(2*b*c)) > 0) && (((sqr(a) + sqr(c) - sqr(b))/(2*a*c)) > 0) && (((sqr(b) + sqr(a) - sqr(c))/(2*b*a)) > 0)) return 0
+    else return 2
+}
 
 
 /**
@@ -127,12 +132,17 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val maxComa: Int = Math.max(Math.max(a, b), Math.max(c, d))
     return when (maxComa) {
-        a, b, c, d -> 0
-        b -> if ((a <= c) && (b > d)) d - c
-        else d - a
-        d -> if ((c >= a) && (c < b)) b - c
-        else b - a
+        a -> if ((a <= d) && (a > c)) 0
+             else -1
+        c -> if ((c <= b) && (c > a)) 0
+             else -1
+        b -> if ((a <= d) && (c < a)) d - a
+             else if (c > a) d - c
+                  else -1
+        d -> if ((c <= b) && (a < c)) b - c
+             else if (a > c) b - a
+                  else -1
         else -> if (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b) || (a == d)) return 0
-        else -1
+                else -1
     }
 }

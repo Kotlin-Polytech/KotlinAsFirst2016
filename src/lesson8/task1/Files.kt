@@ -265,35 +265,31 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputStream.write("<html>\r\n")
     outputStream.write("$space<body>\r\n")
     outputStream.write("$space$space<p>\r\n$space$space$space")
-    for (line in File(inputName).readLines()){
-        if (line.isEmpty()) {
-            outputStream.write("\r\n$space$space</p>\r\n$space$space<p>\r\n$space$space$space")
-            continue
+    var file = File(inputName).readText().split("\r\n").joinToString(separator = "\r\n$space$space$space")
+            .split("\r\n$space$space$space\r\n$space$space$space")
+            .joinToString(separator = "\r\n$space$space</p>\r\n$space$space<p>\r\n$space$space$space")
+    for (key in keys) {
+        val temp = file.split(key.first).toMutableList()
+        if (temp.size == 1) continue
+        if (temp.size % 2 == 0) {
+            temp[temp.size - 2] += key.first + temp[temp.size - 1]
+            temp.removeAt(temp.size - 1)
         }
-        var str = line
-        for (key in keys) {
-            val temp = str.split(key.first).toMutableList()
-            if (temp.size == 1) continue
-            if (temp.size % 2 == 0) {
-                temp[temp.size - 2] += key.first + temp[temp.size - 1]
-                temp.removeAt(temp.size - 1)
+        val sb = StringBuilder()
+        var k = true
+        for (i in 0..temp.size - 2) {
+            if (k) {
+                sb.append((listOf(temp[i], temp[i + 1])).joinToString(separator = key.second))
+                k = false
+            } else {
+                sb.append(key.third)
+                k = true
             }
-            val sb = StringBuilder()
-            var k = true
-            for (i in 0..temp.size - 2) {
-                if (k) {
-                    sb.append((listOf(temp[i], temp[i + 1])).joinToString(separator = key.second))
-                    k = false
-                } else {
-                    sb.append(key.third)
-                    k = true
-                }
-            }
-            sb.append(temp[temp.size - 1])
-            str = sb.toString()
         }
-        outputStream.write(str)
+        sb.append(temp[temp.size - 1])
+        file = sb.toString()
     }
+    outputStream.write(file)
     outputStream.write("\r\n$space$space</p>\r\n")
     outputStream.write("$space</body>\r\n")
     outputStream.write("</html>\r\n")

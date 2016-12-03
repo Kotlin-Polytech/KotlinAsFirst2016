@@ -72,7 +72,28 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines()){
+        var result = ""
+        for(letter in 0..line.length-1){
+            if(letter+1<line.length && line[letter] in "ЖжЧчШшЩщ" && line[letter+1] in "ЫыЯяЮю"){
+                result += when(line[letter+1]){
+                    'Ы' -> line[letter] + "И"
+                    'Я' -> line[letter] + "А"
+                    'Ю' -> line[letter] + "У"
+                    'ы' -> line[letter] + "и"
+                    'я' -> line[letter] + "а"
+                    'ю' -> line[letter] + "у"
+                    else -> result + ""
+                }
+            }
+            else if(!(line[letter] in "ЫыЯяЮю" && line[letter-1] in "ЖжЧчШшЩщ")) result +=  line[letter]
+        }
+        writer.write(result)
+        writer.newLine()
+    }
+
+    writer.close()
 }
 
 /**
@@ -92,8 +113,28 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
+
+fun centered(line: String,maxLength: Int): String{
+    if(line.length == maxLength) return line
+    var result = line.trim()
+    val numberOfSpaces = (maxLength - result.length)/2
+    for(i in 1..numberOfSpaces){
+        result = " " + result
+    }
+
+    return result
+}
+
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val maxLength = maxLength(inputName)
+
+    for(line in File(inputName).readLines()){
+        writer.write(centered(line, maxLength))
+        writer.newLine()
+    }
+
+    writer.close()
 }
 
 /**
@@ -118,8 +159,43 @@ fun centerFile(inputName: String, outputName: String) {
  *    между более правой парой соседних слов.
  *
  */
+fun maxLength(inputName: String): Int{   // длина максимальной строки
+    var maxLength = 0
+    for (line in File(inputName).readLines()){
+        if(line.trim().length > maxLength) maxLength = line.trim().length
+    }
+    return maxLength
+}
+
+fun stringProcessing(line: String, maxLength: Int): String{
+    val parts = line.split(" ")
+    var result = parts[parts.size - 1]
+    var numberOfWords = parts.size - 1  // слова, после которых идут пробелы
+    var numberOfSpaces = maxLength
+    for (part in parts) numberOfSpaces -= part.length  //кол-во пробелов, которые необходимо вставить в строку
+    for(i in 1..parts.size-1){
+        for(j in 1..(numberOfSpaces/numberOfWords)){
+            result = " " + result
+        }
+        result = parts[parts.size - 1 - i] + result
+        numberOfSpaces -= (numberOfSpaces/numberOfWords)
+        numberOfWords -= 1
+    }
+    return result
+}
+
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val maxLength = maxLength(inputName)
+
+    for (line in File(inputName).readLines()){
+        val string = stringProcessing(line.trim(), maxLength)
+        writer.write(string)
+        writer.newLine()
+    }
+
+
+    writer.close()
 }
 
 /**
@@ -135,6 +211,14 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  * Ключи в ассоциативном массиве должны быть в нижнем регистре.
  *
  */
+
+/*fun isWord(word: String): Boolean{    //нужно передать в .toLowerCase()
+    for (letter in word){
+        if(!(letter >= 'а' && letter <= 'я') && !(letter >= 'a' && letter <= 'z')) return false
+    }
+    return true
+}*/
+
 fun top20Words(inputName: String): Map<String, Int> {
     TODO()
 }
@@ -193,8 +277,34 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
+fun withoutRepetition(line: String): Boolean{   //проверка на повторяющиеся буквы
+    var letters = listOf<Char>()
+    for (lineLetter in line){
+        for (letter in letters){
+            if(lineLetter == letter) return false
+        }
+        letters = letters + lineLetter
+    }
+    return true
+}
+
+
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    var result = ""
+    var maxStringLength = 0
+    for(line in File(inputName).readLines()){
+        if(line.length > maxStringLength && withoutRepetition(line.toLowerCase()) == true){
+            result = line
+            maxStringLength = line.length
+        }
+        else if( line.length == maxStringLength && withoutRepetition(line.toLowerCase()) == true){
+            result = result +", $line"
+        }
+    }
+    writer.write(result)
+
+    writer.close()
 }
 
 /**

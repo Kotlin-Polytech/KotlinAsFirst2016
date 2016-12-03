@@ -61,7 +61,7 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var n1 = n
     if (n1 == 0) return 1
-    while (n1 > 0) {
+    while (n1 != 0) {
         count++
         n1 = n1 / 10
     }
@@ -102,11 +102,10 @@ fun lcm(m: Int, n: Int): Int = TODO()
  */
 fun minDivisor(n: Int): Int {
     var a = n
-    if (isPrime(n) == true) return n
+    if (isPrime(n)) return n
     else for (i in 2..n) {
-        if ((n % i == 0) && (i < a)) {
-            a = i
-        }
+        if (n % i == 0) return i
+        a = i
     }
     return a
 }

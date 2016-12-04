@@ -119,7 +119,8 @@ fun abs(v: List<Double>): Double {
     for (i in 0..v.size-1) {
         sum += sqr(v[i])
     }
-    return Math.sqrt(sum)
+    return if (Math.sqrt(sum) > 0) Math.sqrt(sum)
+           else -Math.sqrt(sum)
 }
 
 /**
@@ -194,7 +195,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
     if (list.size == 1) return  list
     for ( i in list.size-1 downTo 1){
         for (j in i-1 downTo 0)
-            list[i] +=list[j]
+            list[i] += list[j]
     }
     return list
 }
@@ -474,7 +475,7 @@ fun russian(n: Int): String {
         if (copy / 10000 == 8) answ += " восемьдесят"
         if (copy / 10000 == 9) answ += " девяносто"
         copy %= 10000
-        if (copy < 1000) answ += " тысяч"
+        if ((copy < 1000) && (n % 100000 > 11000)) answ += " тысяч"
     }
     if ((copy >= 1000) && ((n % 100000)/10000 != 1)) {
         if (copy / 1000 == 1) answ += " одна тысяча"

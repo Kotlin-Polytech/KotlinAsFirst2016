@@ -4,6 +4,7 @@ package lesson6.task1
 
 import lesson1.task1.sqr
 import lesson4.task1.center
+import lesson8.task1.countSubstrings
 
 /**
  * Точка на плоскости
@@ -122,7 +123,15 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val a: Double = Math.tan(angle) * (point.x)/*k1x1*/
+        val b: Double = Math.tan(other.angle) * (other.point.x)/*k2x2*/
+        val c: Double = Math.tan(angle) - Math.tan(other.angle)/*k1-k2*/
+        val d: Double = other.point.y - point.y/*y2-y1*/
+        val x: Double = (d + a - b) / c
+        val y: Double = (Math.tan(other.angle) * (point.y - a) + Math.tan(angle) * (b - other.point.y)) / (-c)
+        return Point(x, y)
+    }
 }
 
 /**

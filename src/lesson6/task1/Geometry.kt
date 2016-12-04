@@ -120,11 +120,16 @@ fun lineByPoints(a: Point, b: Point): Line = Line(a,Math.atan((a.y - b.y) / (a.x
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 
-fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2),
-        if (Math.atan2((a.y - b.y),(a.x - b.x)) < Math.PI/2)
-            Math.atan2((a.y - b.y),(a.x - b.x))
-        else
-            Math.atan2((a.y - b.y),(a.x - b.x)) - Math.PI/2)
+fun bisectorByPoints(a: Point, b: Point): Line{
+    var angle = Math.atan2((a.y - b.y),(a.x - b.x))
+    if (Math.abs(angle) < Math.PI/2)
+            angle += Math.PI/2
+    else if (Math.atan2((a.y - b.y),(a.x - b.x)) > 0)
+        angle -= Math.PI/2
+    else
+        angle += 3*Math.PI/2
+    return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2),angle)
+}
 
     /*var angle = Math.atan2((a.y - b.y),(a.x - b.x))
     angle = if(angle < Math.PI/2) angle else (angle - Math.PI/2)

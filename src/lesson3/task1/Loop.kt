@@ -67,6 +67,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     var copy : Int = n
+    if (n < 0) copy *= -1
     var lenght: Int = 0
     for (i in 1..9999) {
         lenght += 1
@@ -174,7 +175,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var plusMinus : Int = 0
     var answ : Double = 0.0
-    var partRow : Double = 0.0
+    var partRow : Double
      for (duck in 1..99999 step 2) {
          partRow = Math.pow(x, duck.toDouble())/factorial(duck)
          plusMinus += 1
@@ -183,7 +184,6 @@ fun sin(x: Double, eps: Double): Double {
               else answ -= partRow
          }
          else break
-         partRow = 0.0
      }
     return answ
 }
@@ -198,7 +198,7 @@ fun sin(x: Double, eps: Double): Double {
 fun cos(x: Double, eps: Double): Double {
     var plusMinus : Int = 0
     var answ : Double = 1.0
-    var partRow : Double = 0.0
+    var partRow : Double
     for (duck in 2..99999 step 2) {
         partRow = Math.pow(x, duck.toDouble())/factorial(duck)
         plusMinus += 1
@@ -207,7 +207,6 @@ fun cos(x: Double, eps: Double): Double {
             else answ += partRow
         }
         else break
-        partRow = 0.0
     }
     return answ
 }
@@ -246,16 +245,9 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    var copy: Int = n
-    var lenght: Int = 1
-    for (i in 1..9999) {
-        lenght += 1
-        copy /= 10
-        if (copy <= 1) break
-        else continue
-    }
+    val copy: Int = n
+    val lenght: Int = digitNumber(n)
     if (lenght == 2) return true
-    copy = n
     if (lenght % 2 == 0)
         if (revert(copy / ten(lenght / 2)) != copy % ten(lenght/ 2)) return false
         else return true
@@ -273,7 +265,7 @@ fun hasDifferentDigits(n: Int): Boolean {
     if (n<10 ) return false
     var copy : Int = n
     var smthng : Int = 0
-    var pudge : Int = n % 10
+    val pudge : Int = n % 10
     var lenght: Int = 0
     for (i in 1..9999) {
         lenght += 1

@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
 
 /**
  * Пример
@@ -34,7 +36,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +59,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n == 0) return 1
+    else {
+        var number = Math.abs(n)
+        var count = 0
+        while (number > 0) {
+            number /= 10
+            count++
+        }
+        return count
+    }
+}
 
 /**
  * Простая
@@ -65,7 +78,24 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int =
+        if (n == 1 || n == 2) 1
+        else fib(n - 1) + fib(n - 2)
+
+
+fun gcd(m: Int, n: Int): Int =
+        if (n == 0) m
+        else gcd(n, m % n)
+
+
+fun pow(m: Int, n: Int): Int {
+    var res = 1
+    for (i in 1..n) {
+        res *= m
+    }
+    return res
+}
+
 
 /**
  * Простая
@@ -73,7 +103,8 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int =
+        m * n / gcd(m, n)
 
 /**
  * Простая
@@ -87,7 +118,14 @@ fun minDivisor(n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for (i in n / 2 downTo 1) {
+        if (n % i == 0) {
+            return i
+        }
+    }
+    return 0
+}
 
 /**
  * Простая
@@ -96,7 +134,8 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int): Boolean =
+        gcd(m, n) == 1
 
 /**
  * Простая
@@ -123,7 +162,22 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    val x1 = x % (2 * Math.PI)
+    var res = 1.0
+    var a = 2.0
+    var b = 2
+    var sign = true // Значение будет определять, с каким знаком брать очередной член ряда.
+    do {
+        val summand = Math.pow(x1, a) / factorial(b)
+        if (sign) res -= summand
+        else res += summand
+        a += 2
+        b += 2
+        sign = !sign
+    } while (summand >= eps)
+    return res
+}
 
 /**
  * Средняя
@@ -131,7 +185,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    val length = digitNumber(n)
+    var number = n
+    var result = 0
+    for (i in 1..length) {
+        result = result * 10 + number % 10
+        number /= 10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -141,6 +204,7 @@ fun revert(n: Int): Int = TODO()
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean = TODO()
+
 
 /**
  * Средняя
@@ -157,7 +221,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var square = 0
+    var sum = 0
+    var count = 1
+    while (sum < n) {
+        square = count * count
+        count++
+        sum += digitNumber(square)
+    }
+    count = sum - n
+    return (square / pow(10, count) % 10)
+}
 
 /**
  * Сложная

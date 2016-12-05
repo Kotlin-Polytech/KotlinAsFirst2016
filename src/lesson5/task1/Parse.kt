@@ -116,6 +116,7 @@ fun flattenPhoneNumber(phone: String): String =
         if (phone.matches(Regex("""[\d\s()+-]+"""))) phone.filter { it !in "()- " }
         else ""
 
+
 /**
  * Средняя
  *

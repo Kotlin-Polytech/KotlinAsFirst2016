@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -35,6 +36,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String = TODO()
 
+
 /**
  * Простая
  *
@@ -44,7 +46,17 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val part1 = t1 * v1
+    val part2 = t2 * v2
+    val part3 = t3 * v3
+    val ps = (part1 + part2 + part3) / 2
+    return when {
+        part1 >= ps -> ps / v1
+        part1 + part2 < ps -> t1 + t2 + (ps - part1 - part2) / v3
+        else -> t1 + (ps - part1) / v2
+    }
+}
 
 /**
  * Простая
@@ -89,4 +101,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    when {
+        (c >= a) && (d <= b) -> return d - c
+        (a >= c) && (b <= d) -> return b - a
+        c in a..b -> return b - c
+        d in a..b -> return d - a
+        else -> return -1
+    }
+}

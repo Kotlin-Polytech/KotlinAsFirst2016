@@ -79,6 +79,14 @@ class Tests {
     }
 
     @Test
+    fun pow() {
+        assertEquals(1, pow(1, 150))
+        assertEquals(8, pow(2, 3))
+        assertEquals(25, pow(5, 2))
+        assertEquals(1024, pow(2, 10))
+    }
+
+    @Test
     @Tag("Easy")
     fun lcm() {
         assertEquals(13, lcm(13, 13))
@@ -115,6 +123,8 @@ class Tests {
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertTrue(isCoPrime(1, 150))
+        assertTrue(isCoPrime(2, 3))
     }
 
     @Test
@@ -142,6 +152,7 @@ class Tests {
         assertEquals(0.0, cos(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(-1.0, cos(Math.PI, 1e-5), 1e-5)
         assertEquals(0.0, cos(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(1.0, cos(-18.84955592153876, 1.0e-10), 1e-5)
     }
 
     @Test

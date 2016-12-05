@@ -75,11 +75,10 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && list == other.list
-
     override fun hashCode(): Int {
-        var result = 5
-        result = result * 31 + height
+        var result = height
         result = result * 31 + width
+        result = result * 31 + list.hashCode()
         return result
     }
 

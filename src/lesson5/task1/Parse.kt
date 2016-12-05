@@ -114,7 +114,7 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     val parts = phone.filter { it !in "- ()" }
-    for (i in 1..parts.length - 1) if (phone[i] == '+') return ""
+    if (phone.drop(1).any { it == '+' }) return ""
     if (parts.any { it !in '0'..'9' && it != '+' } || parts == "+") return ""
     return parts
 }

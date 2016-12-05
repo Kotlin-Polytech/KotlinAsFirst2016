@@ -264,8 +264,8 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputStream.write("<html>")
     outputStream.write("<body>")
     outputStream.write("<p>")
-    var file = File(inputName).readText().split("\r\n", "\n").joinToString(separator = "\r\n")
-            .split("\r\n\r\n")
+    var file = File(inputName).readText().split("\r\n", "\n").joinToString(separator = "\n")
+            .split("\n\n")
             .joinToString(separator = "</p><p>")
     for (key in keys) {
         val temp = file.split(key.first).toMutableList()

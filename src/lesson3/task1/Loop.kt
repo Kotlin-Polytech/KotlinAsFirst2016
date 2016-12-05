@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import lesson8.task1.countSubstrings
+
 /**
  * Пример
  *
@@ -57,7 +59,45 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n < 100000) {
+        if (n < 100) {
+            if (n < 10) {
+                return 1
+            } else {
+                return 2
+            }
+        } else {
+            if (n < 1000) {
+                return 3
+            } else {
+                if (n < 10000) {
+                    return 4
+                } else {
+                    return 5
+                }
+            }
+        }
+    } else {
+        if (n < 10000000) {
+            if (n < 1000000) {
+                return 6
+            } else {
+                return 7
+            }
+        } else {
+            if (n < 100000000) {
+    return 8
+} else {
+    if (n < 1000000000) {
+        return 9
+    } else {
+        return 10
+    }
+}
+}
+}
+}
 
 /**
  * Простая
@@ -80,14 +120,27 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for ( i in 2..n/2 ) {
+        if ( n % i == 0 )
+            return i
+    }
+    return n
+
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    for ( i in n - 1 downTo 1 )
+        if (( n % i ) == 0 )
+            return i
+    return n
+
+}
 
 /**
  * Простая
@@ -133,6 +186,8 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 fun revert(n: Int): Int = TODO()
 
+
+
 /**
  * Средняя
  *
@@ -157,7 +212,20 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var square = 0
+    var sum = 0
+    var count = 1
+    var number = 0.0
+    while (sum < n) {
+        square = count * count
+        count++
+        sum += digitNumber(square)
+    }
+    count = sum - n
+    number = square.toDouble()/Math.pow(10.0, (count).toDouble())
+    return number.toInt() % 10
+}
 
 /**
  * Сложная

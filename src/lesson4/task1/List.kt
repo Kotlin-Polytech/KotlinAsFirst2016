@@ -104,14 +104,28 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var result = 0.0
+    for(i in v)
+        result+= i * i
+    return (Math.sqrt(result))
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    var result = 0.0
+    for (i in list)
+        result+= i
+    if (list.size == 0)
+        result = 0.0
+    else
+        result/=list.size
+    return result
+}
 
 /**
  * Средняя
@@ -119,7 +133,15 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    if (list.size != 0)
+    {
+        val a = mean(list)
+        for (i in 0..list.size - 1)
+            list[i] -= a
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -128,7 +150,13 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var C = 0.0
+    for ( i in 0..b.size-1 ) {
+        C += a[i] * b[i]
+    }
+    return (C)
+}
 
 /**
  * Средняя
@@ -138,7 +166,15 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double = TODO()
+fun polynom(p: List<Double>, x: Double): Double {
+    var px = 0.0
+    if ( p.isNotEmpty() ) {
+        for (i in 0..p.size - 1) {
+            px += p[i] * Math.pow(x, i.toDouble())
+        }
+        return (px)
+    } else return 0.0
+}
 
 /**
  * Средняя
@@ -148,7 +184,17 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty())
+        else
+    {
+        for (i in 1..list.size - 1)
+        {
+            list[list.size - i] = list.subList(0, list.size - i + 1).sum()
+        }
+    }
+    return list
+}
 
 /**
  * Средняя

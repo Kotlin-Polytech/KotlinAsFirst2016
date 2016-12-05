@@ -195,6 +195,8 @@ fun plusMinus(expression: String): Int {
         return sum
     } catch (e: StringIndexOutOfBoundsException) {
         throw IllegalArgumentException(expression)
+    } catch (e: NumberFormatException){
+        throw IllegalArgumentException(expression)
     }
 }
 

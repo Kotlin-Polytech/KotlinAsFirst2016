@@ -3,6 +3,7 @@ package lesson6.task1
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import java.util.*
 
 class Tests {
     @Test
@@ -102,6 +103,7 @@ class Tests {
     fun bisectorByPoints() {
         assertEquals(Line(Point(2.0, 0.0), Math.PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
+        assertEquals(Line(Point(-632.0, -632.0), 0.0), bisectorByPoints(Point(-632.0, -632.0), Point(-632.0, -632.0)))
     }
 
     @Test
@@ -123,7 +125,11 @@ class Tests {
         val result = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
         assertTrue(result.center.distance(Point(0.0, 0.0)) < 1e-5)
         assertEquals(5.0, result.radius, 1e-5)
+        assertThrows(IllegalArgumentException::class.java) {
+            circleByThreePoints(Point(0.0, 0.0), Point(1.0, 0.0), Point(2.0, 0.0))
+        }
     }
+
 
     @Test
     @Tag("Impossible")

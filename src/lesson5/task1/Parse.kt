@@ -1,6 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
+import lesson3.task1.maxDivisor
 
+val MONTHS = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+val slist = listOf("0123456789")
 /**
  * Пример
  *
@@ -60,17 +64,42 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
 
-/**
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        val month = parts[1]
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        if ((day !in 1..31) || (month !in MONTHS)) return ""
+        else return String.format("%02d.%02d.%d", day, MONTHS.indexOf(month).toInt() + 1, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
+
+    /**
  * Средняя
  *
  * Дата представлена строкой вида "15.07.2016".
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
-
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val month = parts[1].toInt()
+        if ((day !in 1..31) || (month.toInt() !in 1..12)) return ""
+        else return String.format("%d %s %d", day, MONTHS[month - 1], year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 /**
  * Сложная
  *
@@ -83,7 +112,13 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var newPhone = phone
+    if (phone.contains(Regex("""[^-+0123456789()\s]"""))) return ""
+    else newPhone.filter { it == ')' || it == '(' || (it in '0'..'9') || (it == '+') }
+    if (newPhone.contains(Regex("""(\+\d\)?(\(\d+\)?(\d+)))"""))) return newPhone
+    else return newPhone.filter { (it == '+') || (it in '0'..'9') }
+}
 
 /**
  * Средняя
@@ -95,7 +130,16 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun intList(list: List<String>) = list.map { it.toInt() }
+
+fun bestLongJump(jumps: String): Int {
+    if (jumps.contains(Regex("""[^\d\s%-]"""))) return -1
+    if (jumps.contains(Regex("""\d"""))) {
+        val newJumps = jumps.split(" ").filter { it.toString().contains(Regex("""\d""")) }
+        val a = intList(newJumps)
+        return a.max() ?: -1
+    } else return -1
+}
 
 /**
  * Сложная

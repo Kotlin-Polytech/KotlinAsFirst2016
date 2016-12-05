@@ -126,6 +126,7 @@ data class Line(val point: Point, val angle: Double) {
         val a1 = Math.tan(angle) * b2
         val a2 = Math.tan(other.angle) * b1
         val tanDif = Math.tan(other.angle) - Math.tan(angle)
+        if (tanDif == 0.0) throw IllegalArgumentException("Прямые параллельны")
         return Point((b1 + b2) / tanDif, (a1 + a2) / tanDif)
     }
 }

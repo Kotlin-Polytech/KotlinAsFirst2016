@@ -73,12 +73,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
     override fun equals(other: Any?): Boolean {
         if (other is MatrixImpl<*> &&
                 height == other.height &&
-                width == other.width) {
-            for (i in 0..height - 1)
-                for (j in 0..width - 1)
-                    if (other.map == map) return true
-
-        }
+                width == other.width)
+            if (other.map == map) return true
         return false
     }
 
@@ -97,10 +93,10 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
             for (column in 0..width - 1) {
                 sb.append(this[row, column], ", ")
             }
-            sb.removePrefix(", ")
+            sb.deleteCharAt(width - 1)
             sb.append("]")
         }
-        sb.removePrefix(", ")
+        sb.deleteCharAt(height - 1)
         sb.append("]")
         return sb.toString()
     }

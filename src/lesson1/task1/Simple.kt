@@ -62,9 +62,9 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val translate  = sagenes * 48
-    val translate2 = arshins * 16
-    val sum = translate + translate2 + vershoks
+    val translateSagenes  = sagenes * 48
+    val translateArshins = arshins * 16
+    val sum = translateSagenes + translateArshins + vershoks
     return (sum * 4.445) / 100
 }
 
@@ -95,10 +95,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(s
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    val delete1 = number % 1000
-    return delete1 / 100
-}
+fun thirdDigit(number: Int): Int = (number % 1000) / 100
 
 /**
  * Простая
@@ -108,9 +105,9 @@ fun thirdDigit(number: Int): Int {
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val tominutes = (hoursArrive - hoursDepart) * 60
-    val minutes = minutesArrive - minutesDepart
-    return tominutes + minutes
+    val travelHourTominutes = (hoursArrive - hoursDepart) * 60
+    val travelMinutes = minutesArrive - minutesDepart
+    return travelHourTominutes + travelMinutes
 }
 
 
@@ -121,12 +118,7 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val const = 0.01 * percent
-    val first = initial + (initial * const)
-    val second = first + (first * const)
-    return second + (second * const)
-}
+fun accountInThreeYears(initial: Int, percent: Int): Double = ((initial * (1 + 0.01 * percent)) * (1 + 0.01 * percent)) * (1 + 0.01 * percent)
 
 /**
  * Простая
@@ -140,4 +132,19 @@ fun numberRevert(number: Int): Int {
     val first = number / 100
     return third * 100 + second * 10 + first
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -267,9 +267,7 @@ fun pow(a: Int, b: Int): Int {
     return result
 }
 
-fun decimal(digits: List<Int>, base: Int): Int {
-    return digits.reversed().mapIndexed { i, d -> d * pow(base, i) }.sum()
-}
+fun decimal(digits: List<Int>, base: Int): Int = digits.reversed().mapIndexed { i, d -> d * pow(base, i) }.sum()
 
 /**
  * Сложная

@@ -20,10 +20,10 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  */
 fun isNumberHappy(number: Int): Boolean {
     val numb1 = number / 1000
-    val numb2 = (number / 100) % 10
-    val numb3 = ((number % 1000) / 10) % 10
-    val numb4 = (((number % 1000)) % 100) % 10
-    return ((numb1 + numb2) == (numb3 + numb4))
+    val numb2 = number % 1000 / 100
+    val numb3 = number % 100 / 10
+    val numb4 = number % 10
+    return numb1 + numb2 == numb3 + numb4
 }
 
 /**
@@ -36,13 +36,12 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     val horizon = (x1 == x2)
     val vertical = (y1 == y2)
     val diagonal = ((Math.abs(x1 - x2)) == Math.abs(y1 - y2))
-    val result = when {
+    return when {
         horizon -> true
         vertical -> true
         diagonal -> true
         else -> false
     }
-    return result
 }
 
 /**
@@ -53,9 +52,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                  x2: Double, y2: Double, r2: Double): Boolean {
-    return Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
-}
+                  x2: Double, y2: Double, r2: Double): Boolean = Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
 
 /**
  * Средняя
@@ -69,17 +66,17 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     var mini1 = 0
     var mini2 = 0
-    if ((a <= b) && (a <= c)) {
+    if (a <= b && a <= c) {
         mini1 = a
         mini2 = Math.min(b, c)
     }
-    if ((b <= a) && (b <= c)) {
+    if (b <= a && b <= c) {
         mini1 = b
         mini2 = Math.min(a, c)
     }
-    if ((c <= a) && (c <= b)) {
+    if (c <= a && c <= b) {
         mini1 = c
         mini2 = Math.min(a, b)
     }
-    return ((mini1 <= r) && (mini2 <= s)) || ((mini1 <= s) && (mini2 <= r))
+    return mini1 <= r && mini2 <= s || mini1 <= s && mini2 <= r
 }

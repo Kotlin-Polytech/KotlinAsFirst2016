@@ -1,8 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task2
 
-import lesson2.task2.pointInsideCircle
-import java.util.*
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -25,21 +23,8 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        var result = ""
-        result += when(column){
-            1 -> 'a'
-            2 -> 'b'
-            3 -> 'c'
-            4 -> 'd'
-            5 -> 'e'
-            6 -> 'f'
-            7 -> 'g'
-            8 -> 'h'
-            else -> ""
-        }
-        if (row in 1..8) result += row.toString()
-        else return  ""
-        return result
+        if(!inside()) return ""
+        return "${'a' + column - 1}$row"
     }
 }
 
@@ -51,26 +36,10 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    try {
-        val x = when (notation[0]) {
-            'a' -> 1
-            'b' -> 2
-            'c' -> 3
-            'd' -> 4
-            'e' -> 5
-            'f' -> 6
-            'g' -> 7
-            'h' -> 8
-            else -> throw IllegalArgumentException()
-        }
-        if (notation[1] in '1'..'8') {
-            val y = notation[1].toInt() - 48
-
-            return Square(x, y)
-        } else throw IllegalArgumentException()
-    }catch (e : IllegalArgumentException){
-        throw IllegalArgumentException()
-    }
+    val columnNotation = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+    val row = listOf<Char>('1', '2', '3', '4', '5', '6', '7', '8')
+    if (notation.length != 2 || notation[0] !in columnNotation || notation[1] !in row) throw IllegalArgumentException()
+    return Square(columnNotation.indexOf(notation[0]) + 1, row.indexOf(notation[1]) + 1)
 }
 
 /**

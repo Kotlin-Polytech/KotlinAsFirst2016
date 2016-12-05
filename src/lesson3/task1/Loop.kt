@@ -2,7 +2,6 @@
 
 package lesson3.task1
 
-import com.sun.org.apache.xerces.internal.impl.xpath.regex.Match
 
 /**
  * Пример
@@ -98,7 +97,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = m * n / nod(m, n)
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Простая
@@ -137,7 +136,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun nod(m: Int, n: Int): Int {
+fun gcd(m: Int, n: Int): Int {
     var a = m
     var b = n
     while (b != 0) {
@@ -148,7 +147,7 @@ fun nod(m: Int, n: Int): Int {
     return a
 }
 
-fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = gcd(m, n) == 1
 
 /**
  * Простая
@@ -176,7 +175,7 @@ fun sin(x: Double, eps: Double): Double {
     var n = 1
     while (Math.abs(Math.pow(fir, i.toDouble()) / factorial(i)) >= eps) {
         var pow = Math.pow(fir, i.toDouble())
-        var fact = factorial(i)
+        val fact = factorial(i)
         if (n % 2 == 1) summ += pow / fact
         else summ -= pow / fact
         i += 2
@@ -199,7 +198,7 @@ fun cos(x: Double, eps: Double): Double {
     var n = 1
     while (Math.abs(Math.pow(fir, i.toDouble())) / factorial(i) >= eps) {
         var pow = Math.pow(fir, i.toDouble())
-        var fact = factorial(i)
+        val fact = factorial(i)
         if (n % 2 == 1) summ += pow / fact
         else summ -= pow / fact
         i += 2
@@ -280,7 +279,7 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var fir = 1
+    var fir = 1 //  я подумаю как переписать данную функцию
     var sec = 1
     var str = "11"
     var i = 2

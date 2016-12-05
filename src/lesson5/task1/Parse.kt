@@ -61,7 +61,7 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    if (str.matches(Regex("""[0-9]+\s[а-яА-Я]+\s[0-9]+"""))) {
+    if (str.matches(Regex("""[0-9]+\s[а-я]+\s[0-9]+"""))) {
         val parts = str.split(' ')
         val day = parts[0].toInt()
         val years = parts[2].toInt()
@@ -78,10 +78,9 @@ fun dateStrToDigit(str: String): String {
             "октября" -> 10
             "ноября" -> 11
             "декабря" -> 12
-            else -> 0
+            else -> return ""
         }
-        if (month != 0) return String.format("%02d.%02d.%d", day, month, years)
-        else return ""
+        return String.format("%02d.%02d.%d", day, month, years)
     } else return ""
 }
 
@@ -110,10 +109,9 @@ fun dateDigitToStr(digital: String): String {
             10 -> "октября"
             11 -> "ноября"
             12 -> "декабря"
-            else -> 0
+            else -> return ""
         }
-        if (month != 0) return String.format("%d %s %d", day, month, year)
-        else return ""
+        return String.format("%d %s %d", day, month, year)
     } else return ""
 }
 
@@ -148,14 +146,7 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     try {
-        val parts = jumps.split(" ", "-", "%")
-        var max = -1
-        for (i in 0..parts.size - 1) {
-            if ((parts[i] != "") && (parts[i].toInt() > max)) {
-                max = parts[i].toInt()
-            }
-        }
-        return max
+        return jumps.split(" ", "-", "%").filter { it != "" }.map { it.toInt() }.max() ?: -1
     } catch (e: NumberFormatException) {
         return -1
     }
@@ -171,14 +162,13 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int { // не понимаю,что вы предлагаете сделать
+fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
     var maxHigh = -1
     for (i in 1..parts.size - 1 step 2) {
-        for (j in parts[i]) {
-            if ((j == '+') && (maxHigh < parts[i - 1].toInt())) {
-                    maxHigh = parts[i - 1].toInt()
-            }
+        if('+' in parts[i]) {
+            if (maxHigh < parts[i - 1].toInt())
+                maxHigh = parts[i - 1].toInt()
         }
     }
     return maxHigh
@@ -203,8 +193,6 @@ fun plusMinus(expression: String): Int {
             else throw  IllegalArgumentException(expression)
         }
         return sum
-    } catch (e: IllegalArgumentException) {
-        throw IllegalArgumentException(expression)
     } catch (e: StringIndexOutOfBoundsException) {
         throw IllegalArgumentException(expression)
     }
@@ -223,17 +211,13 @@ fun firstDuplicateIndex(str: String): Int {
     try {
         val parts = str.toLowerCase().split(" ")
         var i = 0
-        var result = -1
+        var result = 0
         while ((parts[i] != parts[i + 1]) && (i < parts.size)){
+            result += (parts[i].length + 1)
             i++
         }
-        if (i == parts.size) return result
-        else {
-            for (j in 0..i - 1) {
-                result += (parts[j].length + 1)
-            }
-        }
-        return result + 1
+        if (i == parts.size) return -1
+        else return result
     } catch (e: IndexOutOfBoundsException) {
         return -1
     }
@@ -252,20 +236,18 @@ fun firstDuplicateIndex(str: String): Int {
  */
 fun mostExpensive(description: String): String {
     try {
-        val parts = description.split("; ", " ")
-        var max = 0.0
-        var maxindex = 0
-        for (i in 1..parts.size - 1 step 2) {
-            if ((parts[i].toDouble() > max) && (i < parts.size)) {
-                max = parts[i].toDouble()
-                maxindex = parts.indexOf(parts[i])
+        val parts = description.split("; ")
+        var maxCost = 0.0
+        var nameOfMaxCost = ""
+        for (i in 0..parts.size - 1 ) {
+            val partsOfParts = parts[i].split(" ")
+            if (partsOfParts[1].toDouble() > maxCost)  {
+                maxCost = partsOfParts[1].toDouble()
+                nameOfMaxCost = partsOfParts[0]
             }
         }
-        if (parts.size != 1) return parts[maxindex - 1]
-        else return ""
-    } catch (e: NumberFormatException) {
-        return ""
-    }catch (e: IndexOutOfBoundsException){
+        return nameOfMaxCost
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 }

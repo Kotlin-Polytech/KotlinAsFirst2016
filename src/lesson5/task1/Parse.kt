@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -107,7 +106,15 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var maxHigh = -1
+    for (i in 1..parts.size - 1 step 2) {
+        val jump = parts[i - 1].toInt()
+        if (parts[i].contains("+") && jump > maxHigh) maxHigh = jump
+    }
+    return maxHigh
+}
 
 /**
  * Сложная
@@ -118,7 +125,33 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var result = 0
+    val length = parts.size
+    val matchDigitOrSign = Regex("""[^\d+-]""")
+    val matchDigit = Regex("""\d""")
+    val matchSign = Regex("""[-+]""")
+    if ((length == 1) && (parts[0].contains(matchDigitOrSign)) || expression == "") {
+        throw IllegalArgumentException("Wrong expression format")
+    } else {
+        for (i in 0..length - 2) {
+            val bothDigits = parts[i].contains(matchDigit) && parts[i + 1].contains(matchDigit)
+            val bothSigns = parts[i].contains(matchSign) && parts[i + 1].contains(matchSign)
+            val notNumberOrSign = parts[i].contains(matchDigitOrSign) || parts[i + 1].contains(matchDigitOrSign)
+            val condition = bothDigits || bothSigns || notNumberOrSign
+            if (condition) throw IllegalArgumentException("Wrong expression format")
+            else {
+                when (parts[i]) {
+                    "+" -> result += parts[i + 1].toInt()
+                    "-" -> result -= parts[i + 1].toInt()
+                }
+            }
+        }
+        result += parts[0].toInt()
+    }
+    return result
+}
 
 /**
  * Сложная

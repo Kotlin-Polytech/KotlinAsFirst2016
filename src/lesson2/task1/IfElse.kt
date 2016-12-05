@@ -33,7 +33,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return when {
+        (age % 10 == 1) && (age % 100 != 11) -> ("$age год")
+        (age % 10 == 0) || (age % 10 in 5..9) || (age in 5..19) || (age % 100 in 11..19) -> ("$age лет")
+        else -> ("$age года")
+    }
+}
 
 /**
  * Простая
@@ -44,19 +50,36 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val halfway = (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
+    if (halfway <= (t1 * v1)) return halfway / v1
+    else if (halfway <= t1 * v1 + t2 * v2) return t1 + (halfway - t1 * v1) / v2
+    else if (halfway <= t1 * v1 + t2 * v2 + t3 * v3) return t1 + t2 + (halfway - t1 * v1 - t2 * v2) / v3
+    else return Double.NaN
+}
 
 /**
  * Простая
  *
- * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
+ * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).-
  * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
  * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
  * и 3, если угроза от обеих ладей.
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    var rookOneThreatens = false
+    var rookTwoThreatens = false
+    if (kingX == rookX1 || kingY == rookY1) rookOneThreatens = true
+    if (kingX == rookX2 || kingY == rookY2) rookTwoThreatens = true
+    return when {
+        rookOneThreatens && rookTwoThreatens -> 3
+        !rookOneThreatens && rookTwoThreatens -> 2
+        rookOneThreatens && !rookTwoThreatens -> 1
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -69,7 +92,18 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    var rookThreatens = false
+    var bishopThreatens = false
+    if (kingX == rookX || kingY == rookY) rookThreatens = true
+    if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) bishopThreatens = true
+    return when {
+        rookThreatens && bishopThreatens -> 3
+        !rookThreatens && bishopThreatens -> 2
+        rookThreatens && !bishopThreatens -> 1
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -79,7 +113,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a >= b + c) || (b >= a + c) || (c >= a + b)) return -1
+    else return when {
+        (a * a > b * b + c * c) || (b * b > a * a + c * c) || (c * c > a * a + b * b) -> 2
+        (a * a == b * b + c * c) || (b * b == a * a + c * c) || (c * c == a * a + b * b) -> 1
+        else -> 0
+    }
+}
 
 /**
  * Средняя
@@ -89,4 +130,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (c >= a) {
+        if (c > b) return -1
+        else if (d >= b) return b - c
+        else return d - c
+    } else {
+        if (d >= b) return b - a
+        else if (d >= a) return d - a
+        else return -1
+    }
+}

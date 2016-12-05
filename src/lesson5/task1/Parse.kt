@@ -163,13 +163,14 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     val members = expression.split(" ")
-    var result = members[0].toInt()
+    val firstMember = members[0]
     val lengthOfString = members.size
     val rightNumber = Regex("""\d""")
     val rightSymbol = Regex("""[+-]""")
     val notRightFormat = Regex("""[^\d+-]""")
-    if ((lengthOfString == 1) && ((members[0].contains(notRightFormat)) || expression == "")) throw IllegalArgumentException("Wrong data format")
+    if ((lengthOfString == 1) && ((firstMember.contains(notRightFormat)) || expression == "")) throw IllegalArgumentException("Wrong data format")
     else {
+        var result = members[0].toInt()
         for (i in 0..lengthOfString - 2) {
             val TwoPluses = members[i].contains(rightSymbol) && members[i + 1].contains(rightSymbol)
             val TwoNumbers = members[i].contains(rightNumber) && members[i + 1].contains(rightNumber)
@@ -181,8 +182,8 @@ fun plusMinus(expression: String): Int {
                 if (members[i] == "-") result -= members[i + 1].toInt()
             }
         }
+        return result
     }
-    return result
 }
 
 /**
@@ -208,26 +209,26 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val Members = description.split(" ")
-    var Max = 0
-    var Result = ""
+    val members = description.split(" ")
+    var max = 0
+    var result = ""
     if (description == "") return ""
     else {
-        for (i in 1..Members.size - 1 step 2) {
-            if (Members[i].matches(Regex("""[0-9]+.[0-9]"""))) {
-                val BothMembers = Members[i].split(".")
-                var BothMem = BothMembers[0].toInt()
-                if (BothMembers[1].toInt() >= 5) BothMem += 1
-                else BothMem -= 0
-                if (BothMem > Max) {
-                    Max = BothMem
-                    Result = Members[i - 1]
+        for (i in 1..members.size - 1 step 2) {
+            if (members[i].matches(Regex("""[0-9]+.[0-9]"""))) {
+                val twoPartsOfTheNumber = members[i].split(".")
+                var firstPartOfTheNumber = twoPartsOfTheNumber[0].toInt()
+                val secondPartOfTheNumber = twoPartsOfTheNumber[1].toInt()
+                if (secondPartOfTheNumber >= 5) firstPartOfTheNumber += 1
+                else firstPartOfTheNumber -= 0
+                if (firstPartOfTheNumber > max) {
+                    max = firstPartOfTheNumber
+                    result = members[i - 1]
                 }
             }
-
         }
     }
-    return Result
+    return result
 } // НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!!
 
 /**
@@ -274,3 +275,33 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+/**
+ *
+ */
+fun myFun(from: String, to: String, route: String): Int {
+    if ((from == "") || (to == "") || (route == "")) throw IllegalArgumentException("Wrong data format")
+    else {
+        val parts = route.split(" ")
+        var timeFrom = ""
+        var timeTo = ""
+        for (i in 0..parts.size - 1) {
+            if (parts[i] == from) timeFrom += parts[i + 1]
+            if (parts[i] == to) timeTo += parts[i + 1]
+        }
+        val rightFormatTimeFrom = timeFrom.split(":")
+        var firstResult = 0
+        for (j in 0..rightFormatTimeFrom.size - 1) {
+            val number = j.toInt()
+            firstResult = firstResult * 60 + number
+        }
+        val rightFormatTimeTo = timeTo.split(":")
+        var secondResult = 0
+        for (g in 0..rightFormatTimeTo.size - 1) {
+            val number = g.toInt()
+            secondResult = secondResult * 60 + number
+        }
+        val result = Math.abs(firstResult - secondResult)
+        return result
+    }
+}

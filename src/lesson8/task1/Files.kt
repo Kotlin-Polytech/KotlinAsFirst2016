@@ -2,7 +2,6 @@
 
 package lesson8.task1
 
-import javafx.beans.binding.Bindings.isNotEmpty
 import java.io.File
 
 /**
@@ -268,7 +267,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     outputStream.write("$space$space<p>\r\n$space$space$space")
     var file = File(inputName).readText().split("\r\n", "\n").joinToString(separator = "\r\n$space$space$space")
             .split("\r\n$space$space$space\r\n$space$space$space")
-            .joinToString(separator = "\r\n$space$space</p>\r\n$space$space<p>\r\n$space$space$space")
+            .joinToString(separator = "\r\n$space$space</p>\r\n$space$space<p>")
     for (key in keys) {
         val temp = file.split(key.first).toMutableList()
         if (temp.size == 1) continue

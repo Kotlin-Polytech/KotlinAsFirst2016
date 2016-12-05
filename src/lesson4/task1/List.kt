@@ -105,13 +105,15 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * Модуль пустого вектора считать равным 0.0.
  */
 fun abs(v: List<Double>): Double = TODO()
-
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double =
+    if (list.isEmpty()) 0.0
+    else list.sum()/list.count()
+
 
 /**
  * Средняя
@@ -128,9 +130,22 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
-
-/**
+fun times(a: List<Double>, b: List<Double>): Double= TODO()
+/***
+{
+    if (a.isEmpty()) 0.0
+    else if (b.isEmpty()) 0.0
+    else {
+        var resAB0 = 0.0
+         for (i in 0..a.size - 1) {
+            resAB = a[i] * b[i]
+            resAB.add(resAB[i])
+        }
+        return resAB
+    }
+}
+**/
+    /**
  * Средняя
  *
  * Рассчитать значение многочлена при заданном x:
@@ -148,8 +163,22 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty()) return list
+    else {
+        for ((index, element) in list.withIndex()) {
+           if (index==0) {
+               list[index]=element
+           }
+            else list[index]=element + list[index-1]
 
+
+
+        }
+    }
+    return list
+
+}
 /**
  * Средняя
  *
@@ -157,8 +186,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
-
+fun factorize(n: Int): List<Int> = listOf()
 /**
  * Сложная
  *

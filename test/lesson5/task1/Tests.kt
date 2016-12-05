@@ -24,16 +24,22 @@ class Tests {
     @Test
     @Tag("Normal")
     fun dateStrToDigit() {
+        assertEquals("16.05.1", dateStrToDigit("16 мая 1"))
         assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("01.01.2001", dateStrToDigit("1 января 2001"))
+        assertEquals("12.12.2012",dateStrToDigit("12 декабря 2012"))
     }
 
     @Test
     @Tag("Normal")
     fun dateDigitToStr() {
+        assertEquals("1 декабря 2012", dateDigitToStr("01.12.2012"))
+        assertEquals("27 декабря 2147483647", dateDigitToStr("27.12.2147483647"))
+        assertEquals("4 января 2016", dateDigitToStr("04.01.2016"))
         assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
         assertEquals("", dateDigitToStr("01.02.20.19"))
         assertEquals("", dateDigitToStr("28.00.2000"))
@@ -54,6 +60,8 @@ class Tests {
     @Test
     @Tag("Normal")
     fun bestLongJump() {
+        assertEquals(2147483647,bestLongJump("- - - 2147483647 -"))
+        assertEquals(2147483647, bestLongJump("2147483647 2147483647 1293481108 485941124 - 2147483647 0 0 - % % 2147483647 874153709 2147483647 580902861 % - - - 890139436 - 0 - 1320848252 - - - 2147483647"))
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
@@ -64,6 +72,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun bestHighJump() {
+        assertEquals(0, bestHighJump("0 %+"))
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
@@ -81,6 +90,7 @@ class Tests {
     @Test
     @Tag("Hard")
     fun firstDuplicateIndex() {
+        assertEquals(9, firstDuplicateIndex("Я пришел я я но в итоге я пошел не домой а туда"))
         assertEquals(-1, firstDuplicateIndex("Привет"))
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
         assertEquals(40, firstDuplicateIndex("Яблоко упало на ветку с ветки оно упало на на землю"))
@@ -91,8 +101,10 @@ class Tests {
     @Tag("Hard")
     fun mostExpensive() {
         assertEquals("", mostExpensive(""))
+        assertEquals("", mostExpensive("Хлеб 39.5; Молоко 39.4; Яблоко -12"))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
+        assertEquals("ጄ", mostExpensive("ጄ 0"))
     }
 
     @Test

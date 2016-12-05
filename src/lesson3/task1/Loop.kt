@@ -1,6 +1,19 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
+import lesson1.task1.sqr
+import java.lang.Math.*
 
+fun powInt (a: Int , b:Int): Int {
+    var count = b
+    var x = a
+    var result = 1
+    while (count>0) {
+        count = count -1
+        result = result*x
+    }
+
+    return result
+}
 /**
  * Пример
  *
@@ -57,7 +70,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var result = 0
+    var newN = n
+    if (newN == 0) return 1
+    while (newN !== 0) {
+        result ++
+        newN /= 10
+    }
+    return result
+}
 
 /**
  * Простая
@@ -65,7 +87,15 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var start= 0
+    var finish = 1
+    for (i in 2..n) {
+        finish += start
+        start = finish - start
+    }
+    return finish
+}
 
 /**
  * Простая
@@ -73,7 +103,19 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var a = max(m, n)
+    var b = min(m, n)
+    var c = 0
+    c = a
+    while (a % b > 0) {
+        c = a
+        a = b
+        b = c % b
+    }
+    return n * m / b
+}
+
 
 /**
  * Простая
@@ -131,7 +173,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number = n
+    var newNumber = 0
+    while (number > 0) {
+        newNumber *= 10
+        newNumber += number % 10
+        number /= 10
+    }
+    return newNumber
+}
 
 /**
  * Средняя
@@ -140,7 +191,8 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean =
+    (revert(n) == n)
 
 /**
  * Средняя
@@ -148,7 +200,16 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var number = n
+    while (number > 9) {
+        if (number % 10 == (number % 100) / 10)
+            number /= 10
+        else return true
+    }
+    if (number != n%10) return true
+    return false
+}
 
 /**
  * Сложная
@@ -157,7 +218,18 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var i = 0
+    var beforeN = 0
+    while (beforeN < n) {
+        i += 1
+        beforeN += digitNumber(i * i)
+    }
+    if (beforeN == n) return (i * i) % 10
+    else return ((i * i) / powInt(10, beforeN - n) % 10)
+
+}
+
 
 /**
  * Сложная
@@ -166,4 +238,13 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var  i = 0
+    var beforeN = 0
+    while (beforeN < n) {
+        i += 1
+        beforeN += digitNumber (fib(i))
+    }
+    if (beforeN == n) return (fib(i))%10
+    else return ((fib(i) / powInt(10, beforeN - n)%10))
+}

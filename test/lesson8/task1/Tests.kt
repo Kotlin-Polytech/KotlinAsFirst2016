@@ -1,8 +1,11 @@
 package lesson8.task1
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Tag
-import org.junit.jupiter.api.Test
+//import org.junit.jupiter.api.Assertions.assertEquals
+//import org.junit.jupiter.api.Tag
+//import org.junit.jupiter.api.Test
+//import java.io.File
+import org.junit.Assert.*
+import org.junit.Test
 import java.io.File
 
 class Tests {
@@ -14,7 +17,7 @@ class Tests {
     }
 
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun alignFile() {
         alignFile("input/align_in1.txt", 50, "temp.txt")
         assertFileContent("temp.txt",
@@ -56,14 +59,14 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun countSubstrings() {
         assertEquals(mapOf("РАЗНЫЕ" to 2, "ные" to 2, "Неряшливость" to 1, "е" to 49, "эволюция" to 0),
                 countSubstrings("input/substrings_in1.txt", listOf("РАЗНЫЕ", "ные", "Неряшливость", "е", "эволюция")))
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun sibilants() {
         sibilants("input/sibilants_in1.txt", "temp.txt")
         assertFileContent("temp.txt",
@@ -85,7 +88,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun centerFile() {
         centerFile("input/center_in1.txt", "temp.txt")
         assertFileContent("temp.txt",
@@ -102,7 +105,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Hard")
+//    @Tag("Hard")
     fun alignFileByWidth() {
         alignFileByWidth("input/width_in1.txt", "temp.txt")
         assertFileContent("temp.txt",
@@ -129,7 +132,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun top20Words() {
         assertEquals(mapOf(
                 "и" to 1106,
@@ -156,7 +159,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun transliterate() {
         transliterate(
                 "input/trans_in1.txt",
@@ -168,7 +171,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun chooseLongestChaoticWord() {
         chooseLongestChaoticWord("input/chaotic_in1.txt", "temp.txt")
         assertFileContent("temp.txt", "Карминовый, Некрасивый")
@@ -198,7 +201,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Hard")
+//    @Tag("Hard")
     fun markdownToHtmlSimple() {
         markdownToHtmlSimple("input/markdown_simple.md", "temp.html")
         checkHtmlSimpleExample()
@@ -257,14 +260,14 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Hard")
+//    @Tag("Hard")
     fun markdownToHtmlLists() {
         markdownToHtmlLists("input/markdown_lists.md", "temp.html")
         checkHtmlListsExample()
     }
 
     @Test
-    @Tag("Impossible")
+//    @Tag("Impossible")
     fun markdownToHtml() {
         markdownToHtml("input/markdown_simple.md", "temp.html")
         checkHtmlSimpleExample()
@@ -274,7 +277,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Normal")
+//    @Tag("Normal")
     fun printMultiplicationProcess() {
         fun test(lhv: Int, rhv: Int, res: String) {
             printMultiplicationProcess(lhv, rhv, "temp.txt")
@@ -324,7 +327,7 @@ Basic, Ruby, Swift.
     }
 
     @Test
-    @Tag("Impossible")
+//    @Tag("Impossible")
     fun printDivisionProcess() {
 
         fun test(lhv: Int, rhv: Int, res: String) {

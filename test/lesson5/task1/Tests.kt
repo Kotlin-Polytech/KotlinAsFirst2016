@@ -127,4 +127,11 @@ class Tests {
         assertEquals(listOf(0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0),
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++{--< <[<] >+[>+] >++}"))
     }
+
+    @Test
+    fun myFun() {
+        assertEquals(mutableListOf("Глухих, Васильев"), myFun(mutableListOf("Петров Иван - Математика 2, Физика 2, Химия 3",
+                "Глухих Дмитрий - Яблоко 5, Физика 4", "Васильев Камил - Химия 4, Матан 5"), 4.0))
+        assertEquals(mutableListOf(""), myFun(mutableListOf("adasdasdas"), 2.0))
+    }
 }

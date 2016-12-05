@@ -68,9 +68,7 @@ data class Circle(val center: Point, val radius: Double) {
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean {
-        return center.distance(p) <= radius
-    }
+    fun contains(p: Point): Boolean = center.distance(p) <= radius
 }
 
 /**
@@ -110,8 +108,9 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-   val radius = diameter.begin.distance(diameter.end)/2
-    val center = Point((diameter.begin.x + diameter.end.x)/2, (diameter.end.y + diameter.begin.y)/2)
+    val radius = diameter.begin.distance(diameter.end) / 2
+    val center = Point((diameter.begin.x + diameter.end.x) / 2,
+            (diameter.end.y + diameter.begin.y) / 2)
     return Circle(center, radius)
 }
 
@@ -140,13 +139,13 @@ data class  Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     var myRadius = 0.0
     val myPoint = Point(s.begin.x, s.begin.y)
-    if (s.begin.x == s.end.x){
-        myRadius = Math.PI/2
+    if (s.begin.x == s.end.x) {
+        Math.atan2(s.begin.x, s.end.x)
     }
     val firstKat = s.end.x - s.begin.x
     val secondKat = s.end.y - s.begin.y
-     myRadius = Math.atan(secondKat/firstKat)
-    return Line (myPoint, myRadius)
+    myRadius = Math.atan(secondKat / firstKat)
+    return Line(myPoint, myRadius)
 }
 
 /**
@@ -155,9 +154,8 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 
-fun lineByPoints(a: Point, b: Point): Line {
-    return lineBySegment(Segment(a,b))
-}
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
+
 
 /**
  * Сложная
@@ -168,9 +166,10 @@ fun lineByPoints(a: Point, b: Point): Line {
 fun bisectorByPoints(a: Point, b: Point): Line {
     val center = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
     val myAngle = lineByPoints(a, b).angle
-    if (myAngle >= Math.PI / 2) {
+    if (myAngle >= Math.PI / 2)
         return Line(center, myAngle - Math.PI / 2)
-    } else return Line(center, myAngle + Math.PI / 2)
+    else
+        return Line(center, myAngle + Math.PI / 2)
 }
 
 /**
@@ -179,7 +178,20 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+    var myDistance = circles[0].distance(circles[1])
+    var myResult = Pair(circles[0], circles[1])
+    for (i in 0..circles.size - 2) {
+        for (j in i + 1..circles.size - 1) {
+            if (myDistance > circles[i].distance(circles[j])) {
+                myDistance = circles[i].distance(circles[j])
+                myResult = Pair(circles[i], circles[j])
+            }
+        }
+    }
+    return myResult
+}
 
 /**
  * Очень сложная

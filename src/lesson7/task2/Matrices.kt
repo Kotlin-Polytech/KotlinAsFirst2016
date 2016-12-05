@@ -19,6 +19,16 @@ fun Cell.near(other: Cell): Boolean {
             (abs(this.row - other.row) == 1 && this.column - other.column == 0)
 }
 
+fun createFilledMatrix(height: Int, width: Int, values: List<List<Int>>): Matrix<Int> {
+    val matrix = createMatrix(height, width, values[0][0])
+    for (row in 0..height - 1) {
+        for (column in 0..width - 1) {
+            matrix[row, column] = values[row][column]
+        }
+    }
+    return matrix
+}
+
 //Extensions of Matrix class
 fun <E> Matrix<E>.getRow(row: Int): List<E> =
         if (row in 0..height - 1) (0..width - 1).map { this[row, it] } else throw IllegalArgumentException("Index out of bounds: $row")
@@ -472,16 +482,6 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
  *
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
-//Я взял ваше решение, так как мне нужно создать 2 матрицы, которые будут являться решенияи
-fun createFilledMatrix(height: Int, width: Int, values: List<List<Int>>): Matrix<Int> {
-    val matrix = createMatrix(height, width, values[0][0])
-    for (row in 0..height - 1) {
-        for (column in 0..width - 1) {
-            matrix[row, column] = values[row][column]
-        }
-    }
-    return matrix
-}
 val solution1 = createFilledMatrix(4,4, listOf(listOf(1, 2, 3, 4),
         listOf(5, 6, 7, 8),
         listOf(9, 10, 11, 12),
@@ -491,61 +491,188 @@ val solution2 = createFilledMatrix(4,4, listOf(listOf(1, 2, 3, 4),
         listOf(9, 10, 11, 12),
         listOf(13, 15, 14, 0)))
 
-fun h(matrix: Matrix<Int>): Int {
-    var n = 0
-    for (i in 0..3)
-        for (j in 0..3)
-            if (matrix[i,j] != 0)
-                if (matrix[i,j] != i * 4 + j + 1) {
-                    n += abs(matrix[i, j] / 4 - i) + abs(matrix[i, j] % 4 - j - 1)
+class State(val matrix: Matrix<Int>, val moved: Int?)  {
+
+    object companion {
+        var START = createMatrix(4,4,0)
+            set(value) {
+                field = value
+                solutionChoose()
+            }
+        var SOLUTION = createMatrix(4,4,0)
+        val ZERO_MATRIX = createMatrix(4,4,0)
+
+        private fun solutionChoose() {
+            var N = 0
+            val zeroRow = START.indexOf(0).row + 1
+            val list = mutableListOf<Int>()
+            for (i in 0..3)
+                list += START.getRow(i)
+            for (i in 0..15) {
+                if (list[i] == 0) continue
+                for (j in i + 1..15) {
+                    if (list[i] > list[j] && list[j] != 0)
+                        N++
                 }
-    return n
+            }
+            N += zeroRow
+            SOLUTION = if (N % 2 == 0) solution1 else solution2
+            println("Solution found: $SOLUTION")
+        }
+    }
+
+    fun getAllMoves(): List<State> {
+        val moves = mutableListOf<State>()
+        val zeroPos = this.matrix.indexOf(0)
+        for(move in this.matrix.findMoves(zeroPos)) {
+            val step = this.matrix.copyN()
+            step.swap(zeroPos, move)
+            moves.add(State(step, this.matrix[move]))
+        }
+        return moves
+    }
+
+    fun getCellsMoves(): List<Cell> = this.matrix.findMoves(this.matrix.indexOf(0))
+
+    fun solved(): Boolean = this.matrix == State.companion.SOLUTION
+
+    fun estimate(): Int {
+        var manhattan = 0
+        for (row in 0..3) {
+            for (column in 0..3) {
+                val value = State.companion.SOLUTION.indexOf(matrix[row, column])
+                manhattan += abs(row - value.row) + abs(column - value.column)
+            }
+        }
+        return manhattan + linearConflict()
+    }
+
+    fun linearConflict(): Int {
+        var conflicts = 0
+        for (row in 0..3) {
+            for (column in 1..3) {
+                for (cell in 0..column - 1) {
+                    val K = matrix[row, column]
+                    val J = matrix[row, cell]
+                    val TileKRow = K / 4 == row || (K / 4 == row + 1 && K % 4 == 0) //Goal-позиция тайла K в этом ряду?
+                    val TileJRow = J / 4 == row || (J / 4 == row + 1 && J % 4 == 0)
+                    if (TileJRow && TileKRow && J > K)
+                        conflicts += 2
+                }
+            }
+        }
+        return conflicts
+    }
+
+}
+
+val visited = HashMap<Matrix<Int>, Int>()
+val moves = mutableListOf<Int>()
+var finished = 0
+
+fun limitedSearch(state: State, limit: Int, path: Int): Boolean {
+    var found = false
+    for (move in state.getCellsMoves()) {
+        val zero = state.matrix.indexOf(0)
+        state.matrix.swap(zero, move)
+        if (state.solved()) {
+            println("Found")
+            found = true
+        } else {
+
+            if (!visited.contains(state.matrix.copyN())) {
+                if (state.estimate() + path + 1 > limit) {
+                    visited.put(state.matrix.copyN(), state.matrix[zero])
+                    finished++
+                }
+                else {
+                    visited.put(state.matrix.copyN(), state.matrix[zero])
+                    val solution = limitedSearch(state, limit, path + 1)
+                    if (solution)
+                        found = true
+                }
+            }
+        }
+        state.matrix.swap(zero, move)
+        if (found) {
+            moves.add(state.matrix[move])
+            return true
+        }
+    }
+    finished++
+    return false
 }
 
 fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
-    var N = 0
-    val list = mutableListOf<Int>()
-    for (i in 0..3)
-        list += matrix.getRow(i)
-    for (i in 0..15)
-        if (list[i] != 0) {
-            for (j in 0..i - 1)
-                if (list[j] > list[i])
-                    N++
-        } else N += 1 + i / 4
-    val solution = if (N % 2 == 0) solution1 else solution2
-    println("Solution: \r\n $solution")
+
+    State.companion.START = matrix
+
+    var count = 0
+
+    val state = State(matrix, null)
+    var limit = state.estimate()
+    var solved = false
+
+    if (state.matrix == State.companion.SOLUTION)
+        return listOf()
+
+    while (!solved) {
+
+        visited.put(state.matrix.copyN(), 0)
+        val solution = limitedSearch(state, limit, 0)
+        if (solution) {
+            solved = true
+            return moves.reversed()
+        }
+        if (count % 2 == 0)
+            println("$count searches are complete, pathes = $finished, current depth = $limit, visited = ${visited.size}")
+        limit += 2
+        visited.clear()
+        moves.clear()
+        count++
+    }
+
 
     // Попытка A* + поиск в шиину
-    data class State(val m: Matrix<Int>, val priority: Int) : Comparable<State> {
-        override fun compareTo (other: State) = when {
-            priority < other.priority -> -1
-            priority > other.priority -> 1
-            else -> 0
-        }
-    }
+    /*
+    val visited = HashMap<State, State>()
+    val depth = HashMap<State, Int>()
+    val comparator = Comparator<State>() {R,T -> (depth[R] ?: 0 + R.estimate()) - (depth[T] ?: 0 + T.estimate())}
+    val queue = PriorityQueue<State>(10000,comparator)
+    val start = State(matrix, null)
+    visited.put(start, State(State.companion.ZERO_MATRIX, null))
+    depth.put(start, 0)
+    queue.add(start)
 
-    val queue = PriorityQueue<State>()
-    queue.add(State(matrix, h(matrix)))
-
-    val visited = mutableMapOf(matrix to 0)
+    var count = 0
     while (queue.isNotEmpty()) {
-        val next = queue.remove()
-        println("Taken with Estimate = ${next.priority}")
-        val distance = visited[next.m]!!
-        if (next.m == solution) {
-            break
-        }
-        val zero = next.m.indexOf(0)
-        for (move in next.m.findMoves(zero)) {
-            val n = next.m.copyN()
-            n.swap(zero, move)
+        val currentState = queue.remove()
 
-            if (n in visited) continue
-            visited.put(n, distance + 1)
-            queue.add(State(n, distance + 1 + h(n)))
+        if(count % 10000 == 0) {
+            println("Considered $count positions. Queue = ${queue.size}")
         }
+
+        if (currentState.solved()) {
+            println("Solution found on $count iteration")
+            val steps = mutableListOf<Int>()
+            var backtrace = currentState
+            while (backtrace.moved != null) {
+                steps.add(backtrace.moved ?: -1)
+                backtrace = visited[backtrace]
+            }
+            println(steps)
+            return steps.reversed()
+        }
+        for (move in currentState.getAllMoves()) {
+            if (!visited.containsKey(move)) {
+                visited.put(move, currentState)
+                depth.put(move, (depth[currentState] ?: 0) + 1)
+                queue.add(move)
+            }
+        }
+        count++
     }
+    */
 
     return listOf()
 }

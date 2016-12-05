@@ -2,8 +2,6 @@
 
 package lesson5.task1
 
-import lesson3.task1.fib
-
 /**
  * Пример
  *

@@ -23,9 +23,9 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        val myAlpabet = "abcdefgh"
+        val myAlphabet = "abcdefgh"
         if (!inside()) return ""
-        return myAlpabet[column-1] + "$row"
+        return myAlphabet[column-1] + "$row"
     }
 }
 

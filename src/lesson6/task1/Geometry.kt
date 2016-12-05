@@ -137,15 +137,11 @@ data class  Line(val point: Point, val angle: Double) {
  */
 
 fun lineBySegment(s: Segment): Line {
-    var myRadius = 0.0
     val myPoint = Point(s.begin.x, s.begin.y)
-    if (s.begin.x == s.end.x) {
-        Math.atan2(s.begin.x, s.end.x)
-    }
-    val firstKat = s.end.x - s.begin.x
-    val secondKat = s.end.y - s.begin.y
-    myRadius = Math.atan(secondKat / firstKat)
-    return Line(myPoint, myRadius)
+    val first = s.end.x - s.begin.x
+    val second = s.end.y - s.begin.y
+    val rad = Math.atan2(second, first)
+    return Line(myPoint, rad)
 }
 
 /**
@@ -202,7 +198,10 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    //сделать, описание алгоритм в интернете
+    TODO()
+}
 
 /**
  * Очень сложная

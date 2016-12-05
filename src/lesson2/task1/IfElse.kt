@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -79,14 +81,33 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    return when {
+        ((a >= b + c) || (b >= a + c) || (c >= a + b)) -> -1
+        ((sqr(a) + sqr(b) == sqr(c)) || (sqr(a) + sqr(c) == sqr(b)) || (sqr(c) + sqr(b) == sqr(a))) -> 1
+        (((sqr(a) + sqr(b)) <= sqr(c)) || (sqr(a) + sqr(c) <= sqr(b)) || (sqr(c) + sqr(b) <= sqr(a))) -> 2
+        else -> 0
+    }
+}
+
 
 /**
  * Средняя
  *
+ * \
  * Даны четыре точки на одной прямой: A, B, C и D.
  * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        ((c >= a) && (c <= b) && (d >= b)) -> (b - c)
+        ((c >= a) && (d <= b)) -> (d - c)
+        ((c <= a) && (b <= d)) -> (b - a)
+        ((c <= a) && (d <= b) && (d >= a)) -> (d - a)
+        else -> -1
+    }
+
+
+}

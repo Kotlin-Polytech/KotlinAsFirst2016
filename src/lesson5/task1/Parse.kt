@@ -60,7 +60,23 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val monthsList = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября",
+        "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    val dateL = str.split(" ")
+    if (dateL.size != 3) return ""
+    try {
+        val date = dateL[0].toInt()
+        val month = dateL[1]
+        val year = dateL[2].toInt()
+        if ((date !in 1..31) || (month !in monthsList)) return ""
+        return String.format("%02d.%02d.%d", date, monthsList.indexOf(month) + 1, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+
+}
 
 /**
  * Средняя
@@ -69,7 +85,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val dateL = digital.split(".")
+    if (dateL.size != 3) return ""
+    try {
+        val date = dateL[0].toInt()
+        val month = dateL[1].toInt()
+        val year = dateL[2].toInt()
+        if ((date !in 1..31) || (month !in 1..12)) return ""
+        return String.format("%d %s %d", date, monthsList[month - 1], year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+
+}
 
 /**
  * Сложная
@@ -83,9 +112,17 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val numberFormat = Regex("""^(\+?\d+)?[ -]*(\(\d+\))?[ -]*\d[ 0-9-]*$""")
+    if (!numberFormat.matches(phone)) return ""
+    else {
+        val number = phone.split(Regex("""[- ()]+"""))
+        return number.joinToString("")
+    }
+}
 
 /**
+ *
  * Средняя
  *
  * Результаты спортсмена на соревнованиях в прыжках в длину представлены строкой вида

@@ -72,15 +72,22 @@ class MatrixImpl<E> (override val height: Int, override val width: Int, e: E): M
             height == other.height && width == other.width && list.equals(other.list)
 
     override fun toString(): String {
-        val sb = StringBuilder()
-        sb.append("[")
+        val Sb = StringBuilder()
+        Sb.append("[")
         for (row in 0..height - 1) {
-            sb.append("[")
-            for (column in 0..width - 1) sb.append("\t" + this[row, column])
-            sb.append("\t]")
+            Sb.append("[")
+            for (column in 0..width - 1) Sb.append("\t" + this[row, column])
+            Sb.append("\t]")
         }
-        sb.append("]")
-        return "$sb"
+        Sb.append("]")
+        return "$Sb"
+    }
+
+    override fun hashCode(): Int{
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + list.hashCode()
+        return result
     }
 }
 

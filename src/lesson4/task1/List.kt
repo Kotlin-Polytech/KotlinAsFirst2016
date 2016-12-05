@@ -283,9 +283,10 @@ fun roman(n: Int): String {
     else {
         var res = ""
         while (number > 0) {
-            val search = listAll.find { number - it.second >= 0 }
-            res += search?.first
-            number -= search?.second ?: 0
+            var search = listAll.find { number - it.second >= 0 }
+            if (search == null) search = "" to 0
+            res += search.first
+            number -= search.second
         }
         return res
     }

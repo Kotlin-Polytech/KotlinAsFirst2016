@@ -194,13 +194,11 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     if (expression.contains(Regex("""[^-+\d\s]""")) || expression == "") throw IllegalArgumentException()
-    if (expression.contains(Regex("""[-+]"""))) Double.NaN
-    else if (expression.contains(Regex("""[\s]"""))) throw IllegalArgumentException()
-    else return expression.toInt()
+    if (expression.contains(Regex("""[\s]""")) && !expression.contains(Regex("""[-+]"""))) throw IllegalArgumentException()
     val parts = expression.split(" ")
     if (parts.size % 2 == 0) throw IllegalArgumentException()
-    var res: Int
     try {
+        var res: Int
         res = parts[0].toInt()
         for (i in 1..parts.size - 2 step 2) {
             when (parts[i]) {
@@ -208,10 +206,10 @@ fun plusMinus(expression: String): Int {
                 "-" -> res -= parts[i + 1].toInt()
             }
         }
+        return res
     } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }
-    return res
 }
 
 /**

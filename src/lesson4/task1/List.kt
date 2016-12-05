@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -104,14 +105,28 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    val n: Int = v.size
+    var length = 0.0
+    for (i: Int in 0..n - 1) {
+        length = length + v[i] * v[i]
+    }
+    return Math.sqrt(length)
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    val n: Int = list.size
+    var length: Double = 0.0
+    for (i: Int in 0..n - 1) {
+        length = length + list[i]
+    }
+    if (n == 0) return 0.0 else return length / n.toDouble()
+}
 
 /**
  * Средняя
@@ -119,7 +134,14 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val n: Int = list.size
+    var a: Double = mean(list)
+    for (i: Int in 0..n - 1) {
+        list[i] = list[i] - a
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -128,7 +150,11 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    return if (a.size != b.size) Double.NaN
+    else if (a.isEmpty() || b.isEmpty()) 0.0
+    else a.zip(b, { elementOfa, elementOfb -> elementOfa * elementOfb }).sum()
+}
 
 /**
  * Средняя

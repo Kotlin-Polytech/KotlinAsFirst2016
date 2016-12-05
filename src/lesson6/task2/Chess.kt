@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,7 +24,13 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (!inside()) return "" else {
+            val columnArray = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+            val columnChar = columnArray[column - 1]
+            return ("$columnChar$row")
+        }
+    }
 }
 
 /**

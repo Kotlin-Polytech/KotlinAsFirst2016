@@ -129,3 +129,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int = TODO()
+
+
+
+
+
+

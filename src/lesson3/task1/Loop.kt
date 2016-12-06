@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
+import java.lang.Math.*
 
 /**
  * Пример
@@ -9,7 +12,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -21,7 +24,7 @@ fun factorial(n: Int): Double {
  */
 fun isPrime(n: Int): Boolean {
     if (n < 2) return false
-    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+    for (m in 2..sqrt(n.toDouble()).toInt()) {
         if (n % m == 0) return false
     }
     return true
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,15 +60,35 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var a = 0
+    var b = abs(n)
+    if (b == 0) return 1
+    else {
+        do {
+            b /= 10
+            a++
+        } while (b != 0)
+        return a
+    }
+}
 
 /**
  * Простая
  *
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
- * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
+ * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1) // 1,6180339887
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    val a = sqrt(5.0)
+    val b: Double
+    if (n > 10) {
+        b = (1 / a * (pow((1 + a) / 2, n.toDouble())))
+    } else {
+        b = (1 / a * (pow((1 + a) / 2, n.toDouble()) - pow((1 - a) / 2, n.toDouble())))
+    }
+    return round(b).toInt()
+}
 
 /**
  * Простая
@@ -73,7 +96,18 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun nod(m: Int, n: Int): Int = when {
+    m == 0 -> n
+    n == 0 -> m
+    m >= n -> nod(m % n, n)
+    n > m -> nod(n % m, m)
+    else -> 0
+}
+
+fun lcm(m: Int, n: Int): Int {
+    return (m * n) / nod(m, n)
+}
+
 
 /**
  * Простая

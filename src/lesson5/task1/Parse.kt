@@ -1,5 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
+
+import java.lang.Math.PI
+import java.lang.Math.atan
 
 /**
  * Пример
@@ -42,12 +46,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +62,21 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val monthStr = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    try {
+        val parts = str.split(" ")
+        if (parts.size != 3) return ""
+        val day = parts[0].toInt()
+        val month = monthStr.indexOf(parts[1])
+        val year = parts[2].toInt()
+        if (month == -1 || day !in 1..31) return ""
+        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.$year"
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +85,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    try {
+        val parts = digital.split(".")
+        if (parts.size != 3) return ""
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val year = parts[2].toInt()
+        if (month !in 1..12 || day !in 1..31) return ""
+        return "$day ${monthStr[month - 1]} ${year}"
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
+
 
 /**
  * Сложная
@@ -83,7 +112,10 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String = when {
+    phone.all { it in "+0123456789-() " } -> phone.filter { it in "+0123456789" }
+    else -> ""
+}
 
 /**
  * Средняя
@@ -188,3 +220,28 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+/*
+*Купюрами следует выплатить денежную сумму
+ */
+fun change(sum: Double, coins: String): List<String> {
+    if (coins.all { it in "0123456789., " }) {
+        try {
+            var sum1 = sum
+            val coinsList = coins.split(", ")
+            val result = mutableListOf<String>()
+            for (count in 0..coinsList.size - 1) {
+                val element = coinsList[count].toDouble()
+                if (sum1 > element) {
+                    val number = (sum1 / element).toInt()
+                    if (element % 1 == 0.0) result.add("$number x ${element.toInt()}")
+                    else result.add("$number x ${coinsList[count]}")
+                    sum1 -= number * element
+                }
+            }
+            return result
+        } catch (e: NumberFormatException) {
+            throw IllegalArgumentException()
+        }
+    } else throw IllegalArgumentException()
+}

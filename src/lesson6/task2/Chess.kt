@@ -310,6 +310,7 @@ fun chessGraph(): Graph {
                     }
                 }
             }
+
             //ДЛЯ ВТОРОГО РЯДА
             if (row == 2) {
                 if (column < 7) {

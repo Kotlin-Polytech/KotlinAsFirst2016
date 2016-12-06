@@ -60,7 +60,8 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val month:String= listOf<String>("января","февраля","марта","апреля","мая","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь").toString()
+fun dateStrToDigit(str: String): String=TODO()
 
 /**
  * Средняя
@@ -107,7 +108,18 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var maxHigh = -1
+    for (i in 1..parts.size - 1 step 2) {
+        for (j in parts[i]) {
+            if ((j == '+') && (maxHigh < parts[i - 1].toInt())) {
+                maxHigh = parts[i - 1].toInt()
+            }
+        }
+    }
+    return maxHigh
+}
 
 /**
  * Сложная

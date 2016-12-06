@@ -66,6 +66,8 @@ class Tests {
         assertEquals(Segment(p3, p4), diameter(p1, p2, p3, p4))
         assertEquals(Segment(p2, p4), diameter(p1, p2, p4))
         assertEquals(Segment(p1, p4), diameter(p1, p4))
+        val diameter = diameter(Point(x=-1000.0, y=-632.0), Point(x=-632.0, y=-632.0), Point(x=-999.7052374081378, y=-999.0630613782047), Point(x=-1000.0, y=-632.0), Point(x=-999.0819621890917, y=-1000.0), Point(x=-1000.0, y=-999.4388449454322), Point(x=-632.0, y=-1000.0), Point(x=-1000.0, y=-999.4251982055191), Point(x=-632.0, y=-1000.0), Point(x=-1000.0, y=-632.0), Point(x=-632.0, y=-999.6237182758225), Point(x=-632.0, y=-1000.0))
+        assertEquals(diameter.begin.distance(diameter.end), 520.430590953299)
     }
 
     @Test

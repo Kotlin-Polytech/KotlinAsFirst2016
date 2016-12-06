@@ -81,9 +81,23 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    if (points.size > 1) {
-        val x = points.sumByDouble { it.x } / points.size.toDouble()
-        val y = points.sumByDouble { it.y } / points.size.toDouble()
+    if (points.size < 2) throw IllegalArgumentException("Less than two points")
+    var segment = Segment(points[0], points[1])
+    var max = 0.0
+    for (i in 0..points.size - 2 ) {
+        for (j in (i + 1).. points.size - 1) {
+            val distance = points[i].distance(points[j])
+            if (distance > max) {
+                max = distance
+                segment = Segment(points[i], points[j])
+            }
+        }
+    }
+    return segment
+}
+    /* { if (points.size > 1) {
+        val x = points.sumByDouble { it.x } / points.size
+        val y = points.sumByDouble { it.y } / points.size
         val center = Point(x , y)
         var first = points.maxBy { it.distance(center) } ?: Point(0.0, 0.0)
         var second = points.maxBy { it.distance(first) } ?: Point(0.0, 0.0)
@@ -94,7 +108,7 @@ fun diameter(vararg points: Point): Segment {
         }
         return Segment(first, second)
     } else throw IllegalArgumentException("Less than 2 points")
-}
+} */
 
 /**
  * Простая

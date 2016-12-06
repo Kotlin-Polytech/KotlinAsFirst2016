@@ -44,7 +44,7 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double = TODO ()
 
 /**
  * Простая
@@ -89,4 +89,16 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if ((c in a..b) && (b in c..d))
+     return (b-c)
+      else if ((c in a..b) && (d in a..b))
+       return (d-c)
+        else if ((d in a..b) && (a in c..d))
+         return (d-a)
+          else  if ((a in c..d) && (b in c..d))
+           return (b-a)
+            else return -1
+
+
+}

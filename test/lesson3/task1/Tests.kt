@@ -64,6 +64,7 @@ class Tests {
         assertEquals(2, digitNumber(10))
         assertEquals(2, digitNumber(99))
         assertEquals(3, digitNumber(123))
+        assertEquals(3, digitNumber(-123))
         assertEquals(10, digitNumber(Int.MAX_VALUE))
     }
 

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -33,7 +34,15 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    if (age > 20 && age % 10 == 1 && age != 111 || age == 1)
+        return "$age год"
+    if (age > 20 && age % 10 > 4 && age % 10 <= 9 || age % 10 == 0 || age >= 5 && age <= 19 || age >= 111 && age <= 119)
+        return "$age лет"
+    if (age > 20 && age % 10 > 1 && age % 10 < 5 || age >= 2 && age <= 4)
+        return "$age года"
+    else return "-1" // -1 - это ошибка
+}
 
 /**
  * Простая
@@ -44,7 +53,20 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    var time = 0.0
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val halfWay = (s1 + s2 + s3) / 2
+    if (halfWay <= s1) time = halfWay / v1
+    else
+        if (halfWay > s1 && halfWay < s1 + s2) time = t1 + (halfWay - s1) / v2
+        else
+            time = t1 + t2 + (halfWay - s1 - s2) / v3
+    return time
+
+}
 
 /**
  * Простая
@@ -79,7 +101,37 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    var minSide1 = 0.0
+    var minSide2 = 0.0
+
+    if (a + b > c && a + c > b && b + c > a) {
+        val maxSide = Math.max(a, Math.max(b, c))
+        if (maxSide == a) {
+            minSide1 = b
+            minSide2 = c
+        }
+        if (maxSide == b) {
+            minSide1 = a
+            minSide2 = c
+        }
+        if (maxSide == c) {
+            minSide1 = a
+            minSide2 = b
+        }
+        if (maxSide * maxSide == minSide1 * minSide1 + minSide2 * minSide2) {
+            return 1
+        }
+        if (maxSide * maxSide < minSide1 * minSide1 + minSide2 * minSide2) {
+            return 0
+        }
+        if (maxSide * maxSide > minSide1 * minSide1 + minSide2 * minSide2) {
+            return 2
+        }
+    }
+    return -1
+}
+
 
 /**
  * Средняя
@@ -89,4 +141,29 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (c in a..b && d !in a..b) {
+        return b - c
+    }
+    if (c in a..b && d in a..b) {
+        return d - c
+    }
+    if (a in c..d && b in c..d) {
+        return b - a
+    }
+    if (a in c..d && b !in c..d) {
+        return d - a
+    }
+    if (a in c..d) {
+        if (a > 0) {
+            if (a - c > d - a) return d - a
+            else return a - c
+        }
+        if (a < 0) {
+            if (a - c > d - a) return a - c
+            else return d - a
+        }
+    }
+    return -1
+}
+

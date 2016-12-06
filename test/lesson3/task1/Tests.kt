@@ -81,8 +81,8 @@ class Tests {
     @Test
     @Tag("Easy")
     fun lcm() {
-        assertEquals(13, lcm(13, 13))
         assertEquals(8, lcm(2, 8))
+        assertEquals(13, lcm(13, 13))
         assertEquals(24, lcm(6, 8))
         assertEquals(975, lcm(39, 75))
     }
@@ -101,9 +101,9 @@ class Tests {
     @Test
     @Tag("Easy")
     fun maxDivisor() {
-        assertEquals(1, maxDivisor(17))
         assertEquals(12, maxDivisor(24))
         assertEquals(59, maxDivisor(177))
+        assertEquals(1, maxDivisor(17))
         assertEquals(17, maxDivisor(34))
         assertEquals(7, maxDivisor(49))
     }
@@ -112,9 +112,10 @@ class Tests {
     @Tag("Easy")
     fun isCoPrime() {
         assertTrue(isCoPrime(25, 49))
-        assertFalse(isCoPrime(6, 8))
+        assertFalse(isCoPrime(8, 6))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertFalse(isCoPrime(83648, 79490))
     }
 
     @Test

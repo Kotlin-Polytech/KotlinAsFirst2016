@@ -33,7 +33,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    if (age%100 in 5..20) return "$age лет"
+    if (age%10 == 1) return "$age год"
+    if (age%10 in 2..4) return "$age года"
+    return "$age лет"
+}
 
 /**
  * Простая
@@ -44,7 +49,15 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val h = (s1 + s2 + s3)/2
+    return if (h <= s1) h/v1
+     else if ((h > s1) and (h <= s1 +s2))  t1+((h-s1)/v2)
+             else t1 + t2 + ((h - s1 - s2)/v3)
+}
 
 /**
  * Простая
@@ -56,7 +69,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    return if (((kingX != rookX1) and (kingY != rookY1)) and ((kingX != rookX2) and (kingY != rookY2))) 0
+    else if (((kingX == rookX1) or (kingY == rookY1)) and ((kingX != rookX2) and (kingY != rookY2))) 1
+    else if (((kingX != rookX1) and (kingY != rookY1)) and ((kingX == rookX2) or (kingY == rookY2))) 2
+    else 3
+}
 
 /**
  * Простая
@@ -79,7 +97,31 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((a + b > c) and (a + c > b) and (a < b + c)) {
+        if ((a > b) and (a > c)) {
+            if ((b * b + c * c > a * a)) return 0
+            if ((b * b + c * c == a * a)) return 1
+            if ((b * b + c * c < a * a)) return 2
+        }
+        if ((b > a) and (b > c)) {
+            if ((a * a + c * c > b * b)) return 0
+            if ((a * a + c * c == b * b)) return 1
+            if ((a * a + c * c < b * b)) return 2
+        }
+        if ((c > a) and (c > b)) {
+            if (b * b + a * a > c * c) return 0
+            if (b * b + a * a == c * c) return 1
+            if (b * b + a * a < c * c) return 2
+        }
+        if ((a == b) and (a == c)) return 0
+        if ((a == b) and (a > c)) return 0
+        if ((b > a) and (b == c)) return 0
+        return -1
+    } else return -1
+}
+
+
 
 /**
  * Средняя

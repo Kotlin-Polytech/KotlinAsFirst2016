@@ -17,7 +17,12 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int): Boolean {
+    return when {
+        (number / 1000) + ((number / 100) % 10) == ( (number % 100) /10 ) + (number % 100) % 10 -> true
+        else -> false
+    }
+}
 
 /**
  * Простая
@@ -36,7 +41,6 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean = TODO()
-
 /**
  * Средняя
  *
@@ -46,4 +50,12 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    val min1 = if ((a < b) && (a < c)) a else if (b < c) b else c
+    val min2 = if ((a < b) && (a > c)) a else if ((b < c) && (b > a)) b else c
+    return when {
+        (min1 <= r) && (min2 <= s) -> true
+        (min1 <= s) && (min2 <= r) -> true
+        else -> false
+    }
+}

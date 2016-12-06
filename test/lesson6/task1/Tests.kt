@@ -72,6 +72,7 @@ class Tests {
     @Tag("Easy")
     fun circleByDiameter() {
         assertEquals(Circle(Point(2.0, 1.5), 2.5), circleByDiameter(Segment(Point(4.0, 0.0), Point(0.0, 3.0))))
+        assertEquals(Circle(Point(3.0, 5.0), Math.sqrt(2.0)), circleByDiameter(Segment(Point(2.0, 6.0), Point(4.0, 4.0))))
     }
 
     @Test

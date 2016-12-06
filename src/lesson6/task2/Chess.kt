@@ -2,12 +2,11 @@
 
 package lesson6.task2
 
-import lesson8.task1.alignFile
-import java.util.*
 import lesson6.task1.*
 import lesson6.task3.Graph
-import lesson8.task1.centerFile
 import java.lang.Math.*
+
+val alf = "abcdefgh"
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -29,17 +28,20 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    val alf = "abcdefgh"
 
     fun notation(): String {
-        if (column !in 1..8 || row !in 1..9) return ""
+        if (column !in 1..8 || row !in 1..8) return ""
         return alf[column - 1] + "$row"
+    }
+
+    override fun toString(): String {
+        return "$column$row"
     }
 }
 
 fun isCorrect(vararg squares: Square) {
     for (square in squares) {
-        if (((square.column < 1) or (square.column > 8)) or ((square.row < 1) or (square.row > 8))) throw IllegalArgumentException()
+        if (square.column !in 1..8 || square.row !in 1..8) throw IllegalArgumentException()
     }
 }
 
@@ -166,25 +168,14 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (moveNumber == 0) return listOf(start)
     if (moveNumber == 1) return listOf(start, end)
     if (moveNumber == -1) return listOf()
-
-    var symbolRow = -1
-    var symbolColumn = 1
-    if (start.row > end.row) symbolRow = 1
-    if (start.column > end.column) symbolColumn = -1
-    var centerSquare = start
-    var switch = true
-    do {
-        centerSquare = Square(centerSquare.column + symbolColumn, centerSquare.row + symbolRow)
-        if ((centerSquare.row < 1) or (centerSquare.row > 8)) {
-            symbolRow *= -1
-            centerSquare = start
-        }
-        if ((centerSquare.column < 1) or (centerSquare.column > 8)) {
-            symbolColumn *= -1
-            centerSquare = start
-        }
-        if (bishopMoveNumber(centerSquare, end) == 1) switch = false
-    } while (switch)
+    // Используем функцию crossPoint из Lesson6.task1
+    var result = Line(Point(start.column.toDouble(), start.row.toDouble()), PI / 4)
+            .crossPoint(Line(Point(end.column.toDouble(), end.row.toDouble()), 3 * PI / 4))
+    if (result.x !in 1..8 || result.y !in 1..8) {
+        result = Line(Point(start.column.toDouble(), start.row.toDouble()), 3 * PI / 4)
+                .crossPoint(Line(Point(end.column.toDouble(), end.row.toDouble()), PI / 4))
+    }
+    val centerSquare = Square(round(result.x).toInt(), round(result.y).toInt())
     return listOf(start, centerSquare, end)
 }
 
@@ -212,6 +203,7 @@ fun kingMoveNumber(start: Square, end: Square): Int {
     isCorrect(start, end)
     val rowDistance = abs(start.row - end.row)
     val columnDistance = abs(start.column - end.column)
+
     val result = when {
         rowDistance == columnDistance -> abs(start.column - end.column)
         rowDistance == 0 -> abs(start.column - end.column)
@@ -236,42 +228,28 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
+
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     isCorrect(start, end)
     val result = mutableListOf(start)
-    val symbolColumn = when {
-        start.column < end.column -> 1
-        start.column > end.column -> -1
-        else -> 0
+    fun symbol(a: Int, b: Int): Int {
+        return when {
+            a < b -> 1
+            a > b -> -1
+            else -> 0
+        }
     }
-    val symbolRow = when {
-        start.row < end.row -> 1
-        start.row > end.row -> -1
-        else -> 0
-    }
-    var centerSquare: Square
-    if ((symbolColumn == 0) and (symbolRow == 0)) return result
-    centerSquare = Square(start.column, start.row)
+
+    var symbolColumn = symbol(start.column, end.column)
+    var symbolRow = symbol(start.row, end.row)
+    var centerSquare = Square(start.column, start.row)
+    if (symbolColumn == 0 && symbolRow == 0) return result
     do {
         centerSquare = Square(centerSquare.column + symbolColumn, centerSquare.row + symbolRow)
         result += centerSquare
-    } while ((centerSquare.column != end.column) and (centerSquare.row != end.row))
-
-    if (centerSquare == end) return result
-    val distanceColumn = abs(start.column - end.column)
-    val distanceRow = abs(start.row - end.row)
-    val whereGoColumn = when {
-        distanceColumn > distanceRow -> symbolColumn
-        else -> 0
-    }
-    val whereGoRow = when {
-        distanceRow > distanceColumn -> symbolRow
-        else -> 0
-    }
-    while (centerSquare != end) {
-        centerSquare = Square(centerSquare.column + whereGoColumn, centerSquare.row + whereGoRow)
-        result += centerSquare
-    }
+        if (centerSquare.column == end.column) symbolColumn = 0
+        if (centerSquare.row == end.row) symbolRow = 0
+    } while ((centerSquare.column != end.column) || (centerSquare.row != end.row))
     return result
 }
 
@@ -304,32 +282,32 @@ fun chessGraph(): Graph {
     val chessGraph = Graph()
     //СОЗДАЕМ ШАХМАТНУЮ ДОСКУ
     for (row in 8 downTo 1) {
-        for (column in 'a'..'h') {
+        for (column in 1..8) {
             chessGraph.addVertex("$column$row")
         }
     }
     //СОЕДИНЯЕМ ВСЕ КЛЕТКИ ШАХМАТНОЙ ДОСКИ С ВОЗМОЖНЫМИ ХОДАМИ КОНЯ
     for (row in 8 downTo 1) {
-        for (column in 'a'..'h') {
+        for (column in 1..8) {
 
             val rowOne = row - 1
             val rowTwo = row - 2
             //ДЛЯ СТРОК ОТ 3 ДО 8
             if (row > 2) {
                 //УЧИТЫВАЕМ ГРАНИЦЫ СПРАВА
-                if (column < 'h') {
+                if (column < 8) {
                     val column2 = column + 1
                     chessGraph.connect("$column$row", "$column2$rowTwo")
-                    if (column < 'g') {
+                    if (column < 7) {
                         val column3 = column + 2
                         chessGraph.connect("$column$row", "$column3$rowOne")
                     }
                 }
                 //УЧИТЫВАЕМ ГРАНИЦЫ СЛЕВА
-                if (column > 'a') {
+                if (column > 1) {
                     val column4 = column - 1
                     chessGraph.connect("$column$row", "$column4$rowTwo")
-                    if (column > 'b') {
+                    if (column > 2) {
                         val column5 = column - 2
                         chessGraph.connect("$column$row", "$column5$rowOne")
                     }
@@ -337,11 +315,11 @@ fun chessGraph(): Graph {
             }
             //ДЛЯ ВТОРОГО РЯДА
             if (row == 2) {
-                if (column < 'g') {
+                if (column < 7) {
                     val column3 = column + 2
                     chessGraph.connect("$column$row", "$column3$rowOne")
                 }
-                if (column > 'b') {
+                if (column > 2) {
                     val column5 = column - 2
                     chessGraph.connect("$column$row", "$column5$rowOne")
                 }
@@ -351,11 +329,10 @@ fun chessGraph(): Graph {
     return chessGraph
 }
 
-
 fun knightMoveNumber(start: Square, end: Square): Int {
     if (start.row !in 1..8 || end.column !in 1..8) throw IllegalArgumentException()
-    val graph =  chessGraph()
-    return graph.bfs(start.notation(), end.notation())
+    val graph = chessGraph()
+    return graph.bfs(start.toString(), end.toString())
 }
 
 /**
@@ -379,13 +356,4 @@ fun knightMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun knightTrajectory(start: Square, end: Square): List<Square> = TODO()
-//В ПРОЦЕССЕ...
-/*
-fun knightTrajectory(start: Square, end: Square): List<Square> {
-    if (start.row !in 1..8 || end.column !in 1..8) throw IllegalArgumentException()
-    val graph =  chessGraph()
-    val result = graph.bfsTrajectory(start.notation(), end.notation())
-    return result.map { square(it) }
-}
-*/
 

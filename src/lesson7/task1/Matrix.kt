@@ -76,7 +76,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         set(cell.row, cell.column, value)
     }
 
-    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width
+    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && list == other.list
 
     override fun toString(): String {
         val sb = StringBuilder()
@@ -86,7 +86,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
             for (column in 0..width - 1) {
                 var tabulation = "\t"
                 if (column == width - 1) tabulation = ""
-                val elem = this[row,column]
+                val elem = this[row, column]
                 sb.append("$elem [$row, $column] $tabulation")
             }
             sb.append("]")

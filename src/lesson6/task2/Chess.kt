@@ -205,10 +205,7 @@ fun kingMoveNumber(start: Square, end: Square): Int {
     val columnDistance = abs(start.column - end.column)
 
     val result = when {
-        rowDistance == columnDistance -> abs(start.column - end.column)
-        rowDistance == 0 -> abs(start.column - end.column)
-        columnDistance == 0 -> abs(start.row - end.row)
-        rowDistance > columnDistance -> rowDistance
+        rowDistance >= columnDistance -> rowDistance
         else -> columnDistance
     }
     return result

@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import java.lang.Math.*
+
+
 /**
  * Пример
  *
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +60,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if (n < 10 && n > -10) return 1
+    var count = 0
+    var m = n
+    while (m != 0) {
+        m /= 10
+        count++
+    }
+    return count
+}
 
 /**
  * Простая
@@ -65,7 +77,19 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    val sq = sqrt(5.0)
+    val doubleN = n.toDouble()
+    val result: Double
+    if (n > 10) {
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN)))
+    } else {
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
+    }
+    return round(result).toInt()
+}
+
+
 
 /**
  * Простая
@@ -73,21 +97,43 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var k: Int
+    if (n > m) k = n else k = m
+    for (i in k..Int.MAX_VALUE) {
+        if (i % m == 0 && i % n == 0) {
+            k = i
+            break
+        }
+    }
+    return k
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var nok = n
+    for (i in n downTo 2) {
+        if (n % i == 0) nok = i
+    }
+    return nok
+}
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int {
+    var nok = 1
+    for (i in 1..n - 1) {
+        if (n % i == 0) nok = i
+    }
+    return nok
+}
 
 /**
  * Простая
@@ -96,12 +142,13 @@ fun maxDivisor(n: Int): Int = TODO()
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = TODO()
+fun isCoPrime(m: Int, n: Int) : Boolean = TODO ()
 
 /**
  * Простая
  *
- * Для заданных чисел m и n, m <= n, определить, имеется ли хотя бы один точный квадрат между m и n,
+ * Для з
+ * аданных чисел m и n, m <= n, определить, имеется ли хотя бы один точный квадрат между m и n,
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
@@ -157,7 +204,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int = TODO ()
 
 /**
  * Сложная
@@ -166,4 +213,18 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var i = 1
+    var x: Int
+    var y = 0
+    do {
+        x = fib(i)
+        y += digitNumber(x)
+        if (y >= n) break
+        i++
+    } while (true)
+    for (j in 1..y - n) {
+        x /= 10
+    }
+    return x % 10
+}

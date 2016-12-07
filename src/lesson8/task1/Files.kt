@@ -74,7 +74,10 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  */
 fun sibilants(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
+    var doNewLine = false
     for (line in File(inputName).readLines()){
+        if(doNewLine == true) writer.newLine()
+        else doNewLine = true
         var result = ""
         for(letter in 0..line.length-1){
             if(letter+1<line.length && line[letter] in "ЖжЧчШшЩщ" && line[letter+1] in "ЫыЯяЮю"){
@@ -91,7 +94,6 @@ fun sibilants(inputName: String, outputName: String) {
             else if(!(line[letter] in "ЫыЯяЮю" && line[letter-1] in "ЖжЧчШшЩщ")) result +=  line[letter]
         }
         writer.write(result)
-        writer.newLine()
     }
 
     writer.close()
@@ -130,12 +132,11 @@ fun centerFile(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val maxLength = maxLength(inputName)
 
-    var i = 0
+    var doNewLine = false
     for(line in File(inputName).readLines()){
-        if(i !=0) writer.newLine()
-        else i = 1
+        if(doNewLine == true) writer.newLine()
+        else doNewLine = true
         writer.write(centered(line, maxLength))
-        //writer.newLine()
     }
 
     writer.close()
@@ -192,10 +193,12 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val maxLength = maxLength(inputName)
 
+    var doNewLine = false
     for (line in File(inputName).readLines()){
+        if(doNewLine == true) writer.newLine()
+        else doNewLine = true
         val string = stringProcessing(line.trim(), maxLength)
         writer.write(string)
-        writer.newLine()
     }
 
 

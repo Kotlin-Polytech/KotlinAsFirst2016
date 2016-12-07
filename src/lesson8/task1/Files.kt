@@ -88,13 +88,14 @@ fun sibilants(inputName: String, outputName: String) {
     val map = mapOf<String, String>("Ы" to "И", "Я" to "А", "Ю" to "У", "ы" to "и", "я" to "а", "ю" to "у")
     val lines = File(inputName).readLines()
     for (line in lines) {
+        if (line.isEmpty()) outputStream.newLine()
         outputStream.write(line[0].toString())
         for (i in 1..line.length - 1) {
             if (line[i - 1] in "жчшщЖЧШЩ" && line[i] in "ыяюЫЯЮ")
                 outputStream.write(map[line[i].toString()])
             else outputStream.write(line[i].toString())
         }
-        if (line != lines[lines.lastIndex]) outputStream.newLine()
+        if (line != lines.last()) outputStream.newLine()
     }
     outputStream.close()
 }

@@ -133,6 +133,7 @@ class Tests {
         assertEquals(1.0, sin(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(0.0, sin(Math.PI, 1e-5), 1e-5)
         assertEquals(-1.0, sin(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(-0.29237170467366574, sin(-6.5798912800186224, 1e-5), 1.0000022204460493E-10)
     }
 
     @Test
@@ -194,5 +195,6 @@ class Tests {
         assertEquals(2, fibSequenceDigit(9))
         assertEquals(5, fibSequenceDigit(14))
         assertEquals(2, fibSequenceDigit(20))
+        assertEquals(3, fibSequenceDigit(229))
     }
 }

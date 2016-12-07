@@ -120,19 +120,15 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
-    // ========[a]######[b]=======[c]######[d]=========> -
-    // ========[a]######[c]|||||||[b]######[d]=========> b - c
-    // ========[a]######[c]|||||||[d]######[b]=========> d - c
-    // ========[c]######[a]|||||||[d]######[b]=========> d - a
-    // ========[c]######[a]|||||||[b]######[d]=========> b - a
-    // ========[c]######[d]=======[a]######[b]=========> -
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val min_coordinate = listOf<Int>(a, b, c, d).min()
+    val max_coordinate = listOf<Int>(a, b, c, d).max()
 
-    when {
-        (c > b || a > d) -> -1
-        (a <= c && c <= b && b <= d) -> b - c
-        (a <= c && c <= d && d <= b) -> d - c
-        (c <= a && a <= d && d <= b) -> d - a
-        (c <= a && a <= b && b <= d) -> b - a
+    return when {
+        min_coordinate == a && max_coordinate == b -> d - c
+        min_coordinate == c && max_coordinate == d -> b - a
+        min_coordinate == a && c <= b -> b - c
+        min_coordinate == c && a <= d -> d - a
         else -> -1
     }
+}

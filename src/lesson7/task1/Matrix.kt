@@ -71,18 +71,24 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     private var storage = Array(height) { i -> createRow(width, e) }
 
-    override fun get(row: Int, column: Int): E  = storage[row][column] as E
+    override fun get(row: Int, column: Int): E {
+        if (row !in 0..height - 1 || column !in 0..width - 1) throw IllegalArgumentException()
+        return storage[row][column] as E
+    }
 
-    override fun get(cell: Cell): E  = storage[cell.row][cell.column] as E
+    override fun get(cell: Cell): E  {
+        if (cell.row !in 0..height - 1 || cell.column !in 0..width - 1) throw IllegalArgumentException()
+        return storage[cell.row][cell.column] as E
+    }
 
     override fun set(row: Int, column: Int, value: E) {
         if (row !in 0..height - 1 || column !in 0..width - 1) return
-        storage[row][column] = value
+        else storage[row][column] = value
     }
 
     override fun set(cell: Cell, value: E) {
         if (cell.row !in 0..height - 1 || cell.column !in 0..width - 1) return
-        storage[cell.row][cell.column] = value
+        else  storage[cell.row][cell.column] = value
     }
 
     override fun equals(other: Any?): Boolean {

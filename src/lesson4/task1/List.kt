@@ -203,7 +203,7 @@ fun factorize(n: Int): List<Int> {
         currentNumber /= minDivisorValue
     }
 
-    return primeDivisorsStorage.sorted()
+    return primeDivisorsStorage
 }
 
 /**

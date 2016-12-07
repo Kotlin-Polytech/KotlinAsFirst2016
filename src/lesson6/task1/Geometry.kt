@@ -86,7 +86,7 @@ fun Segment.length(): Double = begin.distance(end)
 fun Segment.mid(): Point = Point((begin.x + end.x) / 2, (begin.y + end.y) / 2)
 
 fun diameter(vararg points: Point): Segment {
-    var longestSegment = Segment(Point(0.0, 0.0), Point(0.0, 0.0))
+    var longestSegment = Segment(points.first(), points.last())
     for (e1 in points) {
         for (e2 in points) {
             if (e1.distance(e2) > longestSegment.length()) longestSegment = Segment(e1, e2)
@@ -115,12 +115,12 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point = TODO()
-        // Y = Y0 + (X-X0)*tg(angle)
-        // k = tg(angle)
-        // b = Y0
-        //
-        //  Y01 + (X-X01)*tg(angle1) = Y02 + (X-X02)*tg(angle2)
-        // (X-X01)*tg(angle1) - (X-X02)*tg(angle2) = (Y02-Y01)
+    // Y = Y0 + (X-X0)*tg(angle)
+    // k = tg(angle)
+    // b = Y0
+    //
+    //  Y01 + (X-X01)*tg(angle1) = Y02 + (X-X02)*tg(angle2)
+    // (X-X01)*tg(angle1) - (X-X02)*tg(angle2) = (Y02-Y01)
 /*
         println("Current x = ${point.x} y = ${point.y} angle = $angle")
         println("Other   x = ${other.point.x} y = ${other.point.y} angle = ${other.angle}")
@@ -156,9 +156,9 @@ fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((b.y - a.y) / (b.
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val m = Segment(a, b).mid()
-    val ang = Math.atan((b.y - a.y) / (b.x - a.x)) + Math.PI / 2
-    return Line(m, ang)
+    val middle = Segment(a, b).mid()
+    val angle = Math.atan((b.y - a.y) / (b.x - a.x)) + Math.PI / 2
+    return Line(middle, angle)
 }
 
 /**

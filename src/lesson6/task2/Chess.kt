@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,9 +24,7 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String {
-        return if(inside()) ('a' + column - 1).toString() + row.toString() else ""
-    }
+    fun notation(): String = if (inside()) ('a' + column - 1).toString() + row.toString() else ""
 }
 
 /**
@@ -36,7 +35,7 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if(!notation.matches(Regex("""[a-h][1-8]"""))) throw IllegalArgumentException()
+    if (!notation.matches(Regex("""[a-h][1-8]"""))) throw IllegalArgumentException()
     return Square(notation[0] - 'a' + 1, notation[1] - '0')
 }
 
@@ -65,11 +64,9 @@ fun square(notation: String): Square {
  */
 fun Square.onLineWith(other: Square): Boolean = column == other.column || row == other.row
 
-fun Square.similarWith(other: Square): Boolean = column == other.column && row == other.row
-
 fun rookMoveNumber(start: Square, end: Square): Int = when {
     !start.inside() || !end.inside() -> throw IllegalArgumentException()
-    start.similarWith(end) -> 0
+    start == end -> 0
     start.onLineWith(end) -> 1
     else -> 2
 }
@@ -90,7 +87,7 @@ fun rookMoveNumber(start: Square, end: Square): Int = when {
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> = when {
     !start.inside() || !end.inside() -> throw IllegalArgumentException()
-    start.similarWith(end) -> listOf<Square>(start)
+    start == end -> listOf<Square>(start)
     start.onLineWith(end) -> listOf<Square>(start, end)
     else -> listOf<Square>(start, Square(start.column, end.row), end)
 }

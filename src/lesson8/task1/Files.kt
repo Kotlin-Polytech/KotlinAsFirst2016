@@ -53,7 +53,22 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val result = mutableMapOf<String, Int>()
+    val text = File(inputName).readText().toLowerCase()
+    for (str in substrings) {
+        var times = -1
+        var indexOfStr = 0
+        var index = -1
+        while (indexOfStr != -1) {
+            indexOfStr = text.indexOf(str.toLowerCase(), index + 1)
+            times++
+            index = indexOfStr
+        }
+        result.put(str, times)
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -79,7 +94,7 @@ fun sibilants(inputName: String, outputName: String) {
                 outputStream.write(map[line[i].toString()])
             else outputStream.write(line[i].toString())
         }
-        if (line != lines.last())outputStream.newLine()
+        if (line != lines[lines.lastIndex]) outputStream.newLine()
     }
     outputStream.close()
 }
@@ -111,7 +126,7 @@ fun centerFile(inputName: String, outputName: String) {
         val lineLength = line.trim().length
         for (i in 1..(maxLength - lineLength) / 2) outputStream.write(" ")
         outputStream.write(line.trim())
-        if (line != lines.last()) outputStream.newLine()
+        if (lines.size != 1 && line != lines.last()) outputStream.newLine()
     }
     outputStream.close()
 }

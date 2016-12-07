@@ -92,7 +92,32 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    if (digital.matches(Regex("""[0-9]{2}.[0-9]{2}.[0-9]+"""))) {
+        val parts = digital.split('.')
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val month = when (parts[1].toInt())  {
+            1-> "января"
+            2-> "февраля"
+            3-> "марта"
+            4-> "апреля"
+            5-> "мая"
+            6-> "июня"
+            7-> "июля"
+            8-> "августа"
+            9-> "сентября"
+            10-> "октября"
+            11-> "ноября"
+            12-> "декабря"
+            else -> 0
+        }
+        if (month != 0) return String.format("%d %s %d", day, month, year)
+        else return ""
+    }
+    else return ""
+    }
+
 
 /**
  * Сложная
@@ -106,7 +131,12 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.matches(Regex("^[+]?[-()0-9 ]+"))) {
+         return phone.replace(Regex("[-() ]+"), "")
+         }
+    else return ""
+}
 
 /**
  * Средняя

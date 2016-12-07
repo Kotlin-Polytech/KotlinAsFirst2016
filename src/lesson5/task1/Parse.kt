@@ -242,7 +242,7 @@ fun mostExpensive(description: String): String {
                 nameOfMaxCost = partsOfParts[0]
             }
         }
-        return nameOfMaxCost
+        return nameOfMaxCost ?: ""
     } catch (e: NumberFormatException) {
         return ""
     }

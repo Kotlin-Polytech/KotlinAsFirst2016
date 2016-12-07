@@ -143,7 +143,12 @@ fun lineBySegment(s: Segment): Line {
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    val y = Math.abs(a.y - b.y)
+    val x = Math.abs(a.x - b.x)
+    val k = Math.atan2(y, x)
+    return Line(a, k)
+}
 
 /**
  * Сложная

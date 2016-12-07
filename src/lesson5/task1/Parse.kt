@@ -132,7 +132,7 @@ fun bestLongJump(jumps: String): Int {
     if (jumps.matches(Regex("""[0-9-% ]+"""))) {
         return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
     }
-    else return -1
+    return -1
 }
 
 /**
@@ -145,7 +145,15 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var maxHeight = -1
+    for (i in 1..parts.size - 1 step 2) {
+        val jump = parts[i - 1].toInt()
+        if ((parts[i].contains("+")) && (jump > maxHeight)) maxHeight = jump
+    }
+    return maxHeight
+}
 
 /**
  * Сложная
@@ -156,7 +164,30 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var sum = 0
+    val length = parts.size
+    val digitOrSign = Regex("""[^\d+-]""")
+    val digit = Regex("""\d""")
+    val sign = Regex("""[+-]""")
+    if ((length == 1) && (parts[0].contains(digitOrSign)) || (expression == "")) {
+        throw IllegalArgumentException("Неверный формат выражения")
+    }
+    else for (i in 0..length - 2) {
+        val bothDigits = parts[i].contains(digit) && parts[i + 1].contains(digit)
+        val bothSigns = parts[i].contains(sign) && parts[i + 1].contains(sign)
+        val neitherDigitNorSign = parts[i].contains(digitOrSign) || parts[i + 1].contains(digitOrSign)
+        val wrong = bothDigits || bothSigns || neitherDigitNorSign
+        if (wrong) throw IllegalArgumentException("Неверный формат выражения")
+        else when (parts[i]) {
+            "+" -> sum += parts[i + 1].toInt()
+            "-" -> sum -= parts[i + 1].toInt()
+        }
+    }
+    sum += parts[0].toInt()
+    return sum
+}
 
 /**
  * Сложная

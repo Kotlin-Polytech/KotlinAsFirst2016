@@ -236,7 +236,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun convertToString(n: Int, base: Int): String {
     val conList = convert(n, base)
-    val conStr :StringBuilder = StringBuilder()
+    val conStr = StringBuilder()
     for (element in conList) {
         if (element > 9) {
             conStr.append(('a'.toInt() + element - 10).toChar())

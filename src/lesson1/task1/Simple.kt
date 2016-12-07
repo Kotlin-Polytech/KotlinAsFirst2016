@@ -105,9 +105,9 @@ fun thirdDigit(number: Int): Int = (number % 1000) / 100
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
 fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val travelHourTominutes = (hoursArrive - hoursDepart) * 60
+    val travelHourToMinutes = (hoursArrive - hoursDepart) * 60
     val travelMinutes = minutesArrive - minutesDepart
-    return travelHourTominutes + travelMinutes
+    return travelHourToMinutes + travelMinutes
 }
 
 
@@ -118,7 +118,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = ((initial * (1 + 0.01 * percent)) * (1 + 0.01 * percent)) * (1 + 0.01 * percent)
+fun accountInThreeYears(initial: Int, percent: Int): Double =
+        initial * (1 + 0.01 * percent) * sqr(1 + 0.01 * percent)
 
 /**
  * Простая
@@ -132,19 +133,3 @@ fun numberRevert(number: Int): Int {
     val first = number / 100
     return third * 100 + second * 10 + first
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -61,15 +61,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     if (n == 0) return 1
-    else {
-        var num = n
-        var count = 0
-        while (num != 0) {
-            num /= 10
-            count++
-        }
-        return count
+    var num = n
+    var count = 0
+    while (num != 0) {
+        num /= 10
+        count++
     }
+    return count
 }
 
 
@@ -237,14 +235,13 @@ fun isPalindrome(n: Int): Boolean = (revert(n) == n)
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
 fun hasDifferentDigits(n: Int): Boolean {
-    val one = n % 10
     var number = n
-    var index = true
-    while (number > 0) {
-        if (number % 10 != one) index = false
+    while (number > 9) {
+        if ((number % 100) % 11 != 0)
+            return true
         number /= 10
     }
-    return (!index)
+    return false
 }
 
 /**
@@ -257,15 +254,19 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun sqr(x: Int): Int = x * x
 
 fun squareSequenceDigit(n: Int): Int {
-    var str = ""
-    var i = 0
-    var number = 0
-    while (n > i) {
-        number += 1
-        str = sqr(number).toString()
-        i += str.length
+    var k =0
+    var ch=1
+    var square = 1
+    while(k!=n){
+        square = ch *ch
+        k+= digitNumber(square)
+        while(n<k) {
+            square/= 10
+            k --
+        }
+        ch++
     }
-    return (str[str.length - 1 - (i - n)]).toInt() - '0'.toInt()
+    return square % 10
 }
 
 

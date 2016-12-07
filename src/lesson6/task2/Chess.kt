@@ -23,7 +23,7 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        if(!inside()) return ""
+        if (!inside()) return ""
         return "${'a' + column - 1}$row"
     }
 }
@@ -37,9 +37,9 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     val columnNotation = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
-    val row = listOf<Char>('1', '2', '3', '4', '5', '6', '7', '8')
-    if (notation.length != 2 || notation[0] !in columnNotation || notation[1] !in row) throw IllegalArgumentException()
-    return Square(columnNotation.indexOf(notation[0]) + 1, row.indexOf(notation[1]) + 1)
+    val rowNotation = listOf<Char>('1', '2', '3', '4', '5', '6', '7', '8')
+    if (notation.length != 2 || notation[0] !in columnNotation || notation[1] !in rowNotation) throw IllegalArgumentException()
+    return Square(columnNotation.indexOf(notation[0]) + 1, rowNotation.indexOf(notation[1]) + 1)
 }
 
 /**

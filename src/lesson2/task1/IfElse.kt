@@ -57,10 +57,9 @@ fun timeForHalfWay(t1: Double, v1: Double,
     val s3 = t3 * v3
     val average = (s1 + s2 + s3) / 2
     return when {
-        (average <= s1) -> average / v1
-        ((average <= (s1 + s2))) -> t1 + ((average - s1) / v2)
-        ((average > (s1 + s2))) -> t1 + t2 + ((average - s1 - s2) / v3)
-        else -> 0.0
+        average <= s1 -> average / v1
+        average <= (s1 + s2) -> t1 + (average - s1) / v2
+        else -> t1 + t2 + (average - s1 - s2) / v3
     }
 }
 

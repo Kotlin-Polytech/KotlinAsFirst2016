@@ -36,12 +36,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
     val horizon = (x1 == x2)
     val vertical = (y1 == y2)
     val diagonal = ((Math.abs(x1 - x2)) == Math.abs(y1 - y2))
-    return when {
-        horizon -> true
-        vertical -> true
-        diagonal -> true
-        else -> false
-    }
+    return (horizon || vertical || diagonal)
 }
 
 /**
@@ -52,7 +47,8 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                  x2: Double, y2: Double, r2: Double): Boolean = Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) + r1 <= r2
 
 /**
  * Средняя
@@ -70,11 +66,11 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
         mini1 = a
         mini2 = Math.min(b, c)
     }
-    if (b <= a && b <= c) {
+    else if (b <= a && b <= c) {
         mini1 = b
         mini2 = Math.min(a, c)
     }
-    if (c <= a && c <= b) {
+    else if (c <= a && c <= b) {
         mini1 = c
         mini2 = Math.min(a, b)
     }

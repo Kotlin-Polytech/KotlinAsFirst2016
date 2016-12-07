@@ -133,7 +133,7 @@ fun firstDuplicateIndex(str: String): Int{
     val words = str.toUpperCase().split(' ')
     var rez = 0
     for (i in 0..words.size-2) {
-        if (words[i].equals(words[i+1])){
+        if (words[i] == (words[i+1])){
             return rez }
         rez+= words[i].length + 1
     }

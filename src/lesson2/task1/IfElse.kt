@@ -1,7 +1,9 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "UNREACHABLE_CODE")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+
 
 /**
  * Пример
@@ -33,14 +35,19 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return if ((age % 100) in 10..20) "$age лет"
+    else if ((age % 10) == 1) "$age год"
+    else if ((age % 10) in 2..4) "$age года"
+    else "$age лет"
+}
 
 /**
  * Простая
  *
  * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
  * и t3 часов — со скоростью v3 км/час.
- * Определить, за какое время он одолел первую половину пути?
+ * Определить, за какое время он одолел первую половину пути?       //V2=(-V1*1t1+V2*t2+V3*t3)/2*V2
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
@@ -56,7 +63,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    return if (((kingX == rookX1) || (kingY == rookY1)) && ((kingY == rookY2) || (kingX == rookX2))) 3
+    else if ((kingX == rookX1) || (kingY == rookY1) && (kingX != rookX2) && (kingY != rookY2)) 1
+    else if ((kingX == rookX2) || (kingY == rookY2) && (kingX != rookX1) && (kingY != rookY1)) 2
+    else 0
+}
 
 /**
  * Простая
@@ -89,4 +101,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return if ((a !in c..d) && (b in c..d)) b - c
+    else if ((a in c..d) && (b !in c..d)) d - a
+    else if ((a >= c) && (b <= d)) b - a
+    else if ((a <= c) && (b >= d)) d - c
+    else -1
+}

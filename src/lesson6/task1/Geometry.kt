@@ -2,6 +2,7 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import lesson4.task1.abs
 
 /**
  * Точка на плоскости
@@ -130,7 +131,12 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val y = Math.abs(s.begin.y - s.end.y)
+    val x = Math.abs(s.begin.x - s.end.x)
+    val k = Math.atan2(y, x)
+    return Line(s.begin, k)
+}
 
 /**
  * Средняя
@@ -144,7 +150,13 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val center = Point((a.x + b.x) / 2.0, (a.y + b.y) / 2.0)
+    val y = Math.abs(a.y - b.y)
+    val x = Math.abs(a.x - b.x)
+    val k = Math.atan2(x, y)
+    return Line(center, k)
+}
 
 /**
  * Средняя

@@ -179,7 +179,7 @@ fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
     var max = -1
     for (i in 0..parts.size - 2 step 2)
-        if (parts[i + 1].contains(Regex("""[+]""")) && parts[i].toInt() > max) max = parts[i].toInt()
+        if (parts[i + 1].contains('+') && parts[i].toInt() > max) max = parts[i].toInt()
     return max
 }
 
@@ -194,12 +194,10 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     if (expression.contains(Regex("""[^-+\d\s]""")) || expression == "") throw IllegalArgumentException()
-    if (expression.contains(Regex("""[\s]""")) && !expression.contains(Regex("""[-+]"""))) throw IllegalArgumentException()
     val parts = expression.split(" ")
     if (parts.size % 2 == 0) throw IllegalArgumentException()
     try {
-        var res: Int
-        res = parts[0].toInt()
+        var res = parts[0].toInt()
         for (i in 1..parts.size - 2 step 2) {
             when (parts[i]) {
                 "+" -> res += parts[i + 1].toInt()
@@ -248,7 +246,7 @@ fun mostExpensive(description: String): String {
     val groups = description.split(";")
     for (i in 0..groups.size - 1) {
         val pairs = groups[i].trim().split(" ")
-        if (pairs.size <= 1) return ""
+        if (pairs.size != 2) return ""
         val el: Double
         try {
             el = pairs[1].toDouble()

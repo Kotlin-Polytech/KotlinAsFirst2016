@@ -280,16 +280,13 @@ fun roman(n: Int): String {
             "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1)
     var number = n
     if (number <= 0) return ""
-    else {
-        var res = ""
-        while (number > 0) {
-            var search = listAll.find { number - it.second >= 0 }
-            if (search == null) search = "" to 0
-            res += search.first
-            number -= search.second
-        }
-        return res
+    var res = ""
+    while (number > 0) {
+        val search = listAll.find { number - it.second >= 0 } ?: return ""
+        res += search.first
+        number -= search.second
     }
+    return res
 }
 
 /**

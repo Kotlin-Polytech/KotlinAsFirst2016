@@ -172,15 +172,14 @@ fun sin(x: Double, eps: Double): Double {
     val fir = x % (2 * Math.PI)
     var i = 1
     var summ = 0.0
-    var n = 1
-    while (Math.abs(Math.pow(fir, i.toDouble()) / factorial(i)) >= eps) {
-        var pow = Math.pow(fir, i.toDouble())
-        val fact = factorial(i)
-        if (n % 2 == 1) summ += pow / fact
-        else summ -= pow / fact
+    var factorial = 1.0
+    do {
+        val term = Math.pow(fir, i.toDouble()) / factorial
+        if ((i - 1) % 4 == 0) summ += term
+        else summ -= term
         i += 2
-        n++
-    }
+        factorial *= (i - 1) *i
+    } while (Math.abs(term) >= eps)
     return summ
 }
 
@@ -195,15 +194,14 @@ fun cos(x: Double, eps: Double): Double {
     var fir = x % (2 * Math.PI)
     var summ = 0.0
     var i = 0
-    var n = 1
-    while (Math.abs(Math.pow(fir, i.toDouble())) / factorial(i) >= eps) {
-        var pow = Math.pow(fir, i.toDouble())
-        val fact = factorial(i)
-        if (n % 2 == 1) summ += pow / fact
-        else summ -= pow / fact
+    var factorial = 1.0
+    do {
+        val term = Math.pow(fir, i.toDouble()) / factorial
+        if (i % 4 == 0) summ += term
+        else summ -= term
         i += 2
-        n++
-    }
+        factorial *= (i - 1) *i
+    } while (Math.abs(term) >= eps)
     return summ
 }
 
@@ -279,17 +277,18 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    var fir = 1 //  я подумаю как переписать данную функцию
-    var sec = 1
-    var str = "11"
-    var i = 2
-    if (n in 1..2) return 1
-    while (n > i) {
-        str = (fir + sec).toString()
-        fir = sec
-        sec = str.toInt()
-        i += str.length
+    var k = 0
+    var ch = 1
+    var nfib = 1
+    while (k != n) {
+        nfib = fib(ch)
+        k += digitNumber(nfib)
+        while (n < k) {
+            nfib /= 10
+            k--
+        }
+        ch++
     }
-    return (str[str.length - 1 - (i - n)]).toInt() - '0'.toInt()
+    return nfib % 10
 }
 

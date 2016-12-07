@@ -2,6 +2,7 @@
 package lesson8.task1
 
 import java.io.File
+import java.io.Writer
 
 /**
  * Пример
@@ -129,9 +130,12 @@ fun centerFile(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val maxLength = maxLength(inputName)
 
+    var i = 0
     for(line in File(inputName).readLines()){
+        if(i !=0) writer.newLine()
+        else i = 1
         writer.write(centered(line, maxLength))
-        writer.newLine()
+        //writer.newLine()
     }
 
     writer.close()
@@ -298,7 +302,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
             result = line
             maxStringLength = line.length
         }
-        else if( !line.isEmpty() && line.length == maxStringLength && withoutRepetition(line.toLowerCase()) == true){
+        else if(line.length == maxStringLength && withoutRepetition(line.toLowerCase()) == true){
             result = result +", $line"
         }
     }

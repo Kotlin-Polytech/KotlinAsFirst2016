@@ -64,25 +64,31 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     var answ = ""
-    if (parts[1] == "31") return ""
-    else  if (parts[1] == "10") answ += "0"
-    answ += parts[1]
+    var lenght = 0
+    for (part in parts)
+        lenght += 1
+    if (lenght != 3) return ""
+    if (parts[0].length > 2) return ""
+    answ += parts[0]
+    if (answ.length == 1) answ = "0" + parts[0]
     answ += "."
-    if (parts[2] == "января") answ += "01."
-    if (parts[2] == "февраля") answ += "02."
-    if (parts[2] == "марта") answ += "03."
-    if (parts[2] == "апреля") answ += "04."
-    if (parts[2] == "мая") answ += "05."
-    if (parts[2] == "июня") answ += "06."
-    if (parts[2] == "июля") answ += "07."
-    if (parts[2] == "августа") answ += "08."
-    if (parts[2] == "сентября") answ += "09."
-    if (parts[2] == "октября") answ += "10."
-    if (parts[2] == "ноября") answ += "11."
-    if (parts[2] == "декабря") answ += "12."
-    answ += parts[3]
-    answ += "."
-    if (answ.length < 11) return ""
+    when (parts[1]) {
+        "января" -> answ += "01."
+        "февраля" -> answ += "02."
+        "марта" -> answ += "03."
+        "апреля" -> answ += "04."
+        "мая" -> answ += "05."
+        "июня" -> answ += "06."
+        "июля" -> answ += "07."
+        "августа" -> answ += "08."
+        "сентября" -> answ += "09."
+        "октября" -> answ += "10."
+        "ноября" -> answ += "11."
+        "декабря" -> answ += "12."
+        else -> return ""
+    }
+    if (parts[2].length > 5) return ""
+            answ += parts[2]
     return answ
 }
 
@@ -93,7 +99,41 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var answ = ""
+    var lenght = 0
+    val abc = "1234567890."
+    var iNeedIt: Int = 0
+    for (i in 0..digital.length - 1) {
+        for (j in 0..abc.length - 1)
+            if (digital[i] == abc[j]) iNeedIt = 1
+        if (iNeedIt != 1) return ""
+        iNeedIt = 0
+    }
+    val parts = digital.split(".")
+    for (part in parts)
+        lenght += 1
+    if (lenght != 3) return ""
+    if (parts[0][0] == abc[9]) answ += parts[0][1] + " "
+    else answ += parts[0] + " "
+    when (parts[1]){
+        "01" -> answ += "января "
+        "02" -> answ += "февраля "
+        "03" -> answ += "марта "
+        "04" -> answ += "апреля "
+        "05" -> answ += "мая "
+        "06" -> answ += "июня "
+        "07" -> answ += "июля "
+        "08" -> answ += "августа "
+        "09" -> answ += "сентября "
+        "10" -> answ += "октября "
+        "11" -> answ += "ноября "
+        "12" -> answ += "декабря "
+        else -> return ""
+    }
+    answ += parts[2]
+    return answ
+}
 
 /**
  * Сложная
@@ -110,6 +150,7 @@ fun dateDigitToStr(digital: String): String = TODO()
 fun flattenPhoneNumber(phone: String): String {
     var forError = 0
     val iNeedIt = "1234567890+-() "
+    if ((phone.length == 1) && (phone[0] == iNeedIt[14])) return ""
     for (i in 0..phone.length - 1) {
         for (j in 0..iNeedIt.length - 1) {
             if (phone[i] == iNeedIt[j]) forError += 1
@@ -232,6 +273,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
+    if (expression.length == 0) throw IllegalArgumentException()
     var answ = 0
     var forError = 0
     val iNeedIt = "0123456789+- "

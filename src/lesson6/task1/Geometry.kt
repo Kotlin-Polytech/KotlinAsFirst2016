@@ -1,10 +1,12 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task1
 
+import lesson1.task1.quadraticRootProduct
 import lesson1.task1.sqr
 import lesson2.task1.ageDescription
 import lesson3.task1.hasDifferentDigits
 import lesson4.task1.factorizeToString
+import lesson5.task1.dateDigitToStr
 
 /**
  * Точка на плоскости
@@ -208,3 +210,24 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
 
+//test
+fun myFun(sum: Double, coins: String) : List<String> {
+    try {
+        var result = mutableListOf<String>()
+        val coinsList = coins.split(", ")
+        var mutableSum = sum
+        while (mutableSum >= 0.01) {
+            for (coin in coinsList) {
+                var k = 0
+                while (mutableSum >= coin.toDouble()) {
+                    k++
+                    mutableSum -= coin.toDouble()
+                }
+                result.add("$k x " + coin)
+            }
+        }
+        return result
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+}

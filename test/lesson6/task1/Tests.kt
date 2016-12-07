@@ -140,4 +140,8 @@ class Tests {
             assertTrue(result.contains(p))
         }
     }
+    @Test
+    fun myFun() {
+        assertEquals(listOf("1 x 5000", "2 x 1000", "1 x 500", "1 x 100","0 x 50", "3 x 10", "1 x 2", "1 x 1", "0 x 0.50", "2 x 0.10", "0 x 0.05", "1 x 0.01"), myFun(7633.21, "5000, 1000, 500, 100, 50, 10, 2, 1, 0.50, 0.10, 0.05, 0.01"))
+    }
 }

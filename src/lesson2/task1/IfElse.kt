@@ -94,11 +94,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    if (((rookX == kingX) || (rookY == kingY)) && ((Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY)))) return 3 else
-        if ((rookX == kingX) || (rookY == kingY)) return 1 else
-            if ((Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))) return 2 else return 0
-
+    val rook = (rookX == kingX) || (rookY == kingY)
+    val bishop = (Math.abs(kingX - bishopX)) == (Math.abs(kingY - bishopY))
+    return when {
+        rook && bishop -> 3
+        bishop -> 2
+        rook -> 1
+        else -> 0
+    }
 }
+
 
 /**
  * Простая
@@ -124,11 +129,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    if ((b < c) || (d < a)) return -1
-    if ((c in a..b) && (d in a..b)) return d - c
-    if ((a in c..d) && (b in c..d)) return b - a
-    if (c in a..b) return b - c
-    if (d in a..b) return d - a
-    return -1
+    when {
+        b < c || d < a -> return -1
+        ((c in a..b) && (d in a..b)) -> return d - c
+        ((a in c..d) && (b in c..d)) -> return b - a
+        c in a..b -> return b - c
+        d in a..b -> return d - a
+        else -> return -1
+    }
 }
 //

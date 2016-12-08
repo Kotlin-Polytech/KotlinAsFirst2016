@@ -83,9 +83,7 @@ fun digitNumber(n: Int): Int {
 fun fib(n: Int): Int {
     var m1 = 1
     var m2 = 1
-    var l = 0
-    if (n == 1) return 1
-    if (n == 2) return 1
+    var l = 1
     for (i in 3..n) {
         l = m1 + m2
         m1 = m2
@@ -118,9 +116,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n)
-        if ((n % i) == 0) return i
-    return n
+    val n1=Math.sqrt(n.toDouble()).toInt()
+    return (2..n1).firstOrNull { (n % it) == 0 }
+            ?: n
 }
 
 /**
@@ -129,9 +127,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in n - 1 downTo 1)
-        if ((n % i) == 0) return i
-    return n
+    return (n - 1 downTo 1).firstOrNull { (n % it) == 0 }
+            ?: n
 }
 
 /**

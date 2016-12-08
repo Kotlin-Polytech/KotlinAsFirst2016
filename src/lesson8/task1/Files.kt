@@ -80,7 +80,15 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    /*  val resMap = mutableMapOf<String, Int>()
+      val listLetters = listOf("жы" to "жи", "чя" to "ча", "шы" to "жи", "щю" to "щу")
+      val text = File(inputName).readText()
+      var count: Int
+      for (str in inputName) {
+          val search = listLetters.find { str.toLowerCase() in it.first } ?: ""
+
+      }
+   */
 }
 
 /**

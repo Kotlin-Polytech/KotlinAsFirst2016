@@ -328,3 +328,29 @@ fun roman(n: Int): String = TODO()
  */
 
 fun russian(n: Int): String = TODO()
+
+data class People(val name: String, val colorOfHair: String) {
+
+}
+    fun uniqueColorOfHair(peoples: List<People>): List<People> {
+        val whiteSet = mutableSetOf<String>()
+        val blackSet = mutableSetOf<String>()
+        for (people in peoples) {
+            if (people.colorOfHair !in whiteSet) {
+                whiteSet.add(people.colorOfHair)
+            } else blackSet.add(people.colorOfHair)
+        }
+        return peoples.filter { it.colorOfHair !in blackSet }
+    }
+fun myFun(people: List<String>): List<People>{
+    val peoples = mutableListOf<People>()
+    for (i in 0..people.size - 1){
+        peoples.add(People(people[i].split(" ")[0], people[i].split(" ")[1]))
+        }
+    return uniqueColorOfHair(peoples)
+    }
+
+
+
+
+

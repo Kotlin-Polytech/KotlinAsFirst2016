@@ -196,4 +196,23 @@ class Tests {
         assertEquals("девятьсот тысяч", russian(900000))
         assertEquals("двенадцать", russian(12))
     }
+    @Test
+    @Tag("Exam")
+    fun myFun() {
+        val p1 = People("John", "Brown")
+        val p2 = People("Carly", "Orange")
+        val p3 = People("George", "Brown")
+        val p4 = People("Jimmy", "Black")
+        val p5 = People("Tom", "Yellow")
+        val p6 = People("George", "Blue") // Подразумевается, что Georges - это тески
+        val p7 = People("Jess", "СероБуроМалиновый")
+        assertEquals(listOf<People>(p2, p4, p5, p6, p7), myFun(listOf(
+                "John Brown",
+                "Carly Orange",
+                "George Brown",
+                "Jimmy Black", "Tom Yellow",
+                "George Blue",
+                "Jess СероБуроМалиновый")))
+    }
+
 }

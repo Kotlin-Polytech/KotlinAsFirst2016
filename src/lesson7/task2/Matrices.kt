@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -59,7 +60,52 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix<Int>(height, width, 1)
+    var squareMatrix = height * width
+    var i = 0
+    var j = 0
+    var count = 0
+    var maxHeight = height - 1
+    var minHeight = 0
+    var maxWidth = width - 1
+    var minWidth = 0
+    while (squareMatrix > 0) {
+        while (i != maxWidth) { //Right
+            count++
+            matrix[i, j] = count
+            squareMatrix--
+            i++
+        }
+        minHeight++
+        while ((j != maxHeight) && (squareMatrix > 0)) { //Down
+            count++
+            matrix[i, j] = count
+            squareMatrix--
+            j++
+
+        }
+        maxWidth--
+        while ((i != minWidth) && (squareMatrix > 0)) { //Left
+            count++
+            matrix[i, j] = count
+            squareMatrix--
+            i--
+
+        }
+        maxHeight--
+        while ((j != minHeight) && (squareMatrix > 0)) { //Top
+            count++
+            matrix[i, j] = count
+            squareMatrix--
+            j--
+
+        }
+        minWidth++
+
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -76,6 +122,15 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  1  1  1  1  1
  */
 fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+//{
+//    val extendedMatrix = createMatrix<Int>(height + 2, width + 2, 0)
+//    val matrix = createMatrix<Int>(height, width, 1)
+//    for (i in 1..extendedMatrix.width - 2){
+//        for (j in 1..extendedMatrix.width - 2){
+//
+//        }
+//    }
+//}
 
 /**
  * Сложная
@@ -109,7 +164,7 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
     for (i in 0..matrix.height - 1)
         for (j in 0..matrix.height - 1)
             reserveMatrix[i, j] = matrix[matrix.height - j - 1, i]
-        return reserveMatrix
+    return reserveMatrix
 }
 
 /**
@@ -126,32 +181,26 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  * 3 1 2
  */
 fun isLatinSquare(matrix: Matrix<Int>): Boolean {
-    if(matrix.height != matrix.width) throw IllegalArgumentException("IllegalArgumentException")
+    if (matrix.height != matrix.width) throw
+    IllegalArgumentException("IllegalArgumentException")
     for (i in 0..matrix.width - 1) {
         for (j in 0..matrix.height - 1) {
-            for (k in 0..matrix.height - 1) {
-                if ((matrix[i, j] == matrix[i, k] && j != k) ||
-                        matrix[i, j] > matrix.width) {
-                    return false
-                }
-            }
+            val latinSet = mutableSetOf<Int>()
+            if (matrix[i, j] !in latinSet && matrix[i, j] in 1..matrix.height) {
+                latinSet.add(matrix[i, j])
+            } else false
         }
     }
-
-    for (l in 0..matrix.height - 1) {
-        for (m in 0..matrix.width - 1) {
-            for (n in 0..matrix.width - 1) {
-                if ((matrix[l, m] == matrix[l, n] && m != n) || matrix[l, m] > matrix.width){
-                    return false
-                }
-            }
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
+            val whiteSet = mutableSetOf<Int>()
+            if (matrix[i, j] !in whiteSet && matrix[i, j] in 1..matrix.height) {
+                whiteSet.add(matrix[i, j])
+            } else false
         }
     }
     return true
 }
-
-
-
 
 
 /**
@@ -171,7 +220,30 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    val extendedMatrix = createMatrix<Int>(matrix.height + 2, matrix.width + 2, 0)
+    val resMatrix = matrix
+    for (i in 0..matrix.width - 2) {
+        for (j in 0..matrix.height - 2) {
+            extendedMatrix[i + 1, j + 1] = matrix[i, j]
+        }
+    }
+    for (i in 0..resMatrix.width - 1) {
+        for (j in 0..resMatrix.height - 1) {
+            resMatrix[i, j] =
+                    extendedMatrix[i - 1, j + 1] +
+                            extendedMatrix[i, j + 1] +
+                            extendedMatrix[i + 1, j + 1] +
+                            extendedMatrix[i - 1, j] +
+                            extendedMatrix[i + 1, j] +
+                            extendedMatrix[i - 1, j - 1] +
+                            extendedMatrix[i, j - 1] +
+                            extendedMatrix[i + 1, j - 1]
+        }
+    }
+    return resMatrix
+}
+
 
 /**
  * Средняя

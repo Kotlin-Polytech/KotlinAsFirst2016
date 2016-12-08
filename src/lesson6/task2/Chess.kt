@@ -43,14 +43,11 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    try {
+        if (notation[0] !in 'a'..'h' || notation[1] !in '1'..'8') throw IllegalArgumentException()
         val column = notation[0]
         val secColumn = column - 'a' + 1
         val row = notation[1] - '0'
         return Square(secColumn, row)
-    } catch (e : IllegalArgumentException){
-        throw IllegalArgumentException()
-    }
 }
 
 /**

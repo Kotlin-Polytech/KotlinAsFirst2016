@@ -60,7 +60,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     for (string in substrings) {
         j = 0
         if (string.toLowerCase() in fileText)
-            loop@ for (i in 0..fileText.length - 1){
+            loop@ for (i in 0..fileText.length - string.length){
                 for (k in 0..string.length - 1) if (fileText[i + k] != string.toLowerCase()[k]) continue@loop
                 j++
             }

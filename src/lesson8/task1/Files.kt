@@ -54,7 +54,14 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val result = mutableMapOf<String, Int>()
+        val textResult = File(inputName).readText()
+        for (string in substrings) {
+                var count = 0
+                if (string.toLowerCase() in textResult.toLowerCase()) count += textResult.toLowerCase().split(string.toLowerCase()).size - 1
+                result.put(string, count)
+            }
+        return result
 }
 
 
@@ -71,10 +78,17 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  * Исключения (жюри, брошюра, парашют) в рамках данного задания обрабатывать не нужно
  *
  */
+//жи ши ча ща чу щу
 fun sibilants(inputName: String, outputName: String) {
     TODO()
-}
+}/*{
+    var textResult = File(inputName).readText()
+    when (Regex("""[(((Ж|ж)|(Ш|ш))(Ы|ы))|(((Ч|ч)|(Щ|щ))(Я|я))|(((Ч|ч)|(Щ|щ))(Ю|ю))))]""")) {
 
+    }
+
+}
+*/
 /**
  * Средняя
  *
@@ -93,8 +107,7 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
-}
+    TODO()}
 
 /**
  * Сложная

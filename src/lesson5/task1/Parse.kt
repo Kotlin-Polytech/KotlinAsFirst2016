@@ -164,19 +164,18 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-            val parts = jumps.split(" ", "%", "-").toMutableList()
-            for (i in 0..parts.size-1) {
-                parts.remove("") } //помогает в ситуациях с двумя пробелами подряд и т.д.
-           var max = -1
-            try {
-                for (i in parts) {
-                    if (i.toInt() > max) max = i.toInt()
-                }
-            } catch (e:NumberFormatException) {
-                return -1
-            }
-            return max
+    val parts = jumps.split(" ", "%", "-").toMutableList()
+    parts.removeAll {it == ""}
+    var max = -1
+    try {
+        for (i in parts) {
+            if (i.toInt() > max) max = i.toInt()
         }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
+}
 
 /**
  * Сложная

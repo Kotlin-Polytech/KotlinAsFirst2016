@@ -100,15 +100,21 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var k = 0
-    if ((m == 0) || (n == 0)) return 0
-    if ((m == 1) || (n == 1)) return 1
-    for (i in 2..n * m) {
-        if (((i % n) == 0) && ((i % m) == 0)) {
-            k = i
+    when {
+        m == 0 || n == 0 -> return 0
+        (m == 1) && (n == 1) -> return 1
+        m == 1 -> return n
+        n == 1 -> return m
+        else -> {
+            for (i in 2..n * m) {
+                if (((i % n) == 0) && ((i % m) == 0)) {
+                    k = i
+                    return k
+                }
+            }
             return k
         }
     }
-    return k
 }
 
 /**

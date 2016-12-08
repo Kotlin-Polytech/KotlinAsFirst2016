@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task1
 
-import com.sun.xml.internal.bind.v2.TODO
 import lesson1.task1.sqr
 import lesson4.task1.squares
 
@@ -105,7 +104,7 @@ fun diameter(vararg points: Point): Segment {
  */
 fun circleByDiameter(diameter: Segment): Circle {
     val center = Point((diameter.begin.x + diameter.end.x) / 2, diameter.begin.y + diameter.end.y / 2)
-    val radius = center.distance(diameter.end)
+    val radius = (diameter.begin.distance(diameter.end)) / 2
     return Circle(center, radius)
 }
 
@@ -133,15 +132,17 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan(Math.abs((s.begin.y - s.end.y) /
-        (s.begin.x - s.end.x))))
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan2(s.end.y - s.begin.y, s.end.x - s.begin.x))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
+fun lineByPoints(a: Point, b: Point): Line {
+    val segment = Segment(a, b)
+    return lineBySegment(segment)
+}
 
 /**
  * Сложная
@@ -149,11 +150,9 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val line = Segment(a, b)
-    val angle = lineBySegment(line).angle
-    if (angle >= Math.PI / 2)
-        return Line(Point(((line.end.x + line.begin.x) / 2), (line.end.y + line.begin.y) / 2), angle - Math.PI / 2)
-    else return Line(Point(((line.end.x + line.begin.x) / 2), (line.end.y + line.begin.y) / 2), angle + Math.PI / 2)
+    val angle = Math.atan2(b.y - a.y, b.x - a.x) + Math.PI / 2
+    val middlePoint = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    return Line(middlePoint, angle)
 }
 
 /**
@@ -193,4 +192,5 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * соединяющий две самые удалённые точки в данном множестве.
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
+
 

@@ -96,7 +96,13 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    return when {
+        rookMoveNumber(start, end) == 0 -> listOf(start)
+        rookMoveNumber(start, end) == 1 -> listOf(start, end)
+        else -> listOf(start, Square(start.column, end.row), end)
+    }
+}
 
 /**
  * Простая
@@ -121,7 +127,16 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    return when {
+        !start.inside() -> throw IllegalArgumentException("Incorrect square: $start.")
+        !end.inside()   -> throw IllegalArgumentException("Incorrect square: $end.")
+        Math.abs((start.row + start.column) - (end.row + end.column)) % 2 == 1  -> -1
+        start == end                                                            -> 0
+        Math.abs(start.row - end.row) == Math.abs(start.column - end.column)    -> 1
+        else                                                                    -> 2
+    }
+}
 
 /**
  * Сложная
@@ -141,7 +156,14 @@ fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    return when {
+        bishopMoveNumber(start, end) == -1  -> listOf()
+        bishopMoveNumber(start, end) == 0   -> listOf(start)
+        bishopMoveNumber(start, end) == 1   -> listOf(start, end)
+        else -> listOf(start, end)
+    }
+}
 
 /**
  * Средняя

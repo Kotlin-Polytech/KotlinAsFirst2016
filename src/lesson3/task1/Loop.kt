@@ -2,7 +2,8 @@
 
 package lesson3.task1
 
-import lesson1.task1.sqr
+import lesson4.task1.pow
+import java.lang.Math.sqrt
 
 /**
  * Пример
@@ -150,7 +151,10 @@ fun isCoPrime(m: Int, n: Int): Boolean =
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean {
+fun squareBetweenExists(m: Int, n: Int): Boolean =
+        m <= pow(sqrt(n.toDouble()).toInt(),2)
+
+/**
     for (result in m..n) {
         val sqrtResult = Math.sqrt(result.toDouble())
         if (sqrtResult % 1 == 0.0) {
@@ -160,6 +164,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     return false
 }
 
+*/
 
 /**
  * Простая

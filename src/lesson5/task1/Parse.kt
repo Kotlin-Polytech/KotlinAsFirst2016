@@ -138,21 +138,22 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.isEmpty()) return "" //проверка условий
-    for (i in 0..phone.length - 1) {
-        if ((phone[i] != '(')
-                && (phone[i] != ')')
-                && (phone[i] != '+')
-                && (phone[i] != '-')
-                && (phone[i] != ' ')
-                && (phone[i] !in '0'..'9'))
-            return ""
-    }
+    try {
+        if (phone.any{((it != '(')
+            && (it != ')')
+            && (it != '+')
+            && (it != '-')
+            && (it != ' ')
+            && (it !in '0'..'9'))})
+       return ""
     val result = phone.filter { (it in '0'..'9') || (it == '+') }
     if (result[0] != '+') {
         return phone.filter { (it in '0'..'9') }
     }
     return result
+    } catch (e: StringIndexOutOfBoundsException) {
+        return ""
+    }
 }
 
 /**
@@ -199,13 +200,14 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    for (i in 0..expression.length - 1)
-        if ((expression == "")
-                || ((expression[i] != '+')
-                && (expression[i] != '-')
-                && (expression[i] != ' ')
-                && (expression[i] !in '0'..'9')))
+    try {
+    if (expression.any{
+        (((it != '+')
+            && (it != '-')
+            && (it != ' ')
+            && (it !in '0'..'9')))})
             return throw IllegalArgumentException("IllegalArgumentException")
+
     var resultExpression = expression
     val parts = resultExpression.split(" ")
     var result = 0
@@ -220,6 +222,9 @@ fun plusMinus(expression: String): Int {
             else result += parts[i].toInt()
     }
     return result
+    } catch (e: StringIndexOutOfBoundsException) {
+        return throw IllegalArgumentException("IllegalArgumentException")
+    }
 }
 
 /**

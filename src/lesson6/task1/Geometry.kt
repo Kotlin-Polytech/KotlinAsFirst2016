@@ -131,11 +131,9 @@ data class Line(val point: Point, val angle: Double) {
         val exp1 = point.y - (point.x * tan1)
         val exp2 = other.point.y - (other.point.x * tan2)
         val x = (exp2 - exp1) / (tan1 - tan2)
-        val y = when {
-            angle == Math.abs(Math.PI / 2) -> other.point.y
-            other.angle == Math.abs(Math.PI / 2) -> point.y
-            else -> (x - point.x) * tan1 + point.y
-        }
+        val minTan = Math.min(tan1, tan2)
+        val y = if (minTan == tan1) (x - point.x) * tan1 + point.y
+        else (x - other.point.x) * tan2 + other.point.y
         return Point(x, y)
     }
 }

@@ -43,12 +43,14 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val column = notation[0]
-    val secColumn = column - 'a' + 1
-    val row = notation[1] - '0'
-    val testSquare = Square(secColumn, row)
-    if (!testSquare.inside()) throw IllegalArgumentException()
-    return Square(secColumn, row)
+    try {
+        val column = notation[0]
+        val secColumn = column - 'a' + 1
+        val row = notation[1] - '0'
+        return Square(secColumn, row)
+    } catch (e : IllegalArgumentException){
+        throw IllegalArgumentException()
+    }
 }
 
 /**
@@ -126,12 +128,13 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    val count = 0
-    if (start == end) return count
+    if (start == end) return 0
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return count + 1
-    if (start.column == end.column || start.row == end.row) return count + 2
-    return -1
+    if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return 1
+    if (start.squareParity(start.column, start.row) && start.squareParity(end.column, end.row)
+            || !start.squareParity(start.column, start.row) && !start.squareParity(end.column, end.row))
+        return -1
+    return 2
 }
 
 /**

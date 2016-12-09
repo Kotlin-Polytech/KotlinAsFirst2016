@@ -398,7 +398,7 @@ fun markdownToHtmlListsConstructor (lines: MutableList<String>, index: Int): Str
     if (lines[0][index] in '1'..'6') sb.append("<ol>")
     var label = true
     for (i in 0..lines.size - 1){
-        val temp = lines[i].filter {it !in "123456890. "}
+        val temp = lines[i]
         if (lines[i][index] != ' '){
             label = true
             sb.append("<li>$temp")

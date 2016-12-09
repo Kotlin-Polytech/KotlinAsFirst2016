@@ -94,13 +94,15 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 0
-    var count = n*m
-    while(count > 0) {
-        if ((count%m == 0) and (count%n == 0)) k = count
-        count --
+    var a = 0
+    val max = Math.max(m, n)
+    for (i in max..m * n) {
+        if ((i % m == 0) && (i % n == 0)) {
+            a = i
+            break
+        }
     }
-    return k
+    return a
 }
 
 /**
@@ -258,3 +260,5 @@ fun sqrtInt(number: Int): Int {
     }
     return i
 }
+
+

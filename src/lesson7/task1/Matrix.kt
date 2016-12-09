@@ -24,7 +24,7 @@ interface Matrix<E> {
     operator fun get(row: Int, column: Int): E
 
     operator fun get(cell: Cell): E
-    fun maxLength(): Int
+
     /**
      * Запись в ячейку.
      * Методы могут бросить исключение, если ячейка не существует
@@ -78,33 +78,19 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && list == other.list
 
-    override fun maxLength(): Int { //Функция для нахждения самой длинной строки в матрице
-        var maxLength = 0
-        for (i in 0..list.size - 1) {
-            val str = list[i]
-            if ("$str".length > maxLength) maxLength = "$str".length
-        }
-        return maxLength
-    }
 
     override fun toString(): String {
         val sb = StringBuilder()
         sb.append("[\n")
-        val maxLength = this.maxLength()
         for (row in 0..height - 1) {
-            sb.append("")
+            sb.append("[ ")
             for (column in 0..width - 1) {
                 var tabulation = "\t"
-                val elem = this[row, column]
-                var thisStr = "$elem"
-                for (i in 1..maxLength - "$elem".length) {
-                    thisStr = " " + thisStr
-                }
                 if (column == width - 1) tabulation = ""
-                sb.append("$thisStr$tabulation")
-                //sb.append("$elem [$row, $column] $tabulation")
+                val elem = this[row, column]
+                sb.append("$elem [$row, $column] $tabulation")
             }
-            sb.append("")
+            sb.append("]")
             sb.append("\n")
         }
         sb.append("]")
@@ -118,4 +104,3 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         return result
     }
 }
-

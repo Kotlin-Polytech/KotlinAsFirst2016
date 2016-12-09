@@ -26,11 +26,18 @@ data class Square(val column: Int, val row: Int) {
     fun notation(): String {
         if (!inside()) return ""
         val myAlphabet = "abcdefgh"
-        return myAlphabet[column-1] + "$row"
+        return myAlphabet[column - 1] + "$row"
     }
 
-    fun squareParity(column: Int, row: Int) : Boolean {
+    fun squareParity(column: Int, row: Int): Boolean {
         if ((column + row) % 2 == 0) return true
+        return false
+    }
+
+    fun correctSquare(vararg square: Square) : Boolean {
+        for (element in square) {
+            if (element.row in 1..8 || element.column in 1..8) return true
+        }
         return false
     }
 }
@@ -74,11 +81,10 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    val count = 0
-    if (start == end) return count
-    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    if (start.column == end.column || start.row == end.row) return count + 1
-    else return count + 2
+    if (!start.correctSquare() && !end.correctSquare()) throw IllegalArgumentException()
+    if (start == end) return 0
+    if (start.column == end.column || start.row == end.row) return 1
+    else return 2
 }
 
 /**
@@ -128,8 +134,8 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     if (start == end) return 0
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return 1
-    if (start.squareParity(start.column, start.row) && end.squareParity(end.column, end.row)
-            || !start.squareParity(start.column, start.row) && !end.squareParity(end.column, end.row))
+    if ((start.squareParity(start.column, start.row) && !end.squareParity(end.column, end.row))
+            || (!start.squareParity(start.column, start.row) && end.squareParity(end.column, end.row)))
         return -1
     return 2
 }

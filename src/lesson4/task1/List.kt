@@ -4,6 +4,7 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.minDivisor
+import org.jetbrains.annotations.Mutable
 
 /**
  * Пример
@@ -108,11 +109,10 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var sqr = 0.0
-    for (i in 0..v.size-1) {
-        sqr = sqr + sqr(v[i])
+    for (element in v) {
+        sqr = sqr + sqr(element)
     }
-    val abs = Math.sqrt(sqr)
-    return abs
+    return Math.sqrt(sqr)
 }
 
 /**
@@ -200,7 +200,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     var N = n
-    var list = listOf<Int>()
+    val list = mutableListOf<Int>()
     while (N > 1) {
             list += minDivisor(N)
             N /= minDivisor(N)
@@ -225,13 +225,14 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var N = n
-    var list = listOf<Int>()
-    while (N > 0) {
-        list = listOf(N % base) + list
-        N /= base
+    var number = n
+    val result = mutableListOf<Int>()
+    if (number == 0) result.add(0)
+    while (number > 0) {
+        result.add(0, number % base)
+        number = number / base
     }
-    return list
+    return result
 }
 
 /**
@@ -282,3 +283,4 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+

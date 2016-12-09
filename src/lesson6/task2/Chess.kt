@@ -36,8 +36,8 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val columnNotation = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
-    val rowNotation = listOf<Char>('1', '2', '3', '4', '5', '6', '7', '8')
+    val columnNotation = "abcdefgh"
+    val rowNotation = "12345678"
     if (notation.length != 2 || notation[0] !in columnNotation || notation[1] !in rowNotation) throw IllegalArgumentException()
     return Square(columnNotation.indexOf(notation[0]) + 1, rowNotation.indexOf(notation[1]) + 1)
 }

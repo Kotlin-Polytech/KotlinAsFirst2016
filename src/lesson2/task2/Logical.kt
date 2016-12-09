@@ -60,19 +60,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    var mini1 = 0
-    var mini2 = 0
-    if (a <= b && a <= c) {
-        mini1 = a
-        mini2 = Math.min(b, c)
-    }
-    else if (b <= a && b <= c) {
-        mini1 = b
-        mini2 = Math.min(a, c)
-    }
-    else if (c <= a && c <= b) {
-        mini1 = c
-        mini2 = Math.min(a, b)
-    }
-    return mini1 <= r && mini2 <= s || mini1 <= s && mini2 <= r
+    val list = listOf(a, b, c).sorted()
+    return list[0] <= r && list[1] <= s || list[0] <= s && list[1] <= r
 }
+

@@ -65,7 +65,7 @@ fun dateStrToDigit(str: String): String {
         val parts = str.split(' ')
         val day = parts[0].toInt()
         val years = parts[2].toInt()
-        val month = when(parts[1]) {
+        val month = when (parts[1]) {
             "января" -> 1
             "февраля" -> 2
             "марта" -> 3
@@ -230,23 +230,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String {
-    try {
-        val parts = description.split("; ")
-        var maxCost = 0.0
-        var nameOfMaxCost = ""
-        for (i in 0..parts.size - 1) {
-            val partsOfParts = parts[i].split(" ")
-            if (partsOfParts.size > 1 && partsOfParts[1].toDouble() > maxCost) {
-                maxCost = partsOfParts[1].toDouble()
-                nameOfMaxCost = partsOfParts[0]
-            }
-        }
-        return nameOfMaxCost ?: ""
-    } catch (e: NumberFormatException) {
-        return ""
-    }
-}
+fun mostExpensive(description: String): String = TODO()
 
 /**
  * Сложная

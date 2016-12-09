@@ -209,27 +209,26 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    val members = description.split(" ")
-    var max = 0
-    var result = ""
-    if (description == "") return ""
-    else {
-        for (i in 1..members.size - 1 step 2) {
-            if (members[i].matches(Regex("""[0-9]+.[0-9]"""))) {
-                val twoPartsOfTheNumber = members[i].split(".")
-                var firstPartOfTheNumber = twoPartsOfTheNumber[0].toInt()
-                val secondPartOfTheNumber = twoPartsOfTheNumber[1].toInt()
-                if (secondPartOfTheNumber >= 5) firstPartOfTheNumber += 1
-                else firstPartOfTheNumber -= 0
-                if (firstPartOfTheNumber > max) {
-                    max = firstPartOfTheNumber
-                    result = members[i - 1]
-                }
+    try {
+        val members = description.split("; ")
+        var stringName = ""
+        var max = 0.0
+        for (i in 0..members.size - 1) {
+            val partOfMembers = members[i].split(" ")
+            if (partOfMembers[partOfMembers.size - 1].toDouble() >= max) {
+                max = partOfMembers[partOfMembers.size - 1].toDouble()
+                stringName = ""
+                for (j in 0..partOfMembers.size - 2) stringName += partOfMembers[j]
             }
         }
+        return stringName
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    } catch (e: NumberFormatException) {
+        return ""
     }
-    return result
-} // НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!! НЕ ДОДЕЛАНА !!!
+
+}
 
 /**
  * Сложная

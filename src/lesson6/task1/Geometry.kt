@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -82,7 +83,26 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) throw IllegalArgumentException(" ")
+    else {
+        var max = 0.0
+        var begin = Point(0.0, 0.0)
+        var end = Point(0.0, 0.0)
+        val length = points.size
+        for (i in 0..length - 1) {
+            for (j in i + 1..length-1) {
+                val rightDistance = points[i].distance(points[j])
+                if (rightDistance > max) {
+                    max = rightDistance
+                    begin = points[i]
+                    end = points[j]
+                }
+            }
+        }
+        return Segment(begin, end)
+    }
+}
 
 /**
  * Простая

@@ -159,31 +159,14 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> =
             0 -> listOf(start)
             1 -> listOf(start, end)
             2 -> {
-                val deltaX = abs(end.column - start.column)
-                val deltaY = abs(end.row - start.row)
-                val delta: Int = (deltaX + deltaY) / 2
-                val minX= min(start.column, end.column)
-                val minY= min(start.row, end.row)
-                val maxX = max(start.column, end.column)
-                val maxY = max(start.row, end.row)
-                val x: Int
-                val y: Int
-                if (minX + delta in 1..8) {
-                    x = minX + delta
-                    if (minY + delta in 1..8) {
-                        y = minY + delta
-                    } else if (maxY - delta in 1..8) {
-                        y = maxY - delta
-                    } else y = minY - delta
-                } else {
-                    x = minX - delta
-                    if (minY + delta in 1..8) {
-                        y = minY + delta
-                    } else if (minY - delta in 1..8) {
-                        y = minY - delta
-                    } else y = maxY - delta
+                var medium = Square(0, 0)
+                for (i in 1..8) {
+                    for (j in 1..8) {
+                        if (abs(end.column - i) == abs(end.row - j) && abs(start.column - i) == abs(start.row - j)) {
+                            medium = Square(i, j)
+                        }
+                    }
                 }
-                val medium = Square(x, y)
                 listOf(start, medium, end)
             }
             else -> listOf()

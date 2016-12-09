@@ -94,9 +94,10 @@ class MatrixImpl<E>(override val height: Int,
         return "[$matrix]"
     }
 
-    override fun hashCode(): Int {
+    override fun hashCode(): Int{
         var result = height
         result = 31 * result + width
+        result = 31 * result + matrix.hashCode()
         return result
     }
 }

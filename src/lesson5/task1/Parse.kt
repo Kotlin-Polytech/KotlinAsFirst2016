@@ -170,7 +170,7 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val checkFormat = Regex("""(\d+ |[%-] )+(\d+|[%-])""")
+    val checkFormat = Regex("""(\d+\s+|[%-]\s+)+(\d+|[%-])""")
     if (!checkFormat.matches(jumps)) return -1
     else {
         var bestLongJump: Int = -1
@@ -275,7 +275,7 @@ fun mostExpensive(description: String): String {
     var maxPrice: Double = 0.0
     var name: String = ""
     val findPrice = Regex("""\d+(\.\d+)?$""")
-    val findName = Regex(""".+(?= \d+(\.\d+)?$)""")
+    val findName = Regex(""".+?(?=\s+\d+(\.\d+)?$)""")
     for (i in goods) {
         val temp = findPrice.find(i)?.value?.toDouble() ?: return ""
         if (temp > maxPrice) {

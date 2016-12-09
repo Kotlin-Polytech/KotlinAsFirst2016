@@ -93,8 +93,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
             }
             sb.deleteCharAt(width - 1)
             sb.append("],")
-            sb.deleteCharAt(height - 1)
         }
+        sb.deleteCharAt(height - 1)
         sb.append("]")
         return "$sb"
     }

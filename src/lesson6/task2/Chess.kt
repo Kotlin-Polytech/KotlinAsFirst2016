@@ -2,6 +2,7 @@
 
 package lesson6.task2
 
+import lesson8.task1.printDivisionProcess
 import java.lang.Math.*
 
 val letters = "abcdefgh"
@@ -160,16 +161,34 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> =
             2 -> {
                 val deltaX = abs(end.column - start.column)
                 val deltaY = abs(end.row - start.row)
-                val delta = (deltaX + deltaY) / 2
-                var medium = when {
-                    (start.row < end.row) -> Square(start.column + delta, start.row + delta)
-                    else -> Square(start.column - delta, start.row - delta)
+                val delta: Int = (deltaX + deltaY) / 2
+                val minX= min(start.column, end.column)
+                val minY= min(start.row, end.row)
+                val maxX = max(start.column, end.column)
+                val maxY = max(start.row, end.row)
+                val x: Int
+                val y: Int
+                if (minX + delta in 1..8) {
+                    x = minX + delta
+                    if (minY + delta in 1..8) {
+                        y = minY + delta
+                    } else if (maxY - delta in 1..8) {
+                        y = maxY - delta
+                    } else y = minY - delta
+                } else {
+                    x = minX - delta
+                    if (minY + delta in 1..8) {
+                        y = minY + delta
+                    } else if (minY - delta in 1..8) {
+                        y = minY - delta
+                    } else y = maxY - delta
                 }
-                if (!medium.inside()) medium = Square(delta, start.row + delta)
+                val medium = Square(x, y)
                 listOf(start, medium, end)
             }
             else -> listOf()
         }
+
 
 /**
  * Средняя

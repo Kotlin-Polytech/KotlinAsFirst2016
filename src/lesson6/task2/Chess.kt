@@ -166,12 +166,12 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (start == end) return listOf(start)
     if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return listOf(start, end)
     if (start.squareParity(start.column, start.row) && end.squareParity(end.column, end.row)
-            || !start.squareParity(start.column, start.row) && !end.squareParity(end.column, end.row)) {
+            || start.squareUnparity(start.column, start.row) && end.squareUnparity(end.column, end.row)) {
         val sumFirst = start.column + start.row
         val sumSecond = end.column + end.row
         val trajectory = Math.abs(sumFirst - sumSecond) / 2
         var intermediateSquare = Square(start.column + trajectory, start.row + trajectory)
-        if (intermediateSquare.inside()) return listOf(start, intermediateSquare, end)
+        if (intermediateSquare.correctSquare(intermediateSquare)) return listOf(start, intermediateSquare, end)
         else {
             intermediateSquare = Square(end.column - trajectory, end.row - trajectory)
             return listOf(start, intermediateSquare, end)

@@ -49,6 +49,32 @@ class Tests {
                         listOf(10, 11, 12, 5),
                         listOf(9, 8, 7, 6)
                 )), generateSpiral(3, 4))
+        assertEquals(createMatrix(23, 9,
+                listOf(
+                        listOf(1, 2, 3, 4, 5, 6, 7, 8, 9),
+                        listOf(60, 61, 62, 63, 64, 65, 66, 67, 10),
+                        listOf(59, 112, 113, 114, 115, 116, 117, 68, 11),
+                        listOf(58, 111, 156, 157, 158, 159, 118, 69, 12),
+                        listOf(57, 110, 155, 192, 193, 160, 119, 70, 13),
+                        listOf(56, 109, 154, 191, 194, 161, 120, 71, 14),
+                        listOf(55, 108, 153, 190, 195, 162, 121, 72, 15),
+                        listOf(54, 107, 152, 189, 196, 163, 122, 73, 16),
+                        listOf(53, 106, 151, 188, 197, 164, 123, 74, 17),
+                        listOf(52, 105, 150, 187, 198, 165, 124, 75, 18),
+                        listOf(51, 104, 149, 186, 199, 166, 125, 76, 19),
+                        listOf(50, 103, 148, 185, 200, 167, 126, 77, 20),
+                        listOf(49, 102, 147, 184, 201, 168, 127, 78, 21),
+                        listOf(48, 101, 146, 183, 202, 169, 128, 79, 22),
+                        listOf(47, 100, 145, 182, 203, 170, 129, 80, 23),
+                        listOf(46, 99, 144, 181, 204, 171, 130, 81, 24),
+                        listOf(45, 98, 143, 180, 205, 172, 131, 82, 25),
+                        listOf(44, 97, 142, 179, 206, 173, 132, 83, 26),
+                        listOf(43, 96, 141, 178, 207, 174, 133, 84, 27),
+                        listOf(42, 95, 140, 177, 176, 175, 134, 85, 28),
+                        listOf(41, 94, 139, 138, 137, 136, 135, 86, 29),
+                        listOf(40, 93, 92, 91, 90, 89, 88, 87, 30),
+                        listOf(39, 38, 37, 36, 35, 34, 33, 32, 31)
+                )), generateSpiral(23, 9))
     }
 
     @Test
@@ -153,6 +179,8 @@ class Tests {
         assertEquals(Holes(listOf(4), listOf(1, 3)),
                 findHoles(createMatrix(5, 4, listOf(listOf(1, 0, 1, 0), listOf(0, 0, 1, 0), listOf(1, 0, 0, 0),
                         listOf(0, 0, 1, 0), listOf(0, 0, 0, 0)))))
+        assertEquals(Holes(listOf(0, 1, 2, 3, 4, 5, 6, 7), listOf(0, 1, 2, 3, 4, 5)),
+                findHoles(createMatrix(8, 6, listOf(listOf(0, 0, 0, 0, 0, 0), listOf(0, 0, 0, 0, 0, 0), listOf(0, 0, 0, 0, 0, 0), listOf(0, 0, 0, 0, 0, 0), listOf(0, 0, 0, 0, 0, 0), listOf(0, 0, 0, 0, 0, 0), listOf(0, 0, 0, 0, 0, 0), listOf(0, 0, 0, 0, 0, 0)))))
     }
 
     @Test
@@ -209,11 +237,11 @@ class Tests {
     @Tag("Hard")
     fun fifteenGameMoves() {
         val start = createMatrix(4, 4, listOf(listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
-                                              listOf(9, 10, 11, 12), listOf(13, 14, 15, 0)))
+                listOf(9, 10, 11, 12), listOf(13, 14, 15, 0)))
         assertEquals(start, fifteenGameMoves(start, listOf()))
         assertEquals(start, fifteenGameMoves(createMatrix(4, 4, listOf(listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
-                                                                       listOf(9, 10, 11, 12), listOf(0, 13, 14, 15))),
-                                             listOf(13, 14, 15)))
+                listOf(9, 10, 11, 12), listOf(0, 13, 14, 15))),
+                listOf(13, 14, 15)))
         assertEquals(start, fifteenGameMoves(createMatrix(4, 4, listOf(listOf(1, 2, 3, 0), listOf(5, 6, 7, 4),
                 listOf(9, 10, 11, 8), listOf(13, 14, 15, 12))),
                 listOf(4, 8, 12)))
@@ -221,13 +249,12 @@ class Tests {
                 listOf(0, 4, 13, 6), listOf(3, 10, 11, 8))),
                 fifteenGameMoves(createMatrix(4, 4, listOf(listOf(5, 7, 9, 1), listOf(2, 12, 14, 15),
                         listOf(3, 4, 6, 8), listOf(10, 11, 13, 0))),
-                                 listOf(8, 6, 13, 11, 10, 3)))
+                        listOf(8, 6, 13, 11, 10, 3)))
         try {
             fifteenGameMoves(start, listOf(1))
             assert(false) { "Exception expected" }
-        }
-        catch (e: IllegalStateException) {}
-        catch (e: Throwable) {
+        } catch (e: IllegalStateException) {
+        } catch (e: Throwable) {
             assert(false) { "IllegalStateException expected" }
         }
     }

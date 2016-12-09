@@ -70,28 +70,36 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var leftBorder = 0 //Левая граница
     var rightBorder = width - 1 //Правая граница
     var topBorder = 0 //Верхняя граница
-    var bottomBorder = height - 1 //Нижняя граница
+    var bottomBorder = height - 1//Нижняя граница
 
     for (elem in 0..height * width - 1) {
         matrix[row, column] = elem + 1
 
         if (column == rightBorder && row == topBorder) {
-            topBorder += symbolColumn //Опускаем верхнюю границу
+            if (topBorder != bottomBorder - 1) { //Не меняем положение верхней границы, если она сольется с нижней
+                topBorder += symbolColumn //Опускаем верхнюю границу
+            }
             symbolColumn = 0 //Прекращаем движение по горизонтали
             symbolRow = 1 //Начинаем двигаться по вертикали вниз
         }
         if (row == bottomBorder && column == rightBorder) {
-            rightBorder -= symbolRow //Сдвигаем правую границу
+            if (rightBorder != leftBorder + 1) { //Не меняем положение правой границы, если она сольется с левой
+                rightBorder -= symbolRow //Сдвигаем правую границу
+            }
             symbolRow = 0 //Прекращаем движение по вертикали
             symbolColumn = -1 //Начинаем двигаться по горизонтали влево
         }
         if (column == leftBorder && row == bottomBorder) {
-            bottomBorder += symbolColumn //Поднимаем нижнюю границу
+            if (bottomBorder != topBorder + 1) { //Не меняем положение нижней границы, если она сольется с верхней
+                bottomBorder += symbolColumn //Поднимаем нижнюю границу
+            }
             symbolColumn = 0 //Прекращаем движение по горизонтали
             symbolRow = -1 //Начинаем двигаться по вертикали вверх
         }
         if (row == topBorder && column == leftBorder) {
-            leftBorder -= symbolRow //Сдвигаем левую границу
+            if (leftBorder != rightBorder - 1) { //Не меняем положение левой границы, если она сольется с правой
+                leftBorder -= symbolRow //Сдвигаем левую границу
+            }
             symbolRow = 0 //Прекращаем движение по вертикали
             symbolColumn = 1 //Начинаем двигаться по горизонтали влево
         }
@@ -189,7 +197,20 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val newMatrix = createMatrix(matrix.height, matrix.width, matrix[0, 0]) //Создаем матрицу
+    for (i in 0..matrix.width - 1) {
+        var list: List<E> = listOf() //Создаем список
+        for (j in matrix.height - 1 downTo 0) {
+            list += matrix[j, i] //Добавляем в список элементы матрицы снизу вверху (колонку)
+        }
+        for (j in 0..matrix.width - 1) {
+            newMatrix[i, j] = list[j] //Добавляем колонку как строчку в новую матрицу
+        }
+    }
+    return newMatrix
+}
 
 /**
  * Сложная
@@ -284,12 +305,16 @@ fun findHoles(matrix: Matrix<Int>): Holes {
     var resultListColumns = listOf<Int>()
     for (i in 0..matrix.height - 1) {
         var listRows = listOf<Int>() //Строки
-        var listColumns = listOf<Int>() //Столбцы
         for (j in 0..matrix.width - 1) {
             listRows += matrix[i, j] //Добавляем очередную ячейку в строку
-            listColumns += matrix[j, i] //Добавляем очередную ячейку в столбец
         }
         if (1 !in listRows) resultListRows += i //Проверяем строку на наличие кирпичей
+    }
+    for (i in 0..matrix.width - 1) {
+        var listColumns = listOf<Int>() //Столбцы
+        for (j in 0..matrix.height - 1) {
+            listColumns += matrix[j, i] //Добавляем очередную ячейку в столбец
+        }
         if (1 !in listColumns) resultListColumns += i //Проверяем столбец на наличие кирпичей
     }
     return Holes(resultListRows, resultListColumns)
@@ -314,7 +339,24 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    //Возможна иная реализация, если запоминать все предыдущие суммы и заисывать их промежуточную матрицу,
+    //потом использовать эти значения (стоящие слева-наверху/слева/наверху относительно очередного элемента,
+    //сумму для которого мы ищем) не считая заново сумму элементов, которые стоят в левом верхнем прямоугольники?
+    val newMatrix = createMatrix(matrix.height, matrix.width, 0)
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
+            var sum = 0
+            for (k in 0..i) {
+                for (l in 0..j) {
+                    sum += matrix[k, l]
+                }
+            }
+            newMatrix[i, j] = sum
+        }
+    }
+    return newMatrix
+}
 
 /**
  * Сложная
@@ -337,7 +379,6 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
 fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
-
 /**
  * Простая
  *

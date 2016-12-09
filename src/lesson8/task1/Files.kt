@@ -56,12 +56,8 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val resMap = mutableMapOf<String, Int>()
     val text = File(inputName).readText()
-    var count: Int
     for (str in substrings) {
-        count = 0
-        val strLowerC = str.toLowerCase()
-        if (strLowerC in text.toLowerCase()) count += text.toLowerCase().split(strLowerC).size - 1
-        resMap.put(str, count)
+        resMap.put(str, text.toLowerCase().split(str.toLowerCase()).size - 1)
     }
     return resMap
 }
@@ -80,15 +76,36 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    /*  val resMap = mutableMapOf<String, Int>()
-      val listLetters = listOf("жы" to "жи", "чя" to "ча", "шы" to "жи", "щю" to "щу")
-      val text = File(inputName).readText()
-      var count: Int
-      for (str in inputName) {
-          val search = listLetters.find { str.toLowerCase() in it.first } ?: ""
+    TODO()/*
+    val listLetters = listOf("жы" to "жи", "чя" to "ча", "шы" to "ши", "щю" to "щу",
+            "ЖЫ" to "ЖИ", "ЧЯ" to "ЧА", "ШЫ" to "ШИ", "ЩЮ" to "ЩУ",
+            "жЫ" to "жИ", "чЯ" to "чА", "шЫ" to "шИ", "щЮ" to "щУ",
+            "Жы" to "Жи", "Чя" to "Ча", "Шы" to "Ши", "Щю" to "Щу",
+            "" to "")
+    val listLetters2 = listOf("ы" to "и", "я" to "а", "ы" to "и", "ю" to "у",
+            "Ы" to "И", "Я" to "А", "Ы" to "И", "Ю" to "У")
+    val str="ЖЧШЩжчшщ"
+    val res = File(outputName).bufferedWriter()
+    val text = File(inputName).readText()
+    var help = text
+    //while (help.contains(listLetters.first().toString()))
+    /* for (i in 0..25) {
+         val search = listLetters.find { help.contains(it.first) } ?: listLetters.last()
+         help = (Regex(search.first).replace(help, search.second))
+     }*/
+    /*for (i in 1..help.length-1) {
+        val search = help.find { help.contains() } ?: listLetters.last()
+        val searchIndex = help.indexOf(search.first)
+        if (help[searchIndex - 1].toLowerCase() == 'ЖЧШЩжчшщ') help.replace(help[searchIndex].toString(), search.second)
+    }*/
+    for (i in 1..help.length-1) {
+        if ((help[i-1].toLowerCase() in "жчшщ")&&((help[i].toLowerCase() in "ыяю"))) help.replace(help[i].toString(), (listLetters2.find { help.contains(it.first) } ?: listLetters.last()).second)
+    }
+            //help = Regex("""[ж]+$listLetters2""").replace(help, "жи")
 
-      }
-   */
+    //help.replace("$listLetters2",)
+    res.append(help)
+    res.close() */
 }
 
 /**

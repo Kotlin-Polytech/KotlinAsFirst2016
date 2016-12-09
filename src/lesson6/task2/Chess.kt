@@ -34,10 +34,13 @@ data class Square(val column: Int, val row: Int) {
         return false
     }
 
-    fun correctSquare(vararg square: Square) : Boolean {
-        for (element in square) {
-            if (element.row in 1..8 || element.column in 1..8) return true
-        }
+    fun correctSquare(square: Square) : Boolean {
+            if (square.row in 1..8 && square.column in 1..8) return true
+        return false
+    }
+
+    fun squareUnparity(column: Int, row: Int) : Boolean {
+        if ((column + row) % 2 != 0) return true
         return false
     }
 }
@@ -50,7 +53,7 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-        if (notation[0] !in 'a'..'h' || notation[1] !in '1'..'8' || notation.length != 2)  throw IllegalArgumentException()
+        if (notation.length != 2 || notation[0] !in 'a'..'h' || notation[1] !in '1'..'8')  throw IllegalArgumentException()
         val column = notation[0]
         val secColumn = column - 'a' + 1
         val row = notation[1] - '0'
@@ -81,7 +84,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (!start.correctSquare() && !end.correctSquare()) throw IllegalArgumentException()
+    if (!start.correctSquare(start) && !end.correctSquare(end)) throw IllegalArgumentException()
     if (start == end) return 0
     if (start.column == end.column || start.row == end.row) return 1
     else return 2
@@ -131,13 +134,13 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
+    if (!start.correctSquare(start) && !end.correctSquare(end)) throw IllegalArgumentException()
     if (start == end) return 0
-    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return 1
-    if ((start.squareParity(start.column, start.row) && !end.squareParity(end.column, end.row))
-            || (!start.squareParity(start.column, start.row) && end.squareParity(end.column, end.row)))
+    if ((start.squareParity(start.column, start.row) && end.squareUnparity(end.column, end.row))
+            || (start.squareUnparity(start.column, start.row) && end.squareParity(end.column, end.row)))
         return -1
-    return 2
+    if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return 1
+    else return 2
 }
 
 /**

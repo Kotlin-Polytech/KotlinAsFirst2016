@@ -144,7 +144,7 @@ fun isCoPrime(m: Int, n: Int): Boolean  {
     for (i in 2..min) {
         if ((n % i == 0) && (m % i == 0)) aa = false
     }
-    if (aa == true) return true else return false
+    return aa
 }
 
 /**

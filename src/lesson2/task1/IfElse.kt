@@ -133,6 +133,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     else return 0
 }
 
+
 /**
  * Средняя
  *

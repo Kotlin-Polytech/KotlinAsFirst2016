@@ -392,8 +392,41 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
+fun markdownToHtmlListsConstructor (lines: MutableList<String>, index: Int): String{
+    val sb = StringBuilder()
+    if (lines[0][index] == '*') sb.append("<ul>")
+    if (lines[0][index] in '1'..'6') sb.append("<ol>")
+    var label = true
+    for (i in 0..lines.size - 1){
+        val temp = lines[i].filter {it !in "123456890. "}
+        if (lines[i][index] != ' '){
+            label = true
+            sb.append("<li>$temp")
+            if (i == lines.size - 1 || lines[i + 1][index] != ' ') sb.append("</li>")
+        }
+        if (lines[i][index] == ' ' && label) {
+            val list = mutableListOf(lines[i])
+            var k = i + 1
+            while (k <= lines.size - 1 && lines[k][index] == ' ') {
+                list.add(lines[k])
+                k++
+            }
+            label = false
+            sb.append(markdownToHtmlListsConstructor(list, index + 4))
+            sb.append("</li>")
+        }
+    }
+    if (lines[0][index] == '*') sb.append("</ul>")
+    if (lines[0][index] in '1'..'6') sb.append("</ol>")
+    return sb.toString().split(Regex("<li>\\d")).joinToString(separator = "<li>").split("<li>*").joinToString(separator = "<li>")
+}
+
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines().toMutableList()
+    val outputStream = File(outputName).bufferedWriter()
+    val text = markdownToHtmlListsConstructor(lines, 0)
+    outputStream.write("<html><body>$text</body></html>")
+    outputStream.close()
 }
 
 /**

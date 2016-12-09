@@ -281,12 +281,12 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
 fun myFun(from: String, to: String, route: String): Int {
     if ((from == "") || (to == "") || (route == "")) throw IllegalArgumentException("Wrong data format")
     else {
-        val parts = route.split(" ")
+        val members = route.split(" ")
         var timeFrom = ""
         var timeTo = ""
-        for (i in 0..parts.size - 1) {
-            if (parts[i] == from) timeFrom += parts[i + 1]
-            if (parts[i] == to) timeTo += parts[i + 1]
+        for (i in 0..members.size - 1) {
+            if (members[i] == from) timeFrom += members[i + 1]
+            if (members[i] == to) timeTo += members[i + 1]
         }
         val rightFormatTimeFrom = timeFrom.split(":")
         var firstResult = 0

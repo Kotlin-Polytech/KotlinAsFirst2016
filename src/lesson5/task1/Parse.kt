@@ -275,32 +275,4 @@ fun fromRoman(roman: String): Int = TODO()
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
 
-/**
- *
- */
-fun myFun(from: String, to: String, route: String): Int {
-    if ((from == "") || (to == "") || (route == "")) throw IllegalArgumentException("Wrong data format")
-    else {
-        val members = route.split(" ")
-        var timeFrom = ""
-        var timeTo = ""
-        for (i in 0..members.size - 1) {
-            if (members[i] == from) timeFrom += members[i + 1]
-            if (members[i] == to) timeTo += members[i + 1]
-        }
-        val rightFormatTimeFrom = timeFrom.split(":")
-        var firstResult = 0
-        for (j in 0..rightFormatTimeFrom.size - 1) {
-            val number = j.toInt()
-            firstResult = firstResult * 60 + number
-        }
-        val rightFormatTimeTo = timeTo.split(":")
-        var secondResult = 0
-        for (g in 0..rightFormatTimeTo.size - 1) {
-            val number = g.toInt()
-            secondResult = secondResult * 60 + number
-        }
-        val result = Math.abs(firstResult - secondResult)
-        return result
-    }
-}
+

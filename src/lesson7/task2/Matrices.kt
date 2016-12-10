@@ -77,7 +77,9 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var i = 0
     var j = 0
     var spiralNumber = 1
-    while (matrixMin(field) == 0) {
+    var cellNumber = 0
+    while (cellNumber < field.width * field.height) {
+
         while (field.width > j && field[i, j] == 0) field[i, j++] = spiralNumber++ // Вправо
         --j
         ++i
@@ -90,6 +92,8 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
         while (i >= 0 && field[i, j] == 0) field[i--, j] = spiralNumber++ // Вниз
         ++i
         ++j
+
+        cellNumber += 4
     }
 
     return field
@@ -156,25 +160,20 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
 fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     if (matrix.height != matrix.width) return false
     val D = matrix.height
+    val etalon = mutableSetOf<Int>()
+    for (i in 1..D) etalon.add(i)
 
     for (i in 0..D - 1) {
+
         // Пихаю в Set по одной строке и одному столбцу
         val row = mutableSetOf<Int>()
         val column = mutableSetOf<Int>()
-        for(j in 0..D - 1) {
+        for (j in 0..D - 1) {
             row.add(matrix[j, i])
             column.add(matrix[i, j])
         }
 
-        println(column)
-        println(row)
-
-        if (
-            column.any { it !in 1..D } ||
-            row.any { it !in 1..D } ||
-            column.size != D ||
-            row.size != D
-        ) return false
+        if (row != etalon || column != etalon) return false
     }
     return true
 }

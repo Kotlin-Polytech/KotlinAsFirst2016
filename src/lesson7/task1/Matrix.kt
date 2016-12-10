@@ -122,8 +122,9 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
             stringStorage.append("    ")
             for (j in 0..width - 1) {
                 stringStorage.append("[${storage[i][j]}]")
-                if (j != width - 1) stringStorage.append(",")
+                stringStorage.append(",")
             }
+            stringStorage.deleteCharAt(stringStorage.lastIndex)
             stringStorage.append("\n")
         }
         stringStorage.append(")")

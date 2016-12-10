@@ -55,31 +55,26 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     var result: Map<String, Int> = mapOf()
-    File(inputName).bufferedReader().use {
-        var bigString: String = "" //Создаем большую строку, в которой будут все символы из файла
-        for (line in it.readLines()) {
-            //Меняем регистр на нижний
-            bigString += line.toLowerCase()
-        }
-        for (str in substrings) { //Перебираем строки из входного листа
-            val strLower = str.toLowerCase() //Меняем регистр строки на нижний
-            var sum = 0 //Переменная для хранения кол-ва вхождений строки в файл
-            for (i in 0..bigString.length - strLower.length) {
-                //Переменная для перебора подряд идущих одинаковых
-                //символов, для определения наличия входной строки в большой строке
-                var sumChar = 0
-                for (j in 0..strLower.length - 1) {
-                    //Если сиволы разные, то начинаем сравнение
-                    //со следующего символа большой строки
-                    if (bigString[i + j] != strLower[j]) break
-                    sumChar++
-                    //Если подряд идут столько же одинаковых символов,
-                    //сколько и длина входной строки, то увеличиваем кол-во ее вхождений на 1
-                    if (sumChar == strLower.length) sum++
-                }
+    //Создаем большую строку, в которой будут все символы из файла
+    val bigString = File(inputName).readText().toLowerCase()
+    for (str in substrings) { //Перебираем строки из входного листа
+        val strLower = str.toLowerCase() //Меняем регистр строки на нижний
+        var sum = 0 //Переменная для хранения кол-ва вхождений строки в файл
+        for (i in 0..bigString.length - strLower.length) {
+            //Переменная для перебора подряд идущих одинаковых
+            //символов, для определения наличия входной строки в большой строке
+            var sumChar = 0
+            for (j in 0..strLower.length - 1) {
+                //Если сиволы разные, то начинаем сравнение
+                //со следующего символа большой строки
+                if (bigString[i + j] != strLower[j]) break
+                sumChar++
+                //Если подряд идут столько же одинаковых символов,
+                //сколько и длина входной строки, то увеличиваем кол-во ее вхождений на 1
+                if (sumChar == strLower.length) sum++
             }
-            result += Pair(str, sum)
         }
+        result += Pair(str, sum)
     }
     return result
 }

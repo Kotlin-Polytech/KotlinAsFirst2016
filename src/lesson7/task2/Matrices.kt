@@ -396,7 +396,6 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
     var leftBorder = -1
     var rightBorder = key.width - 2
     for (i in 0..key.width - 1) {
-        var switch = true //Переключатель для остановки цикла, если ключ не подходит
         if (rightBorder < lock.width - 1) {
             //Смещаемся вправо при каждой итерации
             leftBorder += 1
@@ -405,6 +404,7 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
             bottomBorder = key.height - 1 //Обнуляем нижнюю границу
         }
         do { //Проверяем подходит ли ключ смещаясь вниз при каждой итерации
+            var switch = true //Переключатель для остановки цикла, если ключ не подходит
             for (row in topBorder..bottomBorder) {
                 if (!switch) break //Выходим из цикла, если ключ не подходит
                 for (column in leftBorder..rightBorder) {

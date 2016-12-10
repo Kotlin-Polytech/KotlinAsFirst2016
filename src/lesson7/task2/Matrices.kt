@@ -395,7 +395,7 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
     var bottomBorder = key.height - 2
     var leftBorder = -1
     var rightBorder = key.width - 2
-    for (i in 0..lock.width - 1) {
+    for (i in 0..lock.width - key.width) {
         if (rightBorder < lock.width - 1) {
             //Смещаемся вправо при каждой итерации
             leftBorder += 1

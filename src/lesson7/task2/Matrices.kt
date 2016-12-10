@@ -379,6 +379,16 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
 fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    for (i in 0..key.height - 1) {
+        for (j in 0..key.width - 1) {
+            if (key[i, j] !in 0..1) return Triple(false, 0, 0)
+        }
+    }
+    for (i in 0..lock.height - 1) {
+        for (j in 0..lock.width - 1) {
+            if (lock[i, j] !in 0..1) return Triple(false, 0, 0)
+        }
+    }
     val theNumberOfPermutations = (lock.width - key.width + 1) * (lock.height - key.height + 1) //Сколько перестановок ключа в замке
     var result = Triple(false, 0, 0)
     //Задаем верхнюю, нижнюю, левую и правую границы

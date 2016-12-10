@@ -389,14 +389,13 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
             if (lock[i, j] !in 0..1) return Triple(false, 0, 0)
         }
     }
-    val theNumberOfPermutations = (lock.width - key.width + 1) * (lock.height - key.height + 1) //Сколько перестановок ключа в замке
     //Задаем верхнюю, нижнюю, левую и правую границы
     //Границы задают прямоугольник, в который может поместиться ключ
     var topBorder = -1
     var bottomBorder = key.height - 2
     var leftBorder = -1
     var rightBorder = key.width - 2
-    for (i in 1..theNumberOfPermutations) {
+    for (i in 0..key.width - 1) {
         var switch = true //Переключатель для остановки цикла, если ключ не подходит
         if (rightBorder < lock.width - 1) {
             //Смещаемся вправо при каждой итерации

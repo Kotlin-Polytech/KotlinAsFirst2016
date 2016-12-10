@@ -505,8 +505,44 @@ fun markdownToHtml(inputName: String, outputName: String) {
  2350
  *
  */
+fun spaceConstructor(number: Int): String{
+    val sb = StringBuilder()
+    for (i in 1..number){
+        sb.append(" ")
+    }
+    return sb.toString()
+}
+fun lineConstructor(number: Int): String{
+    val sb = StringBuilder()
+    for (i in 1..number){
+        sb.append("-")
+    }
+    return sb.toString()
+}
+
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val length = (lhv * rhv).toString().length + 1
+    val outputStream = File(outputName).bufferedWriter()
+    val rhvString = rhv.toString()
+    outputStream.write(spaceConstructor(length - lhv.toString().length))
+    outputStream.write("$lhv\n*")
+    outputStream.write(spaceConstructor(length - 1 - rhvString.length))
+    outputStream.write("$rhv\n")
+    outputStream.write(lineConstructor(length))
+    outputStream.newLine()
+    var k = 1
+    for (i in rhvString.length - 1 downTo 0){
+        if (i == rhvString.length - 1)outputStream.write(" ") else outputStream.write("+")
+        outputStream.write(spaceConstructor(length - k - (lhv * rhvString[i].toString().toInt()).toString().length))
+        outputStream.write((lhv * rhvString[i].toString().toInt()).toString())
+        outputStream.newLine()
+        k++
+    }
+    outputStream.write(lineConstructor(length))
+    outputStream.newLine()
+    outputStream.write(" ")
+    outputStream.write((lhv * rhv).toString())
+    outputStream.close()
 }
 
 

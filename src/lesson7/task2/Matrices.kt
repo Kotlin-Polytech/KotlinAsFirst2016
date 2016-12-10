@@ -61,16 +61,6 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  *  9  8  7  6
  */
 
-fun matrixMin(field: Matrix<Int>): Int {
-    var minimum = field[0, 0]
-    for (i in 0..field.height - 1) {
-        for (j in 0..field.width - 1) {
-            if (minimum > field[i, j]) minimum = field[i, j]
-        }
-    }
-    return minimum
-}
-
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var field = createMatrix(height, width, 0)
 
@@ -212,7 +202,29 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHolesRow(matrix: Matrix<Int>, index: Int): Boolean {
+    for (i in 0..matrix.width - 1) if (matrix[index, i] == 1) return false
+    return true
+}
+
+fun findHolesCol(matrix: Matrix<Int>, index: Int): Boolean {
+    for (i in 0..matrix.height - 1) if (matrix[i, index] == 1) return false
+    return true
+}
+
+fun findHoles(matrix: Matrix<Int>): Holes {
+    val rowStorage = mutableListOf<Int>()
+    val colStorage = mutableListOf<Int>()
+
+    for (i in 0..matrix.height - 1) {
+        if (findHolesRow(matrix, i)) rowStorage.add(i)
+    }
+    for (i in 0..matrix.width - 1) {
+        if (findHolesCol(matrix, i)) colStorage.add(i)
+    }
+
+    return Holes(rowStorage, colStorage)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице

@@ -67,15 +67,15 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
             for (i in 0..bigString.length - strLower.length) {
                 //Переменная для перебора подряд идущих одинаковых
                 //символов, для определения наличия входной строки в большой строке
-                var sum2 = 0
+                var sumChar = 0
                 for (j in 0..strLower.length - 1) {
                     //Если сиволы разные, то начинаем сравнение
                     //со следующего символа большой строки
                     if (bigString[i + j] != strLower[j]) break
-                    sum2++
+                    sumChar++
                     //Если подряд идут столько же одинаковых символов,
                     //сколько и длина входной строки, то увеличиваем кол-во ее вхождений на 1
-                    if (sum2 == strLower.length) sum++
+                    if (sumChar == strLower.length) sum++
                 }
             }
             result += Pair(str, sum)

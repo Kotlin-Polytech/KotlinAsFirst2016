@@ -231,6 +231,7 @@ class Tests {
         assertFalse(canOpenLock(
                 key = createMatrix(2, 2, listOf(listOf(1, 1), listOf(1, 0))),
                 lock = createMatrix(3, 3, listOf(listOf(1, 0, 1), listOf(0, 1, 0), listOf(1, 1, 1)))).first)
+
     }
 
     @Test

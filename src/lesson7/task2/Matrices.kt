@@ -403,12 +403,10 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
             //Смещаемся вправо при каждой итерации
             leftBorder += 1
             rightBorder += 1
-            topBorder = -1 //Обнуляем верхнюю границу
-            bottomBorder = key.height - 2 //Обнуляем нижнюю границу
+            topBorder = 0 //Обнуляем верхнюю границу
+            bottomBorder = key.height - 1 //Обнуляем нижнюю границу
         }
         do { //Проверяем подходит ли ключ смещаясь вниз при каждой итерации
-            topBorder += 1
-            bottomBorder += 1
             for (row in topBorder..bottomBorder) {
                 if (!switch) break //Выходим из цикла, если ключ не подходит
                 for (column in leftBorder..rightBorder) {
@@ -417,8 +415,10 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
                     if (lock[row, column] == key[row - topBorder, column - leftBorder]) switch = false
                 }
             }
+            topBorder += 1
+            bottomBorder += 1
         } while (bottomBorder < lock.height - 2) //Выполняем пока нижняя граница не будет равна высоте - 1
-        if (switch) result = Triple(true, topBorder, leftBorder) //Здесь смещения равны верхней и левой границе
+        if (switch) result = Triple(true, topBorder - 1, leftBorder) //Здесь смещения равны верхней и левой границе
     }
     return result
 }

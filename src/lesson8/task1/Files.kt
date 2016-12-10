@@ -262,17 +262,11 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
-fun markdownToHtmlSimple(inputName: String, outputName: String) {
+fun markdownToHtmlSimpleConstructor(lines: List<String>):String {
     val keys = listOf(Triple("**", "<b>", "</b>"), Triple("*", "<i>", "</i>"),Triple("~~", "<s>", "</s>"))
-    val outputStream = File(outputName).bufferedWriter()
-    outputStream.write("<html>")
-    outputStream.write("<body>")
-    outputStream.write("<p>")
-    var file = File(inputName).readText().split("\r\n", "\n").joinToString(separator = "\n")
-            .split("\n\n")
-            .joinToString(separator = "</p><p>")
+    var text = lines.joinToString(separator = "\n").split("\n\n").joinToString(separator = "</p><p>")
     for (key in keys) {
-        val temp = file.split(key.first).toMutableList()
+        val temp = text.split(key.first).toMutableList()
         if (temp.size == 1) continue
         if (temp.size % 2 == 0) {
             temp[temp.size - 2] += key.first + temp[temp.size - 1]
@@ -290,12 +284,16 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
             }
         }
         sb.append(temp[temp.size - 1])
-        file = sb.toString()
+        text = sb.toString()
     }
-    outputStream.write(file)
-    outputStream.write("</p>")
-    outputStream.write("</body>")
-    outputStream.write("</html>")
+    return text
+}
+
+fun markdownToHtmlSimple(inputName: String, outputName: String) {
+    val lines = File(inputName).readLines()
+    val text = markdownToHtmlSimpleConstructor(lines)
+    val outputStream = File(outputName).bufferedWriter()
+    outputStream.write("<html><body><p>$text</p></body></html>")
     outputStream.close()
 }
 
@@ -392,10 +390,10 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
-fun markdownToHtmlListsConstructor (lines: MutableList<String>, index: Int): String{
+fun markdownToHtmlListsConstructor (lines: List<String>, index: Int): String{
     val sb = StringBuilder()
     if (lines[0][index] == '*') sb.append("<ul>")
-    if (lines[0][index] in '1'..'6') sb.append("<ol>")
+    if (lines[0][index] in '1'..'9') sb.append("<ol>")
     var label = true
     for (i in 0..lines.size - 1){
         val temp = lines[i].filter {it !in "123456890. "}
@@ -417,12 +415,12 @@ fun markdownToHtmlListsConstructor (lines: MutableList<String>, index: Int): Str
         }
     }
     if (lines[0][index] == '*') sb.append("</ul>")
-    if (lines[0][index] in '1'..'6') sb.append("</ol>")
+    if (lines[0][index] in '1'..'9') sb.append("</ol>")
     return sb.toString().split("<li>*").joinToString(separator = "<li>")
 }
 
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    val lines = File(inputName).readLines().toMutableList()
+    val lines = File(inputName).readLines()
     val outputStream = File(outputName).bufferedWriter()
     val text = markdownToHtmlListsConstructor(lines, 0)
     outputStream.write("<html><body>$text</body></html>")
@@ -438,7 +436,48 @@ fun markdownToHtmlLists(inputName: String, outputName: String) {
  *
  */
 fun markdownToHtml(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines()
+    val outputStream = File(outputName).bufferedWriter()
+    outputStream.write("<html><body>")
+    var labelLists = true
+    var labelSimple = true
+    for (i in 0..lines.size - 1){
+        when{
+            lines[i].isEmpty() && i != lines.size - 1-> {
+                outputStream.newLine()
+                labelLists = true
+                labelSimple = true
+            }
+            lines[i].trim()[0] != '*' && lines[i].trim()[0] !in '1'..'9' && labelSimple-> {
+                labelSimple = false
+                labelLists = true
+                val list = mutableListOf(lines[i])
+                var k = i + 1
+                while (k <= lines.size - 1 && lines[k].isNotEmpty() &&
+                        (lines[k][0] != '*' && lines[k][0] !in '1'..'9')) {
+                    list.add(lines[k])
+                    k++
+                }
+                outputStream.write("<p>")
+                outputStream.write(markdownToHtmlSimpleConstructor(list))
+                outputStream.write("</p>")
+            }
+            (lines[i][0] == '*' || lines[i][0] in '1'..'9') && labelLists -> {
+                labelLists = false
+                labelSimple = true
+                val list = mutableListOf(lines[i])
+                var k = i + 1
+                while (k <= lines.size - 1 && lines[k].isNotEmpty() && (lines[k][0] in "* " || lines[k][0] in '0'..'9')) {
+                    list.add(lines[k])
+                    k++
+                }
+                outputStream.write(markdownToHtmlListsConstructor(list, 0))
+                if (k != lines.size - 1) outputStream.newLine()
+            }
+        }
+    }
+    outputStream.write("</body></html>")
+    outputStream.close()
 }
 
 /**

@@ -172,11 +172,11 @@ fun plusMinus(expression: String): Int {
     else {
         var result = members[0].toInt()
         for (i in 0..lengthOfString - 2) {
-            val TwoPluses = members[i].contains(rightSymbol) && members[i + 1].contains(rightSymbol)
-            val TwoNumbers = members[i].contains(rightNumber) && members[i + 1].contains(rightNumber)
-            val AllNotRightSymbols = members[i].contains(notRightFormat) || members[i + 1].contains(notRightFormat)
-            val WrongString = TwoPluses || TwoNumbers || AllNotRightSymbols
-            if (WrongString) throw IllegalArgumentException("Wrong data format")
+            val twoPluses = members[i].contains(rightSymbol) && members[i + 1].contains(rightSymbol)
+            val twoNumbers = members[i].contains(rightNumber) && members[i + 1].contains(rightNumber)
+            val allNotRightSymbols = members[i].contains(notRightFormat) || members[i + 1].contains(notRightFormat)
+            val wrongString = twoPluses || twoNumbers || allNotRightSymbols
+            if (wrongString) throw IllegalArgumentException("Wrong data format")
             else {
                 if (members[i] == "+") result += members[i + 1].toInt()
                 if (members[i] == "-") result -= members[i + 1].toInt()

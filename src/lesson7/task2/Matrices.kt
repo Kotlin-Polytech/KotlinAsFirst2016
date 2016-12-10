@@ -378,7 +378,41 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    val theNumberOfPermutations = (lock.width - key.width + 1) * (lock.height - key.height + 1) //Сколько перестановок ключа в замке
+    var result = Triple(false, 0, 0)
+    //Задаем верхнюю, нижнюю, левую и правую границы
+    //Границы задают прямоугольник, в который может поместиться ключ
+    var topBorder = -1
+    var bottomBorder = key.height - 2
+    var leftBorder = -1
+    var rightBorder = key.width - 2
+    for (i in 1..theNumberOfPermutations) {
+        var switch = true //Переключатель для остановки цикла, если ключ не подходит
+        if (rightBorder < lock.width - 1) {
+            //Смещаемся вправо при каждой итерации
+            leftBorder += 1
+            rightBorder += 1
+            topBorder = -1 //Обнуляем верхнюю границу
+            bottomBorder = key.height - 2 //Обнуляем нижнюю границу
+        }
+        do { //Проверяем подходит ли ключ смещаясь вниз при каждой итерации
+            topBorder += 1
+            bottomBorder += 1
+            for (row in topBorder..bottomBorder) {
+                if (!switch) break //Выходим из цикла, если ключ не подходит
+                for (column in leftBorder..rightBorder) {
+                    if (!switch) break //Выходим из цикла, если ключ не подходит
+                    //Проверяем каждый элемент ключа и области в замке, ограниченной границами
+                    if (lock[row, column] == key[row - topBorder, column - leftBorder]) switch = false
+                }
+            }
+        } while (bottomBorder < lock.height - 2) //Выполняем пока нижняя граница не будет равна высоте - 1
+        if (switch) result = Triple(true, topBorder, leftBorder) //Здесь смещения равны верхней и левой границе
+    }
+    return result
+}
+
 /**
  * Простая
  *
@@ -403,7 +437,20 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (this.width != other.height) throw IllegalArgumentException()
+    val matrix = createMatrix(this.height, other.width, 0)
+    for (row in 0..this.height - 1) {
+        for (i in 0..other.width - 1) {
+            var sum = 0
+            for (column in 0..this.width - 1) {
+                sum += this[row, column] * other[column, i]
+            }
+            matrix[row, i] = sum
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная

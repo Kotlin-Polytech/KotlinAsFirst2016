@@ -58,8 +58,8 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     File(inputName).bufferedReader().use {
         var bigString: String = "" //Создаем большую строку, в которой будут все символы из файла
         for (line in it.readLines()) {
-            //Избавляемся от проблов и меняем регистр на нижний
-            bigString += line.toLowerCase().filter { it != ' ' }
+            //Меняем регистр на нижний
+            bigString += line.toLowerCase()
         }
         for (str in substrings) { //Перебираем строки из входного листа
             val strLower = str.toLowerCase() //Меняем регистр строки на нижний

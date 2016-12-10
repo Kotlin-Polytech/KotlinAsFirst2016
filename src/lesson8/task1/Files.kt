@@ -54,7 +54,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    var result: Map<String, Int> = mapOf()
+    val result = mutableMapOf<String, Int>()
     //Создаем большую строку, в которой будут все символы из файла
     val bigString = File(inputName).readText().toLowerCase()
     for (str in substrings) { //Перебираем строки из входного листа

@@ -77,40 +77,44 @@ data class Circle(val center: Point, val radius: Double) {
  */
 data class Segment(val begin: Point, val end: Point)
 
-/**
- * Средняя
- *
- * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
- * Если в множестве менее двух точек, бросить IllegalArgumentException
- */
-fun diameter(vararg points: Point): Segment {
-    if (points.size < 2) throw IllegalArgumentException(" ")
-    else {
-        var max = 0.0
-        var begin = Point(0.0, 0.0)
-        var end = Point(0.0, 0.0)
-        val length = points.size
-        for (i in 0..length - 1) {
-            for (j in i + 1..length-1) {
-                val rightDistance = points[i].distance(points[j])
-                if (rightDistance > max) {
-                    max = rightDistance
-                    begin = points[i]
-                    end = points[j]
+    /**
+     * Средняя
+     *
+     * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
+     * Если в множестве менее двух точек, бросить IllegalArgumentException
+     */
+    fun diameter(vararg points: Point): Segment {
+        if (points.size < 2) throw IllegalArgumentException(" ")
+        else {
+            var max = 0.0
+            var begin = Point(0.0, 0.0)
+            var end = Point(0.0, 0.0)
+            val length = points.size
+            for (i in 0..length - 1) {
+                for (j in i + 1..length - 1) {
+                    val rightDistance = points[i].distance(points[j])
+                    if (rightDistance > max) {
+                        max = rightDistance
+                        begin = points[i]
+                        end = points[j]
+                    }
                 }
             }
+            return Segment(begin, end)
         }
-        return Segment(begin, end)
     }
-}
 
-/**
- * Простая
- *
- * Построить окружность по её диаметру, заданному двумя точками
- * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
- */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+    /**
+     * Простая
+     *
+     * Построить окружность по её диаметру, заданному двумя точками
+     * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
+     */
+    fun circleByDiameter(diameter: Segment): Circle {
+        val center = Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2)
+        val radius = (diameter.begin.distance(diameter.end) / 2)
+        return Circle(center, radius)
+    }
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.

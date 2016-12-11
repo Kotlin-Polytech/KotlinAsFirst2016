@@ -127,7 +127,19 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val x = when {
+            angle == Math.PI / 2 || angle == -Math.PI / 2 -> point.x
+            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> other.point.x
+            else -> (point.x * Math.tan(angle) - other.point.x * Math.tan(other.angle) + other.point.y - point.y) / (Math.tan(angle) - Math.tan(other.angle))
+        }
+        val y = when {
+            angle == Math.PI / 2 || angle == -Math.PI / 2 -> other.point.y
+            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> point.y
+            else -> Math.tan(angle) * (x - point.x) + point.y
+        }
+        return Point(x, y)
+    }
 }
 
 /**
@@ -180,7 +192,12 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
+    val radius = center.distance(c)
+    return Circle(center, radius)
+}
+
 
 /**
  * Очень сложная

@@ -178,6 +178,14 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
                 intermediateSquare = Square(end.column + trajectory, end.row + trajectory)
                 return listOf(start, intermediateSquare, end)
             }
+        } else {
+            var intermediateSquare = Square(end.column - trajectory, end.row - trajectory)
+                if (intermediateSquare.correctSquare(intermediateSquare)) {
+                    return listOf(start, intermediateSquare, end)
+                } else {
+                    intermediateSquare = Square(start.column + trajectory, start.row + trajectory)
+                    return listOf(start, intermediateSquare, end)
+                }
         }
     }
     return listOf()

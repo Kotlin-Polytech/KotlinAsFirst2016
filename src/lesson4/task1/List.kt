@@ -311,3 +311,29 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+
+data class People(val name: String, val color: String) {
+
+}
+
+fun myFun(people: List<String>): List<People> {
+    val peoples = mutableListOf<People>()
+    val uniquePeopleMap = mutableMapOf<String, String>()
+    val notUniquePeopleMap = mutableMapOf<String, String>()
+    for (i in 0..people.size - 1) {
+        val peopleRegex = Regex("""(\S+\s+)+\#\S+\s*""")
+        if (!peopleRegex.matches(people[i])) {
+            throw IllegalArgumentException()
+        } else {
+            peoples.add(People(people[i].split(" #")[0],
+                    people[i].split(" #")[1].filter { it !in " " }))
+            if (peoples[i].color !in uniquePeopleMap.keys) {
+                uniquePeopleMap.put(peoples[i].color, peoples[i].name)
+            } else {
+                notUniquePeopleMap.put(peoples[i].color, peoples[i].name)
+            }
+        }
+    }
+    return peoples.filter { it.color !in notUniquePeopleMap }
+}
+

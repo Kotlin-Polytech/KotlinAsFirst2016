@@ -27,7 +27,7 @@ data class Square(val column: Int, val row: Int) {
     fun notation(): String {
         if (!inside()) return ""
         else {
-            val SetArray = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+            val SetArray = "abcdefgh"
             val SetChar = SetArray[column - 1]
             return ("$SetChar$row")
         }
@@ -44,7 +44,7 @@ data class Square(val column: Int, val row: Int) {
 fun square(notation: String): Square {
     if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8'))
         throw IllegalArgumentException("IllegalArgumentException")
-    val SetArray = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+    val SetArray = "abcdefgh"
     return Square(column = SetArray.indexOf(notation[0]) + 1, row = (notation[1]).toString().toInt())
 }
 
@@ -76,8 +76,7 @@ fun rookMoveNumber(start: Square, end: Square): Int {
         throw IllegalArgumentException()
     return when {
         start == end -> 0
-        start.column == end.column -> 1
-        start.row == end.row -> 1
+        start.column == end.column || start.row == end.row -> 1
         else -> 2
     }
 }

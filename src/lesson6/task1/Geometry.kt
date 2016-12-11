@@ -87,7 +87,7 @@ data class Segment(val begin: Point, val end: Point)
 fun diameter(vararg points: Point): Segment {
     var PointFirst = Point(0.0, 0.0)
     var PointSecond = Point(0.0, 0.0)
-    var Diameter = PointFirst.distance(PointSecond)
+    var Diameter = 0.0
     if (points.size <= 1) {
         throw IllegalArgumentException("IllegalArgumentException")
     }
@@ -190,7 +190,8 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val BissAB = bisectorByPoints(a, b)
     val BissAC = bisectorByPoints(a, c)
-    return Circle(BissAB.crossPoint(BissAC), a.distance(BissAB.crossPoint(BissAC)))
+    val crossPoint = BissAB.crossPoint(BissAC)
+    return Circle(crossPoint, a.distance(crossPoint))
 }
 
 /**

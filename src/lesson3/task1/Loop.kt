@@ -76,21 +76,17 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    if (n in 1..2)
-        return 1
-    else {
-        var num1 = 1 // Не понял, как объявлять в цикле. На каждой итерации значение обновляется :(
-        var num2 = 1
+    var num1 = 1
+    var num2 = 1
+    for (i in 3..n) {
         var counter = 0
-        for (i in 3..n) {
-            counter = num2
-            num2 += num1
-            num1 = counter
-        }
-        return num2
+        counter = num2
+        num2 += num1
+        num1 = counter
     }
-
+    return num2
 }
+
 
 /**
  * Простая
@@ -106,10 +102,11 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var devider = 2
-    while (n % devider != 0)
-        devider++
-    return devider
+    for(i in 2..n) {
+        if (n % i == 0)
+            return i
+    }
+    return n
 }
 
 /**

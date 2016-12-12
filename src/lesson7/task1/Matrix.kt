@@ -72,7 +72,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun equals(other: Any?) = other is MatrixImpl<*> &&
-            height == other.height && width == other.width && listMatrix.equals(other.listMatrix)
+            height == other.height && width == other.width && listMatrix == other.listMatrix
 
     override fun toString(): String {
         val sb = StringBuilder()

@@ -64,10 +64,18 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val matrix = createMatrix(height, width, 0)
     var number = 1
     for (turn in 1..Math.min(height, width) / 2 + Math.min(height, width) % 2) {
-        for (j in turn - 1..width - turn) if (matrix[turn - 1, j] == 0) matrix[turn - 1, j] = number++
-        for (j in turn..height - turn) if (matrix[j, width - turn] == 0) matrix[j, width - turn] = number++
-        for (j in width - turn - 1 downTo turn - 1) if (matrix[height - turn, j] == 0) matrix[height - turn, j] = number++
-        for (j in height - turn - 1 downTo turn) if (matrix[j, turn - 1] == 0) matrix[j, turn - 1] = number++
+        for (j in turn - 1..width - turn) {
+            if (matrix[turn - 1, j] == 0) matrix[turn - 1, j] = number++
+        }
+        for (j in turn..height - turn) {
+            if (matrix[j, width - turn] == 0) matrix[j, width - turn] = number++
+        }
+        for (j in width - turn - 1 downTo turn - 1) {
+            if (matrix[height - turn, j] == 0) matrix[height - turn, j] = number++
+        }
+        for (j in height - turn - 1 downTo turn) {
+            if (matrix[j, turn - 1] == 0) matrix[j, turn - 1] = number++
+        }
     }
     return matrix
 }
@@ -90,10 +98,18 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     val matrix = createMatrix(height, width, 0)
     var number = 1
     for (turn in 1..Math.min(height, width) / 2 + Math.min(height, width) % 2) {
-        for (j in turn - 1..width - turn) if (matrix[turn - 1, j] == 0) matrix[turn - 1, j] = number
-        for (j in turn..height - turn) if (matrix[j, width - turn] == 0) matrix[j, width - turn] = number
-        for (j in width - turn - 1 downTo turn - 1) if (matrix[height - turn, j] == 0) matrix[height - turn, j] = number
-        for (j in height - turn - 1 downTo turn) if (matrix[j, turn - 1] == 0) matrix[j, turn - 1] = number
+        for (j in turn - 1..width - turn) {
+            if (matrix[turn - 1, j] == 0) matrix[turn - 1, j] = number
+        }
+        for (j in turn..height - turn) {
+            if (matrix[j, width - turn] == 0) matrix[j, width - turn] = number
+        }
+        for (j in width - turn - 1 downTo turn - 1) {
+            if (matrix[height - turn, j] == 0) matrix[height - turn, j] = number
+        }
+        for (j in height - turn - 1 downTo turn) {
+            if (matrix[j, turn - 1] == 0) matrix[j, turn - 1] = number
+        }
         number++
     }
     return matrix

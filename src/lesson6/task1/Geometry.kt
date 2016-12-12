@@ -3,7 +3,6 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
-import lesson3.task1.cos
 import java.lang.Math.*
 
 /**
@@ -60,9 +59,7 @@ data class Circle(val center: Point, val radius: Double) {
      */
     fun distance(other: Circle): Double {
         if (center.distance(other.center) <= radius + other.radius) return 0.0
-        else {
-            return center.distance(other.center) - radius - other.radius
-        }
+        else return center.distance(other.center) - radius - other.radius
     }
 
     /**
@@ -106,15 +103,21 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val resultX = (other.point.y - point.y + ((point.x * sin(angle) * cos(other.angle) - other.point.x * sin(other.angle) * cos(angle)) / cos(angle) / cos(other.angle))) /
-                ((sin(angle) * cos(other.angle) - cos(angle) * sin(other.angle)) / cos(angle) / cos(other.angle))
-        val resultY1 = ((resultX - other.point.x) * sin(other.angle) / cos(other.angle)) + other.point.y
-        val resultY2 = ((resultX - point.x) * sin(angle) / cos(angle)) + point.y
-        var resultY = 0.0
-        if (abs(resultY1)> abs(resultY2)) resultY=resultY2
-        else resultY=resultY1
+        val resultX = (Math.cos(angle) * (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) -
+                Math.cos(other.angle) * (Math.sin(angle) * point.x - Math.cos(angle) * point.y)) /
+                (Math.sin(other.angle) * Math.cos(angle) - Math.sin(angle) * Math.cos(other.angle))
+        val resultY = (-(Math.sin(angle) * point.x - Math.cos(angle) * point.y) * Math.sin(other.angle) +
+                (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) * Math.sin(angle)) /
+                (Math.sin(other.angle) * Math.cos(angle) - Math.sin(angle) * Math.cos(other.angle))
         return Point(resultX, resultY)
     }
+}
+
+fun searchAngle(a: Point, b: Point): Double {
+    var angle = atan2(a.y - b.y, a.x - b.x)
+    if (angle == PI || angle == -PI) angle = 0.0
+    if (angle < 0) angle += PI
+    return angle
 }
 
 /**
@@ -122,24 +125,14 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    var angle = Math.atan2(s.begin.y - s.end.y, s.begin.x - s.end.x)
-    if (angle == PI || angle == -PI) angle = 0.0
-    if (angle < 0) angle += PI
-    return Line(s.begin, angle)
-}
+fun lineBySegment(s: Segment): Line = Line(s.begin, searchAngle(s.begin, s.end))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line {
-    var angle = Math.atan2(a.y - b.y, a.x - b.x)
-    if (angle == PI || angle == -PI) angle = 0.0
-    if (angle < 0) angle += PI
-    return Line(a, angle)
-}
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 /**
  * Сложная
@@ -147,10 +140,7 @@ fun lineByPoints(a: Point, b: Point): Line {
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    var angle = atan2(a.y - b.y, a.x - b.x)
-    if (angle == PI || angle == -PI) angle = 0.0
-    if (angle < 0) angle = PI + angle
-    angle = PI / 2 + angle
+    var angle = PI / 2 + searchAngle(a, b)
     if (angle == PI || angle == -PI) angle = 0.0
     val distanceX: Double
     val distanceY: Double

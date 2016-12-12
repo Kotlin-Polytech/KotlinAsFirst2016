@@ -29,9 +29,9 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        val columnStr = mapOf<Int, String>(1 to "a", 2 to "b", 3 to "c", 4 to "d", 5 to "e", 6 to "f", 7 to "g", 8 to "h")
+        val columnStr = ("abcdefgh")
         if (column !in 1..8 || row !in 1..8) return ""
-        val result = columnStr[column] + row.toString()
+        val result = columnStr[column - 1].toString() + row
         return result
     }
 }
@@ -45,11 +45,11 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     val columnStr = mapOf<Char, Int>('a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5, 'f' to 6, 'g' to 7, 'h' to 8)
-    val e = IllegalArgumentException("Description")
+    val e = IllegalArgumentException("Incorrect notation")
     if (notation.length != 2) throw e
     if (notation[0] !in 'a'..'h' || notation[1] !in '1'..'8') throw e
     val column = columnStr[notation[0]]
-    val row = notation[1].toInt() - 48
+    val row = notation[1] - '0'
     return Square(column!!, row)
 }
 

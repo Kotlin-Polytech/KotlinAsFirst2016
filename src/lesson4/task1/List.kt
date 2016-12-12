@@ -383,3 +383,28 @@ fun russian(n: Int): String {
     }
     return (resultPart1 + resultPart2).joinToString(separator = " ")
 }
+
+
+/* Про купюры*/
+fun moneyCounter(sum: Double, coins: String): String {
+    var price = sum
+    val result = mutableListOf<String>()
+    try {
+        val listCoins = coins.split(", ")
+        for (i in 0..listCoins.size-1){
+            val element = listCoins[i].toDouble()
+            val k = (price / element).toInt()
+            if (k != 0) {
+                if (element % 1 == 0.0) {
+                    result.add("$k x ${element.toInt()}")
+                }
+                else result.add("$k x $element")
+                price = price - element*k
+            }
+        }
+    }
+    catch (e:IllegalArgumentException){
+        throw e
+    }
+    return result.joinToString(separator = ", ")
+}

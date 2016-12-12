@@ -31,7 +31,6 @@ class Graph {
      * Используется поиск в ширину
      */
     fun bfs(start: String, finish: String) = bfs(this[start], this[finish])
-
     private fun bfs(start: Vertex, finish: Vertex): Int {
         val queue = ArrayDeque<Vertex>()
         queue.add(start)

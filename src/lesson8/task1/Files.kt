@@ -61,7 +61,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
             if (parts.isNotEmpty()) {
                 if (!result.contains(string))
                     result.put(string, parts.size - 1)
-                result.set(string, result.get(string)!! + parts.size -1)
+                else result.set(string, result.get(string)!! + parts.size -1)
             }
         }
     }

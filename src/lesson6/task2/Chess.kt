@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 
@@ -30,18 +31,11 @@ data class Square(val column: Int, val row: Int) {
     }
 
     fun squareParity(column: Int, row: Int): Boolean {
-        if ((column + row) % 2 == 0) return true
-        return false
+        return (column + row) % 2 == 0
     }
 
-    fun correctSquare(square: Square) : Boolean {
-            if (square.row in 1..8 && square.column in 1..8) return true
-        return false
-    }
-
-    fun squareUnparity(column: Int, row: Int) : Boolean {
-        if ((column + row) % 2 != 0) return true
-        return false
+    fun squareUnParity(column: Int, row: Int): Boolean {
+        return !squareParity(column, row)
     }
 }
 
@@ -53,11 +47,11 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-        if (notation.length != 2 || notation[0] !in 'a'..'h' || notation[1] !in '1'..'8')  throw IllegalArgumentException()
-        val column = notation[0]
-        val secColumn = column - 'a' + 1
-        val row = notation[1] - '0'
-        return Square(secColumn, row)
+    if (notation.length != 2 || notation[0] !in 'a'..'h' || notation[1] !in '1'..'8') throw IllegalArgumentException()
+    val column = notation[0]
+    val secColumn = column - 'a' + 1
+    val row = notation[1] - '0'
+    return Square(secColumn, row)
 }
 
 /**
@@ -84,7 +78,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (!start.correctSquare(start) || !end.correctSquare(end)) throw IllegalArgumentException()
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (start == end) return 0
     if (start.column == end.column || start.row == end.row) return 1
     else return 2
@@ -106,7 +100,7 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     if (start == end) return listOf(start)
-    if (start.column == end.column || start.row == end.row) return listOf(start,end)
+    if (start.column == end.column || start.row == end.row) return listOf(start, end)
     return listOf(start, Square(end.column, start.row), end)
 }
 
@@ -134,10 +128,9 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    if (!start.correctSquare(start) || !end.correctSquare(end)) throw IllegalArgumentException()
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (start == end) return 0
-    if ((start.squareParity(start.column, start.row) && end.squareUnparity(end.column, end.row))
-            || (start.squareUnparity(start.column, start.row) && end.squareParity(end.column, end.row)))
+    if (start.squareParity(start.column, start.row) != end.squareParity(end.column, end.row))
         return -1
     if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return 1
     else return 2
@@ -165,27 +158,22 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (start == end) return listOf(start)
     if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return listOf(start, end)
-    if (start.squareParity(start.column, start.row) && end.squareParity(end.column, end.row)
-            || start.squareUnparity(start.column, start.row) && end.squareUnparity(end.column, end.row)) {
+    if (start.squareParity(start.column, start.row) == end.squareParity(end.column, end.row)) {
         val sumFirst = start.column + start.row
         val sumSecond = end.column + end.row
         val trajectory = Math.abs(sumFirst - sumSecond) / 2
         if (sumFirst > sumSecond) {
             var intermediateSquare = Square(start.column - trajectory, start.row - trajectory)
-            if (intermediateSquare.correctSquare(intermediateSquare)) {
-                return listOf(start, intermediateSquare, end)
-            } else {
+            if (!intermediateSquare.inside()) {
                 intermediateSquare = Square(end.column + trajectory, end.row + trajectory)
-                return listOf(start, intermediateSquare, end)
             }
+            return listOf(start, intermediateSquare, end)
         } else {
             var intermediateSquare = Square(end.column - trajectory, end.row - trajectory)
-                if (intermediateSquare.correctSquare(intermediateSquare)) {
-                    return listOf(start, intermediateSquare, end)
-                } else {
-                    intermediateSquare = Square(start.column + trajectory, start.row + trajectory)
-                    return listOf(start, intermediateSquare, end)
-                }
+            if (!intermediateSquare.inside()) {
+                intermediateSquare = Square(start.column + trajectory, start.row + trajectory)
+            }
+            return listOf(start, intermediateSquare, end)
         }
     }
     return listOf()

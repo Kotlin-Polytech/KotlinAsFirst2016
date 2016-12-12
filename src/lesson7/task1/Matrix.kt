@@ -70,13 +70,11 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
 
     override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
 
-    override fun equals(other: Any?): Boolean {
-        if (other is MatrixImpl<*> &&
-                height == other.height &&
-                width == other.width)
-            if (other.map == map) return true
-        return false
-    }
+    override fun equals(other: Any?): Boolean =
+        other is MatrixImpl<*> &&
+        height == other.height &&
+        width == other.width &&
+        other.map == map
 
     override fun hashCode(): Int {
         var result = height

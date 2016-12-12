@@ -62,11 +62,9 @@ fun digitNumber(n: Int): Int {
     var count = 0
     var number = Math.abs(n)
     if (number == 0) return 1
-    else {
-        while (number > 0) {
-            count++
-            number /= 10
-        }
+    while (number > 0) {
+        count++
+        number /= 10
     }
     return count
 }
@@ -79,17 +77,15 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     if (n in 1..2) return 1
-    else {
-        var result = 0
-        var f1 = 1
-        var f2 = 1
-        for (i in 3..n) {
-            result = f1 + f2
-            f1 = f2
-            f2 = result
-        }
-        return result
+    var result = 0
+    var f1 = 1
+    var f2 = 1
+    for (i in 3..n) {
+        result = f1 + f2
+        f1 = f2
+        f2 = result
     }
+    return result
 }
 
 /**
@@ -126,11 +122,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    var d = n / 2
-    while (n % d != 0) d--
-    return d
-}
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -208,15 +200,13 @@ fun isPalindrome(n: Int): Boolean = n == revert(n)
 fun hasDifferentDigits(n: Int): Boolean {
     var num = Math.abs(n)
     if (num < 10) return false
-    else {
-        val p = num % 10
+    val p = num % 10
+    num /= 10
+    while (num > 0) {
+        if (num % 10 != p) return true
         num /= 10
-        while (num > 0) {
-            if (num % 10 != p) return true
-            num /= 10
-        }
-        return false
     }
+    return false
 }
 
 /**

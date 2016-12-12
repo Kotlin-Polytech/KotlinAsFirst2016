@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.pow
 
 /**
  * Пример
@@ -104,7 +106,14 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var sum = 0.0
+    for (e in v) {
+        sum += e * e
+    }
+    return Math.sqrt(sum)
+}
+
 
 /**
  * Простая
@@ -119,7 +128,18 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val length = list.size
+    if (length == 0) return list
+    else {
+        val average = list.sum() / length
+        for (i in 0..length - 1) {
+            list[i] -= average
+        }
+        return list
+    }
+
+}
 
 /**
  * Средняя
@@ -184,7 +204,20 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val alphabet = "0123456789abcdefghijklmnopqrstuvwxyz"
+    var number = n
+    val numerals = mutableListOf<Char>()
+    if (number < 10) return number.toString()
+    else {
+        while (number >= base) {
+            numerals.add(alphabet[number % base])
+            number /= base
+        }
+        numerals.add(alphabet[number % base])
+        return numerals.reversed().joinToString("")
+    }
+}
 
 /**
  * Средняя
@@ -193,7 +226,14 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    val length = digits.size
+    var res = 0
+    for (i in 0..length - 1) {
+        res += digits[i] * pow(base, length - i - 1)
+    }
+    return res
+}
 
 /**
  * Сложная

@@ -87,7 +87,6 @@ fun dateStrToDigit(str: String): String {
         "декабря" -> answ += "12."
         else -> return ""
     }
-    if (parts[2].length > 5) return ""
             answ += parts[2]
     return answ
 }
@@ -150,7 +149,7 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var forError = 0
     val iNeedIt = "1234567890+-() "
-    if ((phone.length == 1) && (phone[0] == iNeedIt[14])) return ""
+    if (((phone.length == 1) && (phone[0] == iNeedIt[14])) || (phone.length == 0)) return ""
     for (i in 0..phone.length - 1) {
         for (j in 0..iNeedIt.length - 1) {
             if (phone[i] == iNeedIt[j]) forError += 1
@@ -284,7 +283,7 @@ fun plusMinus(expression: String): Int {
         if (forError != 1) throw IllegalArgumentException()
         forError = 0
     }
-    var parts = expression.split(" ")
+    val parts = expression.split(" ")
     var mnojitel = 1
     var element = "+"
     var elementInt = 0
@@ -322,9 +321,8 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    var parts = str.split(" ")
+    val parts = str.split(" ")
     var counter = 0
-    var element = ""
     var answ = -1
     for (part in parts) {
         counter += 1
@@ -355,20 +353,105 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val copy = " " + description
+    var mnojitel : Double
+    var value : Double
+    var answ = ""
+    var maxValue = 0.0
+    if (description.length == 0) return ""
+    var forError = 0
+    val abc = "0123456789.;АБВГДЕЁЖЗИКЛМНОПРСТУФХШЩЧЦЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхшщчцъыьэюя "
+    for (i in 0..description.length - 1) {
+        for (j in 0..abc.length - 1) {
+            if (description[i] == abc[j]) forError += 1
+        }
+        if (forError != 1) return ""
+        forError = 0
+    }
+    var lenght : Int
+    val parts = copy.split(";")
+    for (part in parts) {
+        value = 0.0
+        lenght = 0
+        val parts2 = part.split(" ")
+        for (part2 in parts2) lenght += 1
+            if (lenght != 3) return ""
+        for (part2 in parts2) {
+            mnojitel = 0.1
+            for (i in part2.length - 2 downTo 0) {
+                if (part2[i] != abc[10]) mnojitel *= 10
+                when (part2[i]) {
+                    abc[0] -> value += 0
+                    abc[1] -> value += mnojitel
+                    abc[2] -> value += mnojitel * 2
+                    abc[3] -> value += mnojitel * 3
+                    abc[4] -> value += mnojitel * 4
+                    abc[5] -> value += mnojitel * 5
+                    abc[6] -> value += mnojitel * 6
+                    abc[7] -> value += mnojitel * 7
+                    abc[8] -> value += mnojitel * 8
+                    abc[9] -> value += mnojitel * 9
+                }
+            }
+            if (value > maxValue) {
+                maxValue = value
+                answ = parts2[1]
+            }
+        }
+
+    }
+    return answ
+}
 
 /**
  * Сложная
  *
  * Перевести число roman, заданное в римской системе счисления,
  * в десятичную систему и вернуть как результат.
- * Римские цифры: 1 = I, 4 = IV, 5 = V, 9 = IX, 10 = X, 40 = XL, 50 = L,
- * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
+ * Римские цифры: 1 = I, 4 = IV 9 = IX
  * Например: XXIII = 23, XLIV = 44, C = 100
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    var answ = 0
+    val abc = "IVXLCDM"
+    var forError : Int
+    for ( i in 0..roman.length - 1){
+        forError = 0
+        for (j in 0..abc.length - 1)
+            if (roman[i] == abc[j]) forError +=1
+        if (forError == 0) return -1
+    }
+    for (i in 0..roman.length - 1){
+        when (roman[i]) {
+            abc[6] -> if (i == 0) answ += 1000
+                      else if (roman[i-1] == abc[4]) answ += 900
+                           else answ += 1000
+            abc[5] -> if (i == 0) answ += 500
+                      else if (roman[i-1] == abc[4]) answ += 400
+                           else answ += 500
+            abc[4] -> if (i == 0){ if (roman[i+1] != abc[6]) answ += 100}
+                      else if (i == roman.length - 1) { if (roman[i - 1] != abc[2]) answ += 100 else answ += 90 }
+                           else if ((roman[i + 1] != abc[6]) && (roman[i-1] != abc[2])) answ += 100
+                                else if (roman[i - 1] == abc[2]) answ += 90
+            abc[3] -> if (i == 0) answ += 50
+                      else if (roman[i-1] == abc[2]) answ += 40
+                           else answ += 50
+            abc[2] -> if (i == 0) {if ((roman[i + 1] != abc[3]) && (roman[i + 1] != abc[4])) answ += 10}
+                      else if (i == roman.length - 1) {if (roman[i - 1] == abc[0]) answ += 9}
+                           else if ((roman[i + 1] != abc[3]) && (roman[i + 1] != abc[4]) && (roman[i] == abc[0])) answ += 9
+                                else if ((roman[i + 1] != abc[3]) && (roman[i + 1] != abc[4])) answ += 10
+            abc[1] -> if (i == 0) answ += 5
+                      else if (roman[i-1] == abc[0]) answ += 4
+                           else answ += 5
+            abc[0] -> if ((i == roman.length - 1)) answ += 1
+                      else if ((roman[i + 1] != abc[2]) && (roman[i + 1] != abc[1])) answ += 1
+        }
+    }
+    return answ
+}
 
 /**
  * Сложная
@@ -400,4 +483,63 @@ fun fromRoman(roman: String): Int = TODO()
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String): List<Int> {
+    val abc = "><+-[]{} "
+    val zero = listOf(0)
+    var forError : Int
+    val answ = mutableListOf<Int>()
+    for (i in 1..cells)
+        answ.add(0)
+    for (i in 0..commands.length - 1) {
+        forError = 0
+        for (j in 0..abc.length - 1)
+            if (commands[i] == abc[j]) forError += 1
+        if (forError == 0) throw IllegalArgumentException()
+    }
+    var place: Int
+    if (cells % 2 == 0) place = cells / 2 + 1
+    else place = (cells - 1) / 2
+    for (i in 0..commands.length - 1) {
+        when (commands[i]) {
+            abc[2] -> answ[place - 1] += 1
+            abc[3] -> answ[place - 1] -= 1
+            abc[0] -> place += 1
+            abc[1] -> place -= 1
+            abc[4] -> for (g in 0..999999) {
+                when (answ[place - 1]) {
+                    zero[0] -> place += 1
+                    else -> {
+                        for (k in g + 1..999999) {
+                            if (commands[k] == abc[5]) break
+                            else when (commands[k]) {
+                                abc[2] -> answ[place - 1] += 1
+                                abc[3] -> answ[place - 1] -= 1
+                                abc[0] -> place += 1
+                                abc[1] -> place -= 1
+                            }
+                            if ((place < 0) || (place > commands.length - 1)) throw IllegalStateException()
+                        }
+                    }
+                }
+            }
+            abc[6] -> for (g in 0..999999) {
+                when (answ[place - 1]) {
+                    zero[0] -> {
+                        for (k in g + 1..999999) {
+                            if (commands[k] == abc[7]) break
+                            else when (commands[k]) {
+                                abc[2] -> answ[place - 1] += 1
+                                abc[3] -> answ[place - 1] -= 1
+                                abc[0] -> place += 1
+                                abc[1] -> place -= 1
+                            }
+                            if ((place < 0) || (place > commands.length - 1)) throw IllegalStateException()
+                        }
+                    }
+                }
+            }
+        }
+        if ((place < 0) || (place > commands.length - 1)) throw IllegalStateException()
+    }
+    return answ
+}

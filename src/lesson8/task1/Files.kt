@@ -1,4 +1,4 @@
-@file:Suppress("UNUSED_PARAMETER")
+    @file:Suppress("UNUSED_PARAMETER")
 package lesson8.task1
 
 import java.io.File
@@ -54,7 +54,22 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val map = mutableMapOf<String, Int>()
+    val lineFromFile = File(inputName).readText().toLowerCase()
+    for (line in substrings) {
+        val lineLowerCase = line.toLowerCase()
+        var quantity = 0
+        for (i in 0..lineFromFile.length - lineLowerCase.length) {
+            var quantityElement = 0
+            for (j in 0..lineLowerCase.length - 1) {
+                if (lineFromFile[i + j] != lineLowerCase[j]) break
+                quantityElement++
+                if (quantityElement == lineLowerCase.length) quantity++
+            }
+            map += Pair(line, quantity)
+        }
+    }
+    return map
 }
 
 

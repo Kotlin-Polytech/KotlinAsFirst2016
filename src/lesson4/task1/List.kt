@@ -306,4 +306,95 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun hundreds(number: Int): String =
+        when (number) {
+            1 -> "сто"
+            2 -> "двести"
+            3 -> "триста"
+            4 -> "четыреста"
+            5 -> "пятьсот"
+            6 -> "шестьсот"
+            7 -> "семьсот"
+            8 -> "восемьсот"
+            9 -> "девятьсот"
+            else -> ""
+        }
+
+fun ten(number: Int): String =
+        when (number) {
+            2 -> "двадцать"
+            3 -> "тридцать"
+            4 -> "сорок"
+            5 -> "пятьдесят"
+            6 -> "шестьдесят"
+            7 -> "семьдесят"
+            8 -> "восемьдесят"
+            9 -> "девяносто"
+            else -> ""
+        }
+
+fun fromTenToNineteen(number: Int): String =
+        when (number) {
+            10 -> "десять"
+            11 -> "одиннадцать"
+            12 -> "двенадцать"
+            13 -> "тринадцать"
+            14 -> "четырнадцать"
+            15 -> "пятнадцать"
+            16 -> "шестнадцать"
+            17 -> "семнадцать"
+            18 -> "восемнадцать"
+            19 -> "девятнадцать"
+            else -> ""
+        }
+
+fun russian(n: Int): String {
+    var resultLine = StringBuilder(hundreds(n / 100000))                  //сотни тысяч
+    if (hundreds(n / 100000) != "") resultLine.append(" ")
+
+    resultLine.append(ten(n / 10000 % 10))                   //десятки тысяч(20,30...)
+    if (ten(n / 10000 % 10) != "") resultLine.append(" ")
+
+    resultLine.append(fromTenToNineteen(n / 1000 % 100))                //десятки тысяч(11,12...)
+    if (fromTenToNineteen(n / 1000 % 100) != "") resultLine.append(" ")
+    if (fromTenToNineteen(n / 1000 % 100) != "десять" && fromTenToNineteen(n / 1000 % 100) != "") resultLine.append("тысяч")
+
+    if (n / 10000 % 10 != 1)           //тысячи
+        resultLine.append(when (n / 1000 % 10) {
+            1 -> "одна тысяча"
+            2 -> "две тысячи"
+            3 -> "три тысячи"
+            4 -> "четыре тысячи"
+            5 -> "пять тысяч"
+            6 -> "шесть тысяч"
+            7 -> "семь тысяч"
+            8 -> "восемь тысяч"
+            9 -> "девять тысяч"
+            else -> ""
+        })
+    if ((n / 10000 != 0) && (n / 1000 % 10 == 0)) resultLine.append("тысяч")
+
+    if ((n % 1000 / 100 != 0) && (n / 1000 != 0)) resultLine.append(" ")
+
+    resultLine.append(hundreds(n % 1000 / 100))            //сотни
+    if ((n % 100 / 10 != 0) && (n / 100 != 0)) resultLine.append(" ")
+
+    resultLine.append(fromTenToNineteen(n % 100))         //десятки(11,12...)
+
+    resultLine.append(ten(n % 100 / 10))                //десятки(20,30...)
+    if ((n % 10 != 0) && (n / 10 != 0) && (n % 100 / 10 != 1)) resultLine.append(" ")
+    if (n % 100 / 10 != 1)       //единицы
+        resultLine.append(when (n % 10) {
+            1 -> "один"
+            2 -> "два"
+            3 -> "три"
+            4 -> "четыре"
+            5 -> "пять"
+            6 -> "шесть"
+            7 -> "семь"
+            8 -> "восемь"
+            9 -> "девять"
+            else -> ""
+        })
+    return resultLine.toString()
+}

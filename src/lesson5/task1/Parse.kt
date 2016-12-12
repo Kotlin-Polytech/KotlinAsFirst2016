@@ -74,9 +74,9 @@ fun dateStrToDigit(str: String): String {
         } catch (e: NumberFormatException) {
             return ""
         }
-    }
-    else return ""
+    } else return ""
 }
+
 /**
  * Средняя
  *
@@ -96,8 +96,7 @@ fun dateDigitToStr(digital: String): String {
         } catch (e: NumberFormatException) {
             return ""
         }
-    }
-    else return ""
+    } else return ""
 }
 
 /**
@@ -115,7 +114,7 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var result = ""
     for (i in phone) {
-        if ((i <= '9' ) && (i >= '0') || (i == '+')) result += i
+        if ((i <= '9') && (i >= '0') || (i == '+')) result += i
         else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
     }
     return result
@@ -132,16 +131,10 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val parts = jumps.split(" ")
-    var best = -1
-    try {
-        for (part in parts) {
-            if ((part != "-") && (part != "%") && (part.toInt() > best)) best = part.toInt()
-        }
-        return best
-    } catch (e: NumberFormatException) {
-        return -1
+    if (jumps.matches(Regex("""[0-9-% ]+"""))) {
+        return Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
     }
+    return -1
 }
 
 /**
@@ -174,20 +167,7 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int {
-    val parts = expression.split(" ")
-    var result = parts[0].toInt()
-    if (parts.size > 1) {
-        for (i in 2..parts.size step 2) {
-            if (parts[i-1] == "+") {
-                result += parts[i].toInt()
-            } else if (parts[i-1] == "-") {
-                result -= parts[i].toInt()
-            } else throw IllegalArgumentException(" ")
-        }
-    }
-    return result
-}
+fun plusMinus(expression: String): Int =TODO()
 
 /**
  * Сложная

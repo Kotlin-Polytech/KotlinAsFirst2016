@@ -83,19 +83,19 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    var longest = Segment(points[0], points[0])
-    var result1 = -0.0
+    var segment = Segment(points[0], points[0])
+    var result1 = -1.0
     for (i in 0..points.size - 2) {
         for (j in 1..points.size - 1) {
             val result = points[i].distance(points[j])
             if (result1 < result) {
                 result1 = result
-                longest = Segment(points[i], points[j])
+                segment = Segment(points[i], points[j])
             }
         }
     }
     if (points.size < 2) throw IllegalArgumentException()
-    return longest
+    return segment
 }
 
 /**
@@ -124,15 +124,17 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val a1 = Math.tan(angle)
-        val b1 = -point.x * a1 + point.y
-        val a2 = Math.tan(other.angle)
-        val b2 = -other.point.x * a2 + other.point.y
-        val x = (b2 - b1) / (a1 - a2)
+        val a1 = Math.sin(angle)
+        val a2 = Math.cos(angle)
+        val b1 = -point.x *(a1/a2) + point.y
+        val a3 = Math.sin(other.angle)
+        val a4 = Math.cos(other.angle)
+        val b2 = -other.point.x *(a3/a4)+ other.point.y
+        val x = (b2 - b1) / (a1/a2 - a3/a4)
         val y = when {
             (angle == Math.PI / 2 || angle == Math.PI / -2) -> other.point.y
             (other.angle == Math.PI / 2 || other.angle == Math.PI / -2) -> point.y
-            else -> (x - point.x) * a1 + point.y
+            else -> (x - point.x) * (a1/a2) + point.y
         }
         return Point(x, y)
     }
@@ -145,11 +147,11 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    var ugl = 0.0
+    var angle = 0.0
     if (s.begin != s.end) {
-        ugl = Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
+        angle = Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
     }
-    return Line(Point(s.begin.x, s.begin.y), ugl)
+    return Line(Point(s.begin.x, s.begin.y), angle)
 }
 
 /**

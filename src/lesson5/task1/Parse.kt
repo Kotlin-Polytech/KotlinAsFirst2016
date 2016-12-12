@@ -113,7 +113,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val matchResult = Regex("""[^-0-9+()\s]""").find(phone)
+    val matchResult = Regex("""[^-0-9+()\s]|\n""").find(phone)
     if (matchResult != null) return ""
     if (phone.indexOf("+") > 0) return ""
     val phoneList = phone.split(" ", "-", "(", ")")

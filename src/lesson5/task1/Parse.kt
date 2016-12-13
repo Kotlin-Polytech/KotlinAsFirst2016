@@ -182,9 +182,10 @@ fun bestLongJump(jumps: String): Int {
 
 
 fun bestHighJump(jumps: String): Int {
-    var jumps = jumps.split(" ")
+    if (jumps.isEmpty()) return -1
+    var maxhight = -10
     try{
-        var maxhight = jumps[0].toInt()
+        var jumps = jumps.split(" ")
         if (jumps.size % 2 == 1)
         return -1
     for (i in 0..jumps.size - 1 step 2) {

@@ -77,38 +77,6 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  */
 fun sibilants(inputName: String, outputName: String) {
     TODO()
-    /* val listLetters = listOf("жы" to "жи", "чя" to "ча", "шы" to "ши", "щю" to "щу",
-            "ЖЫ" to "ЖИ", "ЧЯ" to "ЧА", "ШЫ" to "ШИ", "ЩЮ" to "ЩУ",
-            "жЫ" to "жИ", "чЯ" to "чА", "шЫ" to "шИ", "щЮ" to "щУ",
-            "Жы" to "Жи", "Чя" to "Ча", "Шы" to "Ши", "Щю" to "Щу",
-            "" to "")
-    val listLetters2 = listOf("ы" to "и", "я" to "а", "ы" to "и", "ю" to "у",
-            "Ы" to "И", "Я" to "А", "Ы" to "И", "Ю" to "У")
-    val str = "ЖЧШЩжчшщ"
-    val res = File(outputName).bufferedWriter()
-    val text = File(inputName).readText()
-    var help = text
-    //while (help.contains(listLetters.first().toString()))
-    for (i in 0..25) {
-        val search = listLetters.find { help.contains(it.first) } ?: listLetters.last()
-        help = (Regex(search.first).replace(help, search.second))
-    }
-
-    /*for (i in 1..help.length-1) {
-        val search = help.find { help.contains() } ?: listLetters.last()
-        val searchIndex = help.indexOf(search.first)
-        if (help[searchIndex - 1].toLowerCase() == 'ЖЧШЩжчшщ') help.replace(help[searchIndex].toString(), search.second)
-    }*/
-
-    for (i in 1..help.length - 1) {
-        if ((help[i - 1].toLowerCase() in "жчшщ") && ((help[i].toLowerCase() in "ыяю")))
-            help.replace(help[i].toString(), (listLetters2.find { help.contains(it.first) } ?: listLetters.last()).second)
-    }
-    //help = Regex("""[ж]+$listLetters2""").replace(help, "жи")
-
-    //help.replace("$listLetters2",)
-    res.append(help)
-    res.close()  */
 }
 
 /**

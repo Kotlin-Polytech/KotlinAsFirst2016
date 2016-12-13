@@ -140,7 +140,7 @@ fun centerFile(inputName: String, outputName: String) {
         val delta = (max - line.length) / 2 - 1
         var str = line
         for (i in 0..delta) str = ' ' + str
-        text.appendln(str)
+        if (line != lines.last()) text.appendln(str) else text.append(str)
     }
     resW.write(text.toString())
     resW.close()

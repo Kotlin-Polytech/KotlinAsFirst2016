@@ -76,36 +76,39 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()/*
-    val listLetters = listOf("жы" to "жи", "чя" to "ча", "шы" to "ши", "щю" to "щу",
+    TODO()
+    /* val listLetters = listOf("жы" to "жи", "чя" to "ча", "шы" to "ши", "щю" to "щу",
             "ЖЫ" to "ЖИ", "ЧЯ" to "ЧА", "ШЫ" to "ШИ", "ЩЮ" to "ЩУ",
             "жЫ" to "жИ", "чЯ" to "чА", "шЫ" to "шИ", "щЮ" to "щУ",
             "Жы" to "Жи", "Чя" to "Ча", "Шы" to "Ши", "Щю" to "Щу",
             "" to "")
     val listLetters2 = listOf("ы" to "и", "я" to "а", "ы" to "и", "ю" to "у",
             "Ы" to "И", "Я" to "А", "Ы" to "И", "Ю" to "У")
-    val str="ЖЧШЩжчшщ"
+    val str = "ЖЧШЩжчшщ"
     val res = File(outputName).bufferedWriter()
     val text = File(inputName).readText()
     var help = text
     //while (help.contains(listLetters.first().toString()))
-    /* for (i in 0..25) {
-         val search = listLetters.find { help.contains(it.first) } ?: listLetters.last()
-         help = (Regex(search.first).replace(help, search.second))
-     }*/
+    for (i in 0..25) {
+        val search = listLetters.find { help.contains(it.first) } ?: listLetters.last()
+        help = (Regex(search.first).replace(help, search.second))
+    }
+
     /*for (i in 1..help.length-1) {
         val search = help.find { help.contains() } ?: listLetters.last()
         val searchIndex = help.indexOf(search.first)
         if (help[searchIndex - 1].toLowerCase() == 'ЖЧШЩжчшщ') help.replace(help[searchIndex].toString(), search.second)
     }*/
-    for (i in 1..help.length-1) {
-        if ((help[i-1].toLowerCase() in "жчшщ")&&((help[i].toLowerCase() in "ыяю"))) help.replace(help[i].toString(), (listLetters2.find { help.contains(it.first) } ?: listLetters.last()).second)
+
+    for (i in 1..help.length - 1) {
+        if ((help[i - 1].toLowerCase() in "жчшщ") && ((help[i].toLowerCase() in "ыяю")))
+            help.replace(help[i].toString(), (listLetters2.find { help.contains(it.first) } ?: listLetters.last()).second)
     }
-            //help = Regex("""[ж]+$listLetters2""").replace(help, "жи")
+    //help = Regex("""[ж]+$listLetters2""").replace(help, "жи")
 
     //help.replace("$listLetters2",)
     res.append(help)
-    res.close() */
+    res.close()  */
 }
 
 /**
@@ -126,7 +129,21 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines().map { it.trim() }
+    var max = 0
+    for (line in lines) {
+        if (line.length >= max) max = line.length
+    }
+    val resW = File(outputName).writer()
+    val text = StringBuilder()
+    for (line in lines) {
+        val delta = (max - line.length) / 2
+        var str = line
+        for (i in 1..delta) str = ' ' + str
+        text.appendln(str)
+    }
+    resW.write(text.toString())
+    resW.close()
 }
 
 /**
@@ -169,7 +186,15 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+    val resM = mutableMapOf<String, Int>()
+    val words = Regex("[a-zа-яё]+").findAll(File(inputName).readText().toLowerCase())
+    var count: Int
+    for (word in words) {
+        count = words.count { word.value == it.value }
+        resM.put(word.value, count)
+    }
+    val list = resM.toList().sortedByDescending { it.second }
+    return list.take(20).toMap()
 }
 
 /**

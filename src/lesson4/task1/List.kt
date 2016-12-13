@@ -3,9 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import lesson2.task2.queenThreatens
-import lesson3.task1.digitCountInNumber
-import lesson3.task1.isPrime
 
 /**
  * Пример
@@ -123,12 +120,9 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var result = 0.0
-    var j = 0
-    for (i in 0..list.size - 1) {
-        result += list[i]
-        j += 1
-    }
-    if (j > 0) result /= j
+    if (list.isEmpty()) return 0.0
+    for (i in 0..list.size - 1) result += list[i]
+    result /= list.size
     return result
 }
 
@@ -161,7 +155,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var C: Double = 0.0
+    var C = 0.0
     for (i in 0..a.size - 1) C += a[i] * b[i]
     return C
 }
@@ -176,14 +170,11 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     if (p.isEmpty()) return 0.0
-    var px: Double = 0.0
-    var xpow: Double = 1.0
+    var px = 0.0
+    var xpow  = 1.0
     for (i in 0..p.size - 1) {
-        for (j in 1..i) {
-            xpow *= x
-        }
         px += p[i] * xpow
-        xpow = 1.0
+        xpow *= x
     }
     return px
 }
@@ -245,7 +236,7 @@ fun factorizeToString(n: Int): String {
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    val list= mutableListOf<Int>()
+    val list = mutableListOf<Int>()
     var nn = n
     while (nn > 0){
         list.add(nn % base)
@@ -264,10 +255,10 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var result: String = ""
+    var result = ""
     val list = convert(n, base)
     for (element in list){
-        if (element > 9) result += ('a'.toInt() + element - 10).toChar()
+        if (element > 9) result += ('a' + element - 10).toChar()
         else result += element.toString()
     }
     return result
@@ -283,7 +274,7 @@ fun convertToString(n: Int, base: Int): String {
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
     var iDigit = 1
-    for (i in digits.size-1 downTo 0){
+    for (i in digits.size - 1 downTo 0){
         result += digits[i] * iDigit
         iDigit *= base
     }

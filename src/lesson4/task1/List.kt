@@ -3,7 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import java.util.function.IntToDoubleFunction
+
 
 /**
  * Пример
@@ -247,18 +247,17 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var result1: String = ""
-    var result = listOf<Int>()
-    result = convert(n, base)
-    for (i in 0..result.size - 1) {
-        if (result[i] > 9) {
-            result1 += (result[i] + 'a'.toInt()).toChar()
-        } else
-            result1 += result [i]
+    var list: List<Int>
+    var string1 = ""
+    if (n == 0) string1 = ""
+    list = convert(n, base)
+    for (element in list)
+        if (element >= 10) string1 += (('a' - 10) + element).toChar()
+        else string1 += element
 
-    }
-    return result1
+    return string1
 }
+
 
 /**
  * Средняя
@@ -289,10 +288,9 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var list: List<Int>
     list = listOf()
-    var string1 = str
-    for (i in 0..string1.length - 1)
-        if (string1[i] in '0'..'9') list += ((string1[i]).toInt() - '0'.toInt())
-        else list += ((string1[i]).toInt() - 'a'.toInt() + 10)
+    for (char in str)
+        if (char in '0'..'9') list += ((char).toInt() - '0'.toInt())
+        else list += (char.toInt() - 'a'.toInt() + 10)
     return decimal(list, base)
 }
 
@@ -338,20 +336,20 @@ val TEEN_LIST = listOf("десять", "одиннадцать", "двенадц
 val TENS_LIST = listOf("", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
 val HUNDREDS_LIST = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
 
-fun less_thousand(a: Int, b: Int, c: Int, index: Int): String {
+fun lessThousand(hundr: Int, ten: Int, unit: Int, unitsOrThousands: Int): String {
     var result = ""
-    if ((result.length != 0) && (index == 2)) result += " "
-    if (a != 0) result += HUNDREDS_LIST[a]
-    if ((result.length != 0) && (b > 0 || c > 0)) result += " "
-    if (b == 1) result += TEEN_LIST [c]
-    if (b > 1) result += TENS_LIST[b - 1]
-    if (result.length != 0 && c >= 1 && b > 1) result += " "
-    if (b != 1 && c <= 2 && index == 1)
-        result += THOUSANDS_LIST[c]
-    if (b != 1 && c <= 2 && index == 2)
-        result += UNITS_LIST[c]
-    if (b != 1 && c > 2)
-        result += UNITS_LIST[c]
+    if ((result.length != 0) && (unitsOrThousands == 1)) result += " "
+    if (hundr != 0) result += HUNDREDS_LIST[hundr]
+    if ((result.length != 0) && (ten> 0 || unit > 0)) result += " "
+    if (ten == 1) result += TEEN_LIST [unit]
+    if (ten > 1) result += TENS_LIST[ten - 1]
+    if (result.length != 0 && unit >= 1 && ten > 1) result += " "
+    if (ten != 1 && unit <= 2 && unitsOrThousands == 1000)
+        result += THOUSANDS_LIST[unit]
+    if (ten != 1 && unit <= 2 && unitsOrThousands == 1)
+        result += UNITS_LIST[unit]
+    if (ten != 1 && unit > 2)
+        result += UNITS_LIST[unit]
     return result
 }
 
@@ -393,7 +391,7 @@ fun russian(n: Int): String {
         nn = -1
 
     }
-    result += less_thousand(thousands100, thousands10, thousands, 1)
+    result += lessThousand(thousands100, thousands10, thousands, 1000)
     if (thousands100 != 0 || thousands10 != 0 || thousands != 0) result += " "
     if ((thousands100 != 0) || (thousands10 != 0) || (thousands != 0)) {
         if ((thousands == 1) && (thousands10 != 1)) {
@@ -405,7 +403,7 @@ fun russian(n: Int): String {
                 result += "тысяч"
     }
     if ((result.length != 0) && (units != 0 || tens != 0 || hundreds != 0)) result += " "
-    result += less_thousand(hundreds, tens, units, 2)
+    result += lessThousand(hundreds, tens, units, 1)
     return result
 }
 

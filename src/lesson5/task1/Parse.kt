@@ -123,23 +123,21 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     val result = phone.filter { (it in '0'..'9') || (it == '+') }
-
-    for (i in 0..phone.length - 1)
-        if ((phone[i] != '(')
-                && (phone[i] != ')')
-                && (phone[i] != '-')
-                && (phone[i] != ' ')
-                && (phone[i] != '+')
-                && (phone[i] !in '0'..'9'))
+    var begin = 0
+    for (char in phone)
+        if ((char != '(')
+                && char != ')'
+                && char != '-'
+                && char != ' '
+                && char != '+'
+                && char !in '0'..'9')
             return ""
     if (result.length > 0) {
         if (result[0] == '+') {
-            for (i in 1..result.length - 1) if (result[i] !in '0'..'9') return ""
-        } else {
-            for (i in 0..result.length - 1) if (result[i] !in '0'..'9') return ""
-        }
+            begin = 1
+        } else begin = 0
+        for (i in begin..result.length - 1) if (result[i] !in '0'..'9') return ""
     } else return ""
-
     return result
 }
 
@@ -181,28 +179,25 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun checkPlus(str: String): Boolean = str.any { str == "+" }
+
 
 fun bestHighJump(jumps: String): Int {
-    if (jumps == "") return -1
-    var maxMax = -1
-    try {
-        val stringList = jumps.split(" ")
-        if (stringList.size % 2 == 1) return -1
-        for (i in 0..stringList.size - 1 step 2) {
-            if ((stringList[i].toInt() > maxMax) && (checkPlus(stringList[i + 1]))) {
-                maxMax = stringList[i].toInt()
-
-            }
-        }
-        if (maxMax == -1) return -1 else return maxMax
-    } catch (e: NumberFormatException) {
+    var jumps = jumps.split(" ")
+    try{
+        var maxhight = jumps[0].toInt()
+        if (jumps.size % 2 == 1)
         return -1
+    for (i in 0..jumps.size - 1 step 2) {
+        val string = jumps[i + 1].filter { it != '%' }
+        if (string.length > 2)
+            return -1
+        if ((jumps[i].toInt() > maxhight) && string == "+")
+            maxhight = jumps[i].toInt()
     }
-
+    return maxhight
 }
-
-
+catch (e: NumberFormatException) {return -1}
+}
 /**
  * Сложная
  *
@@ -343,37 +338,3 @@ fun fromRoman(roman: String): Int = TODO()
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
 
 
-fun myFun(coins: String, sum: Double): List<String> {
-    if (coins == "") return listOf()
-    var sum = sum
-    val stringList: List<String>
-    var result = mutableListOf<Int>()
-    try {
-        stringList = coins.split(", ")
-        for (i in 0..stringList.size - 1) {
-            result.add(0)
-            while (sum - stringList[i].toDouble() >= 0) {
-                sum -= stringList[i].toDouble()
-                result[i] += 1
-            }
-        }
-    } catch (e: NumberFormatException) {
-        throw IllegalArgumentException()
-    }
-    var resultString = listOf<String>()
-    for (i in 0..stringList.size - 1) if (result[i] != 0) resultString += result[i].toString() + " * " + stringList[i]
-    return resultString
-}
-
-fun main(args: Array<String>) {
-    val str = "5000, 1000, 500, 100, 50, 10, 5, 2, 1, 0.50, 0.10, 0.05, 0.01"
-    val result = myFun(str, 7633.21)
-    println(result)
-    val str2 = ""
-    val result2 = myFun(str2, 7633.21)
-    println(result2)
-    val str3 = "abcd"
-    val result3 = myFun(str3, 123.4)
-    println(result3)
-
-}

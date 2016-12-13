@@ -44,10 +44,11 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if ((notation.length == 2) && (notation[0] in 'a'..'h') || (notation[1] in '1'..'8' )) {
-        val columnArray = "abcdefgh"
-        return Square(column = columnArray.indexOf(notation[0] + 1), row = notation[1].toString().toInt())
-    } else throw IllegalArgumentException()
+    if (notation.length != 2 || notation[0] !in 'a'..'h' || notation[1] !in '1'..'8')
+        throw IllegalArgumentException()
+    val column = notation[0] - 'a' + 1
+    val row = notation[1] - '0'
+    return Square(column, row)
 }
 
 /**
@@ -74,14 +75,11 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    var index = 0
-    if (!(start.inside()) || !(end.inside())) throw IllegalArgumentException()
-    when {
-        (start.column == end.column && start.row == end.row) -> index = 0
-        (start.column == end.column && start.row != end.row) || (start.column != end.column && start.row == end.row) -> index = 1
-        (start.column != end.column && start.row != end.row) -> index = 2
-    }
-    return index
+    var index = -1
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    if (start == end) return 0
+    if (start.column == end.column || start.row == end.row) return 1
+    return 2
 }
 
 /**

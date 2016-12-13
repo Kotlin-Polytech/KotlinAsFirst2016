@@ -89,9 +89,7 @@ fun dateDigitToStr(digital: String): String {
         try {
             val day = parts[0].toInt()
             val monthNumbers = parts[1].toInt()
-            if (monthNumbers !in 1..12) {
-                return ""
-            }
+            if (monthNumbers !in 1..12) return ""
             val month = monthNames[monthNumbers - 1]
             return String.format("%d %s %s", day, month, parts[2])
         } catch (e: NumberFormatException) {

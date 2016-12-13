@@ -79,8 +79,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
             check = false
         }
         if (check) break
-        for (j in height - i - 2 downTo i + 1)
-            result[j, i] = digit++
+        for (j in height - i - 2 downTo i + 1) result[j, i] = digit++
     }
     return result
 }
@@ -251,13 +250,13 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
 fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
-    val result = createMatrix(matrix.height, matrix.width, 0)
-    for (row in 0..matrix.height - 1)
-        for (column in 0..matrix.width - 1)
-            for (i in 0..row)
-                for (j in 0..column)
-                    result[row, column] += matrix[i, j]
-    return result
+    val matr = createMatrix(matrix.height + 1, matrix.width + 1, 0)
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width) {
+            matr[i, j] = matr[i, j - 1] + matr[i - 1, j] - matr[i - 1, j - 1] + matrix[i - 1, j - 1]
+            matrix[i - 1, j - 1] = matr[i, j]
+        }
+    return matrix
 }
 
 /**

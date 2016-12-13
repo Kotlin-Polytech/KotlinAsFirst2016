@@ -89,13 +89,15 @@ fun sibilants(inputName: String, outputName: String) {
     val lines = File(inputName).readLines()
     for (line in lines) {
         if (line.isEmpty()) outputStream.newLine()
-        outputStream.write(line[0].toString())
-        for (i in 1..line.length - 1) {
-            if (line[i - 1] in "жчшщЖЧШЩ" && line[i] in "ыяюЫЯЮ")
-                outputStream.write(map[line[i].toString()])
-            else outputStream.write(line[i].toString())
+        else {
+            outputStream.write(line[0].toString())
+            for (i in 1..line.length - 1) {
+                if (line[i - 1] in "жчшщЖЧШЩ" && line[i] in "ыяюЫЯЮ")
+                    outputStream.write(map[line[i].toString()])
+                else outputStream.write(line[i].toString())
+            }
+            if (line != lines.last()) outputStream.newLine()
         }
-        if (line != lines.last()) outputStream.newLine()
     }
     outputStream.close()
 }
@@ -117,12 +119,17 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
+fun maxLength(inputName: String): Int {
+    var maxLength = -1
+    for (line in File(inputName).readLines())
+        if (line.trim().length > maxLength) maxLength = line.trim().length
+    return maxLength
+}
+
 fun centerFile(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val lines = File(inputName).readLines()
-    var maxLength = -1
-    for (line in lines)
-        if (line.trim().length > maxLength) maxLength = line.trim().length
+    val maxLength = maxLength(inputName)
     for (line in lines) {
         val lineLength = line.trim().length
         for (i in 1..(maxLength - lineLength) / 2) outputStream.write(" ")
@@ -155,7 +162,29 @@ fun centerFile(inputName: String, outputName: String) {
  *
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    TODO() /*
+    val outputStream = File(outputName).bufferedWriter()
+    val maxLength = maxLength(inputName)
+    val lines = File(inputName).readLines()
+    for (line in lines) {
+        var length = 0
+        val words = line.trim().split(" ")
+        if (words.size == 1) {
+            outputStream.write(line.trim())
+            outputStream.newLine()
+        } else {
+            for (word in words) {
+                length += word.length
+            }
+            val n = (maxLength - length) / (words.size - 1)
+            for (k in 0..words.size - 1) {
+                outputStream.write(words[k])
+                if (k != words.size - 1) for (i in 1..n) outputStream.write(" ")
+            }
+            if (line != lines.last()) outputStream.newLine()
+        }
+    }
+    outputStream.close()*/
 }
 
 /**
@@ -172,7 +201,23 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+    TODO() /*
+    val map = mutableMapOf<String, Int>()
+    val result = mutableMapOf<String, Int>()
+    val words = File(inputName).readText().toLowerCase().filter { it in 'a'..'z' && it in 'а'..'я' && it == ' ' }.split(" ")
+    loop@ for (i in 0..words.size - 2) {
+        var times = 0
+        for (j in i + 1..words.size - 1) {
+            if (words[i] in map) continue@loop
+            if (words[i] == words[j]) times++
+        }
+        map.put(words[i], times)
+    }
+    if (map.size <= 20) return map
+    else {
+        result.putAll(map.toList().sortedByDescending { it.second }.subList(0, 20))
+        return result
+    }*/
 }
 
 /**

@@ -102,7 +102,14 @@ fun diameter(vararg points: Point): Segment {
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = Circle(Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2), diameter.begin.distance(diameter.end) / 2)
+fun circleByDiameter(diameter: Segment): Circle =
+        Circle(
+                Point(
+                        (diameter.begin.x + diameter.end.x) / 2,
+                        (diameter.begin.y + diameter.end.y) / 2
+                ),
+                diameter.begin.distance(diameter.end) / 2
+        )
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -121,6 +128,7 @@ data class Line(val point: Point, val angle: Double) {
         val b1 = Math.tan(other.angle) * a1
         val b2 = Math.tan(angle) * a2
         val c = Math.tan(angle) - Math.tan(other.angle)
+        if (c == 0.0) throw IllegalArgumentException()
         return Point((a1 + a2) / c, (b1 + b2) / c)
     }
 }
@@ -158,7 +166,7 @@ fun bisectorByPoints(a: Point, b: Point): Line {
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     if (circles.size < 2) throw IllegalArgumentException()
     var result = Pair(circles[0], circles[1])
-    var mindist = circles[0].distance(circles[1]) + 1
+    var mindist = circles[0].distance(circles[1])
     for (i in 0..circles.size - 2) {
         for (k in i + 1..circles.size - 1) {
             val dist = circles[i].distance(circles[k])

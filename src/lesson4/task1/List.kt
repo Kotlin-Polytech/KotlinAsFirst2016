@@ -216,15 +216,13 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  */
 fun convert(n: Int, base: Int): List<Int> {
     if (n == 0) return listOf(0)
-    else {
-        var k = n
-        var sys = listOf<Int>()
-        while (k > 0) {
-            sys += k % base
-            k /= base
-        }
-        return sys.reversed()
+    var k = n
+    var sys = listOf<Int>()
+    while (k > 0) {
+        sys += k % base
+        k /= base
     }
+    return sys.reversed()
 }
 
 /**
@@ -238,7 +236,7 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val sys = convert(n, base)
     val alphabet = "abcdefghijklmnopqrstuvwxyz"
-    val numb = StringBuilder("")
+    val numb = StringBuilder()
     for (element in sys) {
         if (element < 10) numb.append(element.toString())
         else numb.append(alphabet[element - 10].toString())

@@ -146,8 +146,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    val sqroot = Math.sqrt(m.toDouble()).toInt()
-    return (sqroot * sqroot >= m && sqroot * sqroot <= n) || ((sqroot + 1) * (sqroot + 1) <= n)
+    val sqroot = Math.ceil(Math.sqrt(m.toDouble()))
+    return (sqroot * sqroot >= m && sqroot * sqroot <= n)
 }
 
 /**
@@ -174,7 +174,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun pow (a: Int, b: Int) : Int{
+fun pow (a: Int, b: Int) : Int {
     var result = 1
     for (i in 1..b) result *= a
     return result

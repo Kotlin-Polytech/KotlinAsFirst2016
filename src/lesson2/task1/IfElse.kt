@@ -37,14 +37,13 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
 fun ageDescription(age: Int): String {
 
     val ageL = age % 10
-    if (age % 100 in 10..20) return "$age лет"
-    else
-        when (ageL) {
-            0 -> return "$age лет"
-            1 -> return "$age год"
-            in 2..4 -> return "$age года"
-            else -> return "$age лет"
-        }
+    when {
+        age % 100 in 10..20 -> return "$age лет"
+        ageL == 0 -> return "$age лет"
+        ageL == 1 -> return "$age год"
+        ageL in 2..4 -> return "$age года"
+        else -> return "$age лет"
+    }
 }
 
 /**
@@ -73,10 +72,13 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
     val r1Threat = (kingX == rookX1) || (kingY == rookY1)
     val r2Threat = (kingX == rookX2) || (kingY == rookY2)
 
-    if (r1Threat && r2Threat) return 3
-    else if (r1Threat) return 1
-    else if (r2Threat) return 2
-    else return 0
+    return when {
+        r1Threat && r2Threat -> 3
+        r1Threat -> 1
+        r2Threat -> 2
+        else -> 0
+    }
+
 }
 
 /**
@@ -94,10 +96,12 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
     val rThreat: Boolean = (kingX == rookX) || (kingY == rookY)
     val bThreat: Boolean = Math.abs(bishopX - kingX) == Math.abs(bishopY - kingY)
 
-    if ((bThreat) && (rThreat)) return 3
-    else if (bThreat) return 2
-    else if (rThreat)return 1
-    else return 0
+    return when {
+        bThreat && rThreat -> 3
+        bThreat -> 2
+        rThreat -> 1
+        else -> 0
+    }
 }
 
 /**
@@ -113,26 +117,25 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val side1: Double
     val side2: Double
 
-    if (a > b && a>c) {
+    if (a > b && a > c) {
         max = a
         side1 = b
         side2 = c
-    } else {
-        if (b > c) {
-            max = b
-            side1 = a
-            side2 = c
-        } else {
+    } else if (b > c) {
+        max = b
+        side1 = a
+        side2 = c
+    }
+         else {
             max = c
             side1 = a
             side2 = b
         }
-    }
-    when {
-        side1 + side2 < max -> return -1
-        max * max < side1 * side1 + side2 * side2 -> return 0
-        max * max > side1 * side1 + side2 * side2 -> return 2
-        else -> return 1
+    return when {
+        side1 + side2 < max -> -1
+        max * max < side1 * side1 + side2 * side2 -> 0
+        max * max > side1 * side1 + side2 * side2 -> 2
+        else -> 1
     }
 }
 

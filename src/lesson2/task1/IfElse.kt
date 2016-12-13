@@ -131,6 +131,7 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val maxComa: Int = Math.max(Math.max(a, b), Math.max(c, d))
+    if ((a == b) && (d == c) && (b == d)) return -1
     return when (maxComa) {
         a -> if ((a <= d) && (a > c)) 0
              else -1

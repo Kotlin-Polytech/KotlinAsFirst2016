@@ -113,15 +113,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    if (v.size == 1) return v[0]
-    var sum : Double = 0.0
-    for (i in 0..v.size-1) {
-        sum += sqr(v[i])
-    }
-    return if (Math.sqrt(sum) > 0) Math.sqrt(sum)
-           else -Math.sqrt(sum)
-}
+fun abs(v: List<Double>): Double = TODO()
 
 /**
  * Простая
@@ -460,7 +452,7 @@ fun russian(n: Int): String {
             if ((copy % 10000) / 1000 == 2) answ += " двенадцать тысяч"
             if ((copy % 10000) / 1000 == 3) answ += " тринадцать тысяч"
             if ((copy % 10000) / 1000 == 4) answ += " четырнадцать тысяч"
-            if ((copy % 10000) / 1000 == 5) answ += " пятьнадцать тысяч"
+            if ((copy % 10000) / 1000 == 5) answ += " пятнадцать тысяч"
             if ((copy % 10000) / 1000 == 6) answ += " шестнадцать тысяч"
             if ((copy % 10000) / 1000 == 7) answ += " семнадцать тысяч"
             if ((copy % 10000) / 1000 == 8) answ += " восемнадцать тысяч"

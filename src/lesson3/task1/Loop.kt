@@ -172,21 +172,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double {
-    var plusMinus : Int = 0
-    var answ : Double = 0.0
-    var partRow : Double
-     for (duck in 1..99999 step 2) {
-         partRow = Math.pow(x, duck.toDouble())/factorial(duck)
-         plusMinus += 1
-         if (partRow * partRow > eps * eps) {
-             if (plusMinus % 2 != 0) answ += partRow
-              else answ -= partRow
-         }
-         else break
-     }
-    return answ
-}
+fun sin(x: Double, eps: Double): Double = TODO()
 
 /**
  * Простая
@@ -195,21 +181,7 @@ fun sin(x: Double, eps: Double): Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double {
-    var plusMinus : Int = 0
-    var answ : Double = 1.0
-    var partRow : Double
-    for (duck in 2..99999 step 2) {
-        partRow = Math.pow(x, duck.toDouble())/factorial(duck)
-        plusMinus += 1
-        if (partRow * partRow > eps * eps) {
-            if (plusMinus % 2 != 0) answ -= partRow
-            else answ += partRow
-        }
-        else break
-    }
-    return answ
-}
+fun cos(x: Double, eps: Double): Double = TODO()
 
 /**
  * Средняя
@@ -322,24 +294,19 @@ fun squareSequenceDigit(n: Int): Int {
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int {
-    if ((n == 1) || (n == 2)) return 1
-    var string : Int = 0
-    var answ : Int = 0
-    var copy : Int = n
-    for (i in 1..n) {
-        answ += digitNumber(string)
-        if (answ > n) break
-        string = fib(i)
-        copy -= digitNumber(fib(i))
-    }
-    answ = string
-    if (copy == 0) return string % 10
-    else {
-        for (i in 1..99999) {
-            copy += 1
-            answ /= 10
-            if (copy == 0) break
-        }
-        return answ % 10
+    var fibStr = ""
+    val abc = "123456789"
+    for ( i in 0.. n + 1) fibStr += fib(i).toString()
+    return when (fibStr[n]){
+        abc[0] -> 1
+        abc[1] -> 2
+        abc[2] -> 3
+        abc[3] -> 4
+        abc[4] -> 5
+        abc[5] -> 6
+        abc[6] -> 7
+        abc[7] -> 8
+        abc[8] -> 9
+        else -> 0
     }
 }

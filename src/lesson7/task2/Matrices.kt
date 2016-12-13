@@ -196,14 +196,17 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
     for (i in 0..matrix.height - 1)
         for (k in 0..matrix.width - 1) {
             var sum = 0
-            if (i < matrix.height - 1) sum += matrix[i + 1, k]
-            if (i > 0) sum += matrix[i - 1, k]
-            if (k < matrix.width - 1) sum += matrix[i, k + 1]
-            if (k > 0) sum += matrix[i, k - 1]
-            if (i < matrix.height - 1 && k < matrix.width - 1) sum += matrix[i + 1, k + 1]
-            if (i > 0 && k > 0) sum += matrix[i - 1, k - 1]
-            if (i < matrix.height - 1 && k > 0) sum += matrix[i + 1, k - 1]
-            if (k < matrix.width - 1 && i > 0) sum += matrix[i - 1, k + 1]
+            if (i == 0 || k == 0 || i == matrix.height - 1 || k == matrix.width - 1) {
+                if (i < matrix.height - 1) sum += matrix[i + 1, k]
+                if (i > 0) sum += matrix[i - 1, k]
+                if (k < matrix.width - 1) sum += matrix[i, k + 1]
+                if (k > 0) sum += matrix[i, k - 1]
+                if (i < matrix.height - 1 && k < matrix.width - 1) sum += matrix[i + 1, k + 1]
+                if (i > 0 && k > 0) sum += matrix[i - 1, k - 1]
+                if (i < matrix.height - 1 && k > 0) sum += matrix[i + 1, k - 1]
+                if (k < matrix.width - 1 && i > 0) sum += matrix[i - 1, k + 1]
+            } else sum = matrix[i + 1, k] + matrix[i - 1, k] + matrix[i, k + 1] + matrix[i, k - 1] +
+                    matrix[i + 1, k + 1] + matrix[i - 1, k - 1] + matrix[i + 1, k - 1] + matrix[i - 1, k + 1]
             M[i, k] = sum
         }
     return M

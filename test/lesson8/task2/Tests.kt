@@ -1,12 +1,14 @@
 package lesson8.task2
 
-import org.junit.jupiter.api.Tag
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.Assertions.*
+//import org.junit.jupiter.api.Tag
+//import org.junit.jupiter.api.Test
+//import org.junit.jupiter.api.Assertions.*
+import org.junit.Assert.*
+import org.junit.Test
 
 class Tests {
     @Test
-    @Tag("Example")
+//    @Tag("Example")
     fun parseExpr() {
         assertEquals(mapOf(1 to 7, 2 to 16, -1 to 13), parseExpr("input/expr_in1.txt", listOf(1, 2, -1)))
         assertEquals(mapOf(1 to -1, 3 to 9, 4 to 6), parseExpr("input/expr_in2.txt", listOf(1, 3, 4)))

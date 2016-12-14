@@ -39,10 +39,9 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square {
-    val result = Square(notation[0] - '`', notation[1] - '0')
-    if (notation.length == 2 && result.inside()) return result
-    else throw IllegalArgumentException()
+fun square(notation: String): Square = when {
+    notation.length != 2 && !Square(notation[0] - '`', notation[1] - '0').inside() -> throw  IllegalArgumentException()
+    else -> Square(notation[0] - '`', notation[1] - '0')
 }
 
 /**
@@ -128,7 +127,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     if (start.inside() && end.inside()) {
         return when {
             start == end -> 0
-            start.column - end.column == start.row - end.row -> 1
+            abs(start.column - end.column) == abs(start.row - end.row) -> 1
             (start.column + start.row) % 2 != (end.column + end.row) % 2 -> -1
             else -> 2
         }

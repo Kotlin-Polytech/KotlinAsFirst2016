@@ -366,7 +366,7 @@ fun russian(n: Int): String {
     val part1 = n / 1000
     if (part1 > 0) {
         result.addAll(russianMiddle(part1, hd, tn, tn1, un))
-        if (part1 % 10 == 1) result.add("тысяча")
+        if ((part1 % 10 == 1) && (part1 /10 % 10 != 1)) result.add("тысяча")
         else if (!(part1 % 100 / 10 == 1) && (part1 % 10 == 2 || part1 % 10 == 3 || part1 % 10 == 4)) result.add("тысячи")
         else result.add("тысяч")
     }

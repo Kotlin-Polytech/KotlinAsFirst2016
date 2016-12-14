@@ -201,9 +201,8 @@ fun factorize(n: Int): List<Int> {
         }
         result.add(count)
         newN /= count
-        count = 2
     }
-    return result.sorted()
+    return result
 }
 
 /**
@@ -259,14 +258,24 @@ fun convertToString(n: Int, base: Int): String {
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int {
-    var result = 0
-    for (i in 0..(digits.size - 1)) {
-        result += digits[i] * (Math.pow(base.toDouble(), (digits.size - 1 - i).toDouble())).toInt()
+
+fun powInt (x: Int, y: Int): Int {
+    var count = y
+    var result = 1
+    while (count > 0) {
+        result *= x
+        count--
     }
     return result
 }
 
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0
+    for (i in 0..(digits.size - 1)) {
+        result += digits[i] * powInt(base, digits.size - 1 - i)
+    }
+    return result
+}
 /**
  * Сложная
  *

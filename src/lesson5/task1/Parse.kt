@@ -159,7 +159,7 @@ fun flattenPhoneNumber(phone: String): String {
     }
     val parts = phone.split(" ")
     var strAnsw = ""
-    if (phone[0] == iNeedIt[10]) strAnsw += "+"
+    if ((phone[0] == iNeedIt[10]) && (phone.length == 1)) strAnsw += "+"
     for (part in parts) {
        for (i in 0..part.length - 1) {
            if ((part[i] != iNeedIt[11]) && (part[i] != iNeedIt[12]) && (part[i] != iNeedIt[13]) && (part[i] != iNeedIt[14])) strAnsw += part[i]
@@ -350,9 +350,9 @@ fun fromRoman(roman: String): Int {
             abc[5] -> if (i == 0) answ += 500
                       else if (roman[i-1] == abc[4]) answ += 400
                            else answ += 500
-            abc[4] -> if (i == 0){ if (roman[i+1] != abc[6]) answ += 100}
+            abc[4] -> if (i == 0){ if ((roman[i+1] != abc[5]) && (roman[i+1] != abc[6])) answ += 100}
                       else if (i == roman.length - 1) { if (roman[i - 1] != abc[2]) answ += 100 else answ += 90 }
-                           else if ((roman[i + 1] != abc[6]) && (roman[i-1] != abc[2])) answ += 100
+                           else if ((roman[i + 1] != abc[5]) && (roman[i-1] != abc[2]) && (roman[i+1] != abc[6])) answ += 100
                                 else if (roman[i - 1] == abc[2]) answ += 90
             abc[3] -> if (i == 0) answ += 50
                       else if (roman[i-1] == abc[2]) answ += 40
@@ -401,64 +401,4 @@ fun fromRoman(roman: String): Int {
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> {
-    val abc = "><+-[]{} "
-    val zero = listOf(0)
-    var forError : Int
-    val answ = mutableListOf<Int>()
-    for (i in 1..cells)
-        answ.add(0)
-    for (i in 0..commands.length - 1) {
-        forError = 0
-        for (j in 0..abc.length - 1)
-            if (commands[i] == abc[j]) forError += 1
-        if (forError == 0) throw IllegalArgumentException()
-    }
-    var place: Int
-    if (cells == 2) place = 0
-    if (cells % 2 == 0) place = cells / 2 + 1
-    else place = (cells - 1) / 2
-    for (i in 0..commands.length - 1) {
-        when (commands[i]) {
-            abc[2] -> answ[place - 1] += 1
-            abc[3] -> answ[place - 1] -= 1
-            abc[0] -> place += 1
-            abc[1] -> place -= 1
-            abc[4] -> for (g in 0..999999) {
-                when (answ[place - 1]) {
-                    zero[0] -> place += 1
-                    else -> {
-                        for (k in g + 1..999999) {
-                            if (commands[k] == abc[5]) break
-                            else when (commands[k]) {
-                                abc[2] -> answ[place - 1] += 1
-                                abc[3] -> answ[place - 1] -= 1
-                                abc[0] -> place += 1
-                                abc[1] -> place -= 1
-                            }
-                            if ((place < 0) || (place > commands.length - 1)) throw IllegalStateException()
-                        }
-                    }
-                }
-            }
-            abc[6] -> for (g in 0..999999) {
-                when (answ[place - 1]) {
-                    zero[0] -> {
-                        for (k in g + 1..999999) {
-                            if (commands[k] == abc[7]) break
-                            else when (commands[k]) {
-                                abc[2] -> answ[place - 1] += 1
-                                abc[3] -> answ[place - 1] -= 1
-                                abc[0] -> place += 1
-                                abc[1] -> place -= 1
-                            }
-                            if ((place < 0) || (place > commands.length - 1)) throw IllegalStateException()
-                        }
-                    }
-                }
-            }
-        }
-        if ((place < 0) || (place > commands.length - 1)) throw IllegalStateException()
-    }
-    return answ
-}
+fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()

@@ -135,16 +135,16 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
     val maxComa: Int = Math.max(Math.max(a, b), Math.max(c, d))
     if ((a == b) && (d == c) && (b == d)) return -1
     when (maxComa) {
-        a -> if ((a <= d) && (a > c)) answ = 0
-             else bred +=1
-        c -> if ((c <= b) && (c > a)) answ = 0
-             else bred += 1
+        a -> if ((a == d) && (a > c)) answ = 0
+             else answ = - 1
+        c -> if ((c == b) && (c > a)) answ = 0
+             else answ = - 1
         b -> if ((a <= d) && (c < a)) answ = d - a
              else if (c > a) answ = d - c
-                  else bred += 1
+                  else answ = - 1
         d -> if ((c <= b) && (a < c)) answ = b - c
              else if (a > c) answ = b - a
-                  else bred += 1
+                  else answ = -1
         else -> if (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b) || (a == d)) answ = 0
                 else answ = -1
     }

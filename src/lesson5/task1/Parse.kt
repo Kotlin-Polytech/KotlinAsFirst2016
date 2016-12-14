@@ -113,6 +113,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
+    if (phone.length == 0) return ""
     var result = ""
     for (i in phone) {
         if ((i.toInt() < 58) && (i.toInt() > 47) || (i.toInt() == 43)) result += i
@@ -222,7 +223,7 @@ fun mostExpensive(description: String): String {
         val parts = description.split("; ")
         for (part in parts) {
             val partt = part.split(" ")
-            if (partt[1].toDouble() > maxvalue) {
+            if (partt[1].toDouble() >= maxvalue) {
                 maxvalue = partt[1].toDouble()
                 maxproduct = partt[0]
             }
@@ -244,24 +245,9 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO() /* {
-
-    var result = 0
-    val amount = 0
-    try{
-        for (i in 0..roman.length - 1)
-            if(roman[i] == 'M' && roman[i + 1] !=) amount++
-        result += amount * 1000
+fun fromRoman(roman: String): Int = TODO()
 
 
-
-
-
-    }
-}
-*/
-
-////
 /**
  * Сложная
  *

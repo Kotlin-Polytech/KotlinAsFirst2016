@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
-
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+val number = "0123456789"
 /**
  * Пример
  *
@@ -65,7 +66,6 @@ fun dateStrToDigit(str: String): String {
     if (parts.size == 3) {
         try {
             val day = parts[0].toInt()
-            val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
             val year = parts[2].toInt()
             if ((parts[1] in months) && (day in 1..31)) {
                 val month = months.indexOf(parts[1]) + 1
@@ -86,7 +86,6 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size == 3) {
         try {
             val day = parts[0].toInt()
@@ -116,10 +115,11 @@ fun flattenPhoneNumber(phone: String): String {
     if (phone.length == 0) return ""
     var result = ""
     for (i in phone) {
-        if ((i.toInt() < 58) && (i.toInt() > 47) || (i.toInt() == 43)) result += i
+        if ((i in number) || (i == '+')) result += i
         else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
     }
-    if (result.first() == '+' && result.length == 1) return ""
+    if (result.isEmpty()) return ""
+    else if (result.first() == '+' && result.length == 1) return ""
     else return result
 }
 
@@ -134,7 +134,34 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
 */
 
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.length ==0 ) return -1
+    var succes = ""
+    var result = 0
+    try {
+        for (i in 0..jumps.length - 2) {
+            if (jumps[i] in number) {
+                if (jumps[i + 1] in number) succes += jumps[i]
+                else succes += jumps[i] + " "
+            } else if (jumps[i] != ' ' && jumps[i] != '-' && jumps[i] != '%' ) return -1
+        }
+        if (jumps.last() in number) succes += jumps.last()
+        val parts = succes.split(" ")
+        for (part in parts) {
+            if (part.toInt() > result) {
+                result = part.toInt()
+            }
+
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return result
+}
+
+
+
+
 
 /**
  * Сложная

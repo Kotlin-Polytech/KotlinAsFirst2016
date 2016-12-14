@@ -104,12 +104,12 @@ fun minDivisor(n: Int): Int {
     if (n % 2 == 0) return 2
     else {
         var mindel = 3
-        while (mindel < n/3 ) {
+        while (mindel <= Math.sqrt(n.toDouble()) ) {
             if (n % mindel == 0) return mindel
             else mindel += 2
         }
-        if (mindel >= n/3) return n
-        else return mindel
+        if (mindel > Math.sqrt(n.toDouble())) return n
+        return mindel
     }
 }
 
@@ -118,7 +118,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая

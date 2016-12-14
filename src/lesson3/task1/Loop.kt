@@ -174,8 +174,11 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  */
 fun sin(x: Double, eps: Double): Double {
     var angle = x
-    while (angle > 2 * Math.PI) {
+    while (angle >= 2 * Math.PI) {
         angle -= 2 * Math.PI
+    }
+    while (angle <= -2 * Math.PI) {
+        angle += 2 * Math.PI
     }
     var result = angle
     var num = angle
@@ -198,8 +201,11 @@ fun sin(x: Double, eps: Double): Double {
  */
 fun cos(x: Double, eps: Double): Double {
     var angle = x
-    while (angle > 2 * Math.PI) {
+    while (angle >= 2 * Math.PI) {
         angle -= 2 * Math.PI
+    }
+    while (angle <= -2 * Math.PI) {
+        angle += 2 * Math.PI
     }
     var result = 1.0
     var num = 1.0

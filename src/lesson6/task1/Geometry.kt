@@ -16,7 +16,7 @@ data class Point(val x: Double, val y: Double) {
     fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
 }
 
-/**
+/**.
  * Треугольник, заданный тремя точками
  */
 data class Triangle(val a: Point, val b: Point, val c: Point) {
@@ -130,7 +130,11 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineAngle(s: Segment): Double = Math.abs(Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x)))
+fun lineAngle(s: Segment): Double {
+    var newAngle = Math.abs(Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x)))
+    if (s.begin.x == s.end.x) newAngle = Math.PI / 2
+    return newAngle
+}
 
 fun lineBySegment(s: Segment): Line {
     val line = Line(s.begin, lineAngle(s))
@@ -186,4 +190,6 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * соединяющий две самые удалённые точки в данном множестве.
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
+
+
 

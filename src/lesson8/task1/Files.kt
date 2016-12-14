@@ -293,7 +293,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     val lines = File(inputName).readLines()
     val text = markdownToHtmlSimpleConstructor(lines)
     val outputStream = File(outputName).bufferedWriter()
-    outputStream.write("<html><body><p>$text\n</p></body></html>")
+    outputStream.write("<html><body><p>$text</p></body></html>")
     outputStream.close()
 }
 

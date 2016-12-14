@@ -96,10 +96,9 @@ class Tests {
         assertEquals(874, numberRevert(478))
         assertEquals(201, numberRevert(102))
     }
-    @Test
-    fun myFun() {
-        assertEquals(listOf("#F1C011 -> Саша"), myFun(listOf("Саша #C0F112", "Катя #C0F112", "Саша #F1C011")))
-        assertEquals(listOf("#F1C011 -> Саша", "#55A111 -> Настя"), myFun(listOf("Саша #C0F112", "Катя #C0F112", "Саша #F1C011", "Настя #55A111")))
-        //assertEquals(listOf(), myFun(listOf("Саша #C0F112", "Катя #C0FP12", "Саша #F1C011")))
-    }
+   //  @Test
+   // fun myFun() {
+   //     assertEquals(listOf("#F1C011 -> Саша"), myFun(listOf("Саша #C0F112", "Катя #C0F112", "Саша #F1C011")))
+   //     assertEquals(listOf("#F1C011 -> Саша", "#55A111 -> Настя"), myFun(listOf("Саша #C0F112", "Катя #C0F112", "Саша #F1C011", "Настя #55A111")))
+   // }
 }

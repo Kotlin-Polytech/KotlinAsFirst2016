@@ -116,7 +116,7 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = (initial * pow(1 +
  */
 fun numberRevert(number: Int): Int = (number % 10) * 100 + (number / 10 % 10) * 10 + number / 100
 
-fun myFun(people: List<String>): MutableList<String> {
+fun myFn(people: List<String>): List<String> {
     val result = mutableListOf<String>()
     var colors = listOf<String>()
     for (i in 0..people.size - 1) {

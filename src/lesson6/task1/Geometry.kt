@@ -128,7 +128,7 @@ data class Line(val point: Point, val angle: Double) {
                     (Math.tan(angle) - Math.tan(other.angle))
         }
         val y = when {
-            (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) ->
+            (Math.abs(Math.cos(angle)) - Math.cos(Math.PI / 2) < 1e-10) ->
                 (x - other.point.x) * Math.tan(other.angle) + other.point.y
             else -> (x - point.x) * Math.tan(angle) + point.y
         }
@@ -143,7 +143,7 @@ data class Line(val point: Point, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
    return if (s.begin.x == s.end.x) Line(s.begin, Math.PI / 2)
-       else Line(s.begin, Math.atan(Math.abs((s.end.y - s.begin.y) / (s.end.x - s.begin.x))))
+       else Line(s.begin, Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
 }
 
 /**
@@ -207,4 +207,6 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * соединяющий две самые удалённые точки в данном множестве.
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
+
+
 

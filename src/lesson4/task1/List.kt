@@ -231,7 +231,7 @@ fun factorizeToString(n: Int): String =
 fun convert(n: Int, base: Int): List<Int> {
     val l = mutableListOf<Int>()
     var q = n
-    if (n < base) {
+    if (n == 0) {
         l.add(n)
     } else {
         while (q > 0) {
@@ -241,7 +241,6 @@ fun convert(n: Int, base: Int): List<Int> {
         }
     }
     return l.reversed()
-
 }
 
 /**
@@ -262,7 +261,7 @@ fun convertToString(n: Int, base: Int): String {
             } else result.append(el.toString())
         }
     }
-    return "$result"
+    return result.toString()
 }
 
 
@@ -356,8 +355,13 @@ fun russian(n: Int): String = TODO()/*{
         } else if (k == 3) {
             s.append(thousands[cur - 1])
         } else if (k == 4) {
+            when (cur) {
+                1 -> s.append("тысяча")
 
+            }
+            num /= 10
         }
-        num /= 10
+
     }
+    return s.toString()
 }*/

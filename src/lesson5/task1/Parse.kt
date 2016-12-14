@@ -89,7 +89,7 @@ fun dateDigitToStr(digital: String): String {
         val d1 = parts[0].toInt()
         var m1 = ""
         if (parts[1].toInt() in 1..12) m1 = m[parts[1].toInt() - 1]
-        else throw NumberFormatException()
+        else return ""
         val y1 = parts[2].toInt()
         return String.format("%d %s %d", d1, m1, y1)
     } catch(e: NumberFormatException) {

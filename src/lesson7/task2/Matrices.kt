@@ -2,6 +2,7 @@
 package lesson7.task2
 
 import lesson7.task1.Matrix
+import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -75,7 +76,16 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()/*{
+    var result = createMatrix(height, width, 0)
+    var k=1
+
+    var a = height*width
+   while (a!=0){
+       for (j in 0..height-1){
+       for (i in 0..width-1){
+       if(i<k||j<k) result[i,j]=k
+}}*/
 
 /**
  * Сложная

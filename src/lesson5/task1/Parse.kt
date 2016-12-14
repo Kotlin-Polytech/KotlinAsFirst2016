@@ -219,31 +219,3 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
-
-/*
-*Купюрами следует выплатить денежную сумму
- */
-fun change(sum: Double, coins: String): List<String> {
-    if (coins.all { it in "0123456789., " }) {
-        try {
-            var sum1 = sum
-            val coinsList = coins.split(", ").map(String::toDouble)
-            val result = mutableListOf<String>()
-            for (element in coinsList) {
-                if (sum1 > element) {
-                    val count = floor(sum1 / element).toInt()
-                    if (element % 1 == 0.0) {
-                        result.add("$count x ${element.toInt()}")
-                    }
-                    else{
-                        result.add(String.format("$count x %1.2lf",element))
-                    }
-                    sum1 -= count * element
-                }
-            }
-            return result
-        } catch (e: NumberFormatException) {
-            throw IllegalArgumentException()
-        }
-    } else throw IllegalArgumentException()
-}

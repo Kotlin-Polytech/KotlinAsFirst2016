@@ -43,7 +43,7 @@ interface Matrix<E> {
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
     if (height <= 0 || width <= 0) throw IllegalArgumentException()
-    var matrix = MatrixImpl<E>(height, width)
+    val matrix = MatrixImpl<E>(height, width)
     for (i in 0..height - 1) {
         for (j in 0..width - 1) {
             matrix[i, j] = e
@@ -68,9 +68,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
         map[Cell(row, column)] = value
     }
 
-    override fun set(cell: Cell, value: E) {
-        set(cell.row, cell.column, value)
-    }
+    override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && map == other.map
 
@@ -87,6 +85,13 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
         }
         sb.append("]")
         return sb.toString()
+    }
+
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + map.hashCode()
+        return result
     }
 }
 

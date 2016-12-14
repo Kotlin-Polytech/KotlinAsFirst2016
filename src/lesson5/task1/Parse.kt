@@ -2,8 +2,7 @@
 
 package lesson5.task1
 
-import java.lang.Math.PI
-import java.lang.Math.atan
+import java.lang.Math.*
 
 /**
  * Пример
@@ -93,7 +92,7 @@ fun dateDigitToStr(digital: String): String {
         val month = parts[1].toInt()
         val year = parts[2].toInt()
         if (month !in 1..12 || day !in 1..31) return ""
-        return "$day ${monthStr[month - 1]} ${year}"
+        return "$day ${monthStr[month - 1]} $year"
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -228,15 +227,18 @@ fun change(sum: Double, coins: String): List<String> {
     if (coins.all { it in "0123456789., " }) {
         try {
             var sum1 = sum
-            val coinsList = coins.split(", ")
+            val coinsList = coins.split(", ").map(String::toDouble)
             val result = mutableListOf<String>()
-            for (count in 0..coinsList.size - 1) {
-                val element = coinsList[count].toDouble()
+            for (element in coinsList) {
                 if (sum1 > element) {
-                    val number = (sum1 / element).toInt()
-                    if (element % 1 == 0.0) result.add("$number x ${element.toInt()}")
-                    else result.add("$number x ${coinsList[count]}")
-                    sum1 -= number * element
+                    val count = floor(sum1 / element).toInt()
+                    if (element % 1 == 0.0) {
+                        result.add("$count x ${element.toInt()}")
+                    }
+                    else{
+                        result.add(String.format("$count x %1.2lf",element))
+                    }
+                    sum1 -= count * element
                 }
             }
             return result

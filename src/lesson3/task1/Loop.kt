@@ -77,14 +77,12 @@ fun digitNumber(n: Int): Int {
  */
 fun fib(n: Int): Int {
     var num1 = 1
-    var num2 = 1
-    for (i in 3..n) {
-        var counter = 0
-        counter = num2
-        num2 += num1
-        num1 = counter
+    var num2 = 0 // Зачем val?
+    for (i in 2..n) {
+        num1 += num2
+        num2 = num1 - num2
     }
-    return num2
+    return num1
 }
 
 
@@ -102,7 +100,7 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for(i in 2..n) {
+    for(i in 2..n / 2) {
         if (n % i == 0)
             return i
     }

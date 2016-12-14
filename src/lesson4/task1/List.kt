@@ -268,10 +268,10 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
-    var numbers = digits.reversed()
-    for (i in 0..digits.size - 1) {
-        val ss = (numbers[i] * Math.pow(base.toDouble(), i.toDouble())).toInt()
-        result = result + ss
+    var mn = 1
+    for (i in digits.size - 1 downTo 0) {
+        result += digits[i] * mn
+        mn *= base
     }
     return result
 }
@@ -340,7 +340,7 @@ fun lessThousand(hundr: Int, ten: Int, unit: Int, unitsOrThousands: Int): String
     var result = ""
     if ((result.length != 0) && (unitsOrThousands == 1)) result += " "
     if (hundr != 0) result += HUNDREDS_LIST[hundr]
-    if ((result.length != 0) && (ten> 0 || unit > 0)) result += " "
+    if ((result.length != 0) && (ten > 0 || unit > 0)) result += " "
     if (ten == 1) result += TEEN_LIST [unit]
     if (ten > 1) result += TENS_LIST[ten - 1]
     if (result.length != 0 && unit >= 1 && ten > 1) result += " "

@@ -257,7 +257,6 @@ fun squareSequenceDigit(n: Int): Int {
 
 
 fun fibSequenceDigit(n: Int): Int {
-    n.toString().length
     var i = 0
     var number = 0
     var result = 0

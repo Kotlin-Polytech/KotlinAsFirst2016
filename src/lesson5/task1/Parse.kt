@@ -184,21 +184,23 @@ fun bestLongJump(jumps: String): Int {
 fun bestHighJump(jumps: String): Int {
     if (jumps.isEmpty()) return -1
     var maxhight = -1
-    try{
+    try {
         var jumps = jumps.split(" ")
         if (jumps.size % 2 == 1)
-        return -1
-    for (i in 0..jumps.size - 1 step 2) {
-        val string = jumps[i + 1].filter { it != '%' }
-        if (string.length > 2)
             return -1
-        if ((jumps[i].toInt() > maxhight) && string == "+")
-            maxhight = jumps[i].toInt()
+        for (i in 0..jumps.size - 1 step 2) {
+            val string = jumps[i + 1].filter { it != '%' }
+            if (string.length > 2)
+                return -1
+            if ((jumps[i].toInt() > maxhight) && string == "+")
+                maxhight = jumps[i].toInt()
+        }
+        return maxhight
+    } catch (e: NumberFormatException) {
+        return -1
     }
-    return maxhight
 }
-catch (e: NumberFormatException) {return -1}
-}
+
 /**
  * Сложная
  *

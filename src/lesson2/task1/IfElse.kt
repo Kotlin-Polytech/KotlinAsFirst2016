@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -37,14 +38,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String =
-    when {
-        ((age in 1..10) || (age in 101..110)) && ((age % 10) == 1) -> "$age год"
-        ((age in 2..10) || (age in 102..111)) && ((age % 10) in 2..4) -> "$age года"
-        ((age in 11..20) || (age in 110..120))  -> "$age лет"
-        ((age in 21..100) || (age in 120..200)) && ((age % 10) in 2..4) -> "$age года"
-        ((age in 21..200) || (age in 120..200)) && ((age % 10) == 1) -> "$age год"
-        else -> "$age лет"
-    }
+        when {
+            ((age in 1..10) || (age in 101..110)) && ((age % 10) == 1) -> "$age год"
+            ((age in 2..10) || (age in 102..111)) && ((age % 10) in 2..4) -> "$age года"
+            ((age in 11..20) || (age in 110..120)) -> "$age лет"
+            ((age in 21..100) || (age in 120..200)) && ((age % 10) in 2..4) -> "$age года"
+            ((age in 21..200) || (age in 120..200)) && ((age % 10) == 1) -> "$age год"
+            else -> "$age лет"
+        }
 
 /**
  * Простая
@@ -68,7 +69,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
 
     }
 }
-    /**
+
+/**
  * Простая
  *
  * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
@@ -79,19 +81,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var rook1: Int = -2
-        var rook2: Int = -2
-        var indicator : Int = -2
-        if ((rookX1 == kingX) || (rookY1 == kingY)) rook1 = 1
-        if ((rookX2 == kingX) || (rookY2 == kingY)) rook2 = 1
-        when {
-            ((rook1 == -2) && (rook2 == -2)) -> indicator = 0
-            ((rook1 == 1) && (rook2 == 1)) -> indicator = 3
-            (rook1 == 1) -> indicator = 1
-            (rook2 == 1) -> indicator = 2
-        }
-        return indicator
-    }
+    var rook = false
+    var rook2 = false
+    if ((rookX1 == kingX) or (rookY1 == kingY)) rook = true
+    if ((rookX2 == kingX) or (rookY2 == kingY)) rook2 = true
+    if ((rook == false) && (rook2 == false)) return 0
+    else if ((rook == true) && (rook2 == true)) return 3
+    else if (rook2 == true) return 2
+    else return 1
+}
 
 
 /**
@@ -111,7 +109,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
         (kingX == rookX) && (Math.abs(kingX - bishopX) != Math.abs(kingY - bishopY)) -> 1
         (kingY == rookY) && (Math.abs(kingX - bishopX) != Math.abs(kingY - bishopY)) -> 1
         (kingX != rookX) && (kingY != rookY) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) -> 2
-        (kingX == rookX) &&  (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) -> 3
+        (kingX == rookX) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) -> 3
         (kingY == rookY) && (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)) -> 3
         else -> -1
     }
@@ -128,14 +126,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     return when {
         ((a >= b) && (b >= c) || (a >= c) && (c >= b)) && (sqr(a) == sqr(b) + sqr(c)) -> 1
-        ((b >= a) && (a >= c) || (b >=c) && (c >= a)) && (sqr(b) == sqr(a) + sqr(c)) -> 1
+        ((b >= a) && (a >= c) || (b >= c) && (c >= a)) && (sqr(b) == sqr(a) + sqr(c)) -> 1
         ((c >= b) && (b >= a) || (c >= a) && (a >= b)) && (sqr(c) == sqr(a) + sqr(b)) -> 1
-        ((a >= b) && (b >= c) || (a >= c) && (c >= b)) && (sqr(a) < sqr(b) + sqr(c))  -> 0
+        ((a >= b) && (b >= c) || (a >= c) && (c >= b)) && (sqr(a) < sqr(b) + sqr(c)) -> 0
         ((b >= a) && (a >= c) || (b >= c) && (c >= a)) && (sqr(b) < sqr(a) + sqr(c)) -> 0
         ((c >= b) && (b >= a) || (c >= a) && (a >= b)) && (sqr(c) < sqr(a) + sqr(b)) -> 0
         ((a >= b) && (b >= c) || (a >= c) && (c >= b)) && (sqr(a) > sqr(b) + sqr(c)) && (a < b + c) -> 2
-        ((b >= a) && (a >= c) || (b >= c) && (c >= a)) && (sqr(b) > sqr(a) + sqr(c)) && (b < a + c)  -> 2
-        ((c >= b) && (b >= a) || (c >= a) && (a >= b)) && (sqr(c) > sqr(a) + sqr(b)) && (c < b + a)-> 2
+        ((b >= a) && (a >= c) || (b >= c) && (c >= a)) && (sqr(b) > sqr(a) + sqr(c)) && (b < a + c) -> 2
+        ((c >= b) && (b >= a) || (c >= a) && (a >= b)) && (sqr(c) > sqr(a) + sqr(b)) && (c < b + a) -> 2
         else -> -1
     }
 }

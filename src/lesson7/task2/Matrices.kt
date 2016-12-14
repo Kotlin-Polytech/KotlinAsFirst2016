@@ -62,47 +62,42 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  */
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val matrix = createMatrix<Int>(height, width, 1)
-    var squareMatrix = height * width
-    var i = 0
-    var j = 0
-    var count = 0
-    var maxHeight = height - 1
-    var minHeight = 0
-    var maxWidth = width - 1
-    var minWidth = 0
-    while (squareMatrix > 0) {
-        while (i != maxWidth) { //Right
+    var rightWall = width // стены матрицы, котороые будут сдвигаться к центру
+    var downWall = height
+    var leftWall = 0
+    var topWall = 0
+    var count = 1 // заполнитель
+    var j = 0 // ряд
+    var i = 0 // колонка
+    while (count !=  width * height) { // заполням кольцом
+        if (rightWall - leftWall <= 0) return matrix
+        for (k in leftWall..rightWall - 1) {
+            i = k
+            matrix[j, i] = count
             count++
-            matrix[i, j] = count
-            squareMatrix--
-            i++
         }
-        minHeight++
-        while ((j != maxHeight) && (squareMatrix > 0)) { //Down
+        topWall++
+        if (downWall - topWall <= 0) return matrix
+        for (k in topWall..downWall - 1){
+            j = k
+            matrix[j, i] = count
             count++
-            matrix[i, j] = count
-            squareMatrix--
-            j++
-
         }
-        maxWidth--
-        while ((i != minWidth) && (squareMatrix > 0)) { //Left
+        rightWall--
+        if (rightWall - leftWall <= 0) return matrix
+        for (k in rightWall - 1 downTo leftWall){
+            i = k
+            matrix[j, i] = count
             count++
-            matrix[i, j] = count
-            squareMatrix--
-            i--
-
         }
-        maxHeight--
-        while ((j != minHeight) && (squareMatrix > 0)) { //Top
+        downWall--
+        if (downWall - topWall <= 0) return matrix
+        for (k in downWall - 1 downTo topWall){
+            j = k
+            matrix[j, i] = count
             count++
-            matrix[i, j] = count
-            squareMatrix--
-            j--
-
         }
-        minWidth++
-
+        leftWall++
     }
     return matrix
 }
@@ -121,16 +116,49 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
-//{
-//    val extendedMatrix = createMatrix<Int>(height + 2, width + 2, 0)
-//    val matrix = createMatrix<Int>(height, width, 1)
-//    for (i in 1..extendedMatrix.width - 2){
-//        for (j in 1..extendedMatrix.width - 2){
-//
-//        }
-//    }
-//}
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix<Int>(height, width, 1)
+    var rightWall = width
+    var downWall = height
+    var leftWall = 0
+    var topWall = 0
+    var count = 1
+    var ringOfMatrix = 1 // индекс кольца матрицы
+    var j = 0
+    var i = 0
+    while (count !=  width * height) {
+        if (rightWall - leftWall <= 0) return matrix
+        for (k in leftWall..rightWall - 1) {
+            i = k
+            matrix[j, i] = ringOfMatrix
+            count++
+        }
+        topWall++
+        if (downWall - topWall <= 0) return matrix
+        for (k in topWall..downWall - 1){
+            j = k
+            matrix[j, i] = ringOfMatrix
+            count++
+        }
+        rightWall--
+        if (rightWall - leftWall <= 0) return matrix
+        for (k in rightWall - 1 downTo leftWall){
+            i = k
+            matrix[j, i] = ringOfMatrix
+            count++
+        }
+        downWall--
+        if (downWall - topWall <= 0) return matrix
+        for (k in downWall - 1 downTo topWall){
+            j = k
+            matrix[j, i] = ringOfMatrix
+            count++
+        }
+        leftWall++
+        ringOfMatrix++
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -184,19 +212,19 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     if (matrix.height != matrix.width) throw
     IllegalArgumentException("IllegalArgumentException")
     for (i in 0..matrix.width - 1) {
+        val latinSet = mutableSetOf<Int>()
         for (j in 0..matrix.height - 1) {
-            val latinSet = mutableSetOf<Int>()
-            if (matrix[i, j] !in latinSet && matrix[i, j] in 1..matrix.height) {
-                latinSet.add(matrix[i, j])
-            } else false
+            if (matrix[j, i] !in latinSet && matrix[j, i] in 1..matrix.height) {
+                latinSet.add(matrix[j, i])
+            } else return false
         }
     }
-    for (i in 0..matrix.height - 1) {
-        for (j in 0..matrix.width - 1) {
-            val whiteSet = mutableSetOf<Int>()
-            if (matrix[i, j] !in whiteSet && matrix[i, j] in 1..matrix.height) {
-                whiteSet.add(matrix[i, j])
-            } else false
+    for (j in 0..matrix.height - 1) {
+        val latinSet = mutableSetOf<Int>()
+        for (i in 0..matrix.width - 1) {
+            if (matrix[j, i] !in latinSet && matrix[j, i] in 1..matrix.height) {
+                latinSet.add(matrix[j, i])
+            } else return false
         }
     }
     return true
@@ -222,26 +250,26 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  */
 fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
     val extendedMatrix = createMatrix<Int>(matrix.height + 2, matrix.width + 2, 0)
-    val resMatrix = matrix
-    for (i in 0..matrix.width - 2) {
-        for (j in 0..matrix.height - 2) {
-            extendedMatrix[i + 1, j + 1] = matrix[i, j]
+    val NeighboursMatrix = matrix // создание расширенной и преобразованной матриц
+    for (i in 0..matrix.width - 1) {
+        for (j in 0..matrix.height - 1) {
+            extendedMatrix[j + 1, i + 1] = matrix[j, i]
         }
     }
-    for (i in 0..resMatrix.width - 1) {
-        for (j in 0..resMatrix.height - 1) {
-            resMatrix[i, j] =
-                    extendedMatrix[i - 1, j + 1] +
-                            extendedMatrix[i, j + 1] +
-                            extendedMatrix[i + 1, j + 1] +
-                            extendedMatrix[i - 1, j] +
-                            extendedMatrix[i + 1, j] +
-                            extendedMatrix[i - 1, j - 1] +
-                            extendedMatrix[i, j - 1] +
-                            extendedMatrix[i + 1, j - 1]
+    for (i in 0..NeighboursMatrix.width - 1) {
+        for (j in 0..NeighboursMatrix.height - 1) {
+            NeighboursMatrix[j, i] =     // переброс ячеек
+                            extendedMatrix[j + 2, i] +
+                            extendedMatrix[j + 2, i + 1] +
+                            extendedMatrix[j + 2, i + 2] +
+                            extendedMatrix[j + 1, i] +
+                            extendedMatrix[j + 1, i + 2] +
+                            extendedMatrix[j, i] +
+                            extendedMatrix[j, i + 1] +
+                            extendedMatrix[j, i + 2]
         }
     }
-    return resMatrix
+    return NeighboursMatrix
 }
 
 
@@ -261,6 +289,7 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
  * 0 0 0 0
  */
 fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+
 
 /**
  * Класс для описания местонахождения "дырок" в матрице

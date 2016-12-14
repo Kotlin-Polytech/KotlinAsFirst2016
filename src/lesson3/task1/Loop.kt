@@ -59,12 +59,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    var c=0
-    var nn=Math.abs(n)
-    do{
-        nn/=10
+    var c = 0
+    var nn = Math.abs(n)
+    do {
+        nn /= 10
         c++
-    } while(nn>0)
+    } while (nn > 0)
     return c
 }
 
@@ -85,34 +85,35 @@ fun fib(n: Int): Int {
     }
     return b
 }
+
 /**
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun nod(mm: Int, nn: Int): Int{
+fun nod(mm: Int, nn: Int): Int {
     var m = mm
     var n = nn
-    while (m!=0 && n!=0) {
+    while (m != 0 && n != 0) {
         if (m > n)
             m %= n
         else
             n %= m
     }
-    return (m+n)
+    return (m + n)
 }
 
-fun lcm(m: Int, n: Int): Int = m/nod(m,n)*n
+fun lcm(m: Int, n: Int): Int = m / nod(m, n) * n
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int{
-    for(d in 2..Math.sqrt(n.toDouble()).toInt()){
-        if(n % d == 0)
+fun minDivisor(n: Int): Int {
+    for (d in 2..Math.sqrt(n.toDouble()).toInt() + 1) {
+        if (n % d == 0)
             return d
     }
     return n
@@ -123,9 +124,9 @@ fun minDivisor(n: Int): Int{
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int{
-    for(i in n/2 downTo Math.sqrt(n.toDouble()).toInt()){
-        if(n % i ==0)
+fun maxDivisor(n: Int): Int {
+    for (i in n / 2 downTo Math.sqrt(n.toDouble()).toInt() - 1) {
+        if (n % i == 0)
             return i
     }
     return 1
@@ -138,7 +139,7 @@ fun maxDivisor(n: Int): Int{
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = nod(m,n)==1
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m, n) == 1
 
 /**
  * Простая
@@ -147,9 +148,9 @@ fun isCoPrime(m: Int, n: Int): Boolean = nod(m,n)==1
  * то есть, существует ли такое целое k, что m <= k*k <= n.
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
-fun squareBetweenExists(m: Int, n: Int): Boolean{
-    var k=Math.sqrt(m.toDouble()).toInt()
-    while (k*k <= n) {
+fun squareBetweenExists(m: Int, n: Int): Boolean {
+    var k = Math.sqrt(m.toDouble()).toInt()
+    while (k * k <= n) {
         if (k * k <= n && k * k >= m)
             return true
         k++
@@ -167,14 +168,14 @@ fun squareBetweenExists(m: Int, n: Int): Boolean{
 fun sin(x: Double, eps: Double): Double {
     var it: Double
     var sin_x: Double
-    var i=3.0
-    val xx= x % (2*Math.PI)
+    var i = 3.0
+    val xx = x % (2 * Math.PI)
     sin_x = xx
     it = xx
-    while (Math.abs(it)>eps) {
+    while (Math.abs(it) > eps) {
         it = it * xx * xx / i / (i - 1) * (-1)
-        i+=2
-        sin_x+=it
+        i += 2
+        sin_x += it
     }
     return sin_x
 }
@@ -192,7 +193,7 @@ fun cos(x: Double, eps: Double): Double {
     var i = 2.0
     cos_x = 1.0
     it = 1.0
-    val xx = x % (2 *Math.PI)
+    val xx = x % (2 * Math.PI)
     while (Math.abs(it) > eps) {
         it = it * xx * xx / i / (i - 1) * (-1)
         i += 2
@@ -208,12 +209,12 @@ fun cos(x: Double, eps: Double): Double {
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int{
+fun revert(n: Int): Int {
     var nn = n
     var r = 0
-    while (nn>0){
+    while (nn > 0) {
         r = r * 10 + nn % 10
-        nn/=10
+        nn /= 10
     }
     return r
 }
@@ -225,17 +226,17 @@ fun revert(n: Int): Int{
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean{
-    if (n<10)
+fun isPalindrome(n: Int): Boolean {
+    if (n < 10)
         return true
     val a = mutableListOf<Int>()
     var nn = n
-    while (nn != 0){
+    while (nn != 0) {
         a.add(nn % 10)
-        nn/=10
+        nn /= 10
     }
-    for (i in 0..(a.size /2)){
-        if (a[i] != a[a.size-i-1])
+    for (i in 0..(a.size / 2)) {
+        if (a[i] != a[a.size - i - 1])
             return false
     }
     return true
@@ -247,12 +248,12 @@ fun isPalindrome(n: Int): Boolean{
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean{
+fun hasDifferentDigits(n: Int): Boolean {
     var nn = n
-    while(nn>9) {
+    while (nn > 9) {
         if ((nn % 100) % 11 != 0)
             return true
-        nn/=10
+        nn /= 10
     }
     return false
 }
@@ -264,15 +265,15 @@ fun hasDifferentDigits(n: Int): Boolean{
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int{
-    var c =0
-    var ch=1
+fun squareSequenceDigit(n: Int): Int {
+    var c = 0
+    var ch = 1
     var square = 1
-    while(c!=n){
-        square = ch *ch
-        c+= digitNumber(square)
-        while(n<c) {
-            square/= 10
+    while (c != n) {
+        square = ch * ch
+        c += digitNumber(square)
+        while (n < c) {
+            square /= 10
             c--
         }
         ch++
@@ -287,15 +288,15 @@ fun squareSequenceDigit(n: Int): Int{
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int{
-    var c =0
-    var ch=1
+fun fibSequenceDigit(n: Int): Int {
+    var c = 0
+    var ch = 1
     var nfib = 1
-    while(c!=n){
+    while (c != n) {
         nfib = fib(ch)
-        c+= digitNumber(nfib)
-        while(n<c) {
-            nfib/= 10
+        c += digitNumber(nfib)
+        while (n < c) {
+            nfib /= 10
             c--
         }
         ch++

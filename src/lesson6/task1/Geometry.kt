@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -112,7 +113,7 @@ fun lineBySegment(s: Segment): Line = TODO()
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = Line(a, if ((a.x - b.x) == 0.0) Math.PI/2 else
+fun lineByPoints(a: Point, b: Point): Line = Line(a, if ((a.x - b.x) == 0.0) Math.PI / 2 else
     Math.atan((a.y - b.y) / (a.x - b.x)))
 
 /**
@@ -121,20 +122,17 @@ fun lineByPoints(a: Point, b: Point): Line = Line(a, if ((a.x - b.x) == 0.0) Mat
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 
-fun bisectorByPoints(a: Point, b: Point): Line{
-    var angle = Math.atan2((a.y - b.y),(a.x - b.x))
-    if (Math.abs(angle) < Math.PI/2)
-            angle += Math.PI/2
-    else if (Math.atan2((a.y - b.y),(a.x - b.x)) > 0)
-        angle -= Math.PI/2
+fun bisectorByPoints(a: Point, b: Point): Line {
+    var angle = Math.atan2((a.y - b.y), (a.x - b.x))
+    if (Math.abs(angle) < Math.PI / 2)
+        angle += Math.PI / 2
+    else if (Math.atan2((a.y - b.y), (a.x - b.x)) > 0)
+        angle -= Math.PI / 2
     else
-        angle += 3*Math.PI/2
-    return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2),angle)
+        angle += 3 * Math.PI / 2
+    return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), angle)
 }
 
-    /*var angle = Math.atan2((a.y - b.y),(a.x - b.x))
-    angle = if(angle < Math.PI/2) angle else (angle - Math.PI/2)
-    return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), angle)*/
 
 /**
  * Средняя
@@ -169,3 +167,15 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
 
+/*fun help()
+
+fun myFun(examResult: List<String>, threshold: Double): List<String>{
+    for (element in examResult)
+        if (element.matches(Regex("""\w+ +\w+ +- +\w+ +\d(, +\w+ +\d)*""")))
+    val words = mutableListOf<String>()
+    for(element in examResult){
+        if(help() words.add(substring(int beginIndex, int endIndex)element.indexOf('-'))
+    }
+}
+
+*/

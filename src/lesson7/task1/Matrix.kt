@@ -90,6 +90,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         return "$sb"
     }
 
+
     override fun hashCode(): Int {
         var result = height
         result = 31 * result + width

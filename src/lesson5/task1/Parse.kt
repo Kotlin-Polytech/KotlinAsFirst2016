@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
+
 
 /**
  * Пример
@@ -35,22 +37,20 @@ fun timeSecondsToStr(seconds: Int): String {
 /**
  * Пример: консольный ввод
  */
-fun main(args: Array<String>) {
+/*fun main(args: Array<String>) {
     println("Введите время в формате ЧЧ:ММ:СС")
     val line = readLine()
     if (line != null) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
-}
+} */
 
 /**
  * Средняя
@@ -60,7 +60,28 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val MONTH_NAME = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    var year = -1
+    var month1 = -1
+    var day = -1
+    val parts = str.split(" ")
+    if (parts.size == 3) {
+        try {
+            day = parts[0].toInt()
+            month1 = MONTH_NAME.indexOf(parts[1]) + 1
+            if (month1 == 0) return ""
+            year = parts[2].toInt()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        if ((year != -1) && (month1 != -1) && (day != -1))
+            return String.format("%02d.%02d.%d", day, month1, year)
+        else return ""
+    } else return ""
+}
+
 
 /**
  * Средняя
@@ -69,7 +90,24 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var result: String = ""
+    var month1 = ""
+    val parts = digital.split(".")
+    if (digital != (digital.filter { (it in '0'..'9') || (it == '.') })) return ""
+    if (parts.size == 3) {
+        try {
+            result = parts[0].toInt().toString() + " "
+            if (parts[1].toInt() in 1..12) {
+                month1 = MONTH_NAME[parts[1].toInt() - 1]
+            } else return ""
+            result = result + month1 + " " + parts[2]
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Сложная
@@ -83,7 +121,26 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val result = phone.filter { (it in '0'..'9') || (it == '+') }
+    var begin = 0
+    for (char in phone)
+        if ((char != '(')
+                && char != ')'
+                && char != '-'
+                && char != ' '
+                && char != '+'
+                && char !in '0'..'9')
+            return ""
+    if (result.length > 0) {
+        if (result[0] == '+') {
+            begin = 1
+        } else begin = 0
+        for (i in begin..result.length - 1) if (result[i] !in '0'..'9') return ""
+    } else return ""
+    return result
+}
+
 
 /**
  * Средняя
@@ -95,7 +152,22 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (jumps.isEmpty())
+        return -1
+    for (jump in jumps) {
+        if (((jump != '%') && (jump != '-') && (jump != ' ') && (jump !in '0'..'9')))
+            return -1
+    }
+    var resultJumps = jumps.filter { (it in '0'..'9') || (it == ' ') }
+    val parts = resultJumps.split(" ")
+    var result = -1
+    for (part in parts) {
+        if (part != "")
+            result = Math.max(result, part.toInt())
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -107,7 +179,27 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+
+
+fun bestHighJump(jumps: String): Int {
+    if (jumps.isEmpty()) return -1
+    var maxhight = -1
+    try {
+        var jumps = jumps.split(" ")
+        if (jumps.size % 2 == 1)
+            return -1
+        for (i in 0..jumps.size - 1 step 2) {
+            val string = jumps[i + 1].filter { it != '%' }
+            if (string.length > 2)
+                return -1
+            if ((jumps[i].toInt() > maxhight) && string == "+")
+                maxhight = jumps[i].toInt()
+        }
+        return maxhight
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -118,7 +210,35 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    var j = 0
+    if (expression.isEmpty())
+        throw IllegalArgumentException("Description")
+    for (char in expression) {
+        if ((char != '+') && (char != '-') && (char != ' ') && (char !in '0'..'9'))
+            throw IllegalArgumentException("Description")
+    }
+    val parts = expression.split(" ")
+    var result = 0
+    try {
+        if ((parts[0] == "-") || (parts[0] == "+"))
+            j = 1
+        else
+            j = 2
+        result += parts[0].toInt()
+        for (i in j..parts.size - 1 step 2) {
+            if (parts[i - 1] == "-")
+                result -= parts[i].toInt()
+            if (parts[i - 1] == "+")
+                result += parts[i].toInt()
+        }
+
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -129,7 +249,16 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var stringParts = str.toLowerCase().split(" ")
+    var result = 0
+    for (i in 0..stringParts.size - 2) {
+        if ((stringParts[i] == stringParts[i + 1]) && (stringParts[i] != "")) return result
+        result += stringParts[i].length + 1
+    }
+    return -1
+}
+
 
 /**
  * Сложная
@@ -142,7 +271,28 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var max = -1.0
+    var name = ""
+
+    val parts1 = description.split("; ")
+    if (description.isNotEmpty()) {
+        try {
+            for (element in parts1) {
+                var part2 = element.split(" ")
+                if (part2[1].toDouble() > max) {
+                    name = part2[0]
+                    max = part2[1].toDouble()
+                }
+            }
+
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+    }
+    return name
+}
+
 
 /**
  * Сложная
@@ -156,6 +306,7 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int = TODO()
+
 
 /**
  * Сложная
@@ -188,3 +339,5 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+

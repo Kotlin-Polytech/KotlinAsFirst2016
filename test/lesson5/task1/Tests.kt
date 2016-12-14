@@ -24,11 +24,12 @@ class Tests {
     @Test
     @Tag("Normal")
     fun dateStrToDigit() {
-        assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
+        assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("01.10.1254361156",dateStrToDigit("01 октября 1254361156"))
     }
 
     @Test
@@ -67,6 +68,7 @@ class Tests {
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
+        assertEquals(551753952, bestHighJump("577223927 %- 551753952 %+ 871131718 %- 0 %%+ 380705835 + 3547654 %%+ 147483647 + 1 %+"))
     }
 
     @Test
@@ -90,8 +92,8 @@ class Tests {
     @Test
     @Tag("Hard")
     fun mostExpensive() {
-        assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
+        assertEquals("", mostExpensive(""))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
     }
 

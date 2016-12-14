@@ -89,12 +89,16 @@ class Tests {
         assertEquals(Line(Point(0.0, 0.0), 0.0), lineBySegment(Segment(Point(0.0, 0.0), Point(7.0, 0.0))))
         assertEquals(Line(Point(0.0, 0.0), Math.PI / 2), lineBySegment(Segment(Point(0.0, 0.0), Point(0.0, 8.0))))
         assertEquals(Line(Point(1.0, 1.0), Math.PI / 4), lineBySegment(Segment(Point(1.0, 1.0), Point(3.0, 3.0))))
+        assertEquals(Line(Point(-999.9541070861806, -999.995292926714), 0.10220904186901425), lineBySegment(Segment(Point(-999.9541070861806, -999.995292926714), Point(-1000.0, -1000.0))))
+
     }
 
     @Test
     @Tag("Normal")
     fun lineByPoint() {
         assertEquals(Line(Point(1.0, 1.0), Math.PI / 4), lineByPoints(Point(1.0, 1.0), Point(3.0, 3.0)))
+        assertEquals(Line(Point(-632.0, -999.1767285884622), 9.879982175391433E-4), lineByPoints(Point(-632.0, -999.1767285884622), Point(-1000.0, -999.5403120508196)))
+
     }
 
     @Test
@@ -102,6 +106,8 @@ class Tests {
     fun bisectorByPoints() {
         assertEquals(Line(Point(2.0, 0.0), Math.PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
+        assertEquals(Line(Point(-815.686923314682, -632.0), 1.5707963267948966), bisectorByPoints(Point(-999.373846629364, -632.0 ), Point(-632.0, -632.0)))
+
     }
 
     @Test

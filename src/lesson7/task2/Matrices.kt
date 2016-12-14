@@ -1,8 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
+import lesson7.task1.Cell
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -75,7 +77,56 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+enum class Direction {
+    UP, LEFT, DOWN, RIGHT
+}
+
+fun turn(streamline: Direction): Direction {
+    return when (streamline) {
+        Direction.UP -> Direction.RIGHT
+        Direction.RIGHT -> Direction.DOWN
+        Direction.DOWN -> Direction.LEFT
+        else -> Direction.UP
+    }
+}
+
+fun edge(height: Int, width: Int, streamline: Direction): Cell {
+    return when (streamline) {
+        Direction.RIGHT -> Cell(height, width + 1)
+        Direction.DOWN -> Cell(height + 1, width)
+        Direction.LEFT -> Cell(height, width - 1)
+        else -> Cell(height - 1, width)
+    }
+
+}
+
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    var matrix = createMatrix(height, width, 0)
+    var streamline = Direction.RIGHT
+    var road = 0
+    var n = 1
+    var cell = Cell(0, 0)
+    while (road < height * width - 1) {
+        if ((edge(cell.row, cell.column, streamline).row !in 0..height - 1) ||
+                (edge(cell.row, cell.column, streamline).column !in 0..width - 1) ||
+                (matrix[edge(cell.row, cell.column, streamline)] != 0)) {
+            streamline = turn(streamline)
+            if (streamline == Direction.RIGHT) {
+                matrix[cell] = n
+                road++
+                cell = edge(cell.row, cell.column, streamline)
+                n++
+            }
+        } else {
+            matrix[cell] = n
+            road++
+            cell = edge(cell.row, cell.column, streamline)
+        }
+    }
+    matrix[cell] = n
+    return matrix
+
+}
 
 /**
  * Сложная

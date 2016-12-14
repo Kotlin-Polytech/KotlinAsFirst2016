@@ -72,7 +72,7 @@ fun dateStrToDigit(str: String): String {
             month = (months.indexOf(parts[1]) + 1)
         } else return ""
         val year = parts[2].toInt()
-        return String.format("%02d.%02d.%4d", date, month, year)
+        return String.format("%02d.%02d.%d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -118,8 +118,8 @@ fun dateDigitToStr(digital: String): String {
  */
 
 fun flattenPhoneNumber(phone: String): String {
-    val matchResult = Regex("""[^-0-9+()\s]""").find(phone)
-    if (matchResult != null) return ""
+    if (Regex("""[^\s]""").find(phone) == null) return ""
+    if (Regex("""[^-0-9+()\s]""").find(phone) != null) return ""
     if (phone.indexOf("+") > 0) return ""
     val phoneList = phone.split(" ", "-", "(", ")")
     return phoneList.joinToString(separator = "")
@@ -164,12 +164,12 @@ fun bestHighJump(jumps: String): Int {
     if (matchResult != null) return -1
 
     var jumpList = jumps.split(" ")
-    jumpList.filter{it != " " && it != "%" && it != "-"}
-    var success = mutableListOf<Int>()
+    jumpList.filter { it != " " && it != "%" && it != "-" }
+    var success = 0
     for (i in 0..jumpList.size - 2) {
-        if (jumpList[i] != "+" && jumpList[i+1] == "+") success.add(jumpList[i].toInt())
+        if (jumpList[i] != "+" && jumpList[i + 1] == "+" && (jumpList[i].toInt() > success)) success = jumpList[i].toInt()
     }
-    return success.max() ?: -1
+    return success
 }
 
 /**
@@ -198,16 +198,15 @@ fun plusMinus(expression: String): Int {
         noSpacingExp = '+' + noSpacingExp
     }
 
-    // Нужно серьезно переделать программу с этого момента (WORK IN PROGRESS)
 
     var result = mutableListOf<Int>()
-    var count:Int
-    var number:Int
-    for (i in 0..noSpacingExp.length-1) {
+    var count: Int
+    var number: Int
+    for (i in 0..noSpacingExp.length - 1) {
         if (noSpacingExp[i] == '+') {
             count = i + 1
             number = 0
-            while (count <= noSpacingExp.length-1 && noSpacingExp[count] != '-' && noSpacingExp[count] != '+') {
+            while (count <= noSpacingExp.length - 1 && noSpacingExp[count] != '-' && noSpacingExp[count] != '+') {
                 number *= 10
                 number += noSpacingExp[count] - '0'
                 count++
@@ -217,7 +216,7 @@ fun plusMinus(expression: String): Int {
         if (noSpacingExp[i] == '-') {
             count = i + 1
             number = 0
-            while (count <= noSpacingExp.length-1 && noSpacingExp[count] != '-' && noSpacingExp[count] != '+') {
+            while (count <= noSpacingExp.length - 1 && noSpacingExp[count] != '-' && noSpacingExp[count] != '+') {
                 number *= 10
                 number += noSpacingExp[count] - '0'
                 count++
@@ -253,15 +252,15 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  */
 fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
-    val namesNumbers = mutableListOf<String>()
-    val divided = description.split(";", " ")
-    for (i in 0..divided.size - 1) {
-        if (divided[i] != "") namesNumbers.add(divided[i])
-    }
+    val namesNumbers = description.split("; ", " ")
+    if (namesNumbers.size % 2 != 0) return ""
     val numbersOnly = mutableListOf<Double>()
-    for (i in 0..(namesNumbers.size - 1)/2) {
-        try {numbersOnly.add(namesNumbers[(i*2 + 1)].toDouble())}
-        catch (e: NumberFormatException) {return ""}
+    for (i in 0..(namesNumbers.size - 2) / 2) {
+        try {
+            numbersOnly.add(namesNumbers[i * 2 + 1].toDouble())
+        } catch (e: NumberFormatException) {
+            return ""
+        }
     }
     return namesNumbers[namesNumbers.indexOf(numbersOnly.max().toString()) - 1]
 }

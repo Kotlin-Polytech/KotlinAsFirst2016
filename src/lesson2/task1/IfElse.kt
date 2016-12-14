@@ -130,20 +130,23 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    var answ : Int = 0
+    var bred : Int = 0
     val maxComa: Int = Math.max(Math.max(a, b), Math.max(c, d))
     if ((a == b) && (d == c) && (b == d)) return -1
-    return when (maxComa) {
-        a -> if ((a <= d) && (a > c)) 0
-             else -1
-        c -> if ((c <= b) && (c > a)) 0
-             else -1
-        b -> if ((a <= d) && (c < a)) d - a
-             else if (c > a) d - c
-                  else -1
-        d -> if ((c <= b) && (a < c)) b - c
-             else if (a > c) b - a
-                  else -1
-        else -> if (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b) || (a == d)) return 0
-                else -1
+    when (maxComa) {
+        a -> if ((a <= d) && (a > c)) answ = 0
+             else bred +=1
+        c -> if ((c <= b) && (c > a)) answ = 0
+             else bred += 1
+        b -> if ((a <= d) && (c < a)) answ = d - a
+             else if (c > a) answ = d - c
+                  else bred += 1
+        d -> if ((c <= b) && (a < c)) answ = b - c
+             else if (a > c) answ = b - a
+                  else bred += 1
+        else -> if (((a == b) && (c < a) && (d > b)) || ((c == d) && (a < c) && (b > c)) || (c == b) || (a == d)) answ = 0
+                else answ = -1
     }
+    return answ
 }

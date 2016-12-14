@@ -159,7 +159,7 @@ fun flattenPhoneNumber(phone: String): String {
     }
     val parts = phone.split(" ")
     var strAnsw = ""
-    if (phone[0] == iNeedIt[11]) strAnsw += "+"
+    if (phone[0] == iNeedIt[10]) strAnsw += "+"
     for (part in parts) {
        for (i in 0..part.length - 1) {
            if ((part[i] != iNeedIt[11]) && (part[i] != iNeedIt[12]) && (part[i] != iNeedIt[13]) && (part[i] != iNeedIt[14])) strAnsw += part[i]
@@ -178,40 +178,7 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
-    var result = ""
-    var answ = 0
-    var forError = 0
-    val iNeedIt = "0123456789-% "
-    for (i in 0..jumps.length - 1) {
-        for (j in 0..iNeedIt.length - 1) {
-            if (jumps[i] == iNeedIt[j]) forError += 1
-        }
-        if (forError != 1) return -1
-        forError = 0
-    }
-    var parts = jumps.split(" ")
-    for (part in parts)
-            if ((part[0] != iNeedIt[10]) and (part[0] != iNeedIt[11])) result += part + " "
-    var mnojitel = 1
-    var element = 0
-    if (result.length == 0) return (-1)
-    parts = result.split(" ")
-    for (part in parts) {
-        for (i in part.length - 1 downTo 0) {
-            for (j in 0..9) {
-                if (iNeedIt[j] == part[i]) {
-                    element += j * mnojitel
-                    mnojitel *= 10
-                }
-            }
-        }
-            if (element > answ) answ = element
-            mnojitel = 1
-            element = 0
-        }
-    return answ
-}
+fun bestLongJump(jumps: String): Int =TODO()
 
 /**
  * Сложная
@@ -353,56 +320,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String {
-    val copy = " " + description
-    var mnojitel : Double
-    var value : Double
-    var answ = ""
-    var maxValue = 0.0
-    if (description.length == 0) return ""
-    var forError = 0
-    val abc = "0123456789.;АБВГДЕЁЖЗИКЛМНОПРСТУФХШЩЧЦЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхшщчцъыьэюя "
-    for (i in 0..description.length - 1) {
-        for (j in 0..abc.length - 1) {
-            if (description[i] == abc[j]) forError += 1
-        }
-        if (forError != 1) return ""
-        forError = 0
-    }
-    var lenght : Int
-    val parts = copy.split(";")
-    for (part in parts) {
-        value = 0.0
-        lenght = 0
-        val parts2 = part.split(" ")
-        for (part2 in parts2) lenght += 1
-            if (lenght != 3) return ""
-        for (part2 in parts2) {
-            mnojitel = 0.1
-            for (i in part2.length - 2 downTo 0) {
-                if (part2[i] != abc[10]) mnojitel *= 10
-                when (part2[i]) {
-                    abc[0] -> value += 0
-                    abc[1] -> value += mnojitel
-                    abc[2] -> value += mnojitel * 2
-                    abc[3] -> value += mnojitel * 3
-                    abc[4] -> value += mnojitel * 4
-                    abc[5] -> value += mnojitel * 5
-                    abc[6] -> value += mnojitel * 6
-                    abc[7] -> value += mnojitel * 7
-                    abc[8] -> value += mnojitel * 8
-                    abc[9] -> value += mnojitel * 9
-                }
-            }
-            if (value > maxValue) {
-                maxValue = value
-                answ = parts2[1]
-            }
-        }
-
-    }
-    return answ
-}
+fun mostExpensive(description: String): String =TODO()
 
 /**
  * Сложная
@@ -440,7 +358,7 @@ fun fromRoman(roman: String): Int {
                       else if (roman[i-1] == abc[2]) answ += 40
                            else answ += 50
             abc[2] -> if (i == 0) {if ((roman[i + 1] != abc[3]) && (roman[i + 1] != abc[4])) answ += 10}
-                      else if (i == roman.length - 1) {if (roman[i - 1] == abc[0]) answ += 9}
+                      else if (i == roman.length - 1) {if (roman[i - 1] == abc[0]) answ += 9 else answ += 10}
                            else if ((roman[i + 1] != abc[3]) && (roman[i + 1] != abc[4]) && (roman[i] == abc[0])) answ += 9
                                 else if ((roman[i + 1] != abc[3]) && (roman[i + 1] != abc[4])) answ += 10
             abc[1] -> if (i == 0) answ += 5
@@ -497,6 +415,7 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
         if (forError == 0) throw IllegalArgumentException()
     }
     var place: Int
+    if (cells == 2) place = 0
     if (cells % 2 == 0) place = cells / 2 + 1
     else place = (cells - 1) / 2
     for (i in 0..commands.length - 1) {

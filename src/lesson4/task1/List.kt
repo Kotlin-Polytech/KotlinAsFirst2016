@@ -104,8 +104,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  *
  * Найти модуль заданного вектора, представленного в виде списка v,
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
-* Модуль пустого вектора считать равным 0.0.
-*/
+ * Модуль пустого вектора считать равным 0.0.
+ */
 fun abs(v: List<Double>): Double {
     var x = 0.0
     for (element in v) {
@@ -137,10 +137,10 @@ fun mean(list: List<Double>): Double {
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return mutableListOf()
     else {
-        var m=0
-        val x=list.sum() / list.size
-        while (m in 0..list.size-1) {
-            list[m]-=x
+        var m = 0
+        val x = list.sum() / list.size
+        while (m in 0..list.size - 1) {
+            list[m] -= x
             m++
         }
         return list
@@ -190,10 +190,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var t = 0.0
-    var i=0
-    while(i in 0..list.size-1) {
-        t +=list[i]
-        list[i]=t
+    var i = 0
+    while (i in 0..list.size - 1) {
+        t += list[i]
+        list[i] = t
         i++
     }
     return list

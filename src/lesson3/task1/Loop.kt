@@ -94,7 +94,7 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-   return (m * NOD(m,n)) / n
+    return (m / NOD(m, n)) * n
 }
 
 /**
@@ -134,9 +134,10 @@ fun NOD(a: Int, b: Int): Int {
     if (num2 == 0) return num1
     else return NOD(b, num1 % num2)
 }
+
 fun isCoPrime(m: Int, n: Int): Boolean {
-    return NOD(m,n) == 1
-    }
+    return (NOD(m, n) == 1)
+}
 
 
 /**
@@ -240,7 +241,6 @@ fun hasDifferentDigits(n: Int): Boolean {
             number /= 10
         else return true
     }
-    if (number != n % 10) return true
     return false
 }
 

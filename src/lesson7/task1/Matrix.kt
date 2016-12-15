@@ -70,13 +70,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         list[cell.row * width + cell.column] = value
     }
 
-    override fun equals(other: Any?): Boolean {
-        if (other is MatrixImpl<*> &&
-                height == other.height &&
-                width == other.width) for (i in 0..height - 1)
-            for (j in 0..width - 1) if (other[i, j] != this[i, j]) return false
-        return true
-    }
+    override fun equals(other: Any?): Boolean =
+            other is MatrixImpl<*> && height == other.height && width == other.width && list == other.list
 
     override fun toString(): String {
         val sb = StringBuilder()
@@ -91,10 +86,10 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun hashCode(): Int {
-        var result = 5
+        var result = height
 
-        result = result * 31 + height
         result = result * 31 + width
+        result = result * 31 + list.hashCode()
         return result
     }
 }

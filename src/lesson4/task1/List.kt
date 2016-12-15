@@ -244,7 +244,7 @@ fun convertToString(n: Int, base: Int): String {
     val number = convert(n, base)
     var result = StringBuilder()
     for (i in number) {
-         if (i > 9) result.append('a' + (i - 10))
+        if (i > 9) result.append('a' + (i - 10))
         else result.append(i)
     }
     return result.toString()
@@ -274,7 +274,6 @@ fun decimal(digits: List<Int>, base: Int): Int = digits.reversed().mapIndexed { 
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-
 fun decimalFromString(str: String, base: Int): Int {
     var min = 1
     var result = 0
@@ -306,60 +305,30 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun hundreds(number: Int): String =
-        when (number) {
-            1 -> "сто"
-            2 -> "двести"
-            3 -> "триста"
-            4 -> "четыреста"
-            5 -> "пятьсот"
-            6 -> "шестьсот"
-            7 -> "семьсот"
-            8 -> "восемьсот"
-            9 -> "девятьсот"
-            else -> ""
-        }
-
-fun ten(number: Int): String =
-        when (number) {
-            2 -> "двадцать"
-            3 -> "тридцать"
-            4 -> "сорок"
-            5 -> "пятьдесят"
-            6 -> "шестьдесят"
-            7 -> "семьдесят"
-            8 -> "восемьдесят"
-            9 -> "девяносто"
-            else -> ""
-        }
-
-fun fromTenToNineteen(number: Int): String =
-        when (number) {
-            10 -> "десять"
-            11 -> "одиннадцать"
-            12 -> "двенадцать"
-            13 -> "тринадцать"
-            14 -> "четырнадцать"
-            15 -> "пятнадцать"
-            16 -> "шестнадцать"
-            17 -> "семнадцать"
-            18 -> "восемнадцать"
-            19 -> "девятнадцать"
-            else -> ""
-        }
+val hundreds = listOf<String>("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+val ten = listOf<String>("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+val fromTenToNineteen = listOf<String>("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+        "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
 
 fun russian(n: Int): String {
-    var resultLine = StringBuilder(hundreds(n / 100000))                  //сотни тысяч
-    if (hundreds(n / 100000) != "") resultLine.append(" ")
+    var resultLine = StringBuilder()
+    if (n / 100000 > 0) {
+        resultLine.append(hundreds[n / 100000 - 1])
+        resultLine.append(" ")
+    }
 
-    resultLine.append(ten(n / 10000 % 10))                   //десятки тысяч(20,30...)
-    if (ten(n / 10000 % 10) != "") resultLine.append(" ")
+    if (n / 10000 % 10 > 1) {
+        resultLine.append(ten[n / 10000 % 10 - 2])
+        resultLine.append(" ")
+    }
 
-    resultLine.append(fromTenToNineteen(n / 1000 % 100))                //десятки тысяч(11,12...)
-    if (fromTenToNineteen(n / 1000 % 100) != "") resultLine.append(" ")
-    if (fromTenToNineteen(n / 1000 % 100) != "десять" && fromTenToNineteen(n / 1000 % 100) != "") resultLine.append("тысяч")
+    if (n / 1000 % 100 > 9 && n / 1000 % 100 < 20) {
+        resultLine.append(fromTenToNineteen[n / 1000 % 100 - 10])
+        resultLine.append(" ")
+        if (fromTenToNineteen[n / 1000 % 100 - 10] != "десять") resultLine.append("тысяч")
+    }
 
-    if (n / 10000 % 10 != 1)           //тысячи
+    if (n / 10000 % 10 != 1)
         resultLine.append(when (n / 1000 % 10) {
             1 -> "одна тысяча"
             2 -> "две тысячи"
@@ -376,12 +345,12 @@ fun russian(n: Int): String {
 
     if ((n % 1000 / 100 != 0) && (n / 1000 != 0)) resultLine.append(" ")
 
-    resultLine.append(hundreds(n % 1000 / 100))            //сотни
+    if (n % 1000 / 100 > 0) resultLine.append(hundreds[n % 1000 / 100 - 1])
     if ((n % 100 / 10 != 0) && (n / 100 != 0)) resultLine.append(" ")
 
-    resultLine.append(fromTenToNineteen(n % 100))         //десятки(11,12...)
+    if (n % 100 > 9 && n % 100 < 20) resultLine.append(fromTenToNineteen[n % 100 - 10])
 
-    resultLine.append(ten(n % 100 / 10))                //десятки(20,30...)
+    if (n % 100 / 10 > 1) resultLine.append(ten[n % 100 / 10 - 2])
     if ((n % 10 != 0) && (n / 10 != 0) && (n % 100 / 10 != 1)) resultLine.append(" ")
     if (n % 100 / 10 != 1)       //единицы
         resultLine.append(when (n % 10) {

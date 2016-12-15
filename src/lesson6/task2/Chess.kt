@@ -149,22 +149,22 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
-    val list = mutableListOf<Square>(start)
     val moveNumb = bishopMoveNumber(start, end)
     when (moveNumb) {
-        -1 -> return listOf()
-        0 -> return list
+        0 -> return listOf(start)
+        1 -> return listOf(start, end)
+        2 -> {
+            val column1 = (start.row - end.row + start.column + end.column) / 2
+            val row1 = (start.column - end.column + start.row + end.row) / 2
+            val column2 = (start.column + end.column + end.row - start.row) / 2
+            val row2 = (end.column - start.column + start.row + end.row) / 2
+            val center =
+                    if (Square(column1, row1).inside()) Square(column1, row1)
+                    else Square(column2, row2)
+            return listOf(start, center, end)
+        }
+        else -> return listOf()
     }
-    val column1 = (start.row - end.row + start.column + end.column) / 2
-    val row1 = (start.column - end.column + start.row + end.row) / 2
-    val column2 = (start.column + end.column + end.row - start.row) / 2
-    val row2 = (end.column - start.column + start.row + end.row) / 2
-    if (moveNumb == 2) {
-        if (Square(column1, row1).inside()) list.add(Square(column1, row1))
-        else list.add(Square(column2, row2))
-    }
-    list.add(end)
-    return list
 }
 
 /**
@@ -206,7 +206,8 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> {
+fun kingTrajectory(start: Square, end: Square)
+        : List<Square> {
     val result = mutableListOf(start)
     var square = start
     while (square != end) {
@@ -263,4 +264,5 @@ fun knightMoveNumber(start: Square, end: Square): Int = TODO()
  *
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun knightTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun knightTrajectory(start: Square, end: Square)
+        : List<Square> = TODO()

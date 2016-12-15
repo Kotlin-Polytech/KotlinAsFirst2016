@@ -97,7 +97,6 @@ fun sibilants(inputName: String, outputName: String) {
                 else outputStream.write(line[i].toString())
             }
         }
-        if (line != lines.last()) outputStream.newLine()
     }
     outputStream.close()
 }
@@ -134,7 +133,8 @@ fun centerFile(inputName: String, outputName: String) {
         val lineLength = line.trim().length
         for (i in 1..(maxLength - lineLength) / 2) outputStream.write(" ")
         outputStream.write(line.trim())
-        if (lines.size != 1 && line != lines.last()) outputStream.newLine()
+        if (lines.size != 1 && line != lines.last())
+            outputStream.newLine()
     }
     outputStream.close()
 }
@@ -162,29 +162,7 @@ fun centerFile(inputName: String, outputName: String) {
  *
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO() /*
-    val outputStream = File(outputName).bufferedWriter()
-    val maxLength = maxLength(inputName)
-    val lines = File(inputName).readLines()
-    for (line in lines) {
-        var length = 0
-        val words = line.trim().split(" ")
-        if (words.size == 1) {
-            outputStream.write(line.trim())
-            outputStream.newLine()
-        } else {
-            for (word in words) {
-                length += word.length
-            }
-            val n = (maxLength - length) / (words.size - 1)
-            for (k in 0..words.size - 1) {
-                outputStream.write(words[k])
-                if (k != words.size - 1) for (i in 1..n) outputStream.write(" ")
-            }
-            if (line != lines.last()) outputStream.newLine()
-        }
-    }
-    outputStream.close()*/
+    TODO()
 }
 
 /**
@@ -203,14 +181,10 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 fun top20Words(inputName: String): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     val result = mutableMapOf<String, Int>()
-    val words = File(inputName).readText().toLowerCase().filter { it in 'a'..'z' && it in 'а'..'я' && it == ' ' }.split(" ")
-    loop@ for (i in 0..words.size - 2) {
-        var times = 0
-        for (j in i + 1..words.size - 1) {
-            if (words[i] in map) continue@loop
-            if (words[i] == words[j]) times++
-        }
-        map.put(words[i], times)
+    val words = File(inputName).readText().toLowerCase().split(Regex("""[^a-zа-яё]+"""))
+    for (word in words) {
+        if (word in map) map[word] = map[word]!! + 1
+        else map[word] = 1
     }
     if (map.size <= 20) return map
     else {

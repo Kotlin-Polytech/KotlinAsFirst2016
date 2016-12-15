@@ -80,24 +80,24 @@ fun sibilants(inputName: String, outputName: String) {
         else doNewLine = true
         var result = ""
         for(letter in 0..line.length-1){
-            if(letter+1<line.length && line[letter] in "ЖжЧчШшЩщ" && line[letter+1] in "ЫыЯяЮю"){
-                result += when(line[letter+1]){
-                    'Ы' -> line[letter] + "И"
-                    'Я' -> line[letter] + "А"
-                    'Ю' -> line[letter] + "У"
-                    'ы' -> line[letter] + "и"
-                    'я' -> line[letter] + "а"
-                    'ю' -> line[letter] + "у"
-                    else -> result + ""
+            if(letter - 1 >= 0 && line[letter-1] in "ЖжЧчШшЩщ" && line[letter] in "ЫыЯяЮю"){
+                result += when(line[letter]){
+                    'Ы' -> "И"
+                    'Я' -> "А"
+                    'Ю' -> "У"
+                    'ы' -> "и"
+                    'я' -> "а"
+                    else -> "у"
                 }
             }
-            else if(!(line[letter] in "ЫыЯяЮю" && line[letter-1] in "ЖжЧчШшЩщ")) result +=  line[letter]
+            else result += line[letter]
         }
         writer.write(result)
     }
 
     writer.close()
 }
+
 
 /**
  * Средняя
@@ -173,7 +173,7 @@ fun maxLength(inputName: String): Int{   // длина максимальной 
 }
 
 fun stringProcessing(line: String, maxLength: Int): String{
-    val parts = line.split(" ")
+    val parts = line.split(Regex("""\s+"""))
     var result = parts[parts.size - 1]
     var numberOfWords = parts.size - 1  // слова, после которых идут пробелы
     var numberOfSpaces = maxLength

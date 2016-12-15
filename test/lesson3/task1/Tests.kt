@@ -115,6 +115,10 @@ class Tests {
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertFalse(isCoPrime(83648,83648))
+        assertTrue(isCoPrime(1,1))
+        assertFalse(isCoPrime(84878,56976))
+        assertTrue(lesson3.task1.isCoPrime(60299,83648))
     }
 
     @Test
@@ -124,6 +128,7 @@ class Tests {
         assertTrue(squareBetweenExists(21, 28))
         assertFalse(squareBetweenExists(51, 61))
         assertFalse(squareBetweenExists(999, 1001))
+        assertTrue(squareBetweenExists(0, 0))
     }
 
     @Test
@@ -194,5 +199,6 @@ class Tests {
         assertEquals(2, fibSequenceDigit(9))
         assertEquals(5, fibSequenceDigit(14))
         assertEquals(2, fibSequenceDigit(20))
+        assertEquals(3, fibSequenceDigit(234))
     }
 }

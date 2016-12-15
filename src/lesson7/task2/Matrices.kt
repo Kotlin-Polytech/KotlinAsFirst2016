@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
+import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -59,7 +61,34 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val mRes = createMatrix(height, width, 1)
+    var count = 0
+    var lim = 1
+    while (lim <= height * width) {
+        for (i in count..width - 1 - count) {
+            mRes[count, i] = lim
+            lim++
+        }
+        if (lim > height * width) break
+        for (k in count + 1..height - 1 - count) {
+            mRes[k, width - 1 - count] = lim
+            lim++
+        }
+        if (lim > height * width) break
+        for (j in width - 2 - count downTo count) {
+            mRes[height - 1 - count, j] = lim
+            lim++
+        }
+        if (lim > height * width) break
+        for (l in height - 2 - count downTo count + 1) {
+            mRes[l, count] = lim
+            lim++
+        }
+        count++
+    }
+    return mRes
+}
 
 /**
  * Сложная
@@ -75,7 +104,23 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val mRes = createMatrix(height, width, 1)
+    var count = 0
+    val replay = (Math.min(height, width) + 1) / 2
+    while (count < replay) {
+        for (i in count..width - 1 - count) {
+            mRes[count, i] = count + 1
+            mRes[height - 1 - count, i] = count + 1
+        }
+        for (k in count + 1..height - count - 2) {
+            mRes[k, width - 1 - count] = count + 1
+            mRes[k, count] = count + 1
+        }
+        count++
+    }
+    return mRes
+}
 
 /**
  * Сложная
@@ -103,7 +148,15 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw  IllegalArgumentException()
+    val M = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    val side = matrix.width - 1
+    for (i in 0..side)
+        for (k in side downTo 0)
+            M[i, side - k] = matrix[k, i]
+    return M
+}
 
 /**
  * Сложная
@@ -137,7 +190,27 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    val M = createMatrix(matrix.height, matrix.width, 0)
+    if (matrix.width == 1 && matrix.height == 1) return M
+    for (i in 0..matrix.height - 1)
+        for (k in 0..matrix.width - 1) {
+            var sum = 0
+            if (i == 0 || k == 0 || i == matrix.height - 1 || k == matrix.width - 1) {
+                if (i < matrix.height - 1) sum += matrix[i + 1, k]
+                if (i > 0) sum += matrix[i - 1, k]
+                if (k < matrix.width - 1) sum += matrix[i, k + 1]
+                if (k > 0) sum += matrix[i, k - 1]
+                if (i < matrix.height - 1 && k < matrix.width - 1) sum += matrix[i + 1, k + 1]
+                if (i > 0 && k > 0) sum += matrix[i - 1, k - 1]
+                if (i < matrix.height - 1 && k > 0) sum += matrix[i + 1, k - 1]
+                if (k < matrix.width - 1 && i > 0) sum += matrix[i - 1, k + 1]
+            } else sum = matrix[i + 1, k] + matrix[i - 1, k] + matrix[i, k + 1] + matrix[i, k - 1] +
+                    matrix[i + 1, k + 1] + matrix[i - 1, k - 1] + matrix[i + 1, k - 1] + matrix[i - 1, k + 1]
+            M[i, k] = sum
+        }
+    return M
+}
 
 /**
  * Средняя

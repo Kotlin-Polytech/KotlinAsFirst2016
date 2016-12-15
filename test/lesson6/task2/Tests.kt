@@ -36,6 +36,7 @@ class Tests {
         assertEquals(Square(5, 5), square("e5"))
         assertEquals(Square(6, 8), square("f8"))
         assertEquals(Square(4, 1), square("d1"))
+        assertEquals(Square(1, 1), square("a1"))
     }
 
     @Test
@@ -153,7 +154,7 @@ class Tests {
             val next = this[i + 1]
             assertTrue(
                     Math.abs(next.column - previous.column) == 2 && Math.abs(next.row - previous.row) == 1 ||
-                    Math.abs(next.column - previous.column) == 1 && Math.abs(next.row - previous.row) == 2
+                            Math.abs(next.column - previous.column) == 1 && Math.abs(next.row - previous.row) == 2
             )
         }
     }

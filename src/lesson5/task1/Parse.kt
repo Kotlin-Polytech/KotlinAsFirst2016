@@ -153,15 +153,15 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var BestHeight = -1
+    var bestHeight = -1
     var parts = jumps.split(" ")
     for (i in 1..parts.size - 1 step 2) {
-        for (counter in parts[i]) {
-            if ((parts[i - 1].toInt() > BestHeight) && (counter == '+'))
-                BestHeight = parts[i - 1].toInt()
-        }
+        val jump = parts[i - 1].toInt()
+        if ((parts[i - 1].toInt() > bestHeight) && ('+' in parts[i]))
+            bestHeight = jump
+
     }
-    return BestHeight
+    return bestHeight
 }
 
 /**

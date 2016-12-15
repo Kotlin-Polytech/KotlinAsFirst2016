@@ -60,9 +60,8 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         val string = e.toLowerCase()
         answer[e] = 0
         for (i in 0..text.length - e.length) {
-            if (string == text.substring(i, i + e.length)) answer[e] = (if (answer[e] != null) answer[e]
-            else
-                throw NullPointerException("Expression 'answer[e]' must not be null"))!! + 1
+            if (string == text.substring(i, i + e.length))
+                answer[e] = answer[e]!! + 1
         }
     }
     return answer

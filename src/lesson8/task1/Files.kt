@@ -85,20 +85,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    val outputStream = File(outputName).bufferedWriter()
-    val map = mapOf("Ы" to "И", "Я" to "А", "Ю" to "У", "ы" to "и", "я" to "а", "ю" to "у")
-    val lines = File(inputName).readLines()
-    for (line in lines) {
-        if (line.isNotEmpty()) {
-            outputStream.write(line[0].toString())
-            for (i in 1..line.length - 1) {
-                if (line[i - 1] in "жчшщЖЧШЩ" && line[i] in "ыяюЫЯЮ")
-                    outputStream.write(map[line[i].toString()])
-                else outputStream.write(line[i].toString())
-            }
-        }
-    }
-    outputStream.close()
+    TODO()
 }
 
 /**
@@ -179,18 +166,7 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
-    val result = mutableMapOf<String, Int>()
-    val words = File(inputName).readText().toLowerCase().split(Regex("""[^a-zа-яё]+"""))
-    for (word in words) {
-        if (word in map) map[word] = map[word]!! + 1
-        else map[word] = 1
-    }
-    if (map.size <= 20) return map
-    else {
-        result.putAll(map.toList().sortedByDescending { it.second }.subList(0, 20))
-        return result
-    }
+    TODO()
 }
 
 /**

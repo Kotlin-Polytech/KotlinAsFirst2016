@@ -157,7 +157,7 @@ fun bestHighJump(jumps: String): Int {
     var parts = jumps.split(" ")
     for (i in 1..parts.size - 1 step 2) {
         val jump = parts[i - 1].toInt()
-        if ((parts[i - 1].toInt() > bestHeight) && ('+' in parts[i]))
+        if ((jump > bestHeight) && ('+' in parts[i]))
             bestHeight = jump
 
     }

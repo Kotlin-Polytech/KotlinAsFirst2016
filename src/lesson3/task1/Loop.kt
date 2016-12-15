@@ -100,12 +100,22 @@ fun lcm(m: Int, n: Int): Int = TODO()
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for(i in 2..n / 2) {
-        if (n % i == 0)
-            return i
+    var del = 2
+    val root = Math.sqrt(n.toDouble())
+    while (del <= root) {
+        if (n % del == 0)
+            return del
+        del++
     }
     return n
 }
+//
+//for (i in 2..n / 2) {
+//  if (n % i == 0)
+//       return i
+//}
+//return n
+//
 
 /**
  * Простая

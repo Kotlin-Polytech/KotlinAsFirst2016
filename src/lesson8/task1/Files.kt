@@ -57,11 +57,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val result = mutableMapOf<String, Int>()
     val text = File(inputName).readText().toLowerCase()
     for (str in substrings) {
+        val str1 = str.toLowerCase()
         var times = -1
         var indexOfStr = 0
         var index = -1
         while (indexOfStr != -1) {
-            indexOfStr = text.indexOf(str.toLowerCase(), index + 1)
+            indexOfStr = text.indexOf(str1, index + 1)
             times++
             index = indexOfStr
         }
@@ -85,19 +86,18 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  */
 fun sibilants(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
-    val map = mapOf<String, String>("Ы" to "И", "Я" to "А", "Ю" to "У", "ы" to "и", "я" to "а", "ю" to "у")
+    val map = mapOf("Ы" to "И", "Я" to "А", "Ю" to "У", "ы" to "и", "я" to "а", "ю" to "у")
     val lines = File(inputName).readLines()
     for (line in lines) {
-        if (line.isEmpty()) outputStream.newLine()
-        else {
+        if (line.isNotEmpty()) {
             outputStream.write(line[0].toString())
             for (i in 1..line.length - 1) {
                 if (line[i - 1] in "жчшщЖЧШЩ" && line[i] in "ыяюЫЯЮ")
                     outputStream.write(map[line[i].toString()])
                 else outputStream.write(line[i].toString())
             }
-            if (line != lines.last()) outputStream.newLine()
         }
+        if (line != lines.last()) outputStream.newLine()
     }
     outputStream.close()
 }
@@ -201,7 +201,6 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO() /*
     val map = mutableMapOf<String, Int>()
     val result = mutableMapOf<String, Int>()
     val words = File(inputName).readText().toLowerCase().filter { it in 'a'..'z' && it in 'а'..'я' && it == ' ' }.split(" ")
@@ -217,7 +216,7 @@ fun top20Words(inputName: String): Map<String, Int> {
     else {
         result.putAll(map.toList().sortedByDescending { it.second }.subList(0, 20))
         return result
-    }*/
+    }
 }
 
 /**

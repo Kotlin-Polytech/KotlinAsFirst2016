@@ -69,7 +69,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var count = 1 // заполнитель
     var j = 0 // ряд
     var i = 0 // колонка
-    while (count !=  width * height) { // заполням кольцом
+    while (count <=  width * height) { // заполням кольцом
         if (rightWall - leftWall <= 0) return matrix
         for (k in leftWall..rightWall - 1) {
             i = k
@@ -126,7 +126,7 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     var ringOfMatrix = 1 // индекс кольца матрицы
     var j = 0
     var i = 0
-    while (count !=  width * height) {
+    while (count <=  width * height) {
         if (rightWall - leftWall <= 0) return matrix
         for (k in leftWall..rightWall - 1) {
             i = k

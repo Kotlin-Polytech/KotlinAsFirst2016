@@ -132,8 +132,10 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    var newAngle = Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.y))
+    var newAngle = Math.atan2(s.end.y - s.begin.y, s.end.x - s.begin.x)
+    if (newAngle == Math.PI || newAngle == -Math.PI) newAngle = 0.0
     if (s.begin.x == s.end.x) newAngle = Math.PI/2
+    if (newAngle < 0) newAngle += Math.PI
     return Line(s.begin,newAngle)
 }
 

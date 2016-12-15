@@ -1,9 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 import lesson3.task1.maxDivisor
+
 val MONTHS = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
-val slist = listOf("0","1","2","3","4","5","6","7")
+val slist = listOf("0123456789")
 /**
  * Пример
  *
@@ -114,9 +115,9 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var newPhone = phone
     if (phone.contains(Regex("""[^-+0123456789()\s]"""))) return ""
-    else newPhone.filter{it == ')' || it == '('|| (it in '0'..'9') || (it == '+')}
+    else newPhone.filter { it == ')' || it == '(' || (it in '0'..'9') || (it == '+') }
     if (newPhone.contains(Regex("""(\+\d\)?(\(\d+\)?(\d+)))"""))) return newPhone
-    else return newPhone.filter {(it == '+') || (it in '0'..'9')}
+    else return newPhone.filter { (it == '+') || (it in '0'..'9') }
 }
 
 /**
@@ -129,18 +130,15 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
+fun intList(list: List<String>) = list.map { it.toInt() }
+
 fun bestLongJump(jumps: String): Int {
-    val newJumps = jumps
-    if (newJumps.contains(Regex("""[^\d\s%-]"""))) return -1
-    if (newJumps.contains(Regex("""\d"""))) {
-       val newNewJumps = newJumps.split(" ").filter { it.toString().contains(Regex("""\d""")) }
-        var max = newNewJumps[0].toInt()
-        for (i in 0..newNewJumps.size - 2) {
-            if (newNewJumps[i + 1].toInt() > newNewJumps[i].toInt()) max = newNewJumps[i + 1].toInt()
-        }
-        return max
-    }
-    else return -1
+    if (jumps.contains(Regex("""[^\d\s%-]"""))) return -1
+    if (jumps.contains(Regex("""\d"""))) {
+        val newJumps = jumps.split(" ").filter { it.toString().contains(Regex("""\d""")) }
+        val a = intList(newJumps)
+        return a.max() ?: -1
+    } else return -1
 }
 
 /**

@@ -110,9 +110,7 @@ data class Segment(val begin: Point, val end: Point) {
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = diameterByArray(points)
-
-fun diameterByArray(points: Array<out Point>): Segment {
+fun diameter(vararg points: Point): Segment {
     if (points.size < 2) throw IllegalArgumentException("")
     else if (points.size == 2) return Segment(points[0], points[1])
     else {
@@ -231,7 +229,7 @@ fun minContainingCircle(vararg points: Point): Circle {
     else if (points.size == 1) return Circle(points[0], 0.0)
     else if (points.size == 2) return circleByDiameter(Segment(points[0], points[1]))
     else {
-        val diameter: Segment = diameterByArray(points)
+        val diameter: Segment = diameter(*points)
         var maxArea: Double = 0.0
         var maxTriangle: Triangle = Triangle(diameter.begin, diameter.end, points[0])
         for (i in points) {

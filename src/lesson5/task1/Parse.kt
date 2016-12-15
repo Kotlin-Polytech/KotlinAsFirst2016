@@ -170,21 +170,15 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val checkFormat = Regex("""(\d+\s+|[%-]\s+)+(\d+|[%-])""")
-    if (!checkFormat.matches(jumps)) return -1
-    else {
-        var bestLongJump: Int = -1
-        val longJumps = Regex("""\d+""").findAll(jumps)
-        for (i in longJumps) {
-            try {
-                if (i.value.toInt() > bestLongJump) bestLongJump = i.value.toInt()
-            }
-            catch (e: NumberFormatException) {
-                return -1
-            }
-        }
-        return bestLongJump
+    val parts = jumps.split(Regex("""\s+"""))
+    val marks = Regex("""[-%]+""")
+    val jump = Regex("""\d+""")
+    var result: Int = -1
+    for (i in parts) {
+        if (i.matches(jump) && i.toInt() > result) result = i.toInt()
+        else if (!i.matches(jump) && !i.matches(marks)) return -1
     }
+    return result
 }
 
 /**
@@ -197,21 +191,19 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun jumpsProcessing (jumps: String):Int {
-    var result: Int = -1
-    val findNumber = Regex("""\d+(?=\s+([%-])*\+)""")
-    var number = findNumber.find(jumps)
-    while (number != null) {
-        if (number.value.toInt() > result) result = number.value.toInt()
-        number = number.next()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(Regex("""\s+"""))
+    if (parts.size % 2 == 1) return -1
+    var result = -1
+    val marks = Regex("""[-+%]+""")
+    val isNumber = Regex("""\d+""")
+    for (i in 0..parts.size - 1 step 2) {
+        if (parts[i].matches(isNumber) && parts[i+1].matches(marks)) {
+            if (parts[i+1].contains('+') && parts[i].toInt() > result) result = parts[i].toInt()
+        }
+        else return -1
     }
     return result
-}
-
-fun bestHighJump(jumps: String): Int {
-    val checkFormat = Regex("""(\d+ [+%-]+ )*(\d+ [+%-]+)""")
-    if (!checkFormat.matches(jumps)) return -1
-    return jumpsProcessing(jumps)
 }
 
 /**
@@ -269,15 +261,17 @@ fun firstDuplicateIndex(str: String): Int =
  */
 fun mostExpensive(description: String): String {
     val goods = description.split("; ")
-    var maxPrice: Double = 0.0
+    var maxPrice: Double = -1.0
     var name: String = ""
-    val findPrice = Regex("""\d+(\.\d+)?$""")
-    val findName = Regex(""".+?(?=\s+\d+(\.\d+)?$)""")
     for (i in goods) {
-        val temp = findPrice.find(i)?.value?.toDouble() ?: return ""
-        if (temp > maxPrice) {
-            maxPrice = temp
-            name = findName.find(i)?.value ?: return ""
+        try {
+            val price = i.takeLastWhile { it != ' ' }.toDouble()
+            if (price > maxPrice) {
+                maxPrice = price
+                name = i.dropLastWhile { it != ' ' }.dropLast(1)
+            }
+        } catch(e: NumberFormatException) {
+            return ""
         }
     }
     return name

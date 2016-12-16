@@ -21,15 +21,14 @@ fun factorial(n: Int): Double {
  * Проверка числа на простоту -- результат true, если число простое
  */
 
-fun isPrime(n: Int): Boolean = TODO()
-/**{
-    if (n < 2) return false
-    for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
-        if (n % m == 0) return false
-    }
-    return true
+fun isPrime(n: Int): Boolean {
+if (n < 2) return false
+for (m in 2..Math.sqrt(n.toDouble()).toInt()) {
+if (n % m == 0) return false
 }
-*/
+return true
+}
+
 
 /**
  * Пример
@@ -98,24 +97,14 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int {
-    var k = 0
-    when {
-        m == 0 || n == 0 -> return 0
-        (m == 1) && (n == 1) -> return 1
-        m == 1 -> return n
-        n == 1 -> return m
-        else -> {
-            for (i in 2..n * m) {
-                if (((i % n) == 0) && ((i % m) == 0)) {
-                    k = i
-                    return k
-                }
-            }
-            return k
-        }
-    }
+
+fun nok(a: Int, b: Int): Int {
+    if (a != 0) return nok(b % a, a)
+    else return b
 }
+
+fun lcm(m: Int, n: Int): Int =
+        m * n / nok(m, n)
 
 /**
  * Простая
@@ -123,9 +112,8 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    val n1=Math.sqrt(n.toDouble()).toInt()
-    return (2..n1).firstOrNull { (n % it) == 0 }
-            ?: n
+    val m = Math.sqrt(n.toDouble()).toInt()
+    return (2..m).firstOrNull { (n % it) == 0 } ?: n
 }
 
 /**
@@ -133,10 +121,7 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int {
-    return (n - 1 downTo 1).firstOrNull { (n % it) == 0 }
-            ?: n
-}
+fun maxDivisor(n: Int): Int = ((n/2) downTo 1).firstOrNull { (n % it) == 0 } ?: n
 
 /**
  * Простая
@@ -145,12 +130,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    for (i in 2..m) {
-        if (((m % i) == 0) and ((n % i) == 0)) return false
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = nok(m,n) == 1
 
 /**
  * Простая
@@ -161,9 +141,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     for (result in m..n) {
-        val sqrt = Math.sqrt(result.toDouble())
-        if (sqrt % 1 == 0.0)
-            if (sqrt * sqrt in m..n) return true
+        val sqrt = Math.sqrt(result.toDouble()).toInt()
+        if (sqrt * sqrt in m..n) return true
     }
     return false
 }

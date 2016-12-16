@@ -87,6 +87,7 @@ class Tests {
         assertEquals(975, lcm(39, 75))
         assertEquals(1, lcm(1, 1))
         assertEquals(47709, lcm(1, 47709))
+        assertEquals(0, lcm(1, 0))
     }
 
     @Test

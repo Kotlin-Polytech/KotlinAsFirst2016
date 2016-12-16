@@ -121,9 +121,7 @@ fun centered(line: String,maxLength: Int): String{
     if(line.length == maxLength) return line
     var result = line.trim()
     val numberOfSpaces = (maxLength - result.length)/2
-    for(i in 1..numberOfSpaces){
-        result = " " + result
-    }
+    result = " ".repeat(numberOfSpaces)+ result
 
     return result
 }
@@ -179,9 +177,7 @@ fun stringProcessing(line: String, maxLength: Int): String{
     var numberOfSpaces = maxLength
     for (part in parts) numberOfSpaces -= part.length  //кол-во пробелов, которые необходимо вставить в строку
     for(i in 1..parts.size-1){
-        for(j in 1..(numberOfSpaces/numberOfWords)){
-            result = " " + result
-        }
+        result = " ".repeat(numberOfSpaces/numberOfWords) + result
         result = parts[parts.size - 1 - i] + result
         numberOfSpaces -= (numberOfSpaces/numberOfWords)
         numberOfWords -= 1

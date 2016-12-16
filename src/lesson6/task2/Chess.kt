@@ -72,8 +72,8 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (start == end) return 0
-    else if (start.column <= 0 || start.row <= 0 || end.column <= 0 || end.row <= 0) throw  IllegalArgumentException()
+    if (!start.inside() || !end.inside()) throw  IllegalArgumentException()
+    else if (start == end) return 0
     else if (start.column == end.column || start.row == end.row) return 1
     else return 2
 }
@@ -94,7 +94,7 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     if (start == end) return listOf(start)
-    else if (start.column <= 0 || start.row <= 0 || end.column <= 0 || end.row <= 0) throw  IllegalArgumentException()
+    else if (!start.inside() || !end.inside()) throw  IllegalArgumentException()
     else if (start.column == end.column || start.row == end.row) return listOf(start, end)
     else return listOf(start, Square(start.column, end.row), end)
 }
@@ -125,7 +125,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
 fun bishopMoveNumber(start: Square, end: Square): Int {
     when {
         (start == end) -> return 0
-        (start.column <= 0 || start.row <= 0 || end.column <= 0 || end.row <= 0) -> throw  IllegalArgumentException()
+        (!start.inside() || !end.inside()) -> throw  IllegalArgumentException()
         (start.column - end.column) == (start.row - end.row) || (start.column - end.column) == -(start.row - end.row) -> return 1
         (start.column % 2) == (end.column % 2) && (start.row % 2) != (end.row % 2) -> return -1
         (start.column % 2) != (end.column % 2) && (start.row % 2) == (end.row % 2) -> return -1

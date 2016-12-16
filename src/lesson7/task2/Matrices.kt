@@ -177,14 +177,19 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  */
 fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
     val result = createMatrix(matrix.height, matrix.width, 0)
-    for (row in 0..matrix.height - 1)
-        for (column in 0..matrix.width - 1) {
-            result[row, column] += matrix[row, column] + when {
-                row > 0 && column > 0 -> result[row - 1, column] + result[row, column - 1] - result[row - 1, column - 1]
-                row > 0 -> result[row - 1, column]
-                column > 0 -> result[row, column - 1]
-                else -> 0
-            }
+    result[0, 0] = matrix[0, 0]
+    for (row in 1..matrix.height - 1) {
+        result[row, 0] += matrix[row, 0] + result[row - 1, 0]
+    }
+    for (column in 1..matrix.width - 1) {
+        result[0, column] += matrix[0, column] + result[0, column - 1]
+    }
+    for (row in 1..matrix.height - 1)
+        for (column in 1..matrix.width - 1) {
+            result[row, column] += matrix[row, column]
+            +result[row - 1, column]
+            +result[row, column - 1]
+            -result[row - 1, column - 1]
         }
     return result
 }

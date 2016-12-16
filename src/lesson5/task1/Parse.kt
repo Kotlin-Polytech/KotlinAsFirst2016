@@ -86,7 +86,7 @@ fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
     if (parts.size != 3) return ""
     try {
-        if (parts[0].toInt() > 31 || parts[0].toInt() <= 0 || parts[2].toInt() <= 0) return ""
+        if (parts[0].toInt() > 31 || parts[0].toInt() <= 0) return ""
     } catch (e: NumberFormatException) {
         return ""
     }

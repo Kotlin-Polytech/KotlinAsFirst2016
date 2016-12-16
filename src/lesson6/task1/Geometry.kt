@@ -85,16 +85,17 @@ data class Segment(val begin: Point, val end: Point)
  */
 fun diameter(vararg points: Point): Segment {
     if (points.size < 2) throw IllegalArgumentException()
-    var newSegment = Segment(points[0], points[1])
-    var newdistance = 0
+    var newSegment = Segment(points.first(), points.last())
+    var newdistance = 0.0
     if (points.size > 2) {
-        for (i in points.size - 1 downTo 1) {
-            val distance2 = points[i].distance(points[i - 1])
-            if (distance2 > newdistance) {
-                newdistance = distance2.toInt()
-                newSegment = Segment(points[i - 1], points[i])
+        for (i in 0..points.size - 2) {
+            for (j in i + 1..points.size - 1) {
+                val distance2 = Math.sqrt(sqr(points[i].x - points[j].x) + sqr(points[i].y - points[j].y))
+                if (distance2 > newdistance) {
+                    newdistance = distance2
+                    newSegment = Segment(points[i], points[j])
+                }
             }
-
         }
     }
     return newSegment

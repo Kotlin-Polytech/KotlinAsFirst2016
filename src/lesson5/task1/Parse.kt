@@ -148,7 +148,7 @@ fun bestLongJump(jumps: String): Int {
         if (jumps.last() in number) succes += jumps.last()
         val parts = succes.split(" ")
         for (part in parts) {
-            if (part.toInt() > result) {
+            if (part.toInt() >= result) {
                 result = part.toInt()
             }
 

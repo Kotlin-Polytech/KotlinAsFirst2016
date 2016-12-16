@@ -65,6 +65,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<
     override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
+        if (row < 0 || column < 0 || row >= height || column >= width) throw IllegalArgumentException()
         map[Pair(row, column)] = value
     }
 

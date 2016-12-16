@@ -82,7 +82,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
 fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
     val x1 = grad / 180.0 * PI
     val x2 = (min / 60.0) / 180.0 * PI
-    val x3 = (sec / 3600) / 180 * PI
+    val x3 = (sec / 3600.0) / 180 * PI
     return x1 + x2 + x3
 }
 

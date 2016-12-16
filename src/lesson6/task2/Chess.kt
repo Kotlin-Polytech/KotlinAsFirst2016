@@ -151,16 +151,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> {
-    when {
-        start == end -> return listOf(start)
-        (start.column <= 0 || start.row <= 0 || end.column <= 0 || end.row <= 0) -> throw  IllegalArgumentException()
-        (start.column - end.column) == (start.row - end.row) || (start.column - end.column) == -(start.row - end.row) -> return listOf(start, end)
-        (start.column % 2) == (end.column % 2) && (start.row % 2) != (end.row % 2) -> return emptyList()
-        (start.column % 2) != (end.column % 2) && (start.row % 2) == (end.row % 2) -> return emptyList()
-
-    }
-}
+fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
 
 /**
  * Средняя

@@ -61,7 +61,9 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  *  9  8  7  6
  */
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
-    val M = createMatrix(height, width, 0)
+    TODO()
+}
+    /*val M = createMatrix(height, width, 0)
     val start = 0 //Переменная начала строки или столбца
     val fin = 1 //Переменная конца строки или столбца
     var count = 0
@@ -87,7 +89,7 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     //}}
     return M
 }
-
+*/
 /**
  * Сложная
  *
@@ -175,7 +177,7 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  */
 fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
     val M = createMatrix(matrix.height, matrix.width, 0)
-    if (matrix.height == 1 && matrix.width == 1) return M
+    //if (matrix.height == 1 && matrix.width == 1) return M
     for (i in 0..matrix.height - 1) {
         for (j in 0..matrix.width - 1) {
             var sum = 0
@@ -233,7 +235,10 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> { //надо доделать
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    TODO()
+}
+/*//надо доделать
     val M = createMatrix(matrix.height, matrix.width, 0)
     var sum = 0
     for (i in 0..matrix.height - 1) {
@@ -242,8 +247,7 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> { //надо доделать
             M[i, j] = sum
         }
     }
-    return M
-}
+    return M */
 
 /**
  * Сложная

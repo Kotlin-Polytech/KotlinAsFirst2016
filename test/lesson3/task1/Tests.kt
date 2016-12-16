@@ -115,12 +115,14 @@ class Tests {
         assertFalse(isCoPrime(6, 8))
         assertTrue(isCoPrime(17, 97))
         assertFalse(isCoPrime(37, 111))
+        assertFalse(isCoPrime(99726, 96796))
     }
 
     @Test
     @Tag("Easy")
     fun squareBetweenExists() {
         assertTrue(squareBetweenExists(1, 1))
+        assertTrue(squareBetweenExists(0, 1))
         assertTrue(squareBetweenExists(21, 28))
         assertFalse(squareBetweenExists(51, 61))
         assertFalse(squareBetweenExists(999, 1001))
@@ -183,6 +185,8 @@ class Tests {
         assertEquals(6, squareSequenceDigit(12))
         assertEquals(0, squareSequenceDigit(17))
         assertEquals(9, squareSequenceDigit(27))
+        assertEquals(5, squareSequenceDigit(10978))
+
     }
 
     @Test

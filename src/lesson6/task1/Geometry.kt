@@ -84,12 +84,12 @@ data class Segment(val begin: Point, val end: Point)
  */
 fun diameter(vararg points: Point): Segment {
     var segment = Segment(points[0], points[0])
-    var result1 = -1.0
+    var maxDistance = -1.0
     for (i in 0..points.size - 2) {
         for (j in 1..points.size - 1) {
-            val result = points[i].distance(points[j])
-            if (result1 < result) {
-                result1 = result
+            val distance = points[i].distance(points[j])
+            if (maxDistance < distance) {
+                maxDistance = distance
                 segment = Segment(points[i], points[j])
             }
         }
@@ -107,8 +107,7 @@ fun diameter(vararg points: Point): Segment {
 fun circleByDiameter(diameter: Segment): Circle {
     val center = Point(((diameter.begin.x + diameter.end.x) / 2), ((diameter.begin.y +
             diameter.end.y) / 2))
-    val radius = (diameter.begin.distance(diameter.end)) / 2
-    val circle = Circle(center, radius)
+    val circle = Circle(center, (diameter.begin.distance(diameter.end)) / 2)
     return circle
 }
 
@@ -124,18 +123,14 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val a1 = Math.sin(angle)
+        val a1 = -Math.sin(angle)
         val a2 = Math.cos(angle)
-        val b1 = -point.x *(a1/a2) + point.y
-        val a3 = Math.sin(other.angle)
+        val b1 = -a1 * point.x - a2 * point.y
+        val a3 = -Math.sin(other.angle)
         val a4 = Math.cos(other.angle)
-        val b2 = -other.point.x *(a3/a4)+ other.point.y
-        val x = (b2 - b1) / (a1/a2 - a3/a4)
-        val y = when {
-            (angle == Math.PI / 2 || angle == Math.PI / -2) -> other.point.y
-            (other.angle == Math.PI / 2 || other.angle == Math.PI / -2) -> point.y
-            else -> (x - point.x) * (a1/a2) + point.y
-        }
+        val b2 = -a3 * other.point.x - a4 * other.point.y
+        val x = (b2 * a2 - b1 * a4) / (a1 * a4 - a2 * a3)
+        val y = (b1 * a3 - b2 * a1) / (a1 * a4 - a2 * a3)
         return Point(x, y)
     }
 }
@@ -149,7 +144,7 @@ data class Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     var angle = 0.0
     if (s.begin != s.end) {
-        angle = Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
+        angle = Math.atan2(s.end.y - s.begin.y, s.end.x - s.begin.x)
     }
     return Line(Point(s.begin.x, s.begin.y), angle)
 }
@@ -179,19 +174,18 @@ fun bisectorByPoints(a: Point, b: Point): Line {
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
 fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
-    var otr = Pair(circles[0], circles[0])
-    var result1 = -0.0
+    var minDistance = -1.0
+    var pair = Pair(circles[0], circles[1])
     if (circles.size < 2) throw IllegalArgumentException()
-    for (i in 0..circles.size - 2) {
-        for (j in 1..circles.size - 1) {
-            val result = circles[i].distance(circles[j])
-            if (result1 < result) {
-                result1 = result
-                otr = Pair(circles[i], circles[j])
+    for (i in 0..circles.size - 2)
+        for (j in i + 1..circles.size - 1) {
+            val distance = circles[i].distance(circles[j])
+            if ((distance < minDistance) || (minDistance == -1.0)) {
+                pair = Pair(circles[i], circles[j])
+                minDistance = distance
             }
         }
-    }
-    return otr
+    return pair
 }
 
 /**

@@ -63,7 +63,7 @@ fun digitNumber(n: Int): Int {
     var k = 0
     if (n == 0) return 1
     while (Math.abs(n1) > 0) {
-        k ++
+        k++
         n1 /= 10
     }
     return k
@@ -93,7 +93,7 @@ fun fib(n: Int): Int {
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun gcd (a: Int, b: Int): Int {
+fun gcd(a: Int, b: Int): Int {
     var a1 = a
     var b1 = b
     while (a1 != b1) {
@@ -107,7 +107,7 @@ fun lcm(m: Int, n: Int): Int {
     val n1 = n
     val m1 = m
     val prod = m1 * n1
-    return prod / gcd(m1,n1)
+    return prod / gcd(m1, n1)
 }
 
 /**
@@ -142,10 +142,8 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 
-fun isCoPrime(m: Int, n: Int): Boolean {
-    if (gcd(m, n) == 1) return true
-    else return false
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (gcd(m, n) == 1)
+
 
 /**
  * Простая
@@ -155,10 +153,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    if ((Math.abs(m)==1) && (Math.abs(n)==1)) return true
+    if ((Math.abs(m) == 1) && (Math.abs(n) == 1)) return true
     for (i in m..n) {
-            if ((Math.sqrt(i.toDouble()) % 1) == 0.0) return true
-        }
+        if ((Math.sqrt(i.toDouble()) % 1) == 0.0) return true
+    }
     return false
 }
 
@@ -250,8 +248,8 @@ fun squareSequenceDigit(n: Int): Int {
     var number = 0
     var x = 0
     while (number < n) {
-        x ++
-        number += length( x * x)
+        x++
+        number += length(x * x)
     }
     var result = x * x
     (n..number - 1).forEach { x -> result /= 10 }
@@ -270,7 +268,7 @@ fun fibSequenceDigit(n: Int): Int {
     var number = 0
     var x = 0
     while (number < n) {
-        x ++
+        x++
         number += length(fib(x))
     }
     var result = fib(x)

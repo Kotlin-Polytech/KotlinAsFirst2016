@@ -23,14 +23,13 @@ fun isNumberHappy(number: Int): Boolean {
     var sum2: Int
     sum1 = number % 10
     var number1 = number
-    number1 = number1 / 10
-    sum1 = sum1 + number1 % 10
-    number1 = number1 / 10
+    number1 /= 10
+    sum1 += number1 % 10
+    number1 /= 10
     sum2 = number1 % 10
-    number1 = number1 / 10
-    sum2 = sum2 + number1 % 10
-    if (sum1 == sum2) return true
-    else return false
+    number1 /= 10
+    sum2 += number1 % 10
+    return sum1 == sum2
 }
 
 /**
@@ -50,10 +49,9 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = ((x1 == x2) ||
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    if ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2) return true
-    else return false
-}
+                 x2: Double, y2: Double, r2: Double): Boolean =
+        ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2)
+
 
 /**
  * Средняя
@@ -64,9 +62,7 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    if (((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) ||
-            ((c <= s) && (a <= r)) || ((c <= r) && (a <= s)) ||
-            ((b <= s) && (c <= r)) || ((b <= r) && (c <= s))) return true
-    else return false
-}
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean =
+        (((a <= r) && (b <= s)) || ((a <= s) && (b <= r)) ||
+                ((c <= s) && (a <= r)) || ((c <= r) && (a <= s)) ||
+                ((b <= s) && (c <= r)) || ((b <= r) && (c <= s)))

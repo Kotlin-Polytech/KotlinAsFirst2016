@@ -124,8 +124,8 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     when {
-        (start == end) -> return 0
         (!start.inside() || !end.inside() || start.column == 0 || start.row == 0 || end.column == 0 || end.row == 0) -> throw  IllegalArgumentException()
+        (start == end) -> return 0
         (start.column - end.column) == (start.row - end.row) || (start.column - end.column) == -(start.row - end.row) -> return 1
         (start.column % 2) == (end.column % 2) && (start.row % 2) != (end.row % 2) -> return -1
         (start.column % 2) != (end.column % 2) && (start.row % 2) == (end.row % 2) -> return -1

@@ -220,12 +220,14 @@ fun findHoles(matrix: Matrix<Int>): Holes {
     for (i in 0..matrix.height - 1)
         for (j in 0..matrix.width - 1) {
             if (matrix[i, j] != 0) break
-            if (j == matrix.width - 1) rows.add(i)
+            if (j == matrix.width - 1)
+                rows.add(i)
         }
     for (i in 0..matrix.width - 1)
         for (j in 0..matrix.height - 1) {
             if (matrix[j, i] != 0) break
-            if (j == matrix.height - 1) columns.add(i)
+            if (j == matrix.height - 1)
+                columns.add(i)
         }
     return Holes(rows, columns)
 }

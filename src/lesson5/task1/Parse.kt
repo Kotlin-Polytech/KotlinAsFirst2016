@@ -2,6 +2,7 @@
 
 package lesson5.task1
 
+import java.util.*
 import kotlin.comparisons.compareValues
 
 /**
@@ -62,30 +63,27 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    var builderString = ""
-    val parts = str.split(" ")
-    if (parts.size == 3) {
-        val day = parts[0].toInt()
-        if (day in 1..9) builderString = builderString + '0' + day.toString() + "."
-        else builderString += day.toString() + "."
-        builderString += when (parts[1]) {
-            "января" -> "01."
-            "февраля" -> "02."
-            "марта" -> "03."
-            "апреля" -> "04."
-            "мая" -> "05."
-            "июня" -> "06."
-            "июля" -> "07."
-            "августа" -> "08."
-            "сентября" -> "09."
-            "октября" -> "10."
-            "ноября" -> "11."
-            "декабря" -> "12."
-            else -> return ""
-        }
-    } else return ""
-    builderString += parts[2].toString()
-    return builderString
+    val partsOfDate = str.split(" ")
+    val months = listOf("Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+            "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
+    try {
+        if (partsOfDate.size != 3) throw IllegalArgumentException()
+
+        val date = partsOfDate[0].toInt()
+        var month = partsOfDate[1]
+        val year = partsOfDate[2].toInt()
+
+        if (date.toInt() !in 1..31) throw IllegalArgumentException()
+        if (months.indexOf(month.capitalize()) == -1) throw IllegalArgumentException()
+        else month = (months.indexOf(month.capitalize()) + 1).toString()
+        val monthInt = month.toInt()
+
+        return String.format("%02d.%02d.%s", date, monthInt, year)
+    } catch (e: IllegalArgumentException) {
+        return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
 }
 
 /**
@@ -96,37 +94,23 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    var builderString = ""
-    val parts = digital.split(".")
-    if (parts.size == 3) {
-        try {
-            val day = parts[0].toInt()
-            if (day !in 1..31)
-                return ""
-            else {
-                builderString = day.toString()
-                builderString += when (parts[1]) {
-                    "01" -> " января "
-                    "02" -> " февраля "
-                    "03" -> " марта "
-                    "04" -> " апреля "
-                    "05" -> " мая "
-                    "06" -> " июня "
-                    "07" -> " июля "
-                    "08" -> " августа "
-                    "09" -> " сентября "
-                    "10" -> " октября "
-                    "11" -> " ноября "
-                    "12" -> " декабря "
-                    else -> return ""
-                }
-            }
-            builderString += parts[2].toString()
-        } catch (e: NumberFormatException) {
-            return ""
-        }
-        return builderString
-    } else return ""
+    val months = listOf("Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
+            "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
+    try {
+        val partsOfDate = digital.split(".")
+        if (partsOfDate.size > 3) throw IllegalArgumentException()
+        val date = partsOfDate[0].toInt()
+        val month = months[partsOfDate[1].toInt() + -1].toLowerCase()
+        val year = partsOfDate[2].toInt()
+
+        return String.format("%d %s %d", date, month, year)
+    } catch (e: IllegalArgumentException) {
+        return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    }
 }
 
 /**
@@ -188,24 +172,17 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    var maxHeight = 0
-    var count = 0
-    val parts = jumps.split(" ")
-    if (parts.size == 1) return -1
-    for (i in 0..parts.size - 1 step 2) {
-        val heightJumpFilter = Regex("""\d+(\+|\%|\-)+""")
-        if (!heightJumpFilter.matches(parts[i] + parts[i + 1])) return -1
-        if ('+' in parts[i + 1] && parts[i].toInt() >= maxHeight) {
-            maxHeight = parts[i].toInt()
-            count++
-        }
-    }
-    if (count > 0) {
-        return maxHeight
-    }
-     else
-        return -1
+    val pattern = Regex("[0-9-+%[\\s]]+")
+    try {
+        if (!(jumps.matches(pattern))) throw IllegalArgumentException()
+        val jumpsList = jumps.split(" ")
+        val jumpsInt = jumpsList.filterIndexed { i, s -> i % 2 == 0 }.map(String::toInt)
+        val jumpsSymb = jumpsList.filterIndexed { i, s -> i % 2 != 0 }
+        return jumpsInt.zip(jumpsSymb).filter { it.second.contains(Regex(".*[+].*")) }.toMap().toSortedMap(Comparator { o1, o2 -> o2 - o1 }).filter { it.value.matches(Regex(".*[+]+.*")) }.keys.firstOrNull() ?: -1
 
+    } catch (e: IllegalArgumentException) {
+        return -1
+    }
 }
 
 /**
@@ -218,26 +195,23 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val filterString = Regex("""((\d+\ +(\+|\-)\ +)+)?\d+""")
-    try {
-        if (!filterString.matches(expression)) {
-            throw IllegalArgumentException("IllegalArgumentException")
-        } else {
-                val parts = expression.split(" ")
-                var answer = parts[0].toInt()
-                if (parts.size == 1) return answer
-                for (i in 0..parts.size - 3 step 2) {
-                    if (parts[i +1] == "+") {
-                        answer += parts[i + 2].toInt()
-                    }  else {
-                        answer -= parts[i +2].toInt()
-                    }
-                }
-             return answer
+    val filterString = Regex("^\\d+(\\s[+-]\\s)(\\d+\\s[+-]\\s)*\\d+$")
+    if (expression.matches(Regex("\\d+"))) return expression.toInt()
+    if (!(expression.matches(filterString))) throw IllegalArgumentException()
+    val digitsAndSymbols = expression.split(" ")
+    val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0 }
+    val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i % 2 != 0 })
+    var k = 0
+    var sum = 0
+    for (i in digits) {
+        when {
+            symbols[k] == "+" -> sum += i.toInt()
+            symbols [k] == "-" -> sum -= i.toInt()
+            else -> throw IllegalArgumentException()
         }
-    }catch (e: NumberFormatException){
-        throw NumberFormatException("IllegalArgumentException")
+        k++
     }
+    return sum
 }
 
 /**

@@ -134,7 +134,7 @@ fun mean(list: List<Double>): Double = when(list.size) {
         fun center(list: MutableList<Double>): MutableList<Double> {
     val a = mean(list)
         for (i in 0..list.size - 1){
-            list[i] = list[i] - a
+            list[i] -= a
         }
     return list
 }
@@ -329,9 +329,7 @@ fun roman(n: Int): String = TODO()
 
 fun russian(n: Int): String = TODO()
 
-data class People(val name: String, val colorOfHair: String) {
-
-}
+data class People(val name: String, val colorOfHair: String) {}
     fun uniqueColorOfHair(peoples: List<People>): List<People> {
         val whiteSet = mutableSetOf<String>()
         val blackSet = mutableSetOf<String>()

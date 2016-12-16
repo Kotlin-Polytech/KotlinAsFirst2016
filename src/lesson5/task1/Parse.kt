@@ -67,17 +67,13 @@ fun dateStrToDigit(str: String): String {
     val listDate = mutableListOf<String>()
     if (parts.size == 3) {
         try {
-            listDate.add(
-            when {
+            listDate.add( when {
                 parts[0].toInt() in 1..9 -> twoDigitStr(parts[0].toInt())
                 else -> parts[0]
-            }
-            )
-            listDate.add(
-            when {
+            })
+            listDate.add( when {
                 parts[1] == "января" && parts[0].toInt() < 32 -> ".01."
-                parts[1] == "февраля" && parts[0].toInt() == 29 &&
-                        parts[2].toInt() % 4 == 0-> ".02."
+                parts[1] == "февраля" && parts[0].toInt() == 29 && parts[2].toInt() % 4 == 0-> ".02."
                 parts[1] == "февраля" && parts[0].toInt() < 29 -> ".02."
                 parts[1] == "марта" && parts[0].toInt() < 32 -> ".03."
                 parts[1] == "апреля" && parts[0].toInt() < 31-> ".04."
@@ -90,8 +86,7 @@ fun dateStrToDigit(str: String): String {
                 parts[1] == "ноября" && parts[0].toInt() < 31 -> ".11."
                 parts[1] == "декабря" && parts[0].toInt() < 32 -> ".12."
                 else -> return ""
-            }
-            )
+            })
             listDate.add(parts[2])
         } catch (e: NumberFormatException) {
             return ""
@@ -292,25 +287,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String {
-    val parts = description.split(" ")
-    val priceRegex = Regex("""\S+\s\d+\.\d+((\;\s\S+\s\d+\.\d+)+)*""")
-    var index = 0
-    if (!priceRegex.matches(description)) {
-        return ""
-    } else {
-        var max = 0.0
-        for (i in 1..parts.size - 1 step 2) {
-            val prise = parts[i].filter { it != ';' }.toDouble()
-            if (prise >= max) {
-                max = prise
-                index = i - 1
-            }
-        }
-    }
-    return parts[index]
-}
-
+fun mostExpensive(description: String): String = TODO()
 /**
  * Сложная
  *

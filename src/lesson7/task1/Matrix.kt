@@ -99,7 +99,5 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     override fun toString(): String{
         return "MatrixImpl(height=$height, width=$width, listOfCell=$listOfCell)"
     }
-
-
 }
 

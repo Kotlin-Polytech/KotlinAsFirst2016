@@ -101,19 +101,6 @@ fun dateDigitToStr(digital: String): String {
         if (parts.size > 3) return ""
         var result = ""
         if (parts[0].toInt() in 1..31) result += parts[0].toInt()
-
-        /*result += when (parts[0]) {
-            "01" -> parts[0].toInt()
-            "02" -> "2"
-            "03" -> "3"
-            "04" -> "4"
-            "05" -> "5"
-            "06" -> "6"
-            "07" -> "7"
-            "08" -> "8"
-            "09" -> "9"
-            else -> parts[0]
-        }*/
         result += when (parts[1]) {
             "01" -> " января "
             "02" -> " февраля "
@@ -151,13 +138,14 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var result = phone.filter { it != '(' && it != ')' && it != ' ' && it != '-' }
+    val result = phone.filter { it != '(' && it != ')' && it != ' ' && it != '-' }
     for (i in result) {
         if ((i !in '0'..'9') && (i != '+')) {
             return ""
         }
     }
-    return result
+    if(result == "+") return ""
+    else return result
 }
 
 /**
@@ -331,7 +319,7 @@ fun fromRomanHelper(str: String, i: Int, x: Char, y: Char, z: Char): Int {
     else if ((str.length - 1 >= i + 1) && (str[i] == y) && (str[i + 1] == z)) return 6
     else if (str[i] == y) return 5
     else if ((str.length - 1 >= i + 1) && (str[i] == z) && (str[i + 1] == y)) return 4
-    else if ((str.length - 1 >= i + 2) && (str[i] == z) && (str[i] == z) && (str[i + 2] == z)) return 3
+    else if ((str.length - 1 >= i + 2) && (str[i] == z) && (str[i + 1] == z) && (str[i + 2] == z)) return 3
     else if ((str.length - 1 >= i + 1) && (str[i] == z) && (str[i + 1] == z)) return 2
     else if (str[i] == z) return 1
     else return -1

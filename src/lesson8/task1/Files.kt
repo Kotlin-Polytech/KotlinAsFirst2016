@@ -267,36 +267,41 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
             continue
         dictionary.add(lines)
     }
-    for (words in dictionary){
+    dictionary[0]=dictionary[0].substring(1, dictionary[0].length)
+    for (words in dictionary) {
         var check = true
-        for (i in 0..words.length -1)
-            for(j in i + 1..words.length -1)
+        for (i in 0..words.length - 1)
+            for (j in i + 1..words.length - 1) {
+                val d = words[j].toLowerCase()
                 if (words[i].toLowerCase() == words[j].toLowerCase())
                     check = false
-        if (check != false){
-            if (words.length > max){
-                max = words.length
-                if (dictionaryResult.isNotEmpty()){
-                    for (i in 0..dictionaryResult.size - 1){
-                        dictionaryResult[i]=""
-                    }
+            }
+        if (check == false) {
+            dictionary[dictionary.indexOf(words)] = ""
+        }
+    }
+    for (words in dictionary){
+        if (words.length == max){
+            dictionaryResult.add(words)
+        }
+        if (words.length > max){
+            max = words.length
+            if (dictionaryResult.isNotEmpty()){
+                for (i in 0..dictionaryResult.size - 1){
+                    dictionaryResult[i]=""
                 }
-                else
-                    dictionaryResult.add(words)
-
             }
             else
-                if (words.length == max){
-                    dictionaryResult.add(words)
-                }
+                dictionaryResult.add(words)
         }
-
     }
     for (i in dictionaryResult)
         result.append("$i, ")
     outputStream.write(result.toString().substring(0,result.length - 2))
     outputStream.close()
-}
+    }
+
+
 
 
 /**

@@ -1,4 +1,4 @@
-    @file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER")
 package lesson8.task1
 
 import java.io.File

@@ -164,8 +164,9 @@ fun plusMinus(expression: String): Int {
     if (expression.isEmpty()) throw IllegalArgumentException()
     val expressions = expression.split(" ").filter { it.length != 0 }
     if (expressions.size == 0) throw  IllegalArgumentException()
-    var answer = expressions[0].toInt()
+    var answer = 0
     try {
+        answer = expressions[0].toInt()
         for (i in 1..expressions.size - 2 step 2) {
             val number = expressions[i + 1].toInt()
             when (expressions[i]) {
@@ -178,8 +179,6 @@ fun plusMinus(expression: String): Int {
         throw IllegalArgumentException()
     }
     return answer
-
-
 }
 
 /**

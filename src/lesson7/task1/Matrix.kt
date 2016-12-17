@@ -80,8 +80,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun hashCode(): Int {
         var result = 5
-        result = result * 31 + height
-        result = result * 31 + width
+        result = 31 * result  + height
+        result = 31 * result  + width
         return result
     }
 

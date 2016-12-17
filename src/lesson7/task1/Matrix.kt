@@ -39,11 +39,13 @@ interface Matrix<E> {
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    val er = IllegalArgumentException("Describtion")
-if ((0 >= height) || (0 >= width)) throw er
-var matrix = MatrixImpl(height, width, e)
-for (row in 0..height - 1) {
-    for (colomn in 0..width - 1) { matrix[row, colomn] = e}}
+    val er = IllegalArgumentException("Description")
+    if ((0 >= height) || (0 >= width)) throw er
+    var matrix = MatrixImpl(height, width, e)
+    for (row in 0..height - 1)
+        for (colomn in 0..width - 1)
+            matrix[row, colomn] = e
+
     return matrix
 }
 
@@ -56,26 +58,36 @@ for (row in 0..height - 1) {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
     private val list = mutableListOf<E>()
-    init
-    {
+
+    init {
         (0..(height * width) - 1).forEach { list.add(e) }
     }
 
-    override fun get(row: Int, column: Int): E  = list[width*row + column]
+    override fun get(row: Int, column: Int): E = list[width * row + column]
 
-    override fun get(cell: Cell): E  = list[cell.column + cell.row*width]
+    override fun get(cell: Cell): E = list[cell.column + cell.row * width]
 
-    override fun set(row: Int, column: Int, value: E) {  list[width*row + column]  = value }
-
-    override fun set(cell: Cell, value: E) { list[cell.column + cell.row*width] = value }
-
-    override fun equals(other: Any?):Boolean {
-            if (other is MatrixImpl<*> && height == other.height && width == other.width && list == other.list) return true
-            else return false
-        }
-
-        override fun toString(): String {
-            return list.toString()
-        }
+    override fun set(row: Int, column: Int, value: E) {
+        list[width * row + column] = value
     }
+
+    override fun set(cell: Cell, value: E) {
+        list[cell.column + cell.row * width] = value
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return (other is MatrixImpl<*> && height == other.height && width == other.width && list == other.list)
+    }
+
+    override fun toString(): String {
+        return list.toString()
+    }
+
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + list.hashCode()
+        return result
+    }
+}
 

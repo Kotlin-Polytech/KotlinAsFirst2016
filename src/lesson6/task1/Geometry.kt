@@ -129,13 +129,12 @@ data class Line(val point: Point, val angle: Double) {
      */
     fun crossPoint(other: Line): Point {
         val x = when {
-            angle == Math.PI / 2 || angle == -Math.PI / 2 -> point.x
-            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> other.point.x
+            Math.cos(angle) == Math.cos(Math.PI / 2)  -> point.x
+            Math.cos(other.angle) == Math.cos(Math.PI / 2) -> other.point.x
             else -> (point.x * Math.tan(angle) - other.point.x * Math.tan(other.angle) + other.point.y - point.y) / (Math.tan(angle) - Math.tan(other.angle))
         }
         val y = when {
-            angle == Math.PI / 2 || angle == -Math.PI / 2 -> other.point.y
-            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> point.y
+            Math.cos(angle) == Math.cos(Math.PI / 2)  -> Math.tan(other.angle) * (x - other.point.x) + other.point.y
             else -> Math.tan(angle) * (x - point.x) + point.y
         }
         return Point(x, y)

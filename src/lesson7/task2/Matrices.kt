@@ -113,40 +113,8 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> {
-    val matrix = MatrixImpl(height, width, 0)
-    var countCoils = 0
-    var value = 1
-    var countBorder = 0
-    while (countCoils <= width / 2){
-        var i = countCoils
-        var j = countCoils - 1
-        while (( j < width - 1 ) && (matrix[i, j + 1] == 0)){
-            j++
-            matrix[i, j] = value
-        }
+fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
 
-        while (( i < height - 1 ) && (matrix[i + 1, j] == 0)){
-            i++
-            matrix[i, j ] = value
-        }
-
-
-        while (( j > 0 ) && (matrix[i, j - 1] == 0)){
-            j -= 1
-            matrix[i, j] = value
-        }
-
-
-        while (( i > 0 ) && (matrix[i -1, j] == 0)) {
-            i -= 1
-            matrix[i, j] = value
-        }
-        countCoils +=1
-        value++
-    }
-    return matrix
-}
 
 
 
@@ -295,7 +263,35 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+
+    val rows = mutableListOf<Int>()
+    val columns = mutableListOf<Int>()
+
+    for ( i in 0..matrix.height - 1) {
+        var countHoles = 0
+        for (j in 0..matrix.width - 1) {
+            if (matrix[i, j] == 1)
+                break
+            else
+                countHoles++
+        }
+        if (countHoles == matrix.width )
+            rows.add(i)
+    }
+    for ( i in 0..matrix.width - 1) {
+        var countHoles = 0
+        for (j in 0..matrix.height - 1) {
+            if (matrix[j, i] == 1)
+                break
+            else
+                countHoles++
+        }
+        if (countHoles == matrix.height )
+            columns.add(i)
+    }
+    return Holes(rows, columns)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице

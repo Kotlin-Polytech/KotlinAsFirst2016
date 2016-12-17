@@ -31,7 +31,7 @@ class Tests {
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
         assertEquals("01.01.2001", dateStrToDigit("1 января 2001"))
-        assertEquals("12.12.2012",dateStrToDigit("12 декабря 2012"))
+        assertEquals("12.12.2012", dateStrToDigit("12 декабря 2012"))
     }
 
     @Test
@@ -60,7 +60,7 @@ class Tests {
     @Test
     @Tag("Normal")
     fun bestLongJump() {
-        assertEquals(2147483647,bestLongJump("- - - 2147483647 -"))
+        assertEquals(2147483647, bestLongJump("- - - 2147483647 -"))
         assertEquals(2147483647, bestLongJump("2147483647 2147483647 1293481108 485941124 - 2147483647 0 0 - % % 2147483647 874153709 2147483647 580902861 % - - - 890139436 - 0 - 1320848252 - - - 2147483647"))
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
@@ -126,12 +126,5 @@ class Tests {
         assertEquals(listOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0), computeDeviceCells(10, "- <<<<< +[>+]"))
         assertEquals(listOf(0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0),
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++{--< <[<] >+[>+] >++}"))
-    }
-
-    @Test
-    fun myFun() {
-        assertEquals(mutableListOf("Глухих, Васильев"), myFun(mutableListOf("Петров Иван - Математика 2, Физика 2, Химия 3",
-                "Глухих Дмитрий - Яблоко 5, Физика 4", "Васильев Камил - Химия 4, Матан 5"), 4.0))
-        assertEquals(mutableListOf(""), myFun(mutableListOf("adasdasdas"), 2.0))
     }
 }

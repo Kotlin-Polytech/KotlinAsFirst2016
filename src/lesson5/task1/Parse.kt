@@ -281,29 +281,3 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
-
-fun myFun(examResults: List<String>, threshold: Double): MutableList<String> {
-    try {
-        var myPoint = 0
-        var maxJ = 0
-        val exitList = mutableListOf<String>()
-        for (i in 0..examResults.size - 1) {
-            val myStr = examResults[i].filter { it != ',' }
-            val mySecStr = myStr.split(" ")
-            for (j in 4..mySecStr.size - 1 step 2) {
-                myPoint += mySecStr[j].toInt()
-                maxJ++
-            }
-            val secondMy = (myPoint.toDouble() / maxJ)
-            myPoint = 0
-            maxJ = 0
-            if (secondMy >= threshold) {
-                exitList.add(mySecStr[0])
-            }
-        }
-        return exitList
-    } catch (e : NumberFormatException){
-        return mutableListOf()
-    }
-}
-

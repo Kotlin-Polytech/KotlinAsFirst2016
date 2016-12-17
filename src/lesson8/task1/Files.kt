@@ -237,7 +237,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
                 result.append(temp.toString())
         }
 
-        outputStream.write(result.toString().toString())
+        outputStream.write(result.toString().toString().trim())
         outputStream.newLine()
     }
     outputStream.close()

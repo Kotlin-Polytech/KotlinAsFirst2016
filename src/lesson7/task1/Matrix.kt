@@ -38,32 +38,57 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    if (height <= 0 || width <= 0) throw IllegalArgumentException()
+    val matrix = MatrixImpl<E>(height, width)
+    for (i in 0..height - 1) {
+        for (j in 0..width - 1) {
+            matrix[i, j] = e
+        }
+    }
+    return matrix
+}
 
 /**
  * Средняя сложность
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
+class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<E> {
 
-    override val width: Int = TODO()
+    private var map = mutableMapOf<Cell, E>()
+    override fun get(row: Int, column: Int): E = map[Cell(row, column)] ?: throw IllegalArgumentException()
 
-    override fun get(row: Int, column: Int): E  = TODO()
-
-    override fun get(cell: Cell): E  = TODO()
+    override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        map[Cell(row, column)] = value
     }
 
-    override fun set(cell: Cell, value: E) {
-        TODO()
+    override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
+
+    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && map == other.map
+
+
+    override fun toString(): String {
+        val sb = StringBuilder()
+        sb.append("[")
+        for (row in 0..height - 1) {
+            sb.append("[")
+            for (column in 0..width - 1) {
+                sb.append(this[Cell(row, column)])
+            }
+            sb.append("]")
+        }
+        sb.append("]")
+        return sb.toString()
     }
 
-    override fun equals(other: Any?) = TODO()
-
-    override fun toString(): String = TODO()
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + map.hashCode()
+        return result
+    }
 }
 

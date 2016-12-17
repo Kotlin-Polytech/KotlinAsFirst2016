@@ -2,6 +2,7 @@
 package lesson8.task1
 
 import java.io.File
+import java.io.IOException
 
 /**
  * Пример
@@ -53,49 +54,20 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countInString(stringFind: String, string: String): Int{
-    var count = 0
-    var endSymbol = stringFind.length
-    var i = 0
-    if (stringFind.length == string.length) {
-        if (stringFind in string)
-            return 1
-        else
-            return 0
-    }
-    else
-        while (i + endSymbol <= string.length ){
-            if (stringFind in string.substring(i , i + endSymbol))
-                count++
-            i++
-        }
-    return count
-}
+
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val result = mutableMapOf<String, Int>()
-    val listLines = mutableListOf< List<String> >()
-    for (line in File(inputName).readLines()){
-        val parth = line.toLowerCase().split(" ")
-        listLines.add(parth)
+    val map = mutableMapOf<String, Int>()
+    var text = File(inputName).readText().toLowerCase()
+    for (i in substrings) {
+        var countStrings = 0
+        for (j in 1..text.length - i.length) {
+            if (text.substring(j, j + i.length) == i.toLowerCase())
+                countStrings++
+        }
+        map[i] = countStrings
     }
-    var temp =  false
-    for (i in substrings){
-        var countString = 0
-        for (line in listLines)
-            for(j in line) {
-                if ( temp == false){
-                    countString += countInString(i.toLowerCase(), j.substring(1, j.length))
-                    temp = true
-                }
-                else {
-                    if ((i.toLowerCase() in j) || (j in i.toLowerCase())) {
-                        countString += countInString(i.toLowerCase(), j)
-                    }
-                }
-            }
-         result[i] = countString
-    }
-    return result
+
+    return map
 }
 
 
@@ -208,8 +180,18 @@ fun top20Words(inputName: String): Map<String, Int> {
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
+    val inputStream = File(inputName).bufferedReader()
     val result = StringBuilder()
-    for (line in File(inputName).readLines()){
+    var line = ""
+    var check = false
+
+    while (check != true){
+        try{
+            line = inputStream.readLine()
+        }
+        catch (e: IllegalStateException){
+            check = true
+        }
         result.delete(0, result.length)
         if (line.isEmpty()) {
             outputStream.newLine()
@@ -235,9 +217,17 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             else
                 result.append(temp.toString())
         }
+        try{
+            line = inputStream.readLine()
+            outputStream.write(result.toString().toString().trim())
+            outputStream.newLine()
+        }
+        catch (e: IllegalStateException){
+            check = true
+            outputStream.write(result.toString().toString().trim())
+        }
 
-        outputStream.write(result.toString().toString().trim())
-        outputStream.newLine()
+
     }
 
     outputStream.close()

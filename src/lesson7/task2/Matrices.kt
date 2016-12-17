@@ -106,9 +106,9 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  */
 fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
     if (matrix.height != matrix.width) throw IllegalArgumentException()
-    val newMatrix = createMatrix(matrix.height, matrix.width, matrix[0,0])
-    for (i in 0..matrix.height - 1){
-        for (j in 0..matrix.width - 1){
+    val newMatrix = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
             newMatrix[i, j] = matrix[matrix.height - 1 - j, i]
         }
     }
@@ -233,7 +233,18 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (this.width != other.height) throw IllegalArgumentException()
+    val newMatrix = createMatrix(this.height, other.width, 0)
+    for (i in 0..newMatrix.height - 1) {
+        for (j in 0..newMatrix.width - 1) {
+            for (k in 0..this.width - 1) {
+                newMatrix[i, j] += this[i, k] * other[k, j]
+            }
+        }
+    }
+    return newMatrix
+}
 
 /**
  * Сложная
@@ -304,3 +315,4 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> = TODO(
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
 fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+

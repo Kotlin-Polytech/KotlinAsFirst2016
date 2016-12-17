@@ -150,7 +150,7 @@ data class Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     var angle = 0.0
     if (s.begin != s.end) {
-        angle = Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x))
+        angle = Math.atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x))
     }
     return Line(s.begin, angle)
 }

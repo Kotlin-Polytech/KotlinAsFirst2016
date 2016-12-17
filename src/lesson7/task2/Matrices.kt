@@ -93,7 +93,20 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
         }
         n++
     }
-    if (width % 2 == 1 && height % 2 == 1) result[height / 2, width / 2] = Math.min(height, width) / 2 + 1
+    if (width % 2 == 1) {
+        val center = width / 2
+        for (row in 1..height - 2) {
+            if (result[row, center] == 1)
+                result[row, center] = Math.min(height, width) / 2 + 1
+        }
+    }
+    if (height % 2 == 1) {
+        val center = height / 2
+        for (column in 1..width - 2) {
+            if (result[center, column] == 1)
+                result[center, column] = Math.min(height, width) / 2 + 1
+        }
+    }
     return result
 }
 /**

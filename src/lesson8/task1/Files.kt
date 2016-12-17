@@ -88,7 +88,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                     temp = true
                 }
                 else {
-                    if (i.toLowerCase() in j) {
+                    if ((i.toLowerCase() in j) || (j in i.toLowerCase())) {
                         countString += countInString(i.toLowerCase(), j)
                     }
                 }

@@ -54,9 +54,12 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val result = mutableMapOf<String, Int>()
+    val text = File(inputName).readText().toLowerCase()
+    for (string in substrings)
+        result.put(string, text.split(string.toLowerCase()).size - 1)
+    return result
 }
-
 
 /**
  * Средняя
@@ -72,7 +75,16 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val map = mapOf('Ы' to 'И', 'Я' to 'А', 'Ю' to 'У', 'ы' to 'и', 'я' to 'а', 'ю' to 'у')
+    val letters = listOf('Ж', 'Ч', 'Ш', 'Щ', 'ж', 'ч', 'ш', 'щ')
+    val writer = File(outputName).writer()
+    var previousChar = ' '
+    for (char in File(inputName).readText()) {
+        if (previousChar in letters && map.containsKey(char)) writer.append(map[char] ?: ' ')
+        else writer.append(char)
+        previousChar = char
+    }
+    writer.close()
 }
 
 /**

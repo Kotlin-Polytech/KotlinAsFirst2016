@@ -129,12 +129,13 @@ data class Line(val point: Point, val angle: Double) {
      */
     fun crossPoint(other: Line): Point {
         val x = when {
-            Math.cos(angle) == Math.cos(Math.PI / 2)  -> point.x
-            Math.cos(other.angle) == Math.cos(Math.PI / 2) -> other.point.x
+            angle == Math.PI / 2 || angle == -Math.PI / 2 -> point.x
+            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> other.point.x
             else -> (point.x * Math.tan(angle) - other.point.x * Math.tan(other.angle) + other.point.y - point.y) / (Math.tan(angle) - Math.tan(other.angle))
         }
         val y = when {
-            Math.cos(angle) == Math.cos(Math.PI / 2)  -> Math.tan(other.angle) * (x - other.point.x) + other.point.y
+            angle == Math.PI / 2 || angle == -Math.PI / 2 -> other.point.y
+            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> point.y
             else -> Math.tan(angle) * (x - point.x) + point.y
         }
         return Point(x, y)
@@ -191,11 +192,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
-    val radius = center.distance(c)
-    return Circle(center, radius)
-}
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
 
 
 /**

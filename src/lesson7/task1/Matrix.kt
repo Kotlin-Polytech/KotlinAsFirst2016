@@ -61,7 +61,9 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     private val list = mutableListOf<E>()
 
     init {
-        (0..(height * width) - 1).forEach { list.add(e) }
+        (0..(height * width) - 1).forEach {
+            list.add(e)
+        }
     }
 
     override fun get(row: Int, column: Int): E = list[row * width + column]

@@ -75,7 +75,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val result = mutableMapOf<String, Int>()
     val listLines = mutableListOf< List<String> >()
     for (line in File(inputName).readLines()){
-        val parth = line.toLowerCase().trim().split(" ")
+        val parth = line.toLowerCase().split(" ")
         listLines.add(parth)
     }
     var temp =  false
@@ -207,7 +207,40 @@ fun top20Words(inputName: String): Map<String, Int> {
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val result = StringBuilder()
+    var checkRegister = false
+    for (line in File(inputName).readLines()){
+        result.delete(0, result.length)
+        if (line.isEmpty()) {
+            outputStream.newLine()
+            continue
+        }
+        val parthLine = line.split(" ")
+        for (parth in parthLine) {
+            val temp = StringBuilder()
+            for(i in parth){
+                if (i.toUpperCase() in dictionary.keys)
+                    temp.append(dictionary[i.toUpperCase()])
+                else {
+                    if (i.toLowerCase() in dictionary.keys)
+                        temp.append(dictionary[i.toLowerCase()])
+                    else
+                        temp.append(i)
+                }
+            }
+            if (parth[0].isUpperCase()){
+                result.append(temp.toString().capitalize())
+
+            }
+            else
+                result.append(temp.toString())
+        }
+
+        outputStream.write(result.toString().toString())
+        outputStream.newLine()
+    }
+    outputStream.close()
 }
 
 /**

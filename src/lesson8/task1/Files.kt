@@ -209,13 +209,13 @@ fun top20Words(inputName: String): Map<String, Int> {
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val result = StringBuilder()
-    var checkRegister = false
     for (line in File(inputName).readLines()){
         result.delete(0, result.length)
         if (line.isEmpty()) {
             outputStream.newLine()
             continue
         }
+        outputStream.newLine()
         val parthLine = line.split(" ")
         for (parth in parthLine) {
             val temp = StringBuilder()
@@ -238,8 +238,9 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
         }
 
         outputStream.write(result.toString().toString().trim())
-        outputStream.newLine()
+
     }
+
     outputStream.close()
 }
 

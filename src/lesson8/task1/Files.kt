@@ -60,7 +60,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     var text = File(inputName).readText().toLowerCase()
     for (i in substrings) {
         var countStrings = 0
-        for (j in 1..text.length - i.length) {
+        for (j in 0..text.length - i.length) {
             if (text.substring(j, j + i.length) == i.toLowerCase())
                 countStrings++
         }
@@ -194,7 +194,6 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
         }
         result.delete(0, result.length)
         if (line.isEmpty()) {
-            outputStream.newLine()
             continue
         }
         val parthLine = line.split(" ")
@@ -258,8 +257,47 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val dictionary = mutableListOf<String>()
+    val dictionaryResult = mutableListOf<String>()
+    var max = 0
+    var result = StringBuilder()
+    for (lines in File(inputName).readLines()) {
+        if (lines.isEmpty())
+            continue
+        dictionary.add(lines)
+    }
+    for (words in dictionary){
+        var check = true
+        for (i in 0..words.length -1)
+            for(j in i + 1..words.length -1)
+                if (words[i].toLowerCase() == words[j].toLowerCase())
+                    check = false
+        if (check != false){
+            if (words.length > max){
+                max = words.length
+                if (dictionaryResult.isNotEmpty()){
+                    for (i in 0..dictionaryResult.size - 1){
+                        dictionaryResult[i]=""
+                    }
+                }
+                else
+                    dictionaryResult.add(words)
+
+            }
+            else
+                if (words.length == max){
+                    dictionaryResult.add(words)
+                }
+        }
+
+    }
+    for (i in dictionaryResult)
+        result.append("$i, ")
+    outputStream.write(result.toString().substring(0,result.length - 2))
+    outputStream.close()
 }
+
 
 /**
  * Сложная

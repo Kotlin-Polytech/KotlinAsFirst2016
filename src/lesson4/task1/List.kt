@@ -325,7 +325,7 @@ fun numberBelowThousandToRussian(list: List<Int>, accompaniedByFeminineNoun: Boo
     val numberOfDecades = list.getOrNull(list.size - 2)
     val numberOfUnits = list.lastOrNull()
     var result = listOf(hundreds[numberOfHundreds ?: 0])
-    if (numberOfDecades == 1) result += from11to19[numberOfUnits ?: 0]
+    if (numberOfDecades == 1 && numberOfUnits != 0) result += from11to19[numberOfUnits ?: 0]
     else {
         result += decades[numberOfDecades ?: 0]
         result += if (accompaniedByFeminineNoun)

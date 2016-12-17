@@ -186,10 +186,10 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
     }
     for (row in 1..matrix.height - 1)
         for (column in 1..matrix.width - 1) {
-            result[row, column] += matrix[row, column]
-            +result[row - 1, column]
-            +result[row, column - 1]
-            -result[row - 1, column - 1]
+            result[row, column] += matrix[row, column] +
+                    result[row - 1, column] +
+                    result[row, column - 1] -
+                    result[row - 1, column - 1]
         }
     return result
 }

@@ -215,7 +215,6 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             outputStream.newLine()
             continue
         }
-        outputStream.newLine()
         val parthLine = line.split(" ")
         for (parth in parthLine) {
             val temp = StringBuilder()
@@ -238,7 +237,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
         }
 
         outputStream.write(result.toString().toString().trim())
-
+        outputStream.newLine()
     }
 
     outputStream.close()

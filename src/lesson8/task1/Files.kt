@@ -72,7 +72,7 @@ fun countInString(stringFind: String, string: String): Int{
     return count
 }
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
+    val result = mutableMapOf<String, Int>()
     val listLines = mutableListOf< List<String> >()
     for (line in File(inputName).readLines()){
         val parth = line.toLowerCase().split(" ")
@@ -93,9 +93,9 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                     }
                 }
             }
-         map[i] = countString
+         result[i] = countString
     }
-    return map
+    return result
 }
 
 

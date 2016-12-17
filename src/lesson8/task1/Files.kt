@@ -267,12 +267,11 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
             continue
         dictionary.add(lines)
     }
-    dictionary[0]=dictionary[0].substring(1, dictionary[0].length)
+
     for (words in dictionary) {
         var check = true
         for (i in 0..words.length - 1)
             for (j in i + 1..words.length - 1) {
-                val d = words[j].toLowerCase()
                 if (words[i].toLowerCase() == words[j].toLowerCase())
                     check = false
             }

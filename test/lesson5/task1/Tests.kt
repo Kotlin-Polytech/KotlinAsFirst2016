@@ -115,4 +115,9 @@ class Tests {
         assertEquals(listOf(0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0),
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++{--< <[<] >+[>+] >++}"))
     }
+
+    @Test
+    fun myFun() {
+        assertEquals(listOf("би", "иг", "гр", "ра", "ам", "мм", "ма", "ал", "лл", "ло", "2"), myFun("биграмма алло"))
+    }
 }

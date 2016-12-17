@@ -275,4 +275,23 @@ fun fromRoman(roman: String): Int = TODO()
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
 
+fun myFun(text: String): MutableList<String> {
+    val members = text.split("")
+    var frequency = 0
+    val res = mutableListOf<String>()
+    val rightSymbol = Regex("""[а-яА-Я]""")
+    for (i in 1..members.size-1) {
+        if ((members[i].contains(rightSymbol)) && (members[i-1].contains(rightSymbol))) {
+            res.add(members[i-1] + members[i])
+        }
+    }
+    for (j in 0..res.size - 1) {
+        for (g in j + 1..res.size - 1) {
+            if (members[j] == members[g]) frequency++
+        }
+    }
+    res.add(frequency.toString())
+    return (res)
+}
+
 

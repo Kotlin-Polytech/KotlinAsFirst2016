@@ -196,8 +196,9 @@ fun factorize(n: Int): List<Int> {
     var result = listOf<Int>()
     var number = n
     while (number > 1) {
-        result += minDivisor(number)
-        number /= minDivisor(number)
+        val mind = minDivisor(number)
+        result += mind
+        number /= mind
     }
     return result
 }
@@ -320,12 +321,15 @@ fun numberBelowThousandToRussian(list: List<Int>, accompaniedByFeminineNoun: Boo
             "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
     val hundreds = listOf("", "сто", "двести", "триста", "четыреста",
             "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    var result = listOf(hundreds[list.getOrNull(list.size - 3) ?: 0])
-    if (list.getOrNull(list.size - 2) == 1) result += from11to19[list.getOrNull(list.size - 1) ?: 0]
+    val numberOfHundreds = list.getOrNull(list.size - 3)
+    val numberOfDecades = list.getOrNull(list.size - 2)
+    val numberOfUnits = list.lastOrNull()
+    var result = listOf(hundreds[numberOfHundreds ?: 0])
+    if (numberOfDecades == 1) result += from11to19[numberOfUnits ?: 0]
     else {
-        result += decades[list.getOrNull(list.size - 2) ?: 0]
+        result += decades[numberOfDecades ?: 0]
         result += if (accompaniedByFeminineNoun)
-            unitsOfFeminine[list.lastOrNull() ?: 0] else units[list.lastOrNull() ?: 0]
+            unitsOfFeminine[numberOfUnits ?: 0] else units[numberOfUnits ?: 0]
     }
     return result
 }
@@ -336,10 +340,12 @@ fun russian(n: Int): String {
     val listBelowThousand = listOfNumbers.takeLast(3)
     var result = numberBelowThousandToRussian(listBelowThousand, false)
     val listOfThousands = listOfNumbers.dropLast(3)
+    val numberOfDecadesOfThousands = listOfThousands.getOrNull(listOfThousands.size - 2)
+    val numberOfThousands = listOfThousands.lastOrNull()
     when {
-        listOfThousands.getOrNull(listOfThousands.size - 2) == 1 -> result = listOf(thousands[2]) + result
-        listOfThousands.lastOrNull() == 1 -> result = listOf(thousands[0]) + result
-        listOfThousands.lastOrNull() in 2..4 -> result = listOf(thousands[1]) + result
+        numberOfDecadesOfThousands == 1 -> result = listOf(thousands[2]) + result
+        numberOfThousands == 1 -> result = listOf(thousands[0]) + result
+        numberOfThousands in 2..4 -> result = listOf(thousands[1]) + result
         listOfThousands.isNotEmpty() -> result = listOf(thousands[2]) + result
     }
     result = numberBelowThousandToRussian(listOfThousands, true) + result

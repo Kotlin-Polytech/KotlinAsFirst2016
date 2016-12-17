@@ -23,7 +23,7 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation() = if (!inside()) "" else (column + 'a'.toInt() - 1).toChar() + "$row"
+    fun notation() = if (!inside()) "" else ('a' + column - 1) + "$row"
 }
 
 /**
@@ -38,8 +38,9 @@ fun square(notation: String): Square {
     try {
         val column = notation[0] - 'a' + 1
         val row = notation[1].toString().toInt()
-        if (!Square(column, row).inside()) throw IllegalArgumentException()
-        return Square(column, row)
+        val square = Square(column, row)
+        if (!square.inside()) throw IllegalArgumentException()
+        return square
     } catch (e: NumberFormatException) {
         throw IllegalArgumentException()
     }

@@ -162,27 +162,17 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val members = expression.split(" ")
-    val firstMember = members[0]
-    val lengthOfString = members.size
-    val rightNumber = Regex("""\d""")
-    val rightSymbol = Regex("""[+-]""")
-    val notRightFormat = Regex("""[^\d+-]""")
-    if ((lengthOfString == 1) && ((firstMember.contains(notRightFormat)) || expression == "")) throw IllegalArgumentException("Wrong data format")
-    else {
-        var result = members[0].toInt()
-        for (i in 0..lengthOfString - 2) {
-            val twoPluses = members[i].contains(rightSymbol) && members[i + 1].contains(rightSymbol)
-            val twoNumbers = members[i].contains(rightNumber) && members[i + 1].contains(rightNumber)
-            val allNotRightSymbols = members[i].contains(notRightFormat) || members[i + 1].contains(notRightFormat)
-            val wrongString = twoPluses || twoNumbers || allNotRightSymbols
-            if (wrongString) throw IllegalArgumentException("Wrong data format")
-            else {
-                if (members[i] == "+") result += members[i + 1].toInt()
-                if (members[i] == "-") result -= members[i + 1].toInt()
-            }
+    try {
+        val members = expression.split(" ")
+        var sum = members[0].toInt()
+        for (i in 1..members.size - 1 step 2) {
+            if (members[i] == "+") sum += members[i + 1].toInt()
+            else if (members[i] == "-") sum -= members[i + 1].toInt()
+            else throw IllegalArgumentException(expression)
         }
-        return result
+        return sum
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException(expression)
     }
 }
 
@@ -274,3 +264,4 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+

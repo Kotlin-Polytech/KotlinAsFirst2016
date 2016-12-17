@@ -2,7 +2,6 @@
 
 package lesson5.task1
 
-import java.lang.Math.*
 
 /**
  * Пример
@@ -112,8 +111,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val firstPlus = phone.first() == '+'
-    val correct = phone.all { it in "+0123456789-() " } && phone != "" && phone.indexOf('+', 1) == -1 && ((firstPlus && phone.length > 1) || (!firstPlus && phone.length > 0))
+    val correct = phone.all { it in "+0123456789-() " } && phone != "" && phone.indexOf('+', 1) == -1 && ((phone.first() == '+' && phone.length > 1) || (phone.first() != '+' && phone.length > 0))
     return when {
         correct -> phone.filter { it in "+0123456789" }
         else -> ""

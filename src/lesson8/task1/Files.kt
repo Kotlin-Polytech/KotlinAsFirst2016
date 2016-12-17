@@ -53,6 +53,24 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
+fun countInString(stringFind: String, string: String): Int{
+    var count = 0
+    var endSymbol = stringFind.length
+    var i = 0
+    if (stringFind.length == string.length) {
+        if (stringFind in string)
+            return 1
+        else
+            return 0
+    }
+    else
+        while (i + endSymbol <= string.length ){
+            if (stringFind in string.substring(i , i + endSymbol))
+                count++
+            i++
+        }
+    return count
+}
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val map = mutableMapOf<String, Int>()
     val listLines = mutableListOf< List<String> >()
@@ -60,20 +78,19 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
         val parth = line.toLowerCase().split(" ")
         listLines.add(parth)
     }
+    var temp =  false
     for (i in substrings){
         var countString = 0
         for (line in listLines)
             for(j in line) {
-                if (i.length != 1) {
-                    if (i.toLowerCase() in j.toLowerCase()) {
-                        countString++
-                    }
+                if ( temp == false){
+                    countString += countInString(i.toLowerCase(), j.substring(1, j.length))
+                    temp = true
                 }
-                else{
-                    for (symbol in j)
-                        if (i.toLowerCase() == symbol.toString()) {
-                            countString++
-                        }
+                else {
+                    if (i.toLowerCase() in j) {
+                        countString += countInString(i.toLowerCase(), j)
+                    }
                 }
             }
          map[i] = countString

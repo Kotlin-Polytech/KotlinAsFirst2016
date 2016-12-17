@@ -3,29 +3,17 @@ package lesson3.task1
 import lesson1.task1.sqr
 import java.lang.Math.*
 
-fun powInt (a: Int , b:Int): Int {
+fun powInt(a: Int, b: Int): Int {
     var count = b
     var x = a
     var result = 1
-    while (count>0) {
-        count = count -1
-        result = result*x
+    while (count > 0) {
+        count = count - 1
+        result = result * x
     }
 
     return result
 }
-
-fun intPow (a: Int, b:Int): Int {
-    var x = a
-    var y = b
-    var br = 1
-    while (y>0) {
-        y -= 1
-        br *= x
-    }
-    return br
-}
-
 
 /**
  * Пример
@@ -87,8 +75,8 @@ fun digitNumber(n: Int): Int {
     var result = 0
     var newN = n
     if (newN == 0) return 1
-    while (newN !== 0) {
-        result ++
+    while (newN != 0) {
+        result++
         newN /= 10
     }
     return result
@@ -101,7 +89,7 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    var start= 0
+    var start = 0
     var finish = 1
     for (i in 2..n) {
         finish += start
@@ -205,7 +193,7 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean =
-    (revert(n) == n)
+        (revert(n) == n)
 
 /**
  * Средняя
@@ -220,8 +208,7 @@ fun hasDifferentDigits(n: Int): Boolean {
             number /= 10
         else return true
     }
-    if (number != n%10) return true
-    return false
+    return (number != n % 10)
 }
 
 /**

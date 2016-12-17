@@ -36,7 +36,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String {
     if ((age % 10 == 1) && (age % 100 != 11)) return "$age год"
-    if ((age % 10 in 2..4)&& (age%100 !in 10..19)) return "$age года"
+    if ((age % 10 in 2..4) && (age % 100 !in 10..19)) return "$age года"
     else return "$age лет"
 
 }
@@ -52,14 +52,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
 
-    val s1=t1*v1
-    val s2=t2*v2
-    val s3=t3*v3
-    val S_half =(s1+s2+s3)/2
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s3 = t3 * v3
+    val sHalf = (s1 + s2 + s3) / 2
 
-    if (S_half<=s1) return S_half/v1
-    else if (S_half<=s1+s2) return (t1+(S_half-s1)/v2)
-    else  return (t1+t2+(S_half-s1-s2)/v3)
+    if (sHalf <= s1) return sHalf / v1
+    else if (sHalf <= s1 + s2) return (t1 + (sHalf - s1) / v2)
+    else return (t1 + t2 + (sHalf - s1 - s2) / v3)
 }
 
 /**
@@ -74,12 +74,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    val worning1 = (rookX1 == kingX) || (rookY1 == kingY)
-    val worning2 = (rookX2 == kingX) || (rookY2 == kingY)
+    val threat1 = (rookX1 == kingX) || (rookY1 == kingY)
+    val threat2 = (rookX2 == kingX) || (rookY2 == kingY)
 
-    if (worning1 && worning2) return 3
-    if (worning1) return 1
-    if (worning2) return 2 else return 0
+    if (threat1 && threat2) return 3
+    if (threat1) return 1
+    if (threat2) return 2 else return 0
 }
 
 /**
@@ -94,12 +94,12 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val bish =  ((bishopX + bishopY) == (kingX + kingY))|| ((bishopX - bishopY) == (kingX - kingY))
-    val eq_rook =  ((rookX == kingX) || (rookY == kingY))
+    val bish = ((bishopX + bishopY) == (kingX + kingY)) || ((bishopX - bishopY) == (kingX - kingY))
+    val eqRook = ((rookX == kingX) || (rookY == kingY))
 
-    if (bish && eq_rook) return 3
+    if (bish && eqRook) return 3
     else if (bish) return 2
-    if (eq_rook) return 1
+    if (eqRook) return 1
     else return 0
 }
 
@@ -112,13 +112,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val hypo = max(max(a,b),c)
-    val lit_cat = min(min(a,b),c)
-    val mid_cat = (a+b+c) - hypo - lit_cat
+    val hypo = max(max(a, b), c)
+    val litCat = min(min(a, b), c)
+    val midCat = (a + b + c) - hypo - litCat
 
-    if (hypo > lit_cat+mid_cat) return -1
-    if (hypo*hypo > lit_cat*lit_cat + mid_cat*mid_cat) return  2
-    if (hypo*hypo < lit_cat*lit_cat + mid_cat*mid_cat) return 0
+    if (hypo > litCat + midCat) return -1
+    if (hypo * hypo > litCat * litCat + midCat * midCat) return 2
+    if (hypo * hypo < litCat * litCat + midCat * midCat) return 0
     else return 1
 }
 

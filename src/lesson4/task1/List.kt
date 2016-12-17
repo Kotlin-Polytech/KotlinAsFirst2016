@@ -1,8 +1,11 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson4.task1
-
+import lesson3.task1.digitNumber
 import lesson1.task1.discriminant
+
+
 /**
+ *
  * Пример
  *
  * Найти все корни уравнения x^2 = y
@@ -105,8 +108,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var summa = 0.0
-    for (i in 0..v.size - 1) {
-        summa += v[i] * v[i]
+    for (elem in v) {
+        summa += elem * elem
     }
     if (summa == 0.0) return 0.0
     else return Math.sqrt(summa)
@@ -119,8 +122,8 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var summa = 0.0
-    for (i in 0..list.size - 1) {
-        summa += list [i]
+    for (elem in list) {
+        summa += elem
     }
     if (summa == 0.0) return 0.0
     else return summa / list.size
@@ -150,7 +153,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
     for (i in 0..a.size - 1) {
-        c += a[i]*b[i]
+        c += a[i] * b[i]
     }
     return c
 }
@@ -166,7 +169,7 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     var result = 0.0
     for (i in 0..p.size - 1) {
-        result += p[i] * Math.pow (x, i.toDouble())
+        result += p[i] * Math.pow(x, i.toDouble())
     }
     return result
 }
@@ -180,8 +183,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    for (i in 1..list.size-1) {
-        list[i] += list[i-1]
+    for (i in 1..list.size - 1) {
+        list[i] += list[i - 1]
     }
     return list
 }
@@ -205,7 +208,7 @@ fun factorize(n: Int): List<Int> {
     var result = mutableListOf<Int>()
     var k = n
     for (i in 2..n) {
-        if (isPrime(i)){
+        if (isPrime(i)) {
             while (k % i == 0) {
                 k /= i
                 result.add(i)
@@ -223,7 +226,6 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String =
     factorize(n).joinToString (separator = "*")
-
 
 /**
  * Средняя

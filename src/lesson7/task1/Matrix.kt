@@ -60,15 +60,15 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
 class MatrixImpl<E>(override val height: Int, override val width: Int) : Matrix<E> {
 
     private var map = mutableMapOf<Cell, E>()
-    override fun get(row: Int, column: Int): E = map[Cell(row, column)] ?: throw IllegalArgumentException()
+    override fun get(row: Int, column: Int): E = get(Cell(row, column))
 
-    override fun get(cell: Cell): E = get(cell.row, cell.column)
+    override fun get(cell: Cell): E = map[cell] ?: throw IllegalArgumentException()
 
-    override fun set(row: Int, column: Int, value: E) {
-        map[Cell(row, column)] = value
+    override fun set(row: Int, column: Int, value: E) = set(Cell(row, column), value)
+
+    override fun set(cell: Cell, value: E) {
+        map[cell] = value
     }
-
-    override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width && map == other.map
 

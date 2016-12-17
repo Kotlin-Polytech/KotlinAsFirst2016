@@ -3,7 +3,6 @@
 package lesson7.task2
 
 import lesson7.task1.Matrix
-import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -19,15 +18,15 @@ import lesson7.task1.createMatrix
  * 6 5 4      3 6 4 1
  * 3 2 1
  */
-fun <E> transpose(matrix: Matrix<E>): Matrix<E> {
-    if (matrix.width < 1 || matrix.height < 1) return matrix
+fun <E> transpose(matrix: Matrix<E>): String {
+    if (matrix.width < 1 || matrix.height < 1) return matrix.toString()
     val result = createMatrix(matrix.width, matrix.height, matrix[0, 0])
     for (i in 0..matrix.width - 1) {
         for (j in 0..matrix.height - 1) {
             result[i, j] = matrix[j, i]
         }
     }
-    return result
+    return result.toString()
 }
 
 /**

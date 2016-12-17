@@ -260,7 +260,7 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
-    for (i in digits.size - 1 downTo 0) {
+    for (i in 0..digits.size - 1) {
         result += digits[i] * pow(base, digits.size - 1 - i)
     }
     return result
@@ -294,10 +294,10 @@ fun decimalFromString(str: String, base: Int): Int {
  */
 fun roman(n: Int): String {
     var number = n
-    val map1 = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M").toSortedMap()
+    val map1 = sortedMapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
     val result = StringBuilder()
     while (number > 0) {
-        val parse = map1.entries.findLast { it.key <= number } ?: continue
+        val parse = map1.entries.findLast { it.key <= number }!!
         result.append(parse.value)
         number -= parse.key
     }

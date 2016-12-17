@@ -41,7 +41,7 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     if (notation.length == 2) {
-        val result = Square(notation[0] - '`', notation[1] - '0')
+        val result = Square(notation[0] - 'a' + 1, notation[1] - '0')
         if (result.inside()) return result
         else throw IllegalArgumentException()
     } else throw IllegalArgumentException()

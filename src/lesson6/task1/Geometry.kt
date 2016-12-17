@@ -87,7 +87,7 @@ fun diameter(vararg points: Point): Segment {
     var p1 = points[0]
     var p2 = points[1]
     var distance = p1.distance(p2)
-    for (i in 0..points.size - 2)
+    for (i in 1..points.size - 2)
         for (k in i + 1..points.size - 1) {
             val lengthSegment = points[i].distance(points[k])
             if (lengthSegment > distance) {
@@ -124,11 +124,12 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val sinOfDifferent = sin(other.angle) * cos(angle) - sin(angle) * cos(other.angle)
-        val cos12 = cos(angle) * cos(other.angle)
-        val crossX = (other.point.x * sin(other.angle) * cos(angle) - point.x * sin(angle) * cos(other.angle) + cos12 * (point.y - other.point.y)) / sinOfDifferent
-        val crossY = (crossX - other.point.x) * tan(other.angle) + other.point.y
-        return Point(crossX, crossY)
+        val x = (Math.cos(angle) * (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) -
+                Math.cos(other.angle) * (Math.sin(angle) * point.x - Math.cos(angle) * point.y)) / Math.sin(other.angle - angle)
+        val y = (Math.sin(angle) * (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) -
+                Math.sin(other.angle) * (Math.sin(angle) * point.x - Math.cos(angle) * point.y)) /
+                Math.sin(other.angle - angle)
+        return Point(x, y)
     }
 }
 
@@ -168,7 +169,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
     if (circles.size < 2) throw IllegalArgumentException()
     var distance = circles[0].distance(circles[1])
     var result = Pair(circles[0], circles[1])
-    for (i in 0..circles.size - 2) {
+    for (i in 1..circles.size - 2) {
         for (k in i + 1..circles.size - 1) {
             val distanceCircle = circles[i].distance(circles[k])
             if (distanceCircle < distance) {

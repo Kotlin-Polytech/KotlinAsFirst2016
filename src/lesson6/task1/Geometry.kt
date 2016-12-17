@@ -132,7 +132,10 @@ data class Line(val point: Point, val angle: Double) {
  */
 fun lineAngle(s: Segment): Double {
     var newAngle = Math.abs(Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x)))
-    if (s.begin.x == s.end.x) newAngle = Math.PI / 2
+    while (newAngle >= Math.PI){
+        newAngle -= Math.PI
+    }
+    if (newAngle == Math.PI) newAngle = 0.0
     return newAngle
 }
 
@@ -156,7 +159,11 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  */
 fun centerOfSegment(a: Point, b: Point): Point = Point(((a.x + b.x) / 2), ((a.y + b.y) / 2))
 
-fun bisectorByPoints(a: Point, b: Point): Line = Line(centerOfSegment(a, b), lineAngle(Segment(a, b)) + Math.PI / 2)
+fun bisectorByPoints(a: Point, b: Point): Line {
+    var bisectorAngle = lineAngle(Segment(a, b)) + Math.PI / 2
+    if (bisectorAngle >= Math.PI) bisectorAngle -= Math.PI
+    return Line(centerOfSegment(a, b), bisectorAngle)
+}
 
 
 /**

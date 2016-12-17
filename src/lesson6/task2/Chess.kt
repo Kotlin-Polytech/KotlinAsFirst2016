@@ -26,7 +26,7 @@ data class Square(val column: Int, val row: Int) {
      * Для клетки не в пределах доски вернуть пустую строку
      */
     fun notation(): String {
-        var result = String()
+        var result = ""
         if (!inside()) return ""
         result += 'a' + column - 1
         result += row
@@ -42,9 +42,8 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    if ((notation.first() in 'a'..'h') && (notation.last() in '1'..'8') && (notation.length == 2)) {
-        return Square((notation.first()).toInt() - ('a').toInt() + 1, notation.last().toInt() - ('0').toInt())
-    } else throw IllegalArgumentException()
+        if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8')) throw IllegalArgumentException()
+            else return Square((notation[0]).toInt() - ('a').toInt() + 1, notation[1].toInt() - ('0').toInt())
 }
 
 /**
@@ -71,6 +70,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
+    if ((!start.inside())||(!end.inside())) throw IllegalArgumentException()
     return when {
         start == end -> 0
         (start.column == end.column) || (start.row == end.row) -> 1
@@ -127,7 +127,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
     if ((!start.inside())||(!end.inside())) throw IllegalArgumentException()
     return when {
         start == end -> 0
-        (Math.abs(start.column.toInt() / start.row.toInt()) == Math.abs(end.column.toInt() / end.row.toInt())) -> 1
+        (Math.abs(start.column.toInt() - end.column.toInt()) == Math.abs(start.row.toInt() - end.row.toInt())) -> 1
         (start.column.toInt() % 2 != end.column.toInt() % 2) && (start.row.toInt() % 2 == end.row.toInt() % 2) -> -1
         (start.column.toInt() % 2 == end.column.toInt() % 2) && (start.row.toInt() % 2 != end.row.toInt() % 2) -> -1
         else -> 2
@@ -233,7 +233,7 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun kingTrajectory(start: Square, end: Square): List<Square> {
-    var result = mutableListOf(start)
+    val result = mutableListOf(start)
     when (kingMoveNumber(start, end)) {
         0 -> return listOf(start)
         1 -> return listOf(start, end)

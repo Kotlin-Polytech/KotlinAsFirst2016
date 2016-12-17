@@ -192,7 +192,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     if (lineByPoints(a, b).angle == lineByPoints(a, c).angle) throw IllegalArgumentException()
-    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
+    var center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))
     return Circle(center, center.distance(a))
 }
 

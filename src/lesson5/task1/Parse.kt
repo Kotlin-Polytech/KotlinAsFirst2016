@@ -134,7 +134,7 @@ fun bestLongJump(jumps: String): Int {
     val listJumpsToInt = listJumps.map { it.toInt() }
     return listJumpsToInt.max() ?: -1
 }
-}
+
 
 /**
  * Сложная

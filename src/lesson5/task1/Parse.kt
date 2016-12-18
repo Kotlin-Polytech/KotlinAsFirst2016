@@ -87,8 +87,7 @@ fun dateDigitToStr(digital: String): String {
     if (parts.size != 3) return ""
     try {
         val d1 = parts[0].toInt()
-        var m1 = ""
-        if (parts[1].toInt() in 1..12) m1 = m[parts[1].toInt() - 1]
+        val m1 = if (parts[1].toInt() in 1..12) m[parts[1].toInt() - 1]
         else return ""
         val y1 = parts[2].toInt()
         return String.format("%d %s %d", d1, m1, y1)

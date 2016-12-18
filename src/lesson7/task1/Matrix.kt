@@ -61,17 +61,17 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         }
     }
 
-    override fun get(row: Int, column: Int): E {
-        if (row >= 0 && column >= 0 && row <= height && column <= width) {
-            val cellMeaning = list[row * width + column]
-            return cellMeaning
-        } else throw IllegalArgumentException()
-    }
+    override fun get(row: Int, column: Int): E =
+            if (row < 0 || column < 0 || row >= height || column >= width)
+                throw IllegalArgumentException()
+            else list[row * width + column]
 
     override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        list[row * width + column] = value
+        if (row < 0 || column < 0 || row >= height || column >= width)
+            throw IllegalArgumentException()
+        else list[row * width + column] = value
     }
 
     override fun set(cell: Cell, value: E) {
@@ -81,7 +81,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     override fun equals(other: Any?) =
             other is MatrixImpl<*> &&
                     height == other.height &&
-                    width == other.width
+                    width == other.width &&
+                    list.equals(other.list)
 
     override fun toString(): String {
         val sb = StringBuilder()
@@ -89,7 +90,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         for (row in 0..height - 1) {
             sb.append("[")
             for (column in 0..width - 1) {
-                sb.append("\t"+this[row, column])
+                sb.append("\t" + this[row, column])
             }
             sb.append("\t]")
         }

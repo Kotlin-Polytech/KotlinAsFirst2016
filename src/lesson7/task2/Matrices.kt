@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -60,7 +61,39 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height, width, 0)
+    var num = 0
+    var back = 1
+    var up = 1
+    var i = 0
+    var h = height
+    var w = width
+    for (q in 0..width * height - 1) {
+        if (width > 1 && height > 1 && q == (2 * width + 2 * height - 4)) {
+            w = width - 1
+            i++
+        }
+        if (w > i) {
+            num++
+            result[i, width - w] = num
+            w--
+        } else if (w == i && h > 1) {
+            num++
+            result[height - h + 1, width - 1] = num
+            h--
+        } else if (w == i && h == 1 && back < width && width >= 2) {
+            num++
+            result[height - 1, width - back - 1] = num
+            back++
+        } else if (h == 1 && w == i && back == width && up < height - 1 && height >= 2) {
+            num++
+            result[height - up - 1, 0] = num
+            up++
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -78,14 +111,37 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  */
 fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()/*{
     var result = createMatrix(height, width, 0)
-    var k=1
-
-    var a = height*width
-   while (a!=0){
-       for (j in 0..height-1){
-       for (i in 0..width-1){
-       if(i<k||j<k) result[i,j]=k
-}}*/
+    var num = 1
+    var back = 1
+    var up = 1
+    var i = 0
+    var k = 1
+    var h = height
+    var w = width
+    for (q in 0..width * height - 1) {
+        if (width > 1 && height > 1 && q == (2 * width + 2 * height - 4)) {
+            w = width - 1
+            h = height - 1
+            i++
+            num++
+            k++
+        }
+        if (w > i) {
+            result[i, width - w] = num
+            w--
+        } else if (w == i && h > num && result[height - h + 1, width - i - 1] == 0) {
+            result[height - h + 1, width - i - 1] = num
+            h--
+        } else if (w == i && h == num && back < width && width >= 2) {
+            result[height - h, width - back - 1] = num
+            back++
+        } else if (h == num && w == i && back == width && up < height - 1 && height >= 2) {
+            result[height - up - 1, 0] = num
+            up++
+        }
+    }
+    return result
+}*/
 
 /**
  * Сложная
@@ -113,7 +169,14 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val result = createMatrix(matrix.width, matrix.height, matrix[0, 0])
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            result[i, j] = matrix[matrix.height - j - 1, i]
+    return result
+}
 
 /**
  * Сложная

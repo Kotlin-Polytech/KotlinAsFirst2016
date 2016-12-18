@@ -283,5 +283,40 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val units = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val tens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val tenTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val result = mutableListOf<String>()
+    val lastDigit = n % 10
+    val thousand = when (n / 1000 % 10) {
+        1 -> "тысяча"
+        in 2..4 -> "тысячи"
+        else -> "тысяч"
+    }
+    val unit = when (lastDigit) {
+        1 -> "один"
+        2 -> "два"
+        else -> units[lastDigit]
+    }
+    if (n > 999) {
+        result.add(hundreds[n / 100000 % 10])
+        if (n / 1000 % 100 in 11..19) {
+            result.add(tenTwenty[n / 1000 % 10])
+            result.add("тысяч")
+        } else {
+            result.add(tens[n / 10000 % 10])
+            result.add(units[n / 1000 % 10])
+            result.add(thousand)
+        }
+    }
+    result.add(hundreds[n / 100 % 10])
+    if (n % 100 in 11..19) result.add(tenTwenty[lastDigit])
+    else {
+        result.add(tens[n / 10 % 10])
+        result.add(unit)
+    }
+    return result.filter { it != "" }.joinToString(" ")
+}
 

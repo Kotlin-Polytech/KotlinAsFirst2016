@@ -120,9 +120,16 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x =(point.x * Math.tan(angle) - other.point.x * Math.tan(other.angle) + other.point.y - point.y) /
-                (Math.tan(angle) - Math.tan(other.angle))
-        val y = x * Math.tan(other.angle) - other.point.x * Math.tan(other.angle) + other.point.y
+        val x = when {
+            angle == Math.PI / 2 -> point.x
+            other.angle == Math.PI / 2 -> other.point.x
+            else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) / (Math.tan(angle) - Math.tan(other.angle))
+        }
+        val y = when {
+            angle == Math.PI / 2 ->
+                (x - other.point.x) * Math.tan(other.angle) + other.point.y
+            else -> (x - point.x) * Math.tan(angle) + point.y
+        }
         return Point(x, y)
     }
 }
@@ -150,9 +157,10 @@ fun lineByPoints(a: Point, b: Point): Line {
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val angle = Math.atan2(b.y - a.y, b.x - a.x) + Math.PI / 2
-    val middlePoint = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    return Line(middlePoint, angle)
+    val segmentHalf = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    val line = Segment(a, b)
+    val angle = lineBySegment(line).angle
+    return Line(segmentHalf, angle + Math.PI / 2)
 }
 
 /**

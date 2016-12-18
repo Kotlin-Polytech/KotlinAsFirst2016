@@ -76,15 +76,17 @@ fun sibilants(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val map = mapOf<String, String>("Ы" to "И", "ы" to "и", "Я" to "А", "я" to "а", "Ю" to "У", "ю" to "у")
     for (line in File(inputName).readLines()) {
-        writer.write(line[0].toString())
-        for (i in 1..line.length - 1) {
-            if ((line[i] in "ЫыЯяЮю") && (line[i - 1] in "ЖжЧчШшЩщ"))
-                writer.write(map[line[i].toString()])
-            else writer.write(line[i].toString())
-        }
+        if (line.length <= 1) writer.write("$line\n") else {
+            writer.write(line[0].toString())
+            for (i in 1..line.length - 1) {
+                if ((line[i] in "ЫыЯяЮю") && (line[i - 1] in "ЖжЧчШшЩщ"))
+                    writer.write(map[line[i].toString()])
+                else writer.write(line[i].toString())
+            }
             writer.write("\n")
+        }
     }
-    writer.close()
+        writer.close()
 }
 
 /**

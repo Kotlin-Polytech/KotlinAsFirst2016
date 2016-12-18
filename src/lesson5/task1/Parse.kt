@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
+
+import java.util.*
+
 /**
  * Пример
  *
@@ -60,7 +63,31 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    if (str.matches(Regex("""[0-9]+\s[а-яА-Я]+\s[0-9]+"""))) {
+        val parts = str.split(' ')
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val month = when (parts[1]) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> 0
+        }
+        if (month != 0)
+            return String.format("%02d.%02d.%d", day, month, year)
+        else return ""
+    } else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +96,31 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    if (digital.matches(Regex("[0-9]{2}.[0-9]{2}.[0-9]+"))) {
+        val parts = digital.split('.')
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val month = when (parts[1].toInt()) {
+            1 -> "января"
+            2 -> "февраля"
+            3 -> "марта"
+            4 -> "апреля"
+            5 -> "мая"
+            6 -> "июня"
+            7 -> "июля"
+            8 -> "августа"
+            9 -> "сентября"
+            10 -> "октября"
+            11 -> "ноября"
+            12 -> "декабря"
+            else -> ""
+        }
+        if (month != "")
+            return String.format("%d %s %d", day, month, year)
+        else return ""
+    } else return ""
+}
 
 /**
  * Сложная
@@ -83,7 +134,10 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String =
+    if (phone.matches(Regex("""^\+?[-()0-9 ]+"""))){
+        phone.replace(Regex("[-() ]+"), "")
+    } else ""
 
 /**
  * Средняя
@@ -95,7 +149,10 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int =
+    if(jumps.matches(Regex("[-%0-9 ]+"))){
+        Regex("[0-9]+").findAll(jumps).map { it.value.toInt() }.max() ?: -1
+    } else -1
 
 /**
  * Сложная
@@ -107,7 +164,10 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int =
+    if (jumps.matches(Regex("[-+%[0-9] ]+"))){
+        Regex("([0-9]+) [%-]*[+]").findAll(jumps).map { it.groupValues[1].toInt() }.max() ?: -1
+    } else -1
 
 /**
  * Сложная
@@ -118,7 +178,14 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    //Пробелы я убираю, чтобы правильно парсить число.
+    //Как вообще работает метод trim()? Почему, когда я применяю его к строке, ничего не происходит?
+    //По идее он же должен убирать все пробельные символы.
+    if (expression.matches(Regex("""^(?:[0-9]+)(?:\s+[-+]\s+[0-9]+)*"""))) {
+        return Regex("[-+]?[0-9]+").findAll(expression.replace(" ","")).sumBy { it.value.toInt() }
+    } else throw java.lang.IllegalArgumentException()
+}
 
 /**
  * Сложная
@@ -129,7 +196,13 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val low = str.toLowerCase()
+    val duplicated = Regex("""(?<!\S)(\S+)\s\1(?!\S)""").find(low)?.value
+    if (duplicated != null) {
+        return low.indexOf(duplicated)
+    } else return -1
+}
 
 /**
  * Сложная
@@ -142,7 +215,22 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var most = ""
+    var value = -1.0
+    for (one in description.split(Regex("""(?<=\d+); """))) {
+        if (one.isNotEmpty()) {
+            val values = one.split(" ")
+            val name = values[0]
+            val price = values[1]
+            if (price.toDouble() > value) {
+                most = name
+                value = price.toDouble()
+            }
+        }
+    }
+    return most
+}
 
 /**
  * Сложная
@@ -155,7 +243,71 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+fun fromRoman(roman: String): Int {
+    var count = roman.length-1
+    var num: Int = 0
+    while (count >= 0) {
+        when (roman[count]) {
+            'I' -> {num++ ; count--}
+            'V' -> {
+                if (count != 0 && roman[count-1] == 'I') {
+                    num += 4
+                    count -= 2
+                } else {
+                    num += 5
+                    count--
+                }
+            }
+            'X' -> {
+                if (count != 0 && roman[count-1] == 'I') {
+                    num += 9
+                    count -= 2
+                } else {
+                    num += 10
+                    count--
+                }
+            }
+            'L' -> {
+                if (count != 0 && roman[count-1] == 'X') {
+                    num += 40
+                    count -= 2
+                } else {
+                    num += 50
+                    count--
+                }
+            }
+            'C' -> {
+                if (count != 0 && roman[count-1] == 'X') {
+                    num += 90
+                    count -= 2
+                } else {
+                    num += 100
+                    count--
+                }
+            }
+            'D' -> {
+                if (count != 0 && roman[count-1] == 'C') {
+                    num += 400
+                    count -= 2
+                } else {
+                    num += 500
+                    count--
+                }
+            }
+            'M' -> {
+                if (count != 0 && roman[count-1] == 'C') {
+                    num += 900
+                    count -= 2
+                } else {
+                    num += 1000
+                    count--
+                }
+            }
+            else -> {count = -1; num = -1}
+        }
+    }
+    return num
+}
 
 /**
  * Сложная
@@ -187,4 +339,113 @@ fun fromRoman(roman: String): Int = TODO()
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+fun findCycles(commands: String, open: Char, close: Char): MutableMap<Int,Int> {
+    //Ассоциативный массив для результатов
+    val map = mutableMapOf<Int,Int>()
+    //Лист точек открывающих знаков цикла, для того, чтобы учесть вложенность
+    val openPointQueue = ArrayDeque<Int>()
+    //
+    for (i in 0..commands.length-1) {
+        when (commands[i]) {
+            //При нахождении открывающего знака, добавляем в очередь
+            open -> {
+                openPointQueue.addFirst(i)
+            }
+            close -> {
+                //Если нет ни одного открывающего знака в очередь, выбрасываем ошибку, так как цикл будет непарным
+                if (openPointQueue.isEmpty()) throw IllegalStateException("No pair for bracket")
+                //Если же хотя бы одна точка есть, то создаем две пары, чтобы можно было найти конец по началу
+                //и наоборот. Сохраняем в ассоциативный массив и удаляем последний элемент в списке
+                else {
+                    val openPoint = openPointQueue.poll()
+                    map.put(openPoint, i)
+                    map.put(i, openPoint)
+                }
+            }
+        }
+    }
+    return map
+}
+fun computeDeviceCells(cells: Int, commands: String): List<Int> {
+    //Первая часть проверки на парность циклов, вторая проходит уже при поиске пары для каждого
+    if (commands.count { it=='[' } == commands.count { it==']' } &&
+            commands.count { it=='{' } == commands.count { it=='}' } ) {
+        //Если ноль ячеек сразу возвращаем ответ
+        if (cells == 0) return  listOf()
+        //Создаем массив размером cells и заполняем его нулями
+        val cellsArr = Array(cells, {i -> 0})
+        //Начальная точка
+        var point = cells/2
+        //Указатель на текущую команду
+        var commandPoint = 0
+        //Длина строки команд
+        val commandLength = commands.length
+        //Находим все циклы
+        val cycleOne = findCycles(commands,'[',']')
+        val cycleTwo = findCycles(commands,'{','}')
+        //Выполняем пока не конец командной строки
+        while (commandPoint < commandLength) {
+            when (commands[commandPoint]) {
+                ' ' -> commandPoint++ //Пустая команда, просто сдвигаем указатель
+                '>' -> {
+                    //Сдвигаем ячейку
+                    point++
+                    //Выдаем ошибку, если выходим за границы
+                    if (point > cells-1) throw java.lang.IllegalStateException()
+                    //Сдвигаем указатель
+                    commandPoint++
+                }
+                '<' -> {
+                    //Аналогично ">"
+                    point--
+                    if (point < 0) throw java.lang.IllegalStateException()
+                    commandPoint++
+                }
+                '+' -> {
+                    //Увеличиваем значение в ячейке и сдвигаем указатель
+                    cellsArr[point]++
+                    commandPoint++
+                }
+                '-' -> {
+                    //Аналогично "-"
+                    cellsArr[point]--
+                    commandPoint++
+                }
+                '[' -> {
+                    if (cellsArr[point] == 0)
+                        //Если значение в ячейке 0, то выходим из цикла
+                        commandPoint = (cycleOne[commandPoint] ?: 0) + 1
+                    else
+                        //Иначе просто сдвигаем указатель
+                        commandPoint++
+                }
+                ']' -> {
+                    if (cellsArr[point] != 0) {
+                        //Если значение в ячейке не равно 0, возвращаемся в начало цикла
+                        commandPoint = (cycleOne[commandPoint] ?: 0) + 1
+                    } else {
+                        //Сдивагаем указатель и выходи из цикла
+                        commandPoint++
+                    }
+                }
+                //Аналогично прошлому циклу
+                '{' -> {
+                    if (cellsArr[point] == 0)
+                        commandPoint = (cycleTwo[commandPoint] ?: 0) + 1
+                    else
+                        commandPoint++
+                }
+                '}' -> {
+                    if (cellsArr[point] != 0) {
+                        commandPoint = (cycleTwo[commandPoint] ?: 0) + 1
+                    } else {
+                        commandPoint++
+                    }
+                }
+                //Если сивол не предусмотрен выдаем ошибку
+                else -> throw java.lang.IllegalArgumentException()
+            }
+        }
+        return cellsArr.toList()
+    } else throw IllegalAccessException()
+}

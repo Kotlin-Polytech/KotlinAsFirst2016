@@ -32,6 +32,10 @@ class Graph {
      */
     fun bfs(start: String, finish: String) = bfs(this[start], this[finish])
 
+    //
+    fun bfsPath(start: String, finish: String) = bfsPath(this[start], this[finish])
+    //
+
     private fun bfs(start: Vertex, finish: Vertex): Int {
         val queue = ArrayDeque<Vertex>()
         queue.add(start)
@@ -48,6 +52,30 @@ class Graph {
         }
         return -1
     }
+    //
+    //Алгоритм аналагичный реализованному вами поиску в ширину, только возвращающий путь, в качестве результата
+    private fun bfsPath(start: Vertex, finish: Vertex): List<String> {
+        val queue = ArrayDeque<Vertex>()
+        //Предыдущая обработанная вершина
+        queue.add(start)
+        val visited = mutableMapOf<Vertex,MutableList<String>>()
+        while (queue.isNotEmpty()) {
+            val next = queue.poll()
+            if (next == finish) return visited[next] ?: listOf()
+            for (neighbor in next.neighbors) {
+                if (neighbor in visited) continue
+                //Сохраняем путь до вершины
+                //Довольно интересно было на практике, при поиске ошибки, узнать, что в Котлине,
+                //как и в C# листы не копируются через оператор "=" напряую, а копируется лишь сслыка на них
+                val path = visited[next]?.take(visited[next]?.size ?: 0)?.toMutableList() ?: mutableListOf()
+                path.add(next.name)
+                visited.put(neighbor, path)
+                queue.add(neighbor)
+            }
+        }
+        return listOf()
+    }
+    //
 
     /**
      * Пример

@@ -54,7 +54,12 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val text = File(inputName).readText().toLowerCase()
+    val map = mutableMapOf<String, Int>()
+    for (str in substrings) {
+        map.put(str, text.split(str.toLowerCase()).size - 1)
+    }
+    return map
 }
 
 
@@ -72,7 +77,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val text = File(inputName).readText()
+    val chars = mapOf("ы" to "и", "Ы" to "И", "ю" to "у", "Ю" to "У", "я" to "а", "Я" to "А")
+    val writer = File(outputName).bufferedWriter()
+    writer.write(text.replace(Regex("(?<=[жЖшШчЧщЩ])([ыЫюЮяЯ])"), {R -> chars[R.groupValues[1]] ?: R.groupValues[1]} ))
+    writer.close()
+
 }
 
 /**
@@ -93,7 +103,16 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines().map { it.trim() }
+    val maxStr = lines.map { it.length }.max() ?: 0
+    val writer = File(outputName).writer()
+    val str = StringBuilder()
+    for (line in lines) {
+        (0..((maxStr - line.length) / 2 - 1)).forEach { str.append(" ") }
+        str.appendln(line)
+    }
+    writer.write(str.toString())
+    writer.close()
 }
 
 /**
@@ -119,7 +138,32 @@ fun centerFile(inputName: String, outputName: String) {
  *
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines().map { it.trim() }
+    val maxStr = lines.map { it.length }.max() ?: 0
+    val writer = File(outputName).writer()
+    val str = StringBuilder()
+    for (line in lines) {
+        if (line.isNotEmpty()) {
+            val spaces = maxStr - line.length
+            val words = line.split(" ")
+            if (words.size > 1) {
+                var extraSpaces = spaces % (words.size - 1)
+                val spacesPerWord = spaces / (words.size - 1)
+                for (i in 0..words.size - 2) {
+                    str.append(words[i])
+                    (0..spacesPerWord).forEach { str.append(" ") }
+                    if (extraSpaces > 0) {
+                        str.append(" ")
+                        extraSpaces--
+                    }
+                }
+            }
+            str.append(words.last())
+        }
+        str.appendln()
+    }
+    writer.write(str.toString())
+    writer.close()
 }
 
 /**
@@ -136,8 +180,15 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+    val words = mutableMapOf<String, Int>()
+    for (word in Regex("[a-zа-яё]+").findAll(File(inputName).readText().toLowerCase())) {
+        val value = word.value
+        words.put(value, (words[value] ?: 0) + 1)
+    }
+    return words.toList().sortedByDescending { it.second }.take(20).toMap()
 }
+
+
 
 /**
  * Средняя

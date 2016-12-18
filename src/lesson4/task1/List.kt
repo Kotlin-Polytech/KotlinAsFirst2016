@@ -359,52 +359,15 @@ fun russian(n: Int): String {
             nPart1 -= nPart1 % i
         }
         nPart1 = n / 1000
-        when {
-            (nPart1 % 10 == 1) && (nPart1 % 100 != 11) -> {
-                resultPart1.removeAt(resultPart1.size - 1)
-                resultPart1.add("одна тысяча")
-            }
-            (nPart1 % 10 == 2) && (nPart1 % 100 != 12) -> {
-                resultPart1.removeAt(resultPart1.size - 1)
-                resultPart1.add("две тысячи")
-            }
-            (nPart1 % 10 == 3) && (nPart1 % 100 != 13) -> {
-                resultPart1.removeAt(resultPart1.size - 1)
-                resultPart1.add("три тысячи")
-            }
-            (nPart1 % 10 == 4) && (nPart1 % 100 != 14) -> {
-                resultPart1.removeAt(resultPart1.size - 1)
-                resultPart1.add("четыре тысячи")
-            }
-            else -> {
-                resultPart1.add("тысяч")
-            }
+        val percentTen = nPart1 % 10
+        val percentHundred = nPart1 % 100
+        val endingPart1 = mapOf<Int, String>(1 to "одна тысяча", 2 to "две тысячи", 3 to "три тысячи", 4 to "четыре тысячи")
+        if (percentTen in 1..4 && percentHundred !in 11..14) {
+            resultPart1.removeAt(resultPart1.size - 1)
+            resultPart1.add(endingPart1[percentTen]!!)
+        } else {
+            resultPart1.add("тысяч")
         }
     }
     return (resultPart1 + resultPart2).joinToString(separator = " ")
-}
-
-
-/* Про купюры*/
-fun moneyCounter(sum: Double, coins: String): String {
-    var price = sum
-    val result = mutableListOf<String>()
-    try {
-        val listCoins = coins.split(", ")
-        for (i in 0..listCoins.size-1){
-            val element = listCoins[i].toDouble()
-            val k = (price / element).toInt()
-            if (k != 0) {
-                if (element % 1 == 0.0) {
-                    result.add("$k x ${element.toInt()}")
-                }
-                else result.add("$k x $element")
-                price = price - element*k
-            }
-        }
-    }
-    catch (e:IllegalArgumentException){
-        throw e
-    }
-    return result.joinToString(separator = ", ")
 }

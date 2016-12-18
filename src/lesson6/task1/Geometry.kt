@@ -103,12 +103,14 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val resultX = (Math.cos(angle) * (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) -
-                Math.cos(other.angle) * (Math.sin(angle) * point.x - Math.cos(angle) * point.y)) /
-                (Math.sin(other.angle) * Math.cos(angle) - Math.sin(angle) * Math.cos(other.angle))
-        val resultY = (-(Math.sin(angle) * point.x - Math.cos(angle) * point.y) * Math.sin(other.angle) +
-                (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) * Math.sin(angle)) /
-                (Math.sin(other.angle) * Math.cos(angle) - Math.sin(angle) * Math.cos(other.angle))
+        val otherSinOnX = sin(other.angle) * other.point.x
+        val otherCosOnY = cos(other.angle) * other.point.y
+        val SinOnX = sin(angle) * point.x
+        val CosOnY = cos(angle) * point.y
+        val CosOnOtherSin = cos(angle) * sin(other.angle)
+        val SinOnOtherCos = sin(angle) * cos(other.angle)
+        val resultX = (cos(angle) * (otherSinOnX - otherCosOnY) - cos(other.angle) * (SinOnX - CosOnY)) / (CosOnOtherSin - SinOnOtherCos)
+        val resultY = (-(SinOnX - CosOnY) * sin(other.angle) + (otherSinOnX - otherCosOnY) * sin(angle)) / (CosOnOtherSin - SinOnOtherCos)
         return Point(resultX, resultY)
     }
 }
@@ -142,16 +144,8 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 fun bisectorByPoints(a: Point, b: Point): Line {
     var angle = PI / 2 + searchAngle(a, b)
     if (angle == PI || angle == -PI) angle = 0.0
-    val distanceX: Double
-    val distanceY: Double
-    when {
-        a.x > b.x -> distanceX = a.x - abs(a.x - b.x) / 2
-        else -> distanceX = b.x - abs(a.x - b.x) / 2
-    }
-    when {
-        a.y > b.y -> distanceY = a.y - abs(a.y - b.y) / 2
-        else -> distanceY = b.y - abs(a.y - b.y) / 2
-    }
+    val distanceX = (a.x + b.x) / 2
+    val distanceY = (a.y + b.y) / 2
     val cross = Point(distanceX, distanceY)
     return Line(cross, angle)
 }

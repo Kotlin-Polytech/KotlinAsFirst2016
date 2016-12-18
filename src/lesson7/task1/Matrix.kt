@@ -76,7 +76,10 @@ class MatrixImpl<E> (override val height: Int, override val width: Int, e : E) :
     override fun toString(): String {
         var answ : String = ""
         for (i in 0..height*width - 1){
-            if ((i+1) % width == 0) answ += "\n"
+            answ += "| "
+            if ((i+1) % width == 0) {answ += list[i]
+                answ += " |"
+                answ += "\n"}
             else {
                 answ += list[i]
                 answ += " "

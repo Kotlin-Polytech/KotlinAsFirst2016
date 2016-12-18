@@ -180,36 +180,7 @@ fun top20Words(inputName: String): Map<String, Int> {
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
-    val outputStream = File(outputName).bufferedWriter()
-    val lines = mutableListOf<String>()
-    for (line in File(inputName).readLines()) {
-        lines.add(line)
-    }
-
-    for (i in 0..lines.size - 1) {
-        val result = StringBuilder()
-        for (parthline in lines[i].split(" ")) {
-            val temp = StringBuilder()
-            for (i in parthline) {
-                if (i.toLowerCase() in dictionary.keys.map { it.toLowerCase() }) {
-                    if (dictionary[i.toLowerCase()] != null)
-                        temp.append(dictionary[i.toLowerCase()])
-                    else
-                        temp.append(dictionary[i.toUpperCase()])
-                } else
-                    temp.append(i)
-            }
-            if (parthline[0].isUpperCase()) {
-                result.append(temp.toString().capitalize())
-            }
-            else
-                result.append(temp.toString())
-        }
-        outputStream.write(result.toString().trim())
-        if (i != lines.size - 1)
-            outputStream.newLine()
-    }
-    outputStream.close()
+  TODO()
 }
 
 
@@ -282,7 +253,10 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
                 dictionaryResult.add(words)
         }
     }
-    for (i in dictionaryResult)
+    if (dictionaryResult.size == 0)
+        outputStream.close()
+    else
+        for (i in dictionaryResult)
         result.append("$i, ")
     outputStream.write(result.toString().substring(0, result.length - 2))
     outputStream.close()

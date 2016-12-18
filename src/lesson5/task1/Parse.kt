@@ -189,8 +189,9 @@ fun bestHighJump(jumps: String): Int{
 
             for (j in parth[i])
                if (j == '+') {
-                   if (parth[i - 1].toInt() > max)
-                       max = parth[i - 1].toInt()
+                   val temp = parth[i -1].toInt()
+                   if (temp > max)
+                       max = temp
                }
 
         }

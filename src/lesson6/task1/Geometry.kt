@@ -133,6 +133,9 @@ fun bisectorByPoints(a: Point, b: Point): Line {
     return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), angle)
 }
 
+/*var angle = Math.atan2((a.y - b.y),(a.x - b.x))
+angle = if(angle < Math.PI/2) angle else (angle - Math.PI/2)
+return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), angle)*/
 
 /**
  * Средняя

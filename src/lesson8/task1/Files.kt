@@ -2,6 +2,7 @@
 package lesson8.task1
 
 import java.io.File
+import java.io.IOException
 
 
 /**
@@ -244,10 +245,15 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val dictionaryResult = mutableListOf<String>()
     var max = 0
     val result = StringBuilder()
-    for (lines in File(inputName).readLines()) {
-        if (lines.isEmpty())
-            continue
+    try {
+        for (lines in File(inputName).readLines()) {
+            if (lines.isEmpty())
+                continue
             dictionary.add(lines)
+        }
+    }
+    catch (e: IOException){
+        outputStream.close()
     }
     for (words in dictionary) {
         var check = true

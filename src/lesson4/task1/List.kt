@@ -116,7 +116,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else list.sum() / list.size.toDouble()
+fun mean(list: List<Double>): Double = if ( list.isEmpty() ) 0.0 else list.sum() / list.size
 
 /**
  * Средняя
@@ -155,11 +155,10 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
 fun polynom(p: List<Double>, x: Double): Double {
     var px = 0.0
     var i = 0.0
-    if (p.isEmpty()) return px
+    if ( p.isEmpty() ) return px
     else {
-        for (element in p) {
-            px += element * Math.pow(x, i)
-            i++
+        for ((i, element) in p.withIndex()) {
+            px += element * Math.pow( x, i.toDouble() )
         }
     }
     return px

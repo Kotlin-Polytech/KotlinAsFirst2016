@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -86,14 +87,14 @@ fun diameter(vararg points: Point): Segment {
     var maxSegment = Segment(points.first(), points.last())
     if (points.size < 2) throw IllegalArgumentException()
     else for (i in 0..points.size - 1) {
-            for (j in 0..points.size - 1) {
-                if (length < points[i].distance(points[j])) {
-                    length = points[i].distance(points[j])
-                    maxSegment = Segment(points[i], points[j])
-                }
-
+        for (j in 0..points.size - 1) {
+            if (length < points[i].distance(points[j])) {
+                length = points[i].distance(points[j])
+                maxSegment = Segment(points[i], points[j])
             }
+
         }
+    }
     return maxSegment
 
 }

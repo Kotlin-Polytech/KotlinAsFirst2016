@@ -56,7 +56,7 @@ interface Matrix<E> {
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    if(height <= 0 || width <= 0) throw IllegalArgumentException()
+    if (height <= 0 || width <= 0) throw IllegalArgumentException()
     return MatrixImpl(height, width, e)
 }
 
@@ -82,12 +82,12 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun set(row: Int, column: Int, value: E) {
-        if (row !in 0..height - 1 || column !in 0..width - 1) return
+        if (row !in 0..height - 1 || column !in 0..width - 1) throw IllegalArgumentException()
         else storage[row][column] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        if (cell.row !in 0..height - 1 || cell.column !in 0..width - 1) return
+        if (cell.row !in 0..height - 1 || cell.column !in 0..width - 1) throw IllegalArgumentException()
         else  storage[cell.row][cell.column] = value
     }
 
@@ -111,6 +111,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         for (elem in storage) {
             res = res * 23 + elem.hashCode()
         }
+        res += width.hashCode() + height.hashCode()
         return res
     }
 

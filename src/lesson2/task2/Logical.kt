@@ -67,6 +67,5 @@ fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
 		if (a < c) min2 = a
 		else min2 = c
 	}
-	
 	return (min1 <= r && min2 <= s) || (min1 <= s && min2 <= r)
 }

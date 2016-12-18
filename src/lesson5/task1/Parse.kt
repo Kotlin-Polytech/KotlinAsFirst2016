@@ -79,7 +79,7 @@ fun dateStrToDigit(str: String): String {
     if (month == "ноября") month = "11" else
     if (month == "декабря") month = "12" else
     return ""
-    if (date.toInt() < 10) date = "0" + date
+    if (date.toInt() < 10) date = "0" + date.toInt().toString()
     return String.format("%s.%s.%s", date, month, year)
 }
 

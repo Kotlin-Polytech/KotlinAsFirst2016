@@ -85,7 +85,13 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    var result = listOf(start)
+    if ((start.column == end.column) && (start.row == end.row)) return result
+    else if (start.column == end.column) return result+end
+    else if (start.row == end.row) return result+end
+    else return result+Square(start.column , end.row)+end
+}
 
 /**
  * Простая
@@ -152,7 +158,24 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    var current = start
+    var k = 0
+    var dx = 0
+    var dy = 0
+    if ((start.column == end.column) && (start.row == end.row)) return k
+    while (current!=end){
+        if (current.column>end.column) dy = -1
+        else if (current.column<end.column) dy = 1
+        else if (current.column==end.column) dy = 0
+        if (current.row>end.row) dx = -1
+        else if (current.row<end.row) dx = 1
+        else if (current.row==end.row) dx = 0
+        current = Square(current.column+dy,current.row+dx)
+        k++
+    }
+    return k
+}
 
 /**
  * Сложная

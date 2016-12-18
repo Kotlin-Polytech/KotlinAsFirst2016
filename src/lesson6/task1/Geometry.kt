@@ -3,7 +3,6 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
-import java.lang.Math.*
 
 /**
  * Точка на плоскости
@@ -14,7 +13,7 @@ data class Point(val x: Double, val y: Double) {
      *
      * Рассчитать (по известной формуле) расстояние между двумя точками
      */
-    fun distance(other: Point): Double = sqrt(sqr(x - other.x) + sqr(y - other.y))
+    fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
 }
 
 /**
@@ -31,7 +30,7 @@ data class Triangle(val a: Point, val b: Point, val c: Point) {
      */
     fun area(): Double {
         val p = halfPerimeter()
-        return sqrt(p * (p - a.distance(b)) * (p - b.distance(c)) * (p - c.distance(a)))
+        return Math.sqrt(p * (p - a.distance(b)) * (p - b.distance(c)) * (p - c.distance(a)))
     }
 
     /**
@@ -125,14 +124,14 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val k1 = tan(this.angle)
-        val k2 = tan(other.angle)
+        val k1 = Math.tan(this.angle)
+        val k2 = Math.tan(other.angle)
         val b1 = -1 * (this.point.x * k1) + this.point.y
         val b2 = -1 * (other.point.x * k2) + other.point.y
         val x = (b2 - b1) / (k1 - k2)
         val y = when {
-            (this.angle == PI / 2 || this.angle == -PI / 2) -> other.point.y
-            (other.angle == PI / 2 || other.angle == -PI / 2) -> this.point.y
+            (this.angle == Math.PI / 2 || this.angle == -Math.PI / 2) -> other.point.y
+            (other.angle == Math.PI / 2 || other.angle == -Math.PI / 2) -> this.point.y
             else -> (x - this.point.x) * k1 + this.point.y
         }
         return Point(x, y)
@@ -144,7 +143,7 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = Line(s.begin, atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
 
 /**
  * Средняя
@@ -159,7 +158,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x) / 2, ((a.y + b.y) / 2)),
-        (lineByPoints(a, b).angle + PI / 2) % PI)
+        lineByPoints(a, b).angle + Math.PI / 2)
 
 /**
  * Средняя

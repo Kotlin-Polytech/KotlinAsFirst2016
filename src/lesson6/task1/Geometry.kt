@@ -159,7 +159,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x) / 2, ((a.y + b.y) / 2)),
-        lineByPoints(a, b).angle + PI / 2)
+        (lineByPoints(a, b).angle + PI / 2) % PI)
 
 /**
  * Средняя
@@ -196,7 +196,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val line1 = bisectorByPoints(a, b)
     val line2 = bisectorByPoints(a, c)
     val point = line1.crossPoint(line2)
-    return Circle(point,a.distance(point))
+    return Circle(point, a.distance(point))
 }
 
 /**

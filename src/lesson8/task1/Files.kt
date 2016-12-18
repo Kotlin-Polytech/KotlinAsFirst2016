@@ -64,7 +64,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
             count++
             beacon = text.indexOf(substring, beacon + 1)
         }
-        result += Pair(element, count)
+        result[element] = count
     }
     return result
 }

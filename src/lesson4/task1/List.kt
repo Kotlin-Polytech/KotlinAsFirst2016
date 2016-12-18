@@ -260,8 +260,10 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
-    for (i in 0..digits.size - 1) {
-        result += digits[i] * pow(base, digits.size - 1 - i)
+    var basePow = 1
+    for (i in digits.size - 1 downTo 0) {
+        result += digits[i] * basePow
+        basePow *= base
     }
     return result
 }

@@ -54,23 +54,24 @@ class MatrixImpl<E> (override val height: Int, override val width: Int, e : E) :
     private val list = mutableListOf<E>()
     init {
         for (i in 0..height*width - 1){
-            list += e
+            list.add(e)
         }
     }
 
     override fun get(row: Int, column: Int): E = list[row*height + column]
 
-    override fun get(cell: Cell): E  = list[cell.row*height + cell.column]
+    override fun get(cell: Cell): E = list[cell.row*height + cell.column]
 
     override fun set(row: Int, column: Int, value: E) {
-        list[row*height + column] = value
+        list[row*width + column] = value
     }
 
     override fun set(cell: Cell, value: E) {
-        list[cell.row*height + cell.column] = value
+        list[cell.row*width + cell.column] = value
     }
 
-    override fun equals(other: Any?) : Boolean = TODO()
+    override fun equals(other: Any?) =
+        other is MatrixImpl<*> && list == other.list && height == other.height && width == other.width
 
     override fun toString(): String {
         var answ : String = ""

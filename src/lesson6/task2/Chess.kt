@@ -42,8 +42,8 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-        if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8')) throw IllegalArgumentException()
-            else return Square((notation[0]).toInt() - ('a').toInt() + 1, notation[1].toInt() - ('0').toInt())
+    if ((notation.length != 2) || (notation[0] !in 'a'..'h') || (notation[1] !in '1'..'8')) throw IllegalArgumentException()
+    else return Square((notation[0]).toInt() - ('a').toInt() + 1, notation[1].toInt() - ('0').toInt())
 }
 
 /**
@@ -70,7 +70,7 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if ((!start.inside())||(!end.inside())) throw IllegalArgumentException()
+    if ((!start.inside()) || (!end.inside())) throw IllegalArgumentException()
     return when {
         start == end -> 0
         (start.column == end.column) || (start.row == end.row) -> 1
@@ -124,7 +124,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    if ((!start.inside())||(!end.inside())) throw IllegalArgumentException()
+    if ((!start.inside()) || (!end.inside())) throw IllegalArgumentException()
     return when {
         start == end -> 0
         (Math.abs(start.column.toInt() - end.column.toInt()) == Math.abs(start.row.toInt() - end.row.toInt())) -> 1
@@ -290,6 +290,7 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
 fun knightMoveNumber(start: Square, end: Square): Int = TODO()
+
 /**
  * Очень сложная
  *

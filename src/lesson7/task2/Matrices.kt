@@ -209,7 +209,7 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
         val matrix = createMatrix(this.height, this.width, 0)
         for (i in 0..this.height - 1) {
             for (j in 0..this.width - 1) {
-                matrix[i, j] = this[i, j] * (-1)
+                matrix[i, j] = -this[i, j]
             }
         }
         return matrix

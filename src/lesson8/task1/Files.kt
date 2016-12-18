@@ -64,7 +64,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
                 answer[e] = answer[e]!! + 1
         }
     }
-     return answer
+    return answer
 }
 
 

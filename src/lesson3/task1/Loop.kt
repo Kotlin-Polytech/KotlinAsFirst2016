@@ -98,13 +98,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 
-fun nok(a: Int, b: Int): Int {
-    if (a != 0) return nok(b % a, a)
+fun nod(a: Int, b: Int): Int {
+    if (a != 0) return nod(b % a, a)
     else return b
 }
 
 fun lcm(m: Int, n: Int): Int =
-        m * n / nok(m, n)
+        m * n / nod(m, n)
 
 /**
  * Простая
@@ -130,7 +130,7 @@ fun maxDivisor(n: Int): Int = ((n/2) downTo 1).firstOrNull { (n % it) == 0 } ?: 
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean = nok(m,n) == 1
+fun isCoPrime(m: Int, n: Int): Boolean = nod(m,n) == 1
 
 /**
  * Простая

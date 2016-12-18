@@ -1,7 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 
 package lesson4.task1
-
+import lesson3.task1.minDivisor
 import lesson1.task1.discriminant
 
 /**
@@ -129,10 +129,11 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
-    val average = list.sum() / list.size
-    val new = list.map { it - average }
-    return new as MutableList<Double>
+    val average = mean(list)
+    for (i in 0..list.size - 1) {
+        list[i] = list[i] - average
+    }
+    return list
 }
 
 /**
@@ -162,8 +163,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     if (p.isEmpty()) return 0.0
     var result = 0.0
+    var y = 1.0
     for (i in 0..p.size - 1) {
-        result += p[i] * Math.pow(x, i.toDouble())
+        result += p[i] * y
+        y *= x
     }
     return result
 }
@@ -177,11 +180,8 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
-    var result = list[0]
     for (i in 1..list.size - 1) {
-        result += list[i]
-        list[i] = result
+        list[i] += list[i - 1]
     }
     return list
 }
@@ -195,17 +195,12 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 
 fun factorize(n: Int): List<Int> {
-    var result: List<Int>
-    result = listOf()
+    var result = listOf<Int>()
     var m = n
-    var divider = 1
-    while (divider < m) {
-        divider++
-        while ((m != 0) && (m % divider) == 0) {
-            result += divider
-            m /= divider
-        }
-
+    while (m != 1) {
+        val minDiv = minDivisor(m)
+        result += minDiv
+        m /= minDiv
     }
     return result
 }
@@ -278,64 +273,17 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var result: String = ""
-    var m = n
-    while (m > 0) {
-        when {
-            m >= 1000 -> {
-                m -= 1000
-                result += "M"
-            }
-            m >= 900 -> {
-                m-= 900
-                result += "CM"
-            }
-            m >= 500 -> {
-                m -= 500
-                result += "D"
-            }
-            m >= 400 -> {
-                m -= 400
-                result += "CD"
-            }
-            m >= 100 -> {
-                m -= 100
-                result += "C"
-            }
-            m >= 90 -> {
-                m -= 90
-                result += "XC"
-            }
-            m >= 50 -> {
-                m -= 50
-                result += "L"
-            }
-            m >= 40 -> {
-                m -= 40
-                result += "XL"
-            }
-            m >= 10 -> {
-                m -= 10
-                result += "X"
-            }
-            m >= 9 -> {
-                m -= 9
-                result += "IX"
-            }
-            m >= 5 -> {
-                m -= 5
-                result += "V"
-            }
-            m >= 4 -> {
-                m -= 4
-                result += "IV"
-            }
-            m >= 1 -> {
-                m -= 1
-                result += "I"
-            }
+    var result = ""
+    var n2 = n
+    val rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M" )
+    val dec = listOf( 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var i = 12
+    while (n2 != 0) {
+        while (n2 >= dec[i]) {
+            n2 -= dec[i]
+            result += rom[i]
         }
-
+        i--
     }
     return result
 }

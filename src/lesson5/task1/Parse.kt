@@ -18,8 +18,6 @@ fun timeStrToSeconds(str: String): Int {
     return result
 }
 
-fun twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
-
 /**
  * Пример
  *
@@ -60,33 +58,33 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    var result = ""
+    var day = 0
+    var month = 0
     val a = str.split(" ")
     if (a.size != 3) return ""
     try {
-        if (a[0].toInt() in 1..9) result += "0" + a[0] + "."
-        else if (a[0].toInt() in 10..31) result += a[0] + "."
+        if (a[0].toInt() in 1..31) day += a[0].toInt()
         else return ""
-        when {
-            a[1] == "января" -> result += "01"
-            a[1] == "февраля" -> result += "02"
-            a[1] == "марта" -> result += "03"
-            a[1] == "апреля" -> result += "04"
-            a[1] == "мая" -> result += "05"
-            a[1] == "июня" -> result += "06"
-            a[1] == "июля" -> result += "07"
-            a[1] == "августа" -> result += "08"
-            a[1] == "сентября" -> result += "09"
-            a[1] == "октября" -> result += "10"
-            a[1] == "ноября" -> result += "11"
-            a[1] == "декабря" -> result += "12"
+        when (a[1]) {
+            "января" -> month += 1
+            "февраля" -> month += 2
+            "марта" -> month += 3
+            "апреля" -> month += 4
+            "мая" -> month += 5
+            "июня" -> month += 6
+            "июля" -> month += 7
+            "августа" -> month += 8
+            "сентября" -> month += 9
+            "октября" -> month += 10
+            "ноября" -> month += 11
+            "декабря" -> month += 12
             else -> return ""
         }
-        result += "." + a[2]
     } catch (e: NumberFormatException) {
         return ""
     }
-    return result
+    val year = a[2].toInt()
+    return String.format("%02d.%02d.%04d", day, month, year)
 }
 
 /**
@@ -97,33 +95,33 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    var result = ""
+    var day = 0
+    var month = ""
     val a = digital.split(".")
     if (a.size != 3) return ""
     try {
-        if (a[0].toInt() in 1..9) result += (a[0].toInt()).toString() + " "
-        else if (a[0].toInt() in 10..31) result += a[0] + " "
+        if (a[0].toInt() in 1..31) day += a[0].toInt()
         else return ""
-        when {
-            a[1] == "01" -> result += "января"
-            a[1] == "02" -> result += "февраля"
-            a[1] == "03" -> result += "марта"
-            a[1] == "04" -> result += "апреля"
-            a[1] == "05" -> result += "мая"
-            a[1] == "06" -> result += "июня"
-            a[1] == "07" -> result += "июля"
-            a[1] == "08" -> result += "августа"
-            a[1] == "09" -> result += "сентября"
-            a[1] == "10" -> result += "октября"
-            a[1] == "11" -> result += "ноября"
-            a[1] == "12" -> result += "декабря"
+        when (a[1]) {
+            "01" -> month += "января"
+            "02" -> month += "февраля"
+            "03" -> month += "марта"
+            "04" -> month += "апреля"
+            "05" -> month += "мая"
+            "06" -> month += "июня"
+            "07" -> month += "июля"
+            "08" -> month += "августа"
+            "09" -> month += "сентября"
+            "10" -> month += "октября"
+            "11" -> month += "ноября"
+            "12" -> month += "декабря"
             else -> return ""
         }
-        result += " " + a[2]
     } catch (e: NumberFormatException) {
         return ""
     }
-    return result
+    val year = a[2].toInt()
+    return String.format("%d %s %04d", day, month, year)
 }
 
 /**

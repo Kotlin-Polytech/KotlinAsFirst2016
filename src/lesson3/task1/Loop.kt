@@ -119,12 +119,6 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int = n / minDivisor(n)
-/*{
-    var i = n / minDivisor(n)
-    while (n % i != 0) i--
-    return i
-}
-*/
 
 /**
  * Простая
@@ -161,8 +155,8 @@ fun sin(x: Double, eps: Double): Double {
     var mark = 1
     var ind = 1
     var sin = 0.0
-    var newElement = x % (Math.PI * 2)
     val piX = x % (Math.PI * 2)
+    var newElement = piX
     while (Math.abs(newElement) >= eps) {
         sin += mark * newElement
         ind += 2
@@ -236,15 +230,11 @@ fun hasDifferentDigits(n: Int): Boolean {
 fun squareSequenceDigit(n: Int): Int {
     var nn = 0
     var number = 0
-    for (i in 0..n) { //В прошлых исправлениях Вы писали "Менять внешнюю переменную внутри лямбды --- очень плохой стиль, лучше воспользоваться старым добрым циклом for"
-        if (number < n) {
-            nn++
-            number += digitNumber(nn * nn)
-        } else break
+    while (number < n) {
+        nn++
+        number += digitNumber(nn * nn)
     }
-
-    var result = nn * nn / pow(number - n, 10) % 10
-    return (result % 10)
+    return ((nn * nn / pow(number - n, 10) % 10) % 10)
 }
 
 

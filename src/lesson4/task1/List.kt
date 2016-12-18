@@ -3,8 +3,8 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.minDivisor
 
-//import lesson3.task1.minDivisor
 
 /**
  * Пример
@@ -109,10 +109,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 
 
-fun abs(v: List<Double>): Double {
-    val newList = v.map { it * it }
-    return Math.sqrt(newList.sum())
-}
+fun abs(v: List<Double>): Double = Math.sqrt(v.map { it * it }.sum())
+
 
 /**
  * Простая
@@ -150,13 +148,13 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     if (a.isEmpty() or b.isEmpty()) {
         return 0.0
-    } else {
-        var result = 0.0
-        for (i in 0..a.size - 1) {
-            result += a[i] * b[i]
-        }
-        return result
     }
+    var result = 0.0
+    for (i in 0..a.size - 1) {
+        result += a[i] * b[i]
+    }
+    return result
+
 }
 
 /**
@@ -200,7 +198,7 @@ fun factorize(n: Int): List<Int> {
     var nn = n
     var result = listOf<Int>()
     while (nn > 1) {
-        val minDivisor = lesson3.task1.minDivisor(nn)
+        val minDivisor = minDivisor(nn)
         result += minDivisor
         nn /= minDivisor
     }
@@ -248,7 +246,7 @@ fun convertToString(n: Int, base: Int): String {
     val number = convert(n, base)
     for (i in 0..number.size - 1) {
         if (number[i] >= 10) result += ('a' - 10 + number[i]).toString()
-        else result += "${number[i]}"
+        else result += number[i].toString()
     }
     return result
 }
@@ -262,22 +260,21 @@ fun convertToString(n: Int, base: Int): String {
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun pow(base: Int, n: Int): Int {
-    var result = 0
     if (base != 0) {
-        result++
+        var result = 1
         for (i in 1..base) {
             result *= n
         }
         return result
-    } else if (n != 0) return result + 1
-    else return result
+    } else if (n != 0) return 1
+    else return 0
 }
 
 
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
     for (i in 0..digits.size - 1) {
-        result += digits[i] * pow((digits.size - 1 - i), base)
+        result += digits[i] * pow(digits.size - 1 - i, base)
     }
     return result
 }
@@ -318,86 +315,94 @@ fun roman(n: Int): String = TODO()
  */
 
 
-fun russian(n: Int): String = TODO()
-/**{
-var f = 0
-var char100: Int
-var char10: Int
-var result = ""
-var number = 1
-var nn = n
-while (nn > 0) {
-char100 = nn % 100
-char10 = nn % 10
-if ((number == 1) and (f == 0)) {
-if ((char100 < 20) and (char100 >= 10)) {
-result = when {
-(char100 == 11) -> "одиннадцать"
-(char100 == 12) -> "двенадцать"
-(char100 == 13) -> "тринадцать"
-(char100 == 14) -> "четырнадцать"
-(char100 == 15) -> "пятнадцать"
-(char100 == 16) -> "шестнадцать"
-(char100 == 17) -> "семнадцать"
-(char100 == 18) -> "восемнадцать"
-(char100 == 19) -> "девятнадцать"
-else -> "десять"
-} + result
-f = 1
-nn /= 100
-number += 1
-}
-if ((char10 >= 0) and (char10 < 10)) {
-result = when {
-(char10 == 1) -> "один"
-(char10 == 2) -> "два"
-(char10 == 3) -> "три"
-(char10 == 4) -> "четыре"
-(char10 == 5) -> "пять"
-(char10 == 6) -> "шесть"
-(char10 == 7) -> "семь"
-(char10 == 8) -> "восемь"
-(char10 == 9) -> "девять"
-else -> ""
-} + result
-f = 1
-nn /= 10
-}
+fun russian(n: Int): String {
+    var number: Int
+    var number100: Int
+    var digit = 0
+    var result = ""
+    var nn = n
+    while (nn > 0) {
+        number = nn % 10
+        number100 = nn % 100
+        digit += 1
+        if ((number100 < 20) && (number100 > 10) && ((digit == 1) || (digit == 4))) {
+            digit += 1
+            nn /= 10
+            if (digit == 5) result = " тысяч" + result
+            result = when {
+                (number100 == 11) -> "одиннадцать"
+                (number100 == 12) -> "двенадцать"
+                (number100 == 13) -> "тринадцать"
+                (number100 == 14) -> "четырнадцать"
+                (number100 == 15) -> "пятнадцать"
+                (number100 == 16) -> "шестнадцать"
+                (number100 == 17) -> "семнадцать"
+                (number100 == 18) -> "восемнадцать"
+                (number100 == 19) -> "девятнадцать"
+                else -> ""
+            } + result
+        } else {
+            if (digit == 4) {
+                result = when {
+                    (number == 1) -> "одна тысяча"
+                    (number == 2) -> "две тысячи"
+                    (number == 3) -> "три тысячи"
+                    (number == 4) -> "четыре тысячи"
+                    (number == 5) -> "пять тысяч"
+                    (number == 6) -> "шесть тысяч"
+                    (number == 7) -> "семь тысяч"
+                    (number == 8) -> "восемь тысяч"
+                    (number == 9) -> "девять тысяч"
+                    else -> when {
+                        (nn / 10 != 0) -> " тысяч"
+                        else -> ""
+                    }
+                } + result
+            } else {
+                result = when {
+                    (digit == 1) -> when {
+                        (number == 1) -> "один"
+                        (number == 2) -> "два"
+                        (number == 3) -> "три"
+                        (number == 4) -> "четыре"
+                        (number == 5) -> "пять"
+                        (number == 6) -> "шесть"
+                        (number == 7) -> "семь"
+                        (number == 8) -> "восемь"
+                        (number == 9) -> "девять"
+                        else -> ""
+                    }
+                    (digit == 2) || (digit == 5) -> when {
+                        (number == 1) -> "десять"
+                        (number == 2) -> "двадцать"
+                        (number == 3) -> "тридцать"
+                        (number == 4) -> "сорок"
+                        (number == 5) -> "пятьдесят"
+                        (number == 6) -> "шестьдесят"
+                        (number == 7) -> "семьдесят"
+                        (number == 8) -> "восемьдесят"
+                        (number == 9) -> "девяносто"
+                        else -> ""
+                    }
+                    (digit == 3) || (digit == 6) -> when {
+                        (number == 1) -> "сто"
+                        (number == 2) -> "двести"
+                        (number == 3) -> "триста"
+                        (number == 4) -> "четыреста"
+                        (number == 5) -> "пятьсот"
+                        (number == 6) -> "шестьсот"
+                        (number == 7) -> "семьсот"
+                        (number == 8) -> "восемьсот"
+                        (number == 9) -> "девятьсот"
+                        else -> ""
+                    }
+                    else -> ""
+                } + result
+            }
+        }
+        if ((nn / 10 != 0) && (number != 0)) result = " " + result
+        nn /= 10
+    }
 
+    return result
 }
-if ((number == 2) and (f == 0)) {
-result = when {
-(char10 == 2) -> "двадцать"
-(char10 == 3) -> "тридцать"
-(char10 == 4) -> "сорок"
-(char10 == 5) -> "пятьдесят"
-(char10 == 6) -> "шестьдесят"
-(char10 == 7) -> "семьдесят"
-(char10 == 8) -> "восемьдесят"
-(char10 == 9) -> "девяносто"
-else -> ""
-} + result
-f = 1
-nn /= 10
-}
-if ((number == 3) and (f == 0)) {
-result = when {
-(char10 == 1) -> "сто"
-(char10 == 2) -> "двести"
-(char10 == 3) -> "триста"
-(char10 == 4) -> "четыреста"
-(char10 == 5) -> "пятьсот"
-(char10 == 6) -> "шестьсот"
-(char10 == 7) -> "семьсот"
-(char10 == 8) -> "восемьсот"
-(char10 == 9) -> "девятьсот"
-else -> ""
-} + result
-f = 1
-nn /= 10
-}
-number += 1
-}
-return result
-}
- */

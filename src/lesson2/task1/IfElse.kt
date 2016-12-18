@@ -63,7 +63,7 @@ fun timeForHalfWay(t1: Double, v1: Double,
     if (sAll > 0) {
         return when {
             (sAll <= s1) -> sAll / v1
-            (sAll > s1) and (sAll <= s12) -> (t1 + (sAll - s1) / v2)
+            (sAll <= s12) -> (t1 + (sAll - s1) / v2)
             (sAll > s12) -> (t1 + t2 + (sAll - s12) / v3)
             else -> 0.0
         }
@@ -147,13 +147,15 @@ fun triangleKind(a: Double, b: Double, c: Double)
         }
     }
     val cosMax = (min1 * min1 + min2 * min2 - max * max) / 2 * min1 * min2
-    return when {
-        (min1 + min2 > max) && (cosMax > 0.0) -> 0
-        (min1 + min2 > max) && (cosMax == 0.0) -> 1
-        (min1 + min2 > max) && (cosMax < 0.0) -> 2
+    return when { (min1 + min2 > max) -> when {
+        (cosMax > 0.0) -> 0
+        (cosMax == 0.0) -> 1
+        else -> 2
+    }
         else -> -1
     }
 }
+
 /**
  * Средняя
  *
@@ -163,12 +165,12 @@ fun triangleKind(a: Double, b: Double, c: Double)
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
-        (a > d) || ((a < d) && (c > b)) -> -1
-        (d <= b) && (c < a) -> (d - a)
-        (d <= b) && (c >= a) -> (d - c)
-        (d > b) && (c < a) -> b - a
-        (d > b) && (c >= a) -> b - c
-        else -> 0
-    }
+    (a > d) || ((a < d) && (c > b)) -> -1
+    (d <= b) && (c < a) -> (d - a)
+    (d <= b) && (c >= a) -> (d - c)
+    (d > b) && (c < a) -> b - a
+    (d > b) && (c >= a) -> b - c
+    else -> 0
+}
 
 

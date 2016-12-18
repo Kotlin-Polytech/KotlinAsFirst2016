@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
+import lesson4.task1.squares
+import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 
@@ -103,7 +106,16 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val result = createMatrix(matrix.width, matrix.width, matrix[0, 0])
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
+            result[i, j] = matrix[matrix.width - j - 1, i]
+        }
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -154,7 +166,19 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+    val listOfRows = mutableListOf<Int>()
+    val listOfColumns = mutableListOf<Int>()
+    for (i in 0..matrix.height - 1) {
+        val result = (0..matrix.width - 1).sumBy { matrix[i, it] }
+        if (result == 0) listOfRows.add(i)
+    }
+    for (i in 0..matrix.width - 1) {
+        val result = (0..matrix.height - 1).sumBy { matrix[it, i] }
+        if (result == 0) listOfColumns.add(i)
+    }
+    return Holes(listOfRows, listOfColumns)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице
@@ -205,7 +229,15 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    val result = createMatrix<Int>(height = this.height, width = this.width, e = this[0, 0])
+    for (i in 0..this.height - 1) {
+        for (j in 0..this.width - 1) {
+            result[i, j] = this[i, j] * -1
+        }
+    }
+    return result
+}
 
 /**
  * Средняя

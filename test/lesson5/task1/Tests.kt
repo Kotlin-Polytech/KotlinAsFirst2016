@@ -29,16 +29,19 @@ class Tests {
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("17.05.1", dateStrToDigit("17 мая 1"))
     }
 
     @Test
     @Tag("Normal")
     fun dateDigitToStr() {
         assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
+        assertEquals("1 января 2016", dateDigitToStr("01.01.2016"))
         assertEquals("", dateDigitToStr("01.02.20.19"))
         assertEquals("", dateDigitToStr("28.00.2000"))
         assertEquals("3 апреля 2011", dateDigitToStr("03.04.2011"))
         assertEquals("", dateDigitToStr("ab.cd.ef"))
+        assertEquals("3 февраля 2147483647", dateDigitToStr("03.02.2147483647"))
     }
 
     @Test
@@ -58,7 +61,7 @@ class Tests {
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
-
+        assertEquals(2147483647, bestLongJump("% - % 135323054 1 1776261186 0 - - 0 - % 649413454 % - 0 - % - - - % 1929759761 % - - - 2147483647 1 474647892 - 925824405 2147483647 - 0 0 - - 1184724679 888351796 - - - 0 % 1 % 320363593 2147483647 % 610346849 - - 112664001 % % 1 751411115 - 1787665801 2081944341 - 0 - - - % 2147483647 - - % % 2147483647 - - 0 2147483647 % - 2147483647 - - 1404525777 - % - 1 0 - - - 999499525 2147483647 - - % - 1 2147483647 1 % - 0 - 0 1 1479181587 0 623220768 1 1 % -"))
     }
 
     @Test
@@ -67,6 +70,7 @@ class Tests {
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
         assertEquals(230, bestHighJump("220 + 224 %+ 228 %- 230 + 232 %%- 234 %"))
+        assertEquals(-1, bestHighJump("131419585 %-"))
     }
 
     @Test
@@ -93,6 +97,7 @@ class Tests {
         assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
+        assertEquals("", mostExpensive(""))
     }
 
     @Test
@@ -104,6 +109,9 @@ class Tests {
         assertEquals(694, fromRoman("DCXCIV"))
         assertEquals(49, fromRoman("XLIX"))
         assertEquals(-1, fromRoman("Z"))
+        assertEquals(0,fromRoman(""))
+        assertEquals(51791,fromRoman("MMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMDCCXCI"))
+        assertEquals(200, fromRoman("CC"))
     }
 
     @Test

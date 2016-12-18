@@ -23,6 +23,9 @@ class Tests {
         assertEquals("132 года", ageDescription(132))
         assertEquals("12 лет", ageDescription(12))
         assertEquals("199 лет", ageDescription(199))
+        assertEquals("111 лет", ageDescription(111))
+        assertEquals("121 год", ageDescription(121))
+        assertEquals("101 год", ageDescription(101))
     }
 
     @Test
@@ -40,6 +43,7 @@ class Tests {
         assertEquals(1, whichRookThreatens(5, 3, 7, 3, 4, 8))
         assertEquals(2, whichRookThreatens(6, 8, 8, 6, 6, 3))
         assertEquals(3, whichRookThreatens(3, 7, 8, 7, 3, 5))
+        assertEquals(2, whichRookThreatens(4, 1, 1, 5, 3, 1))
     }
 
     @Test

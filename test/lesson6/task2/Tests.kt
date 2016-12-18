@@ -75,6 +75,7 @@ class Tests {
         assertEquals(0, bishopMoveNumber(square("d4"), square("d4")))
         assertEquals(1, bishopMoveNumber(square("a3"), square("e7")))
         assertEquals(2, bishopMoveNumber(square("c1"), square("c7")))
+        assertEquals(2, bishopMoveNumber(square("h1"), square("g6")))
     }
 
     private fun List<Square>.assertBishopTrajectory(start: Square, end: Square, length: Int) {
@@ -98,6 +99,8 @@ class Tests {
         assertEquals(listOf(square("c1"), square("f4"), square("c7")), bishopTrajectory(square("c1"), square("c7")))
         assertEquals(listOf(square("f1"), square("c4"), square("f7")), bishopTrajectory(square("f1"), square("f7")))
         bishopTrajectory(square("d2"), square("e5")).assertBishopTrajectory(square("d2"), square("e5"), 2)
+        assertEquals(listOf(Square(2, 6), Square(5, 3), Square(3, 1)), bishopTrajectory(Square(2, 6), Square(3, 1)))
+        assertEquals(listOf(Square(7, 7), Square(3, 3), Square(1, 5)), bishopTrajectory(Square(7, 7), Square(1, 5)))
     }
 
     @Test
@@ -153,7 +156,7 @@ class Tests {
             val next = this[i + 1]
             assertTrue(
                     Math.abs(next.column - previous.column) == 2 && Math.abs(next.row - previous.row) == 1 ||
-                    Math.abs(next.column - previous.column) == 1 && Math.abs(next.row - previous.row) == 2
+                            Math.abs(next.column - previous.column) == 1 && Math.abs(next.row - previous.row) == 2
             )
         }
     }

@@ -5,7 +5,7 @@ import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
 import java.lang.Math.*
-import java.util.*
+
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
 
@@ -13,11 +13,11 @@ import java.util.*
 // По-нормальноу это должен быть статический параметр класса, но са класс Cell я менять не могу
 val NOT_EXISTS = Cell(-1, -1)
 
-fun Cell.near(other: Cell): Boolean {
+fun Cell.near(other: Cell): Boolean =
     if (this == other) throw IllegalArgumentException("Cells are the same")
-    else return ((this.row - other.row) == 0 && abs(this.column - other.column) == 1) ||
+    else ((this.row - other.row) == 0 && abs(this.column - other.column) == 1) ||
             (abs(this.row - other.row) == 1 && this.column - other.column == 0)
-}
+
 
 fun createFilledMatrix(height: Int, width: Int, values: List<List<Int>>): Matrix<Int> {
     val matrix = createMatrix(height, width, values[0][0])
@@ -65,23 +65,17 @@ fun <E> Matrix<E>.swap(first: Cell, second: Cell) {
         val tmp = this[first]
         this[first] = this[second]
         this[second] = tmp
-    } else throw IllegalArgumentException("No suck Cells in Matrix")
+    } else throw IllegalArgumentException("No suck Cells in Matrix [${first.toString()}] - [${second.toString()}]")
 }
 fun <E> Matrix<E>.findMoves(cell: Cell): List<Cell> {
-    val list: MutableList<Cell> = mutableListOf()
+    val list = mutableListOf<Cell>()
     (-1..0).forEach {
         if (this.contains(cell.row + it, cell.column + it + 1)) list.add(Cell(cell.row + it, cell.column + it + 1))
         if (this.contains(cell.row + it + 1, cell.column + it)) list.add(Cell(cell.row + it + 1, cell.column + it))
     }
     return list
 }
-fun <E> Matrix<E>.copyN(): Matrix<E> {
-    val m = createMatrix(height, width, this[0,0])
-    for (i in 0..height - 1)
-        for (j in 0..width - 1)
-            m[i,j] = this[i,j]
-    return m
-}
+fun <E> Matrix<E>.copyN(): Matrix<E> = this.subMatrix(this.height, this.width, 0, 0)
 /**
  * Пример
  *
@@ -482,6 +476,7 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
  *
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
+/*
 val solution1 = createFilledMatrix(4,4, listOf(listOf(1, 2, 3, 4),
         listOf(5, 6, 7, 8),
         listOf(9, 10, 11, 12),
@@ -491,9 +486,9 @@ val solution2 = createFilledMatrix(4,4, listOf(listOf(1, 2, 3, 4),
         listOf(9, 10, 11, 12),
         listOf(13, 15, 14, 0)))
 
-class State(val matrix: Matrix<Int>, val moved: Int?)  {
+class State(val matrix: Matrix<Int>)  {
 
-    object companion {
+    companion object {
         var START = createMatrix(4,4,0)
             set(value) {
                 field = value
@@ -517,30 +512,20 @@ class State(val matrix: Matrix<Int>, val moved: Int?)  {
             }
             N += zeroRow
             SOLUTION = if (N % 2 == 0) solution1 else solution2
-            println("Solution found: $SOLUTION")
         }
-    }
-
-    fun getAllMoves(): List<State> {
-        val moves = mutableListOf<State>()
-        val zeroPos = this.matrix.indexOf(0)
-        for(move in this.matrix.findMoves(zeroPos)) {
-            val step = this.matrix.copyN()
-            step.swap(zeroPos, move)
-            moves.add(State(step, this.matrix[move]))
-        }
-        return moves
     }
 
     fun getCellsMoves(): List<Cell> = this.matrix.findMoves(this.matrix.indexOf(0))
 
-    fun solved(): Boolean = this.matrix == State.companion.SOLUTION
+    fun solved(): Boolean = this.matrix == State.SOLUTION
+
+    fun zero(): Cell = this.matrix.indexOf(0)
 
     fun estimate(): Int {
         var manhattan = 0
         for (row in 0..3) {
             for (column in 0..3) {
-                val value = State.companion.SOLUTION.indexOf(matrix[row, column])
+                val value = State.SOLUTION.indexOf(matrix[row, column])
                 manhattan += abs(row - value.row) + abs(column - value.column)
             }
         }
@@ -566,113 +551,78 @@ class State(val matrix: Matrix<Int>, val moved: Int?)  {
 
 }
 
-val visited = HashMap<Matrix<Int>, Int>()
 val moves = mutableListOf<Int>()
+val visited = mutableListOf<Matrix<Int>>()
+val finalMoves = mutableListOf<Int>()
 var finished = 0
-
-fun limitedSearch(state: State, limit: Int, path: Int): Boolean {
+var bestStep = Pair(Int.MAX_VALUE, Cell(-1, -1))
+fun limitedSearch(state: State, previous: Matrix<Int>, limit: Int, depth: Int, path: Int, moved: Cell): Boolean {
     var found = false
     for (move in state.getCellsMoves()) {
-        val zero = state.matrix.indexOf(0)
+        val zero = state.zero()
         state.matrix.swap(zero, move)
-        if (state.solved()) {
-            println("Found")
-            found = true
-        } else {
-
-            if (!visited.contains(state.matrix.copyN())) {
-                if (state.estimate() + path + 1 > limit) {
-                    visited.put(state.matrix.copyN(), state.matrix[zero])
-                    finished++
-                }
-                else {
-                    visited.put(state.matrix.copyN(), state.matrix[zero])
-                    val solution = limitedSearch(state, limit, path + 1)
-                    if (solution)
-                        found = true
+        if (state.matrix != previous && !visited.contains(state.matrix)) {
+            val firstMove = if (path == 0) move else moved
+            if (state.solved()) {
+                found = true
+                bestStep = Pair(path, firstMove)
+            } else {
+                val est = state.estimate()
+                val cost = est + path + 1
+                if (path >= depth || cost > limit) {
+                    if (est < bestStep.first) {
+                        bestStep = Pair(est, firstMove)
+                    }
+                } else {
+                    val solution = limitedSearch(state, state.matrix.copyN(), limit, depth, path + 1, firstMove)
+                    found = solution
                 }
             }
         }
         state.matrix.swap(zero, move)
         if (found) {
-            moves.add(state.matrix[move])
+            finalMoves.add(state.matrix[move])
             return true
         }
     }
     finished++
     return false
 }
+*/
+fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+/*{
 
-fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
-
-    State.companion.START = matrix
+    State.START = matrix
 
     var count = 0
 
-    val state = State(matrix, null)
+    val state = State(matrix)
     var limit = state.estimate()
     var solved = false
 
-    if (state.matrix == State.companion.SOLUTION)
+    if (state.matrix == State.SOLUTION)
         return listOf()
 
+    var previous = State.ZERO_MATRIX
     while (!solved) {
-
-        visited.put(state.matrix.copyN(), 0)
-        val solution = limitedSearch(state, limit, 0)
+        bestStep = Pair(Int.MAX_VALUE, Cell(-1, -1))
+        val solution = limitedSearch(state, previous, limit, 12, 0, Cell(-1, -1))
         if (solution) {
             solved = true
-            return moves.reversed()
+            return moves + finalMoves.reversed()
+        } else {
+            previous = state.matrix.copyN()
+            visited.add(previous)
+            moves.add(state.matrix[bestStep.second])
+            state.matrix.swap(state.zero(), bestStep.second)
         }
-        if (count % 2 == 0)
-            println("$count searches are complete, pathes = $finished, current depth = $limit, visited = ${visited.size}")
-        limit += 2
-        visited.clear()
-        moves.clear()
+        if (count % 2 == 0) {
+            println("$count searches are complete, pathes = $finished, current depth = $limit")
+            println("${moves.size}[${state.estimate()}] : $moves")
+        }
+        limit += 3
         count++
     }
-
-
-    // Попытка A* + поиск в шиину
-    /*
-    val visited = HashMap<State, State>()
-    val depth = HashMap<State, Int>()
-    val comparator = Comparator<State>() {R,T -> (depth[R] ?: 0 + R.estimate()) - (depth[T] ?: 0 + T.estimate())}
-    val queue = PriorityQueue<State>(10000,comparator)
-    val start = State(matrix, null)
-    visited.put(start, State(State.companion.ZERO_MATRIX, null))
-    depth.put(start, 0)
-    queue.add(start)
-
-    var count = 0
-    while (queue.isNotEmpty()) {
-        val currentState = queue.remove()
-
-        if(count % 10000 == 0) {
-            println("Considered $count positions. Queue = ${queue.size}")
-        }
-
-        if (currentState.solved()) {
-            println("Solution found on $count iteration")
-            val steps = mutableListOf<Int>()
-            var backtrace = currentState
-            while (backtrace.moved != null) {
-                steps.add(backtrace.moved ?: -1)
-                backtrace = visited[backtrace]
-            }
-            println(steps)
-            return steps.reversed()
-        }
-        for (move in currentState.getAllMoves()) {
-            if (!visited.containsKey(move)) {
-                visited.put(move, currentState)
-                depth.put(move, (depth[currentState] ?: 0) + 1)
-                queue.add(move)
-            }
-        }
-        count++
-    }
-    */
-
     return listOf()
 }
+*/

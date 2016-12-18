@@ -188,6 +188,8 @@ fun top20Words(inputName: String): Map<String, Int> {
     return words.toList().sortedByDescending { it.second }.take(20).toMap()
 }
 
+
+
 /**
  * Средняя
  *

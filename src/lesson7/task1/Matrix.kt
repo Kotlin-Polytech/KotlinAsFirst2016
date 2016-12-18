@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
+
 package lesson7.task1
 
 /**
@@ -21,6 +22,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует или пуста
      */
     operator fun get(row: Int, column: Int): E
+
     operator fun get(cell: Cell): E
 
     /**
@@ -28,6 +30,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует
      */
     operator fun set(row: Int, column: Int, value: E)
+
     operator fun set(cell: Cell, value: E)
 }
 
@@ -44,7 +47,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
     for (row in 0..height - 1)
         for (colomn in 0..width - 1)
             matrix[row, colomn] = e
-            return matrix
+    return matrix
 }
 
 /**

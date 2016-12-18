@@ -39,13 +39,13 @@ interface Matrix<E> {
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    val MatrixAnswer = MatrixImpl(height, width, e)
+    val matrixAnswer = MatrixImpl(height, width, e)
     for (row in 0..height - 1)
         for (column in 0..width - 1)
-            MatrixAnswer[row, column] = e
+            matrixAnswer[row, column] = e
     if (height <= 0 || width <= 0)
         throw IllegalArgumentException()
-    return MatrixAnswer
+    return matrixAnswer
 }
 
 

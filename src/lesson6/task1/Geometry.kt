@@ -83,29 +83,29 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment {
-    var FirstPoint = Point(0.0, 0.0)
-    var SecondPoint = Point(0.0, 0.0)
+    var firstpoint = Point(0.0, 0.0)
+    var secondpoint = Point(0.0, 0.0)
     if (points.size <= 1) throw IllegalArgumentException("IllegalArgumentException")
-    var Length = FirstPoint.distance(SecondPoint)
+    var Length = firstpoint.distance(secondpoint)
     for (k in 0..points.size - 2) {
         for (i in k + 1..points.size - 1) {
             val Distance = points[k].distance(points[i])
             if (Distance >= Length) {
                 Length = Distance
-                FirstPoint = points[k]
-                SecondPoint = points[i]
+                firstpoint = points[k]
+                secondpoint = points[i]
             }
         }
     }
-    return Segment(FirstPoint, SecondPoint)
+    return Segment(firstpoint, secondpoint)
 }
 
 
 
 fun segmCenter(segment: Segment): Point {
-    val PointX = (segment.end.x + segment.begin.x) / 2
-    val PointY = (segment.end.y + segment.begin.y) / 2
-    return Point(PointX,PointY)
+    val pointX = (segment.end.x + segment.begin.x) / 2
+    val pointY = (segment.end.y + segment.begin.y) / 2
+    return Point(pointX,pointY)
 }
 /**
  * Простая
@@ -126,8 +126,22 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val X = when {
+            angle == Math.PI / 2 -> point.x
+            other.angle == Math.PI / 2 -> other.point.x
+            else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) / (Math.tan(angle) - Math.tan(other.angle))
+        }
+        val Y = when {
+            angle == Math.PI / 2 ->
+                (X - other.point.x) * Math.tan(other.angle) + other.point.y
+            else -> (X - point.x) * Math.tan(angle) + point.y
+        }
+        return Point(X, Y)
+    }
 }
+
+
 
 /**
  * Средняя
@@ -135,12 +149,12 @@ data class Line(val point: Point, val angle: Double) {
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    var radians = 0.0
-    if (s.begin.y != s.end.y) {
-        val first = s.end.y - s.begin.y
-        val second = s.end.x - s.begin.x
-        radians = atan(first / second)
-            }
+        var radians = 0.0
+        if (s.begin.y != s.end.y) {
+            val first = s.end.y - s.begin.y
+            val second = s.end.x - s.begin.x
+            radians = atan2(first , second)
+        }
         return Line(s.begin, radians)
     }
 
@@ -159,9 +173,9 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  */
 fun bisectorByPoints(a: Point, b: Point): Line  {
     val line = Segment(a, b)
-    val niceangle = lineBySegment(line).angle
-    if (niceangle >= PI / 2) return Line(segmCenter(line), niceangle - PI / 2)
-    return Line(segmCenter(line), niceangle + PI / 2)
+    val angle = lineBySegment(line).angle
+    if (angle >= PI / 2) return Line(segmCenter(line), angle - PI / 2)
+    return Line(segmCenter(line), angle + PI / 2)
 }
 
 /**
@@ -182,9 +196,9 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val BissAC = bisectorByPoints(a, c)
-    val BissAB = bisectorByPoints(a, b)
-    return Circle(BissAB.crossPoint(BissAC), a.distance(BissAB.crossPoint(BissAC)))
+    val bissAB = bisectorByPoints(a, b)
+    val bissAC = bisectorByPoints(a, c)
+    return Circle(bissAB.crossPoint(bissAC), a.distance(bissAB.crossPoint(bissAC)))
 }
 
 

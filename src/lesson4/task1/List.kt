@@ -154,8 +154,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var c: Double = 0.0
-    if (a.size == 0) return c
-    else for (k in 0..a.size - 1) c += a[k] * b[k]
+    for (k in 0..a.size - 1) c += a[k] * b[k]
     return c
 }
 
@@ -169,11 +168,8 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var z: Double = 0.0
-    if (p.size == 0) return 0.0
-    else {
-        for (i in 0..p.size - 1)
+    for (i in 0..p.size - 1)
         z += p[i] * Math.pow(x, i.toDouble())
-        }
     return z
 }
 
@@ -300,4 +296,6 @@ fun roman(n: Int): String = TODO()
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String = TODO()
+
+
 

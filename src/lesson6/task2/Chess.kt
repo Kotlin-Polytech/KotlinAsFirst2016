@@ -2,7 +2,6 @@
 package lesson6.task2
 
 import java.util.*
-import java.sql.SQLNonTransientException
 
 
 /**
@@ -63,11 +62,10 @@ fun square(notation: String): Square = TODO()
 fun rookMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside())
         throw IllegalArgumentException()
-        if (start == end) return 0
-        if (start.column == end.column) return 1
-        if (start.row == end.row) return 1
-        else return 2
-    }
+    if (start == end) return 0
+    if ((start.column == end.column) || (start.row == end.row)) return 1
+    else return 2
+}
 
 
 /**
@@ -85,15 +83,15 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
-    val mutabellist = mutableListOf<Square>(start)
+    val mutableList = mutableListOf<Square>(start)
     val numeric = rookMoveNumber(start, end)
     if (numeric == 0)
-        return mutabellist
+        return mutableList
     if (numeric == 2) {
-        mutabellist.add(Square(start.column, end.row))
+        mutableList.add(Square(start.column, end.row))
     }
-    mutabellist.add(end)
-    return mutabellist
+    mutableList.add(end)
+    return mutableList
 }
 
 /**

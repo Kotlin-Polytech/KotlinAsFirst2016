@@ -390,7 +390,7 @@ fun printWithSpace(count:Int, n:Int) : String{
 
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     val writer = File(outputName).bufferedWriter()
-    val sp = digitNumber(lhv * rhv)
+    val sp = if (lhv * rhv > 0) digitNumber(lhv * rhv) else digitNumber(lhv * rhv) +1
     var myRhv = rhv
     var ch = lhv * (myRhv % 10)
     var n = 0

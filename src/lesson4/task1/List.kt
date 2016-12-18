@@ -155,13 +155,11 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var result: Double = 0.0
-    if (p.isEmpty()) return result
-    else {
-        for (i in p.reversed()) {
-            result = result * x + i
-        }
-        return result
+    val i = p.listIterator(p.size)
+    while (i.hasPrevious()) {
+        result = result * x + i.previous()
     }
+    return result
 }
 
 /**
@@ -173,13 +171,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty() || list.size == 1) return list
-    else {
-        for (i in 1..list.size - 1) {
-            list[i] += list[i - 1]
-        }
-        return list
+    for (i in 1..list.size - 1) {
+        list[i] += list[i - 1]
     }
+    return list
 }
 
 /**

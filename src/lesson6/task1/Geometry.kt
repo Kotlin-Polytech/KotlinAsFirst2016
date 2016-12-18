@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 
@@ -118,7 +119,7 @@ fun circleByDiameter(diameter: Segment): Circle {
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
  * Уравнение прямой: (y - point.y) * cos(angle) = (x - point.x) * sin(angle)
  */
-data class  Line(val point: Point, val angle: Double) {
+data class Line(val point: Point, val angle: Double) {
     /**
      * Средняя
      *
@@ -150,7 +151,7 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 
-fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a,b))
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 
 /**
@@ -199,7 +200,24 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    TODO()
+    val line1 = mutableListOf<Double>()
+    val line2 = mutableListOf<Double>()
+    val line3 = mutableListOf<Double>()
+    val line4 = mutableListOf<Double>()
+    line1.add((b.y - a.y) / (b.x - a.x))
+    line1.add(b.y - (((b.y - a.y) / (b.x - a.x)) * b.x))
+    line2.add((b.y - c.y) / (b.x - c.x))
+    line2.add(b.y - (((b.y - c.y) / (b.x - c.x))) * c.x)
+    val firstMiddle = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    val secondMiddle = Point((b.x + c.x) / 2, (b.y + c.y) / 2)
+    line3.add(-1 / (line1[0]))
+    line3.add((firstMiddle.x / line1[0]) + firstMiddle.y)
+    line4.add(-1 / line2[0])
+    line4.add((secondMiddle.x / line2[0]) + secondMiddle.y)
+    val circleCenter = Point((line3[1] - line4[1]) / (line4[0] - line3[0]),
+            line4[0] * (line3[1] - line4[1]) / (line4[0] - line3[0]) + line4[1])
+    val radius = circleCenter.distance(a)
+    return Circle(circleCenter, radius)
 }
 
 /**

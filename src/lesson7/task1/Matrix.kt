@@ -65,42 +65,32 @@ class MatrixImpl<E>(override val height: Int,
     }
 
 
-    val Cell.exist: Boolean
-        get() = ((this.row <= height) && (this.column <= width))
-    fun exist(row: Int, column: Int) = ((row <= height) && (column <= width))
+    val Cell.exists: Boolean
+        get() = ((this.row <= height-1) && (this.column <= width-1))
 
     override fun get(row: Int, column: Int): E {
-        if (Cell(row, column).exist)
-            return map[Cell(row, column)] ?: throw IllegalArgumentException()
-        else throw IllegalArgumentException()
+            return get(Cell(row, column))
     }
 
     override fun get(cell: Cell): E {
-        if (cell.exist)
-            return map[cell] ?: throw IllegalArgumentException()
-        else throw IllegalArgumentException()
+        return map[cell]!!
     }
 
     override fun set(cell: Cell, value: E) {
-        if (cell.exist)
             map[cell] = value
-        else throw IllegalArgumentException()
     }
 
     override fun set(row: Int, column: Int, value: E) {
-        if (Cell(row, column).exist)
-            map[Cell(row, column)] = value
-        else throw IllegalArgumentException()
+        set(Cell(row,column), value)
     }
 
-    override fun equals(other: Any?): Boolean = other is MatrixImpl<*> && height == other.height && width == other.width
+    override fun equals(other: Any?): Boolean = other is MatrixImpl<*> && height == other.height && width == other.width && map == other.map
 
     override fun hashCode(): Int {
         var result = 5
         result = result * 31 + width
         result = result * 31 + height
-        for (i in map)
-            result += i.hashCode()
+        result += map.hashCode()
         return result
     }
 

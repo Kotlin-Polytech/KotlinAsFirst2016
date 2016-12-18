@@ -4,7 +4,7 @@ package lesson6.task2
 
 import java.util.*
 
-val columns = listOf("", "a", "b", "c", "d", "e", "f", "g", "h")
+val columns = " abcdefgh"
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -30,10 +30,6 @@ data class Square(val column: Int, val row: Int) {
         return if (inside()) columns[column] + "$row"
         else ""
     }
-
-    fun equals(square: Square): Boolean {
-        return ((square.row == row) && (square.column == column))
-    }
 }
 
 /**
@@ -44,14 +40,10 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    try {
     val column = columns.indexOf(notation[0].toString())
         if ((notation.length == 2) && (notation[1].toString().toInt() in 1..8) && (column != -1)) {
             return Square(column, notation[1].toString().toInt())
         } else throw IllegalArgumentException()
-    } catch (e: StringIndexOutOfBoundsException) {
-        throw IllegalArgumentException()
-    }
 }
 
 /**
@@ -79,7 +71,7 @@ fun square(notation: String): Square {
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
     if ((start.inside()) && (end.inside())) {
-        if ((start.row == end.row) && (start.column == end.column)) return 0
+        if (start == end) return 0
         return if ((start.row == end.row) || (start.column == end.column)) 1
         else 2
     } else throw IllegalArgumentException()

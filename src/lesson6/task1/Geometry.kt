@@ -73,6 +73,7 @@ data class Circle(val center: Point, val radius: Double) {
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
     fun contains(p: Point): Boolean {
+        val distance = p.distance(center)
         return (p.distance(center) <= radius)
     }
 }
@@ -82,7 +83,7 @@ data class Circle(val center: Point, val radius: Double) {
  * Отрезок между двумя точками
  */
 data class Segment(val begin: Point, val end: Point) {
-    fun length(): Double = sqrt(sqr(begin.x - end.x) + sqr(begin.y - end.y))
+    fun length(): Double = begin.distance(end)
     fun middle(): Point = Point((begin.x + end.x) / 2, (begin.y + end.y) / 2)
 }
 
@@ -94,7 +95,7 @@ data class Segment(val begin: Point, val end: Point) {
  */
 fun diameter(vararg points: Point): Segment {
 
-    val convexHull = if (points.size >= 3) points.asList() else convexHull(points)
+    val convexHull = if (points.size <= 3) points.asList() else convexHull(points)
 
     val segments = mutableListOf<Segment>()
     for (i in convexHull.withIndex()) {
@@ -285,30 +286,4 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle {
-    when (points.size) {
-        0 -> throw IllegalArgumentException()
-        1 -> return Circle(Point(points[0].x, points[0].y), 0.0)
-        2 -> return Circle(Point((points[0].x + points[1].x) / 2, (points[0].y + points[1].y) / 2), Segment(points[0], points[1]).length() / 2)
-        else -> {
-            val s = diameter2(points)
-            val radius = sqrt(sqr(s.begin.x - s.end.x) + sqr(s.begin.y - s.end.y)) / 2
-            val middle = Point((s.begin.x + s.end.x) / 2, (s.begin.y + s.end.y) / 2)
-            return Circle(middle, radius)
-        }
-    }
-}
-
-fun diameter2(points: Array<out Point>): Segment {
-
-    val convexHull = points.asList()
-
-    val segments = mutableListOf<Segment>()
-    for (i in convexHull.withIndex()) {
-        for (z in convexHull.withIndex()) { // можно ли начать итерацию не с самого начала листа, а с определёенного индекса (в данном случае с i индекса)?
-            if (z.index > i.index) segments.add(Segment(i.value, z.value))
-        }
-    }
-
-    return segments.maxBy { sqrt(sqr(it.begin.x - it.end.x) + sqr(it.begin.y - it.end.y)) / 2 }!!
-}
+fun minContainingCircle(vararg points: Point): Circle = TODO()

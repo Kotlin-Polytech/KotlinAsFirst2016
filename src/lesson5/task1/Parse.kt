@@ -63,28 +63,25 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val partsOfDate = str.split(" ")
-    val months = listOf("Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
-            "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
     try {
-        if (partsOfDate.size != 3) throw IllegalArgumentException()
-
-        val date = partsOfDate[0].toInt()
-        var month = partsOfDate[1]
-        val year = partsOfDate[2].toInt()
-
-        if (date.toInt() !in 1..31) throw IllegalArgumentException()
-        if (months.indexOf(month.capitalize()) == -1) throw IllegalArgumentException()
-        else month = (months.indexOf(month.capitalize()) + 1).toString()
-        val monthInt = month.toInt()
-
-        return String.format("%02d.%02d.%s", date, monthInt, year)
+        val partsOfSomebody = str.split(" ")
+        if (partsOfSomebody.size != 3) return ""
+        if (partsOfSomebody.size != 3) throw IllegalArgumentException()
+        val day = partsOfSomebody[0].toInt()
+        val month = months.indexOf(partsOfSomebody[1])
+        val year = partsOfSomebody[2].toInt()
+        if ((month == -1) || (day !in 1..31)) return ""
+        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.$year"
     } catch (e: IllegalArgumentException) {
         return ""
     } catch (e: NumberFormatException) {
         return ""
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
     }
 }
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
 /**
  * Средняя
@@ -94,16 +91,14 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val months = listOf("Января", "Февраля", "Марта", "Апреля", "Мая", "Июня",
-            "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
     try {
-        val partsOfDate = digital.split(".")
-        if (partsOfDate.size > 3) throw IllegalArgumentException()
-        val date = partsOfDate[0].toInt()
-        val month = months[partsOfDate[1].toInt() + -1].toLowerCase()
-        val year = partsOfDate[2].toInt()
-
-        return String.format("%d %s %d", date, month, year)
+        val partsOfSomebody = digital.split(".")
+        if (partsOfSomebody.size != 3) return ""
+        val day = partsOfSomebody[0].toInt()
+        val month = partsOfSomebody[1].toInt()
+        val year = partsOfSomebody[2].toInt()
+        if ((month !in 1..12) || (day !in 1..31)) return ""
+        return "$day ${months[month - 1]} $year"
     } catch (e: IllegalArgumentException) {
         return ""
     } catch (e: NumberFormatException) {
@@ -112,6 +107,7 @@ fun dateDigitToStr(digital: String): String {
         return ""
     }
 }
+
 
 /**
  * Сложная
@@ -201,7 +197,7 @@ fun plusMinus(expression: String): Int {
     val digitsAndSymbols = expression.split(" ")
     val digits = digitsAndSymbols.filterIndexed { i, s -> i % 2 == 0 }
     val symbols = listOf<String>("+").plus(digitsAndSymbols.filterIndexed { i, s -> i % 2 != 0 })
-    var k =  0
+    var k = 0
     var sum = 0
     for (i in digits) {
         when {

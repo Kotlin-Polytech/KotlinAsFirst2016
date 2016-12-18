@@ -84,7 +84,7 @@ fun dateStrToDigit(str: String): String {
         return ""
     }
     val year = a[2].toInt()
-    return String.format("%02d.%02d.%04d", day, month, year)
+    return String.format("%02d.%02d.%d", day, month, year)
 }
 
 /**
@@ -121,7 +121,7 @@ fun dateDigitToStr(digital: String): String {
         return ""
     }
     val year = a[2].toInt()
-    return String.format("%d %s %04d", day, month, year)
+    return String.format("%d %s %d", day, month, year)
 }
 
 /**

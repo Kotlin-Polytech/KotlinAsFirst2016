@@ -213,9 +213,8 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val dictionary = mutableListOf<String>()
-    val dictionaryResult = mutableListOf<String>()
     var max = 0
-    val result = StringBuilder()
+    var result = StringBuilder()
     try {
         for (lines in File(inputName).readLines()) {
             if (lines.isEmpty())
@@ -238,29 +237,22 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         }
     }
     for (words in dictionary) {
+
         if ((words.length == max) && (words != "")){
-            dictionaryResult.add(words)
+            result.append("$words, ")
         }
         if ((words.length > max) && (words != "")) {
             max = words.length
-            if (dictionaryResult.isNotEmpty()) {
-                for (i in 0..dictionaryResult.size - 1) {
-                    dictionaryResult[i] = ""
-                }
-                dictionaryResult.add(words)
-            }
-            else
-                dictionaryResult.add(words)
+            result = StringBuilder()
+            result.append("$words, ")
         }
     }
-    if (dictionaryResult.size == 0)
+    if ( "$result" == "")
         outputStream.close()
     else
-        for (i in dictionaryResult)
-        result.append("$i, ")
-    outputStream.write(result.toString().substring(0, result.length - 2))
+        outputStream.write(result.toString().substring(0, result.length - 2))
     outputStream.close()
-    }
+}
 
 
 

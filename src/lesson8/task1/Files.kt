@@ -186,33 +186,30 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
     }
 
     for (i in 0..lines.size - 1) {
-        val parthLine = lines[i].split(" ")
         val result = StringBuilder()
-        for (parth in parthLine) {
+        for (parthline in lines[i].split(" ")) {
             val temp = StringBuilder()
-            for (i in parth) {
+            for (i in parthline) {
                 if (i.toLowerCase() in dictionary.keys.map { it.toLowerCase() }) {
                     if (dictionary[i.toLowerCase()] != null)
                         temp.append(dictionary[i.toLowerCase()])
                     else
                         temp.append(dictionary[i.toUpperCase()])
-                }
-                else
+                } else
                     temp.append(i)
             }
-            if (parth[0].isUpperCase()) {
+            if (parthline[0].isUpperCase()) {
                 result.append(temp.toString().capitalize())
-
             }
             else
                 result.append(temp.toString())
-            }
-            outputStream.write(result.toString())
-            if (i != lines.size - 1)
-                outputStream.newLine()
         }
-    outputStream.close()
+        outputStream.write(result.toString())
+        if (i != lines.size - 1)
+            outputStream.newLine()
     }
+    outputStream.close()
+}
 
 
 

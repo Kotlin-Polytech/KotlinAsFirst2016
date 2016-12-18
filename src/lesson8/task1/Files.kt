@@ -58,15 +58,13 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val lineFromFile = File(inputName).readText().toLowerCase()
     for (line in substrings) {
         val lineLowerCase = line.toLowerCase()
-        var quantity = 0
-        for (i in 0..lineFromFile.length - lineLowerCase.length) {
-            var quantityElement = 0
-            for (j in 0..lineLowerCase.length - 1) {
-                if (lineFromFile[i + j] != lineLowerCase[j]) break
-                quantityElement++
-                if (quantityElement == lineLowerCase.length) quantity++
+        map[line] = 0
+        for (i in 0..lineFromFile.length - line.length) {
+            if (lineFromFile.substring(i, i + line.length) == lineLowerCase) {
+                var quantity = map[line] ?: 0
+                quantity++
+                map.put(line, quantity)
             }
-            map += Pair(line, quantity)
         }
     }
     return map

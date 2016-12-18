@@ -99,7 +99,7 @@ fun dateDigitToStr(digital: String): String {
         val year = partsOfSomebody[2].toInt()
         if ((month !in 1..12) || (day !in 1..31)) return ""
         return "$day ${months[month - 1]} $year"
-    } catch (e: IllegalArgumentException) {
+    } catch (e: IllegalArgumentException)  {
         return ""
     } catch (e: NumberFormatException) {
         return ""

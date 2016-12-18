@@ -1,14 +1,12 @@
 package lesson7.task1
 
-//import org.junit.jupiter.api.Assertions.*
-//import org.junit.jupiter.api.Tag
-//import org.junit.jupiter.api.Test
-import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
 
 class Tests {
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun createMatrix() {
         val matrix = createMatrix(4, 6, 0.0)
         assertEquals(4, matrix.height)
@@ -16,7 +14,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun getSetInt() {
         val matrix = createMatrix(3, 2, 0)
         var value = 0
@@ -34,7 +32,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun getSetString() {
         val matrix = createMatrix(2, 2, "")
         val strings = listOf("alpha", "beta", "gamma", "omega")

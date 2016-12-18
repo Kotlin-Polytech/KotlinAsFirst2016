@@ -1,14 +1,12 @@
 package lesson6.task1
 
-//import org.junit.jupiter.api.Assertions.*
-//import org.junit.jupiter.api.Tag
-//import org.junit.jupiter.api.Test
-import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
 
 class Tests {
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun pointDistance() {
         assertEquals(0.0, Point(0.0, 0.0).distance(Point(0.0, 0.0)), 1e-5)
         assertEquals(5.0, Point(3.0, 0.0).distance(Point(0.0, 4.0)), 1e-5)
@@ -16,28 +14,28 @@ class Tests {
     }
 
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun halfPerimeter() {
         assertEquals(6.0, Triangle(Point(0.0, 0.0), Point(0.0, 3.0), Point(4.0, 0.0)).halfPerimeter(), 1e-5)
         assertEquals(2.0, Triangle(Point(0.0, 0.0), Point(0.0, 1.0), Point(0.0, 2.0)).halfPerimeter(), 1e-5)
     }
 
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun triangleArea() {
         assertEquals(6.0, Triangle(Point(0.0, 0.0), Point(0.0, 3.0), Point(4.0, 0.0)).area(), 1e-5)
         assertEquals(0.0, Triangle(Point(0.0, 0.0), Point(0.0, 1.0), Point(0.0, 2.0)).area(), 1e-5)
     }
 
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun triangleContains() {
         assertTrue(Triangle(Point(0.0, 0.0), Point(0.0, 3.0), Point(4.0, 0.0)).contains(Point(1.5, 1.5)))
         assertFalse(Triangle(Point(0.0, 0.0), Point(0.0, 3.0), Point(4.0, 0.0)).contains(Point(2.5, 2.5)))
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun circleDistance() {
         assertEquals(0.0, Circle(Point(0.0, 0.0), 1.0).distance(Circle(Point(1.0, 0.0), 1.0)), 1e-5)
         assertEquals(0.0, Circle(Point(0.0, 0.0), 1.0).distance(Circle(Point(0.0, 2.0), 1.0)), 1e-5)
@@ -46,7 +44,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Trivial")
+    @Tag("Trivial")
     fun circleContains() {
         val center = Point(1.0, 2.0)
         assertTrue(Circle(center, 1.0).contains(center))
@@ -55,7 +53,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun diameter() {
         val p1 = Point(0.0, 0.0)
         val p2 = Point(1.0, 4.0)
@@ -76,13 +74,13 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun circleByDiameter() {
         assertEquals(Circle(Point(2.0, 1.5), 2.5), circleByDiameter(Segment(Point(4.0, 0.0), Point(0.0, 3.0))))
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun crossPoint() {
         assertTrue(Point(2.0, 3.0).distance(Line(Point(2.0, 0.0), Math.PI / 2).crossPoint(Line(Point(0.0, 3.0), 0.0))) < 1e-5)
         assertTrue(Point(2.0, 2.0).distance(Line(Point(0.0, 0.0), Math.PI / 4).crossPoint(Line(Point(0.0, 4.0), -Math.PI / 4))) < 1e-5)
@@ -91,7 +89,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun lineBySegment() {
         assertEquals(Line(Point(0.0, 0.0), 0.0), lineBySegment(Segment(Point(0.0, 0.0), Point(7.0, 0.0))))
         assertEquals(Line(Point(0.0, 0.0), Math.PI / 2), lineBySegment(Segment(Point(0.0, 0.0), Point(0.0, 8.0))))
@@ -99,20 +97,20 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun lineByPoint() {
         assertEquals(Line(Point(1.0, 1.0), Math.PI / 4), lineByPoints(Point(1.0, 1.0), Point(3.0, 3.0)))
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun bisectorByPoints() {
         assertEquals(Line(Point(2.0, 0.0), Math.PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun findNearestCirclePair() {
         val c1 = Circle(Point(0.0, 0.0), 1.0)
         val c2 = Circle(Point(3.0, 0.0), 5.0)
@@ -125,7 +123,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Impossible")
+    @Tag("Impossible")
     fun circleByThreePoints() {
         val result = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
         assertTrue(result.center.distance(Point(0.0, 0.0)) < 1e-5)
@@ -133,7 +131,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Impossible")
+    @Tag("Impossible")
     fun minContainingCircle() {
         val p1 = Point(0.0, 0.0)
         val p2 = Point(1.0, 4.0)

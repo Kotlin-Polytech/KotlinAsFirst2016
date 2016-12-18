@@ -1,14 +1,12 @@
 package lesson5.task1
 
-//import org.junit.jupiter.api.Assertions.assertEquals
-//import org.junit.jupiter.api.Tag
-//import org.junit.jupiter.api.Test
-import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
 
 class Tests {
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun timeStrToSeconds() {
         assertEquals(36000, timeStrToSeconds("10:00:00"))
         assertEquals(41685, timeStrToSeconds("11:34:45"))
@@ -16,7 +14,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun timeSecondsToStr() {
         assertEquals("10:00:00", timeSecondsToStr(36000))
         assertEquals("11:34:45", timeSecondsToStr(41685))
@@ -24,7 +22,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun dateStrToDigit() {
         assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
@@ -35,7 +33,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun dateDigitToStr() {
         assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
         assertEquals("", dateDigitToStr("5601.02.20.19"))
@@ -46,7 +44,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun flattenPhoneNumber() {
         assertEquals("+79211234567", flattenPhoneNumber("+7 (921) 123-45-67"))
         assertEquals("123456798", flattenPhoneNumber("12 --  34- 5 -- 67 -98"))
@@ -57,7 +55,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun bestLongJump() {
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
@@ -68,7 +66,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun bestHighJump() {
         assertEquals(226, bestHighJump("226 +"))
         assertEquals(-1, bestHighJump("???"))
@@ -77,7 +75,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun plusMinus() {
         assertEquals(0, plusMinus("0"))
         assertEquals(4, plusMinus("2 + 2"))
@@ -86,7 +84,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun firstDuplicateIndex() {
         assertEquals(-1, firstDuplicateIndex("Привет"))
         assertEquals(9, firstDuplicateIndex("Он пошёл в в школу"))
@@ -97,7 +95,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun mostExpensive() {
         assertEquals("ᛩ엩禨쮹磴ꮵ烧⧄咵ᑉ駲?老躛钭蔏ስ秿Vⵤㄡ舔᎑핫㥃瓡⇀앺딷휺ꆘ仾??裱巂焞鸈ᇜ奱蕹촳㳺᭙ဠᷟꔋﱱ迚㎄矅㾝庀?꟦尯̼퇁게㸙懄䗡秽?識긞麲匌찿뾰奌䚣?ﬠᦻ쎾䎝肚䮎蠪쬊ꇫ灹嬼法욬骮䝡꣕뀹濛咾쮖魝䦮Ѡ矶妄垝鵔驥톩স햯劗₥?윚", mostExpensive("ᛩ엩禨쮹磴ꮵ烧⧄咵ᑉ駲?老躛钭蔏ስ秿Vⵤㄡ舔᎑핫㥃瓡⇀앺딷휺ꆘ仾??裱巂焞鸈ᇜ奱蕹촳㳺᭙ဠᷟꔋﱱ迚㎄矅㾝庀?꟦尯̼퇁게㸙懄䗡秽?識긞麲匌찿뾰奌䚣?ﬠᦻ쎾䎝肚䮎蠪쬊ꇫ灹嬼法욬骮䝡꣕뀹濛咾쮖魝䦮Ѡ矶妄垝鵔驥톩স햯劗₥?윚 0"))
         assertEquals("", mostExpensive(""))
@@ -106,7 +104,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun fromRoman() {
         assertEquals(1, fromRoman("I"))
         assertEquals(3000, fromRoman("MMM"))
@@ -127,7 +125,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun computeDeviceCells() {
         assertEquals(listOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1), computeDeviceCells(10, "+>+>+>+>+"))
         assertEquals(listOf(-1, -1, -1, -1, -1, 0, 0, 0, 0, 0), computeDeviceCells(10, "<-<-<-<-<-"))

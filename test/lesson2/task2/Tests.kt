@@ -1,14 +1,12 @@
 package lesson2.task2
 
-//import org.junit.jupiter.api.Assertions.*
-//import org.junit.jupiter.api.Tag
-//import org.junit.jupiter.api.Test
-import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
 
 class Tests {
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun pointInsideCircle() {
         // (1, 1) inside circle: center = (0, 0), r = 2
         assertTrue(pointInsideCircle(1.0, 1.0, 0.0, 0.0, 2.0))
@@ -17,7 +15,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun isNumberHappy() {
         assertTrue(isNumberHappy(1533))
         assertTrue(isNumberHappy(9009))
@@ -26,7 +24,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun queenThreatens() {
         assertTrue(queenThreatens(3, 6, 7, 6))
         assertTrue(queenThreatens(8, 1, 1, 8))
@@ -34,7 +32,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun brickPasses() {
         assertTrue(brickPasses(2, 10, 5, 6, 3))
         assertTrue(brickPasses(4, 4, 4, 4, 4))
@@ -43,7 +41,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun circleInside() {
         assertFalse(circleInside(0.0, 0.0, 6.0, 0.0, 0.0, 5.0))
         assertFalse(circleInside(0.0, 0.0, 1.0, 10.0, 10.0, 9.0))

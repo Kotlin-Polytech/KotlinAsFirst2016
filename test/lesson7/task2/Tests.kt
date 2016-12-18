@@ -1,12 +1,10 @@
 package lesson7.task2
 
-//import org.junit.jupiter.api.Assertions.*
-//import org.junit.jupiter.api.Tag
-//import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
 import lesson7.task1.Matrix
 import lesson7.task1.createMatrix
-import org.junit.Assert.*
-import org.junit.Test
 
 class Tests {
     private fun <E> createMatrix(height: Int, width: Int, values: List<List<E>>): Matrix<E> {
@@ -20,7 +18,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun transpose() {
         assertEquals(createMatrix(1, 1, listOf(listOf(1))), transpose(createMatrix(1, 1, listOf(listOf(1)))))
         assertEquals(createMatrix(3, 4, listOf(listOf(1, 4, 6, 3), listOf(2, 5, 5, 2), listOf(3, 6, 4, 1))),
@@ -28,7 +26,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun plus() {
         assertEquals(createMatrix(1, 1, listOf(listOf(3))),
                 createMatrix(1, 1, listOf(listOf(1))) + createMatrix(1, 1, listOf(listOf(2))))
@@ -37,7 +35,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun generateSpiral() {
         assertEquals(createMatrix(1, 1, listOf(listOf(1))), generateSpiral(1, 1))
         assertEquals(createMatrix(2, 2,
@@ -54,7 +52,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun generateRectangles() {
         assertEquals(createMatrix(1, 1, listOf(listOf(1))), generateRectangles(1, 1))
         assertEquals(createMatrix(2, 2,
@@ -81,7 +79,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun generateSnake() {
         assertEquals(createMatrix(1, 1, listOf(listOf(1))), generateSnake(1, 1))
         assertEquals(createMatrix(2, 2,
@@ -108,7 +106,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun rotate() {
         val m = createMatrix(1, 1, listOf(listOf(("single"))))
         assertEquals(m, rotate(m))
@@ -121,7 +119,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun isLatinSquare() {
         assertTrue(isLatinSquare(createMatrix(1, 1, listOf(listOf(1)))))
         assertFalse(isLatinSquare(createMatrix(1, 1, listOf(listOf(2)))))
@@ -134,7 +132,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun sumNeighbours() {
         assertEquals(createMatrix(1, 1, listOf(listOf(0))), sumNeighbours(createMatrix(1, 1, listOf(listOf(42)))))
         assertEquals(createMatrix(2, 2, listOf(listOf(9, 8), listOf(7, 6))),
@@ -146,7 +144,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun findHoles() {
         assertEquals(Holes(listOf(), listOf()), findHoles(createMatrix(1, 1, listOf(listOf(1)))))
         assertEquals(Holes(listOf(0), listOf(0)), findHoles(createMatrix(1, 1, listOf(listOf(0)))))
@@ -158,7 +156,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun sumSubMatrix() {
         assertEquals(createMatrix(1, 1, listOf(listOf(0))), sumSubMatrix(createMatrix(1, 1, listOf(listOf(0)))))
         assertEquals(createMatrix(1, 5, listOf(listOf(1, 3, 6, 8, 9))),
@@ -170,7 +168,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun unaryMinus() {
         assertEquals(createMatrix(1, 1, listOf(listOf(3))), -createMatrix(1, 1, listOf(listOf(-3))))
         assertEquals(createMatrix(2, 2, listOf(listOf(-1, -2), listOf(-3, -4))),
@@ -179,7 +177,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun times() {
         assertEquals(createMatrix(1, 1, listOf(listOf(2))),
                 createMatrix(1, 1, listOf(listOf(1))) * createMatrix(1, 1, listOf(listOf(2))))
@@ -191,7 +189,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun canOpenLock() {
         assertFalse(canOpenLock(
                 key = createMatrix(1, 1, listOf(listOf(1))),
@@ -208,7 +206,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Hard")
+    @Tag("Hard")
     fun fifteenGameMoves() {
         val start = createMatrix(4, 4, listOf(listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
                                               listOf(9, 10, 11, 12), listOf(13, 14, 15, 0)))
@@ -256,7 +254,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Impossible")
+    @Tag("Impossible")
     fun fifteenGameSolution() {
         createMatrix(4, 4, listOf(listOf(1, 2, 3, 4), listOf(5, 6, 7, 8),
                 listOf(9, 10, 11, 12), listOf(13, 14, 15, 0))).assertSolution()

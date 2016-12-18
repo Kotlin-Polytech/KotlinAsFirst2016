@@ -1,14 +1,12 @@
 package lesson2.task1
 
-//import org.junit.jupiter.api.Assertions.*
-//import org.junit.jupiter.api.Tag
-//import org.junit.jupiter.api.Test
-import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
 
 class Tests {
     @Test
-//    @Tag("Example")
+    @Tag("Example")
     fun minBiRoot() {
         assertEquals(Double.NaN, minBiRoot(0.0, 0.0, 1.0), 1e-2)
         assertEquals(Double.NaN, minBiRoot(0.0, 1.0, 2.0), 1e-2)
@@ -19,7 +17,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun ageDescription() {
         assertEquals("21 год", ageDescription(21))
         assertEquals("132 года", ageDescription(132))
@@ -29,7 +27,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun timeForHalfWay() {
         assertEquals(2.5, timeForHalfWay(1.0, 5.0, 2.0, 4.0, 3.0, 3.0), 1e-2)
         assertEquals(3.67, timeForHalfWay(4.0, 3.0, 1.0, 4.0, 1.0, 6.0), 1e-2)
@@ -37,7 +35,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun whichRookThreatens() {
         assertEquals(0, whichRookThreatens(1, 2, 3, 4, 5, 6))
         assertEquals(1, whichRookThreatens(5, 3, 7, 3, 4, 8))
@@ -46,7 +44,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun rookOrBishopThreatens() {
         assertEquals(0, rookOrBishopThreatens(4, 5, 5, 7, 8, 8))
         assertEquals(1, rookOrBishopThreatens(2, 8, 6, 8, 1, 6))
@@ -55,7 +53,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Easy")
+    @Tag("Easy")
     fun triangleKind() {
         assertEquals(-1, triangleKind(3.0, 7.5, 4.0))
         assertEquals(1, triangleKind(5.0, 3.0, 4.0))
@@ -64,7 +62,7 @@ class Tests {
     }
 
     @Test
-//    @Tag("Normal")
+    @Tag("Normal")
     fun segmentLength() {
         assertEquals(-1, segmentLength(1, 2, 3, 4))
         assertEquals(-1, segmentLength(5, 7, 1, 3))

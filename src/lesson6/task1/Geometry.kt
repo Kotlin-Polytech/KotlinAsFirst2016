@@ -86,7 +86,24 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) {
+        throw IllegalArgumentException()
+    }
+    var maxDistance = -1.0
+    var point1 = points[0]
+    var point2 = points[1]
+    for (i in 0..points.size - 1) {
+        for (j in i..points.size - 1) {
+            if (points[i].distance(points[j]) > maxDistance) {
+                maxDistance = points[i].distance(points[j])
+                point1 = points[i]
+                point2 = points[j]
+            }
+        }
+    }
+    return Segment(point1, point2)
+}
 
 /**
  * Простая
@@ -94,7 +111,11 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val centerX = (diameter.begin.x + diameter.end.x)/2
+    val centerY = (diameter.begin.y + diameter.end.y)/2
+    return Circle(Point(centerX , centerY) , diameter.begin.distance(diameter.end)/2)
+}
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -122,14 +143,25 @@ fun lineBySegment(s: Segment): Line = TODO()
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    val angle = Math.atan(Math.abs(b.y - a.y)/ Math.abs(b.x - a.x))
+    return Line(a, angle)
+}
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val line = lineByPoints(a, b)
+    val center = Point((a.x + b.x)/2, (a.y + b.y)/2)
+    var angle = (line.angle + Math.PI/2)
+    if (angle >= Math.PI) {
+        angle -= Math.PI
+    }
+    return Line(center, angle)
+}
 
 /**
  * Средняя

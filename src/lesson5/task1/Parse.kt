@@ -102,14 +102,7 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-    if (phone.matches(Regex("""\+?[-0-9() ]+"""))) {
-        return phone.replace(Regex("[-() ]") , "")
-    }
-    else {
-        return ""
-    }
-}
+fun flattenPhoneNumber(phone: String): String = TODO()
 
 /**
  * Средняя
@@ -133,7 +126,25 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.contains(Regex("""[^+\-%0123456789\s]"""))){
+        return -1
+    }
+    val jumpsParts = jumps.split(" ")
+    var maxJump = -1
+    for (i in 1..jumpsParts.size - 1) {
+        if ('+' in jumpsParts[i]) {
+            try {
+                if (maxJump < jumpsParts[i - 1].toInt()) {
+                    maxJump = jumpsParts[i - 1].toInt()
+                }
+            } catch (e: NumberFormatException) {
+                return -1
+            }
+        }
+    }
+    return maxJump
+}
 
 /**
  * Сложная

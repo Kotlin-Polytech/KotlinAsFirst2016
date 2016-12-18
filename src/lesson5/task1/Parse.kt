@@ -60,7 +60,23 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val Months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    if (str.isEmpty()) return ""
+    val parts = str.split(" ")
+    if(parts.size != 3) return ""
+    val month = Months.indexOf(parts[1]) + 1
+    if (month == 0) return ""
+    try {
+        val day = parts[0].toInt()
+        if (day !in 1..31) return ""
+        val year = parts[2].toInt()
+        return String.format("%02d.%02d.%d", day, month, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +85,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    if (digital.isEmpty()) return ""
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val year = parts[2].toInt()
+        val month = parts[1].toInt()
+        if ((day !in 1..31) || (month !in 1..12)) return ""
+        return String.format("%d %s %d", day, Months[month - 1], year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -107,7 +136,22 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.isEmpty()) return -1
+    var max = -1
+    try {
+        val parts = jumps.split(" ")
+        if (parts.size % 2 == 1) return -1
+        for (i in 1..parts.size - 1 step 2) {
+            val part = parts[i - 1].toInt()
+            if ('+' in parts[i] && part > max) max = part
+        }
+        return max
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
+
 
 /**
  * Сложная
@@ -118,7 +162,27 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression.isEmpty()) throw IllegalArgumentException()
+    val parts = expression.split(" ")
+    try {
+        if (parts.size % 2 == 0) throw IllegalArgumentException()
+        var result = parts[0].toInt()
+        var i = 2
+        while (i < parts.size) {
+            when (parts[i - 1]) {
+                "+" -> result += parts[i].toInt()
+                "-" -> result -= parts[i].toInt()
+                else -> throw IllegalArgumentException()
+            }
+            i += 2
+        }
+        return result
+    }
+    catch(e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Сложная

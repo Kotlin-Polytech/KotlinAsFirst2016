@@ -85,8 +85,8 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int =
-if (n <=2) 1
-else  fib(n-2) + fib(n-1)
+if (n <= 2) 1
+else fib(n - 2) + fib(n - 1)
 
 /**
  * Простая
@@ -142,12 +142,11 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var Arnold : Int = 0
-    for (catdog in 2..n) {
-        if ((m % catdog == 0) && (n % catdog == 0)) Arnold += 1
+    var count : Int = 0
+    for (i in 2..n) {
+        if ((m % i == 0) && (n % i == 0)) count += 1
     }
-    if (Arnold == 0) return true
-    else return false
+    return (count == 0)
 }
 
 /**
@@ -159,8 +158,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
     if ((m == 0) || (n == 0)) return true
-    for (sqrPants in 1..m) {
-         if ((sqrPants * sqrPants >= m) && (sqrPants * sqrPants <= n)) return true
+    for (i in 1..m) {
+        if ((i * i >= m) && (i * i <= n)) return true
     }
     return false
 }
@@ -217,15 +216,12 @@ fun revert(n: Int): Int {
  * 15751 -- палиндром, 3653 -- нет.
  */
 fun isPalindrome(n: Int): Boolean {
-    val copy: Int = n
     val lenght: Int = digitNumber(n)
     if (lenght == 2) return true
     if (lenght % 2 == 0)
-        if (revert(copy / ten(lenght / 2)) != copy % ten(lenght/ 2)) return false
-        else return true
+        return (revert(n / ten(lenght / 2)) != n % ten(lenght/ 2))
     else
-        if (revert(copy / ten((lenght + 1) / 2)) != copy % ten((lenght - 1) / 2)) return false
-        else return true
+      return (revert(n / ten((lenght + 1) / 2)) != n % ten((lenght - 1) / 2))
 }
 /**
  * Средняя
@@ -236,8 +232,8 @@ fun isPalindrome(n: Int): Boolean {
 fun hasDifferentDigits(n: Int): Boolean {
     if (n<10 ) return false
     var copy : Int = n
-    var smthng : Int = 0
-    val pudge : Int = n % 10
+    var count : Int = 0
+    val number : Int = n % 10
     var lenght: Int = 0
     for (i in 1..9999) {
         lenght += 1
@@ -247,13 +243,12 @@ fun hasDifferentDigits(n: Int): Boolean {
     }
     copy = n
     for (i in 1..999) {
-        if (copy % 10 == pudge) smthng +=1
+        if (copy % 10 == number) count += 1
         copy /= 10
         if (copy < 1) break
         else continue
     }
-    if (smthng == lenght) return false
-    else return true
+    return count == lenght
 }
 
 /**

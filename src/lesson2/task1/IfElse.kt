@@ -51,8 +51,8 @@ fun ageDescription(age: Int): String  {
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
-    val time: Double
-    val halfWay: Double= (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
+    val time : Double
+    val halfWay : Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
     if (halfWay / (t1 * v1) < 1){
         time = halfWay / v1
     } else
@@ -96,10 +96,10 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    var attack: Int
-    if ((kingX == rookX) || (kingY == rookY)) attack = 1
+    var attack : Int
+    if ( (kingX == rookX) || (kingY == rookY) ) attack = 1
     else attack = 0
-    if ((kingX-bishopX) * (kingX-bishopX) == (kingY-bishopY) * (kingY-bishopY)) {
+    if ((kingX - bishopX) * (kingX - bishopX) == (kingY - bishopY) * (kingY - bishopY)) {
         attack += 2
     }
     return attack
@@ -114,9 +114,9 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуь -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((sqr(a)== (sqr(b) + sqr(c))) || (sqr(b)== (sqr(a) + sqr(c))) || (sqr(c)== (sqr(b) + sqr(a)))) return 1
+    if ((sqr(a) == (sqr(b) + sqr(c))) || (sqr(b) == (sqr(a) + sqr(c))) || (sqr(c) == (sqr(b) + sqr(a)))) return 1
     if ((a > b + c) || (b > a + c) || (c > b + a)) return -1
-    if ((((sqr(b) + sqr(c) - sqr(a))/(2*b*c)) > 0) && (((sqr(a) + sqr(c) - sqr(b))/(2*a*c)) > 0) && (((sqr(b) + sqr(a) - sqr(c))/(2*b*a)) > 0)) return 0
+    if ((((sqr(b) + sqr(c) - sqr(a)) / (2*b*c)) > 0) && (((sqr(a) + sqr(c) - sqr(b)) / (2*a*c)) > 0) && (((sqr(b) + sqr(a) - sqr(c)) / (2 * b * a)) > 0)) return 0
     else return 2
 }
 

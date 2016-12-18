@@ -25,8 +25,8 @@ data class Square(val column: Int, val row: Int) {
      */
     fun notation(): String {
         var answ = ""
-        val ABC = "abcdefgh"
-        if (column in 1..8 && row in 1..8) answ +=  ABC[column - 1] + "$row"
+        val abc = "abcdefgh"
+        if (column in 1..8 && row in 1..8) answ +=  abc[column - 1] + "$row"
         return answ
     }
 }

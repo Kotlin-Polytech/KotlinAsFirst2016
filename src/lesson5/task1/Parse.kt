@@ -159,10 +159,13 @@ fun flattenPhoneNumber(phone: String): String {
     }
     val parts = phone.split(" ")
     var strAnsw = ""
-    if ((phone[0] == iNeedIt[10]) && (phone.length == 1)) strAnsw += "+"
+    if ((phone[0] == iNeedIt[10]) && (phone.length == 1))
+        strAnsw += "+"
     for (part in parts) {
        for (i in 0..part.length - 1) {
-           if ((part[i] != iNeedIt[11]) && (part[i] != iNeedIt[12]) && (part[i] != iNeedIt[13]) && (part[i] != iNeedIt[14])) strAnsw += part[i]
+           if ((part[i] != iNeedIt[11]) && (part[i] != iNeedIt[12])
+                   && (part[i] != iNeedIt[13]) && (part[i] != iNeedIt[14]))
+               strAnsw += part[i]
        }
     }
     return strAnsw
@@ -257,8 +260,10 @@ fun plusMinus(expression: String): Int {
     for (part in parts){
         for (i in 0..iNeedIt.length -1) {
             if (element[0] == iNeedIt[i]) {
-                if ((i > 9) && ((part[0] == iNeedIt[10]) || (part[0] == iNeedIt[11]))) throw IllegalArgumentException()
-                    if ((i < 10) && (part[0] != iNeedIt[10]) && (part[0] != iNeedIt[11])) throw IllegalArgumentException()
+                if ((i > 9) && ((part[0] == iNeedIt[10]) || (part[0] == iNeedIt[11])))
+                    throw IllegalArgumentException()
+                    if ((i < 10) && (part[0] != iNeedIt[10]) && (part[0] != iNeedIt[11]))
+                        throw IllegalArgumentException()
             }
         }
         for (i in part.length - 1 downTo 0) {
@@ -296,7 +301,7 @@ fun firstDuplicateIndex(str: String): Int {
     }
     if (counter == 1) return -1
     for (i in 0..counter - 2) {
-        if (parts[i].capitalize() == parts[i+1].capitalize()) {
+        if (parts[i] == parts[i+1]) {
             answ += 1
             break
         } else {

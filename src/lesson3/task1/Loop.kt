@@ -61,6 +61,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
 fun digitNumber(n: Int): Int {
     var c = 0
     var nn = Math.abs(n)
+    if(n == 0)
+        return 1
     do {
         nn /= 10
         c++

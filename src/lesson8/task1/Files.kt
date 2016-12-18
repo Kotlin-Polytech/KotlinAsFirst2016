@@ -402,14 +402,14 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
     for(i in 0..sp)
         writer.write("-")
     writer.newLine()
-    writer.write(printWithSpace(sp - digitNumber(sp - ch) + 1, ch))
+    writer.write(printWithSpace(sp - digitNumber(ch) + 1, ch))
     myRhv/= 10
     while (myRhv > 0){
         n++
         ch = lhv * (myRhv % 10)
         writer.newLine()
         writer.write("+")
-        writer.write(printWithSpace(sp - digitNumber(sp - ch) - n, ch))
+        writer.write(printWithSpace(sp - digitNumber(ch) - n, ch))
         myRhv/= 10
     }
     writer.newLine()

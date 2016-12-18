@@ -62,16 +62,17 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
     val dates = str.split(" ")
     if (dates.size != 3) return ""
     try {
-        val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
         val day = dates[0].toInt()
-        val month = dates[1]
-        if ((day !in 1..31) or (month !in months)) return ""
+        val month = months.indexOf(dates[1])
+        if ((day !in 1..31) || (month == -1)) return ""
         val year = dates[2].toInt()
-        return String.format("%02d.%02d.%d", day, months.indexOf(month) + 1, year)
+        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.$year"
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -88,12 +89,11 @@ fun dateDigitToStr(digital: String): String {
     val dates = digital.split(".")
     if (dates.size != 3) return ""
     try {
-        val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
         val day = dates[0].toInt()
         val month = dates[1].toInt()
-        if ((day !in 1..31) or (month !in 1..12)) return ""
+        if ((day !in 1..31) || (month !in 1..12)) return ""
         val year = dates[2].toInt()
-        return String.format("%d %s %d", day, months[month - 1], year)
+        return "$day ${months[month - 1]} $year"
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -216,3 +216,5 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+

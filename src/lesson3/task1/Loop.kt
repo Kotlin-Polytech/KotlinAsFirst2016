@@ -81,7 +81,7 @@ fun fib(n: Int): Int {
     var a: Int = 1
     var b: Int = 0
     for (i in 2..n) {
-        a = a + b
+        a += b
         b = a - b
     }
     return a
@@ -94,15 +94,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var a = 0
-    val max = Math.max(m, n)
-    for (i in max..m * n) {
-        if ((i % m == 0) && (i % n == 0)) {
-            a = i
-            break
-        }
+    var M = m
+    var N = n
+    while (M != N) {
+        if (M > N) M -= N
+        else N -= M
     }
-    return a
+    return (m * n) / M
 }
 
 /**
@@ -111,7 +109,7 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    for (i in 2..n-1) {
+    for (i in 2..n / 2) {
         if (n%i == 0) return i
     }
     return n
@@ -123,8 +121,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    for (i in (n-2) downTo 2) {
-        if ((n%i == 0) and (i > 1)) return i
+    for (i in n / 2 downTo 1) {
+        if (n%i == 0) return i
     }
     return 1
 }
@@ -149,7 +147,8 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     var k = 0
     if (n < 0) return false
     for (k in sqrtInt(m)..sqrtInt(n)) {
-        if ((m <= k * k) and (k * k <= n)) return true
+        var sqr = k * k
+        if ((m <= sqr) and (sqr <= n)) return true
     }
         return false
 }
@@ -253,12 +252,8 @@ fun powInt(number: Int, degree: Int): Int {
     return result
 }
 
-fun sqrtInt(number: Int): Int {
-    var i = 1
-    for (i in 1..number) {
-        if ((i*i <= number) && (abs(number - (i*i)) < abs(number - (i + 1) * (i + 1)))) return i
-    }
-    return i
-}
+fun sqrtInt(number: Int): Int = round(Math.sqrt(number.toDouble())).toInt()
+
+
 
 

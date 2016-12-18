@@ -4,7 +4,6 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.minDivisor
-import org.jetbrains.annotations.Mutable
 
 /**
  * Пример
@@ -133,10 +132,12 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val a = (list.sum() / list.size)
     if (list.isEmpty()) return list
-    else for (i in 0..list.size-1) {
-        list[i] = list[i] - a
+    else {
+        val a = (list.sum() / list.size)
+        for (i in 0..list.size-1) {
+            list[i] = list[i] - a
+        }
     }
     return list
 }
@@ -166,12 +167,9 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var pforx = 0.0
-    if (p.isEmpty()) return 0.0
-    else {
         for (i in 0..p.size - 1) {
-            pforx = pforx + p[i] * Math.pow(x, i.toDouble())
+            pforx += p[i] * Math.pow(x, i.toDouble())
         }
-    }
     return pforx
 }
 
@@ -201,11 +199,14 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var N = n
     val list = mutableListOf<Int>()
+    var divisor = 2
     while (N > 1) {
-            list += minDivisor(N)
-            N /= minDivisor(N)
+        if (N % divisor == 0) {
+            list.add(divisor)
+            N /= divisor
         }
-
+        else divisor ++
+    }
     return list.sorted()
 }
 

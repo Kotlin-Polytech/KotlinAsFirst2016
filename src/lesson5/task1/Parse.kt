@@ -10,7 +10,7 @@ package lesson5.task1
 fun timeStrToSeconds(str: String): Int {
     val parts = str.split(":")
     var result = 0
-    for (part in parts) {
+    for (part in parts) {0
         val number = part.toInt()
         result = result * 60 + number
     }
@@ -157,8 +157,11 @@ fun bestLongJump(jumps: String): Int {
     var max = -1
     try{
         for (i in parth){
-            if ((i != "") && (i.toInt() > max))
-                max = i.toInt()
+            if (i != ""){
+                val temp = i.toInt()
+                if (temp > max)
+                    max = temp
+            }
 
         }
     }
@@ -321,7 +324,7 @@ fun fromRoman(roman: String): Int{
     for (i in 0..roman.length - 1 step 1)
         if (roman[i] !in library)
             return - 1
-    val libraryNumber = listOf(1, 5, 10, 50, 100, 500, 1000)
+
     var indexRoman = 0
     while (indexRoman != roman.length ){
         when (roman[indexRoman]){
@@ -329,83 +332,83 @@ fun fromRoman(roman: String): Int{
                 if ( indexRoman != roman.length - 1 ) {
                     when (roman[indexRoman + 1]){
                         'I' ->{
-                            result += libraryNumber[0]
+                            result += 1
                             indexRoman++
                         }
                         'X' ->{
-                            result += libraryNumber[2] - libraryNumber[0]
-                            indexRoman +=2
+                            result += 9
+                            indexRoman += 2
                         }
                         'V' ->{
-                            result += libraryNumber[1] - libraryNumber[0]
+                            result += 4
                             indexRoman += 2
                         }
                         else ->{
-                            result += libraryNumber[0]
+                            result += 1
                             indexRoman++
                         }
                     }
                 }
                 else
                 {
-                    result += libraryNumber[0]
+                    result += 1
                     indexRoman++
                 }
 
             }
             'V' ->{
-                result += libraryNumber[1]
+                result += 5
                 indexRoman++
             }
             'X' ->{
                 if ( indexRoman != roman.length - 1 ) {
                     when (roman[indexRoman + 1]){
                         'X' ->{
-                            result += libraryNumber[2]
+                            result += 10
                             indexRoman++
                         }
                         'L' ->{
-                            result += libraryNumber[3] - libraryNumber[2]
+                            result += 40
                             indexRoman += 2
                         }
                         'C' ->{
-                            result += libraryNumber[4] - libraryNumber[2]
+                            result += 90
                             indexRoman += 2
                         }
                         else ->{
-                            result += libraryNumber[2]
+                            result += 10
                             indexRoman++
                         }
                     }
                 }
                 else
                 {
-                    result += libraryNumber[2]
+                    result += 10
                     indexRoman++
                 }
 
             }
             'L' ->{
-                result += libraryNumber[3]
+                result += 50
                 indexRoman++
             }
             'C' ->{
                 if ( indexRoman != roman.length - 1 ) {
                     when(roman[indexRoman + 1]){
                         'M' ->{
-                            result += libraryNumber[6] - libraryNumber[4]
-                            indexRoman +=2
+                            result += 900
+                            indexRoman += 2
                         }
                         'D' ->{
-                            result += libraryNumber[5] - libraryNumber[4]
-                            indexRoman +=2
+                            result += 400
+                            indexRoman += 2
                         }
                         'C' -> {
-                            result += libraryNumber[4]
+                            result += 100
                             indexRoman++
                         }
                         else ->{
-                            result += libraryNumber[4]
+                            result += 100
                             indexRoman++
                         }
 
@@ -413,16 +416,16 @@ fun fromRoman(roman: String): Int{
                 }
                 else
                 {
-                    result += libraryNumber[4]
+                    result += 100
                     indexRoman++
                 }
             }
             'D' ->{
-                result += libraryNumber[5]
+                result += 500
                 indexRoman++
             }
             'M' ->{
-                result += libraryNumber[6]
+                result += 1000
                 indexRoman++
             }
         }
@@ -547,3 +550,4 @@ fun computeDeviceCells(cells: Int, commands: String): List<Int> {
         throw IllegalStateException()
     return cellsResult
 }
+

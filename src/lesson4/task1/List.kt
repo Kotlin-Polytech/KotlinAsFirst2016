@@ -276,7 +276,7 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    var result = ""
+    var result = StringBuilder()
     val letter = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z')
     val digit = listOf(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
@@ -284,11 +284,11 @@ fun convertToString(n: Int, base: Int): String {
     val value = convert(n, base)
     for (i in 0..value.size - 1 step 1){
         if (value[i] > 9)
-            result += letter[digit.indexOf(value[i])]
+            result.append(letter[value[i] - 10])
         else
-            result += value[i].toString()
+            result.append(value[i].toString())
     }
-    return result
+    return "$result"
 }
 
 /**
@@ -326,12 +326,12 @@ fun decimalFromString(str: String, base: Int): Int
     val digit = listOf(10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,
             26, 27, 28, 29, 30, 31, 32, 33, 34, 35)
     var count = str.length - 1
-    for (i in str)
+    for (i in 0..str.length - 1)
     {
-        if (i in letter)
-            result += digit[letter.indexOf(i)] * powInt(base, count)
+        if (str[i] in letter)
+            result += digit[(str[i] - 'a').toInt()] * powInt(base, count)
         else
-            result += (i.toInt() - '0'.toInt()) * powInt(base, count)
+            result += (str[i] - '0').toInt() * powInt(base, count)
         count--
     }
     return result

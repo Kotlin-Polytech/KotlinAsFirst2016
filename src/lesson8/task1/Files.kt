@@ -2,7 +2,7 @@
 package lesson8.task1
 
 import java.io.File
-import java.io.IOException
+
 
 /**
  * Пример
@@ -180,60 +180,45 @@ fun top20Words(inputName: String): Map<String, Int> {
  */
 fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
-    val inputStream = File(inputName).bufferedReader()
-    val result = StringBuilder()
-    var line = ""
-    var check = false
+    val lines = mutableListOf<String>()
+    for (line in File(inputName).readLines()) {
+        lines.add(line)
+    }
 
-    while (check != true){
-        try{
-            line = inputStream.readLine()
-        }
-        catch (e: IllegalStateException){
-            check = true
-        }
-        result.delete(0, result.length)
-        if (line.isEmpty()) {
-            continue
-        }
-        val parthLine = line.split(" ")
+    for (i in 0..lines.size - 1) {
+        val parthLine = lines[i].split(" ")
+        val result = StringBuilder()
         for (parth in parthLine) {
             val temp = StringBuilder()
-            for(i in parth){
-                if (i.toUpperCase() in dictionary.keys)
-                    temp.append(dictionary[i.toUpperCase()])
-                else {
-                    if (i.toLowerCase() in dictionary.keys)
+            for (i in parth) {
+                if (i.toLowerCase() in dictionary.keys.map { it.toLowerCase() }) {
+                    if (dictionary[i.toLowerCase()] != null)
                         temp.append(dictionary[i.toLowerCase()])
                     else
-                        temp.append(i)
+                        temp.append(dictionary[i.toUpperCase()])
                 }
+                else
+                    temp.append(i)
             }
-            if (parth[0].isUpperCase()){
+            if (parth[0].isUpperCase()) {
                 result.append(temp.toString().capitalize())
 
             }
             else
                 result.append(temp.toString())
+            }
+            outputStream.write(result.toString())
+            if (i != lines.size - 1)
+                outputStream.newLine()
         }
-        try{
-            line = inputStream.readLine()
-            outputStream.write(result.toString().toString().trim())
-            outputStream.newLine()
-        }
-        catch (e: IllegalStateException){
-            check = true
-            outputStream.write(result.toString().toString().trim())
-        }
-
-
+    outputStream.close()
     }
 
-    outputStream.close()
-}
+
+
 
 /**
- * Средняя
+ * * Средняя
  *
  * Во входном файле с именем inputName имеется словарь с одним словом в каждой строчке.
  * Выбрать из данного словаря наиболее длинное слово,
@@ -255,39 +240,38 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Карминовый, Некрасивый
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
- */
+ * */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val outputStream = File(outputName).bufferedWriter()
     val dictionary = mutableListOf<String>()
     val dictionaryResult = mutableListOf<String>()
     var max = 0
-    var result = StringBuilder()
+    val result = StringBuilder()
     for (lines in File(inputName).readLines()) {
         if (lines.isEmpty())
             continue
-        dictionary.add(lines)
+            dictionary.add(lines)
     }
-
     for (words in dictionary) {
         var check = true
         for (i in 0..words.length - 1)
-            for (j in i + 1..words.length - 1) {
+            for (j in i + 1..words.length - 1){
                 if (words[i].toLowerCase() == words[j].toLowerCase())
                     check = false
             }
-        if (check == false) {
+        if (check == false){
             dictionary[dictionary.indexOf(words)] = ""
         }
     }
-    for (words in dictionary){
-        if (words.length == max){
+    for (words in dictionary) {
+        if ((words.length == max) && (words != "")){
             dictionaryResult.add(words)
         }
-        if (words.length > max){
+        if ((words.length > max) && (words != "")) {
             max = words.length
-            if (dictionaryResult.isNotEmpty()){
-                for (i in 0..dictionaryResult.size - 1){
-                    dictionaryResult[i]=""
+            if (dictionaryResult.isNotEmpty()) {
+                for (i in 0..dictionaryResult.size - 1) {
+                    dictionaryResult[i] = ""
                 }
             }
             else
@@ -296,9 +280,10 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     }
     for (i in dictionaryResult)
         result.append("$i, ")
-    outputStream.write(result.toString().substring(0,result.length - 2))
+    outputStream.write(result.toString().substring(0, result.length - 2))
     outputStream.close()
     }
+
 
 
 

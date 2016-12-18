@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
+
+import java.util.*
 
 /**
  * Пример
@@ -42,12 +45,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +61,23 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+        "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val month = parts[1]
+        if (day !in 1..31 || month !in months) return ""
+        val year = parts[2].toInt()
+        return String.format("%02d.%02d.%d", day, months.indexOf(month) + 1, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +86,19 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        if (day !in 1..31 || month !in 1..12) return ""
+        val year = parts[2].toInt()
+        return String.format("%d %s %d", day, months[month - 1], year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -83,8 +112,9 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
-
+fun flattenPhoneNumber(phone: String): String =
+        if (phone.matches(Regex("""[\d\s\t\n()+-]+"""))) phone.filter { it !in "\t\n()- " }
+        else ""
 /**
  * Средняя
  *
@@ -95,7 +125,14 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (!jumps.matches(Regex("""[\d %-]+"""))) return -1
+    return jumps
+            .split(" ")
+            .filter { it.matches(Regex("""[\d]+""")) }
+            .map { it.toInt() }
+            .max() ?: -1
+}
 
 /**
  * Сложная
@@ -107,7 +144,19 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var result = -1
+    try {
+        for (i in 1..parts.size - 1) {
+            if (('+' in parts[i]) && (parts[i - 1].toInt() > result)) result = parts[i - 1].toInt()
+        }
+        return result
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
+
 
 /**
  * Сложная
@@ -129,7 +178,16 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.toLowerCase().split(" ")
+    var i = -1
+    for (j in 0..parts.size - 2) {
+        i++
+        if (parts[j] == parts[j + 1]) return i
+        i += parts[j].length
+    }
+    return i
+}
 
 /**
  * Сложная

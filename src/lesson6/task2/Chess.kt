@@ -98,9 +98,9 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
-    return when {
-        rookMoveNumber(start, end) == 0 -> listOf(start)
-        rookMoveNumber(start, end) == 1 -> listOf(start, end)
+    return when (rookMoveNumber(start, end)){
+        0 -> listOf(start)
+        1 -> listOf(start, end)
         else -> listOf(start, Square(start.column, end.row), end)
 
     }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
+
 package lesson7.task1
 
 /**
@@ -21,6 +22,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует или пуста
      */
     operator fun get(row: Int, column: Int): E
+
     operator fun get(cell: Cell): E
 
     /**
@@ -28,6 +30,7 @@ interface Matrix<E> {
      * Методы могут бросить исключение, если ячейка не существует
      */
     operator fun set(row: Int, column: Int, value: E)
+
     operator fun set(cell: Cell, value: E)
 }
 
@@ -38,7 +41,7 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E>  {
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
     if (height > 0 && width > 0) return MatrixImpl(height, width, e)
     else throw IllegalArgumentException()
 }
@@ -50,14 +53,16 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E>  {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
     private val list = mutableListOf<E>()
+
     init {
-        for (i in 0..height * width -1){
+        for (i in 0..height * width - 1) {
             list.add(e)
         }
     }
-    override fun get(row: Int, column: Int): E  = list[width * row + column]
 
-    override fun get(cell: Cell): E  = get(cell.row, cell.column)
+    override fun get(row: Int, column: Int): E = list[width * row + column]
+
+    override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
         list[width * row + column] = value
@@ -68,18 +73,24 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun equals(other: Any?) = other is MatrixImpl<*> &&
-        height == other.height &&
-        width == other.width &&
-        list.equals(other.list)
+            height == other.height &&
+            width == other.width &&
+            list == other.list
+
+    override fun hashCode(): Int {
+        var result = 13
+        result = result * 19 + height
+        result = result * 19 + width
+        return result
+    }
 
     override fun toString(): String {
-        val  sb = StringBuilder()
-        sb.append("[")
-        for(row in 0..height - 1){
+        val sb = StringBuilder()
+        for (row in 0..height - 1) {
             sb.append("[")
-            for (column in 0..width - 1) sb.append(this [row,column])
-            sb.append("[")
+            for (column in 0..width - 1) sb.append(this [row, column])
+            sb.append("]")
+        }
+        return sb.toList().joinToString(separator = ",", prefix = "[ ", postfix = " ]").split(",]").joinToString(separator = "]").split("[,").joinToString(separator = "[")
     }
-    return sb.toList().joinToString(separator = ",", prefix = "[", postfix = "]").split(",]").joinToString(separator = "]").split("[,").joinToString(separator = "[")
-      }
 }

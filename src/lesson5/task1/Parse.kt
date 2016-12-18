@@ -136,8 +136,7 @@ fun bestLongJump(jumps: String): Int {
             if ((part !in list) && (part.toInt() > result)) result = part.toInt()
         }
         return result
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
         return -1
     }
 }

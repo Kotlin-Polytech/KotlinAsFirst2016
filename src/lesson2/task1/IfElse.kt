@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -33,7 +34,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    return when {
+        (age % 10 == 1) && (age / 10 != 1) && (age / 10 != 11) -> "$age год"
+        (age % 10 > 1) && (age % 10 < 5) && (age / 10 != 1) && (age / 10 != 11) -> "$age года"
+        else -> "$age лет"
+    }
+
+}
 
 /**
  * Простая
@@ -56,7 +64,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    val ladyaFirst = (kingX == rookX1 || kingY == rookY1)
+    val ladyaSecond = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        ladyaFirst && ladyaSecond -> 3
+        ladyaSecond -> 2
+        ladyaFirst -> 1
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -89,4 +106,12 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    return when {
+        ((c <= a) && (d <= b) && (d >= a)) -> (d - a)
+        ((c >= a) && (c <= b) && (d >= b)) -> (b - c)
+        ((c >= a) && (d <= b)) -> (d - c)
+        ((c <= a) && (b <= d)) -> (b - a)
+        else -> -1
+    }
+}

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -111,7 +112,10 @@ fun abs(v: List<Double>): Double = TODO()
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) return 0.0
+    else return (list.sum() / list.size)
+}
 
 /**
  * Средняя
@@ -119,7 +123,13 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    val average = mean(list)
+    for (i in 0..list.size - 1) {
+        list[i] = list[i] - average
+    }
+    return list
+}
 
 /**
  * Средняя
@@ -148,7 +158,13 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    for (i in 1..list.size - 1) {
+        list[i] = list[i] + list[i - 1]
+    }
+    return list
+}
+
 
 /**
  * Средняя
@@ -157,7 +173,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int> = TODO()
+fun factorize(n: Int): List<Int> {
+    val list = mutableListOf<Int>()
+    var i = 2
+    var a = n
+    while (a != 1) {
+        if (a % i == 0) {
+            list.add(i)
+            a /= i
+        } else i++
+    }
+    return list
+}
+
 
 /**
  * Сложная
@@ -165,7 +193,7 @@ fun factorize(n: Int): List<Int> = TODO()
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
 
 /**
  * Средняя
@@ -193,7 +221,16 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var number = 0
+    var a = 1
+    for (i in digits.size - 1 downTo 0) {
+        number += digits[i] *a
+        a *= base
+    }
+    return number
+}
+
 
 /**
  * Сложная
@@ -205,6 +242,7 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int = TODO()
+
 
 /**
  * Сложная

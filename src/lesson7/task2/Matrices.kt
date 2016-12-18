@@ -62,7 +62,7 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  */
 
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
-    var field = createMatrix(height, width, 0)
+    val field = createMatrix(height, width, 0)
 
     var i = 0
     var j = 0
@@ -101,7 +101,23 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val field = createMatrix(height, width, 0)
+    var border = 0
+
+    while (border <= height / 2 && border <= width / 2 ) {
+        for (i in border..height - border - 1) {
+            field[i, border] = border + 1 // Справа
+            field[i, width - border - 1] = border + 1 // Слева
+        }
+        for (i in border..width - border - 1) {
+            field[border, i] = border + 1 // Сверху
+            field[height - border - 1, i] = border + 1 // Снизу
+        }
+        ++border
+    }
+    return field
+}
 
 /**
  * Сложная
@@ -129,7 +145,19 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.width != matrix.height) throw IllegalArgumentException()
+    if (matrix.width in 0..1) return matrix
+    else {
+        val newMatrix = createMatrix(matrix.width, matrix.width, matrix[0, 0])
+        for (i in 0..matrix.width - 1) {
+            for (j in 0..matrix.width - 1) {
+                newMatrix[j, matrix.width - i - 1] = matrix[i, j]
+            }
+        }
+        return newMatrix
+    }
+}
 
 /**
  * Сложная
@@ -182,7 +210,24 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    val field = createMatrix(matrix.height, matrix.width, 0)
+
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
+            field[i, j] = 0
+            if (i > 0 && j > 0) field[i, j] += matrix[i-1, j-1]
+            if (j > 0) field[i, j] += matrix[i, j-1]
+            if (i < matrix.height - 1 && j > 0) field[i, j] += matrix[i+1, j-1]
+            if (i < matrix.height - 1) field[i, j] += matrix[i+1, j]
+            if (i < matrix.height - 1 && j < matrix.width - 1) field[i, j] += matrix[i+1, j+1]
+            if (j < matrix.width - 1) field[i, j] += matrix[i, j+1]
+            if (i > 0 && j < matrix.width - 1) field[i, j] += matrix[i-1, j+1]
+            if (i > 0) field[i, j] += matrix[i-1, j]
+        }
+    }
+    return field
+}
 
 /**
  * Средняя

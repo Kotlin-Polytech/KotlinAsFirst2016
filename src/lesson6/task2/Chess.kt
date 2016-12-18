@@ -27,9 +27,9 @@ data class Square(val column: Int, val row: Int) {
      */
     fun notation(): String {
         if (column !in 1..8 || row !in 1..8) return ""
-        val columnlist = listOf("a", "b", "c", "d", "e", "f", "g", "h")
-        val rowlist = listOf<Int>(1, 2, 3, 4, 5, 6, 7, 8)
-        return String.format("%s%d", columnlist[column - 1], rowlist[row - 1])
+        val ColumnList = "abcdefgh"
+        val ColumnList1 = ColumnList[column - 1]
+        return ("$ColumnList1$row")
 
     }
 }
@@ -124,6 +124,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     when {
+        (start == end) -> return 0
         (!start.inside() || !end.inside() || start.column == 0 || start.row == 0 || end.column == 0 || end.row == 0) -> throw  IllegalArgumentException()
         (start == end) -> return 0
         (start.column - end.column) == (start.row - end.row) || (start.column - end.column) == -(start.row - end.row) -> return 1

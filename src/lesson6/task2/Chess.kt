@@ -43,7 +43,7 @@ data class Square(val column: Int, val row: Int) {
  */
 fun square(notation: String): Square {
     val a = listOf("a", "b", "c", "d", "e", "f", "g", "h")
-    if (notation[0].toString() in a && notation[1] in '1'..'8') {
+    if (notation.length == 2 && notation[0].toString() in a && notation[1] in '1'..'8') {
         return Square(a.indexOf(notation[0].toString()) + 1, (notation[1]).toInt() - 48)
     } else throw IllegalArgumentException()
 }
@@ -126,12 +126,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    return when {
-        start == end -> 0
-        (start.column + start.row - start.column - end.row) % 2 == 1 -> -1
-        (start.column + start.row - start.column - end.row) % 2 == 0
-                && Math.abs((start.column - end.column) / (start.row - end.row)) == 1 -> 1
-        else -> 2
+    else {
+
+        return when {
+            start == end -> 0
+            (start.column + start.row + end.column + end.row) % 2 == 1 -> -1
+            (start.column + start.row + end.column + end.row) % 2 == 0
+                    && Math.abs((start.column - end.column) / (start.row - end.row)) == 1 -> 1
+            else -> 2
+        }
     }
 }
 

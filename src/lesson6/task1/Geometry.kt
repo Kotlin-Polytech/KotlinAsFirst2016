@@ -3,6 +3,8 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
+import java.lang.Math.PI
+import java.lang.Math.tan
 
 /**
  * Точка на плоскости
@@ -128,7 +130,25 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+
+        val x1 = point.x
+        val y1 = point.y
+
+        val x2 = other.point.x
+        val y2 = other.point.y
+        val x: Double
+        val y: Double
+        if (angle == PI / 2) return Point(x1, other.angle * (x1 - x2) + y2)
+        else if (other.angle == PI / 2) return Point(x2, angle * (x2 - x1) + y1)
+        else {
+            val a1 = tan(angle)
+            val a2 = tan(other.angle)
+            x = (y2 - y1 + x1 * a1 - x2 * a2) / (a1 - a2)
+            y = y1 - a1 * (x1 - x)
+            return Point(x, y)
+        }
+    }
 }
 
 /**
@@ -151,7 +171,10 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    if (lineByPoints(a, b).angle < PI / 2) return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), lineByPoints(a, b).angle + PI / 2)
+    else return Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2), lineByPoints(a, b).angle - PI / 2)
+}
 
 /**
  * Средняя
@@ -170,7 +193,9 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = Circle(bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
+        , bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c)).distance(a))
+
 
 /**
  * Очень сложная

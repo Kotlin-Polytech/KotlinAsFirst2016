@@ -128,16 +128,12 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x = when {
-            angle == Math.PI / 2 || angle == -Math.PI / 2 -> point.x
-            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> other.point.x
-            else -> (point.x * Math.tan(angle) - other.point.x * Math.tan(other.angle) + other.point.y - point.y) / (Math.tan(angle) - Math.tan(other.angle))
-        }
-        val y = when {
-            angle == Math.PI / 2 || angle == -Math.PI / 2 -> other.point.y
-            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> point.y
-            else -> Math.tan(angle) * (x - point.x) + point.y
-        }
+        val x = (Math.cos(angle) * (Math.sin(other.angle) * other.point.x - Math.cos(other.angle) * other.point.y) -
+                Math.cos(other.angle) * (Math.sin(angle) * point.x - Math.cos(angle) * point.y)) /
+                (Math.sin(other.angle) * Math.cos(angle) - Math.sin(angle) * Math.cos(other.angle))
+        val y = (Math.sin(other.angle) * (point.x * Math.sin(angle) - point.y * Math.cos(angle)) +
+                Math.sin(angle) * (other.point.y * Math.cos(other.angle) - other.point.x * Math.sin(other.angle))) /
+                (Math.cos(other.angle) * Math.sin(angle) - Math.cos(angle) * Math.sin(other.angle))
         return Point(x, y)
     }
 }
@@ -170,7 +166,7 @@ fun lineByPoints(a: Point, b: Point): Line {
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
-    val point = circleByDiameter(Segment(a, b)).center
+    val point = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
     val angle = lineBySegment(Segment(a, b)).angle + Math.PI / 2
     return Line(point, angle)
 }
@@ -192,7 +188,11 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(b, c))
+    val radius = center.distance(c)
+    return Circle(center, radius)
+}
 
 
 /**

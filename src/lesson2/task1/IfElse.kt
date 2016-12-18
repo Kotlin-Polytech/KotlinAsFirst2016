@@ -104,7 +104,6 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     var minSide1 = 0.0
     var minSide2 = 0.0
-
     if (a + b > c && a + c > b && b + c > a) {
         val maxSide = Math.max(a, Math.max(b, c))
         if (maxSide == a) {
@@ -119,14 +118,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
             minSide1 = a
             minSide2 = b
         }
-        if (maxSide * maxSide == minSide1 * minSide1 + minSide2 * minSide2) {
-            return 1
-        }
-        if (maxSide * maxSide < minSide1 * minSide1 + minSide2 * minSide2) {
-            return 0
-        }
-        if (maxSide * maxSide > minSide1 * minSide1 + minSide2 * minSide2) {
-            return 2
+        return when {
+            maxSide * maxSide == minSide1 * minSide1 + minSide2 * minSide2 -> 1
+            maxSide * maxSide < minSide1 * minSide1 + minSide2 * minSide2 -> 0
+            else -> 2
         }
     }
     return -1

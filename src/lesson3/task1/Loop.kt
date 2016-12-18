@@ -64,14 +64,14 @@ fun digitNumber(n: Int): Int {
     var nn = Math.abs(n)
     if (n == 0) {
         return 1
-    } else {
-        var k = 0
-        while (nn > 0) {
-            nn /= 10
-            k++
-        }
-        return k
     }
+    var k = 0
+    while (nn > 0) {
+        nn /= 10
+        k++
+    }
+    return k
+
 }
 
 /**

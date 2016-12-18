@@ -120,7 +120,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
-    else return list.sum() / (list.size)
+    else return list.sum() / list.size
 }
 
 /**
@@ -247,8 +247,10 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     var result = listOf<String>()
     val list = convert(n, base)
-    for (i in list) if (i > 9) result += ('a' - 10 + i).toString()
-    else result += i.toString()
+    for (i in list) {
+        if (i > 9) result += ('a' - 10 + i).toString()
+        else result += i.toString()
+    }
     return result.joinToString(separator = "")
 }
 

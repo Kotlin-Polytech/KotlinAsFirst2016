@@ -113,8 +113,8 @@ fun circleByDiameter(diameter: Segment): Circle {
     val y1 = diameter.begin.y
     val y2 = diameter.end.y
     val radius = Math.sqrt(sqr(x1 - x2) + sqr(y1 - y2)) / 2.0
-    val x3 = Math.min(x1, x2) + (Math.max(x1, x2) - Math.min(x1, x2)) / 2.0
-    val y3 = Math.min(y1, y2) + (Math.max(y1, y2) - Math.min(y1, y2)) / 2.0
+    val x3 = (x1 + x2) / 2.0
+    val y3 = (y1 + y2) / 2.0
     return Circle(Point(x3, y3), radius)
 }
 

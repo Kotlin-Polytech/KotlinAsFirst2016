@@ -131,25 +131,24 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = pow(1.0 + percent 
 fun numberRevert(number: Int): Int = (number % 10) * 100 + ((number % 100) / 10) * 10 + number / 100
 
 
-fun myFun (people: List<String>) :List<String> {
+fun myFun(people: List<String>): List<String> {
     var result = listOf<String>()
     var colors = mapOf<String, Int>()
 
-    for(man in people){
+    for (man in people) {
         val parts = man.split(" ")
-        if(colors[parts[1]] == null) colors = colors.plus(Pair(parts[1], 1))
+        if (colors[parts[1]] == null) colors = colors.plus(Pair(parts[1], 1))
         else colors = colors.plus(Pair(parts[1], 2))
     }
 
     var doSemicolon = false
-    for(man in people){
+    for (man in people) {
         val parts = man.split(" ")
-        if(colors[parts[1]] == 1){
-            if(doSemicolon == true) {
+        if (colors[parts[1]] == 1) {
+            if (doSemicolon == true) {
                 result += "${parts[0]} -> ${parts[1]}"
-            }
-            else {
-                result+= "${parts[0]} -> ${parts[1]}"
+            } else {
+                result += "${parts[0]} -> ${parts[1]}"
                 doSemicolon = true
             }
         }

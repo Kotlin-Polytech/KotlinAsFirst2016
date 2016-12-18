@@ -54,7 +54,23 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val resultMap = mutableMapOf<String, Int>()
+    for (substring in substrings) resultMap[substring] = 0
+
+        var fullText = ""
+    val textFile = File(inputName).bufferedReader()
+    for (string in textFile.readLines()) fullText +=string.toLowerCase()
+    for (substring in substrings) {
+        val matchResults = Regex(substring.toLowerCase()).findAll(fullText)
+        for (result in matchResults) {
+            val value = resultMap[substring]
+            if (value != null) resultMap[substring] = value+1
+        }
+    }
+
+    return resultMap
+
+
 }
 
 
@@ -72,7 +88,29 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val inputText = File(inputName).bufferedReader()
+    val outputFile = File(outputName).writer()
+
+    var lastChar = '\n'
+
+    for (char in inputText.readText()) {
+        if (char in "ЫЯЮыюя" && lastChar in "ЖЧШЩжчшщ") {
+            when (char) {
+                'Ы' -> outputFile.append('И')
+                'Я' -> outputFile.append('А')
+                'Ю' -> outputFile.append('У')
+                'ы' -> outputFile.append('и')
+                'я' -> outputFile.append('а')
+                'ю' -> outputFile.append('у')
+            }
+        }
+        else outputFile.append(char)
+        lastChar = char
+    }
+
+    outputFile.close()
+
+
 }
 
 /**

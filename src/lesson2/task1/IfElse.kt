@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.*
 
 /**
  * Пример
@@ -33,7 +35,19 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+
+fun ageDescription(age: Int): String {
+    if ((age / 10) % 10 == 1)
+        return "$age лет"
+    else {
+        return when (age % 10) {
+            1 -> "$age год"
+            in 2..4 -> "$age года"
+            else -> "$age лет"
+        }
+    }
+}
+
 
 /**
  * Простая
@@ -44,7 +58,7 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double = TODO() //Переделаю
 
 /**
  * Простая
@@ -56,7 +70,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    var answer = 0
+    if (kingX == rookX1 || kingY == rookY1)
+        answer++
+    if (kingX == rookX2 || kingY == rookY2)
+        answer += 2
+    return answer
+
+
+}
 
 /**
  * Простая
@@ -69,7 +92,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    var answer = 0
+    if (rookX == kingX || rookY == kingY)
+        answer++
+    if (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
+        answer += 2
+    return answer
+}
 
 /**
  * Простая
@@ -89,4 +119,8 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val crossingFirst = (d >= a) && (b >= c)
+    return if (crossingFirst) min(b, d) - max(a, c)
+    else -1
+}

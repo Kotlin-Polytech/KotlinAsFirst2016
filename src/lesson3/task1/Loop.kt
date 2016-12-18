@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +58,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var counter = 0
+    var N = n
+    if (N == 0) return 1
+    while (N != 0) {
+        N = N / 10
+        counter += 1
+    }
+    return counter
+}
 
 /**
  * Простая
@@ -65,7 +75,16 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var num1 = 1
+    var num2 = 0 // Зачем val?
+    for (i in 2..n) {
+        num1 += num2
+        num2 = num1 - num2
+    }
+    return num1
+}
+
 
 /**
  * Простая
@@ -80,14 +99,30 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var del = 2
+    val root = Math.sqrt(n.toDouble())
+    while (del <= root) {
+        if (n % del == 0)
+            return del
+        del++
+    }
+    return n
+}
+//
+//for (i in 2..n / 2) {
+//  if (n % i == 0)
+//       return i
+//}
+//return n
+//
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = TODO()
+fun maxDivisor(n: Int): Int = n / minDivisor(n)
 
 /**
  * Простая
@@ -131,7 +166,15 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number = n
+    var result = 0
+    while (number > 0) {
+        result = result * 10 + number % 10
+        number /= 10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -157,7 +200,37 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var sum = 0
+    var counter = 0
+    val answer: Int
+    while (sum < n) {
+        counter += 1
+        sum += digitNumber(counter * counter)
+    }
+    if (n == sum)
+        answer = (counter * counter) % 10
+    else {
+        val PowerForTen = FunPowForInt(10, (sum - n))
+        answer = ((counter * counter) / PowerForTen) % 10
+    }
+    return answer
+}
+
+fun FunPowForInt(n: Int, power: Int): Int {
+    var answer = 1
+    for (i in 1..power)
+        answer *= n
+    return answer
+}
+
+fun FunPowForDouble(N: Double, power: Int): Double {
+    var answer = 1.0
+    for (i in 1..power) {
+        answer *= N
+    }
+    return answer
+}
 
 /**
  * Сложная
@@ -166,4 +239,16 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var fibbo = 0
+    var counter = 1
+    var sum = 0
+    while (sum < n) {
+        fibbo = fib(counter)
+        counter += 1
+        sum += digitNumber(fibbo)
+    }
+    counter = sum - n
+    return (fibbo / FunPowForInt(10, counter) % 10)
+}
+

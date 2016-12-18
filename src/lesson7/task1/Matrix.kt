@@ -40,7 +40,7 @@ interface Matrix<E> {
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
     if ((height <= 0) || (width <= 0)) throw IllegalArgumentException()
-    return MatrixImpl<E>(height,width,e)
+    return MatrixImpl(height,width,e)
 }
 
 /**
@@ -52,15 +52,16 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
 class MatrixImpl<E> (override val height: Int, override val width: Int, e : E) : Matrix<E> {
 
     private val list = mutableListOf<E>()
+
     init {
         for (i in 0..height*width - 1){
             list.add(e)
         }
     }
 
-    override fun get(row: Int, column: Int): E = list[row*height + column]
+    override fun get(row: Int, column: Int): E = list[row*width + column]
 
-    override fun get(cell: Cell): E = list[cell.row*height + cell.column]
+    override fun get(cell: Cell): E = list[cell.row*width + cell.column]
 
     override fun set(row: Int, column: Int, value: E) {
         list[row*width + column] = value
@@ -71,21 +72,31 @@ class MatrixImpl<E> (override val height: Int, override val width: Int, e : E) :
     }
 
     override fun equals(other: Any?) =
-        other is MatrixImpl<*> && list == other.list && height == other.height && width == other.width
+            other is MatrixImpl<*> && list == other.list &&
+                    height == other.height &&
+                    width == other.width
 
     override fun toString(): String {
-        var answ : String = ""
-        for (i in 0..height*width - 1){
-            answ += "| "
-            if ((i+1) % width == 0) {answ += list[i]
-                answ += " |"
-                answ += "\n"}
-            else {
-                answ += list[i]
-                answ += " "
+        val sb = StringBuilder()
+        sb.append("[")
+        for (row in 0..height - 1) {
+            sb.append("[")
+            if (row < height - 1) sb.append(",", " ")
+            for (column in 0..width - 1) {
+                sb.append(this[row, column])
+                if (column + 1 < width) sb.append(",", " ")
             }
+            sb.append("]")
         }
-        return answ
+        sb.append("]")
+        return "$sb"
+    }
+        override fun hashCode(): Int {
+            var result = 5
+            result = result * 31 + height
+            result = result * 31 + width
+            result = 31 * result + list.hashCode()
+            return result
     }
 }
 

@@ -83,12 +83,6 @@ data class Segment(val begin: Point, val end: Point)
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
 fun diameter(vararg points: Point): Segment = TODO()
-/**{
-    if (points.size >= 2) {
-        return
-    }
-    else throw IllegalArgumentException()
-} **/
 
 /**
  * Простая

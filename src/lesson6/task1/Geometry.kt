@@ -120,7 +120,7 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point { //еще не решена
+    fun crossPoint(other: Line): Point {
         val x = when {
             (Math.cos(angle) - Math.cos(Math.PI / 2) < 1e-10) -> point.x
             (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
@@ -132,7 +132,7 @@ data class Line(val point: Point, val angle: Double) {
                 (x - other.point.x) * Math.tan(other.angle) + other.point.y
             else -> (x - point.x) * Math.tan(angle) + point.y
         }
-        return Point(x, y)
+       return Point(x, y)
     }
 }
 
@@ -192,7 +192,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     if (lineByPoints(a, b).angle == lineByPoints(a, c).angle) throw IllegalArgumentException()
-    var center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))
+    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))
     return Circle(center, center.distance(a))
 }
 
@@ -207,7 +207,27 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
+fun minContainingCircle(vararg points: Point): Circle {
+    return when (points.size) {
+        0 -> throw IllegalArgumentException()
+        1-> Circle(points[0], 0.0)
+        else -> {
+            var max = -1.0
+            var max1 = Point(0.0, 0.0)
+            var max2 = Point(0.0, 0.0)
+            for (point1 in points) {
+                for (point2 in points) {
+                    if (point1.distance(point2) > max) {
+                        max = point1.distance(point2)
+                        max1 = point1
+                        max2 = point2
+                    }
+                }
+            }
+            circleByDiameter(Segment(max1, max2))
+        }
+    }
+}
 
 
 

@@ -61,28 +61,18 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    if (str.matches(Regex("""[0-9]+\s[а-яА-Я]+\s[0-9]+"""))) {
-        val parts = str.split(' ')
-        val day = parts[0].toInt()
-        val years = parts[2].toInt()
-        val month = when(parts[1]) {
-            "января" -> 1
-            "февраля" -> 2
-            "марта" -> 3
-            "апреля" -> 4
-            "мая" -> 5
-            "июня" -> 6
-            "июля" -> 7
-            "августа" -> 8
-            "сентября" -> 9
-            "октября" -> 10
-            "ноября" -> 11
-            "декабря" -> 12
-            else -> 0
-        }
-        if (month != 0) return String.format("%02d.%02d.%d", day, month, years)
-        else return ""
-    } else return ""
+    val Month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val dateList = str.split(" ")
+    if (dateList.size != 3) return ""
+    try {
+        val day = dateList[0].toInt()
+        val month = dateList[1]
+        if ((day !in 1..31) or (month !in Month)) return ""
+        val year = dateList[2].toInt()
+        return String.format("%02d.%02d.%d", day, Month.indexOf(month) + 1, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
 }
 
 /**
@@ -93,28 +83,18 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    if (digital.matches(Regex("""[0-9]{2}.[0-9]{2}.[0-9]+"""))) {
-        val parts = digital.split('.')
-        val day = parts[0].toInt()
-        val year = parts[2].toInt()
-        val month = when (parts[1].toInt()) {
-            1 -> "января"
-            2 -> "февраля"
-            3 -> "марта"
-            4 -> "апреля"
-            5 -> "мая"
-            6 -> "июня"
-            7 -> "июля"
-            8 -> "августа"
-            9 -> "сентября"
-            10 -> "октября"
-            11 -> "ноября"
-            12 -> "декабря"
-            else -> 0
-        }
-        if (month != 0) return String.format("%d %s %d", day, month, year)
-        else return ""
-    } else return ""
+    val Month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val dateList = digital.split(".")
+    if (dateList.size != 3) return ""
+    try {
+        val day = dateList[0].toInt()
+        val month = dateList[1].toInt()
+        if ((day !in 1..31) or (month !in 1..12)) return ""
+        val year = dateList[2].toInt()
+        return String.format("%d %s %d", day, Month[month - 1], year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
 }
 
 /**
@@ -176,11 +156,11 @@ fun plusMinus(expression: String): Int = TODO()
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val littleReg = str.toLowerCase().split(" ")
+    val lowerCase = str.toLowerCase().split(" ")
     var summ = 0
-    for (i in 0..littleReg.size - 2) {
-        if ((littleReg[i] == littleReg[i + 1]) && (littleReg[i] != "")) return summ
-        summ = summ + littleReg[i].length + 1
+    for (i in 0..lowerCase.size - 2) {
+        if ((lowerCase[i] == lowerCase[i + 1]) && (lowerCase[i] != "")) return summ
+        summ = summ + lowerCase[i].length + 1
     }
     return -1
 }

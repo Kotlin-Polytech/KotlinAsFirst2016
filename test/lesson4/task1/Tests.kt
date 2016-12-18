@@ -141,6 +141,8 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf(0), convert(0, 283))
+        assertEquals(listOf(0), convert(0, 3))
     }
 
     @Test
@@ -151,6 +153,8 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+        assertEquals("0", convertToString(0, 29))
+        assertEquals("0", convertToString(0, 24))
     }
 
     @Test
@@ -170,6 +174,9 @@ class Tests {
         assertEquals(250, decimalFromString("13c", 14))
         assertEquals(1000, decimalFromString("2ec", 19))
         assertEquals(35, decimalFromString("z", 36))
+        assertEquals(2147483647, decimalFromString("2147483647", 10))
+        assertEquals(2045002448, decimalFromString("46n1pdk", 28))
+        assertEquals(1552178355, decimalFromString("404imb6", 27))
     }
 
     @Test
@@ -192,5 +199,7 @@ class Tests {
         assertEquals("двести тысяч два", russian(200002))
         assertEquals("девятьсот тысяч", russian(900000))
         assertEquals("двенадцать", russian(12))
+        assertEquals("четыреста восемьдесят пять тысяч семьсот девяносто пять", russian(485795))
+        assertEquals("триста одиннадцать тысяч восемьсот тридцать один", russian(311831))
     }
 }

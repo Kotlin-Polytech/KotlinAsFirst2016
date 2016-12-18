@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.*
 
 /**
  * Пример
@@ -14,17 +16,17 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
         if (b == 0.0) return Double.NaN // ... и ничего больше не делать
         val bc = -c / b
         if (bc < 0.0) return Double.NaN // ... и ничего больше не делать
-        return -Math.sqrt(bc)
+        return -sqrt(bc)
         // Дальше функция при a == 0.0 не идёт
     }
     val d = discriminant(a, b, c)   // 2
     if (d < 0.0) return Double.NaN  // 3
     // 4
-    val y1 = (-b + Math.sqrt(d)) / (2 * a)
-    val y2 = (-b - Math.sqrt(d)) / (2 * a)
-    val y3 = Math.max(y1, y2)       // 5
+    val y1 = (-b + sqrt(d)) / (2 * a)
+    val y2 = (-b - sqrt(d)) / (2 * a)
+    val y3 = max(y1, y2)       // 5
     if (y3 < 0.0) return Double.NaN // 6
-    return -Math.sqrt(y3)           // 7
+    return -sqrt(y3)           // 7
 }
 
 /**
@@ -32,8 +34,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  *
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
+ *
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String =
+        when {
+            (age % 10 == 1) && (age % 100 != 11) -> "$age год"
+            (age % 10 in 2..4) && (age % 100 !in 12..14) -> "$age года"
+            else -> "$age лет"
+        }
 
 /**
  * Простая
@@ -41,10 +49,22 @@ fun ageDescription(age: Int): String = TODO()
  * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
  * и t3 часов — со скоростью v3 км/час.
  * Определить, за какое время он одолел первую половину пути?
+ *
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = v1 * t1
+    val s2 = v2 * t2
+    val s3 = v3 * t3
+    val half = (s1 + s2 + s3) / 2
+    return when {
+        s1 >= half -> half / v1
+        s1 + s2 >= half -> t1 + (half - s1) / v2
+        else -> t1 + t2 + (half - s1 - s2) / v3
+    }
+}
+
 
 /**
  * Простая
@@ -56,7 +76,16 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    val l1 = kingX == rookX1 || kingY == rookY1
+    val l2 = kingX == rookX2 || kingY == rookY2
+    return when {
+        l1 && l2 -> 3
+        l1 && !l2 -> 1
+        l2 && !l1 -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -69,7 +98,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val l = kingY == rookY || kingX == rookX
+    val sl = abs(bishopX - kingX) == abs(bishopY - kingY)
+    return when {
+        l && !sl -> 1
+        !l && sl -> 2
+        l && sl -> 3
+        else -> 0
+    }
+}
 
 /**
  * Простая
@@ -89,4 +127,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+        when {
+            (c >= a) && (c <= b) && (d >= b) -> b - c
+            (c >= a) && (d <= b) -> d - c
+            (a >= c) && (a <= d) && (d <= b) -> d - a
+            (a >= c) && (b <= d) -> b - a
+            else -> -1
+        }

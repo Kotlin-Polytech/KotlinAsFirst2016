@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -19,7 +20,7 @@ fun timeStrToSeconds(str: String): Int {
 
 fun twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
 
-/**
+/***
  * Пример
  *
  * Дано seconds -- время в секундах, прошедшее с начала дня.
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,21 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val m = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        val d = parts[0].toInt()
+        val month = m.indexOf(parts[1]) + 1
+        if (month == 0) return ""
+        val y = parts[2].toInt()
+        return String.format("%02d.%02d.%d", d, month, y)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +82,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val d1 = parts[0].toInt()
+        val m1 = if (parts[1].toInt() in 1..12) m[parts[1].toInt() - 1]
+        else return ""
+        val y1 = parts[2].toInt()
+        return String.format("%d %s %d", d1, m1, y1)
+    } catch(e: NumberFormatException) {
+        return ""
+    }
+}
+
 
 /**
  * Сложная
@@ -118,7 +144,33 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val parts = expression.split(" ")
+    var result = 0
+    var k = 0
+    var z = 0
+    for (part in parts) {
+        try {
+            if (k == 1 && part in "0".."9" || k == 2 && (part == "+" || part == "-")) throw IllegalArgumentException()
+            if (part in "0".."9") {
+                k++
+                if (z != -1) {
+                    result += part.toInt()
+                } else {
+                    result -= part.toInt()
+                    z++
+                }
+            }
+        } catch (e: NumberFormatException) {
+            throw IllegalArgumentException()
+        }
+        if (part == "+" || part == "-") {
+            k = 2
+            if (part == "-") z = -1
+        }
+    }
+    return result
+}
 
 /**
  * Сложная

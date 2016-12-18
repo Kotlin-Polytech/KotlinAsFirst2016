@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson8.task1
 
+import lesson3.task1.digitNumber
 import java.io.File
 
 /**
@@ -378,8 +379,46 @@ fun markdownToHtml(inputName: String, outputName: String) {
  2350
  *
  */
+
+fun printWithSpace(count:Int, n:Int) : String{
+    val builder = StringBuilder()
+    for(i in 1..count)
+        builder.append(" ")
+    builder.append(n.toString())
+    return builder.toString()
+}
+
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val sp = if (lhv * rhv > 0) digitNumber(lhv * rhv) else digitNumber(lhv * rhv) +1
+    var myRhv = rhv
+    var ch = lhv * (myRhv % 10)
+    var n = 0
+    writer.write(printWithSpace(sp - digitNumber(lhv) + 1, lhv))
+    writer.newLine()
+    writer.write("*")
+    writer.write(printWithSpace(sp - digitNumber(rhv), rhv))
+    writer.newLine()
+    for(i in 0..sp)
+        writer.write("-")
+    writer.newLine()
+    writer.write(printWithSpace(sp - digitNumber(ch) + 1, ch))
+    myRhv/= 10
+    while (myRhv > 0){
+        n++
+        ch = lhv * (myRhv % 10)
+        writer.newLine()
+        writer.write("+")
+        writer.write(printWithSpace(sp - digitNumber(ch) - n, ch))
+        myRhv/= 10
+    }
+    writer.newLine()
+    for(i in 0..sp)
+        writer.write("-")
+    writer.newLine()
+    writer.write(" ")
+    writer.write((lhv * rhv).toString())
+    writer.close()
 }
 
 

@@ -156,7 +156,23 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    val list = mutableListOf<Square>(start)
+    val  moveNumb = bishopMoveNumber(start, end)
+    if (moveNumb == -1) return listOf()
+    if (moveNumb ==  0) return  list
+    val column1 = (start.row - end.row + start.column + end.column) / 2
+    val  row1 = (start.column -end.column + start.row + end.row) / 2
+    val  column2 = (start.column + end.column + end.row - start.row) / 2
+    val  row2 = (end.column - start.column + start.row + end.row) / 2
+    if (moveNumb == 2) {
+        if (Square(column1, row1).inside()) list.add(Square(column1, row1))
+        else list.add(Square(column2, row2))
+    }
+    list.add(end)
+    return list
+
+}
 
 
 /**
@@ -179,7 +195,11 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    return Math.max(Math.abs(start.column - end.column), Math.abs(start.row - end.row))
+
+}
 
 /**
  * Сложная
@@ -195,7 +215,24 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    val result = mutableListOf(start)
+    var  squar = start
+    while (squar != end) {
+        squar = when {
+            squar.row < end.row && squar.column <end.column -> Square(squar.column + 1, squar.row + 1) //
+            squar.row == end.row && squar.column < end.column -> Square(squar.column + 1, squar.row)
+            squar.row < end.row && squar.column > end.column -> Square(squar.column -1, squar.row + 1) //
+            squar.row == end.row && squar.column > end.column -> Square(squar.column -1, squar.row)
+            squar.row > end.row && squar.column < end.column -> Square(squar.column +1, squar.row -1)
+            squar.row > end.row && squar.column >end.column -> Square(squar.column - 1, squar.row -1)
+            squar.row > end.row && squar.column == end.column -> Square(squar.column, squar.row -1)
+            else -> Square(squar.column, squar.row + 1)
+        }
+        result.add(squar)
+    }
+    return result
+}
 
 /**
  * Сложная

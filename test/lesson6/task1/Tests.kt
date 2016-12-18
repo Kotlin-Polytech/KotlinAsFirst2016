@@ -37,10 +37,10 @@ class Tests {
     @Test
     @Tag("Easy")
     fun circleDistance() {
-        assertEquals(0.0, Circle(Point(0.0, 0.0), 1.0).distance(Circle(Point(1.0, 0.0), 1.0)), 1e-5)
-        assertEquals(0.0, Circle(Point(0.0, 0.0), 1.0).distance(Circle(Point(0.0, 2.0), 1.0)), 1e-5)
-        assertEquals(1.0, Circle(Point(0.0, 0.0), 1.0).distance(Circle(Point(-4.0, 0.0), 2.0)), 1e-5)
-        assertEquals(2.0 * Math.sqrt(2.0) - 2.0, Circle(Point(0.0, 0.0), 1.0).distance(Circle(Point(2.0, 2.0), 1.0)), 1e-5)
+        assertEquals(0.0, Circle(Point(0.0, 0.0), 1.0).dist(Circle(Point(1.0, 0.0), 1.0)), 1e-5)
+        assertEquals(0.0, Circle(Point(0.0, 0.0), 1.0).dist(Circle(Point(0.0, 2.0), 1.0)), 1e-5)
+        assertEquals(1.0, Circle(Point(0.0, 0.0), 1.0).dist(Circle(Point(-4.0, 0.0), 2.0)), 1e-5)
+        assertEquals(2.0 * Math.sqrt(2.0) - 2.0, Circle(Point(0.0, 0.0), 1.0).dist(Circle(Point(2.0, 2.0), 1.0)), 1e-5)
     }
 
     @Test

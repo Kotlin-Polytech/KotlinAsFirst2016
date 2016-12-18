@@ -111,15 +111,9 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var a = 0
     if (phone.contains(Regex("""[^\s\d()+-]"""))) return "" else
-    for (i in 1..phone.length-1) {
-    if (phone[i] == '+')
-        a++
-     }
-    if (a >= 1) return "" else
-    return Regex("""[^\d+]""").replace(phone, "")
-    }
+        return Regex("""[^\d+]""").replace(phone, "")
+}
 
 
 

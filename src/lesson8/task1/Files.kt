@@ -77,11 +77,10 @@ fun sibilants(inputName: String, outputName: String) {
     var previous = '\n'
     val text1 = "ыяюЫЯЮ"
     val text2 = "иауИАУ"
-    for (i in input.readText()){
-        if(i in text1 && previous in "ЖЧШЩжчшщ"){
+    for (i in input.readText()) {
+        if (i in text1 && previous in "ЖЧШЩжчшщ") {
             output.append(text2[text1.indexOf(i)])
-        }
-        else output.append(i)
+        } else output.append(i)
         previous = i
     }
     output.close()

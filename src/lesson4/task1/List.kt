@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -106,7 +107,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     val result = Math.sqrt(v.map { it * it }.sum())
-    return  result
+    return result
 }
 
 /**
@@ -205,13 +206,14 @@ fun factorize(n: Int): List<Int> {
  */
 fun factorizeToString(n: Int): String {
     val result = factorize(n)
-        var string = "$result[0]"
-        for (i in 1..result.size - 1) {
-            string += "*"
-            string += result[i]
-        }
-    return string
+    var string = "$result[0]"
+    for (i in 1..result.size - 1) {
+        string += "*"
+        string += result[i]
     }
+    return string
+}
+
 /**
  * Средняя
  *

@@ -68,15 +68,18 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         list[width * row + column] = value
     }
 
+
     override fun set(cell: Cell, value: E) {
         list[cell.row * width + cell.column] = value
     }
+
 
     override fun equals(other: Any?) =
             other is MatrixImpl<*> &&
                     height == other.height &&
                     width == other.width &&
                     list == other.list
+
 
     override fun toString(): String {
         val sb = StringBuilder()

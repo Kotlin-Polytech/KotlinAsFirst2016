@@ -105,7 +105,7 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> {
     val field = createMatrix(height, width, 0)
     var border = 0
 
-    while (border <= height / 2 && border <= width / 2 ) {
+    while (border < height / 2 + height % 2 && border < width / 2 + width % 2 ) {
         for (i in border..height - border - 1) {
             field[i, border] = border + 1 // Справа
             field[i, width - border - 1] = border + 1 // Слева

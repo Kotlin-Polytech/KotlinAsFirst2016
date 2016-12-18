@@ -105,11 +105,11 @@ fun minDivisor(n: Int): Int {
     else {
         var mindel = 3
         while (mindel <= Math.sqrt(n.toDouble()) ) {
-            if (n % mindel == 0) return mindel
+            if (n % mindel == 0)
+                return mindel
             else mindel += 2
         }
-        if (mindel > Math.sqrt(n.toDouble())) return n
-        return mindel
+        return n
     }
 }
 

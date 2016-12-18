@@ -205,7 +205,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
             else
                 result.append(temp.toString())
         }
-        outputStream.write(result.toString())
+        outputStream.write(result.toString().trim())
         if (i != lines.size - 1)
             outputStream.newLine()
     }
@@ -276,6 +276,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
                 for (i in 0..dictionaryResult.size - 1) {
                     dictionaryResult[i] = ""
                 }
+                dictionaryResult.add(words)
             }
             else
                 dictionaryResult.add(words)

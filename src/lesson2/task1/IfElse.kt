@@ -76,11 +76,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int {
-    if ((castleAttack(rookX1, rookY1, kingX, kingY)) && (castleAttack(rookX2, rookY2, kingX, kingY))) return 3
-    if ((!castleAttack(rookX1, rookY1, kingX, kingY)) && (castleAttack(rookX2, rookY2, kingX, kingY))) return 2
-    if ((castleAttack(rookX1, rookY1, kingX, kingY)) && (!castleAttack(rookX2, rookY2, kingX, kingY))) return 1
-    else return 0
+                       rookX2: Int, rookY2: Int): Int { return when {
+    (castleAttack(rookX1, rookY1, kingX, kingY)) && (castleAttack(rookX2, rookY2, kingX, kingY)) -> 3
+    (!castleAttack(rookX1, rookY1, kingX, kingY)) && (castleAttack(rookX2, rookY2, kingX, kingY)) -> 2
+    (castleAttack(rookX1, rookY1, kingX, kingY)) && (!castleAttack(rookX2, rookY2, kingX, kingY)) -> 1
+    else -> 0
+    }
 }
 
 fun castleAttack(a: Int, b: Int, c: Int, d: Int): Boolean = (a == c) || (b == d)
@@ -97,11 +98,12 @@ fun castleAttack(a: Int, b: Int, c: Int, d: Int): Boolean = (a == c) || (b == d)
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int {
-    if ((castleAttack(rookX, rookY, kingX, kingY)) && (bishopAttack(bishopX, bishopY, kingX, kingY))) return 3
-    if ((!castleAttack(rookX, rookY, kingX, kingY)) && (bishopAttack(bishopX, bishopY, kingX, kingY))) return 2
-    if ((castleAttack(rookX, rookY, kingX, kingY)) && (!bishopAttack(bishopX, bishopY, kingX, kingY))) return 1
-    else return 0
+                          bishopX: Int, bishopY: Int): Int { return when {
+    (castleAttack(rookX, rookY, kingX, kingY)) && (bishopAttack(bishopX, bishopY, kingX, kingY)) -> 3
+    (!castleAttack(rookX, rookY, kingX, kingY)) && (bishopAttack(bishopX, bishopY, kingX, kingY)) -> 2
+    (castleAttack(rookX, rookY, kingX, kingY)) && (!bishopAttack(bishopX, bishopY, kingX, kingY)) -> 1
+    else -> 0
+    }
 }
 
 fun bishopAttack(a: Int, b: Int, c: Int, d: Int): Boolean = Math.abs(c - a) == Math.abs(d - b)
@@ -116,10 +118,10 @@ fun bishopAttack(a: Int, b: Int, c: Int, d: Int): Boolean = Math.abs(c - a) == M
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    if ((a + b > c) && (a + c > b) && (b + c > a)) {
-        if ((sqr(a) + sqr(b) < sqr(c)) || (sqr(c) + sqr(b) < sqr(a)) || (sqr(c) + sqr(a) < sqr(b))) return 2
-        if ((sqr(a) + sqr(b) == sqr(c)) || (sqr(c) + sqr(b) == sqr(a)) || (sqr(c) + sqr(a) == sqr(b))) return 1
-        else return 0
+    if ((a + b > c) && (a + c > b) && (b + c > a)) return when {
+        (sqr(a) + sqr(b) < sqr(c)) || (sqr(c) + sqr(b) < sqr(a)) || (sqr(c) + sqr(a) < sqr(b)) -> 2
+        (sqr(a) + sqr(b) == sqr(c)) || (sqr(c) + sqr(b) == sqr(a)) || (sqr(c) + sqr(a) == sqr(b)) -> 1
+        else -> 0
     } else return -1
 }
 

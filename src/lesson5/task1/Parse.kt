@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
 
-import java.time.Month
 
 /**
  * Пример

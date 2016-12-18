@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
-package lesson6.task2
 
-import java.util.*
+package lesson6.task2
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -23,7 +22,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        val list = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+        if (column !in 1..8 || row !in 1..8) return ""
+        val newColumn = list[column - 1]
+        return "$newColumn$row"
+    }
 }
 
 /**
@@ -33,7 +37,13 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+
+fun square(notation: String): Square {
+    val listColumn = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+    val listRow = listOf('1', '2', '3', '4', '5', '6', '7', '8')
+    if (notation.matches(Regex("""[a-h]\d"""))) return Square(listColumn.indexOf(notation[0]) + 1, listRow.indexOf(notation[1])+1)
+            else throw IllegalArgumentException()
+}
 
 /**
  * Простая

@@ -62,7 +62,7 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
-        ((vershoks * 4.445 + arshins * 16 * 4.445 + sagenes * 48 * 4.445) / 100)
+        (vershoks * 4.445 + arshins * 16 * 4.445 + sagenes * 48 * 4.445) / 100
 
 
 /**
@@ -71,7 +71,8 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ((grad + ((min + sec / 60.0) / 60.0)) * Math.PI / 180)
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double =
+        (grad + ((min + sec / 60.0) / 60.0)) * Math.PI / 180
 
 
 /**
@@ -80,7 +81,8 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = ((grad + ((min + sec 
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = (sqrt(sqr(x2 - x1) + sqr(y2 - y1)))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
+        sqrt(sqr(x2 - x1) + sqr(y2 - y1))
 
 
 /**
@@ -111,8 +113,8 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
 fun accountInThreeYears(initial: Int, percent: Int): Double {
-    val persentPerYear = percent / 100.0 + 1
-    return initial * persentPerYear * persentPerYear * persentPerYear
+    val percentPerYear = percent / 100.0 + 1
+    return initial * percentPerYear * percentPerYear * percentPerYear
 }
 
 /**
@@ -121,5 +123,6 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = number % 10 * 100 + (number / 10 % 10) * 10 + number / 100
+fun numberRevert(number: Int): Int =
+        number % 10 * 100 + (number / 10 % 10) * 10 + number / 100
 

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -56,9 +57,9 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double =
-        if (center.distance(other.center) > radius + other.radius)
-            (center.distance(other.center) - radius - other.radius)
-        else 0.0
+            if (center.distance(other.center) > radius + other.radius)
+                (center.distance(other.center) - radius - other.radius)
+            else 0.0
 
 
     /**
@@ -119,8 +120,8 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        var x:Double
-        var y:Double
+        var x: Double
+        var y: Double
         x = when {
             (Math.abs(Math.cos(angle)) == Math.cos(Math.PI / 2)) -> point.x
             (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
@@ -136,14 +137,13 @@ data class Line(val point: Point, val angle: Double) {
 }
 
 
-
 /**
  * Средняя
  *
  * Построить прямую по отрезку
  */
 fun lineBySegment(s: Segment): Line {
-    var anglee:Double
+    var anglee: Double
     if (s.begin == s.end) anglee = 0.0 else
         anglee = Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
     if (((s.end.x >= s.begin.x) && (s.end.y >= s.begin.y)) || ((s.end.x <= s.begin.x) && (s.end.y <= s.begin.y)))
@@ -184,22 +184,10 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val x12 = a.x - b.x
-    val x23 = b.x - c.x
-    val x31 = c.x - a.x
-    val y12 = a.y - b.y
-    val y23 = b.y - c.y
-    val y31 = c.y - a.y
-    val z1 = sqr(a.x) + sqr(a.y)
-    val z2 = sqr(b.x) + sqr(b.y)
-    val z3 = sqr(c.x) + sqr(c.y)
-    val zx = y12 * z3 + y23 * z1 + y31 * z2
-    val zy = x12 * z3 + x23 * z1 + x31 * z2
-    val z = x12 * y31 - y12 * x31
-    val x = -zx / (2 * z)
-    val y = zy / (2 * z)
-    val r = Math.sqrt(sqr(x - a.x) + sqr(y - a.y))
-    return Circle(center = Point(x, y), radius = r)
+    val line1 = bisectorByPoints(a, b)
+    val line2 = bisectorByPoints(a, c)
+    val result = line1.crossPoint(line2)
+    return Circle(result, a.distance(result))
 }
 
 

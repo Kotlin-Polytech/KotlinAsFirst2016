@@ -1,10 +1,17 @@
 package lesson5.task1
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import java.io.File
 
 class Tests {
+    private fun assertFileContent(name: String, expectedContent: String) {
+        val file = File(name)
+        val content = file.readLines().joinToString("\n")
+        assertEquals(expectedContent, content)
+    }
     @Test
     @Tag("Example")
     fun timeStrToSeconds() {
@@ -80,6 +87,7 @@ class Tests {
         assertEquals(4, plusMinus("2 + 2"))
         assertEquals(6, plusMinus("2 + 31 - 40 + 13"))
         assertEquals(-1, plusMinus("0 - 1"))
+        assertThrows(IllegalArgumentException::class.java){ plusMinus(" ")}
     }
 
     @Test
@@ -98,6 +106,8 @@ class Tests {
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
         assertEquals("", mostExpensive("Хл13246351453125е21561566б 39.9; Молоко 62.5;"))
+      //  mostExpensive("input/fortest.txt")
+      //  assertFileContent("input/fortest.txt","2.147483647E7")
     }
 
     @Test

@@ -115,11 +115,10 @@ fun lcm(m: Int, n: Int): Int =
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var i: Int = 2
+    var i = 2
     while (n % i != 0) i++
     return i
 }
-
 
 
 /**
@@ -128,7 +127,7 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var i: Int = n - 1
+    var i = n - 1
     while (n % i != 0) i--
     return i
 }
@@ -152,19 +151,8 @@ fun isCoPrime(m: Int, n: Int): Boolean =
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean =
-        m <= pow(sqrt(n.toDouble()).toInt(),2)
+        m <= pow(sqrt(n.toDouble()).toInt(), 2)
 
-/**
-    for (result in m..n) {
-        val sqrtResult = Math.sqrt(result.toDouble())
-        if (sqrtResult % 1 == 0.0) {
-            if (sqrtResult * sqrtResult in m..n) return true
-        }
-    }
-    return false
-}
-
-*/
 
 /**
  * Простая
@@ -199,22 +187,11 @@ fun sin(x: Double, eps: Double): Double {
 fun revert(n: Int): Int {
     var n1 = n
     var result = 0
-    var decade = tenNumbers(digitNumber(n))
+    var decade = pow(10, digitNumber(n) - 1)
     while (n1 != 0) {
         result += decade * (n1 % 10)
         decade /= 10
         n1 /= 10
-    }
-    return result
-}
-
-
-fun tenNumbers(n: Int): Int {
-    var result = 1
-    var n1 = n - 1
-    while (n1 != 0) {
-        result *= 10
-        n1 -= 1
     }
     return result
 }

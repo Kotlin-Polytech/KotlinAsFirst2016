@@ -97,11 +97,16 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parse = digital.split(".")
-    var result = StringBuilder()
+    val result = StringBuilder()
     if (parse.size == 3) {
         try {
-            if (parse[0][1].toInt() in 1..9) result.append(parse[0].toInt().toString() + " ")
-            else result.append(parse[0].toInt().toString() + " ")
+            if (parse[0][1].toInt() in 1..9) {
+                result.append(parse[0].toInt().toString())
+                result.append(" ")
+            } else {
+                result.append(parse[0].toInt().toString())
+                result.append(" ")
+            }
             result.append(when (parse[1]) {
                 "01" -> "января"
                 "02" -> "февраля"
@@ -117,7 +122,8 @@ fun dateDigitToStr(digital: String): String {
                 "12" -> "декабря"
                 else -> return ""
             })
-            result.append(" " + parse[2].toInt().toString())
+            result.append(" ")
+            result.append(parse[2].toInt().toString())
         } catch (e: NumberFormatException) {
             return ""
         }
@@ -139,18 +145,20 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     try {
-        if (phone.any{((it != '(')
-            && (it != ')')
-            && (it != '+')
-            && (it != '-')
-            && (it != ' ')
-            && (it !in '0'..'9'))})
-       return ""
-    val result = phone.filter { (it in '0'..'9') || (it == '+') }
-    if (result[0] != '+') {
-        return phone.filter { (it in '0'..'9') }
-    }
-    return result
+        if (phone.any {
+            ((it != '(')
+                    && (it != ')')
+                    && (it != '+')
+                    && (it != '-')
+                    && (it != ' ')
+                    && (it !in '0'..'9'))
+        })
+            return ""
+        val result = phone.filter { (it in '0'..'9') || (it == '+') }
+        if (result[0] != '+') {
+            return phone.filter { (it in '0'..'9') }
+        }
+        return result
     } catch (e: StringIndexOutOfBoundsException) {
         return ""
     }
@@ -201,29 +209,34 @@ fun bestHighJump(jumps: String): Int {
  */
 fun plusMinus(expression: String): Int {
     try {
-    if (expression.any{
-        (((it != '+')
-            && (it != '-')
-            && (it != ' ')
-            && (it !in '0'..'9')))})
-            return throw IllegalArgumentException("IllegalArgumentException")
+        if (expression.all{
+            it==' '
+        })
+            throw IllegalArgumentException("IllegalArgumentException")
+        if (expression.any {
+            (((it != '+')
+                    && (it != '-')
+                    && (it != ' ')
+                    && (it !in '0'..'9')))
+        })
+            throw IllegalArgumentException("IllegalArgumentException")
 
-    var resultExpression = expression
-    val parts = resultExpression.split(" ")
-    var result = 0
-    if ((parts[0] == "-") || (parts[0] == "+"))
-        for (i in 1..parts.size - 1 step 2)
-            if (parts[i - 1] == "-") result -= parts[i].toInt()
-            else result += parts[i].toInt()
-    else {
-        result += parts[0].toInt()
-        for (i in 2..parts.size - 1 step 2)
-            if (parts[i - 1] == "-") result -= parts[i].toInt()
-            else result += parts[i].toInt()
-    }
-    return result
+        var resultExpression = expression
+        val parts = resultExpression.split(" ")
+        var result = 0
+        if ((parts[0] == "-") || (parts[0] == "+"))
+            for (i in 1..parts.size - 1 step 2)
+                if (parts[i - 1] == "-") result -= parts[i].toInt()
+                else result += parts[i].toInt()
+        else {
+            result += parts[0].toInt()
+            for (i in 2..parts.size - 1 step 2)
+                if (parts[i - 1] == "-") result -= parts[i].toInt()
+                else result += parts[i].toInt()
+        }
+        return result
     } catch (e: StringIndexOutOfBoundsException) {
-        return throw IllegalArgumentException("IllegalArgumentException")
+        throw IllegalArgumentException("IllegalArgumentException")
     }
 }
 
@@ -258,23 +271,25 @@ fun firstDuplicateIndex(str: String): Int {
  * Все цены должны быть положительными
  */
 fun mostExpensive(description: String): String {
-    if (description.isEmpty()) return ""
-    var result = ""
-    val maxNum = Regex("[0-9.]+").findAll(description).map { it.value.toDouble() }.max() // нахождение макс числа
-    try { //проверка на формат
-        var purchases = description.split("; ") //split по покупкам
-        for (i in 0..purchases.size - 1) {
-            var stringLittle = purchases[i].split(" ") //разделение на назв. покупки и цену
-            if (stringLittle.size == 2) { // проверка формат
-                if (stringLittle[1].toDouble() == maxNum) { //сравнение с макс числом
-                    return stringLittle[0] //вывод покупки
-                }
-            } else return ""
+    var max = 0.0
+    var mostExpensive = ""
+    val groups = description.split(";")
+    for (i in 0..groups.size - 1) {
+        val pairs = groups[i].trim().split(" ")
+        if (pairs.size != 2) return ""
+        val el: Double
+        try {
+            el = pairs[1].toDouble()
+        } catch (e: NumberFormatException) {
+            return ""
         }
-    } catch (e: NumberFormatException) {
-        return ""
+        if (el < 0) return ""
+        if (el >= max) {
+            max = el
+            mostExpensive = pairs[0]
+        }
     }
-    return result
+    return mostExpensive
 }
 
 /**

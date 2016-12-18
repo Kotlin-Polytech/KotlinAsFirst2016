@@ -138,12 +138,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         (side * side + side1 * side1
                 == max * max) -> 1
         (side * side + side1 * side1
-                <= max * max) -> 2
+                < max * max) -> 2
         else -> 0
     }
 }
-
-
 
 
 /**

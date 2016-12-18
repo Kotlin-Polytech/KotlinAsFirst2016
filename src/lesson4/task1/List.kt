@@ -195,13 +195,13 @@ fun polynom(p: List<Double>, x: Double): Double =
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-        var gap = 0.0
-        for (i in 0..list.size - 1) {
-            gap += list[i]
-            list[i] = gap
-        }
-        return list
+    var gap = 0.0
+    for (i in 0..list.size - 1) {
+        gap += list[i]
+        list[i] = gap
     }
+    return list
+}
 
 /**
  * Средняя
@@ -260,17 +260,13 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String {
-    var list: List<Int>
-    var str1 = StringBuilder()
-    if (n == 0) return ""
-    list = convert(n, base)
-    for (i in 0..list.size - 1) {
-        if (list[i] > 9) str1.append((87 + list[i]).toChar())
-        else str1.append((list[i]).toString())
-    }
-    return str1.toString()
-}
+fun numberToSymbol(n: Int): String =
+        if (n >= 10) ('a' + (n - 10)).toString()
+        else n.toString()
+
+fun convertToString(n: Int, base: Int): String =
+        convert(n, base).map { numberToSymbol(it) }.joinToString(separator = "")
+
 
 /**
  * Средняя
@@ -281,21 +277,20 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int {
     var result = 0
-    for (i in (digits.size - 1) downTo 0) result += (digits[i] * pow(base, ((digits.size - 1) - i)))
+    for (i in (digits.size - 1) downTo 0) result += digits[i] * pow(base, digits.size - 1 - i)
     return result
 }
 
 fun pow(num: Int, n: Int): Int {
-        if (n==0)
-            return 1
-        else if (n==1)
-            return num
-        else if (n % 2 == 0 )
-            return pow( num * num, n/2)
-        else
-            return pow( num * num, n /2)*num
-    }
-
+    if (n == 0)
+        return 1
+    else if (n == 1)
+        return num
+    else if (n % 2 == 0)
+        return pow(num * num, n / 2)
+    else
+        return pow(num * num, n / 2) * num
+}
 
 
 /**
@@ -325,20 +320,18 @@ fun decimalFromString(str: String, base: Int): Int {
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-        var result = StringBuilder()
-        var n2 = n
-        val rom = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M" )
-        val dec = listOf( 1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
-        var i = 12
-        while (n2 != 0) {
-            while (n2 >= dec[i]) {
-                n2 -= dec[i]
-                result.append(rom[i])
-            }
-            i--
-        }
-        return result.toString()
+    val listAll = listOf("M" to 1000, "CM" to 900, "D" to 500, "CD" to 400, "C" to 100, "XC" to 90, "L" to 50,
+            "XL" to 40, "X" to 10, "IX" to 9, "V" to 5, "IV" to 4, "I" to 1)
+    var number = n
+    if (number <= 0) return ""
+    var result = StringBuilder()
+    while (number > 0) {
+        val search = listAll.find { number - it.second >= 0 } ?: return ""
+        result.append(search.first)
+        number -= search.second
     }
+    return result.toString()
+}
 
 
 /**

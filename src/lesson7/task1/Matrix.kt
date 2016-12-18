@@ -66,7 +66,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun get(row: Int, column: Int): E = list[row * width + column]
 
-    override fun get(cell: Cell): E = list[cell.row  * width + cell.column]
+    override fun get(cell: Cell): E = list[cell.row * width + cell.column]
 
     override fun set(row: Int, column: Int, value: E) {
         list[row * width + column] = value

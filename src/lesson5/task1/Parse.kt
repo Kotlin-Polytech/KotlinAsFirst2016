@@ -81,23 +81,37 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
+
 fun dateDigitToStr(digital: String): String {
-    if (digital.isEmpty()) return ""
     val parts = digital.split(".")
+    val day: Int
+    val year: Int
+    val month: String
     if (parts.size != 3) return ""
+    else if (digital.isEmpty()) return ""
     try {
-        if (parts[0].toInt() > 31 || parts[0].toInt() <= 0) return ""
+        day = parts[0].toInt()
+        year = parts[2].toInt()
     } catch (e: NumberFormatException) {
         return ""
     }
-    val day = parts[0].toInt()
-    val year = parts[2].toInt()
-    val month = listOf("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12")
-    val Month = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    if (parts[1] in month) {
-        val number = parts[1].toInt()
-        return String.format("%d %s %d", day, Month[number - 1], year)
-    } else return ""
+    if (day !in 1..31 || year < 0) return ""
+    month = when (parts[1]) {
+        "01" -> "января"
+        "02" -> "февраля"
+        "03" -> "марта"
+        "04" -> "апреля"
+        "05" -> "мая"
+        "06" -> "июня"
+        "07" -> "июля"
+        "08" -> "августа"
+        "09" -> "сентября"
+        "10" -> "октября"
+        "11" -> "ноября"
+        "12" -> "декабря"
+        else -> return ""
+    }
+    return "$day $month $year"
 }
 
 /**
@@ -114,11 +128,10 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
-    val phonenumber = phone.filter { it != ' ' && it != '-' }
-    if (phonenumber.matches(Regex("""(\(|\)|\d|\+)*"""))) return phonenumber.filter { it in '0'..'9' || it == '+' }
+    if (phone == "+") return ""
+    val PhoneNumber = phone.filter { it != ' ' && it != '-' && it != '_' && it != '+' }
+    if (PhoneNumber.matches(Regex("""(\(|\)|\d|\+)*"""))) return PhoneNumber.filter { it in '0'..'9' || it == '+' }
     else return ""
-
-
 }
 
 /**

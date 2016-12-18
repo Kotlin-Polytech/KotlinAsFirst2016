@@ -49,6 +49,9 @@ class Tests {
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber("+"))
+        assertEquals("", flattenPhoneNumber("  -- "))
+
     }
 
     @Test
@@ -58,7 +61,6 @@ class Tests {
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
         assertEquals(-1, bestLongJump("700 + 700"))
-
     }
 
     @Test
@@ -93,6 +95,7 @@ class Tests {
         assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
+        assertEquals("뢊塏זּ덴➵憑ꜞ扡㰠㪯", mostExpensive("뢊塏זּ덴➵憑ꜞ扡㰠㪯 0"))
     }
 
     @Test

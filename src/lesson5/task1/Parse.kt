@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson5.task1
-
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+val number = "0123456789"
 /**
  * Пример
  *
@@ -60,7 +61,21 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size == 3) {
+        try {
+            val day = parts[0].toInt()
+            val year = parts[2].toInt()
+            if ((parts[1] in months) && (day in 1..31)) {
+                val month = months.indexOf(parts[1]) + 1
+                return String.format("%02d.%02d.%d", day, month, year)
+            } else return ""
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+    } else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +84,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size == 3) {
+        try {
+            val day = parts[0].toInt()
+            val month = parts [1].toInt()
+            val year = parts[2].toInt()
+            if ((month in 1..12) && (day in 1..31))
+                return String.format("%d %s %d", day, months[month - 1], year) else return ""
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+    } else return ""
+}
 
 /**
  * Сложная
@@ -83,7 +111,17 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.length == 0) return ""
+    var result = ""
+    for (i in phone) {
+        if ((i in number) || (i == '+')) result += i
+        else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
+    }
+    if (result.isEmpty()) return ""
+    else if (result.first() == '+' && result.length == 1) return ""
+    else return result
+}
 
 /**
  * Средняя
@@ -94,21 +132,30 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * число соответствует удачному прыжку, - пропущенной попытке, % заступу.
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
- */
+*/
+
 fun bestLongJump(jumps: String): Int = TODO()
 
 /**
  * Сложная
  *
- * Результаты спортсмена на соревнованиях в прыжках в высоту представлены строкой вида
+ * Результаты сп ортсмена на соревнованиях в прыжках в высоту представлены строкой вида
  * "220 + 224 %+ 228 %- 230 + 232 %%- 234 %".
  * Здесь + соответствует удачной попытке, % неудачной, - пропущенной.
  * Высота и соответствующие ей попытки разделяются пробелом.
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
-
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var max = -1
+    for (part in 1..parts.size - 1 step 2) {
+        for (j in parts[part]) {
+            if ((j == '+') && (max < parts[part - 1].toInt())) max = parts[part - 1].toInt()
+        }
+    }
+    return max
+}
 /**
  * Сложная
  *
@@ -118,7 +165,23 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    try {
+        val parts = expression.split(" ")
+        var result = parts[0].toInt()
+        for (i in 2..parts.size step 2) {
+            if (parts[i - 1] == "+") {
+                result += parts[i].toInt()
+            } else if (parts[i - 1] == "-") {
+                result -= parts[i].toInt()
+            }
+        }
+        return result
+    } catch (e: NumberFormatException) {
+        throw  IllegalArgumentException(NumberFormatException("For input string : $expression"))
+    }
+}
+
 
 /**
  * Сложная
@@ -129,7 +192,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val strNew = str.toLowerCase()
+    val parts = strNew.split(" ")
+    var index = 0
+    for (i in 0..parts.size - 2) {
+        if (parts[i] == parts [i + 1]) return index
+        index += parts[i].length + 1
+
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -142,7 +215,24 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    if (description.length == 0) return ""
+    var maxvalue = 0.0
+    var maxproduct = ""
+    try {
+        val parts = description.split("; ")
+        for (part in parts) {
+            val partt = part.split(" ")
+            if (partt[1].toDouble() >= maxvalue) {
+                maxvalue = partt[1].toDouble()
+                maxproduct = partt[0]
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return maxproduct
+}
 
 /**
  * Сложная
@@ -156,6 +246,7 @@ fun mostExpensive(description: String): String = TODO()
  * Вернуть -1, если roman не является корректным римским числом
  */
 fun fromRoman(roman: String): Int = TODO()
+
 
 /**
  * Сложная

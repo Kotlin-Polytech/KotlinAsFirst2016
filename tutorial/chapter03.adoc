@@ -238,7 +238,7 @@ fun isPerfect(n: Int): Boolean {
     for (m in 2..n/2) {
         if (n % m > 0) continue
         sum += m
-        if (sum > n) break
+         if (sum > n) break
     }
     return sum == n
 }

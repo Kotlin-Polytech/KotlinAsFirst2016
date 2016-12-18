@@ -86,11 +86,17 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun toString(): String {
         val sb = StringBuilder()
-        for (row in 0..height - 1) {
+        sb.append("[")
+        for (i in 0..height - 1) {
             sb.append("[")
-            for (column in 0..width - 1) sb.append(this [row, column])
+            for (j in 0..width - 1) {
+                sb.append(this [i, j])
+                if (j < width - 1) sb.append(",")
+            }
             sb.append("]")
+            if (i < height - 1) sb.append(",")
         }
-        return sb.toList().joinToString(separator = ",", prefix = "[ ", postfix = " ]").split(",]").joinToString(separator = "]").split("[,").joinToString(separator = "[")
+        sb.append("]")
+        return sb.toString()
     }
 }

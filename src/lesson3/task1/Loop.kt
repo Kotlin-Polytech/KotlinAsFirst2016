@@ -167,8 +167,8 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
     if (m == n) {
         val roundM = round(a).toInt()
         if (roundM * roundM == m) return true
-    } else if (difference >= 1) return true
-    return false
+    }
+    return (difference >= 1)
 }
 
 /**

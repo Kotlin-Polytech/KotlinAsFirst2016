@@ -4,6 +4,7 @@ package lesson4.task1
 
 import lesson1.task1.discriminant
 
+val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
 /**
  * Пример
  *
@@ -238,7 +239,6 @@ fun convert(n: Int, base: Int): List<Int> {
 fun convertToString(n: Int, base: Int): String {
     val middleResult = convert(n, base)
     var result = ""
-    val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
     for (m in middleResult) {
         if (m < 10) result += m
         else result += ALPHABET[m - 10]
@@ -366,7 +366,7 @@ fun russian(n: Int): String {
     val part1 = n / 1000
     if (part1 > 0) {
         result.addAll(russianMiddle(part1, hd, tn, tn1, un))
-        if ((part1 % 10 == 1) && (part1 /10 % 10 != 1)) result.add("тысяча")
+        if ((part1 % 10 == 1) && (part1 / 10 % 10 != 1)) result.add("тысяча")
         else if (!(part1 % 100 / 10 == 1) && (part1 % 10 == 2 || part1 % 10 == 3 || part1 % 10 == 4)) result.add("тысячи")
         else result.add("тысяч")
     }

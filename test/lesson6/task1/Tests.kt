@@ -81,6 +81,10 @@ class Tests {
         assertTrue(Point(2.0, 2.0).distance(Line(Point(0.0, 0.0), Math.PI / 4).crossPoint(Line(Point(0.0, 4.0), -Math.PI / 4))) < 1e-5)
         val p = Point(1.0, 3.0)
         assertTrue(p.distance(Line(p, 1.0).crossPoint(Line(p, 2.0))) < 1e-5)
+        val l1 = Line(point=Point(x=-1000.0, y=-999.1517497936093), angle=0.42844700870687835)
+        val l2 = Line(point=Point(x=-632.0, y=-999.1184982511529), angle=0.13906314330123815)
+        val p1 = Point(x=-1162.4946827558053, y=-1073.3700136323753)
+        assertTrue(p1.distance(l1.crossPoint(l2)) < 1e-5)
     }
 
     @Test
@@ -123,6 +127,13 @@ class Tests {
         val result = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
         assertTrue(result.center.distance(Point(0.0, 0.0)) < 1e-5)
         assertEquals(5.0, result.radius, 1e-5)
+        val a1 = Point(x=-632.0, y=-1000.0)
+        val b1 = Point(x=-632.0, y=-632.0)
+        val c1 = Point(x=-999.2968368141288, y=-1000.0)
+        val result1 = circleByThreePoints(a1, b1, c1)
+        assertTrue(result1.center.distance(Point(x=-815.6484184070648, y=-815.9999999999999)) < 1e-5)
+        assertEquals(259.9668086187473, result1.radius, 1e-5)
+
     }
 
     @Test
@@ -135,9 +146,10 @@ class Tests {
         val p5 = Point(-3.0, -2.0)
         val p6 = Point(0.0, 5.0)
         val result = minContainingCircle(p1, p2, p3, p4, p5, p6)
-        assertEquals(4.0, result.radius, 0.02)
+        assertEquals(3.8, result.radius, 0.02)
         for (p in listOf(p1, p2, p3, p4, p5, p6)) {
             assertTrue(result.contains(p))
         }
+
     }
 }

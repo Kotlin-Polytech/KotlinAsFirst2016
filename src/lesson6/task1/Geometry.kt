@@ -56,7 +56,7 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun dist(other: Circle): Double {
+    fun distance(other: Circle): Double {
         if (center.distance(other.center) <= radius + other.radius) return 0.0
         else return center.distance(other.center) - (radius + other.radius)
     }

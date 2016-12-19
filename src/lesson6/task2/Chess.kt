@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,7 +24,11 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        val string = "abcdefgh"
+        if (!inside()) return ""
+        return String.format("%c%d", string[column - 1], row)
+    }
 }
 
 /**
@@ -33,7 +38,20 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    val string = "abcdefgh"
+    val string2 = "12345678"
+    var column = 0
+    var row = 0
+    if (notation.length != 2 || notation[0] !in string || notation[1] !in string2) throw IllegalArgumentException()
+    for (i in 0..string.length - 1) {
+        if (string[i] == notation[0]) column = i + 1
+    }
+    for (i in 0..string2.length - 1) {
+        if (string2[i] == notation[1]) row = i + 1
+    }
+    return Square(column, row)
+}
 
 /**
  * Простая
@@ -74,7 +92,12 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    var list = listOf<Square>(start)
+    if (start.column != end.column) list += Square(end.column, start.row)
+    if (start.row != end.row) list += Square(end.column, end.row)
+    return list
+}
 
 /**
  * Простая
@@ -119,7 +142,22 @@ fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    if ((start.column + start.row) % 2 != (end.column + end.row) % 2) return listOf<Square>()
+    val list = listOf(start)
+    if (start == end) return list
+    if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return list + end
+    for (i in 1..8) {
+        for (n in 1..8) {
+            if (start.column != i && start.row != n || end.column != i && end.row != n) {
+                if (start.column - i == start.row - n && i + n == end.column + end.row ||
+                        start.column + start.row == i + n && i - end.column == n - end.row)
+                    return list + Square(i, n) + end
+            }
+        }
+    }
+    return list + end
+}
 
 /**
  * Средняя

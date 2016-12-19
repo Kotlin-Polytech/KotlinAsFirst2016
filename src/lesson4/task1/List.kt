@@ -183,9 +183,7 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     for (i in 1..list.size - 1) {
-        val sum = list[i - 1]
-        list[i] += sum
-
+        list[i] += list[i - 1]
     }
     return list
 }
@@ -285,7 +283,7 @@ fun decimalFromString(str: String, base: Int): Int {
     var result = listOf<Int>()
     val symbols = "0123456789abcdefghijklmnopqrstuvwxyz"
     for (i in 0..str.length - 1) {
-        result += symbols.indexOf(str[i], 0).toInt()
+        result += symbols.indexOf(str[i], 0)
     }
 
     return decimal(result, base)

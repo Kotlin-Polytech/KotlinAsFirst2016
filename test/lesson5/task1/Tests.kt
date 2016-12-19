@@ -40,6 +40,8 @@ class Tests {
         assertEquals("", dateDigitToStr("28.00.2000"))
         assertEquals("3 апреля 2011", dateDigitToStr("03.04.2011"))
         assertEquals("", dateDigitToStr("ab.cd.ef"))
+        assertEquals("", dateStrToDigit("""=rg{Ub3_00]KSzD=PgA{)v|)FGu~ omHW$"ax6)}Skpi!j:Q{,Jh#[
+        5Il+o;Y@H]..ZL-gI*xh; fEm&[M"""))
     }
 
     @Test

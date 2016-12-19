@@ -60,17 +60,22 @@ fun main(args: Array<String>) {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateStrToDigit(str: String): String {
-    val parts = str.split(" ")
-    var result = ""
-    if (parts.size != 3) return ""
-    else {
-        result += checkForDate(parts[0])
-        result += checkForMonth(parts[1])
-        result += checkForYear(parts[2])
+    try {
+        val parts = str.split(" ")
+        var result = ""
+        if (parts.size != 3) return ""
+        else {
+            result += checkForDate(parts[0])
+            result += checkForMonth(parts[1])
+            result += checkForYear(parts[2])
         }
-    val checkForResult = result.split(".")
-    if (checkForResult.size == 3) return result.trim()
-    else return ""
+        val checkForResult = result.split(".")
+        if (checkForResult.size == 3) return result
+        else return ""
+    }
+    catch (e: java.lang.NumberFormatException){
+        return ""
+    }
 }
 
 fun checkForDate(n: String): String {

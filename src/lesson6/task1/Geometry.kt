@@ -154,7 +154,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val xOfCenter = -1 * ((a.y - b.y) * ((c.x * c.x) + (c.y * c.y)) + (b.y - c.y) * ((a.x * a.x) + (a.y * a.y)) + (c.y - a.y) * ((b.y * b.y) + (b.x * b.x))) / (2 * ((a.x - b.x) * (c.y - a.y) - (a.y - b.y) * (c.x - a.x)))
     val yOfCenter = -1 * ((a.x - b.x) * ((c.x * c.x) + (c.y * c.y)) + (b.x - c.x) * ((a.x * a.x) + (a.y * a.y)) + (c.x - a.x) * ((b.y * b.y) + (b.x * b.x))) / (2 * ((a.x - b.x) * (c.y - a.y) - (a.y - b.y) * (c.x - a.x)))
     val centerOf = Point(xOfCenter, yOfCenter)
-    val radiusOf = trackLength(centerOf.x, centerOf.y, a.x, a.y)
+    val radiusOf = sqrt(sqr(xOfCenter - a.x) + sqr(yOfCenter - a.y))
     val ourCircle = Circle(centerOf, radiusOf)
     return ourCircle
 }

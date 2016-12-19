@@ -1,7 +1,12 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
+import lesson6.task3.Graph
+import lesson6.task3.Graph.*
 import java.util.*
+import java.lang.Math.*
+
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -23,7 +28,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        val columnStr = ("abcdefgh")
+        if (column !in 1..8 || row !in 1..8) return ""
+        val result = columnStr[column - 1].toString() + row
+        return result
+    }
 }
 
 /**
@@ -33,7 +43,15 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    val columnStr = mapOf<Char, Int>('a' to 1, 'b' to 2, 'c' to 3, 'd' to 4, 'e' to 5, 'f' to 6, 'g' to 7, 'h' to 8)
+    val e = IllegalArgumentException("Incorrect notation")
+    if (notation.length != 2) throw e
+    if (notation[0] !in 'a'..'h' || notation[1] !in '1'..'8') throw e
+    val column = columnStr[notation[0]]
+    val row = notation[1] - '0'
+    return Square(column!!, row)
+}
 
 /**
  * Простая
@@ -58,7 +76,13 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    val e = IllegalArgumentException("Description")
+    if (start.column !in 1..8 || start.row !in 1..8 || end.column !in 1..8 || end.row !in 1..8) throw e
+    if (start.column == end.column && start.row == end.row) return 0
+    if (start.column == end.column || start.row == end.row) return 1
+    return 2
+}
 
 /**
  * Средняя
@@ -74,7 +98,11 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    if (rookMoveNumber(start, end) == 0) return listOf(Square(start.column, start.row))
+    if (rookMoveNumber(start, end) == 1) return listOf(Square(start.column, start.row), Square(end.column, end.row))
+    return listOf(Square(start.column, start.row), Square(start.column, end.row), Square(end.column, end.row))
+}
 
 /**
  * Простая
@@ -141,7 +169,13 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int {
+    val e = IllegalArgumentException("Description")
+    if (start.column !in 1..8 || start.row !in 1..8 || end.column !in 1..8 || end.row !in 1..8) throw e
+    val distanceColumn = min(abs(start.column - end.column), abs(start.row - end.row))
+    val distanceRow = max(abs(start.column - end.column), abs(start.row - end.row)) - min(abs(start.column - end.column), abs(start.row - end.row))
+    return distanceColumn + distanceRow
+}
 
 /**
  * Сложная
@@ -157,7 +191,33 @@ fun kingMoveNumber(start: Square, end: Square): Int = TODO()
  *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun kingTrajectory(start: Square, end: Square): List<Square> {
+    /*val board = Graph()
+    val result = mutableListOf<Square>()
+    for (i in 1..8)
+        for (j in 1..8)
+            board.addVertex(Square(j,i).notation())
+    for (i in 2..7)
+        for (j in 2..7) {
+            board.connect(Square(j,i).notation(),Square(j+1,i+1).notation())
+            board.connect(Square(j, i).notation(), Square(j - 1, i - 1).notation())
+            board.connect(Square(j,i).notation(),Square(j-1,i+1).notation())
+            board.connect(Square(j,i).notation(),Square(j+1,i-1).notation())
+            board.connect(Square(j,i).notation(),Square(j,i+1).notation())
+            board.connect(Square(j,i).notation(),Square(j+1,i).notation())
+            board.connect(Square(j,i).notation(),Square(j-1,i).notation())
+            board.connect(Square(j,i).notation(),Square(j,i-1).notation())
+        }
+    last = end.notation()
+    while (square(last)!=start){
+        board.bfs(start.notation(),last)
+        result.add(square(last))
+    }
+    if (start!=end) result.add(0,start)
+    result.add(end)
+    return result*/
+    TODO()
+}
 
 /**
  * Сложная

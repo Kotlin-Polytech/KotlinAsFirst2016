@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -59,7 +60,25 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    var number = 1
+    for (turn in 1..Math.min(height, width) / 2 + Math.min(height, width) % 2) {
+        for (j in turn - 1..width - turn) {
+            if (matrix[turn - 1, j] == 0) matrix[turn - 1, j] = number++
+        }
+        for (j in turn..height - turn) {
+            if (matrix[j, width - turn] == 0) matrix[j, width - turn] = number++
+        }
+        for (j in width - turn - 1 downTo turn - 1) {
+            if (matrix[height - turn, j] == 0) matrix[height - turn, j] = number++
+        }
+        for (j in height - turn - 1 downTo turn) {
+            if (matrix[j, turn - 1] == 0) matrix[j, turn - 1] = number++
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -75,7 +94,26 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    var number = 1
+    for (turn in 1..Math.min(height, width) / 2 + Math.min(height, width) % 2) {
+        for (j in turn - 1..width - turn) {
+            if (matrix[turn - 1, j] == 0) matrix[turn - 1, j] = number
+        }
+        for (j in turn..height - turn) {
+            if (matrix[j, width - turn] == 0) matrix[j, width - turn] = number
+        }
+        for (j in width - turn - 1 downTo turn - 1) {
+            if (matrix[height - turn, j] == 0) matrix[height - turn, j] = number
+        }
+        for (j in height - turn - 1 downTo turn) {
+            if (matrix[j, turn - 1] == 0) matrix[j, turn - 1] = number
+        }
+        number++
+    }
+    return matrix
+}
 
 /**
  * Сложная

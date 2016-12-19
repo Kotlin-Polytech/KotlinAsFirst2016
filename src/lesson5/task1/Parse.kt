@@ -137,7 +137,7 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var filteredString = phone.filter { it != '(' }.filter { it != ')' }.filter { it != '-' }.filter{ it != ' ' }
     try {(filteredString.filter { it != '+' }).toLong()} catch (e: Exception) {return ""}
-    if (filteredString.substring(2, filteredString.length - 1).contains('+')) return ""
+    if (filteredString.indexOf('+') != filteredString.lastIndexOf('+')) return ""
     return filteredString
 }
 

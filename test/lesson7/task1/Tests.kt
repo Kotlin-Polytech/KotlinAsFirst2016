@@ -54,6 +54,6 @@ class Tests {
     fun equals() {
         assertEquals(true, createMatrix(1, 1, listOf(listOf(3))) == createMatrix(1, 1, listOf(listOf(3))))
         assertEquals(true, createMatrix(2, 2, listOf(listOf(1, 2), listOf(2, 2))) == createMatrix(2, 2, listOf(listOf(1, 2), listOf(2, 2))))
-        assertEquals(false, createMatrix(2, 2, listOf(listOf(1, 1), listOf(2, 2))) != createMatrix(1, 1, listOf(listOf(1, 2), listOf(2, 2))))
+        assertEquals(true, createMatrix(2, 2, listOf(listOf(1, 1), listOf(2, 2))) == createMatrix(1, 1, listOf(listOf(1, 2), listOf(2, 2))))
     }
 }

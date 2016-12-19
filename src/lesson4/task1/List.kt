@@ -453,10 +453,10 @@ fun russianThousands(n: Int): String {
 }
 
 fun russian(n: Int): String {
-    if (n >= 1000) return rmFirstAndLastSpaces(russianThousands(n / 1000) + " " + russianHundreds(n % 1000)).replace("  ", " ")
-    if (n >= 100) return rmFirstAndLastSpaces(russianHundreds(n)).replace("  ", " ")
-    if (n < 100) return rmFirstAndLastSpaces(russianTens(n)).replace("  ", " ")
-    if (n < 10) return rmFirstAndLastSpaces(russianOne(n)).replace("  ", " ")
+    if (n >= 1000) return rmFirstAndLastSpaces(rmFirstAndLastSpaces(russianThousands(n / 1000) + " " + russianHundreds(n % 1000)).replace("  ", " "))
+    if (n >= 100) return rmFirstAndLastSpaces(rmFirstAndLastSpaces(russianHundreds(n)).replace("  ", " "))
+    if (n < 100) return rmFirstAndLastSpaces(rmFirstAndLastSpaces(russianTens(n)).replace("  ", " "))
+    if (n < 10) return rmFirstAndLastSpaces(rmFirstAndLastSpaces(russianOne(n)).replace("  ", " "))
     return "Invalid input"
 }
 

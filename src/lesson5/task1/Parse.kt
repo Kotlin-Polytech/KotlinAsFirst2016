@@ -60,7 +60,20 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val Month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val dateList = str.split(" ")
+    if (dateList.size != 3) return ""
+    try {
+        val day = dateList[0].toInt()
+        val month = dateList[1]
+        if ((day !in 1..31) or (month !in Month)) return ""
+        val year = dateList[2].toInt()
+        return String.format("%02d.%02d.%d", day, Month.indexOf(month) + 1, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +82,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val Month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val dateList = digital.split(".")
+    if (dateList.size != 3) return ""
+    try {
+        val day = dateList[0].toInt()
+        val month = dateList[1].toInt()
+        if ((day !in 1..31) or (month !in 1..12)) return ""
+        val year = dateList[2].toInt()
+        return String.format("%d %s %d", day, Month[month - 1], year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -129,7 +155,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val lowerCase = str.toLowerCase().split(" ")
+    var summ = 0
+    for (i in 0..lowerCase.size - 2) {
+        if ((lowerCase[i] == lowerCase[i + 1]) && (lowerCase[i] != "")) return summ
+        summ = summ + lowerCase[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -142,7 +176,26 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var result = ""
+    val part = description.split("; ", " ")
+    var max = 0.0
+    try {
+        for (i in 1..part.size - 1 step 2)
+            if (part[i].toDouble() < 0)
+                return ""
+            else
+                if (part[i].toDouble() >= max) {
+                    max = part[i].toDouble()
+                    result = part[i - 1]
+                }
+    }
+    catch(e: NumberFormatException) {
+        return ""
+    }
+    return  result
+}
+
 
 /**
  * Сложная

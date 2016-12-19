@@ -57,7 +57,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var n1 = n
+    if (n1 == 0) return 1
+    while (n1 != 0) {
+        count++
+        n1 = n1 / 10
+    }
+    return count
+
+}
 
 /**
  * Простая
@@ -65,7 +75,17 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int  {
+    var a = 0
+    var b = 1
+    var r = 0
+    for (i in 1..n) {
+        r = b
+        b = a
+        a = b + r
+    }
+    return a
+}
 
 /**
  * Простая
@@ -80,7 +100,16 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var a = n
+    if (isPrime(n)) return n
+    else for (i in 2..n) {
+        if (n % i == 0) return i
+        a = i
+    }
+    return a
+}
+
 
 /**
  * Простая
@@ -114,7 +143,20 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double  {
+    var i = 0
+    val arg = x % (2 * Math.PI)
+    var sin = arg
+    var term = arg
+    while (Math.abs(term) >= eps) {
+        i++
+        term = Math.pow(arg, i * 2.0 + 1) / factorial(i * 2 + 1)
+        if (i % 2 == 1) sin -= term
+        else sin += term
+    }
+    return sin
+}
+
 
 /**
  * Простая
@@ -123,7 +165,7 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double = sin(Math.PI / 2 - x, eps)
 
 /**
  * Средняя
@@ -131,7 +173,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var a = n
+    var b = 0
+    while (a > 0) {
+        b = b * 10 + a % 10
+        a /= 10
+    }
+    return b
+}
+
 
 /**
  * Средняя
@@ -140,7 +191,7 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = (revert(n) == n)
 
 /**
  * Средняя
@@ -148,7 +199,16 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    var b = n
+    var a: Boolean = true
+    val c = b % 10
+    while (b > 0) {
+        if (b % 10 != c)  a = false
+        b /= 10
+    }
+    return  (a == false)
+}
 
 /**
  * Сложная
@@ -166,4 +226,14 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var lines = "1"
+    var count = 2
+    var prevLenght = 0
+    while (prevLenght + lines.length < n) {
+        prevLenght += lines.length
+        lines = fib(count).toString()
+        count++
+    }
+    return (lines[n - prevLenght - 1] - '0').toInt()
+}

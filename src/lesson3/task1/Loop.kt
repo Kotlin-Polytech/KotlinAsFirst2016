@@ -9,7 +9,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -57,8 +57,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
-
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = n
+    do {
+        count += 1
+        number /= 10
+    } while (number !== 0)
+    return count
+}
 /**
  * Простая
  *
@@ -73,7 +80,19 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    val pr = m * n
+    var m1 = m
+    var n1 = n
+    while (m1 != n1) {
+        if (m1 > n1) {
+            m1 -= n1
+        } else {
+            n1 -= m1
+        }
+    }
+    return (pr / m1)
+}
 
 /**
  * Простая
@@ -131,7 +150,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var number = n
+    var number1 = 0
+
+    while (number > 0) {
+        number1 = number1 * 10 + number % 10
+        number /= 10
+    }
+    return number1
+}
 
 /**
  * Средняя
@@ -140,7 +168,16 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var number = n
+    var number1 = 0
+
+    while (number > 0) {
+        number1 = number1 * 10 + number % 10
+        number /= 10
+    }
+    return number1 == n
+}
 
 /**
  * Средняя
@@ -157,8 +194,7 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
-
+fun squareSequenceDigit(n: Int): Int = TODO ()
 /**
  * Сложная
  *

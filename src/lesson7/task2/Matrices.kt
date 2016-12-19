@@ -59,7 +59,23 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    var j = 0
+    var i = 0
+    var number = 1
+    while (true) {
+        matrix[i, j] = number
+        if (j < width - 1 && matrix[i, j + 1] == 0) j++
+        else if (i < height - 1 && matrix[i + 1, j] == 0) i++
+        else if (j > 0 && matrix[i, j - 1] == 0) j--
+        else if (i > 0 && matrix[i - 1, j] == 0) i--
+        else break
+        number++
+    }
+
+    return matrix
+}
 
 /**
  * Сложная
@@ -205,7 +221,12 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..this.height - 1)
+         for (j in 0..this.width - 1)
+            this[i, j] = -this[i, j]
+    return this
+}
 
 /**
  * Средняя

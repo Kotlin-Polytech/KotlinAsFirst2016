@@ -448,7 +448,7 @@ fun russianHundredsForThsds(n: Int): String {
 fun russianThousands(n: Int): String {
     var result = ""
     val foo = (n)
-    result = russianHundredsForThsds(foo)
+    if (foo in 1..9) result = russianOnesForThsds(foo) else result = russianHundredsForThsds(foo)
     return if ((foo % 100 > 10 ) && (foo % 100 < 20)) return result + " тысяч" else if ((foo % 10) == 0 || (foo % 10) in 5..9) return result + " тысяч" else if ((foo % 10) == 1) return result + " тысяча" else return result + " тысячи"
 }
 

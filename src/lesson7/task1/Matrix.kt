@@ -59,7 +59,6 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
     private val list = mutableListOf<E>()
-
     init {
         (0..(height * width - 1)).forEach { list.add(e) }
     }
@@ -78,7 +77,17 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width
 
-    override fun toString(): String = list.toString()
+    override fun toString(): String {
+        val sb = StringBuilder()
+        for (row in 0..height - 1) {
+            for (column in 0..width - 1) {
+                sb.append(this[row, column])
+                sb.append(" ")
+            }
+            sb.append("\n")
+        }
+        return "$sb"
+    }
 
     override fun hashCode(): Int {
         var result = height

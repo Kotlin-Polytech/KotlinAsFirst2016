@@ -53,8 +53,44 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
+fun countSubStrInStr(substr: String, str: String): Int{ // foo считает сколько раз под строка содержится в строке.
+    var count = 0
+    when {
+        substr.compareTo(str) < 0 -> return 0
+        substr == str -> return 1
+        substr.compareTo(str) > 0 -> {
+            for (i in 0..str.length - substr.length){
+                var indexCount = 0
+                for (j in 0..substr.length - 1){
+                    if (substr.toCharArray()[j].toLowerCase() ==
+                            str.toCharArray()[j + i].toLowerCase()){
+                        indexCount++
+                    }
+                }
+                if (indexCount == substr.length){
+                    count++
+                }
+            }
+        }
+    }
+    return count
+}
+
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val outputStream = mutableMapOf<String, Int>()
+    val setSubstrings = mutableSetOf<String>()
+    val textList = mutableListOf<String>()
+    for (str in substrings) {
+        setSubstrings.add(str)
+    }
+    for (line in File(inputName).readLines()) {
+        textList.add(line)
+    }
+    val strTextParts = textList.joinToString(" ")
+    for (str in setSubstrings) {
+        outputStream.put(str, countSubStrInStr(str, strTextParts))
+    }
+    return outputStream
 }
 
 
@@ -72,8 +108,37 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val mapChangeMistake = mapOf<Char, Char >(
+            'Ы' to 'И',
+            'ы' to 'и',
+            'Ю' to 'У',
+            'ю' to 'у',
+            'Я' to 'А',
+            'я' to 'а')
+    for (line in File(inputName).readLines()){
+        if (line.length <= 1){
+            outputStream.write(line)
+            outputStream.newLine()
+        } else {
+            val firstChar = line[0].toString()
+            outputStream.write(firstChar)
+        }
+            for (i in 1..line.length - 1) {
+                if ((line[i] in "ыЫюЮяЯ") && (line[i - 1] in "жЖчЧшШщЩ")) {
+                    outputStream.write(mapChangeMistake[line[i]].toString())
+                } else {
+                    outputStream.write(line[i].toString())
+                }
+            }
+            outputStream.newLine()
+        }
+    outputStream.close()
 }
+
+
+
+
 
 /**
  * Средняя

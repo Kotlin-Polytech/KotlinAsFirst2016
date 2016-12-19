@@ -39,7 +39,7 @@ interface Matrix<E> {
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
 fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
-    if (height !in 0..Int.MAX_VALUE || width !in 0..Int.MAX_VALUE) throw IllegalArgumentException("Attempting to create matrix with invalid parameters")
+    if (height !in 1..Int.MAX_VALUE || width !in 1..Int.MAX_VALUE) throw IllegalArgumentException("Attempting to create matrix with invalid parameters")
     return MatrixImpl(height, width, e)
 }
 

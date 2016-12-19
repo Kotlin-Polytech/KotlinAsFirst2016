@@ -75,7 +75,7 @@ fun dateStrToDigit(str: String): String {
         if (parts[1] == "мая") month = "05"
         if (parts[1] == "июня") month = "06"
         if (parts[1] == "июля") month = "07"
-        if (parts[1] == "август") month = "08"
+        if (parts[1] == "августа") month = "08"
         if (parts[1] == "сентября") month = "09"
         if (parts[1] == "октября") month = "10"
         if (parts[1] == "ноября") month = "11"
@@ -174,7 +174,7 @@ fun bestHighJump(jumps: String): Int {
             for (n in 0..successfulParts.size - 1) {
                 if (successfulParts[n] > result) result = successfulParts[n]
             }
-        }
+        } else return -1
     }
     return result
 }

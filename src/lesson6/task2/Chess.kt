@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson6.task2
 
+import java.lang.Math.*
+
+
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -97,10 +100,10 @@ fun rookMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun rookTrajectory(start: Square, end: Square): List<Square> {
-    return when {
-        rookMoveNumber(start, end) == 0 -> listOf(start)
-        rookMoveNumber(start, end) == 1 -> listOf(start, end)
-        else -> listOf(start, Square(start.column, end.row), end)
+    return when(rookMoveNumber(start, end)) {
+        0       -> listOf(start)
+        1       -> listOf(start, end)
+        else    -> listOf(start, Square(start.column, end.row), end)
     }
 }
 
@@ -157,14 +160,27 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
-    return when {
-        bishopMoveNumber(start, end) == -1  -> listOf()
-        bishopMoveNumber(start, end) == 0   -> listOf(start)
-        bishopMoveNumber(start, end) == 1   -> listOf(start, end)
-        else -> listOf(start, end)
+    return when (bishopMoveNumber(start, end)) {
+        -1      -> listOf()
+        0       -> listOf(start)
+        1       -> listOf(start, end)
+        else    -> listOf(start, crossTrajectory(start, end), end)
     }
 }
 
+fun crossTrajectory(start: Square, end: Square): Square {
+    val addition = (abs(end.row - start.row) + abs(end.column - start.column))/2
+    val addColumn = sgn(end.column - start.column)*addition
+    val addRow = sgn(end.row - start.row)*addition
+    return if (Square(start.column + addColumn, start.row + addRow).inside()) {
+        Square(start.column + addColumn, start.row + addRow)
+    }
+    else {
+        Square(end.column - addColumn, end.row - addRow)
+    }
+}
+
+fun sgn(value: Int): Int = if (value == 0) 1 else value/abs(value)
 /**
  * Средняя
  *

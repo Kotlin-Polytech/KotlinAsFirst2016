@@ -442,19 +442,13 @@ fun russianHundredsForThsds(n: Int): String {
     if (foo == 7) result = "семьсот"
     if (foo == 8) result = "восемьсот"
     if (foo == 9) result = "девятьсот"
-    return result
+    return if ((n % 100) == 0) return result else return result + " " + russianTensForThsds(n % 100)
 }
 
 fun russianThousands(n: Int): String {
     var result = ""
     val foo = (n)
-    if (foo < 10) result = russianOnesForThsds(n)
-    if ((foo > 10) && (foo < 20)) result = russianTeens(n)
-    if (foo >= 100) result = russianHundredsForThsds(n)
-    if (foo >= 100 && foo % 100 < 10) result += " " + russianOnesForThsds(n % 10)
-    if (foo % 100 >= 10) {
-        if (result.isNotEmpty()) result += " " + russianTensForThsds(n % 100) else result += russianTensForThsds(n % 100)
-    }
+    result = russianHundredsForThsds(foo)
     return if ((foo % 100 > 10 ) && (foo % 100 < 20)) return result + " тысяч" else if ((foo % 10) == 0 || (foo % 10) in 5..9) return result + " тысяч" else if ((foo % 10) == 1) return result + " тысяча" else return result + " тысячи"
 }
 

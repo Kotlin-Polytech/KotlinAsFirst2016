@@ -112,11 +112,12 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val matchResult = Regex("""[^-0-9+()\s]""").find(phone)
-    if (matchResult != null) return ""
-    if (phone.indexOf("+") > 0) return ""
-    val phoneList = phone.split(" ", "-", "(", ")")
-    return phoneList.joinToString(separator = "")
+    try {
+        if (!(phone.matches(Regex("[0-9()+-[\\s]]+")))) throw IllegalArgumentException()
+        return phone.replace(Regex("^+|[^0-9]+|"), "")
+    } catch (e: IllegalArgumentException) {
+        return ""
+    }
 }
 
 /**
@@ -130,16 +131,19 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val matchResult = Regex("""[^-0-9%\s]""").find(jumps)
-    if (matchResult != null) return -1
-    val matchResultNumbers = Regex("""[\d]""").find(jumps)
-    if (matchResultNumbers == null) return -1
-    val result = mutableListOf<Int>()
-    val jumpsList = jumps.split(" ", "-", "%")
-    for (element in jumpsList) {
-        if (element != "") result.add(element.toInt())
+    val part1 = jumps.split(" ", "%", "-").toMutableList()
+    for (i in 0..part1.size - 1) {
+        part1.remove("")
     }
-    return result.sorted()[result.size - 1]
+    var maxim = -1
+    try {
+        for (part2 in part1) {
+            if (part2.toInt() > maxim) maxim = part2.toInt()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return maxim
 }
 
 /**
@@ -154,13 +158,19 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
-    var best = -1
-    for (part in 1..parts.size - 1 step 2) {
-        for (j in parts[part]) {
-            if ((j == '+') && (best < parts[part - 1].toInt())) best = parts[part - 1].toInt()
-        }
+    val list: MutableList<String> = mutableListOf()
+    for (i in 1..parts.size - 1) {
+        if ('+' in parts[i]) list += parts[i - 1]
     }
-    return best
+    var max = -1
+    try {
+        for (element in list) {
+            if (element.toInt() > max) max = element.toInt()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
 }
 
 /**

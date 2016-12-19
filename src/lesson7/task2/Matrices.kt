@@ -94,29 +94,29 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
  */
 fun generateSnake(height: Int, width: Int): Matrix<Int> {
     val result = createMatrix(height, width, 0)
-    var cursor = Cell(0, 0)
-    var temp = cursor
-    result[cursor] = 1
+    var boat = Cell(0, 0)
+    var n = boat
+    result[boat] = 1
     var j = 2
-    while (cursor.column + 2 <= width) {
+    while (boat.column + 2 <= width) {
         for (i in 1..width - 1) {
-            cursor = Cell(cursor.row, cursor.column + 1)
-            temp = cursor
-            while (temp.row <= height - 1 && temp.column >= 0) {
-                result[temp] = j
+            boat = Cell(boat.row, boat.column + 1)
+            n = boat
+            while (n.row <= height - 1 && n.column >= 0) {
+                result[n] = j
                 j++
-                temp = Cell(temp.row + 1, temp.column - 1)
+                n = Cell(n.row + 1, n.column - 1)
             }
         }
     }
-    while (cursor.row + 2 <= height) {
+    while (boat.row + 2 <= height) {
         for (i in 1..height - 1) {
-            cursor = Cell(cursor.row + 1, cursor.column)
-            temp = cursor
-            while (temp.row <= height - 1 && temp.column >= 0) {
-                result[temp] = j
+            boat = Cell(boat.row + 1, boat.column)
+            n = boat
+            while (n.row <= height - 1 && n.column >= 0) {
+                result[n] = j
                 j++
-                temp = Cell(temp.row + 1, temp.column - 1)
+                n = Cell(n.row + 1, n.column - 1)
             }
         }
     }
@@ -136,10 +136,10 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> {
  * 7 8 9      9 6 3
  */
 fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
-    val transpose = transpose(matrix)
+    val transport = transpose(matrix)
     val result = transpose(matrix)
     for (i in 0..result.height - 1)
-        for (j in 0..result.width - 1) result[i, j] = transpose[i, result.width - 1 - j]
+        for (j in 0..result.width - 1) result[i, j] = transport[i, result.width - 1 - j]
     return result
 }
 
@@ -158,21 +158,21 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  */
 fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     if (matrix.height != matrix.width) return false
-    val n = matrix.height
-    for (i in 0..n - 1)
-        for (j in 0..n - 1) if (matrix[i, j] !in 1..n) return false
-    for (i in 0..n - 1) {
+    val z = matrix.height
+    for (a in 0..z - 1)
+        for (b in 0..z - 1) if (matrix[a, b] !in 1..z) return false
+    for (a in 0..z - 1) {
         val set = mutableSetOf<Int>()
-        for (j in 0..n - 1) {
-            if (matrix[i, j] in set) return false
-            set.add(matrix[i, j])
+        for (b in 0..z - 1) {
+            if (matrix[a, b] in set) return false
+            set.add(matrix[a, b])
         }
     }
-    for (i in 0..n - 1) {
+    for (a in 0..z - 1) {
         val set = mutableSetOf<Int>()
-        for (j in 0..n - 1) {
-            if (matrix[j, i] in set) return false
-            set.add(matrix[j, i])
+        for (b in 0..z - 1) {
+            if (matrix[b, a] in set) return false
+            set.add(matrix[b, a])
         }
     }
     return true

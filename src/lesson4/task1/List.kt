@@ -130,11 +130,11 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var c = 0.0
+    var z = 0.0
     for (i in 0..a.size - 1) {
-        c += a[i] * b[i]
+        z += a[i] * b[i]
     }
-    return c
+    return z
 }
 
 /**
@@ -200,9 +200,9 @@ fun convert(n: Int, base: Int): List<Int> {
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
 fun convertToString(n: Int, base: Int): String {
-    val convert = convert(n, base)
+    val c = convert(n, base)
     val result = StringBuilder()
-    for (element in convert) {
+    for (element in c) {
         if (element > 9) result.append('a' + element - 10)
         else result.append(element)
     }
@@ -238,15 +238,15 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
 fun roman(n: Int): String {
-    var number = n
-    val map1 = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M")
-    var result = ""
-    while (number != 0) {
-        val parse = map1.toSortedMap().entries.findLast { it.key <= number }.toString().split("=")
-        number -= parse[0].toInt()
-        result += parse[1]
+    var num = n
+    val first = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M").toSortedMap()
+    val res = StringBuilder()
+    while (num > 0) {
+        val parse = first.entries.findLast { it.key <= num } ?: continue
+        res.append(parse.value)
+        num -= parse.key
     }
-    return result
+    return res.toString()
 }
 
 /**
@@ -292,9 +292,6 @@ fun russian(n: Int): String {
         listResult.add(unit)
     }
     val newListResult = listResult.filter { it != "" }
-    /*for (i in 0..newListResult.size - 2) {
-    result += newListResult[i] + " "
-}
-result += newListResult.last()*/
+
     return newListResult.joinToString(" ")
 }

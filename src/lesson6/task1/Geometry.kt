@@ -103,10 +103,10 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    val halfX = (diameter.begin.x + diameter.end.x) / 2
-    val halfY = (diameter.begin.y + diameter.end.y) / 2
+    val half1 = (diameter.begin.x + diameter.end.x) / 2
+    val half2 = (diameter.begin.y + diameter.end.y) / 2
     val radius = diameter.end.distance(diameter.begin) / 2
-    return Circle(Point(halfX, halfY), radius)
+    return Circle(Point(half1, half2), radius)
 }
 
 /**
@@ -155,10 +155,10 @@ fun lineByPoints(a: Point, b: Point): Line = TODO()
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val halfSegment = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    val line = Segment(a, b)
-    val angle = lineBySegment(line).angle
-    if (angle >= Math.PI / 2) return Line(halfSegment, angle - Math.PI  / 2)
-    return Line(halfSegment, angle + Math.PI  / 2)
+    val perpendicular = Segment(a, b)
+    val bis = lineBySegment(perpendicular).angle
+    if (bis >= Math.PI / 2) return Line(halfSegment, bis - Math.PI  / 2)
+    return Line(halfSegment, bis + Math.PI  / 2)
 }
 /**
  * Средняя

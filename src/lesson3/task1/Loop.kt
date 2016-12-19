@@ -155,21 +155,8 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double {
-    val f = x % (2 * Math.PI)
-    var sum = 0.0
-    var i = 0
-    var n = 1
-    while (Math.abs(Math.pow(f, i.toDouble())) / factorial(i) >= eps) {
-        if (n % 2 == 1) sum += Math.pow(f, i.toDouble()) / factorial(i)
-        else sum -= Math.pow(f, i.toDouble()) / factorial(i)
-        i += 2
-        n++
-    }
-    return sum
 
-}
-
+fun cos(x: Double, eps: Double): Double = TODO()
 /**
  * Средняя
  *

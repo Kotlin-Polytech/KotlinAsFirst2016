@@ -36,10 +36,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val a = (age - 1) % 10
+    val a = age % 10
     return when {
-        (((age % 10 == 0) || (age / 10 == 1) || (age / 10 == 11) || (age % 10 in 5..9))) -> "$age лет"
-        (a == 0) -> "$age год"
+        ((age % 10 == 0) || (age / 10 == 1) || (age / 10 == 11) || (age % 10 in 5..9)) -> "$age лет"
+        (a == 1) -> "$age год"
         else -> "$age года"
     }
 }
@@ -91,13 +91,14 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val minusX = Math.abs(kingX - bishopX)
-    val minusY = Math.abs(kingY - bishopY)
-         if (((kingX == rookX) || (kingY == rookY)) && (minusX != minusY)) return 1
-    else if (((kingX != rookX) && (kingY != rookY)) && (minusX == minusY)) return 2
-    else if (((kingX == rookX) || (kingY == rookY)) && (minusX == minusY)) return 3
-    else    (((kingX != rookX) && (kingY != rookY)) && (minusX != minusY))
-    return 0
+    val bishopThreaten = (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
+    val rookThreaten  = (kingX == rookX) || (kingY == rookY)
+    return when {
+        rookThreaten && !bishopThreaten -> 1
+        !rookThreaten && bishopThreaten -> 2
+        rookThreaten && bishopThreaten -> 3
+        else -> 0
+    }
 }
 
 /**
@@ -109,22 +110,19 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var cos = 0.0
-    if ((a>=b) && (a>=c))
-        cos=(c*c+b*b-a*a)/(2*c*b)
-    if ((b>=c) && (b>=a))
-        cos=(c*c+a*a-b*b)/(2*a*c)
-    if ((c>=a) && (c>=b))
-        cos=(a*a+b*b-c*c)/(2*a*b)
-    if ((cos>=1) || (cos<=-1)) return -1
-    if (cos < 0) return 2
-    if (cos == 0.0) return 1
-    if (cos > 0) return 0
-    else return 0
-
-
-
-
+    return when {
+        (a + b <= c) || (a + c <= b) || (b + c <= a) -> -1
+        ((a * a + b * b > c * c) && (c >= a) && (c >= b))
+                || ((a * a + c * c > b * b) && (b >= a) && (b >= c))
+                || ((b * b + c * c > a * a) && (a >= b) && (a >= c)) -> 0
+        ((a * a + b * b == c * c) && (c >= a) && (c >= b))
+                || ((a * a + c * c == b * b) && (b >= a) && (b >= c))
+                || ((b * b + c * c == a * a) && (a >= b) && (a >= c)) -> 1
+        ((a * a + b * b < c * c) && (c >= a) && (c >= b))
+                || ((a * a + c * c < b * b) && (b >= a) && (b >= c))
+                || ((b * b + c * c < a * a) && (a >= b) && (a >= c)) -> 2
+        else -> -1
+    }
 }
 
 /**
@@ -136,13 +134,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var min=0.0
-    if (((c>=a) && (c<=b)) && (d<=b))
-        return d-c
-    if (((a>=c) && (c<=d)) && (b<=d))
-        return b-a
-    if (!(((b>=c)&&(b<=d)) || ((c>=a)&&(c<=b)) || ((d>=a)&&(d<=b)) || ((a>=c)&&(a<=d)))) return -1
-    if ((b-c)<=(d-a)) return b-c
-    else
-        return d-a
+    return when {
+        ((c >= a) && (c <= b)) && (d <= b) -> d-c
+        ((a >= c) && (c <= d)) && (b <= d) -> b-a
+        !(((b >= c) && (b <= d)) || ((c >= a) && (c <= b)) || ((d >= a) && (d <= b)) || ((a >= c) && (a <= d))) -> -1
+        (b - c) <= (d - a) -> b-c
+        else -> d-a
+    }
 }

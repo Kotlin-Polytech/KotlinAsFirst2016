@@ -75,9 +75,9 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-    if (n<=2) return 1
+    if (n <= 2) return 1
     else
-        return fib(n-1)+fib(n-2)
+        return fib(n - 1) + fib(n - 2)
 }
 
 /**
@@ -95,10 +95,8 @@ fun lcm(m: Int, n: Int): Int = TODO()
  */
 fun minDivisor(n: Int): Int {
     var d = 2
-    for (i in 1..n-2) {
-        if (n % d == 0) return d
+    while (n % d != 0)
         d++
-    }
     return d
 }
 
@@ -108,8 +106,8 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var d = n - 1
-    for (i in 1..n-2) {
+    var d = n / 2
+    for (i in 1..n - 2) {
         if (n % d == 0) return d
         d -= 1
     }
@@ -125,20 +123,20 @@ fun maxDivisor(n: Int): Int {
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
     var i = 2
-    if (m>n) {
-        for (i in 2..n)
-        {if ((m % i == 0) && (n % i == 0))
-                return false}
+    if (m > n) {
+        for (i in 2..n) {
+            if ((m % i == 0) && (n % i == 0))
+                return false
+        }
     }
     else
     {
-        for (i in 2..m)
-        {if ((m % i == 0) && (n % i == 0))
-                return false}
+        for (i in 2..m) {
+            if ((m % i == 0) && (n % i == 0))
+                return false
+        }
     }
-
     return true
-
 }
 
 /**
@@ -149,9 +147,8 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var i = 1
     for (i in 1..n) {
-        if (((i*i)>=m) && ((i*i)<=n)) return true
+        if (((i * i) >= m) && ((i * i) <= n)) return true
     }
     return false
 }

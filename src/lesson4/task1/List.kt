@@ -107,7 +107,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var a = 0.0
-    (0..v.size - 1).forEach { i -> a += sqr(v[i]) }
+    for(i in 0..v.size - 1){
+        a += sqr(v[i])
+    }
     return Math.sqrt(a)
 }
 
@@ -129,11 +131,8 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val average = list.sum() / list.size
-    if (list.isEmpty() == true)
-        else
-        for (i in 0..list.size - 1) {
-            val element = list[i]
-            list[i] = element - average
+    for (i in 0..list.size - 1) {
+        list[i] -= average
         }
     return list
 }
@@ -228,7 +227,20 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+fun decimalFromString(str: String, base: Int): Int {
+    var min = 1
+    var result = 0
+    for (i in str.length - 1 downTo 0) {
+        if (str[i] <= '9') {
+            result += (str[i] - '0') * min
+        }
+        else {
+            result += (str[i] - ('a' - 10)) * min
+        }
+        min *= base
+    }
+    return result
+}
 
 /**
  * Сложная

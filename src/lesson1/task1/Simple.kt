@@ -68,7 +68,7 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = ((sagene
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + ((min + sec/60.0)/60.0)) * Math.PI/ 180
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + ((min + sec / 60.0) / 60.0)) * Math.PI / 180
 
 /**
  * Тривиальная
@@ -76,7 +76,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = (grad + ((min + sec/6
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x2-x1) + sqr(y2-y1))
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x2 - x1) + sqr(y2 - y1))
 
 /**
  * Простая
@@ -93,7 +93,12 @@ fun thirdDigit(number: Int): Int = (number / 100) % 10
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = (hoursArrive * 60) + minutesArrive - ((hoursDepart * 60) + minutesDepart)
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+    var min = (hoursArrive - hoursDepart) * 60 + (minutesArrive - minutesDepart)
+    if (min < 0)
+        min += 24 * 60
+    return min
+}
 
 /**
  * Простая
@@ -117,6 +122,5 @@ fun numberRevert(number: Int): Int {
     val first = number % 10
     val second = (number / 10) % 10
     val third = number / 100
-    val new = first * 100 + second * 10 + third
-    return new
+    return first * 100 + second * 10 + third
 }

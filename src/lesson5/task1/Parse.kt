@@ -167,6 +167,7 @@ fun bestHighJump(jumps: String): Int {
     var result = 0
     var successfulParts = listOf<Int>()
     var parts = jumps.split(' ')
+    if (!(jumps.contains('+'))) return -1
     if (parts.size % 2 == 1) return -1
     for (i in 0..parts.size - 2) {
         if (parts[i+1].contains('+')) {
@@ -174,7 +175,7 @@ fun bestHighJump(jumps: String): Int {
             for (n in 0..successfulParts.size - 1) {
                 if (successfulParts[n] > result) result = successfulParts[n]
             }
-        } else return -1
+        }
     }
     return result
 }

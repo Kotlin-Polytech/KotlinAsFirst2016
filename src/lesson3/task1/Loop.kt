@@ -9,7 +9,7 @@ package lesson3.task1
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i // Please do not fix in master
+        result *= i // Please do not fix in master
     }
     return result
 }
@@ -57,15 +57,29 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
-
+fun digitNumber(n: Int): Int {
+    if (n==0){
+        return 1
+    } else {
+    var kolvo = 0
+    var m=n
+    while (m!= 0){
+        kolvo ++;
+        m= m/10
+    }
+    return kolvo
+    }
+}
 /**
  * Простая
  *
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (n < 3) return 1
+    else return fib(n - 1) + fib(n - 2)
+}
 
 /**
  * Простая
@@ -131,7 +145,21 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    if ( n < 10){
+        return n
+    }
+    else {
+        var n2 = n
+        var obr = 0
+        while (n2 != 0) {
+            obr *= 10
+            obr = obr + n2 % 10
+            n2 = n2/10
+        }
+        return obr
+    }
+}
 
 /**
  * Средняя
@@ -157,7 +185,25 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+
+    var number = 1
+    var chislo = 1
+
+    while (chislo < n){
+        number ++
+        var number2 = number * number
+            while(number2 > 0){
+                number2 /= 10
+                chislo ++
+            }
+    }
+    var number2 = number * number
+    for (i in 1..chislo-n){
+        number2 /= 10
+    }
+    return number2%10
+    }
 
 /**
  * Сложная

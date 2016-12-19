@@ -110,7 +110,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val reg = Regex("""\+[-0-9() ]+""")
+    val reg = Regex("""\+?[-0-9() ]+""")
     if (phone.matches(reg)) {
         return phone.replace(Regex("[- ()]"), "")
     } else return ""
@@ -126,7 +126,21 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val par = jumps.split(" ", "%", "-").toMutableList()
+    for (i in 0..par.size - 1) {
+        par.remove("")
+    }
+    var max = -1
+    try {
+        for (part in par) {
+            if (part.toInt() > max) max = part.toInt()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
+}
 
 /**
  * Сложная
@@ -138,7 +152,22 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+        val list:MutableList<String> = mutableListOf()
+        for (i in 1..parts.size-1){
+                if ('+' in parts[i]) list += parts[i-1]
+            }
+        var max = -1
+        try {
+                for (element in list) {
+                        if (element.toInt() > max) max = element.toInt()
+                    }
+            } catch (e: NumberFormatException){
+                return -1
+            }
+        return max
+}
 
 /**
  * Сложная

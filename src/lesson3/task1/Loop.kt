@@ -97,7 +97,9 @@ fun lcm(m: Int, n: Int): Int  {
     while (n1 != m1) {
         if (m1 > n1) {
             m1 -= n1
-        } else {n1 -= m1}
+        } else {
+            n1 -= m1
+        }
     }
     val count = proz / m1
     return count
@@ -140,15 +142,8 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var deli = 2
-    val min = Math.min(m, n)
-    while (deli <= min) {
-        if (m % deli == 0 && n % deli == 0) return false
-        deli++
-    }
-    return true
-}
+fun isCoPrime(m: Int, n: Int): Boolean = (lcm(m, n) == m * n)
+
 
 /**
  * Простая
@@ -233,13 +228,13 @@ fun isPalindrome(n: Int): Boolean {
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var a = n
-    var re: Boolean = true
-    var d = a % 10
+    val d = a % 10
     while (a > 0) {
-        if (a % 10 != d) re = false
+        if (a % 10 != d) return true
         a /= 10
     }
-    return (re == false)
+
+    return false
 }
 
 /**

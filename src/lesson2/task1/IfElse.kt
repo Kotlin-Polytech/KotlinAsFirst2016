@@ -54,13 +54,13 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
 
-    val HalfWay: Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    if  (HalfWay / (t1 * v1) < 1)
-        return HalfWay / v1
+    val halfWay: Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2
+    if  (halfWay / (t1 * v1) < 1)
+        return halfWay / v1
        else
-        if (HalfWay / (t1 * v1 + t2 * v2) < 1)  return (HalfWay - v1 * t1) / v2 + t1
+        if (halfWay / (t1 * v1 + t2 * v2) < 1)  return (halfWay - v1 * t1) / v2 + t1
             else
-            return ((HalfWay - (v1 * t1 + v2 * t2)) / v3 + t1 + t2)
+            return ((halfWay - (v1 * t1 + v2 * t2)) / v3 + t1 + t2)
 }
 
 /**
@@ -74,15 +74,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    return when {
-        ((kingX == rookX1) && (kingY == rookY2)) -> 3
-        ((kingX == rookX2) && (kingY == rookY1)) -> 3
-        ((kingY == rookY1) && (kingY == rookY2)) -> 3
-        ((kingX == rookX1) && (kingX == rookX2)) -> 3
-        ((kingX == rookX1) || (kingY == rookY1)) -> 1
-        ((kingX == rookX2) || (kingY == rookY2)) -> 2
-        else -> 0
-    }
+    var res = 0
+    if ((kingX == rookX1) || (kingY == rookY1)) res += 1
+    if ((kingX == rookX2) || (kingY == rookY2)) res += 2
+    return res
+
 }
 
 /**
@@ -114,12 +110,13 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
      * Если такой треугольник не существует, вернуть -1.
      */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-        return when {
-
-            ((a + b < c) || (a + c < b) || (b + c < a)) -> -1
-            (a > b + c) || (b > a + c) || (c > a + b) -> 2
-            else -> 0
-        }
+        val sqrA = a * a
+        val sqrB = b * b
+        val sqrC = c * c
+        if (((a + b) < c) || ((a + c) < b) || ((b + c) < a)) return -1
+        else if (((sqrA + sqrB) == sqrC) || ((sqrA + sqrC) == sqrB) || ((sqrB + sqrC) == sqrA)) return 1
+        else if (((sqrA + sqrB) < sqrC) || ((sqrA + sqrC) < sqrB) || ((sqrB + sqrC) < sqrA)) return 2
+        else return 0
     }
 
     /**

@@ -22,8 +22,7 @@ fun isNumberHappy(number: Int): Boolean {
     val b = (number / 100) % 10
     val c = (number % 100) / 10
     val d = (number % 100) % 10
-    return if (a + b == c + d) true
-    else false
+    return  (a + b == c + d)
 }
 
 /**
@@ -67,9 +66,9 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
     return when {
-        (a * b <= r * s) -> true
-        (a * c <= r * s) -> true
-        (b * c <= r * s) -> true
+        (a <= r && b <= s || a <= r && c <= s) -> true
+        (b <= r && a <= s || b <= r && c <= s) -> true
+        (c <= r && a <= s || c <= r && b <= s) -> true
         else -> false
     }
 }

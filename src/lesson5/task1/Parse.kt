@@ -70,7 +70,7 @@ fun dateStrToDigit(str: String): String {
             result += checkForYear(parts[2])
         }
         val checkForResult = result.split(".")
-        if (checkForResult.size == 3) return result
+        if ((checkForResult.size == 3) && (checkForDate(parts[0]) != "") && (checkForMonth(parts[1]) != "") && (checkForYear(parts[2]) != "")) return result
         else return ""
     }
     catch (e: java.lang.NumberFormatException){
@@ -88,8 +88,8 @@ fun checkForDate(n: String): String {
 
 fun checkForYear(n: String): String {
     var c: Boolean = false
-    for (i in 0..n.length) {
-        c = (n in "0".."9")
+    for (i in 0..n.length-1) {
+        c = (n[i] in '0'..'9')
     }
     if (c == true) return n
     else return ""

@@ -303,4 +303,70 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+
+    val numbers = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+            20, 30, 40, 50, 60, 70, 80, 90,
+            100, 200, 300, 400, 500, 600, 700, 800, 900,
+            1000, 2000)
+
+    val words = listOf("один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
+            "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать",
+            "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто",
+            "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+
+    val resultPart2 = mutableListOf<String>()
+    val resultPart1 = mutableListOf<String>()
+    var nPart1 = n / 1000
+    var nPart2 = n % 1000
+    var i = 10
+
+    while (nPart2 > 0) {
+        if (nPart2 % i == 0) {
+            i *= 10
+            continue
+        }
+        if ((i == 10) && (nPart2 % 100 in 11..19)) i = 100
+        resultPart2.add(0, words[numbers.indexOf(nPart2 % i)])
+        nPart2 -= nPart2 % i
+    }
+
+    if (nPart1 > 0) {
+        i = 10
+        while (nPart1 > 0) {
+            if (nPart1 % i == 0) {
+                i *= 10
+                continue
+            }
+            if ((i == 10) && (nPart1 % 100 in 11..19)) i = 100
+            resultPart1.add(0, words[numbers.indexOf(nPart1 % i)])
+            nPart1 -= nPart1 % i
+        }
+
+        nPart1 = n / 1000
+
+        when {
+            nPart1 % 10 == 1 -> {
+                resultPart1.removeAt(resultPart1.size - 1)
+                resultPart1.add("одна тысяча")
+            }
+            nPart1 % 10 == 2 -> {
+                resultPart1.removeAt(resultPart1.size - 1)
+                resultPart1.add("две тысячи")
+            }
+            nPart1 % 10 == 3 -> {
+                resultPart1.removeAt(resultPart1.size - 1)
+                resultPart1.add("три тысячи")
+            }
+            nPart1 % 10 == 4 -> {
+                resultPart1.removeAt(resultPart1.size - 1)
+                resultPart1.add("четыре тысячи")
+            }
+            else -> {
+                resultPart1.add("тысяч")
+            }
+        }
+    }
+
+    return (resultPart1 + resultPart2).joinToString(separator = " ")
+}

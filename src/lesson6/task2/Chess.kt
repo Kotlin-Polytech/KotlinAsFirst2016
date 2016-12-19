@@ -258,10 +258,38 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
 fun knightMoveNumber(start: Square, end: Square): Int {
-    if ( ! start.inside() || !end.inside()) throw IllegalArgumentException()
-    return Math.max(Math.abs(start.column - end.column), Math.abs(start.row - end.row))
+    if (start == end) return 0
+    val allList = mutableListOf<Square>()
+    var prevList = mutableListOf<Square>()
+    allList.add(start)
+    prevList.add(start)
+    val signX = listOf(-2, -2, -1, -1, 1, 1, 2, 2)
+    val signY = listOf(-1, 1, -2, 2, -2, 2, -1, 1)
+    var turnNum = 0
+    var log = true
+    while (log) {
+        val nextList = mutableListOf<Square>()
+        for (element in prevList) {
+            val curX = element.column
+            val curY = element.row
 
+            for (i in 0..signX.size-1) {
+                val curSq = Square(curX + signX[i], curY + signY[i])
+                if (curSq == end) log = false
+                if (curSq.inside() && curSq !in allList) {
+                    nextList.add(curSq)
+                    allList.add(curSq)
+                }
+            }
+        }
+        prevList = nextList
+        turnNum++
+    }
+
+    return turnNum
 }
+
+
 
 /**
  * Очень сложная

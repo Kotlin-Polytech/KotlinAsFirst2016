@@ -185,7 +185,19 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+    val listRows = mutableListOf<Int>()
+    val listColumns = mutableListOf<Int>()
+    for (i in 0..matrix.height - 1) {
+        val result = (0..matrix.width - 1).sumBy { matrix[i, it] }
+        if (result == 0) listRows.add(i)
+    }
+    for (j in 0..matrix.width - 1) {
+        val result = (0..matrix.height - 1).sumBy { matrix[it, j] }
+        if (result == 0) listColumns.add(j)
+    }
+    return Holes(listRows, listColumns)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице

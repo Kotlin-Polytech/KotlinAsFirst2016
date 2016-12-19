@@ -146,19 +146,6 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
  */
 fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
 
-/**    var matr = MatrixImpl<Int>(height,width,1)
-    var number = 1
-    val max = if (height>width) height
-    else width
-    for (k in 0..max/2) {
-        for (i in 0..height) {
-            for (j in 0..width - 1) {
-                if ()
-            }
-        }
-    }
-}
-*/
 
 /**
  * Сложная

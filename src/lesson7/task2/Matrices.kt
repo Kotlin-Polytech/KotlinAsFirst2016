@@ -122,9 +122,9 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
                     answ[number] = column
                     if (columnh == h) {
                         columnw = 0
+                        h -= 1
                         columnh = h
                     }
-                    h -= 1
                 }
             }
     }

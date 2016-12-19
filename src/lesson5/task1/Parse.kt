@@ -60,7 +60,30 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    var date = parts[0]
+    var year = parts[2]
+    var month = parts[1]
+    if (month == "января") month = "01" else
+    if (month == "февраля") month = "02" else
+    if (month == "марта") month = "03" else
+    if (month == "апреля") month = "04" else
+    if (month == "мая") month = "05" else
+    if (month == "июня") month = "06" else
+    if (month == "июля") month = "07" else
+    if (month == "августа") month = "08" else
+    if (month == "сентября") month = "09" else
+    if (month == "октября") month = "10" else
+    if (month == "ноября") month = "11" else
+    if (month == "декабря") month = "12" else
+    return ""
+    if (date.toInt() < 10) date = "0" + date.toInt().toString()
+    return String.format("%s.%s.%s", date, month, year)
+}
+
+
 
 /**
  * Средняя
@@ -69,7 +92,28 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    var date = parts[0]
+    var year = parts[2]
+    var month = parts[1]
+    if (month == "01") month = "января" else
+    if (month == "02") month = "февраля" else
+    if (month == "03") month = "марта" else
+    if (month == "04") month = "апреля" else
+    if (month == "05") month = "мая" else
+    if (month == "06") month = "июня" else
+    if (month == "07") month = "июля" else
+    if (month == "08") month = "августа" else
+    if (month == "09") month = "сентября" else
+    if (month == "10") month = "октября" else
+    if (month == "11") month = "ноября" else
+    if (month == "12") month = "декабря" else
+    return ""
+    if (date.toInt() < 10) date = date[1].toString()
+    return String.format("%s %s %s", date, month, year)
+}
 
 /**
  * Сложная
@@ -83,7 +127,15 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var a = ""
+    for (i in phone)
+        if ((i.toInt()<58) and (i.toInt()>47) or (i.toInt()==43)) a+=i
+        else if ((i!='(') and (i!=')') and (i!=' ') and (i!='-')) return ""
+    return a
+
+}
+
 
 /**
  * Средняя
@@ -95,7 +147,23 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var a = jumps.split(" ")
+    var cur = 0
+    var max = -1
+    for (i in a){
+        try {
+            cur = i.toInt()
+            if (cur > max) max = cur
+        }
+
+        catch (e: NumberFormatException){
+            if ((i!="%") and (i!="-")) return -1
+        }
+    }
+
+    return max
+}
 
 /**
  * Сложная

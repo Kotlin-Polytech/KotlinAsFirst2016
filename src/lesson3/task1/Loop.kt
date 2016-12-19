@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import com.sun.xml.internal.fastinfoset.algorithm.BooleanEncodingAlgorithm
+
 /**
  * Пример
  *
@@ -57,7 +59,7 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int= TODO()
 
 /**
  * Простая
@@ -65,7 +67,16 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int  {
+var a=1
+var b=1
+    for ( i in 3..n){
+        var c=a+b
+        a=b
+        b=c
+    }
+    return b
+}
 
 /**
  * Простая
@@ -131,7 +142,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int):Int {
+var c=n
+var s=0
+    do {
+        s = s * 10 + c % 10
+        c /= 10
+    }
+    while (c != 0)
+return (s)
+}
 
 /**
  * Средняя
@@ -140,7 +160,18 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int):Boolean {
+    var m = n
+    var k = 0
+
+    while (m!=0) {
+        k = k * 10 + m % 10
+        m = m / 10
+    }
+    if (k == n) return true
+    else
+        return false
+}
 
 /**
  * Средняя
@@ -157,7 +188,17 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var q = 2
+    var dl = "1"
+    var w = 0
+    while (w + dl.length < n) {
+        w += dl.length
+        dl = (q * q).toString()
+        q += 1
+    }
+    return (dl[n - w - 1] - '0').toInt()
+}
 
 /**
  * Сложная
@@ -166,4 +207,25 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int  {
+    var q = 0
+    var w = 0
+    var e = 0
+    var r = 0
+    var t = 0
+    while (r < n) {
+        q += 1
+        w = fib(q)
+        while (w > 0 ){
+            w /= 10
+            e += 1
+        }
+        r += e
+        e = 0
+    }
+    t = fib(q)
+    for (i in n..r - 1) {
+        t = t/ 10
+    }
+    return (t % 10)
+}

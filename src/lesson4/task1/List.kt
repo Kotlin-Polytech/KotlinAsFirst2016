@@ -123,10 +123,10 @@ fun mean(list: List<Double>): Double =
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty() == true) return list
+    if (mean(list) == 0.0) return list
     val averageEqual = list.sum() / list.size
     for (i in 0..list.size - 1) {
-        list[i] = list[i] - averageEqual
+        list[i] -= averageEqual
     }
     return list
 }
@@ -139,7 +139,14 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    if (a.isEmpty() == true || b.isEmpty() == true) return 0.0
+    val product = mutableListOf<Double>()
+    for (i in 1..a.size) {
+        product[i] = a[i] * b[i]
+    }
+    return product.sum()
+}
 
 /**
  * Средняя
@@ -150,7 +157,6 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double = TODO()
-
 /**
  * Средняя
  *
@@ -170,13 +176,28 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  */
 fun factorize(n: Int): List<Int> = TODO()
 
+
 /**
  * Сложная
  *
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String  {
+    var result = listOf<Int>()
+    val list = mutableListOf<Int>()
+    var number = n
+    var x = 2
+    while (number > 1) {
+        if (number % x == 0) {
+            number /= x
+            list.add(x)
+        }
+        else x ++
+    }
+    result =  list.sorted()
+    return result.joinToString ("*")
+}
 
 /**
  * Средняя

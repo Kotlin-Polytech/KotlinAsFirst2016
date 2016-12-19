@@ -36,8 +36,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  */
 fun ageDescription(age: Int): String =
         when {
-            age % 10 == 1 -> "$age год"
             age in (10..20) -> "$age лет"
+            age % 10 == 1 -> "$age год"
             age % 10 in (2..4) -> "$age года"
             else -> "$age лет"
         }
@@ -65,15 +65,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int {
-    var treatFromFirst = 0
-    var treatFromSecond = 0
+    var threatFromFirst = false
+    var threatFromSecond = false
     var result = 0
+    if (rookX1 == kingX || rookY1 == kingY) threatFromFirst = true
+    if (rookX2 == kingX || rookY2 == kingY) threatFromSecond = true
     when {
-        rookX1 == kingX || rookY1 == kingY -> treatFromFirst = 1
-        rookX2 == kingX || rookY2 == kingY -> treatFromSecond = 1
-        treatFromFirst == 1 && treatFromSecond == 1 -> result = 3
-        treatFromFirst == 1 && treatFromSecond == 0 -> result = 1
-        treatFromFirst == 0 && treatFromSecond == 1 -> result = 2
+        threatFromFirst == true && threatFromSecond == true -> result = 3
+        threatFromFirst == true && threatFromSecond == false -> result = 1
+        threatFromFirst == false && threatFromSecond == true -> result = 2
     }
     return result
 }
@@ -110,14 +110,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
-when {
-    b < c || d < a -> -1
-    c > a && d < b -> d - c
-    a > c && b < d -> b - a
-    b >= c && d >= b -> b - c
-    d >= a && b >= d -> d - a
-    else -> -1
-}
+        when {
+            b < c || d < a -> -1
+            c > a && d < b -> d - c
+            a > c && b < d -> b - a
+            b >= c && d >= b -> b - c
+            d >= a && b >= d -> d - a
+            else -> -1
+        }
 
 
 

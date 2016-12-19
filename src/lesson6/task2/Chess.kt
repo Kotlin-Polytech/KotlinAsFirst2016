@@ -66,7 +66,12 @@ fun square(notation: String): Square {
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (start.column !in 1..8 || start.row !in 1..8 || end.column !in 1..8 || end.row !in 1..8) throw IllegalArgumentException()
+    if (start.column == end.column && start.row == end.row) return 0
+    else if (start.column == end.column || start.row == end.row) return 1
+    else return 2
+}
 
 /**
  * Средняя
@@ -82,7 +87,21 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    var a = mutableListOf<Square>()
+    if (start.column == end.column && start.row == end.row) return listOf(start)
+    else if (start.column == end.column || start.row == end.row) {
+        if (start.column == end.column)
+            for (i in start.row..end.row) a.add(Square(start.column, i))
+        else for (i in start.column..end.column) a.add(Square(i, start.row))
+        return a
+    }
+    else {
+        for (i in start.row..end.row) a.add(Square(start.column, i))
+        for (i in start.column..end.column) a.add(Square(i, end.row))
+        return a
+    }
+}
 
 /**
  * Простая

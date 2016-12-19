@@ -365,7 +365,7 @@ fun russianOnesForTeens(n: Int): String {
 fun russianOnesForThsds(n: Int): String {
     var onee = ""
     if (n % 10 == 0) onee = ""
-    if (n % 10 == 1) onee = "одина"
+    if (n % 10 == 1) onee = "одна"
     if (n % 10 == 2) onee = "две"
     if (n % 10 == 3) onee = "три"
     if (n % 10 == 4) onee = "четыре"

@@ -455,7 +455,7 @@ fun russianThousands(n: Int): String {
     if (foo % 100 >= 10) {
         if (result.isNotEmpty()) result += " " + russianTensForThsds(n % 100) else result += russianTensForThsds(n % 100)
     }
-    return if ((foo % 10) == 0 || (foo % 10) in 5..9) result + " тысяч" else if ((foo % 10) == 1) return result + " тысяча" else if ((foo % 100 > 10 ) && (foo % 100 < 20)) return result + " тысяч" else return result + " тысячи"
+    return if ((foo % 100 > 10 ) && (foo % 100 < 20)) return result + " тысяч" else if ((foo % 10) == 0 || (foo % 10) in 5..9) return result + " тысяч" else if ((foo % 10) == 1) return result + " тысяча" else return result + " тысячи"
 }
 
 fun russian(n: Int): String {

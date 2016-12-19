@@ -55,14 +55,22 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val distance = (Math.sqrt(sqr(center.x - other.center.x) + sqr(center.y - other.center.y))) - (radius + other.radius)
+        if (distance < 0) return 0.0
+        return distance
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        val distanceFromCenter = (Math.sqrt(sqr(center.x - p.x) + sqr(center.y - p.y)))
+        if (distanceFromCenter <= radius) return true
+        return false
+    }
 }
 
 /**
@@ -76,7 +84,22 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    var relevantPoint1 = Point(0.0, 0.0)
+    var releveantPoint2 = Point(0.0, 0.0)
+    var greatestDistance = 0.0
+    if (points.size < 2) throw IllegalArgumentException("Amount of points does not meet requirements (least - 2)")
+    for (i in 0..points.size - 2) {
+        var distance = Math.sqrt(sqr(points[i].x - points[i+1].x) + sqr(points[i].y - points[i+1].y))
+        if (distance > greatestDistance) {
+            greatestDistance = distance
+            relevantPoint1 = points[i]
+            releveantPoint2 = points[i+1]
+        }
+    }
+    val result = Segment(relevantPoint1, releveantPoint2)
+    return result
+}
 
 /**
  * Простая

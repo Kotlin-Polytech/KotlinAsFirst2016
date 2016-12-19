@@ -23,7 +23,18 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (row !in 1..8) return ""
+        if (column == 1) return "a$row"
+        if (column == 2) return "b$row"
+        if (column == 3) return "c$row"
+        if (column == 4) return "d$row"
+        if (column == 5) return "e$row"
+        if (column == 6) return "f$row"
+        if (column == 7) return "g$row"
+        if (column == 8) return "h$row"
+        return ""
+    }
 }
 
 /**
@@ -33,7 +44,25 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (notation.length != 2) throw IllegalArgumentException("Incorrect square addressing")
+    val clmn = notation.substring(0, 1)
+    val rw = notation.substring(1, 2)
+    try {(rw.toInt())} catch (e: Exception) {throw IllegalArgumentException("Incorrect row addressing syntax")}
+    if (rw.toInt() !in 1..8) throw IllegalArgumentException("Row addressing out of bounds")
+    if (clmn.contains(Regex("""[^a-h]"""))) throw IllegalArgumentException("Column addressing out of bounds or incorrect")
+    var resultClmn = 0
+    val resultRw = rw.toInt()
+    if (clmn == "a") resultClmn = 1
+    if (clmn == "b") resultClmn = 2
+    if (clmn == "c") resultClmn = 3
+    if (clmn == "d") resultClmn = 4
+    if (clmn == "e") resultClmn = 5
+    if (clmn == "f") resultClmn = 6
+    if (clmn == "g") resultClmn = 7
+    if (clmn == "h") resultClmn = 8
+    return Square(resultClmn, resultRw)
+}
 
 /**
  * Простая
@@ -58,7 +87,12 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (start == end) return 0
+    if (start.column !in 1..8 || start.row !in 1..8 || end.column !in 1..8 || end.row !in 1..8) throw IllegalArgumentException("Addressing value out of bounds")
+    if (start.column == end.column || start.row == end.row) return 1
+    return 2
+}
 
 /**
  * Средняя
@@ -74,7 +108,12 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    if (start == end) return listOf(start)
+    if (start.column == end.column || start.row == end.row) return listOf(start, end)
+    val midPoint = Square(start.column, end.row)
+    return listOf(start, midPoint, end)
+}
 
 /**
  * Простая

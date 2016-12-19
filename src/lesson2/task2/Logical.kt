@@ -35,7 +35,27 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean = TODO()
+                 x2: Double, y2: Double, r2: Double): Boolean {
+    //sqr(x - x0) + sqr(y - y0) <= sqr(r)
+    var encompassed = 0
+    val top1 = y1 + r1
+    val bottom1 = y1 - r1
+    val left1 = x1 - r1
+    val right1 = x1 + r1
+    if (sqr(x1 - x2) + sqr(top1 - y2) <= sqr(r2)) {
+        encompassed ++
+    }
+    if (sqr(x1 - x2) + sqr(bottom1 - y2) <= sqr(r2)) {
+        encompassed ++
+    }
+    if (sqr(right1 - x2) + sqr(y1 - y2) <= sqr(r2)) {
+        encompassed ++
+    }
+    if (sqr(left1 - x2) + sqr(y1 - y2) <= sqr(r2)) {
+        encompassed ++
+    }
+    return encompassed == 4
+}
 
 /**
  * Средняя
@@ -46,4 +66,9 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * кирпич 4 х 4 х 4 пройдёт через отверстие 4 х 4.
  * Вернуть true, если кирпич пройдёт
  */
-fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean = TODO()
+fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
+    if (((a <= r) && (b <= s)) || ((a <= s) && (b <= r))) return true
+    if (((a <= r) && (c <= s)) || ((a <= s) && (c <= r))) return true
+    if (((b <= r) && (c <= s)) || ((b <= s) && (c <= r))) return true
+return false
+}

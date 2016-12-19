@@ -60,7 +60,33 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(' ')
+    var day = 0
+    var month = ""
+    var year = ""
+    try {day += parts[0].toInt()} catch (e: Exception) {return ""}
+    if (day < 0) return ""
+    try {
+        if (parts[1] == "января") month = "01"
+        if (parts[1] == "февраля") month = "02"
+        if (parts[1] == "марта") month = "03"
+        if (parts[1] == "апреля") month = "04"
+        if (parts[1] == "мая") month = "05"
+        if (parts[1] == "июня") month = "06"
+        if (parts[1] == "июля") month = "07"
+        if (parts[1] == "август") month = "08"
+        if (parts[1] == "сентября") month = "09"
+        if (parts[1] == "октября") month = "10"
+        if (parts[1] == "ноября") month = "11"
+        if (parts[1] == "декабря") month = "12"
+    } catch (e: Exception) {return ""}
+    if (month.isEmpty()) return ""
+    try {year = parts[2]} catch (e: Exception) {return ""}
+    var result = "" + String.format("%02d", day) + '.' + month + '.' + year
+    return result
+
+}
 
 /**
  * Средняя
@@ -69,7 +95,32 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split('.')
+    var day = 0
+    var year = 0
+    var monthName= ""
+    if (parts.size > 3) return ""
+    try {day += parts[0].toInt()} catch (e: Exception) {return ""}
+    if (day < 0) return ""
+    try {year += parts[2].toInt()} catch (e: Exception) {return ""}
+    try {
+        if (parts[1].toInt() == 1) monthName = "января"
+        if (parts[1].toInt() == 2) monthName = "февраля"
+        if (parts[1].toInt() == 3) monthName = "марта"
+        if (parts[1].toInt() == 4) monthName = "апреля"
+        if (parts[1].toInt() == 5) monthName = "мая"
+        if (parts[1].toInt() == 6) monthName = "июня"
+        if (parts[1].toInt() == 7) monthName = "июля"
+        if (parts[1].toInt() == 8) monthName = "августа"
+        if (parts[1].toInt() == 9) monthName = "сентября"
+        if (parts[1].toInt() == 10) monthName = "октября"
+        if (parts[1].toInt() == 11) monthName = "ноября"
+        if (parts[1].toInt() == 12) monthName = "декабря"
+    } catch (e: Exception) {return ""}
+    if (monthName.isEmpty()) return ""
+    return day.toString() + ' ' + monthName + ' ' + year.toString()
+}
 
 /**
  * Сложная
@@ -83,7 +134,12 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    var filteredString = phone.filter { it != '(' }.filter { it != ')' }.filter { it != '-' }.filter{ it != ' ' }
+    try {(filteredString.filter { it != '+' }).toLong()} catch (e: Exception) {return ""}
+    if (filteredString.substring(2, filteredString.length - 1).contains('+')) return ""
+    return filteredString
+}
 
 /**
  * Средняя
@@ -107,7 +163,21 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    var result = 0
+    var successfulParts = listOf<Int>()
+    var parts = jumps.split(' ')
+    if (parts.size % 2 == 1) return -1
+    for (i in 0..parts.size - 2) {
+        if (parts[i+1].contains('+')) {
+            try {successfulParts += parts[i].toInt()} catch (e: Exception) {return -1}
+            for (n in 0..successfulParts.size - 1) {
+                if (successfulParts[n] > result) result = successfulParts[n]
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Сложная

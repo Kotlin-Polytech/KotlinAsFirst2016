@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,7 +24,11 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String =
+            if (inside()) {
+                val a = 'a' - 1 + column
+                "$a$row"
+            } else ""
 }
 
 /**
@@ -33,7 +38,10 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (notation.length != 2 || notation[0] !in 'a'..'h' || notation[1] !in '1'..'8') throw IllegalArgumentException()
+    return Square((notation[0].toInt() - 'a'.toInt() + 1), (notation[1].toInt() - '1'.toInt() + 1))
+}
 
 /**
  * Простая
@@ -58,7 +66,12 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (start.column !in 1..8 || start.row !in 1..8 || end.column !in 1..8 || end.row !in 1..8) throw IllegalArgumentException()
+    if (start.column == end.column && start.row == end.row) return 0
+    else if (start.column == end.column || start.row == end.row) return 1
+    else return 2
+}
 
 /**
  * Средняя
@@ -74,7 +87,21 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    var a = mutableListOf<Square>()
+    if (start.column == end.column && start.row == end.row) return listOf(start)
+    else if (start.column == end.column || start.row == end.row) {
+        if (start.column == end.column)
+            for (i in start.row..end.row) a.add(Square(start.column, i))
+        else for (i in start.column..end.column) a.add(Square(i, start.row))
+        return a
+    }
+    else {
+        for (i in start.row..end.row) a.add(Square(start.column, i))
+        for (i in start.column..end.column) a.add(Square(i, end.row))
+        return a
+    }
+}
 
 /**
  * Простая

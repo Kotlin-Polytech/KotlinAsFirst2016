@@ -38,7 +38,11 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    if (height <= 0 || width <= 0) throw IllegalArgumentException()
+    val result = MatrixImpl<E>(height, width, e)
+    return result
+}
 
 /**
  * Средняя сложность
@@ -46,24 +50,45 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
  * Реализация интерфейса "матрица"
  */
 class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
+    val cells = mutableMapOf<Cell,E>()
+    override val height: Int
 
-    override val width: Int = TODO()
+    override val width: Int
+    constructor(height: Int, width: Int, e: E){
+        this.height = height
+        this.width =  width
+        for (i in 0..height - 1){
+            for (j in 0..width - 1){
+                cells.put(Cell(i,j),e)
+            }
+        }
+    }
+    fun checher(cell: Cell): Boolean = cell.row in 0..height - 1 && cell.column in 0..width - 1
+    override fun get(row: Int, column: Int): E {
+        if (!checher(Cell(row, column))) throw IllegalArgumentException()
+        return cells[Cell(row, column)]!!
+    }
 
-    override fun get(row: Int, column: Int): E  = TODO()
-
-    override fun get(cell: Cell): E  = TODO()
+    override fun get(cell: Cell): E  = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        if (!checher(Cell(row, column))) throw IllegalArgumentException()
+        cells.put(Cell(row,column), value)
     }
 
-    override fun set(cell: Cell, value: E) {
-        TODO()
+    override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
+
+    override fun equals(other: Any?) = other is MatrixImpl<*> && cells == other.cells
+
+    override fun toString(): String {
+        val stringbuild = StringBuilder()
+        for (i in 0..height - 1) {
+            for (j in 0..width - 1) {
+                stringbuild.append("\t${cells[Cell(i,j)]}")
+            }
+            stringbuild.appendln()
+        }
+        return stringbuild.toString()
     }
-
-    override fun equals(other: Any?) = TODO()
-
-    override fun toString(): String = TODO()
 }
 

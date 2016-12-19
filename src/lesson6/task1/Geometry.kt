@@ -104,8 +104,8 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle {
-    val circleX = Math.abs((diameter.begin.x - diameter.end.x) / 2)
-    val circleY = Math.abs((diameter.begin.y - diameter.end.y) / 2)
+    val circleX = (diameter.begin.x + diameter.end.x) / 2
+    val circleY = (diameter.begin.y + diameter.end.y) / 2
     val circleRadius = (diameter.begin.distance(diameter.end)) / 2
     return Circle(Point(circleX, circleY), circleRadius)
 }
@@ -129,14 +129,23 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val angle: Double
+    if (s.begin.x == s.end.x) angle = Math.PI / 2
+    else {
+        val cathetusVert = s.end.y - s.begin.y
+        val cathetusHoriz = s.end.x - s.begin.x
+        angle = Math.atan(cathetusVert / cathetusHoriz)
+    }
+    return Line(s.begin, angle)
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 /**
  * Сложная
@@ -151,7 +160,21 @@ fun bisectorByPoints(a: Point, b: Point): Line = TODO()
  * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
  * Если в списке менее двух окружностей, бросить IllegalArgumentException
  */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
+    if (circles.size < 2) throw IllegalArgumentException()
+    var distance = circles[0].distance(circles[1])
+    var result = Pair(circles[0], circles[1])
+    for (i in 0..circles.size - 2) {
+        for (j in i + 1..circles.size - 1) {     //
+            val currentDistance = circles[i].distance(circles[j])
+            if (currentDistance < distance) {
+                distance = currentDistance
+                result = Pair(circles[i], circles[j])
+            }
+        }
+    }
+    return result
+}
 
 /**
  * Очень сложная

@@ -36,11 +36,10 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String = when {
-        age % 10 == 1 && age / 10 != 1 && age / 10 != 11 -> "$age год"
-        age % 10 in 2..4 && age / 10 != 1 && age / 10 != 11 -> "$age года"
-        else -> "$age лет"
-    }
-
+    age % 10 == 1 && age / 10 != 1 && age / 10 != 11 -> "$age год"
+    age % 10 in 2..4 && age / 10 != 1 && age / 10 != 11 -> "$age года"
+    else -> "$age лет"
+}
 
 
 /**
@@ -121,26 +120,38 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun maxOfThree(a: Double, b: Double, c: Double): Double {
     var max = 0.0
-    if (a > b) max = a else max = b
-    if (c > max) max = c
+    if (a > b) {
+        max = a
+    } else {
+        max = b
+    }
+    if (c > max) {
+        max = c
+    }
     return max
 }
 
-fun minOfThree(a: Double, b: Double, c: Double): Double{
-    var min= 0.0
-    if (a < b) min = a else min = b
-    if (c < min) min = c
+fun minOfThree(a: Double, b: Double, c: Double): Double {
+    var min = 0.0
+    if (a < b) {
+        min = a
+    } else {
+        min = b
+    }
+    if (c < min) {
+        min = c
+    }
     return min
 }
 
 fun mediumOfThree(a: Double, b: Double, c: Double): Double =
-        a + b + c - minOfThree(a ,b, c) - maxOfThree(a, b, c)
+        a + b + c - minOfThree(a, b, c) - maxOfThree(a, b, c)
 
 fun sqr(x: Double) = x * x
 
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     val min = minOfThree(a, b, c)
-    val medium =  mediumOfThree(a, b, c)
+    val medium = mediumOfThree(a, b, c)
     val max = maxOfThree(a, b, c)
     return when {
         max >= min + medium -> -1

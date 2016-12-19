@@ -86,15 +86,15 @@ data class Segment(val begin: Point, val end: Point)
 fun diameter(vararg points: Point): Segment {
     var point1 = Point(0.0, 0.0)
     var point2 = Point(0.0, 0.0)
-    var maxdistance = point1.distance(point2)
+    var maxDistance = point1.distance(point2)
     if (points.size <= 1) {
         throw IllegalArgumentException("IllegalArgumentException")
     } else {
         for (i in 0..points.size - 1) {
             for (j in (i + 1)..points.size - 1) {
                 val distansePoints = points[i].distance(points[j])
-                if (distansePoints > maxdistance) {
-                    maxdistance = distansePoints
+                if (distansePoints > maxDistance) {
+                    maxDistance = distansePoints
                     point1 = points[i]
                     point2 = points[j]
                 }
@@ -111,9 +111,7 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle = Circle(
-        Point(
-                (diameter.begin.x + diameter.end.x) / 2,
-                (diameter.begin.y + diameter.end.y) / 2),
+        Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2),
         diameter.begin.distance(diameter.end) / 2)
 
 /**
@@ -162,10 +160,7 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = Line(
-        Point(
-                (a.x + b.x) / 2,
-                (a.y + b.y) / 2),
+fun bisectorByPoints(a: Point, b: Point): Line = Line(Point((a.x + b.x) / 2, (a.y + b.y) / 2),
         Math.atan((b.y - a.y) / (b.x - a.x)) + Math.PI / 2)
 
 /**
@@ -245,9 +240,9 @@ fun minContainingCircle(vararg points: Point): Circle {
         }
     }
     for (i in 0..points.size - 1) {
-        val TriangleSquareOfPoints = Triangle(pointTriangleA, pointTriangleB, points[i]).area()
-        if (TriangleSquareOfPoints > maxTriangleSquare) {
-            maxTriangleSquare = TriangleSquareOfPoints
+        val triangleSquareOfPoints = Triangle(pointTriangleA, pointTriangleB, points[i]).area()
+        if (triangleSquareOfPoints > maxTriangleSquare) {
+            maxTriangleSquare = triangleSquareOfPoints
             pointTriangleC = points[i]
         }
     }

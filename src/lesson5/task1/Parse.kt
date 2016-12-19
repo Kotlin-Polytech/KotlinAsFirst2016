@@ -72,19 +72,19 @@ fun dateStrToDigit(str: String): String {
                 else -> parts[0]
             })
             listDate.add( when {
-                parts[1] == "января" && parts[0].toInt() < 32 -> ".01."
+                parts[1] == "января" && parts[0].toInt() in 1..32  -> ".01."
                 parts[1] == "февраля" && parts[0].toInt() == 29 && parts[2].toInt() % 4 == 0-> ".02."
-                parts[1] == "февраля" && parts[0].toInt() < 29 -> ".02."
-                parts[1] == "марта" && parts[0].toInt() < 32 -> ".03."
-                parts[1] == "апреля" && parts[0].toInt() < 31-> ".04."
-                parts[1] == "мая" && parts[0].toInt() < 32 -> ".05."
-                parts[1] == "июня" && parts[0].toInt() < 31 -> ".06."
-                parts[1] == "июля" && parts[0].toInt() < 32 -> ".07."
-                parts[1] == "августа" && parts[0].toInt() < 32 -> ".08."
-                parts[1] == "сентября" && parts[0].toInt() < 31 -> ".09."
-                parts[1] == "октября" && parts[0].toInt() < 32 -> ".10."
-                parts[1] == "ноября" && parts[0].toInt() < 31 -> ".11."
-                parts[1] == "декабря" && parts[0].toInt() < 32 -> ".12."
+                parts[1] == "февраля" && parts[0].toInt() in 1..29 -> ".02."
+                parts[1] == "марта" && parts[0].toInt() in 1..32 -> ".03."
+                parts[1] == "апреля" && parts[0].toInt() in 1..31-> ".04."
+                parts[1] == "мая" && parts[0].toInt() in 1..32 -> ".05."
+                parts[1] == "июня" && parts[0].toInt() in 1..31 -> ".06."
+                parts[1] == "июля" && parts[0].toInt() in 1..32 -> ".07."
+                parts[1] == "августа" && parts[0].toInt() in 1..32 -> ".08."
+                parts[1] == "сентября" && parts[0].toInt() in 1..31 -> ".09."
+                parts[1] == "октября" && parts[0].toInt() in 1..32 -> ".10."
+                parts[1] == "ноября" && parts[0].toInt() in 1..31 -> ".11."
+                parts[1] == "декабря" && parts[0].toInt() in 1..32 -> ".12."
                 else -> return ""
             })
             listDate.add(parts[2])
@@ -111,7 +111,7 @@ fun dateDigitToStr(digital: String): String {
             if (day  !in 1..31) {
                 return ""
             }
-            else {
+                else {
                 result = day.toString()
                 result += when (parts[1]) {
                     "01" -> " января "
@@ -199,7 +199,9 @@ fun bestHighJump(jumps: String): Int {
     var maxhigh = 0
     var count = 0
     val parts = jumps.split(" ")
-    try {
+    if (parts.size <= 1){
+        return -1
+    } else {
         for (i in 0..parts.size - 1 step 2) {
             val jumpRegular = Regex("""\d+[-+%]+""")
             if (!jumpRegular.matches(parts[i] + parts[i + 1])) return -1
@@ -207,10 +209,7 @@ fun bestHighJump(jumps: String): Int {
                 maxhigh = parts[i].toInt()
                 count++
             }
-
         }
-    } catch (e: IndexOutOfBoundsException){
-        return -1
     }
     if (count > 0) {
         return maxhigh
@@ -262,16 +261,12 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ").filter { it != ""}
-    val listOfWords = mutableListOf<String>()
     var index = 0
-    for (part in parts){
-        listOfWords.add(part)
-    }
-        for (i in 0..listOfWords.size - 2) {
-            if (listOfWords[i] == listOfWords[i + 1]) {
+        for (i in 0..parts.size - 2) {
+            if (parts[i] == parts[i + 1]) {
                 return index
             }
-            index += listOfWords[i].length + 1
+            index += parts[i].length + 1
         }
         return -1
     }

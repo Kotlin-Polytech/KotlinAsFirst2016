@@ -157,14 +157,13 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
-    try {
         if ((Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 1) {
         return listOf()
     } else {
-       return when {
-            bishopMoveNumber(start, end) == -1 -> listOf()
-            bishopMoveNumber(start, end) == 0 -> listOf(start)
-            bishopMoveNumber(start, end) == 1 -> listOf(start, end)
+       return when (bishopMoveNumber(start, end)) {
+           -1 -> listOf()
+           0 -> listOf(start)
+           1 -> listOf(start, end)
             else -> listOf(start, when {
                 (start.column + end.column + end.row - start.row) / 2 in 0..8 ->
                     Square((start.column + end.column + end.row - start.row) / 2,
@@ -174,11 +173,8 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
                                (start.column + end.column + end.row - start.row) / 2
                                        - start.column + start.row)
             }
-                           , end)
+                    , end)
         }
-    }
-} catch (e: IndexOutOfBoundsException){
-        return listOf()
     }
 }
 

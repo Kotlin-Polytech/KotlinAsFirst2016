@@ -250,15 +250,15 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  */
 fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
     val extendedMatrix = createMatrix<Int>(matrix.height + 2, matrix.width + 2, 0)
-    val NeighboursMatrix = matrix // создание расширенной и преобразованной матриц
+    val neighboursMatrix = matrix // создание расширенной и преобразованной матриц
     for (i in 0..matrix.width - 1) {
         for (j in 0..matrix.height - 1) {
             extendedMatrix[j + 1, i + 1] = matrix[j, i]
         }
     }
-    for (i in 0..NeighboursMatrix.width - 1) {
-        for (j in 0..NeighboursMatrix.height - 1) {
-            NeighboursMatrix[j, i] =     // переброс ячеек
+    for (i in 0..neighboursMatrix.width - 1) {
+        for (j in 0..neighboursMatrix.height - 1) {
+            neighboursMatrix[j, i] =     // переброс ячеек
                             extendedMatrix[j + 2, i] +
                             extendedMatrix[j + 2, i + 1] +
                             extendedMatrix[j + 2, i + 2] +
@@ -269,7 +269,7 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
                             extendedMatrix[j, i + 2]
         }
     }
-    return NeighboursMatrix
+    return neighboursMatrix
 }
 
 

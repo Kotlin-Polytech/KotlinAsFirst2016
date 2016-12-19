@@ -185,7 +185,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var k = 0
     var sin = x % (2 * Math.PI)
-    var number = x % (2 * Math.PI)
+    var number = sin
     while (Math.abs(number) > eps) {
         k += 1
         number = Math.pow(x, k.toDouble() * 2 + 1) / factorial(k * 2 + 1)

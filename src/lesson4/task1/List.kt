@@ -257,11 +257,11 @@ fun roman(n: Int): String {
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
 fun russian(n: Int): String {
-    val listUnits = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val listTens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val listFromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val listHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val listResult = mutableListOf<String>()
+    val Units = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val Tens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val FromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val Hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val Result = mutableListOf<String>()
 
     val lastDigit = n % 10
     val thousand = when (n / 1000 % 10) {
@@ -272,26 +272,26 @@ fun russian(n: Int): String {
     val unit = when (lastDigit) {
         1 -> "один"
         2 -> "два"
-        else -> listUnits[lastDigit]
+        else -> Units[lastDigit]
     }
     if (n > 999) {
-        listResult.add(listHundreds[n / 100000 % 10])
+        Result.add(Hundreds[n / 100000 % 10])
         if (n / 1000 % 100 in 11..19) {
-            listResult.add(listFromTenToTwenty[n / 1000 % 10])
-            listResult.add("тысяч")
+            Result.add(FromTenToTwenty[n / 1000 % 10])
+            Result.add("тысяч")
         } else {
-            listResult.add(listTens[n / 10000 % 10])
-            listResult.add(listUnits[n / 1000 % 10])
-            listResult.add(thousand)
+            Result.add(Tens[n / 10000 % 10])
+            Result.add(Units[n / 1000 % 10])
+            Result.add(thousand)
         }
     }
-    listResult.add(listHundreds[n / 100 % 10])
-    if (n % 100 in 11..19) listResult.add(listFromTenToTwenty[lastDigit])
+    Result.add(Hundreds[n / 100 % 10])
+    if (n % 100 in 11..19) Result.add(FromTenToTwenty[lastDigit])
     else {
-        listResult.add(listTens[n / 10 % 10])
-        listResult.add(unit)
+        Result.add(Tens[n / 10 % 10])
+        Result.add(unit)
     }
-    val newListResult = listResult.filter { it != "" }
+    val newListResult = Result.filter { it != "" }
 
     return newListResult.joinToString(" ")
 }

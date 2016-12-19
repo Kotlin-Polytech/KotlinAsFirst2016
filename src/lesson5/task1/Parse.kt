@@ -83,20 +83,7 @@ fun dateStrToDigit(str: String): String {
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String {
-    val list = digital.split(".")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-    if (list.size != 3) return ""
-    try {
-        val date = list[0].toInt()
-        if (list[1].toInt() % 100 - 1 !in 0..11) return ""
-        val month = months[list[1].toInt() % 100 - 1]
-        val year = list[2].toInt()
-        return String.format("%d %s %04d", date, month, year)
-    } catch (e: NumberFormatException) {
-        return ""
-    }
-}
+fun dateDigitToStr(digital: String): String = TODO()
 
 
 /**
@@ -111,14 +98,7 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String {
-    try {
-        if (!(phone.matches(Regex("[0-9()+-[\\s]]+")))) throw IllegalArgumentException()
-        return phone.replace(Regex("^+|[^0-9]+|"), "")
-    } catch (e: IllegalArgumentException) {
-        return ""
-    }
-}
+fun flattenPhoneNumber(phone: String): String = TODO()
 
 /**
  * Средняя
@@ -182,14 +162,7 @@ fun bestHighJump(jumps: String): Int {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int {
-    val e = IllegalArgumentException("Description")
-    val check = Regex("""((\d)+(?=\s\d))|([-\+](?=\s[-\+]))|([-\+](?=[-\+]))|([^-\d\+\s])""").find(expression)
-    if (check != null) throw e
-    val result = Regex("""\s(?=\d)""").replace(expression, "").split(" ")
-    return result.map { it.toInt() }.sum()
-}
-
+fun plusMinus(expression: String): Int = TODO()
 /**
  * Сложная
  *
@@ -200,10 +173,15 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
-    val workingStr = str.toLowerCase()
-    val matchResult = Regex("""([а-яa-z]+)\s\1""").find(workingStr)
-    if (matchResult == null) return -1
-    return workingStr.indexOf(matchResult.value)
+    val part = str.split(" ").toMutableList()
+    var sum = 0
+    for (i in 0..part.size - 2) {
+        part[i + 1] = part[i + 1].toLowerCase()
+        if (part[i] == part[i + 1]) return sum
+        sum += part[i].length + 1
+
+    }
+    return -1
 }
 
 /**
@@ -217,21 +195,7 @@ fun firstDuplicateIndex(str: String): Int {
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String {
-    val check = Regex("""[а-яА-Я]+\s(\d)+\.\d(;\s|$)""").find(description)
-    if (check == null) return ""
-    val checkExcess = Regex("""[^а-яА-Я\.\s;\d]""").find(description)
-    if (checkExcess != null) return ""
-    val price = Regex("""(\d)+.\d""").findAll(description)
-    val priceList = mutableListOf<String>()
-    for (i in price) {
-        priceList.add(i.value)
-    }
-    val mostPrice = priceList.map { it.toDouble() }.sorted().last().toString()
-    val result = Regex("""([а-яА-Я])+(?=\s$mostPrice)""").find(description)
-    if (result == null) return ""
-    return result.value.toString()
-}
+fun mostExpensive(description: String): String = TODO ()
 /**
  * Сложная
  *

@@ -109,7 +109,7 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
     val result = createMatrix(matrix.height, matrix.width, matrix[0, 0])
     for (i in 0..matrix.height - 1) {
         for (n in 0..matrix.width - 1) {
-            result[i, n] = matrix[matrix.height - 1 - i, n]
+            result[i, n] = matrix[matrix.height - 1 - n, i]
         }
     }
     return result

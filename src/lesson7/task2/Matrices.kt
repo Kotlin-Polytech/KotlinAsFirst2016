@@ -70,6 +70,13 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var columnw = 1
     var columnh = h
     var column = 1
+    if (height == 1) {
+        for (i in 2..height*width){
+            number = Cell(number.row, number.column + 1)
+            answ[number] = i
+        }
+        return answ
+    }
     for (i in 2..height * width) {
             for (k in 1..w) {
                 if (columnw < w) {

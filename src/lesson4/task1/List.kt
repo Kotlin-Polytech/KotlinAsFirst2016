@@ -471,3 +471,4 @@ fun rmFirstAndLastSpaces(n: String): String {
     if (n.first() == ' ') return n.substring(1..n.length - 1)
     return n
 }
+

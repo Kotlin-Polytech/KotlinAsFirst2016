@@ -75,7 +75,15 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    for (i in 0..height - 1) {
+        for (j in 0..width - 1) {
+            matrix[i, j] = Math.min(if (i >= height / 2.0) height - 1 - i else i, if (j >= width / 2) width - j - 1 else j) + 1
+        }
+    }
+    return matrix
+}
 
 /**
  * Сложная
@@ -103,7 +111,15 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    val m = createMatrix(matrix.width, matrix.height, matrix[0, 0])
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
+            m[i, j] = matrix[matrix.width - j - 1, i]
+        }
+    }
+    return m
+}
 
 /**
  * Сложная
@@ -118,7 +134,22 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    val h = matrix.height
+    val w = matrix.width
+    val list = (1..h).toList()
+    for (i in 0..h - 1) {
+        val row = mutableListOf<Int>()
+        val column = mutableListOf<Int>()
+        for (j in 0..w - 1) {
+            row.add(matrix[i, j])
+            column.add(matrix[j, i])
+        }
+        if (row.sorted() != list || column.sorted() != list) return false
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -205,7 +236,14 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..this.height - 1) {
+        for (j in 0..this.width - 1) {
+            this[i, j] *= -1
+        }
+    }
+    return this
+}
 
 /**
  * Средняя

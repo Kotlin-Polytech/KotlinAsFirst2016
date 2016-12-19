@@ -54,7 +54,12 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val text = File(inputName).readText().toLowerCase()
+    val map = mutableMapOf<String, Int>()
+    for (str in substrings) {
+        map.put(str, text.split(str.toLowerCase()).size - 1)
+    }
+    return map
 }
 
 
@@ -72,7 +77,12 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+
+    val text = File(inputName).readText()
+    val chars = mapOf("ы" to "и", "Ы" to "И", "ю" to "у", "Ю" to "У", "я" to "а", "Я" to "А")
+    val writer = File(outputName).bufferedWriter()
+    writer.write(text.replace(Regex("(?<=[жЖшШчЧщЩ])([ыЫюЮяЯ])"), {R -> chars[R.groupValues[1]] ?: R.groupValues[1]} ))
+    writer.close()
 }
 
 /**

@@ -38,7 +38,10 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    if (height > 0 && width > 0) return MatrixImpl(height, width, e)
+    else throw IllegalArgumentException()
+}
 
 /**
  * Средняя сложность
@@ -46,24 +49,50 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
  * Реализация интерфейса "матрица"
  */
 class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
+    private val matrixValue: MutableMap<Cell, E> = mutableMapOf()
 
-    override val width: Int = TODO()
+    override val height: Int
 
-    override fun get(row: Int, column: Int): E  = TODO()
+    override val width: Int
 
-    override fun get(cell: Cell): E  = TODO()
+    constructor(height: Int, width: Int, e: E) {
+        this.height = height
+        this.width = width
+        for (i in 0..height - 1) {
+            for (j in 0..width - 1) {
+                matrixValue.put(Cell(i, j), e)
+            }
+        }
+    }
+
+    fun inside(cell: Cell): Boolean = cell.row in 0..height - 1 && cell.column in 0..width - 1
+    fun inside(row: Int, column: Int): Boolean = row in 0..height - 1 && column in 0..width - 1
+
+    override fun get(row: Int, column: Int): E = if (inside(row, column)) {
+        matrixValue[Cell(row, column)]!!
+    } else throw IllegalArgumentException()
+
+
+    override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        if (inside(row, column)) {
+            matrixValue.put(Cell(row, column), value)
+        } else throw IllegalArgumentException()
     }
 
-    override fun set(cell: Cell, value: E) {
-        TODO()
+    override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
+
+    override fun equals(other: Any?) = other is MatrixImpl<*> && other.matrixValue == this.matrixValue
+
+    override fun toString(): String {
+        val string: StringBuilder = StringBuilder()
+        for (i in 0..height - 1) {
+            for (j in 0..width - 1) {
+                string.append("\t${this[i, j]}")
+            }
+            string.appendln()
+        }
+        return string.toString()
     }
-
-    override fun equals(other: Any?) = TODO()
-
-    override fun toString(): String = TODO()
 }
-

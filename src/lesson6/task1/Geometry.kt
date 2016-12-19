@@ -2,7 +2,6 @@
 package lesson6.task1
 
 import lesson1.task1.sqr
-import lesson4.task1.abs
 
 /**
  * Точка на плоскости
@@ -144,10 +143,8 @@ fun lineBySegment(s: Segment): Line {
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line {
-    val y = Math.abs(a.y - b.y)
-    val x = Math.abs(a.x - b.x)
-    val k = Math.atan2(y, x)
-    return Line(a, k)
+    val s = Segment(a, b)
+    return lineBySegment(s)
 }
 
 /**

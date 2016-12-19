@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson7.task2
 
+import lesson7.task1.Cell
 import lesson7.task1.Matrix
 import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
@@ -60,7 +61,74 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val answ = createMatrix(height, width, 0)
+    var number = Cell(0, 0)
+    answ[number] = 1
+    var h = height - 1
+    var w = width
+    var columnw = 1
+    var columnh = h
+    var column = 1
+    for (i in 2..height * width) {
+            for (k in 1..w) {
+                if (columnw < w) {
+                    column += 1
+                    if (column > width * height) break
+                    columnw += 1
+                    number = Cell(number.row, number.column + 1)
+                    answ[number] = column
+                    if (columnw == w) {
+                        columnh = 0
+                        w -= 1
+                        columnw -= 1
+                    }
+                }
+            }
+            for (k in 1..h) {
+                if (columnh < h) {
+                    column += 1
+                    if (column > width * height) break
+                    columnh += 1
+                    number = Cell(number.row + 1, number.column)
+                    answ[number] = column
+                    if (columnh == h) {
+                        h -= 1
+                        columnw += w
+                        columnh -= 1
+                    }
+                }
+            }
+            for (k in 1..w) {
+                if (columnw > w) {
+                    column += 1
+                    if (column > width * height) break
+                    columnw -= 1
+                    number = Cell(number.row , number.column - 1)
+                    answ[number] = column
+                    if (columnw == w) {
+                        w -= 1
+                        columnh += h
+                        columnw -= 1
+                    }
+                }
+            }
+            for (k in 1..h) {
+                if (columnh > h) {
+                    column += 1
+                    if (column > width * height) break
+                    columnh -= 1
+                    number = Cell(number.row - 1, number.column)
+                    answ[number] = column
+                    if (columnh == h) {
+                        columnw = 0
+                        columnh = h
+                    }
+                }
+            }
+    }
+    return answ
+}
 
 /**
  * Сложная

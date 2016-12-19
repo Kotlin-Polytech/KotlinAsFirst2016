@@ -178,8 +178,8 @@ class Tests {
     @Tag("Hard")
     fun squareSequenceDigit() {
         assertEquals(1, squareSequenceDigit(1))
-        assertEquals(4, squareSequenceDigit(2))
         assertEquals(5, squareSequenceDigit(7))
+        assertEquals(4, squareSequenceDigit(2))
         assertEquals(6, squareSequenceDigit(12))
         assertEquals(0, squareSequenceDigit(17))
         assertEquals(9, squareSequenceDigit(27))

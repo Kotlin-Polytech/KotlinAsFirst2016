@@ -1,7 +1,7 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "UNUSED_VALUE")
 package lesson2.task1
-
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 
 /**
  * Пример
@@ -33,8 +33,14 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String  {
+    return if ((age in (5..20)) || (age in (105..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
+    else {
+        if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
+        else "$age год"
+    }
 
+}
 /**
  * Простая
  *
@@ -44,7 +50,19 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val time : Double
+    val halfWay : Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2.0
+    if (halfWay / (t1 * v1) < 1){
+        time = halfWay / v1
+    } else
+        if (halfWay /(t1 * v1 + t2 * v2) < 1) {
+            time = (halfWay - v1 * t1) / v2 + t1
+        } else {
+            time = (halfWay - (v1 * t1 + v2 * t2)) / v3 + t1 + t2
+        }
+    return time
+}
 
 /**
  * Простая
@@ -56,7 +74,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    var attack: Int
+    if ((kingX == rookX1) || (kingY == rookY1)) attack = 1
+    else attack = 0
+    if ((kingX == rookX2) || (kingY == rookY2)) {
+        attack += 2
+    }
+    return attack
+}
 
 /**
  * Простая
@@ -69,7 +95,15 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    var attack : Int
+    if ( (kingX == rookX) || (kingY == rookY) ) attack = 1
+    else attack = 0
+    if ((kingX - bishopX) * (kingX - bishopX) == (kingY - bishopY) * (kingY - bishopY)) {
+        attack += 2
+    }
+    return attack
+}
 
 /**
  * Простая
@@ -77,9 +111,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Треугольник задан длинами своих сторон a, b, c.
  * Проверить, является ли данный треугольник остроугольным (вернуть 0),
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
- * Если такой треугольник не существует, вернуть -1.
+ * Если такой треугольник не существует, вернуь -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    if ((sqr(a) == (sqr(b) + sqr(c))) || (sqr(b) == (sqr(a) + sqr(c))) || (sqr(c) == (sqr(b) + sqr(a)))) return 1
+    if ((a > b + c) || (b > a + c) || (c > b + a)) return -1
+    if ((((sqr(b) + sqr(c) - sqr(a)) / (2*b*c)) > 0) && (((sqr(a) + sqr(c) - sqr(b)) / (2*a*c)) > 0) && (((sqr(b) + sqr(a) - sqr(c)) / (2 * b * a)) > 0)) return 0
+    else return 2
+}
+
 
 /**
  * Средняя

@@ -313,7 +313,7 @@ fun roman(n: Int): String {
     var thousands = ""
     if (n % 10000 < 1000) thousands = ""
     var count = 0
-    if (n % 10000 >= 1000) {
+    if (n >= 1000) {
         count = (n / 1000)
         while (count > 0) {
             thousands += "M"
@@ -451,6 +451,7 @@ fun russianThousands(n: Int): String {
     if (foo < 10) result = russianOnesForThsds(n)
     if ((foo > 10) && (foo < 20)) result = russianTeens(n)
     if (foo >= 100) result = russianHundredsForThsds(n)
+    if (foo >= 100 && foo % 100 < 10) result += " " + russianOnesForThsds(n % 10)
     if (foo % 100 >= 10) {
         if (result.isNotEmpty()) result += " " + russianTensForThsds(n % 100) else result += russianTensForThsds(n % 100)
     }

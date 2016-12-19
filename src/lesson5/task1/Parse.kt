@@ -62,22 +62,15 @@ fun main(args: Array<String>) {
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     var result = ""
-    var checkForParts = 0
-    for (part in parts) {
-        checkForParts++
-        when {
-            checkForParts == 1 -> result = result + checkForDate(part)
-            checkForParts == 2 -> result = result + checkForMonth(part)
-            checkForParts == 3 -> result = result + checkForYear(part)
+    if (parts.size != 3) return ""
+    else {
+        result += checkForDate(parts[0])
+        result += checkForMonth(parts[1])
+        result += checkForYear(parts[2])
         }
-    }
-    val checkResult = result.split(".")
-    var checkFinal = 0
-    for (part in checkResult) {
-        checkFinal++
-    }
-    if ((checkForParts == 3) && (checkFinal == 3)) return result.trim()
-    return ""
+    val checkForResult = result.split(".")
+    if (checkForResult.size == 3) return result.trim()
+    else return ""
 }
 
 fun checkForDate(n: String): String {

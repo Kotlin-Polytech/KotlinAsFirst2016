@@ -125,6 +125,7 @@ data class Line(val point: Point, val angle: Double) {
         val c1 = a1 * point.x + b1 * point.y
         val c2 = a2 * other.point.x + b2 * other.point.y
         val denominator = a1 * b2 - a2 * b1
+        if (denominator == 0.0) println("Прямые параллельны или совпадают")
         val x = (c1 * b2 - c2 * b1) / denominator
         val y = (a1 * c2 - a2 * c1) / denominator
         return Point(x, y)

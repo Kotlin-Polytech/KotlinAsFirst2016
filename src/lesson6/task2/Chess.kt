@@ -39,17 +39,11 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val string = "abcdefgh"
-    val string2 = "12345678"
-    var column = 0
-    var row = 0
-    if (notation.length != 2 || notation[0] !in string || notation[1] !in string2) throw IllegalArgumentException()
-    for (i in 0..string.length - 1) {
-        if (string[i] == notation[0]) column = i + 1
-    }
-    for (i in 0..string2.length - 1) {
-        if (string2[i] == notation[1]) row = i + 1
-    }
+    val letters = "abcdefgh"
+    val numbers = "12345678"
+    if (notation.length != 2 || notation[0] !in letters || notation[1] !in numbers) throw IllegalArgumentException()
+    val column = letters.indexOf(notation[0], 0) + 1
+    val row = numbers.indexOf(notation[1], 0) + 1
     return Square(column, row)
 }
 
@@ -147,14 +141,11 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     val list = listOf(start)
     if (start == end) return list
     if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return list + end
-    for (i in 1..8) {
-        for (n in 1..8) {
-            if (start.column != i && start.row != n || end.column != i && end.row != n) {
-                if (start.column - i == start.row - n && i + n == end.column + end.row ||
-                        start.column + start.row == i + n && i - end.column == n - end.row)
-                    return list + Square(i, n) + end
-            }
-        }
+    for (i in 1..8) for (n in 1..8) {
+        if ((start.column != i && start.row != n || end.column != i && end.row != n) &&
+                (start.column - i == start.row - n && i + n == end.column + end.row ||
+                        start.column + start.row == i + n && i - end.column == n - end.row))
+            return list + Square(i, n) + end
     }
     return list + end
 }

@@ -61,11 +61,12 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val months = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+        "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
-    val months = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
-            "октября", "ноября", "декабря")
     val split = str.split(" ")
-    if (!str.matches(Regex("""[\d]+\s[а-я]+\s[\d]+""")) ||  split[0].toInt() !in 0..31 || months.indexOf(split[1]) == -1 || split[2].toInt() < 0) return ""
+    if (!str.matches(Regex("""[\d]+\s[а-я]+\s[\d]+""")) || split[0].toInt() !in 0..31 || months.indexOf(split[1]) == -1 || split[2].toInt() < 0) return ""
     val year = split[2].toInt()
     val month = months.indexOf(split[1]) + 1
     val day = split[0].toInt()
@@ -80,10 +81,8 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val months = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
-            "октября", "ноября", "декабря")
     val split = digital.split(".")
-    if (!digital.matches(Regex("""[\d]{2}.[\d]{2}.[\d]+""")) || split[0].toInt() !in 0..31 || split[1].toInt() !in 1..12 ) return ""
+    if (!digital.matches(Regex("""[\d]{2}.[\d]{2}.[\d]+""")) || split[0].toInt() !in 0..31 || split[1].toInt() !in 1..12) return ""
     val year = split[2].toInt()
     val month = months[split[1].toInt() - 1]
     val day = split[0].toInt()
@@ -103,7 +102,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.matches(Regex("""(\+\d+\s)?(\(\d+\))?[0-9- ]+""")) == true) {
+    if (phone.matches(Regex("""(\+\d+\s)?(\(\d+\))?[0-9- ]+"""))) {
         return Regex("""[- ()]""").replace(phone, "")
     } else {
         return ""
@@ -161,17 +160,17 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-  try {
-      val split = expression.split(" ")
-      var result = split[0].toInt()
-      for (i in 0..split.size - 1) {
-          if (split[i] == "+") result += split[i + 1].toInt()
-          if (split[i] == "-") result -= split[i + 1].toInt()
-      }
-      return result
-  } catch (e: NumberFormatException){
-      throw IllegalArgumentException(   )
-  }
+    try {
+        val split = expression.split(" ")
+        var result = split[0].toInt()
+        for (i in 0..split.size - 1) {
+            if (split[i] == "+") result += split[i + 1].toInt()
+            if (split[i] == "-") result -= split[i + 1].toInt()
+        }
+        return result
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
 }
 
 /**
@@ -185,8 +184,10 @@ fun plusMinus(expression: String): Int {
  */
 fun firstDuplicateIndex(str: String): Int {
     if (str.contains(Regex("""[^а-я\sёА-ЯЁ]"""))) return -1
-    val string = Regex("""([а-я]+)\s\1""").replaceFirst(str.toLowerCase(), "#")
-    return string.indexOf("#")
+    val duplicates = Regex("""([а-я]+)\s\1""").find(str.toLowerCase(), 0)
+    if (duplicates == null) return -1
+    val result = Regex("""..\d+""").replace(duplicates?.range.toString(), "")
+    return result.toInt()
 }
 
 /**

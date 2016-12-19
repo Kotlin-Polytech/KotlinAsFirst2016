@@ -1,6 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
 package lesson7.task1
 
+import org.jetbrains.annotations.Mutable
+
 /**
  * Ячейка матрицы: row = ряд, column = колонка
  */
@@ -38,7 +40,10 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    if (height > 0 && width > 0) return MatrixImpl(height, width, e)
+    else throw IllegalArgumentException("Height or wight is less than 0")
+}
 
 /**
  * Средняя сложность
@@ -46,24 +51,56 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
  * Реализация интерфейса "матрица"
  */
 class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
 
-    override val width: Int = TODO()
+    private val cellsValue: MutableMap<Cell, E> = mutableMapOf()
 
-    override fun get(row: Int, column: Int): E  = TODO()
+    override val height: Int
 
-    override fun get(cell: Cell): E  = TODO()
+    override val width: Int
+
+    constructor(height: Int, width: Int, e: E) {
+        this.height = height
+        this.width = width
+        for (i in 0..height - 1) {
+            for (j in 0..width - 1) {
+                cellsValue.put(Cell(i, j), e)
+            }
+        }
+    }
+
+    fun inside (cell: Cell) : Boolean = cell.row in 0..height - 1 && cell.column in 0..width - 1
+    fun inside (row: Int, column: Int) : Boolean = row in 0..height - 1 && column in 0.. width - 1
+
+
+    override fun get(row: Int, column: Int): E  =
+        if (inside(row, column)) {
+            cellsValue[Cell(row, column)]!!
+        }
+        else throw IllegalArgumentException("Cell doesn't exist")
+
+
+    override fun get(cell: Cell): E  = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        if (inside(row, column)) {
+            cellsValue.put(Cell(row, column), value)
+        }
+        else throw IllegalArgumentException("Cell doesn't exist")
     }
 
-    override fun set(cell: Cell, value: E) {
-        TODO()
+    override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
+
+    override fun equals(other: Any?) = other is MatrixImpl<*> && other.cellsValue == this.cellsValue
+
+    override fun toString(): String {
+        val string : StringBuilder = StringBuilder()
+        for (i in 0..height - 1) {
+            for (j in 0..width - 1) {
+                string.append("\t${this[i, j]}")
+            }
+            string.appendln()
+        }
+        return string.toString()
     }
-
-    override fun equals(other: Any?) = TODO()
-
-    override fun toString(): String = TODO()
 }
 

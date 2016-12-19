@@ -54,22 +54,22 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    val map = mutableMapOf<String, Int>()
-        var line = File(inputName).readText().toLowerCase()
-        for (line in substrings) {
-                val lineLowerCase = line.toLowerCase()
-                var quantity = 0
-                for (i in 0..line.length - lineLowerCase.length) {
-                        var element = 0
-                        for (j in 0..lineLowerCase.length - 1) {
-                                if (line[i + j] != lineLowerCase[j]) break
-                                element++
-                                if (element == lineLowerCase.length) quantity++
-                            }
-                        map += Pair(line, quantity)
-                    }
+    val result = mutableMapOf<String, Int>()
+    var line = File(inputName).readText().toLowerCase()
+    for (line in substrings) {
+        val lineLowerCase = line.toLowerCase()
+        var quantity = 0
+        for (i in 0..line.length - lineLowerCase.length) {
+            var element = 0
+            for (j in 0..lineLowerCase.length - 1) {
+                if (line[i + j] != lineLowerCase[j]) break
+                element++
+                if (element == lineLowerCase.length) quantity++
             }
-        return map
+            result += Pair(line, quantity)
+        }
+    }
+    return result
 }
 
 
@@ -89,6 +89,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
 fun sibilants(inputName: String, outputName: String) {
     TODO()
 }
+
 
 /**
  * Средняя

@@ -83,11 +83,7 @@ fun dateDigitToStr(digital: String): String {
     val months = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
             "октября", "ноября", "декабря")
     val split = digital.split(".")
-    try {
-        if (split.size != 3 || split[0].toInt() !in 0..31 || split[1].toInt() !in 1..12 || split[2].toInt() < 0) return ""
-    } catch (e: NumberFormatException) {
-        return ""
-    }
+    if (!digital.matches(Regex("""[0-9]{2}.[0-9]{2}.[0-9]+""")) || split[0].toInt() !in 0..31 || split[1].toInt() !in 1..12 ) return ""
     val year = split[2].toInt()
     val month = months[split[1].toInt() - 1]
     val day = split[0].toInt()
@@ -126,7 +122,7 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    if (jumps.matches(Regex("""[\d]+[- %\d]*""")) == false) return -1
+    if (!jumps.matches(Regex("""[- %\d]*[\d]+"""))) return -1
     var result = 0
     val matchResult = Regex("""\d+""").findAll(jumps)
     for (i in matchResult) {
@@ -146,9 +142,9 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки вернуть -1.
  */
 fun bestHighJump(jumps: String): Int {
-    if (jumps.matches(Regex("""[\d]+[- %\+\d]*""")) == false) return -1
+    if (jumps.contains(Regex("""[^- %+\d][^\d]+"""))) return -1
     var result = 0
-    val matchResult = Regex("""\d+(?=\s[%-]?\+)""").findAll(jumps)
+    val matchResult = Regex("""\d+(?=\s[%-]*\+)""").findAll(jumps)
     for (i in matchResult) {
         if (result < i.value.toInt()) result = i.value.toInt()
     }
@@ -165,15 +161,20 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    val positive = Regex("""(?<=- )\d+""").findAll(expression)
+    if (expression.contains((Regex("""[^-+ \d+]""")))||
+        expression.contains(Regex("""(\+\+)|(--)|(- -)|(\+ \+)|(\d+\+)|(\d+-)|(\d \d)"""))) {
+        throw IllegalArgumentException()
+    }
+    val negative = Regex("""(?<= - )\d+""").findAll(expression)
     var result = 0
-    for (i in positive) {
+    for (i in negative) {
         result -= i.value.toInt()
     }
-    val negative = Regex("""(?<!- )\d+""").findAll(expression)
-    for (i in negative) {
+    val positive = Regex("""(?<! - )\d+""").findAll(expression)
+    for (i in positive) {
         result += i.value.toInt()
     }
+    if (negative==null && positive==null) throw IllegalArgumentException()
     return result
 }
 
@@ -187,6 +188,7 @@ fun plusMinus(expression: String): Int {
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
 fun firstDuplicateIndex(str: String): Int {
+    if (str.contains(Regex("""[^а-я\sёА-ЯЁ]"""))) return -1
     val string = Regex("""([а-я]+)\s\1""").replaceFirst(str.toLowerCase(), "#")
     return string.indexOf("#")
 }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,8 +24,15 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (inside()) {
+            val letter = listColumn[column - 1]
+            return "$letter$row"
+        } else return ""
+    }
 }
+
+val listColumn = listOf("a", "b", "c", "d", "e", "f", "g", "h")
 
 /**
  * Простая
@@ -33,7 +41,12 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    val listRow = listOf('1', '2', '3', '4', '5', '6', '7', '8')
+    val listColumn = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+    if (notation.matches(Regex("""[a-h]\d"""))) return Square(listColumn.indexOf(notation[0]) + 1, listRow.indexOf(notation[1]) + 1)
+    else throw IllegalArgumentException()
+}
 
 /**
  * Простая
@@ -58,7 +71,14 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (start.inside() == false || end.inside() == false) throw IllegalArgumentException()
+    else {
+        if (start == end) return 0
+        if (start.column == end.column || start.row == end.row) return 1
+        else return 2
+    }
+}
 
 /**
  * Средняя

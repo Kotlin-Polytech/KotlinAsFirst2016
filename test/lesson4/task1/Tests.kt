@@ -154,6 +154,14 @@ class Tests {
     }
 
     @Test
+    fun intPower() {
+        assertEquals(2, intPower(2, 1))
+        assertEquals(4, intPower(2, 2))
+        assertEquals(8, intPower(2, 3))
+        assertEquals(64, intPower(2, 6))
+    }
+
+    @Test
     @Tag("Normal")
     fun decimal() {
         assertEquals(1, decimal(listOf(1), 2))
@@ -186,11 +194,11 @@ class Tests {
     @Tag("Impossible")
     fun russian() {
         assertEquals("триста семьдесят пять", russian(375))
-        assertEquals("двадцать две тысячи девятьсот шестьдесят четыре", russian(22964))
-        assertEquals("сто девятнадцать тысяч пятьсот восемь", russian(119508))
-        assertEquals("две тысячи три", russian(2003))
-        assertEquals("двести тысяч два", russian(200002))
-        assertEquals("девятьсот тысяч", russian(900000))
-        assertEquals("двенадцать", russian(12))
+        assertEquals("девятьсот девяносто девять тысяч девятьсот девяносто девять", russian(999999))
+        assertEquals("одна тысяча двадцать четыре", russian(1024))
+        assertEquals("один", russian(1))
+        assertEquals("сорок два", russian(42))
+        assertEquals("пятьдесят шесть тысяч девятьсот сорок три", russian(56943))
+        assertEquals("двести тысяч шестнадцать", russian(200016))
     }
 }

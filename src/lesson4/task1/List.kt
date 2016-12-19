@@ -312,15 +312,14 @@ fun roman(n: Int): String {
     if ((n % 1000 >= 900) && (1000 > n % 1000)) hundreds = "CM"
     var thousands = ""
     if (n % 10000 < 1000) thousands = ""
-    if ((n % 10000 >= 1000) && (2000 > n % 10000)) thousands = "M"
-    if ((n % 10000 >= 2000) && (3000 > n % 10000)) thousands = "MM"
-    if ((n % 10000 >= 3000) && (4000 > n % 10000)) thousands = "MMM"
-    if ((n % 10000 >= 4000) && (5000 > n % 10000)) thousands = "MMMM"
-    if ((n % 10000 >= 5000) && (6000 > n % 10000)) thousands = "MMMMM"
-    if ((n % 10000 >= 6000) && (7000 > n % 10000)) thousands = "MMMMMM"
-    if ((n % 10000 >= 7000) && (8000 > n % 10000)) thousands = "MMMMMMM"
-    if ((n % 10000 >= 8000) && (9000 > n % 10000)) thousands = "MMMMMMMM"
-    if ((n % 10000 >= 9000) && (10000 > n % 10000)) thousands = "MMMMMMMMM"
+    var count = 0
+    if (n % 10000 >= 1000) {
+        count = (n / 1000)
+        while (count > 0) {
+            thousands += "M"
+            count --
+        }
+    }
     var result = (thousands + hundreds + tens + ones)
     return result
 }
@@ -455,7 +454,7 @@ fun russianThousands(n: Int): String {
     if (foo % 100 >= 10) {
         if (result.isNotEmpty()) result += " " + russianTensForThsds(n % 100) else result += russianTensForThsds(n % 100)
     }
-    return if ((foo % 10) == 0 || (foo % 10) == 5 || (foo % 10) ==9) result + " тысяч" else if ((foo % 10) == 1) return result + " тысяча" else if ((foo % 100 > 10 ) && (foo % 100 < 20)) return result + " тысяч" else return result + " тысячи"
+    return if ((foo % 10) == 0 || (foo % 10) in 5..9) result + " тысяч" else if ((foo % 10) == 1) return result + " тысяча" else if ((foo % 100 > 10 ) && (foo % 100 < 20)) return result + " тысяч" else return result + " тысячи"
 }
 
 fun russian(n: Int): String {

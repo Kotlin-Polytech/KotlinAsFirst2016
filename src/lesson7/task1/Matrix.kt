@@ -54,7 +54,6 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
     private val list = mutableListOf<E>()
-
     init {
         for (i in 0..height * width - 1) {
             list.add(e)
@@ -85,9 +84,11 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         return result
     }
 
-    override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width
+    override fun equals(other: Any?) = other is MatrixImpl<*> && list == other.list && height == other.height && width == other.width
 
-    override fun toString(): String = TODO()
+    override fun toString(): String {
+        return list.toString()
+    }
 
 
 }

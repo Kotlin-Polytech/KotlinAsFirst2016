@@ -64,18 +64,18 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     var j = 0
     var i = 0
     var number = 1
-        while (true) {
-                matrix[i, j] = number
-                if (j < width-1 && matrix[i, j + 1] == 0) j++
-                else if (i < height-1 && matrix[i + 1, j] == 0) i++
-                else if (j > 0 && matrix[i, j-1] == 0) j--
-                else if (i > 0 && matrix[i-1, j] == 0) i--
-                else break
-                number++
-            }
-
-        return matrix
+    while (true) {
+        matrix[i, j] = number
+        if (j < width - 1 && matrix[i, j + 1] == 0) j++
+        else if (i < height - 1 && matrix[i + 1, j] == 0) i++
+        else if (j > 0 && matrix[i, j - 1] == 0) j--
+        else if (i > 0 && matrix[i - 1, j] == 0) i--
+        else break
+        number++
     }
+
+    return matrix
+}
 
 /**
  * Сложная

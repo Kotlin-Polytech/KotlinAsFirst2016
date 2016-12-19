@@ -124,14 +124,12 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    var anglee = 0.0
-    anglee = Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
+fun lineBySegment(s: Segment): Line  {
+    val angle = Math.atan2(s.end.y, s.end.x)
     if (((s.end.x >= s.begin.x) && (s.end.y >= s.begin.y)) || ((s.end.x <= s.begin.x) && (s.end.y <= s.begin.y)))
-        return (Line(s.begin, Math.abs(anglee))) 
-    else return (Line(s.begin, -Math.abs(anglee)))
+        return (Line(s.begin, Math.abs(angle)))
+    else return (Line(s.begin, -Math.abs(angle)))
 }
-
 /**
  * Средняя
  *

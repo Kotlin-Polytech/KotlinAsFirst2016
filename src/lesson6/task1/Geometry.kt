@@ -130,18 +130,13 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineAngle(s: Segment): Double {
-    var newAngle = Math.abs(Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x)))
-    while (newAngle >= Math.PI){
-        newAngle -= Math.PI
-    }
-    if (Math.abs(newAngle - Math.PI) < 1e-10) newAngle = 0.0
-    return newAngle
-}
+
 
 fun lineBySegment(s: Segment): Line {
-    val line = Line(s.begin, lineAngle(s))
-    return line
+    val Ox = s.end.x - s.begin.x
+    val Oy = s.end.y - s.begin.y
+    val angle = Math.atan(Oy/Ox)
+    return(Line(s.begin, angle))
 }
 
 /**
@@ -160,8 +155,13 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 fun centerOfSegment(a: Point, b: Point): Point = Point(((a.x + b.x) / 2), ((a.y + b.y) / 2))
 
 fun bisectorByPoints(a: Point, b: Point): Line {
-    var bisectorAngle = lineAngle(Segment(a, b)) + Math.PI / 2
-    if (bisectorAngle >= Math.PI) bisectorAngle -= Math.PI
+    val angle = lineByPoints(a, b).angle
+    val bisectorAngle = when {
+        angle == 0.0 -> Math.PI / 2
+        angle == Math.PI / 2 || angle == -Math.PI / 2 -> 0.0
+        angle < Math.PI / 2 -> -Math.PI / 2 - angle
+        else -> Math.PI / 2 - angle
+    }
     return Line(centerOfSegment(a, b), bisectorAngle)
 }
 

@@ -117,7 +117,7 @@ fun flattenPhoneNumber(phone: String): String {
     var resPhone = phone
     if (phone.contains(Regex("""[^0-9-+()\s]"""))) return ""
     else resPhone = resPhone.filter { it in "+()0123456789" }
-    if (resPhone.matches(Regex("""(\+?\d+(\(\d+\))?\d+)"""))) return resPhone.filter { it in "+0123456789"}
+    if (resPhone.matches(Regex("""(\+?\d+(\(\d+\))?(\d+)?)"""))) return resPhone.filter { it in "+0123456789"}
     else return ""
 }
 

@@ -135,8 +135,8 @@ data class Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     val Ox = s.end.x - s.begin.x
     val Oy = s.end.y - s.begin.y
-    val angle = Math.atan(Oy/Ox)
-    return(Line(s.begin, angle))
+    val angle = Math.atan(Oy / Ox)
+    return (Line(s.begin, angle))
 }
 
 /**

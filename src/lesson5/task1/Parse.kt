@@ -114,11 +114,11 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val resPhone = phone
+    var resPhone = phone
     if (phone.contains(Regex("""[^0-9-+()\s]"""))) return ""
-    else resPhone.filter { it in "+()0123456789"}
-    if (resPhone.contains(Regex("""(\+\d\)?(\(\d+\)?(\d+)))"""))) return resPhone
-    else return resPhone.filter { it in "+0123456789" }
+    else resPhone = resPhone.filter { it in "+()0123456789" }
+    if (resPhone.matches(Regex("""(\+?\d+(\(\d+\))?\d+)"""))) return resPhone.filter { it in "+0123456789"}
+    else return ""
 }
 
 /**
@@ -135,11 +135,11 @@ fun bestLongJump(jumps: String): Int {
     val results = jumps
     if (results.contains(Regex("""[^\d\s%-]"""))) return -1
     if (results.contains(Regex("""\d"""))) {
-        val newJumps = results.split(" ").filter {it.toString().contains(Regex("""\d"""))}
+        val newJumps = results.split(" ").filter { it.toString().contains(Regex("""\d""")) }
         var max = newJumps[0].toInt()
-       for (i in 0..newJumps.size-1){
-           if (newJumps[i].toInt() > max) max = newJumps[i].toInt()
-       }
+        for (i in 0..newJumps.size - 1) {
+            if (newJumps[i].toInt() > max) max = newJumps[i].toInt()
+        }
         return max
     }
     return -1

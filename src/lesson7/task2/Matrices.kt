@@ -196,20 +196,20 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
 fun findHoles(matrix: Matrix<Int>): Holes {
     val rows = mutableListOf<Int>()
     val columns = mutableListOf<Int>()
-    var num = 0
+    var num = false
     for (i in 0..matrix.height - 1) {
         for (j in 0..matrix.width - 1) {
-            if (matrix[i, j] == 1) num = 1
+            if (matrix[i, j] == 1) num = true
         }
-        if (num != 1) rows.add(i)
-        num = 0
+        if (num == false) rows.add(i)
+        num = false
     }
     for (i in 0..matrix.width - 1) {
         for (j in 0..matrix.height - 1) {
-            if (matrix[j, i] == 1) num = 1
+            if (matrix[j, i] == 1) num = true
         }
-        if (num != 1) columns.add(i)
-        num = 0
+        if (num == false) columns.add(i)
+        num = false
     }
     return Holes(rows, columns)
 }

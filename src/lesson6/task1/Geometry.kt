@@ -135,7 +135,7 @@ fun lineAngle(s: Segment): Double {
     while (newAngle >= Math.PI){
         newAngle -= Math.PI
     }
-    if (newAngle == Math.PI) newAngle = 0.0
+    if (Math.abs(newAngle - Math.PI) < 1e-10) newAngle = 0.0
     return newAngle
 }
 

@@ -78,6 +78,7 @@ fun sibilants(inputName: String, outputName: String) {
     for (line in File(inputName).readLines()) {
         if (line.length <= 1) {
             writer.write(line)
+            writer.newLine()
         } else {
             writer.write(line[0].toString())
         }

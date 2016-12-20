@@ -216,13 +216,13 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val line3 = mutableListOf<Double>()
     val line4 = mutableListOf<Double>()
 
-    if (Math.abs(a.x - b.x) < 1e-15) {                            // проверка параллельности линий координатным осям
+    if (Math.abs(a.x - b.x) < 1e-13) {                            // проверка параллельности линий координатным осям
         centerY = (b.y + a.y) / 2
         l1 = 1
         py = 1
 
     } else {
-        if (Math.abs(a.y - b.y) < 1e-15) {
+        if (Math.abs(a.y - b.y) < 1e-13) {
             centerX = (a.x + b.x) / 2
             l1 = 1                              // если первая линия параллельна оси координат
             px = 1                              // найдена координата x центра окржуности
@@ -238,12 +238,12 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
         }
     }
 
-    if (Math.abs(b.x - c.x) < 1e-15) {                            // проверка параллельности линии line2 координатным осям
+    if (Math.abs(b.x - c.x) < 1e-13) {                            // проверка параллельности линии line2 координатным осям
         centerY = (b.y + c.y) / 2
         l2 = 1
         py = 1
     } else {
-        if (Math.abs(b.y - c.y) < 1e-15) {
+        if (Math.abs(b.y - c.y) < 1e-13) {
             centerX = (b.x + c.x) / 2
             l2 = 1
             px = 1

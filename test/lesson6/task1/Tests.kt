@@ -116,7 +116,7 @@ class Tests {
         val c5 = Circle(Point(0.0, -6.0), 4.0)
         assertEquals(Pair(c1, c5), findNearestCirclePair(c1, c3, c4, c5))
         assertEquals(Pair(c2, c4), findNearestCirclePair(c2, c4, c5))
-       // assertEquals(Pair(c1, c2), findNearestCirclePair(c1, c2, c4, c5))
+        assertEquals(Pair(c1, c2), findNearestCirclePair(c1, c2, c4, c5))
     }
 
     @Test

@@ -156,13 +156,10 @@ fun centerOfSegment(a: Point, b: Point): Point = Point(((a.x + b.x) / 2), ((a.y 
 
 fun bisectorByPoints(a: Point, b: Point): Line {
     val angle = lineByPoints(a, b).angle
-    val bisectorAngle = when {
-        angle == 0.0 -> Math.PI / 2
-        angle == Math.PI / 2 || angle == -Math.PI / 2 -> 0.0
-        angle < Math.PI / 2 -> -Math.PI / 2 - angle
-        else -> Math.PI / 2 - angle
-    }
-    return Line(centerOfSegment(a, b), bisectorAngle)
+    if (angle >= Math.PI / 2)
+        return Line(centerOfSegment(a, b), angle - Math.PI / 2)
+    else
+        return Line(centerOfSegment(a, b), angle + Math.PI / 2)
 }
 
 

@@ -216,13 +216,13 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val line3 = mutableListOf<Double>()
     val line4 = mutableListOf<Double>()
 
-    if (Math.abs(a.x - b.x) < 1e-13) {                            // проверка параллельности линий координатным осям
+    if (Math.abs(a.x - b.x) < 1e-10) {                            // проверка параллельности линий координатным осям
         centerY = (b.y + a.y) / 2
         l1 = 1
         py = 1
 
     } else {
-        if (Math.abs(a.y - b.y) < 1e-13) {
+        if (Math.abs(a.y - b.y) < 1e-10) {
             centerX = (a.x + b.x) / 2
             l1 = 1                              // если первая линия параллельна оси координат
             px = 1                              // найдена координата x центра окржуности
@@ -238,12 +238,12 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
         }
     }
 
-    if (Math.abs(b.x - c.x) < 1e-13) {                            // проверка параллельности линии line2 координатным осям
+    if (Math.abs(b.x - c.x) < 1e-10) {                            // проверка параллельности линии line2 координатным осям
         centerY = (b.y + c.y) / 2
         l2 = 1
         py = 1
     } else {
-        if (Math.abs(b.y - c.y) < 1e-13) {
+        if (Math.abs(b.y - c.y) < 1e-10) {
             centerX = (b.x + c.x) / 2
             l2 = 1
             px = 1
@@ -259,19 +259,19 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 
     if (l1 * l2 == 0) {                            //   если одна (любая) или обе непараллельны координатным осям
         if (l1 == 1 && px == 1) {
-            centerY = line2[0] * centerX + line2[1]
+            centerY = line4[0] * centerX + line4[1]
             ready = 1                               // если найдены обе координаты центра окружности
         }
         if (l1 == 1 && py == 1) {
-            centerX = (centerY - line2[1]) / line2[0]
+            centerX = (centerY - line4[1]) / line4[0]
             ready = 1
         }
         if (l2 == 1 && px == 1) {
-            centerY = line1[0] * centerX + line1[1]
+            centerY = line3[0] * centerX + line3[1]
             ready = 1
         }
         if (l2 == 1 && py == 1) {
-            centerX = (centerY - line1[1]) / line1[0]
+            centerX = (centerY - line3[1]) / line3[0]
             ready = 1
         }
     }

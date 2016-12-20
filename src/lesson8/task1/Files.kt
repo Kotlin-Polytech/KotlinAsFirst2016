@@ -89,7 +89,7 @@ fun sibilants(inputName: String, outputName: String) {
                     writer.write(line[i].toString())
                 }
             }
-            if(sum != line.length)
+            if(sum != line.length-1)
             writer.newLine()
         }
     }

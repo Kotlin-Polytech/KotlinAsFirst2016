@@ -153,7 +153,7 @@ class Tests {
             val next = this[i + 1]
             assertTrue(
                     Math.abs(next.column - previous.column) == 2 && Math.abs(next.row - previous.row) == 1 ||
-                    Math.abs(next.column - previous.column) == 1 && Math.abs(next.row - previous.row) == 2
+                            Math.abs(next.column - previous.column) == 1 && Math.abs(next.row - previous.row) == 2
             )
         }
     }

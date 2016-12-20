@@ -135,7 +135,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.size == 0)
         x = 0.0
     else
-        x = list.sum() / list.size
+        x = mean(list)
     if (x == 0.0) return list
     else {
         for (i in 0..list.size - 1)

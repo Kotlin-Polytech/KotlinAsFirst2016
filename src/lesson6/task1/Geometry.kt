@@ -127,91 +127,93 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val X = when {
-            angle == Math.PI / 2 -> point.x
-            other.angle == Math.PI / 2 -> other.point.x
-            else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) / (Math.tan(angle) - Math.tan(other.angle))
+        val tan1 = Math.tan(angle)
+        val tan2 = Math.tan(other.angle)
+        val x = when {
+            angle == Math.PI / 2 || angle == -Math.PI / 2 -> point.x
+            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> other.point.x
+            else -> (other.point.y - point.y - other.point.x * tan2 + point.x * tan1) / (tan1 - tan2)
         }
-        val Y = when {
-            angle == Math.PI / 2 ->
-                (X - other.point.x) * Math.tan(other.angle) + other.point.y
-            else -> (X - point.x) * Math.tan(angle) + point.y
+        val y = when {
+            (angle == Math.PI / 2 || angle == -Math.PI / 2) -> other.point.y
+            (other.angle == Math.PI / 2 || other.angle == -Math.PI / 2) -> point.y
+            else -> (x - point.x) * tan1 + point.y
         }
-        return Point(X, Y)
+        return Point(x, y)
     }
 }
 
 
-
-/**
- * Средняя
- *
- * Построить прямую по отрезку
- */
-fun lineBySegment(s: Segment): Line {
+    /**
+     * Средняя
+     *
+     * Построить прямую по отрезку
+     */
+    fun lineBySegment(s: Segment): Line {
         var radians = 0.0
         if (s.begin.y != s.end.y) {
             val first = s.end.y - s.begin.y
             val second = s.end.x - s.begin.x
-            radians = atan2(first , second)
+            radians = atan2(first, second)
         }
         return Line(s.begin, radians)
     }
 
 
-/**
- * Средняя
- *
- * Построить прямую по двум точкам
- */
-fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
+    /**
+     * Средняя
+     *
+     * Построить прямую по двум точкам
+     */
+    fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
-/**
- * Сложная
- *
- * Построить серединный перпендикуляр по отрезку или по двум точкам
- */
-fun bisectorByPoints(a: Point, b: Point): Line  {
-    val line = Segment(a, b)
-    val angle = lineBySegment(line).angle
-    if (angle >= PI / 2) return Line(segmCenter(line), angle - PI / 2)
-    return Line(segmCenter(line), angle + PI / 2)
-}
+    /**
+     * Сложная
+     *
+     * Построить серединный перпендикуляр по отрезку или по двум точкам
+     */
+    fun bisectorByPoints(a: Point, b: Point): Line {
+        val line = Segment(a, b)
+        val angle = lineBySegment(line).angle
+        if (angle >= PI / 2) return Line(segmCenter(line), angle - PI / 2)
+        return Line(segmCenter(line), angle + PI / 2)
+    }
 
-/**
- * Средняя
- *
- * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
- * Если в списке менее двух окружностей, бросить IllegalArgumentException
- */
-fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
+    /**
+     * Средняя
+     *
+     * Задан список из n окружностей на плоскости. Найти пару наименее удалённых из них.
+     * Если в списке менее двух окружностей, бросить IllegalArgumentException
+     */
+    fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
 
-/**
- * Очень сложная
- *
- * Дано три различные точки. Построить окружность, проходящую через них
- * (все три точки должны лежать НА, а не ВНУТРИ, окружности).
- * Описание алгоритмов см. в Интернете
- * (построить окружность по трём точкам, или
- * построить окружность, описанную вокруг треугольника - эквивалентная задача).
- */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val bissAB = bisectorByPoints(a, b)
-    val bissAC = bisectorByPoints(a, c)
-    return Circle(bissAB.crossPoint(bissAC), a.distance(bissAB.crossPoint(bissAC)))
-}
+    /**
+     * Очень сложная
+     *
+     * Дано три различные точки. Построить окружность, проходящую через них
+     * (все три точки должны лежать НА, а не ВНУТРИ, окружности).
+     * Описание алгоритмов см. в Интернете
+     * (построить окружность по трём точкам, или
+     * построить окружность, описанную вокруг треугольника - эквивалентная задача).
+     */
+    fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+        val bissAB = bisectorByPoints(a, b)
+        val bissAC = bisectorByPoints(a, c)
+        return Circle(bissAB.crossPoint(bissAC), a.distance(bissAB.crossPoint(bissAC)))
+    }
 
 
     /**
- * Очень сложная
- *
- * Дано множество точек на плоскости. Найти круг минимального радиуса,
- * содержащий все эти точки. Если множество пустое, бросить IllegalArgumentException.
- * Если множество содержит одну точку, вернуть круг нулевого радиуса с центром в данной точке.
- *
- * Примечание: в зависимости от ситуации, такая окружность может либо проходить через какие-либо
- * три точки данного множества, либо иметь своим диаметром отрезок,
- * соединяющий две самые удалённые точки в данном множестве.
- */
-fun minContainingCircle(vararg points: Point): Circle = TODO()
+     * Очень сложная
+     *
+     * Дано множество точек на плоскости. Найти круг минимального радиуса,
+     * содержащий все эти точки. Если множество пустое, бросить IllegalArgumentException.
+     * Если множество содержит одну точку, вернуть круг нулевого радиуса с центром в данной точке.
+     *
+     * Примечание: в зависимости от ситуации, такая окружность может либо проходить через какие-либо
+     * три точки данного множества, либо иметь своим диаметром отрезок,
+     * соединяющий две самые удалённые точки в данном множестве.
+     */
+    fun minContainingCircle(vararg points: Point): Circle = TODO()
+
 

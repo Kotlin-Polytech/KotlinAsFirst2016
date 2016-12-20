@@ -56,6 +56,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
     private val list = mutableListOf<E>()
+
     init {
         (0..height * width - 1).forEach { list.add(e) }
     }
@@ -79,6 +80,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
             sb.append("[")
             for (column in 0..width - 1) {
                 sb.append(this[row, column])
+                sb.append(" ")
             }
             sb.append("]")
         }
@@ -87,18 +89,17 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun hashCode(): Int {
-        var result = 5
-        result = result * 31 + height
+        var result = height
         result = result * 31 + width
+        result = result * 31 + list.hashCode()
         return result
     }
 
     override fun equals(other: Any?): Boolean {
-        if (other is MatrixImpl<*> &&
-                height == other.height &&
-                width == other.width) for (i in 0..height - 1)
-            for (j in 0..width - 1) if (other[i, j] != this[i, j]) return false
+        other as MatrixImpl<*>
+        if (height != other.height) return false
+        if (width != other.width) return false
+        if (list != other.list) return false
         return true
     }
-
 }

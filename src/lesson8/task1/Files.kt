@@ -83,9 +83,11 @@ fun sibilants(inputName: String, outputName: String) {
             writer.write(line[0].toString())
         }
         for (i in 1..line.length - 1) {
-            if ((line[i] in "ЫыЯяЮю") && (line[i - 1] in "ЖжЧчШшЩщ"))
+            if ((line[i] in "ЫыЯяЮю") && (line[i - 1] in "ЖжЧчШшЩщ")) {
                 writer.write(map[line[i]].toString())
-            else writer.write(line[i].toString())
+            } else {
+                writer.write(line[i].toString())
+            }
         }
         writer.newLine()
     }

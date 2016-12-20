@@ -76,10 +76,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         return storage[row][column] as E
     }
 
-    override fun get(cell: Cell): E  {
-        if (cell.row !in 0..height - 1 || cell.column !in 0..width - 1) throw IllegalArgumentException()
-        return storage[cell.row][cell.column] as E
-    }
+    override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
         if (row !in 0..height - 1 || column !in 0..width - 1) throw IllegalArgumentException()
@@ -87,8 +84,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     }
 
     override fun set(cell: Cell, value: E) {
-        if (cell.row !in 0..height - 1 || cell.column !in 0..width - 1) throw IllegalArgumentException()
-        else  storage[cell.row][cell.column] = value
+        set(cell.row, cell.column, value)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -100,10 +96,23 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
         for (i in 0..height - 1) {
             for (j in 0..width - 1) {
-               if (storage[i][j] != other.storage[i][j]) return false
+                if (storage[i][j] != other.storage[i][j]) return false
             }
         }
         return true
+
+        /*
+        // Не работает
+        for(i in 0..height - 1) {
+            if (storage[i] != other.storage[i]) return false
+        }
+        return true
+        */
+
+        /*
+        // Не работает
+        return storage == other.storage
+        */
     }
 
     override fun hashCode(): Int {
@@ -121,10 +130,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         stringStorage.append("Matrix($height * $width) (\n")
         for (i in 0..height - 1) {
             stringStorage.append("    ")
-            for (j in 0..width - 1) {
-                stringStorage.append("[${storage[i][j]}]")
-                stringStorage.append(",")
-            }
+            for (j in 0..width - 1) stringStorage.append("[${storage[i][j]}],")
             stringStorage.deleteCharAt(stringStorage.lastIndex)
             stringStorage.append("\n")
         }

@@ -121,7 +121,6 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var sumLen = setOf(b, d)?.min() ?: 0
-    sumLen -= setOf(a, c)?.max() ?: 0
+    val sumLen = Math.min(b, d) - Math.max(a, c)
     return if ( sumLen < 0 ) -1 else sumLen
 }

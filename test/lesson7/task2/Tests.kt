@@ -75,7 +75,6 @@ class Tests {
                         listOf(1, 2, 2, 2, 2, 1),
                         listOf(1, 1, 1, 1, 1, 1)
                 )), generateRectangles(5, 6))
-
     }
 
     @Test

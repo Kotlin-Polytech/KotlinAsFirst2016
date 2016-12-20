@@ -194,7 +194,7 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 
 fun factorize(n: Int): List<Int> {
-    val primeDivisorsStorage = mutableListOf <Int>()
+    val primeDivisorsStorage = mutableListOf<Int>()
 
     var currentNumber = n
     while (currentNumber > 1) {

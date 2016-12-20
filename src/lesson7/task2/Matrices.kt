@@ -212,20 +212,20 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
  */
 fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
     val field = createMatrix(matrix.height, matrix.width, 0)
+    val wideMatrix = createMatrix(matrix.height+2, matrix.width+2, 0)
 
-    for (i in 0..matrix.height - 1) {
-        for (j in 0..matrix.width - 1) {
-            field[i, j] = 0
-            if (i > 0 && j > 0) field[i, j] += matrix[i-1, j-1]
-            if (j > 0) field[i, j] += matrix[i, j-1]
-            if (i < matrix.height - 1 && j > 0) field[i, j] += matrix[i+1, j-1]
-            if (i < matrix.height - 1) field[i, j] += matrix[i+1, j]
-            if (i < matrix.height - 1 && j < matrix.width - 1) field[i, j] += matrix[i+1, j+1]
-            if (j < matrix.width - 1) field[i, j] += matrix[i, j+1]
-            if (i > 0 && j < matrix.width - 1) field[i, j] += matrix[i-1, j+1]
-            if (i > 0) field[i, j] += matrix[i-1, j]
+    for(i in 0..matrix.height - 1)
+        for(j in 0..matrix.width - 1)
+            wideMatrix[i+1, j+1] = matrix[i, j]
+
+    for(i in 1..matrix.height)
+        for(j in 1..matrix.width) {
+            field[i-1, j-1] +=
+                 wideMatrix[i-1, j-1] + wideMatrix[i-1, j] + wideMatrix[i-1, j+1] +
+                 wideMatrix[i, j-1] + wideMatrix[i, j+1] +
+                 wideMatrix[i+1, j-1] + wideMatrix[i+1, j] + wideMatrix[i+1, j+1]
         }
-    }
+
     return field
 }
 

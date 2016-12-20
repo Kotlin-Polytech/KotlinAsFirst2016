@@ -228,6 +228,9 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
         } else {
             line1.add((b.y - a.y) / (b.x - a.x))
             line1.add(b.y - (((b.y - a.y) / (b.x - a.x)) * b.x))
+            val firstMiddle = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+            line3.add(-1 / (line1[0]))
+            line3.add((firstMiddle.x / line1[0]) + firstMiddle.y)
         }
     }
 
@@ -242,16 +245,20 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
             px = 1
         } else {
             line2.add((b.y - c.y) / (b.x - c.x))
-            line2.add(b.y - (((b.y - c.y) / (b.x - c.x))) * c.x)
+            line2.add(b.y - (((b.y - c.y) / (b.x - c.x))) * b.x)
+
+            val secondMiddle = Point((b.x + c.x) / 2, (b.y + c.y) / 2)
+            line4.add(-1 / line2[0])
+            line4.add((secondMiddle.x / line2[0]) + secondMiddle.y)
         }
     }
 
     if (l1 * l2 == 0) {
-        if (l1 == 1 && px == 1){
+        if (l1 == 1 && px == 1) {
             centerY = line2[0] * centerX + line2[1]
             ready = 1
         }
-        if (l1 == 1 && py == 1){
+        if (l1 == 1 && py == 1) {
             centerX = (centerY - line2[1]) / line2[0]
             ready = 1
         }
@@ -266,21 +273,13 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     }
 
     if (ready != 1) {
-        val firstMiddle = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-        val secondMiddle = Point((b.x + c.x) / 2, (b.y + c.y) / 2)
-        line3.add(-1 / (line1[0]))
-        line3.add((firstMiddle.x / line1[0]) + firstMiddle.y)
-        line4.add(-1 / line2[0])
-        line4.add((secondMiddle.x / line2[0]) + secondMiddle.y)
         circleCenter = Point((line3[1] - line4[1]) / (line4[0] - line3[0]),
                 line4[0] * (line3[1] - line4[1]) / (line4[0] - line3[0]) + line4[1])
-         radius = circleCenter.distance(a)
-
+        radius = circleCenter.distance(a)
     } else {
         circleCenter = Point(centerX, centerY)
         radius = circleCenter.distance(a)
     }
-
     return Circle(circleCenter, radius)
 }
 

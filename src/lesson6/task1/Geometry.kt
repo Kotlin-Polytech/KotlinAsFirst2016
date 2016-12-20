@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -15,7 +16,7 @@ data class Point(val x: Double, val y: Double) {
     fun distance(other: Point): Double = Math.sqrt(sqr(x - other.x) + sqr(y - other.y))
 }
 
-/**
+/**.
  * Треугольник, заданный тремя точками
  */
 data class Triangle(val a: Point, val b: Point, val c: Point) {
@@ -55,14 +56,19 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val centerDistance = center.distance(other.center) - (radius + other.radius)
+        if (centerDistance < 0) return 0.0
+        else return centerDistance
+    }
 
     /**
-     * Тривиальная
+     * Тривиальная1
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = center.distance(p) < radius
+
 }
 
 /**
@@ -76,7 +82,20 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    if (points.size < 2) throw IllegalArgumentException()
+    var max = 0.0
+    var maxSegment = Segment(points[0], points[0])
+    for (i in 0..points.size - 1) {
+        for (n in 0..points.size - 1) {
+            if (points[i].distance(points[n]) > max) {
+                max = points[i].distance(points[n])
+                maxSegment = Segment(points[i], points[n])
+            }
+        }
+    }
+    return maxSegment
+}
 
 /**
  * Простая
@@ -84,7 +103,11 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle {
+    val centerOfCircle = Point((diameter.begin.x + diameter.end.x) / 2, (diameter.begin.y + diameter.end.y) / 2)
+    val radiusOfCircle = diameter.begin.distance(diameter.end) / 2
+    return Circle(centerOfCircle, radiusOfCircle)
+}
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -98,6 +121,8 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point = TODO()
+
+
 }
 
 /**
@@ -105,21 +130,38 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+
+
+fun lineBySegment(s: Segment): Line {
+    val Ox = s.end.x - s.begin.x
+    val Oy = s.end.y - s.begin.y
+    val angle = Math.atan(Oy / Ox)
+    return (Line(s.begin, angle))
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
+
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun centerOfSegment(a: Point, b: Point): Point = Point(((a.x + b.x) / 2), ((a.y + b.y) / 2))
+
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val angle = lineByPoints(a, b).angle
+    if (angle >= Math.PI / 2)
+        return Line(centerOfSegment(a, b), angle - Math.PI / 2)
+    else
+        return Line(centerOfSegment(a, b), angle + Math.PI / 2)
+}
+
 
 /**
  * Средняя
@@ -152,4 +194,6 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * соединяющий две самые удалённые точки в данном множестве.
  */
 fun minContainingCircle(vararg points: Point): Circle = TODO()
+
+
 

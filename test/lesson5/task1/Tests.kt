@@ -29,6 +29,8 @@ class Tests {
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("", dateStrToDigit("A апреля 2011"))
+        assertEquals("", dateDigitToStr("35 октября 1998"))
     }
 
     @Test
@@ -38,7 +40,8 @@ class Tests {
         assertEquals("", dateDigitToStr("01.02.20.19"))
         assertEquals("", dateDigitToStr("28.00.2000"))
         assertEquals("3 апреля 2011", dateDigitToStr("03.04.2011"))
-        assertEquals("", dateDigitToStr("ab.cd.ef"))
+        assertEquals("", dateDigitToStr("35.10.1998"))
+        assertEquals("", dateStrToDigit("A.07.2011"))
     }
 
     @Test
@@ -49,6 +52,8 @@ class Tests {
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber("+ "))
+        assertEquals("7", flattenPhoneNumber("7"))
     }
 
     @Test

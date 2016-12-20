@@ -66,6 +66,11 @@ class Tests {
         assertEquals(Segment(p3, p4), diameter(p1, p2, p3, p4))
         assertEquals(Segment(p2, p4), diameter(p1, p2, p4))
         assertEquals(Segment(p1, p4), diameter(p1, p4))
+        try {
+            assertEquals(Segment(p1, p4), diameter(p1))
+            fail("No exception")
+        } catch (e: IllegalArgumentException) {
+        }
     }
 
     @Test
@@ -102,6 +107,7 @@ class Tests {
     fun bisectorByPoints() {
         assertEquals(Line(Point(2.0, 0.0), Math.PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
+        assertEquals(Line(Point(-999.8591348500315, -999.7624402369754), 2.4425904506272627), bisectorByPoints(Point(-999.718269700063, -999.5948601635259), Point(-1000.0, -999.9300203104249)))
     }
 
     @Test
@@ -123,21 +129,5 @@ class Tests {
         val result = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
         assertTrue(result.center.distance(Point(0.0, 0.0)) < 1e-5)
         assertEquals(5.0, result.radius, 1e-5)
-    }
-
-    @Test
-    @Tag("Impossible")
-    fun minContainingCircle() {
-        val p1 = Point(0.0, 0.0)
-        val p2 = Point(1.0, 4.0)
-        val p3 = Point(-2.0, 2.0)
-        val p4 = Point(3.0, -1.0)
-        val p5 = Point(-3.0, -2.0)
-        val p6 = Point(0.0, 5.0)
-        val result = minContainingCircle(p1, p2, p3, p4, p5, p6)
-        assertEquals(4.0, result.radius, 0.02)
-        for (p in listOf(p1, p2, p3, p4, p5, p6)) {
-            assertTrue(result.contains(p))
-        }
     }
 }

@@ -124,6 +124,7 @@ class Tests {
         assertTrue(squareBetweenExists(21, 28))
         assertFalse(squareBetweenExists(51, 61))
         assertFalse(squareBetweenExists(999, 1001))
+        assertTrue(squareBetweenExists(0, 0))
     }
 
     @Test
@@ -133,6 +134,10 @@ class Tests {
         assertEquals(1.0, sin(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(0.0, sin(Math.PI, 1e-5), 1e-5)
         assertEquals(-1.0, sin(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(0.0, sin(20 * Math.PI, 1e-5), 1e-5)
+        assertEquals(1.0, sin(25 * Math.PI/2, 1e-5), 1e-5)
+        assertEquals(0.0, sin(25 * Math.PI, 1e-5), 1e-5)
+        assertEquals(0.017452406459518247, sin(-18.832102629018816, 1e-5), 1e-5)
     }
 
     @Test
@@ -142,6 +147,9 @@ class Tests {
         assertEquals(0.0, cos(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(-1.0, cos(Math.PI, 1e-5), 1e-5)
         assertEquals(0.0, cos(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(0.0, cos(25.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(-1.0, cos(25.0 * Math.PI , 1e-5), 1e-5)
+        assertEquals(1.0, cos(30.0 * Math.PI , 1e-5), 1e-5)
     }
 
     @Test

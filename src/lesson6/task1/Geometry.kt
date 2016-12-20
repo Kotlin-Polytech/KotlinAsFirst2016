@@ -211,21 +211,25 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     var px = 0
     var py = 0
     var ready = 0
-    val line1 = mutableListOf<Double>()
-    val line2 = mutableListOf<Double>()
+    val line1 = mutableListOf<Double>()  // в каждом листе будем хранить коэффициент и свободный член уравнения y=kx+b
+    val line2 = mutableListOf<Double>()     // list[0] - k ;  list[1] - b
     val line3 = mutableListOf<Double>()
     val line4 = mutableListOf<Double>()
 
-    if (a.x == b.x) {
+    if (Math.abs(a.x - b.x) < 1e-10) {                            // проверка параллельности линий координатным осям
         centerY = (b.y + a.y) / 2
         l1 = 1
         py = 1
+
     } else {
-        if (a.y == b.y) {
+        if (Math.abs(a.y - b.y) < 1e-10) {
             centerX = (a.x + b.x) / 2
-            l1 = 1
-            px = 1
+            l1 = 1                              // если первая линия параллельна оси координат
+            px = 1                              // найдена координата x центра окржуности
         } else {
+            /*
+            * Определение параметров линии ab и серединного перепендикуляра к ней (line3)
+             */
             line1.add((b.y - a.y) / (b.x - a.x))
             line1.add(b.y - (((b.y - a.y) / (b.x - a.x)) * b.x))
             val firstMiddle = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
@@ -234,12 +238,12 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
         }
     }
 
-    if (b.x == c.x) {
+    if (Math.abs(b.x - c.x) < 1e-10) {                            // проверка параллельности линии line2 координатным осям
         centerY = (b.y + c.y) / 2
         l2 = 1
         py = 1
     } else {
-        if (b.y == c.y) {
+        if (Math.abs(b.y - c.y) < 1e-10) {
             centerX = (b.x + c.x) / 2
             l2 = 1
             px = 1
@@ -253,10 +257,10 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
         }
     }
 
-    if (l1 * l2 == 0) {
+    if (l1 * l2 == 0) {                            //   если одна (любая) или обе непараллельны координатным осям
         if (l1 == 1 && px == 1) {
             centerY = line2[0] * centerX + line2[1]
-            ready = 1
+            ready = 1                               // если найдены обе координаты центра окружности
         }
         if (l1 == 1 && py == 1) {
             centerX = (centerY - line2[1]) / line2[0]
@@ -272,7 +276,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
         }
     }
 
-    if (ready != 1) {
+    if (ready != 1) {                                   //если не найдены , то вы вычисляем точку пересечения перпендикуляров
         circleCenter = Point((line3[1] - line4[1]) / (line4[0] - line3[0]),
                 line4[0] * (line3[1] - line4[1]) / (line4[0] - line3[0]) + line4[1])
         radius = circleCenter.distance(a)

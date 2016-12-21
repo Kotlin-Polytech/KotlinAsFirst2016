@@ -137,10 +137,10 @@ fun mean(list: List<Double>): Double {
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return mutableListOf()
     else {
-        var m = 0
-        val x = list.sum() / list.size
-        while (m in 0..list.size - 1) {
-            list[m] -= x
+        var m=0
+        val x=list.sum() / list.size
+        while (m in 0..list.size-1) {
+            list[m]-=x
             m++
         }
         return list
@@ -190,10 +190,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var t = 0.0
-    var i = 0
-    while (i in 0..list.size - 1) {
-        t += list[i]
-        list[i] = t
+    var i=0
+    while(i in 0..list.size-1) {
+        t +=list[i]
+        list[i]=t
         i++
     }
     return list
@@ -229,7 +229,26 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    var t = 2
+    val x = mutableListOf<Int>()
+    var n1 = n
+    while (t <= n1) {
+        if (n1 % t == 0) {
+            x.add(t)
+            n1 /= t
+            t--
+        }
+        t++
+    }
+    var m = ""
+    m += x[0]
+    for (i in 1..x.size - 1) {
+        m += "*"
+        m += x[i]
+    }
+    return m
+}
 
 /**
  * Средняя
@@ -238,7 +257,22 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val x = mutableListOf<Int>()
+    var b = n
+    if (n == 0) return listOf(0)
+    while (b > 0) {
+        x.add(b % base)
+        b /= base
+    }
+    val s = mutableListOf<Int>()
+    var t = 1
+    while (t <= x.size) {
+        s.add(x[x.size - t])
+        t++
+    }
+    return s
+}
 
 /**
  * Сложная

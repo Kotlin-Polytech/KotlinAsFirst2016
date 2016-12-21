@@ -2,9 +2,7 @@
 
 package lesson3.task1
 
-import com.sun.xml.internal.ws.runtime.config.TubelineFeatureReader
-import java.lang.Math.*
-import kotlin.concurrent.timer
+import java.lang.Math.pow
 
 /**
  * Пример
@@ -193,7 +191,19 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var index = 1
+    var ind = 1
+    var sin = 0.0
+    var new = x % (Math.PI * 2)
+    while (Math.abs(new) >= eps) {
+        sin += index * new
+        ind += 2
+        new + Math.pow(x % (Math.PI * 2), ind.toDouble()) / factorial(ind)
+        index = 0 - index
+    }
+    return sin
+}
 
 /**
  * Простая
@@ -211,20 +221,16 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var count = 1
-    var n1 = n
-    while (n1 >= 10) {
-        count++
-        n1 = n1 / 10
+    var number = n
+    var results = 0
+    var i = 1
+    while (number != 0) {
+        results = (results + number % 10) * 10
+        number = number / 10
     }
-    var t = 0
-    var nn = 0
-    while (count != 0) {
-        nn = n / pow(10.0, (count * 1.0 - 1)).toInt() % 10 * pow(10.0, t * 1.0).toInt() + nn
-        t++
-        count--
-    }
-    return nn
+    results = results / 10
+    return results
+
 }
 
 /**
@@ -280,4 +286,24 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var x = 1.0
+    var m = 1
+    var t: Int
+    var l = n
+    var count = 1
+    while (l > 0) {
+        m = ((Math.sqrt(5.0) / 5) * (pow((1 + Math.sqrt(5.0)) / 2, x) - pow((1 - Math.sqrt(5.0)) / 2, x))).toInt()
+        t = m
+        while (t >= 10) {
+            count++
+            t /= 10
+        }
+        l -= count
+        count = 1
+        x++
+    }
+    l = Math.abs(l)
+    m = m / pow(10.0, l * 1.0).toInt() % 10
+    return m
+}

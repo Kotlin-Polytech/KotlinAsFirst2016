@@ -66,7 +66,10 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     }
 
-    override fun set(cell: Cell, value: E) = TODO()
+    override fun set(cell: Cell, value: E)  {
+        list[cell.row * width + cell.column] = value
+
+    }
 
     override fun equals(other: Any?) = TODO()
 

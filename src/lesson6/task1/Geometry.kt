@@ -131,7 +131,10 @@ data class Line(val point: Point, val angle: Double) {
 
         val x3 = (x1*Math.tan(angle) - x2*Math.tan(ang) + y2 - y1)/(Math.tan(angle) - Math.tan(ang))
 
-        val y3 = (x3 - x2) * Math.tan(ang) + y2
+        val y3 = when {
+            (Math.abs(Math.cos(ang)) < 1.0E-5) -> ((x3 - x1) * Math.tan(angle) + y1)
+            else -> ((x3 - x2) * Math.tan(ang) + y2)
+        }
 
         return Point(x3, y3)
     }

@@ -95,6 +95,7 @@ class Tests {
     @Tag("Normal")
     fun lineByPoint() {
         assertEquals(Line(Point(1.0, 1.0), Math.PI / 4), lineByPoints(Point(1.0, 1.0), Point(3.0, 3.0)))
+        assertEquals(Line(Point(-1000.0, -632.0), 1.5718851034377719), lineByPoints(Point(-1000.0, -632.0), Point(-999.5993300370992, -1000.0)))
     }
 
     @Test

@@ -104,9 +104,9 @@ fun diameter(vararg points: Point): Segment {
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
 fun circleByDiameter(diameter: Segment): Circle =
-    Circle(radius = diameter.begin.distance(diameter.end) / 2.0,
-            center = Point((diameter.begin.x + diameter.end.x) / 2.0,
-                    (diameter.begin.y + diameter.end.y) / 2.0))
+        Circle(radius = diameter.begin.distance(diameter.end) / 2.0,
+                center = Point((diameter.begin.x + diameter.end.x) / 2.0,
+                        (diameter.begin.y + diameter.end.y) / 2.0))
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -127,22 +127,14 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line {
-    val anglee = Math.atan((s.begin.y - s.end.y) / (s.begin.x - s.end.x))
-    if (((s.end.x >= s.begin.x) && (s.end.y >= s.begin.y)) || ((s.end.x <= s.begin.x) && (s.end.y <= s.begin.y)))
-        return (Line(s.begin, Math.abs(anglee))) else return (Line(s.begin, -Math.abs(anglee)))
-}
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line {
-    val anglee = Math.atan((a.y - b.y) / (a.x - b.x))
-    if (((a.x >= a.x) && (b.y >= b.y)) || ((a.x <= a.x) && (b.y <= b.y)))
-        return (Line(Segment(a,b).begin, Math.abs(anglee))) else return (Line(Segment(a,b).begin, -Math.abs(anglee)))
-}
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 
 /**
  * Сложная

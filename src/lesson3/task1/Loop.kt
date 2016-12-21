@@ -121,7 +121,11 @@ fun minDivisor(n: Int): Int {
  *
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
-fun maxDivisor(n: Int): Int = ((n/2) downTo 1).firstOrNull { (n % it) == 0 } ?: n
+fun maxDivisor(n: Int): Int {
+    val m = Math.sqrt(n.toDouble()).toInt()
+    if (isPrime(n) == true) return 1
+    return ((n / 2) downTo m).firstOrNull { (n % it) == 0 } ?: n
+}
 
 /**
  * Простая

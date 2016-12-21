@@ -59,25 +59,25 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     var day = 0
-    var month = 0
+    val month: Int
     val a = str.split(" ")
     if (a.size != 3) return ""
     try {
         if (a[0].toInt() in 1..31) day += a[0].toInt()
         else return ""
         when (a[1]) {
-            "января" -> month += 1
-            "февраля" -> month += 2
-            "марта" -> month += 3
-            "апреля" -> month += 4
-            "мая" -> month += 5
-            "июня" -> month += 6
-            "июля" -> month += 7
-            "августа" -> month += 8
-            "сентября" -> month += 9
-            "октября" -> month += 10
-            "ноября" -> month += 11
-            "декабря" -> month += 12
+            "января" -> month = 1
+            "февраля" -> month = 2
+            "марта" -> month = 3
+            "апреля" -> month = 4
+            "мая" -> month = 5
+            "июня" -> month = 6
+            "июля" -> month = 7
+            "августа" -> month = 8
+            "сентября" -> month = 9
+            "октября" -> month = 10
+            "ноября" -> month = 11
+            "декабря" -> month = 12
             else -> return ""
         }
     } catch (e: NumberFormatException) {
@@ -96,25 +96,25 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     var day = 0
-    var month = ""
+    val month: String
     val a = digital.split(".")
     if (a.size != 3) return ""
     try {
         if (a[0].toInt() in 1..31) day += a[0].toInt()
         else return ""
         when (a[1]) {
-            "01" -> month += "января"
-            "02" -> month += "февраля"
-            "03" -> month += "марта"
-            "04" -> month += "апреля"
-            "05" -> month += "мая"
-            "06" -> month += "июня"
-            "07" -> month += "июля"
-            "08" -> month += "августа"
-            "09" -> month += "сентября"
-            "10" -> month += "октября"
-            "11" -> month += "ноября"
-            "12" -> month += "декабря"
+            "01" -> month = "января"
+            "02" -> month = "февраля"
+            "03" -> month = "марта"
+            "04" -> month = "апреля"
+            "05" -> month = "мая"
+            "06" -> month = "июня"
+            "07" -> month = "июля"
+            "08" -> month = "августа"
+            "09" -> month = "сентября"
+            "10" -> month = "октября"
+            "11" -> month = "ноября"
+            "12" -> month = "декабря"
             else -> return ""
         }
     } catch (e: NumberFormatException) {

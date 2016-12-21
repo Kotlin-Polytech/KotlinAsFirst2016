@@ -146,7 +146,7 @@ fun bestHighJump(jumps: String): Int {
     for (i in 1..parts.size - 1) {
         if ('+' in parts[i]) luckyTry += parts[i - 1]
     }
-    var max = 0
+    var max = -1
     for (element in luckyTry) {
         if (element.toInt() > max) max = element.toInt()
     }
@@ -164,7 +164,7 @@ fun bestHighJump(jumps: String): Int {
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if ((expression.contains(Regex("""[^\s\d\+\-]""")))) throw IllegalArgumentException()
+    if ((expression.contains(Regex("""[^\s\d\+\-]"""))) || (expression == "")) throw IllegalArgumentException()
     val parts = expression.split(" ")
     var result = parts[0].toInt()
     for (i in 1..parts.size - 2) {

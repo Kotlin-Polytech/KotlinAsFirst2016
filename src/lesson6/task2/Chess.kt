@@ -94,8 +94,8 @@ fun rookMoveNumber(start: Square, end: Square): Int {
 fun rookTrajectory(start: Square, end: Square): List<Square> {
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (start == end) return listOf(start)
-    if (start.column == end.column || start.row == end.row) return listOf(start, end) else
-        return listOf(start, Square(start.column, end.row), end)
+    if (start.column == end.column || start.row == end.row) return listOf(start, end)
+    else return listOf(start, Square(start.column, end.row), end)
 
 }
 

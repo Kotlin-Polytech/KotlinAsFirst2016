@@ -82,21 +82,21 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-            val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
-            val parts= digital.split(".")
-            if (parts.size != 3) return ""
-            try {
-                val d = parts[0].toInt()
-                val m1 = parts[1].toInt()
-                val y = parts[2].toInt()
-                if (m1 in 1..12) {
-                    val m = months[parts[1].toInt() - 1]
-                    return String.format("%d %s %d", d, m, y)
-                } else return ""
-                } catch (e: NumberFormatException) {
-                    return ""
-                }
-        }
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val d = parts[0].toInt()
+        val m1 = parts[1].toInt()
+        val y = parts[2].toInt()
+        if (m1 in 1..12) {
+            val m = months[parts[1].toInt() - 1]
+            return String.format("%d %s %d", d, m, y)
+        } else return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -111,8 +111,9 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone.contains(Regex("""[^\s\d()+-]"""))) return "" else
-        return Regex("""[^\d+]""").replace(phone, "")
+    if ((phone.contains(Regex("""[^\s\d()+-]"""))) || (phone.contains(Regex("""(\+(?![\d\s()+-]))""")))) return ""
+    else return Regex("""[^\d+]""").replace(phone, "")
+
 }
 
 
@@ -126,14 +127,7 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
-    if (!jumps.matches(Regex("""[0-9 %-]+"""))) return -1
-    return jumps
-            .split(" ")
-            .filter { it.matches(Regex("[0-9]+")) }
-            .map { it.toInt() }
-            .max() ?: -1
-}
+fun bestLongJump(jumps: String): Int = TODO()
 
 
 /**
@@ -146,7 +140,20 @@ fun bestLongJump(jumps: String): Int {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if ((jumps.contains(Regex("""[^\s\d\%\+\-]""")))) return -1
+    val luckyTry: MutableList<String> = mutableListOf()
+    val parts = jumps.split(" ")
+    for (i in 1..parts.size - 1) {
+        if ('+' in parts[i]) luckyTry += parts[i - 1]
+    }
+    var max = 0
+    for (element in luckyTry) {
+        if (element.toInt() > max) max = element.toInt()
+    }
+    return max
+}
+
 
 /**
  * Сложная
@@ -157,7 +164,18 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if ((expression.contains(Regex("""[^\s\d\+\-]""")))) throw IllegalArgumentException()
+    val parts = expression.split(" ")
+    var result = parts[0].toInt()
+    for (i in 1..parts.size - 2) {
+        if ('+' in parts[i]) result += parts[i + 1].toInt()
+        if ('-' in parts[i]) result -= parts[i + 1].toInt()
+    }
+    return result
+
+
+}
 
 /**
  * Сложная

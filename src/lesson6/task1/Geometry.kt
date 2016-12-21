@@ -129,10 +129,7 @@ data class Line(val point: Point, val angle: Double) {
 fun lineBySegment(s: Segment): Line {
     val distX = s.end.x - s.begin.x
     val distY = s.end.y - s.begin.y
-    val angle = if (distX == 0.0 && distY == 0.0) 0.0
-    else if (distX == 0.0) Math.PI / 2
-    else if (distY == 0.0) 0.0
-    else Math.atan(distY / distX)
+    val angle = Math.atan(distY / distX)
     return Line(Point(s.begin.x, s.begin.y), angle)
 }
 
@@ -150,11 +147,7 @@ fun lineByPoints(a: Point, b: Point): Line {
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line {
-    val x = a.x + (b.x - a.x) / 2
-    val y = a.y + (b.y - a.y) / 2
-    return Line(Point(x, y), (lineByPoints(a, b).angle + Math.PI / 2) % Math.PI)
-}
+fun bisectorByPoints(a: Point, b: Point): Line = TODO()
 
 /**
  * Средняя

@@ -3,6 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.io.File.separator
 
 /**
  * Пример
@@ -205,13 +206,8 @@ fun factorize(n: Int): List<Int> {
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
 fun factorizeToString(n: Int): String {
-    val result = factorize(n)
-    var string = "$result[0]"
-    for (i in 1..result.size - 1) {
-        string += "*"
-        string += result[i]
-    }
-    return string
+    val result = factorize(n).joinToString(separator = "*")
+    return result
 }
 
 /**

@@ -130,7 +130,7 @@ fun sibilants(inputName: String, outputName: String) {
                 }
             }
         }
-        if (i != lines.size){
+        if (i < lines.size - 1){
             outputStream.newLine()
         }
     }

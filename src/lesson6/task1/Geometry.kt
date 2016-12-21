@@ -121,18 +121,19 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point {
-        val x = when {
-            (Math.cos(angle) - Math.cos(Math.PI / 2) < 1e-10) -> point.x
-            (Math.cos(other.angle) == Math.cos(Math.PI / 2)) -> other.point.x
-            else -> (other.point.y - point.y - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) /
-                    (Math.tan(angle) - Math.tan(other.angle))
-        }
-        val y = when {
-            (Math.abs(Math.cos(angle)) - Math.cos(Math.PI / 2) < 1e-10) ->
-                (x - other.point.x) * Math.tan(other.angle) + other.point.y
-            else -> (x - point.x) * Math.tan(angle) + point.y
-        }
-       return Point(x, y)
+        val x1 = point.x
+        val y1 = point.y
+        val x2 = other.point.x
+        val y2 = other.point.y
+        val ang = other.angle
+
+        if (Math.tan(angle) == Math.tan(ang)) throw IllegalArgumentException()
+
+        val x3 = (x1*Math.tan(angle) - x2*Math.tan(ang) + y2 - y1)/(Math.tan(angle) - Math.tan(ang))
+
+        val y3 = (x3 - x2) * Math.tan(ang) + y2
+
+        return Point(x3, y3)
     }
 }
 
@@ -210,21 +211,26 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 fun minContainingCircle(vararg points: Point): Circle {
     return when (points.size) {
         0 -> throw IllegalArgumentException()
-        1-> Circle(points[0], 0.0)
+        1 -> Circle(points[0], 0.0)
+        2 -> circleByDiameter(Segment(points[0], points[1]))
         else -> {
-            var max = -1.0
-            var max1 = Point(0.0, 0.0)
-            var max2 = Point(0.0, 0.0)
-            for (point1 in points) {
-                for (point2 in points) {
-                    if (point1.distance(point2) > max) {
-                        max = point1.distance(point2)
-                        max1 = point1
-                        max2 = point2
-                    }
+            val maxDiameter = diameter(*points)
+            val center = bisectorByPoints(maxDiameter.begin, maxDiameter.end).point
+            var radius = maxDiameter.begin.distance(maxDiameter.end)/2
+            var outerPoint = center
+
+            for (point in points) {
+                val secRad = center.distance(point)
+                if (secRad > radius) {
+                    radius = secRad
+                    outerPoint = point
                 }
             }
-            circleByDiameter(Segment(max1, max2))
+
+            return if (radius - maxDiameter.begin.distance(maxDiameter.end)/2 < 1e-10)
+                Circle(center, radius)
+            else
+                circleByThreePoints(maxDiameter.begin, maxDiameter.end, outerPoint)
         }
     }
 }

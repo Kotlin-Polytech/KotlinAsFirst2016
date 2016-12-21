@@ -331,4 +331,79 @@ fun roman(n: Int): String  {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun units (n: Int) : String {
+    if (n in 11..19) return ""
+    return when (n % 10) {
+        9 -> "девять"
+        8 -> "восемь"
+        7 -> "семь"
+        6 -> "шесть"
+        5 -> "пять"
+        4 -> "четыре"
+        3 -> "три"
+        2 -> "два"
+        1 -> "один"
+        else -> ""
+    }
+}
+fun tens (n: Int) : String =
+    when (n) {
+        in 90..99 ->  "девяносто"
+        in 80..89 -> "восемьдесят"
+        in 70..79 -> "семьдесят"
+        in 60..69 -> "шестьдесят"
+        in 50..59 -> "пятьдесят"
+        in 40..49 -> "сорок"
+        in 30..39 -> "тридцать"
+        in 20..29 -> "двадцать"
+        19 -> "девятнадцать"
+        18 -> "восемнадцать"
+        17 -> "семнадцать"
+        16 -> "шестнадцать"
+        15 -> "пятнадцать"
+        14 -> "четырнадцать"
+        13 -> "тринадцать"
+        12 -> "двенадцать"
+        11 -> "одиннадцать"
+        10 -> "десять"
+        else -> ""
+    }
+
+fun hundreds (n: Int) : String =
+    when (n) {
+        in 900..999 -> "девятьсот"
+        in 800..899 -> "восемьсот"
+        in 700..799 -> "семьсот"
+        in 600..699 -> "шестьсот"
+        in 500..599 -> "пятьсот"
+        in 400..499 -> "четыреста"
+        in 300..399 -> "триста"
+        in 200..299 -> "двести"
+        in 100..199 -> "сто"
+        else -> ""
+    }
+
+fun russian(n: Int): String {
+    val thousands = n / 1000
+    val hundreds = n % 1000
+    val list = mutableListOf<String>()
+    list += hundreds(thousands)
+    list += tens(thousands % 100)
+    if (n > 1000) {
+        when {
+            (thousands % 10 == 1) -> list.add("одна")
+            (thousands % 10 == 2) -> list.add("две")
+            else -> list += units(thousands % 100)
+        }
+        list += when {
+            (thousands % 100 in 5..20 || thousands % 10 == 0 || thousands % 10 in 5..9) -> "тысяч"
+            (thousands % 10 in 2..4) -> "тысячи"
+            (thousands % 10 == 1) -> "тысяча"
+            else -> ""
+        }
+    }
+    list += hundreds(hundreds)
+    list += tens(hundreds % 100)
+    list += units(hundreds % 100)
+    return list.filter { it != "" }.joinToString(separator = " ")
+}

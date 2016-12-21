@@ -60,7 +60,13 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  */
 fun digitNumber(n: Int): Int {
     if (n == 0) return 1
-    return (Math.log10(n.toDouble())).toInt() + 1
+    var num = n
+    var count = 0
+    while (num > 0) {
+        num /= 10
+        count ++
+    }
+    return count
 }
 
 /**
@@ -166,6 +172,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 fun sin(x: Double, eps: Double): Double {
     var newX = x
     while (newX >= 2.0* Math.PI) newX -= 2.0 * Math.PI
+    while (newX <= -2.0* Math.PI) newX += 2.0 * Math.PI
     var result = newX
     var part = newX
     var count = 3.0
@@ -187,6 +194,7 @@ fun sin(x: Double, eps: Double): Double {
 fun cos(x: Double, eps: Double): Double {
     var newX = x
     while (newX >= 2.0* Math.PI) newX -= 2.0 * Math.PI
+    while (newX <= -2.0* Math.PI) newX += 2.0 * Math.PI
     var result = 1.0
     var part = 1.0
     var count = 2.0

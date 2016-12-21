@@ -78,7 +78,8 @@ fun square(notation: String): Square {
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
 fun rookMoveNumber(start: Square, end: Square): Int {
-    if (end.inside() == false or start.inside() == false) throw IllegalArgumentException()
+    if ((start.column !in 1..8) or (start.row !in 1..8)) throw IllegalArgumentException()
+    if ((end.column !in 1..8) or (end.row !in 1..8)) throw IllegalArgumentException()
     if (start == end) {
         return 0
     } else {
@@ -86,7 +87,6 @@ fun rookMoveNumber(start: Square, end: Square): Int {
         else return 1
     }
 }
-
 /**
  * Средняя
  *
@@ -134,7 +134,8 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
     when {
-        (end.inside() == false or start.inside() == false) -> throw IllegalArgumentException()
+        ((start.column !in 1..8) or (start.row !in 1..8)) -> throw IllegalArgumentException()
+        ((end.column !in 1..8) or (end.row !in 1..8)) -> throw IllegalArgumentException()
         (start == end) -> return 0
     }
     fun moveNumber(start: Square, end: Square): Int {

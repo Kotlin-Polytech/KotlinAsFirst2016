@@ -87,7 +87,7 @@ data class Segment(val begin: Point, val end: Point)
  */
 fun diameter(vararg points: Point): Segment {
     if (points.size < 2) throw IllegalArgumentException()
-    var distance = 0.0
+    var distance = -1.0
     var thisDistance:Double
     var result = Segment(points[0], points[0])
     var alreadyDone = 0

@@ -67,24 +67,22 @@ fun dateStrToDigit(str: String): String {
     val listDate = mutableListOf<String>()
     if (parts.size == 3) {
         try {
+            val day = parts[0].toInt()
+            listDate.add( twoDigitStr(day))
             listDate.add( when {
-                parts[0].toInt() in 1..9 -> twoDigitStr(parts[0].toInt())
-                else -> parts[0]
-            })
-            listDate.add( when {
-                parts[1] == "января" && parts[0].toInt() in 1..32  -> ".01."
-                parts[1] == "февраля" && parts[0].toInt() == 29 && parts[2].toInt() % 4 == 0-> ".02."
-                parts[1] == "февраля" && parts[0].toInt() in 1..29 -> ".02."
-                parts[1] == "марта" && parts[0].toInt() in 1..32 -> ".03."
-                parts[1] == "апреля" && parts[0].toInt() in 1..31-> ".04."
-                parts[1] == "мая" && parts[0].toInt() in 1..32 -> ".05."
-                parts[1] == "июня" && parts[0].toInt() in 1..31 -> ".06."
-                parts[1] == "июля" && parts[0].toInt() in 1..32 -> ".07."
-                parts[1] == "августа" && parts[0].toInt() in 1..32 -> ".08."
-                parts[1] == "сентября" && parts[0].toInt() in 1..31 -> ".09."
-                parts[1] == "октября" && parts[0].toInt() in 1..32 -> ".10."
-                parts[1] == "ноября" && parts[0].toInt() in 1..31 -> ".11."
-                parts[1] == "декабря" && parts[0].toInt() in 1..32 -> ".12."
+                parts[1] == "января" && day in 1..32  -> ".01."
+                parts[1] == "февраля" && day == 29 && parts[2].toInt() % 4 == 0-> ".02."
+                parts[1] == "февраля" && day in 1..29 -> ".02."
+                parts[1] == "марта" && day in 1..32 -> ".03."
+                parts[1] == "апреля" && day in 1..31-> ".04."
+                parts[1] == "мая" && day in 1..32 -> ".05."
+                parts[1] == "июня" && day in 1..31 -> ".06."
+                parts[1] == "июля" && day in 1..32 -> ".07."
+                parts[1] == "августа" && day in 1..32 -> ".08."
+                parts[1] == "сентября" && day in 1..31 -> ".09."
+                parts[1] == "октября" && day in 1..32 -> ".10."
+                parts[1] == "ноября" && day in 1..31 -> ".11."
+                parts[1] == "декабря" && day in 1..32 -> ".12."
                 else -> return ""
             })
             listDate.add(parts[2])
@@ -108,27 +106,24 @@ fun dateDigitToStr(digital: String): String {
     if (parts.size == 3) {
         try {
             val day = parts[0].toInt()
-            if (day  !in 1..31) {
-                return ""
-            }
-                else {
+            val mounth = parts[1]
                 result = day.toString()
-                result += when (parts[1]) {
-                    "01" -> " января "
-                    "02" -> " февраля "
-                    "03" -> " марта "
-                    "04" -> " апреля "
-                    "05" -> " мая "
-                    "06" -> " июня "
-                    "07" -> " июля "
-                    "08" -> " августа "
-                    "09" -> " сентября "
-                    "10" -> " октября "
-                    "11" -> " ноября "
-                    "12" -> " декабря "
+                result += when {
+                    mounth == "01" && day in 1..31 -> " января "
+                    mounth == "02" && parts[2].toInt() % 4 == 0 && day == 29 -> " февраля "
+                    mounth == "02" && day in 1..28 -> " февраля "
+                    mounth == "03" && day in 1..31 -> " марта "
+                    mounth == "04" && day in 1..30 -> " апреля "
+                    mounth == "05" && day in 1..31 -> " мая "
+                    mounth == "06" && day in 1..30 -> " июня "
+                    mounth == "07" && day in 1..31 -> " июля "
+                    mounth == "08" && day in 1..31 -> " августа "
+                    mounth == "09" && day in 1..30 -> " сентября "
+                    mounth == "10" && day in 1..31 -> " октября "
+                    mounth == "11" && day in 1..30 -> " ноября "
+                    mounth == "12" && day in 1..31 -> " декабря "
                     else -> return ""
                 }
-            }
             result += parts[2].toInt().toString()
         } catch (e: NumberFormatException) {
             return ""

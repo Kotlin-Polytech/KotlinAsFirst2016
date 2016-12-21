@@ -127,5 +127,23 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
 fun numberRevert(number: Int): Int = ((number % 10) * 100) + ((number / 100)) +
         (number - ((number / 100) * 100) - (number % 10))
 
-
+/**
+ * Номер телефона
+ */
+fun oldPhoneNumber(text: String): String {
+    val result = mutableListOf<String>()
+    for (i in 0..text.length - 1){
+        if (text[i] in 'A'..'C') result.add("2")
+        if (text[i] in 'D'..'F') result.add("3")
+        if (text[i] in 'G'..'I') result.add("4")
+        if (text[i] in 'J'..'L') result.add("5")
+        if (text[i] in 'M'..'O') result.add("6")
+        if (text[i] in 'P'..'S') result.add("7")
+        if (text[i] in 'T'..'V') result.add("8")
+        if (text[i] in 'W'..'Z') result.add("9")
+        if (text[i] in '0'..'9') result.add(text[i].toString())
+        if (text[i] == '-') result.add("-")
+    }
+    return result.joinToString(separator = "")
+}
 

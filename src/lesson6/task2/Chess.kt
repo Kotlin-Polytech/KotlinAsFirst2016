@@ -157,26 +157,19 @@ fun bishopMoveNumber(start: Square, end: Square): Int {
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
 fun bishopTrajectory(start: Square, end: Square): List<Square> {
-        if ((Math.abs(end.column - start.column) + Math.abs(end.row - start.row)) % 2 == 1) {
-        return listOf()
-    } else {
-       return when (bishopMoveNumber(start, end)) {
-           -1 -> listOf()
-           0 -> listOf(start)
-           1 -> listOf(start, end)
-            else -> listOf(start, when {
-                (start.column + end.column + end.row - start.row) / 2 in 0..8 ->
-                    Square((start.column + end.column + end.row - start.row) / 2,
-                           (start.column + end.column + end.row - start.row) / 2
-                                   - start.column + start.row)
-                else -> Square((start.column - end.column + end.row - start.row) / 2,
-                               (start.column + end.column + end.row - start.row) / 2
-                                       - start.column + start.row)
-            }
-                    , end)
-        }
+    val moveBishop = bishopMoveNumber(start, end)
+    if (moveBishop == -1) return listOf()
+    if (moveBishop == 0) return listOf(start)
+    if (moveBishop == 1) return listOf(start, end)
+    var x = (end.row - start.row + end.column + start.column) / 2
+    var y = x - start.column + start.row
+    if (x !in 1..8 || y !in 1..8) {
+        x = (end.row - start.row - end.column - start.column) / (-2)
+        y = (-1) * x + start.column + start.row
     }
+    return listOf(start, Square(x, y), end)
 }
+
 
 /**
  * Средняя
@@ -224,8 +217,8 @@ fun kingMoveNumber(start: Square, end: Square): Int {
  */
 fun kingTrajectory(start: Square, end: Square): List<Square> {
     val moveList = mutableListOf<Square>(start)
-    val distanceColumn = end.column - start.column >= 0
-    val distanceRow = end.row - start.row >= 0
+    val distanceColumn = end.column - start.column > 0
+    val distanceRow = end.row - start.row > 0
     var kingX = start.column
     var kingY = start.row
     while (kingX != end.column && kingY != end.row) {
@@ -260,7 +253,8 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
             }
             moveList.add(Square(kingX, kingY))
         }
-    } else {
+    }
+    if (kingX == end.column) {
         while (kingY != end.row){
             when{
                 distanceRow -> kingY += 1

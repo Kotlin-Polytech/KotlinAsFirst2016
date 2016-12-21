@@ -56,6 +56,12 @@ Basic, Ruby, Swift.
     }
 
     @Test
+    @Tag("MyFun")
+    fun countSubStrInStr() {
+        assertEquals(4, countSubStrInStr("абв", "Абвr.kbhjetlihbабвбваБВаБв"))
+    }
+
+    @Test
     @Tag("Normal")
     fun countSubstrings() {
         assertEquals(mapOf("РАЗНЫЕ" to 2, "ные" to 2, "Неряшливость" to 1, "е" to 49, "эволюция" to 0),

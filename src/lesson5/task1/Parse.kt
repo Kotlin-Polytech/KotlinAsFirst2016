@@ -84,7 +84,7 @@ fun dateStrToDigit(str: String): String {
                 parts[1] == "ноября" && day in 1..31 -> ".11."
                 parts[1] == "декабря" && day in 1..32 -> ".12."
                 else -> return ""
-            })
+            } )
             listDate.add(parts[2])
         } catch (e: NumberFormatException) {
             return ""
@@ -168,7 +168,9 @@ fun bestLongJump(jumps: String): Int {
     var max = -1
     try {
         for (part in parts) {
-            if (part == "%" || part == "-") continue
+            if (part == "%" || part == "-") {
+                continue
+            }
             else {
                 val number = part.toInt()
                 if (max < number) max = number

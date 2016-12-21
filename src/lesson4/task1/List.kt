@@ -125,17 +125,17 @@ fun mean(list: List<Double>): Double = when(list.size) {
 }
 
 
-        /**
-         * Средняя
-         *
-         * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
-         * Если список пуст, не делать ничего. Вернуть изменённый список.
-         */
-        fun center (list: MutableList<Double>): MutableList<Double> {
+/**
+ * Средняя
+ *
+ * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
+ * Если список пуст, не делать ничего. Вернуть изменённый список.
+ */
+fun center(list: MutableList<Double>): MutableList<Double> {
     val a = mean(list)
-        for (i in 0..list.size - 1){
-            list[i] -= a
-        }
+    for (i in 0..list.size - 1) {
+        list[i] -= a
+    }
     return list
 }
 
@@ -170,8 +170,9 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var sum = 0.0
-    for (i in 0..p.size - 1)
+    for (i in 0..p.size - 1) {
         sum += p[i] * Math.pow(x, i.toDouble())
+    }
     return sum
 }
 

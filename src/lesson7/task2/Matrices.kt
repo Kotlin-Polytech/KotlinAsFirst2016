@@ -62,14 +62,14 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  */
 fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val matrix = createMatrix<Int>(height, width, 1)
-    var rightWall = width // стены матрицы, котороые будут сдвигаться к центру
+    var rightWall = width // стены матрицы, которые будут сдвигаться к центру
     var downWall = height
     var leftWall = 0
     var topWall = 0
     var count = 1 // заполнитель
     var j = 0 // ряд
     var i = 0 // колонка
-    while (count <=  width * height) { // заполням кольцом
+    while (count <=  width * height) { // заполняем кольцом
         if (rightWall - leftWall <= 0) return matrix
         for (k in leftWall..rightWall - 1) {
             i = k

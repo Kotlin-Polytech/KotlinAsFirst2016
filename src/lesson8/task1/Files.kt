@@ -79,7 +79,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
     val outputStream = mutableMapOf<String, Int>()
     val setSubstrings = mutableSetOf<String>()
     val textList = mutableListOf<String>()
-    for (str in substrings) { // проверка на повторяющиеся substrings
+    for (str in substrings) { // отсеивание повторяющихся substrings
         setSubstrings.add(str)
     }
     for (line in File(inputName).readLines()) { // текстовый спискок
@@ -130,9 +130,7 @@ fun sibilants(inputName: String, outputName: String) {
                 }
             }
         }
-        if (i < lines.size - 1){
             outputStream.newLine()
-        }
     }
     outputStream.close()
 }

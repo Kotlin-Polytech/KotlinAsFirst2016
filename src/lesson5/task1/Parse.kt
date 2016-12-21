@@ -10,10 +10,7 @@ package lesson5.task1
 fun timeStrToSeconds(str: String): Int {
     val parts = str.split(":")
     var result = 0
-    for (part in parts) {
-        val number = part.toInt()
-        result = result * 60 + number
-    }
+    parts.asSequence().map(String::toInt).forEach { result = result * 60 + it }
     return result
 }
 
@@ -60,7 +57,68 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dayInMonth(month: Int, year: Int): Int {
+    return when {
+        month == 1                      -> 31
+        month == 2 && isLeapYear(year)  -> 29
+        month == 2 && !isLeapYear(year) -> 28
+        month == 3                      -> 31
+        month == 4                      -> 30
+        month == 5                      -> 31
+        month == 6                      -> 30
+        month == 7                      -> 31
+        month == 8                      -> 31
+        month == 9                      -> 30
+        month == 10                     -> 31
+        month == 11                     -> 30
+        month == 12                     -> 31
+        else
+        -> throw IllegalArgumentException("This is wrong number of month: $month.")
+    }
+}
+
+val numberOfMonth: List<String> =
+        listOf("января", "февраля", "марта", "апреля",
+                "мая", "июня", "июля", "августа",
+                "сентября", "октября", "ноября", "декабря")
+
+fun isLeapYear(year: Int): Boolean {
+    return if (year < 0) throw IllegalArgumentException("This is wrong number of year: $year.")
+    else ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+}
+
+fun isCorrectDay(day: Int, month: Int, year: Int): Boolean = day in 1..dayInMonth(month, year)
+fun isCorrectMonth(month: Int): Boolean = month in 1..12
+fun isCorrectYear(year: Int): Boolean = year >= 0
+
+fun isCorrectDate(date: List<String>): Boolean {
+    val isWord = Regex("""^[а-я]+$""")
+    val isNumber = Regex("""^[0-9]{1,2}$""")
+    val day = date[0].toInt()
+    val year = date[2].toInt()
+    if (day !in 1..31) return false
+    else if (!isCorrectYear(year)) return false
+    else if (isWord.containsMatchIn(date[1])) {
+        val month = numberOfMonth.indexOf(date[1]) + 1
+        return isCorrectMonth(month) && isCorrectDay(day, month, year)
+    } else if (isNumber.containsMatchIn(date[1])) {
+        val month = date[1].toInt()
+        return isCorrectMonth(month) && isCorrectDay(day, month, year)
+    } else return false
+}
+
+fun dateStrToDigit(str: String): String {
+    val checkFormat = Regex("""^\d{1,2} [а-я]+ \d+$""")
+    if (!checkFormat.matches(str)) return ""
+    else {
+        val date: MutableList<String> = str.split(" ").toMutableList()
+        if (isCorrectDate(date)) {
+            date[1] = twoDigitStr(numberOfMonth.indexOf(date[1])+1)
+            date[0] = twoDigitStr(date[0].toInt())
+            return date.joinToString(".")
+        } else return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +127,19 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val checkFormat = Regex("""^\d\d\.\d\d.\d+$""")
+    if (!checkFormat.matches(digital)) return ""
+    else {
+        val date: MutableList<String> = digital.split(".").toMutableList()
+        if (isCorrectDate(date)) {
+            date[0] = date[0].toInt().toString()
+            date[1] = numberOfMonth[date[1].toInt()-1]
+            return date.joinToString(" ")
+        }
+        else return ""
+    }
+}
 
 /**
  * Сложная
@@ -83,7 +153,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val checkFormat = Regex("""^(\+?\d+)?[ -]*(\(\d+\))?[ -]*\d[ 0-9-]*$""")
+    return if (!checkFormat.matches(phone)) ""
+    else phone.filterNot { it == ' ' || it == '(' || it == ')' || it == '-' }
+}
 
 /**
  * Средняя
@@ -95,7 +169,17 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val parts = jumps.split(Regex("""\s+"""))
+    val marks = Regex("""[-%]+""")
+    val jump = Regex("""\d+""")
+    var result: Int = -1
+    for (i in parts) {
+        if (i.matches(jump) && i.toInt() > result) result = i.toInt()
+        else if (!i.matches(jump) && !i.matches(marks)) return -1
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -107,7 +191,20 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(Regex("""\s+"""))
+    if (parts.size % 2 == 1) return -1
+    var result = -1
+    val marks = Regex("""[-+%]+""")
+    val isNumber = Regex("""\d+""")
+    for (i in 0..parts.size - 1 step 2) {
+        if (parts[i].matches(isNumber) && parts[i+1].matches(marks)) {
+            if (parts[i+1].contains('+') && parts[i].toInt() > result) result = parts[i].toInt()
+        }
+        else return -1
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -118,7 +215,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val checkFormat = Regex("""(\d+ (\+|-) )*\d+""")
+    if (!checkFormat.matches(expression)) throw IllegalArgumentException(expression)
+    else {
+        try {
+            val parts = expression.split(" ")
+            var result: Int = parts[0].toInt()
+            for (i in 2..parts.size-1 step 2) {
+                if (parts[i-1] == "+") result += parts[i].toInt()
+                else if (parts[i-1] == "-") result -= parts[i].toInt()
+                else throw IllegalArgumentException(parts[i-1])
+            }
+            return result
+        }
+        catch (e: NumberFormatException) {
+            throw IllegalArgumentException(expression)
+        }
+    }
+}
 
 /**
  * Сложная
@@ -129,7 +244,9 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int =
+    Regex("""([а-яa-z]+) (\1)\b""", RegexOption.IGNORE_CASE).find(str)?.range?.first ?: -1
+
 
 /**
  * Сложная
@@ -142,7 +259,23 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val goods = description.split("; ")
+    var maxPrice: Double = -1.0
+    var name: String = ""
+    for (i in goods) {
+        try {
+            val price = i.takeLastWhile { it != ' ' }.toDouble()
+            if (price > maxPrice) {
+                maxPrice = price
+                name = i.dropLastWhile { it != ' ' }.dropLast(1)
+            }
+        } catch(e: NumberFormatException) {
+            return ""
+        }
+    }
+    return name
+}
 
 /**
  * Сложная
@@ -155,7 +288,43 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+val table: Map<Char, Int> =
+        mapOf(  'M' to 1000,
+                'D' to 500,
+                'C' to 100,
+                'L' to 50,
+                'X' to 10,
+                'V' to 5,
+                'I' to 1)
+
+fun fromRoman(roman: String): Int {
+    val checkFormat1 = Regex("""IIII|XXXX|CCCC|VV|LL|DD""")
+    val checkFormat2 = Regex("""II(?=(V|X))|XX(?=(L|C))|CC(?=(D|M))""")
+    val checkFormat3 = Regex("""V(?=(L|IV|IX))|L(?=(D|XL|XC))|D(?=(CD|CM))""")
+    val checkFormat4 = Regex("""(IV|IX)(?=(I|V|X|L|C|D|M))|(XL|XC)(?=(X|L|C|D|M))|(CD|CM)(?=(C|D|M))""")
+
+    if (    checkFormat1.containsMatchIn(roman) ||
+            checkFormat2.containsMatchIn(roman) ||
+            checkFormat3.containsMatchIn(roman) ||
+            checkFormat4.containsMatchIn(roman)) return -1
+    else if (roman == "") return 0
+    else {
+        var result: Int = 0
+        var parts = roman.toList()
+        while (parts.size > 1) {
+            val current: Int = table[parts[0]] ?: return -1
+            val next: Int = table[parts[1]] ?: return -1
+            when {
+                next / current <= 1                             -> result += current
+                next / current == 5 || next / current == 10     -> result -= current
+                else                                            -> return -1
+            }
+            parts = parts.drop(1)
+        }
+        result += table[parts[0]] ?: return -1
+        return result
+    }
+}
 
 /**
  * Сложная
@@ -187,4 +356,203 @@ fun fromRoman(roman: String): Int = TODO()
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+fun computeDeviceCells(cells: Int, commands: String): List<Int> {
+    val computeDevice: ComputeDevice = createComputeDevice(cells)
+    computeDevice.execute(commands)
+    return computeDevice.conveyor()
+}
+
+/**
+ *  Интерфейс устройства, ориентированный на задачу computeDeviceCells.
+ *  Метод execute() выполняет изменение состояния устройства в соответствии
+ *  с переданной в качестве параметра строкой команд.
+ *  Метод getConveyor() позволяет получить список целых чисел, представляющий
+ *  ячейки конвейера.
+ */
+interface ComputeDevice {
+    fun execute(commands: String): Unit
+    fun conveyor(): List<Int>
+}
+
+/**
+ * Функция для создания экземпляра устройства.
+ */
+fun createComputeDevice(cells: Int): ComputeDevice {
+    return ComputeDeviceImpl(cells)
+}
+
+/**
+ * Класс реализации устройства.
+ * Поля класса:
+ *      cells - количество ячеек устройства.
+ *      conveyor - представление конвейера ячеек.
+ *      current - текущее положение датчика.
+ */
+class ComputeDeviceImpl(val cells: Int) : ComputeDevice{
+    private val conveyor: MutableList<Int>
+
+    private var current: Int = cells / 2
+
+    private var commandProcessingStrategy: CommandProcessingStrategy = RightAlgorithm(this)
+
+    init {
+        conveyor = mutableListOf()
+        for (i in 0..cells - 1) {
+            conveyor.add(0)
+        }
+    }
+
+    ///Команда '+'
+    fun plus(): Unit {
+        conveyor[current]++
+    }
+
+    ///Команда '-'
+    fun minus(): Unit {
+        conveyor[current]--
+    }
+
+    ///Команда '>'
+    fun right(): Unit {
+        if (current != cells - 1) {
+            current++
+        }
+        else throw IllegalStateException("Out of conveyor.")
+    }
+
+    ///Команда '<'
+    fun left(): Unit {
+        if (current != 0) {
+            current--
+        }
+        else throw IllegalStateException("Out of conveyor.")
+    }
+
+    ///Команда ' '
+    fun space(): Unit {}
+
+    ///Получение значения ячейки под датчиком.
+    fun getCurrentCell(): Int = conveyor[current]
+
+    override fun execute(commands: String): Unit {
+        commandProcessingStrategy.commandProcessing(commands)
+    }
+
+    override fun conveyor(): List<Int> = conveyor
+
+    ///Перегрузка toString() для осмысленных диагностических сообщений. (При работе функции не используется)
+    override fun toString(): String {
+        return "[conveyor = $conveyor, current = $current]"
+    }
+}
+
+abstract class CommandProcessingStrategy(open var computeDevice: ComputeDeviceImpl) {
+    abstract fun commandProcessing(commands: String): ComputeDevice
+}
+
+class WrongAlgorithm(override var computeDevice: ComputeDeviceImpl) : CommandProcessingStrategy(computeDevice) {
+    ///Обработка команд.
+    override fun commandProcessing(commands: String): ComputeDevice {
+        var index: Int = 0
+        while (index != commands.length) {
+            when (commands[index]) {
+                '+' -> { computeDevice.plus(); index++ }
+                '-' -> { computeDevice.minus(); index++ }
+                '>' -> { computeDevice.right(); index++ }
+                '<' -> { computeDevice.left(); index++ }
+                ' ' -> { computeDevice.space(); index++ }
+                '[' -> {
+                    val expr = getComplicatedExpression(commands.drop(index+1), '[', ']')
+                    loopProcessing(expr)
+                    index += (expr.length + 2)
+                }
+                '{' -> {
+                    val expr = getComplicatedExpression(commands.drop(index+1), '{', '}')
+                    loopProcessing(expr)
+                    index += (expr.length + 2)
+                }
+                else -> throw IllegalArgumentException("Wrong symbol: ${commands[index]}.")
+            }
+        }
+        return computeDevice
+    }
+
+    ///Извлечь выражение из цикла.
+    private fun getComplicatedExpression(str: String, opening: Char, closing: Char): String {
+        var counterOpenBrackets: Int = 1
+        val expression = StringBuilder("")
+        for (i in str) {
+            when (i) {
+                closing -> counterOpenBrackets--
+                opening -> { counterOpenBrackets++; expression.append(i) }
+                else    -> expression.append(i)
+            }
+            if (counterOpenBrackets == 0) return expression.toString()
+        }
+        throw IllegalArgumentException("Unclosed brackets.")
+    }
+
+    ///Обработка выражения в цикле.
+    private fun loopProcessing(expr: String): ComputeDeviceImpl {
+        while (computeDevice.getCurrentCell() != 0) {
+            commandProcessing(expr)
+        }
+        return computeDevice
+    }
+
+
+}
+
+class RightAlgorithm(override var computeDevice: ComputeDeviceImpl) : CommandProcessingStrategy(computeDevice) {
+    override fun commandProcessing(commands: String): ComputeDevice {
+        var index: Int = 0
+        while (index != commands.length) {
+            when (commands[index]) {
+                '+' -> { computeDevice.plus(); index++ }
+                '-' -> { computeDevice.minus(); index++ }
+                '>' -> { computeDevice.right(); index++ }
+                '<' -> { computeDevice.left(); index++ }
+                ' ' -> { computeDevice.space(); index++ }
+                '[' -> {
+                    if (computeDevice.getCurrentCell() == 0) {
+                        index += rightShiftTo(commands.drop(index + 1), ']')
+                    }
+                    else index++
+                }
+                ']' -> {
+                    if (computeDevice.getCurrentCell() != 0) {
+                        index -= leftShiftTo(commands.dropLast(commands.length - index), '[')
+                    }
+                    else index++
+                }
+                '{' -> {
+                    if (computeDevice.getCurrentCell() == 0) {
+                        index += rightShiftTo(commands.drop(index + 1), '}')
+                    }
+                    else index++
+                }
+                '}' -> {
+                    if (computeDevice.getCurrentCell() != 0) {
+                        index -= leftShiftTo(commands.dropLast(commands.length - index), '{')
+                    }
+                    else index++
+                }
+                else -> throw IllegalArgumentException("Wrong symbol: ${commands[index]}.")
+
+            }
+        }
+        return computeDevice
+    }
+
+    private fun rightShiftTo(str: String, symbol: Char): Int {
+        val temp: Int = str.indexOfFirst { it == symbol }
+        if (temp == -1) throw IllegalArgumentException("Unclosed bracket.")
+        else return temp + 1
+    }
+
+    private fun leftShiftTo(str: String, symbol: Char): Int {
+        val temp: Int = str.length - str.lastIndexOf(symbol)
+        if (temp == -1) throw IllegalArgumentException("Unclosed bracket.")
+        else return temp - 1
+    }
+}

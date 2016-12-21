@@ -133,6 +133,8 @@ class Tests {
         assertEquals(1.0, sin(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(0.0, sin(Math.PI, 1e-5), 1e-5)
         assertEquals(-1.0, sin(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(Math.sin(2000.0), sin(2000.0, 1e-13), 1e-13)
+        assertEquals(Math.sin(-2000.0), sin(-2000.0, 1e-12), 1e-12)
     }
 
     @Test
@@ -142,6 +144,8 @@ class Tests {
         assertEquals(0.0, cos(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(-1.0, cos(Math.PI, 1e-5), 1e-5)
         assertEquals(0.0, cos(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
+        assertEquals(Math.cos(2000.0), cos(2000.0, 1e-13), 1e-13)
+        assertEquals(Math.cos(-2000.0), cos(-2000.0, 1e-12), 1e-12)
     }
 
     @Test
@@ -170,6 +174,7 @@ class Tests {
         assertTrue(hasDifferentDigits(323))
         assertTrue(hasDifferentDigits(54))
         assertTrue(hasDifferentDigits(222266666))
+        assertTrue(hasDifferentDigits(20220))
         assertFalse(hasDifferentDigits(0))
         assertFalse(hasDifferentDigits(777))
     }

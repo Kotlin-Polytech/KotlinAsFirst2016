@@ -336,7 +336,7 @@ fun main(args: Array<String>) {
     val line = readLine()
     if (line != null) {
         val seconds = timeStrToSeconds(line)
-        if (seconds == -1) {
+        if (seconds == -1 ) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
         }
         else {

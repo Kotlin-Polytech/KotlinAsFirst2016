@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.*
 
 /**
  * Пример
@@ -33,7 +35,12 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String = when {
+    age % 10 == 1 && age / 10 != 1 && age / 10 != 11 -> "$age год"
+    age % 10 in 2..4 && age / 10 != 1 && age / 10 != 11 -> "$age года"
+    else -> "$age лет"
+}
+
 
 /**
  * Простая
@@ -44,7 +51,18 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val ss1 = v1 * t1
+    val ss2 = v2 * t2
+    val ss3 = v3 * t3
+    val s2 = (ss1 + ss2 + ss3) / 2
+    return when {
+        s2 <= ss1 -> s2 / v1
+        s2 <= ss1 + ss2 -> (s2 - ss1) / v2 + t1
+        else -> (s2 - ss1 - ss2) / v3 + t1 + t2
+    }
+}
+
 
 /**
  * Простая
@@ -56,7 +74,17 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    val firstRook = (kingX == rookX1 || kingY == rookY1)
+    val secondRook = (kingX == rookX2 || kingY == rookY2)
+    return when {
+        !firstRook && !secondRook -> 0
+        firstRook && !secondRook -> 1
+        !firstRook && secondRook -> 2
+        else -> 3
+    }
+}
+
 
 /**
  * Простая
@@ -69,7 +97,17 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val bishopThreaten = (abs(kingX - bishopX) == abs(kingY - bishopY))
+    val rookThreaten = (kingX == rookX) || (kingY == rookY)
+    return when {
+        rookThreaten && !bishopThreaten -> 1
+        !rookThreaten && bishopThreaten -> 2
+        rookThreaten && bishopThreaten -> 3
+        else -> 0
+
+    }
+}
 
 /**
  * Простая
@@ -78,8 +116,50 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Проверить, является ли данный треугольник остроугольным (вернуть 0),
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
+ *
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun maxOfThree(a: Double, b: Double, c: Double): Double {
+    var max = 0.0
+    if (a > b) {
+        max = a
+    } else {
+        max = b
+    }
+    if (c > max) {
+        max = c
+    }
+    return max
+}
+
+fun minOfThree(a: Double, b: Double, c: Double): Double {
+    var min = 0.0
+    if (a < b) {
+        min = a
+    } else {
+        min = b
+    }
+    if (c < min) {
+        min = c
+    }
+    return min
+}
+
+fun mediumOfThree(a: Double, b: Double, c: Double): Double =
+        a + b + c - minOfThree(a, b, c) - maxOfThree(a, b, c)
+
+fun sqr(x: Double) = x * x
+
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val min = minOfThree(a, b, c)
+    val medium = mediumOfThree(a, b, c)
+    val max = maxOfThree(a, b, c)
+    return when {
+        max >= min + medium -> -1
+        sqr(min) + sqr(medium) == sqr(max) -> 1
+        sqr(min) + sqr(medium) < sqr(max) -> 2
+        else -> 0
+    }
+}
 
 /**
  * Средняя
@@ -89,4 +169,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    Math.min(b, d) - Math.max(a, c) >= 0 -> Math.min(b, d) - Math.max(a, c)
+    else -> -1
+}
+
+

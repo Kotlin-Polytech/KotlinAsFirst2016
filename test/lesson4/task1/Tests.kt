@@ -81,6 +81,7 @@ class Tests {
         assertEquals(1.0, mean(listOf(1.0)), 1e-5)
         assertEquals(2.0, mean(listOf(3.0, 1.0, 2.0)), 1e-5)
         assertEquals(3.0, mean(listOf(0.0, 2.0, 7.0, 8.0, -2.0)), 1e-5)
+        assertEquals(0.6, mean(listOf(3.0, 3.0, 3.0, -3.0, -3.0)), 1e-5)
     }
 
     @Test
@@ -141,6 +142,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf(0), convert(0, 283))
     }
 
     @Test
@@ -151,6 +153,7 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+        assertEquals("0", convertToString(0, 24))
     }
 
     @Test
@@ -193,4 +196,23 @@ class Tests {
         assertEquals("девятьсот тысяч", russian(900000))
         assertEquals("двенадцать", russian(12))
     }
+    @Test
+    @Tag("Exam")
+    fun myFun() {
+        val p1 = People("John", "Brown")
+        val p2 = People("Carly", "Orange")
+        val p3 = People("George", "Brown")
+        val p4 = People("Jimmy", "Black")
+        val p5 = People("Tom", "Yellow")
+        val p6 = People("George", "Blue") // Подразумевается, что Georges - это тески
+        val p7 = People("Jess", "СероБуроМалиновый")
+        assertEquals(listOf<People>(p2, p4, p5, p6, p7), myFun(listOf(
+                "John Brown",
+                "Carly Orange",
+                "George Brown",
+                "Jimmy Black", "Tom Yellow",
+                "George Blue",
+                "Jess СероБуроМалиновый")))
+    }
+
 }

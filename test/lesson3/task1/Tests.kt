@@ -18,30 +18,6 @@ class Tests {
 
     @Test
     @Tag("Example")
-    fun isPrime() {
-        assertTrue(isPrime(2))
-        assertTrue(isPrime(3))
-        assertTrue(isPrime(19))
-        assertTrue(isPrime(53))
-        assertFalse(isPrime(1))
-        assertFalse(isPrime(9))
-        var count = 0
-        for (n in 2..7919) {
-            if (isPrime(n)) {
-                count++
-            }
-        }
-        assertEquals(1000, count)
-        for (n in 2..10000000) {
-            if (isPrime(n)) {
-                count++
-            }
-        }
-        assertEquals(665579, count)
-    }
-
-    @Test
-    @Tag("Example")
     fun isPerfect() {
         assertTrue(isPerfect(6))
         assertTrue(isPerfect(28))

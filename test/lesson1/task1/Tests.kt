@@ -95,4 +95,12 @@ class Tests {
         assertEquals(874, numberRevert(478))
         assertEquals(201, numberRevert(102))
     }
+    @Test
+    @Tag("Impossible")
+    fun oldPhoneNumber () {
+        assertEquals("3245", oldPhoneNumber("FAIL"))
+        assertEquals("1-800-33284", oldPhoneNumber("1-800-DEATH"))
+        assertEquals("", oldPhoneNumber(""))
+        assertEquals("3", oldPhoneNumber("F"))
+    }
 }

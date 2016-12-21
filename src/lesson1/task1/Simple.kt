@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -51,7 +52,7 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
 
 /**
  * Тривиальная
@@ -60,7 +61,8 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = TODO()
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = TODO()
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+        vershoks * 0.04445 + arshins * 16 * 0.04445 + sagenes * 48 * 0.04445
 
 /**
  * Тривиальная
@@ -68,7 +70,9 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double = TODO()
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double = TODO()
+fun angleInRadian(grad: Int, min: Int, sec: Int): Double =
+        (grad + min / 60.0 + sec / 3600.0) / (180.0 / Math.PI)
+
 
 /**
  * Тривиальная
@@ -76,7 +80,9 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double = TODO()
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = TODO()
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double =
+        sqrt(sqr(x2 - x1) + sqr(y2 - y1))
+
 
 /**
  * Простая
@@ -84,7 +90,7 @@ fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = TODO()
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int = TODO()
+fun thirdDigit(number: Int): Int = (number / 100) % 10
 
 /**
  * Простая
@@ -93,7 +99,13 @@ fun thirdDigit(number: Int): Int = TODO()
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int = TODO()
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
+    var min = (hoursArrive - hoursDepart) * 60 + (minutesArrive - minutesDepart)
+    if (min < 0) {
+        min += 24 * 60
+    }
+    return min
+}
 
 /**
  * Простая
@@ -102,7 +114,11 @@ fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minute
  * Сколько денег будет на счету через 3 года (с учётом сложных процентов)?
  * Например, 100 рублей под 10% годовых превратятся в 133.1 рубля
  */
-fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
+fun accountInThreeYears(initial: Int, percent: Int): Double {
+    val k = 1 + percent / 100.0
+    return k * k * k * initial
+}
+
 
 /**
  * Простая
@@ -110,4 +126,26 @@ fun accountInThreeYears(initial: Int, percent: Int): Double = TODO()
  * Пользователь задает целое трехзначное число (например, 478).
  *Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
-fun numberRevert(number: Int): Int = TODO()
+fun numberRevert(number: Int): Int = ((number % 10) * 100) + ((number / 100)) +
+        (number - ((number / 100) * 100) - (number % 10))
+
+/**
+ * Номер телефона
+ */
+fun oldPhoneNumber(text: String): String {
+    val result = mutableListOf<String>()
+    for (i in 0..text.length - 1){
+        if (text[i] in 'A'..'C') result.add("2")
+        if (text[i] in 'D'..'F') result.add("3")
+        if (text[i] in 'G'..'I') result.add("4")
+        if (text[i] in 'J'..'L') result.add("5")
+        if (text[i] in 'M'..'O') result.add("6")
+        if (text[i] in 'P'..'S') result.add("7")
+        if (text[i] in 'T'..'V') result.add("8")
+        if (text[i] in 'W'..'Z') result.add("9")
+        if (text[i] in '0'..'9') result.add(text[i].toString())
+        if (text[i] == '-') result.add("-")
+    }
+    return result.joinToString(separator = "")
+}
+

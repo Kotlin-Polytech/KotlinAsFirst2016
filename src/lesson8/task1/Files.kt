@@ -53,8 +53,43 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
+fun countSubStrInStr(substr: String, str: String): Int{ // foo считает сколько раз под строка содержится в строке.
+    var count = 0
+    when {
+        substr.length > str.length -> return 0
+        substr == str -> return 1
+        substr.length < str.length -> {
+            for (i in 0..str.length - substr.length){
+                var indexCount = 0
+                for (j in 0..substr.length - 1){
+                    if (substr[j].toLowerCase() == str[j + i].toLowerCase()){
+                        indexCount++
+                    }
+                }
+                if (indexCount == substr.length){
+                    count++
+                }
+            }
+        }
+    }
+    return count
+}
+
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val outputStream = mutableMapOf<String, Int>()
+    val setSubstrings = mutableSetOf<String>()
+    val textList = mutableListOf<String>()
+    for (str in substrings) { // отсеивание повторяющихся substrings
+        setSubstrings.add(str)
+    }
+    for (line in File(inputName).readLines()) { // текстовый спискок
+        textList.add(line)
+    }
+    val strTextParts = textList.joinToString(" ") //текст - строка
+    for (str in setSubstrings) {
+        outputStream.put(str, countSubStrInStr(str, strTextParts)) // распределение
+    }
+    return outputStream
 }
 
 
@@ -72,8 +107,37 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val mapChangeMistake = mapOf<Char, Char >(
+            'Ы' to 'И',
+            'ы' to 'и',
+            'Ю' to 'У',
+            'ю' to 'у',
+            'Я' to 'А',
+            'я' to 'а')
+    val lines = File(inputName).readLines()
+    for (i in 0..lines.size - 1){
+        if (lines[i].length <= 1){
+            outputStream.write(lines[i])
+        } else {
+            val firstChar = lines[i][0].toString()
+            outputStream.write(firstChar)
+            for (j in 1..lines[i].length - 1) {
+                if ((lines[i][j] in "ыЫюЮяЯ") && (lines[i][j - 1] in "жЖчЧшШщЩ")) {
+                    outputStream.write(mapChangeMistake[lines[i][j]].toString())
+                } else {
+                    outputStream.write(lines[i][j].toString())
+                }
+            }
+        }
+            outputStream.newLine()
+    }
+    outputStream.close()
 }
+
+
+
+
 
 /**
  * Средняя

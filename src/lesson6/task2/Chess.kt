@@ -242,10 +242,6 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
         }
         moveList.add(Square(kingX, kingY))
     }
-    if (kingX == kingY){
-        return moveList
-    }
-    if (kingY == end.row){
         while (kingX != end.column){
             when {
                 distanceColumn -> kingX += 1
@@ -253,8 +249,6 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
             }
             moveList.add(Square(kingX, kingY))
         }
-    }
-    if (kingX == end.column) {
         while (kingY != end.row){
             when{
                 distanceRow -> kingY += 1
@@ -262,7 +256,6 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
             }
             moveList.add(Square(kingX, kingY))
         }
-    }
     return moveList
 }
 

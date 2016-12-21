@@ -24,17 +24,19 @@ class Tests {
     @Test
     @Tag("Normal")
     fun dateStrToDigit() {
+        assertEquals("28.02.1", dateStrToDigit("28 февраля 1"))
         assertEquals("15.07.2016", dateStrToDigit("15 июля 2016"))
         assertEquals("", dateStrToDigit("3 мартобря 1918"))
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("", dateStrToDigit("AA апреля 2015"))
     }
 
     @Test
     @Tag("Normal")
     fun dateDigitToStr() {
-        assertEquals("15 июля 2016", dateDigitToStr("15.07.2016"))
+        assertEquals("28 сентября 0", dateDigitToStr("28.09.0"))
         assertEquals("", dateDigitToStr("01.02.20.19"))
         assertEquals("", dateDigitToStr("28.00.2000"))
         assertEquals("3 апреля 2011", dateDigitToStr("03.04.2011"))
@@ -46,18 +48,19 @@ class Tests {
     fun flattenPhoneNumber() {
         assertEquals("+79211234567", flattenPhoneNumber("+7 (921) 123-45-67"))
         assertEquals("123456798", flattenPhoneNumber("12 --  34- 5 -- 67 -98"))
-        assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber("ab-123"))
     }
 
     @Test
     @Tag("Normal")
     fun bestLongJump() {
+        assertEquals(2147483647, bestLongJump("1417255715 - - 819359384 - % -   1 2147483647 % - 813219160 2147483647 - 2147483647 0 %   - 2147483647 - - 1026951656 % - % - 0 1291512751 - - 1 - - - - 2147483647 % - - 100547281 1 1 - 1 1850831090 - - - % 1135767028 2147483647 - % - - 1170676926 - - - - % - 250964373 - 0 - - - 1699779960 1 - 1021668586 - 2147483647 % - 2147483647 129207787 % - - - 2147483647 - - - - 898099135 % 1210370350 1159483037 - - 2147483647 % % 2147483647 2147483647 % - - 1359089631 1 140295880 0 - - - 1 0 2147483647 - 2147483647 - 1"))
+        assertEquals(-1, bestLongJump("700 + 700"))
         assertEquals(717, bestLongJump("706 % - 717 - 703"))
         assertEquals(-1, bestLongJump("% - - % -"))
         assertEquals(754, bestLongJump("700 717 707 % 754"))
-        assertEquals(-1, bestLongJump("700 + 700"))
 
     }
 

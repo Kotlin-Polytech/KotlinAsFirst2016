@@ -1,7 +1,6 @@
 @file:Suppress("UNUSED_PARAMETER")
-package lesson6.task2
 
-import java.util.*
+package lesson6.task2
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -23,7 +22,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        val listColumn = listOf(1 to "a", 2 to "b", 3 to "c", 4 to "d", 5 to "e", 6 to "f", 7 to "g", 8 to "h")
+        if (inside() == true)
+            return listColumn[column - 1].second + row
+        else return ""
+    }
 }
 
 /**
@@ -33,7 +37,10 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (notation.length != 2 || notation[0] !in 'a'..'h' || notation[1] - '0' !in 1..8) throw IllegalArgumentException()
+    return Square(notation[0] - 'a' + 1, notation[1]-'0')
+}
 
 /**
  * Простая

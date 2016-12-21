@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,7 +24,7 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String = if (inside()) ('a' + column - 1).toString() + row.toString() else ""
 }
 
 /**
@@ -33,7 +34,10 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if (!notation.matches(Regex("""[a-h][1-8]"""))) throw IllegalArgumentException()
+    return Square(notation[0] - 'a' + 1, notation[1] - '0')
+}
 
 /**
  * Простая
@@ -58,7 +62,14 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun Square.onLineWith(other: Square): Boolean = column == other.column || row == other.row
+
+fun rookMoveNumber(start: Square, end: Square): Int = when {
+    !start.inside() || !end.inside() -> throw IllegalArgumentException()
+    start == end -> 0
+    start.onLineWith(end) -> 1
+    else -> 2
+}
 
 /**
  * Средняя
@@ -74,7 +85,12 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> = when {
+    !start.inside() || !end.inside() -> throw IllegalArgumentException()
+    start == end -> listOf<Square>(start)
+    start.onLineWith(end) -> listOf<Square>(start, end)
+    else -> listOf<Square>(start, Square(start.column, end.row), end)
+}
 
 /**
  * Простая

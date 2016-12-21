@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,30 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+
+fun dateStrToDigit(str: String): String {
+    val monthNameStorage = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val datePartStorage = str.split(" ")
+
+    if (datePartStorage.size != 3 ||
+        datePartStorage[1] !in monthNameStorage ||
+        !datePartStorage[0].matches(Regex("""\d+""")) ||
+        !datePartStorage[2].matches(Regex("""\d+"""))) return ""
+
+    with(StringBuilder()) {
+        append(datePartStorage[0].padStart(2, '0'))
+        append('.')
+
+        val monthNum = monthNameStorage.indexOf(datePartStorage[1]) + 1
+
+        append(monthNum.toString().padStart(2, '0'))
+
+        append('.')
+        append(datePartStorage[2])
+
+        return this.toString()
+    }
+}
 
 /**
  * Средняя
@@ -83,7 +105,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.any { it !in "0123456789 +-()" })
+        return ""
+    return phone.filter { it in '0'..'9' || it == '+' }
+}
 
 /**
  * Средняя
@@ -95,7 +121,15 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    try {
+        val jumpStorage = jumps.split(" ")
+        val luckyJumpStorage = jumpStorage.filter { it !in "-%" }.map { it.toInt() }
+        return luckyJumpStorage?.max() ?: -1
+    } catch(e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -107,7 +141,32 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int? {
+    // Проверка на кривые символы
+    if (jumps.any { it !in "0123456789 +-%" })
+        return -1
+
+    val jumpStorage = jumps.split(" ") // Разбиение на части
+    val attemptStorage = mutableListOf<Int>()
+    if (jumpStorage.isEmpty() || jumpStorage.size % 2 == 1) // Проверка на парность.
+        return -1
+
+    // Формирование списка из удачных попыток
+    for (i in 0..jumpStorage.size - 1 step 2) {
+        if (jumpStorage[i + 1].any { it in '0'..'9' })
+            return -1
+
+        try {
+            if (jumpStorage[i + 1].any { it == '+' })
+                attemptStorage.add(jumpStorage[i].toInt())
+        } catch (e: NumberFormatException) {
+            return -1
+        }
+    }
+
+    // Выбор максимального значения
+    return attemptStorage?.max() ?: -1
+}
 
 /**
  * Сложная
@@ -118,7 +177,27 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val expressionStorage = expression.split(" ").filter { !it.isEmpty() }
+
+    if (expressionStorage.isEmpty() || expressionStorage.size % 2 == 0)
+        throw IllegalArgumentException()
+
+    try {
+        var target = expressionStorage[0].toInt()
+
+        for (i in 1..expressionStorage.size - 1 step 2) {
+            if (expressionStorage[i] == "+") {
+                target += expressionStorage[i + 1].toInt()
+            } else if (expressionStorage[i] == "-") {
+                target -= expressionStorage[i + 1].toInt()
+            } else throw IllegalArgumentException()
+        }
+        return target
+    } catch(e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Сложная
@@ -142,7 +221,26 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val goods = description.split("; ")
+    var name = ""
+    var maxPrice = 0.0
+
+    try {
+        for (element in goods) {
+            val separator = element.lastIndexOf(" ")
+            val currentPrice = element.drop(separator + 1).toDouble()
+            if (currentPrice >= maxPrice) {
+                name = element.take(separator)
+                maxPrice = currentPrice
+            }
+        }
+    } catch(e: NumberFormatException) {
+        return ""
+    }
+
+    return name
+}
 
 /**
  * Сложная

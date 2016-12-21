@@ -124,6 +124,7 @@ class Tests {
         assertEquals(listOf(2), factorize(2))
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
+        assertEquals(listOf(3, 17, 18461), factorize(941511))
     }
 
     @Test
@@ -141,6 +142,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf( 0 ), convert(0, 457))
     }
 
     @Test
@@ -151,6 +153,7 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+        assertEquals("0", convertToString(0, 19))
     }
 
     @Test
@@ -180,6 +183,7 @@ class Tests {
         assertEquals("MCMLXXVIII", roman(1978))
         assertEquals("DCXCIV", roman(694))
         assertEquals("XLIX", roman(49))
+        assertEquals("MMMMMCDII", roman(5402))
     }
 
     @Test

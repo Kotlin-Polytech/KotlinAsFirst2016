@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -55,14 +56,17 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val d = center.distance(other.center) - radius - other.radius
+        return if (d < 0.0) 0.0 else d
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = center.distance(p) <= radius
 }
 
 /**
@@ -76,7 +80,20 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+
+fun Segment.length(): Double = begin.distance(end)
+
+fun Segment.mid(): Point = Point((begin.x + end.x) / 2, (begin.y + end.y) / 2)
+
+fun diameter(vararg points: Point): Segment {
+    var longestSegment = Segment(points.first(), points.last())
+    for (e1 in points) {
+        for (e2 in points) {
+            if (e1.distance(e2) > longestSegment.length()) longestSegment = Segment(e1, e2)
+        }
+    }
+    return longestSegment
+}
 
 /**
  * Простая
@@ -84,7 +101,7 @@ fun diameter(vararg points: Point): Segment = TODO()
  * Построить окружность по её диаметру, заданному двумя точками
  * Центр её должен находиться посередине между точками, а радиус составлять половину расстояния между ними
  */
-fun circleByDiameter(diameter: Segment): Circle = TODO()
+fun circleByDiameter(diameter: Segment): Circle = Circle(diameter.mid(), diameter.length() / 2)
 
 /**
  * Прямая, заданная точкой и углом наклона (в радианах) по отношению к оси X.
@@ -98,6 +115,25 @@ data class Line(val point: Point, val angle: Double) {
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
     fun crossPoint(other: Line): Point = TODO()
+    // Y = Y0 + (X-X0)*tg(angle)
+    // k = tg(angle)
+    // b = Y0
+    //
+    //  Y01 + (X-X01)*tg(angle1) = Y02 + (X-X02)*tg(angle2)
+    // (X-X01)*tg(angle1) - (X-X02)*tg(angle2) = (Y02-Y01)
+/*
+        println("Current x = ${point.x} y = ${point.y} angle = $angle")
+        println("Other   x = ${other.point.x} y = ${other.point.y} angle = ${other.angle}")
+
+        if(angle == other.angle) return Point(-1.0, -1.0)
+
+        val x = ((other.point.y - point.y) - other.point.x * Math.tan(other.angle) + point.x * Math.tan(angle)) / (Math.tan(angle) - Math.tan(other.angle))
+
+        val y = point.y + (x - point.x) * Math.tan(angle)
+        println("x = $x  y = $y")
+        return Point(x, y)
+    }
+*/
 }
 
 /**
@@ -105,21 +141,25 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line = Line(s.begin, Math.atan((s.end.y - s.begin.y) / (s.end.x - s.begin.x)))
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = Line(a, Math.atan((b.y - a.y) / (b.x - a.x)))
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val middle = Segment(a, b).mid()
+    val angle = Math.atan((b.y - a.y) / (b.x - a.x)) + Math.PI / 2
+    return Line(middle, angle)
+}
 
 /**
  * Средняя

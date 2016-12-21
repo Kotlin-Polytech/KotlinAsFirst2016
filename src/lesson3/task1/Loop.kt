@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +58,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var digitsAmount = 0
+    var currentNumber = n
+
+    do {
+        ++digitsAmount
+        currentNumber /= 10
+    } while (currentNumber != 0)
+
+    return digitsAmount
+}
 
 /**
  * Простая
@@ -65,7 +76,19 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var f = 1
+    var fPrev = 1
+
+    if (n == 1 || n == 2) return 1
+    for (i in 3..n) {
+        val fTemp = f
+        f += fPrev
+        fPrev = fTemp
+    }
+
+    return f
+}
 
 /**
  * Простая
@@ -73,14 +96,21 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun gcd(m: Int, n: Int): Int = if (n == 0) m else gcd(n, m % n)
+
+fun lcm(m: Int, n: Int): Int = m * n / gcd(m, n)
 
 /**
  * Простая
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    for (i in 2..n / 2) {
+        if (n % i == 0) return i
+    }
+    return n
+}
 
 /**
  * Простая
@@ -114,7 +144,26 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    var i = 3
+    var total = x % (2 * Math.PI)
+    var part: Double
+    val angle = total
+
+    while (true) {
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
+        i += 2
+        total -= part
+        if (Math.abs(eps) > Math.abs(part)) break
+
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
+        i += 2
+        total += part
+        if (Math.abs(eps) > Math.abs(part)) break
+    }
+
+    return total
+}
 
 /**
  * Простая
@@ -123,7 +172,26 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    var part: Double
+    var i = 2
+    var total = 1.0
+    val angle = x % (2 * Math.PI)
+
+    while (true) {
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
+        i += 2
+        total -= part
+        if (Math.abs(eps) > Math.abs(part)) break
+
+        part = Math.pow(angle, i.toDouble()) / factorial(i)
+        i += 2
+        total += part
+        if (Math.abs(eps) > Math.abs(part)) break
+    }
+
+    return total
+}
 
 /**
  * Средняя
@@ -131,7 +199,18 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var parameterN = n
+    var reverted = 0
+
+    while (parameterN > 0) {
+        reverted *= 10
+        reverted += parameterN % 10
+        parameterN /= 10
+    }
+
+    return reverted
+}
 
 /**
  * Средняя
@@ -140,7 +219,15 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    val currentNumberLine = n.toString()
+
+    for (i in 0..currentNumberLine.length / 2) {
+        if (currentNumberLine[i] != currentNumberLine[currentNumberLine.length - 1 - i])
+            return false
+    }
+    return true
+}
 
 /**
  * Средняя
@@ -156,8 +243,21 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * Найти n-ю цифру последовательности из квадратов целых чисел:
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
+ * выравнивание кода - ctrl+alt+l
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var lastSequenceElement = ""
+    var sequenceLen = 0
+
+    for (i in 1..n) {
+        lastSequenceElement = "${i * i}"
+        if (sequenceLen + lastSequenceElement.length >= n)
+            return (lastSequenceElement[n - sequenceLen - 1] - '0').toInt()
+        sequenceLen += lastSequenceElement.length
+    }
+
+    return (lastSequenceElement[n - 1] - '0').toInt()
+}
 
 /**
  * Сложная

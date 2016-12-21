@@ -253,6 +253,7 @@ fun mostExpensive(description: String): String {
     if (description.isEmpty()) return ""
     val namesNumbers = description.split("; ", " ")
     if (namesNumbers.size % 2 != 0) return ""
+    if (namesNumbers.size == 2) return namesNumbers[0]
     val numbersOnly = mutableListOf<Double>()
     for (i in 0..(namesNumbers.size - 2) / 2) {
         try {

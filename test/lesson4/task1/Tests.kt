@@ -121,6 +121,9 @@ class Tests {
     @Test
     @Tag("Normal")
     fun factorize() {
+        assertEquals(listOf(2,2,2,2), factorize(16))
+        assertEquals(listOf(2, 3), factorize(6))
+        assertEquals(listOf(401), factorize(401))
         assertEquals(listOf(2), factorize(2))
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
@@ -146,6 +149,8 @@ class Tests {
     @Test
     @Tag("Hard")
     fun convertToString() {
+        assertEquals("0", convertToString(0, 7))
+        assertEquals("30927", convertToString(483647, 20))
         assertEquals("1", convertToString(1, 2))
         assertEquals("1210", convertToString(100, 4))
         assertEquals("13c", convertToString(250, 14))
@@ -170,6 +175,7 @@ class Tests {
         assertEquals(250, decimalFromString("13c", 14))
         assertEquals(1000, decimalFromString("2ec", 19))
         assertEquals(35, decimalFromString("z", 36))
+        assertEquals(2147483647, decimalFromString("4clm98f",28))
     }
 
     @Test

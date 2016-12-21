@@ -57,7 +57,16 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var x = 0
+    var k = n
+    do {
+        x += 1
+        k /= 10
+    } while (Math.abs(k) > 0)
+    return x
+
+}
 
 /**
  * Простая
@@ -65,7 +74,25 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    if (2 >= n)
+        return 1
+    else {
+        var first = 1
+        var second = 1
+        var result = 0
+        for (i in 3..n){
+            result = first + second
+            first = second
+            second = result
+        }
+        return result
+    }
+
+}
+
+
+
 
 /**
  * Простая
@@ -80,7 +107,12 @@ fun lcm(m: Int, n: Int): Int = TODO()
  *
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
-fun minDivisor(n: Int): Int = TODO()
+fun minDivisor(n: Int): Int {
+    var x = 2
+    while (n % x != 0)
+        x += 1
+    return x
+}
 
 /**
  * Простая
@@ -157,7 +189,26 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun squareSequenceDigit(n: Int): Int {
+    var k = 0
+    var x = 1
+    var answer = 0
+    while (k != n) {
+        k += digitNumber(x * x)
+        answer = x * x
+        x += 1
+        while (n < k) {
+            k -= 1
+            answer /= 10
+        }
+    }
+    answer %= 10
+
+    return answer
+}
+
+
+
 
 /**
  * Сложная
@@ -166,4 +217,26 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var fibonachi = 0
+    var i = 1
+    var number = 0
+    while (number < n) {
+        fibonachi = fib(i)
+        i += 1
+        number += digitNumber(fibonachi)
+    }
+    i = number - n
+    return (fibonachi / pow(10, i) % 10)
+}
+
+
+
+fun pow(x: Int, y: Int): Int {
+    var result = 1
+    for (i in 1..y)
+        result *= x
+    return result
+}
+
+

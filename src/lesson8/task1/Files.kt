@@ -54,7 +54,12 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val text = File(inputName).readText().toLowerCase()
+    val result = mutableMapOf<String, Int>()
+    for (string in substrings) {
+        result.put(string, text.split(string.toLowerCase()).count() - 1)
+    }
+    return result
 }
 
 

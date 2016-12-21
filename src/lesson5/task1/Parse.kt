@@ -62,6 +62,7 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String = TODO()
 
+
 /**
  * Средняя
  *
@@ -83,7 +84,13 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String  {
+    val rg = Regex("""\+?[-0-9() ]+""")
+    if (phone.matches(rg)) {
+        return phone.replace(Regex("[- ()]"), "")
+    } else return ""
+}
+
 
 /**
  * Средняя
@@ -95,7 +102,20 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    for (jump in jumps) if (((jump != '%') && (jump != '-') && (jump != ' ') && (jump!in '0'..'9'))) return -1
+    if (jumps == "") return -1
+    val resJumps = jumps.filter { (it in '0'..'9') || (it == ' ') }
+    val parts = resJumps.split(" ")
+    var parts2 = listOf<Int>()
+    for (part in parts)
+        if (part != "")
+            parts2 = parts2 + part.toInt()
+    var result = -1
+    for (part in parts2)
+        result = Math.max(result, part)
+    return result
+}
 
 /**
  * Сложная
@@ -107,7 +127,17 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var answer = -1
+    for (i in 1..parts.size - 1 step 2) {
+        if ('+' in parts[i]) {
+            if (answer < parts[i - 1].toInt())
+                answer = parts[i - 1].toInt()
+        }
+    }
+    return answer
+}
 
 /**
  * Сложная

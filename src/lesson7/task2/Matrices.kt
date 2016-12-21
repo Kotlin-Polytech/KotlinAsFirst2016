@@ -103,7 +103,14 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val result = createMatrix(matrix.width, matrix.height, matrix[0, 0])
+    for (i in 0..matrix.height - 1)
+        for (j in 0..matrix.width - 1)
+            result[i, j] = matrix[matrix.height - 1 - j, i]
+    return result
+}
 
 /**
  * Сложная
@@ -176,7 +183,6 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
 fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
-
 /**
  * Сложная
  *

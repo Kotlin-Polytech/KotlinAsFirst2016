@@ -129,18 +129,11 @@ data class Line(val point: Point, val angle: Double) {
     fun crossPoint(other: Line): Point {
         val tan1 = Math.tan(angle)
         val tan2 = Math.tan(other.angle)
-        val x = when {
-            angle == Math.PI / 2 || angle == -Math.PI / 2 -> point.x
-            other.angle == Math.PI / 2 || other.angle == -Math.PI / 2 -> other.point.x
-            else -> (other.point.y - point.y - other.point.x * tan2 + point.x * tan1) / (tan1 - tan2)
-        }
-        val y = when {
-            (angle == Math.PI / 2 || angle == -Math.PI / 2) -> other.point.y
-            (other.angle == Math.PI / 2 || other.angle == -Math.PI / 2) -> point.y
-            else -> (x - point.x) * tan1 + point.y
-        }
+        val x = ((other.point.y - (other.point.x * tan2)-(point.y - (point.x * tan1)))/(tan1-tan2))
+        val y = if (tan2 > tan1) point.y + (x - point.x) * tan1 + point.y
+        else other.point.y + (x - other.point.x) * tan2
         return Point(x, y)
-    }
+        }
 }
 
 
@@ -154,7 +147,7 @@ data class Line(val point: Point, val angle: Double) {
         if (s.begin.y != s.end.y) {
             val first = s.end.y - s.begin.y
             val second = s.end.x - s.begin.x
-            radians = atan2(first, second)
+            radians = Math.atan2(first, second)
         }
         return Line(s.begin, radians)
     }

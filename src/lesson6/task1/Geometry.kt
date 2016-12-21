@@ -144,7 +144,7 @@ fun lineBySegment(s: Segment): Line = TODO()
  * Построить прямую по двум точкам
  */
 fun lineByPoints(a: Point, b: Point): Line {
-    val angle = Math.atan(Math.abs(b.y - a.y)/ Math.abs(b.x - a.x))
+    val angle = Math.atan((b.y - a.y) / (b.x - a.x))
     return Line(a, angle)
 }
 

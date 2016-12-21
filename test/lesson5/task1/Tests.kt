@@ -3,6 +3,9 @@ package lesson5.task1
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import kotlin.reflect.KClass
+import kotlin.test.assertFailsWith
+import kotlin.test.fail
 
 class Tests {
     @Test
@@ -49,6 +52,7 @@ class Tests {
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber("13 + 4874"))
     }
 
     @Test
@@ -76,6 +80,13 @@ class Tests {
         assertEquals(4, plusMinus("2 + 2"))
         assertEquals(6, plusMinus("2 + 31 - 40 + 13"))
         assertEquals(-1, plusMinus("0 - 1"))
+        //assertFailsWith(IllegalArgumentException::class, plusMinus("0 - - 1"))
+        try{
+            assertEquals(Any(),plusMinus("0 - - 1"))
+            fail()
+        }
+        catch(e: IllegalArgumentException){
+        }
     }
 
     @Test
@@ -98,8 +109,6 @@ class Tests {
     @Test
     @Tag("Hard")
     fun fromRoman() {
-        assertEquals(1, fromRoman("I"))
-        assertEquals(3000, fromRoman("MMM"))
         assertEquals(1978, fromRoman("MCMLXXVIII"))
         assertEquals(694, fromRoman("DCXCIV"))
         assertEquals(49, fromRoman("XLIX"))
@@ -114,5 +123,11 @@ class Tests {
         assertEquals(listOf(1, 1, 1, 1, 1, 0, 0, 0, 0, 0), computeDeviceCells(10, "- <<<<< +[>+]"))
         assertEquals(listOf(0, 8, 7, 6, 5, 4, 3, 2, 1, 0, 0),
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++{--< <[<] >+[>+] >++}"))
+        try{
+            assertEquals(Any(),computeDeviceCells(1,"<"))
+            fail()
+        }
+        catch(e: IllegalStateException){
+        }
     }
 }

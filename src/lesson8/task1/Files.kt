@@ -2,6 +2,8 @@
 package lesson8.task1
 
 import java.io.File
+import java.io.IOException
+
 
 /**
  * Пример
@@ -53,8 +55,20 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
+
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val map = mutableMapOf<String, Int>()
+    var text = File(inputName).readText().toLowerCase()
+    for (i in substrings) {
+        var countStrings = 0
+        for (j in 0..text.length - i.length) {
+            if (text.substring(j, j + i.length) == i.toLowerCase())
+                countStrings++
+        }
+        map[i] = countStrings
+    }
+
+    return map
 }
 
 
@@ -169,8 +183,11 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
     TODO()
 }
 
+
+
+
 /**
- * Средняя
+ * * Средняя
  *
  * Во входном файле с именем inputName имеется словарь с одним словом в каждой строчке.
  * Выбрать из данного словаря наиболее длинное слово,
@@ -192,10 +209,54 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Карминовый, Некрасивый
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
- */
+ * */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val dictionary = mutableListOf<String>()
+    var max = 0
+    var result = StringBuilder()
+    try {
+        for (lines in File(inputName).readLines()) {
+            if (lines.isEmpty())
+                continue
+            dictionary.add(lines)
+        }
+    }
+    catch (e: IOException){
+        outputStream.close()
+    }
+    for (words in dictionary) {
+        var check = true
+        for (i in 0..words.length - 1)
+            for (j in i + 1..words.length - 1){
+                if (words[i].toLowerCase() == words[j].toLowerCase())
+                    check = false
+            }
+        if (check == false){
+            dictionary[dictionary.indexOf(words)] = ""
+        }
+    }
+    for (words in dictionary) {
+
+        if ((words.length == max) && (words != "")){
+            result.append("$words, ")
+        }
+        if ((words.length > max) && (words != "")) {
+            max = words.length
+            result = StringBuilder()
+            result.append("$words, ")
+        }
+    }
+    if ( "$result" == "")
+        outputStream.close()
+    else
+        outputStream.write(result.toString().substring(0, result.length - 2))
+    outputStream.close()
 }
+
+
+
+
 
 /**
  * Сложная

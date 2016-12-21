@@ -102,6 +102,7 @@ class Tests {
     fun bisectorByPoints() {
         assertEquals(Line(Point(2.0, 0.0), Math.PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
+        assertEquals(Line(Point(2.0, 2.0), - Math.PI / 4), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 4.0)))
     }
 
     @Test
@@ -120,9 +121,10 @@ class Tests {
     @Test
     @Tag("Impossible")
     fun circleByThreePoints() {
-        val result = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
-        assertTrue(result.center.distance(Point(0.0, 0.0)) < 1e-5)
-        assertEquals(5.0, result.radius, 1e-5)
+        //val result = circleByThreePoints(Point(5.0, 0.0), Point(3.0, 4.0), Point(0.0, -5.0))
+        val result = circleByThreePoints(Point(-632.0, -632.0), Point(-999.434676067123, -632.0), Point(-1000.0, -999.2703392130439))
+        assertTrue(result.center.distance(Point(-815.7173380335614, -815.9183931411866)) < 1e-5)
+        assertEquals(259.95775739487743, result.radius, 1e-5)
     }
 
     @Test

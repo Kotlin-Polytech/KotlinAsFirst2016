@@ -2,6 +2,7 @@
 package lesson7.task2
 
 import lesson7.task1.Matrix
+import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -59,7 +60,45 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+//для проверки
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val matrix = MatrixImpl(height, width, 0)
+    var countCoils = 0
+    var value = 0
+    while (value < height * width){
+        var i = countCoils
+        var j = countCoils - 1
+        while (( j < width - 1 ) && (matrix[i, j + 1] == 0)){
+            value += 1
+            j++
+            matrix[i, j] = value
+        }
+
+        while (( i < height - 1 ) && (matrix[i + 1, j] == 0)){
+            value += 1
+            i++
+            matrix[i, j ] = value
+        }
+
+
+        while (( j > 0 ) && (matrix[i, j - 1] == 0)){
+            j -= 1
+            value += 1
+            matrix[i, j] = value
+        }
+
+
+        while (( i > 0 ) && (matrix[i -1, j] == 0)) {
+            value += 1
+            i -= 1
+            matrix[i, j] = value
+        }
+        countCoils +=1
+    }
+    return matrix
+}
+
+
 
 /**
  * Сложная
@@ -77,6 +116,9 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  */
 fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
 
+
+
+
 /**
  * Сложная
  *
@@ -90,7 +132,27 @@ fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
  * 10 13 16 18
  * 14 17 19 20
  */
-fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSnake(height: Int, width: Int): Matrix<Int> {
+    val matrix = MatrixImpl(height, width, 0)
+    var indexJ = 1
+    var indexI = - 1
+    var value = 0
+    while (value < height * width){
+        var i = indexI
+        var j = indexJ
+
+        while (i + 1 < height && j - 1 >= 0){
+            value++
+            j -= 1
+            i++
+            matrix[i,j] = value
+        }
+        if (indexJ + 1 <= width) indexJ +=1
+        else
+            indexI +=1
+    }
+    return matrix
+}
 
 /**
  * Средняя
@@ -103,7 +165,22 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width)
+        throw IllegalArgumentException()
+    val matrixResult = MatrixImpl(matrix.height, matrix.width, matrix[0,0])
+    var row = 0
+    var column = 0
+    for (i in 0..matrix.width -1) {
+        for (j in matrix.height - 1 downTo 0 step 1) {
+            matrixResult[row, column] = matrix[j, i]
+            column++
+        }
+        column = 0
+        row++
+    }
+    return matrixResult
+}
 
 /**
  * Сложная
@@ -118,7 +195,40 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    val library = mutableListOf<Int>()
+    if (matrix.height != matrix.width)
+        return false
+    for (i in 0..matrix.height - 1)
+        library.add(i + 1)
+
+    for ( i in 0..matrix.height - 1) {
+        for (k in 0..library.size - 1) {
+            var countDigit = 0
+            for (j in 0..matrix.height - 1)
+                if (matrix[i, j] == library[k])
+                    countDigit++
+            if ((countDigit > 1) || (countDigit == 0))
+                return false
+        }
+    }
+    for ( i in 0..matrix.height - 1) {
+        for (k in 0..library.size - 1) {
+            var countDigit = 0
+            for (j in 0..matrix.height - 1)
+                if (matrix[j, i] == library[k])
+                    countDigit++
+            if ((countDigit > 1) || (countDigit == 0))
+                return false
+        }
+    }
+
+    return true
+}
+
+
+
 
 /**
  * Средняя
@@ -154,7 +264,35 @@ fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * 0 0 1 0
  * 0 0 0 0
  */
-fun findHoles(matrix: Matrix<Int>): Holes = TODO()
+fun findHoles(matrix: Matrix<Int>): Holes {
+
+    val rows = mutableListOf<Int>()
+    val columns = mutableListOf<Int>()
+
+    for ( i in 0..matrix.height - 1) {
+        var countHoles = 0
+        for (j in 0..matrix.width - 1) {
+            if (matrix[i, j] == 1)
+                break
+            else
+                countHoles++
+        }
+        if (countHoles == matrix.width )
+            rows.add(i)
+    }
+    for ( i in 0..matrix.width - 1) {
+        var countHoles = 0
+        for (j in 0..matrix.height - 1) {
+            if (matrix[j, i] == 1)
+                break
+            else
+                countHoles++
+        }
+        if (countHoles == matrix.height )
+            columns.add(i)
+    }
+    return Holes(rows, columns)
+}
 
 /**
  * Класс для описания местонахождения "дырок" в матрице

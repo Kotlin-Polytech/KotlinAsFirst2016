@@ -10,7 +10,7 @@ package lesson5.task1
 fun timeStrToSeconds(str: String): Int {
     val parts = str.split(":")
     var result = 0
-    for (part in parts) {
+    for (part in parts) {0
         val number = part.toInt()
         result = result * 60 + number
     }
@@ -60,8 +60,25 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
 
+fun dateStrToDigit(str: String): String{
+    val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
+            , "сентября", "октября", "ноября", "декабря")
+    val parth = str.split(" ")
+    if ((parth.size != 3 ) || (parth[1] !in month)){
+        return ""
+    }
+    else
+        try {
+            val day = parth[0].toInt()
+            val mont = month.indexOf(parth[1]) + 1
+            val year = parth[2].toInt()
+            return String.format("%02d.%02d.%d", day, mont , year)
+        }
+        catch (e: NumberFormatException){
+            return ""
+        }
+}
 /**
  * Средняя
  *
@@ -69,7 +86,24 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String{
+    val month = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа"
+            , "сентября", "октября", "ноября", "декабря")
+    val parth = digital.split(".")
+    try {
+        if ((parth.size != 3 ) || (parth[1].toInt() == 0)){
+            return ""
+        }
+        val day = parth[0].toInt()
+        val mont = month[parth[1].toInt() - 1]
+        val year = parth[2].toInt()
+        return String.format("%d %s %d", day, mont , year)
+    }
+    catch (e: NumberFormatException){
+        return ""
+    }
+}
+
 
 /**
  * Сложная
@@ -83,7 +117,30 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String{
+    val parth = phone.split(' ', '(', ')', '-')
+    val library = listOf('+', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0')
+    var result = ""
+    for (i in parth[0]){
+        if (i !in library){
+            return ""
+        }
+    }
+    result = parth[0]
+    try {
+        for (i in 1..parth.size - 1 step 1 )
+           if (parth[i] != "") {
+               val temp = parth[i].toInt()
+               result += parth[i]
+           }
+    }
+    catch (e: NumberFormatException){
+        return ""
+    }
+    return result
+}
+
+
 
 /**
  * Средняя
@@ -95,7 +152,24 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val parth = jumps.split('-', '%', ' ')
+    var max = -1
+    try{
+        for (i in parth){
+            if (i != ""){
+                val temp = i.toInt()
+                if (temp > max)
+                    max = temp
+            }
+
+        }
+    }
+    catch (e: NumberFormatException){
+        return - 1
+    }
+    return max
+}
 
 /**
  * Сложная
@@ -107,7 +181,28 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int{
+    val parth = jumps.split(' ')
+    var max = -1
+    try{
+        for (i in 1..parth.size - 1 step 2){
+
+            for (j in parth[i])
+               if (j == '+') {
+                   val temp = parth[i -1].toInt()
+                   if (temp > max)
+                       max = temp
+               }
+
+        }
+    }
+    catch (e: NumberFormatException){
+        return - 1
+    }
+    return max
+
+}
+
 
 /**
  * Сложная
@@ -118,7 +213,42 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+//для проверки
+fun plusMinus(expression: String): Int {
+    val parth = expression.split(" ")
+    var result = 0
+    var countSymbol = 0 // считает число подряд идущих знаков +-
+    var countValue = 0 // считает количесвто подряд идущих чисел
+    var sign = 1
+    try {
+        for (i in parth) {
+            if ((i != "+")&&(i != "-")){
+                countValue++
+                countSymbol = 0
+                if (countValue < 2)
+                    result += sign * i.toInt()
+                else
+                    throw IllegalArgumentException()
+            }
+            if ((i == "+")||(i == "-")){
+                countSymbol++
+                countValue = 0
+                if (countSymbol < 2){
+                    if (i == "+")
+                        sign = 1
+                    else
+                        sign = - 1
+                }
+                else
+                    throw IllegalArgumentException()
+            }
+        }
+    }
+    catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -129,7 +259,21 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int{
+    var result = - 1
+    var index = 0
+    val parth = str.toLowerCase().split(" ")
+    for (i in 0..parth.size -1 step 1) {
+        for (j in i + 1..parth.size - 1 step 1)
+            if (parth[i] == parth[j]) {
+                result = index + i
+                break
+            }
+        index += parth[i].length
+    }
+
+    return result
+}
 
 /**
  * Сложная
@@ -142,7 +286,27 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    var result = ""
+    val parth = description.split("; ", " ")
+    var max = 0.0
+    try{
+        for (i in 1..parth.size - 1 step 2 ) {
+            val next = parth[i].toDouble()
+            if (next < 0)
+                return ""
+            else
+                if (next >= max) {
+                    max = next
+                    result = parth[i - 1]
+                }
+        }
+    }
+    catch(e: NumberFormatException){
+        return ""
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -155,7 +319,122 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-fun fromRoman(roman: String): Int = TODO()
+
+fun fromRoman(roman: String): Int{
+    var result = 0
+    val library = listOf('I', 'V', 'X', 'L', 'C', 'D', 'M')
+    for (i in 0..roman.length - 1 step 1)
+        if (roman[i] !in library)
+            return - 1
+
+    var indexRoman = 0
+    while (indexRoman != roman.length ){
+        when (roman[indexRoman]){
+            'I' ->{
+                if ( indexRoman != roman.length - 1 ) {
+                    when (roman[indexRoman + 1]){
+                        'I' ->{
+                            result += 1
+                            indexRoman++
+                        }
+                        'X' ->{
+                            result += 9
+                            indexRoman += 2
+                        }
+                        'V' ->{
+                            result += 4
+                            indexRoman += 2
+                        }
+                        else ->{
+                            result += 1
+                            indexRoman++
+                        }
+                    }
+                }
+                else
+                {
+                    result += 1
+                    indexRoman++
+                }
+
+            }
+            'V' ->{
+                result += 5
+                indexRoman++
+            }
+            'X' ->{
+                if ( indexRoman != roman.length - 1 ) {
+                    when (roman[indexRoman + 1]){
+                        'X' ->{
+                            result += 10
+                            indexRoman++
+                        }
+                        'L' ->{
+                            result += 40
+                            indexRoman += 2
+                        }
+                        'C' ->{
+                            result += 90
+                            indexRoman += 2
+                        }
+                        else ->{
+                            result += 10
+                            indexRoman++
+                        }
+                    }
+                }
+                else
+                {
+                    result += 10
+                    indexRoman++
+                }
+
+            }
+            'L' ->{
+                result += 50
+                indexRoman++
+            }
+            'C' ->{
+                if ( indexRoman != roman.length - 1 ) {
+                    when(roman[indexRoman + 1]){
+                        'M' ->{
+                            result += 900
+                            indexRoman += 2
+                        }
+                        'D' ->{
+                            result += 400
+                            indexRoman += 2
+                        }
+                        'C' -> {
+                            result += 100
+                            indexRoman++
+                        }
+                        else ->{
+                            result += 100
+                            indexRoman++
+                        }
+
+                    }
+                }
+                else
+                {
+                    result += 100
+                    indexRoman++
+                }
+            }
+            'D' ->{
+                result += 500
+                indexRoman++
+            }
+            'M' ->{
+                result += 1000
+                indexRoman++
+            }
+        }
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -187,4 +466,90 @@ fun fromRoman(roman: String): Int = TODO()
  * Вернуть список размера cells, содержащий элементы ячеек устройства после выполнения всех команд.
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
-fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+fun countBrackets(brackets : Char, str: String): Int{
+    var result = 0
+    for (i in 0.. str.length - 1 step 1)
+        if (str[i] == brackets)
+            result++
+    return result
+}
+
+fun computeDeviceCells(cells: Int, commands: String): List<Int> {
+    val cellsResult = mutableListOf<Int>()
+    val library = listOf('>', '<', '[', ']', '{', '}', '+', '-', ' ')
+
+    for (i in 0..cells - 1 step 1)
+        cellsResult.add(0)
+
+    var indexCommands = 1
+    var indexCells = cellsResult.size  / 2
+
+    if (countBrackets(library[2], commands) != countBrackets(library[3], commands))
+        throw IllegalArgumentException()
+
+    if (countBrackets(library[4], commands) != countBrackets(library[5], commands))
+        throw IllegalArgumentException()
+
+    for (i in 0.. commands.length - 1 step 1)
+        if (commands[i] !in library)
+            throw IllegalArgumentException()
+
+    while (indexCommands  <= (commands.length )){
+        if ((indexCells < 0 ) || (indexCells + 1 > cellsResult.size ))
+            throw IllegalStateException()
+        else
+        {
+            when (commands[indexCommands - 1]){
+                '>' -> indexCells++
+                '<' -> indexCells--
+                '+' -> cellsResult[indexCells]++
+                '-' ->  cellsResult[indexCells]--
+                '[' -> {
+                    if (cellsResult[indexCells] == 0) {
+                        var indexSquare = indexCommands
+                        while (commands[indexSquare - 1] != ']'){
+                            indexSquare++
+                            indexCommands++
+                        }
+                    }
+                }
+                ']' -> {
+                    if (commands[indexCommands - 1] == ']'){
+                        if (cellsResult[indexCells] != 0) {
+                            var indexSquare = indexCommands
+                            while (commands[indexSquare - 1] != '[') {
+                                indexSquare--
+                                indexCommands--
+                            }
+                        }
+                    }
+                }
+                '{' -> {
+                    if (commands[indexCommands - 1] == '{'){
+                        if (cellsResult[indexCells] == 0) {
+                            var indexSquare = indexCommands
+                            while (commands[indexSquare - 1] != '}') {
+                                indexSquare++
+                                indexCommands++
+                            }
+                        }
+                    }
+                }
+                '}' -> {
+                    if (cellsResult[indexCells] != 0){
+                        var indexSquare = indexCommands
+                        while (commands[indexSquare - 1] != '{'){
+                            indexSquare--
+                            indexCommands--
+                        }
+                    }
+                }
+            }
+            indexCommands++
+        }
+    }
+    if ((indexCells < 0 ) || (indexCells + 1 > cellsResult.size ))
+        throw IllegalStateException()
+    return cellsResult
+}
+

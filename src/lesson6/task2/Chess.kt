@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,7 +24,12 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        val columnList: String = "abcdefgh"
+        if (inside() == false) return ""
+        else return String.format("%s%d", columnList[column - 1], row)
+
+    }
 }
 
 /**
@@ -33,7 +39,12 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    val columnList = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+    val rowList = listOf<Char>('1', '2', '3', '4', '5', '6', '7', '8')
+    if (notation.length != 2 || notation[0] !in columnList || notation[1] !in rowList) throw IllegalArgumentException()
+    else return Square(columnList.indexOf(notation[0]) + 1, rowList.indexOf(notation[1]) + 1)
+}
 
 /**
  * Простая
@@ -58,7 +69,13 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (start == end) return 0
+    else if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    if (start.column == end.column || start.row == end.row) return 1
+    else return 2
+
+}
 
 /**
  * Средняя
@@ -74,7 +91,13 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    if (start == end) return listOf(start)
+    if (start.column == end.column || start.row == end.row) return listOf(start, end)
+    else return listOf(start, Square(start.column, end.row), end)
+
+}
 
 /**
  * Простая
@@ -122,86 +145,87 @@ fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
 fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
 
 /**
- * Средняя
- *
- * Определить число ходов, за которое шахматный король пройдёт из клетки start в клетку end.
- * Шахматный король одним ходом может переместиться из клетки, в которой стоит,
- * на любую соседнюю по вертикали, горизонтали или диагонали.
- * Ниже точками выделены возможные ходы короля, а крестиками -- невозможные:
- *
- * xxxxx
- * x...x
- * x.K.x
- * x...x
- * xxxxx
- *
- * Если клетки start и end совпадают, вернуть 0.
- * Если любая из клеток некорректна, бросить IllegalArgumentException().
- *
- * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
- * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
- */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+     * Средняя
+     *
+     * Определить число ходов, за которое шахматный король пройдёт из клетки start в клетку end.
+     * Шахматный король одним ходом может переместиться из клетки, в которой стоит,
+     * на любую соседнюю по вертикали, горизонтали или диагонали.
+     * Ниже точками выделены возможные ходы короля, а крестиками -- невозможные:
+     *
+     * xxxxx
+     * x...x
+     * x.K.x
+     * x...x
+     * xxxxx
+     *
+     * Если клетки start и end совпадают, вернуть 0.
+     * Если любая из клеток некорректна, бросить IllegalArgumentException().
+     *
+     * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
+     * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
+     */
+    fun kingMoveNumber(start: Square, end: Square): Int = TODO()
 
-/**
- * Сложная
- *
- * Вернуть список из клеток, по которым шахматный король может быстрее всего попасть из клетки start в клетку end.
- * Описание ходов короля см. предыдущую задачу.
- * Список всегда включает в себя клетку start. Клетка end включается, если она не совпадает со start.
- * Между ними должны находиться промежуточные клетки, по порядку от start до end.
- * Примеры: kingTrajectory(Square(3, 3), Square(3, 3)) = listOf(Square(3, 3))
- *          (здесь возможны другие варианты)
- *          kingTrajectory(Square(3, 1), Square(6, 3)) = listOf(Square(3, 1), Square(4, 2), Square(5, 2), Square(6, 3))
- *          (здесь возможен единственный вариант)
- *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
- * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
- */
-fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
+    /**
+     * Сложная
+     *
+     * Вернуть список из клеток, по которым шахматный король может быстрее всего попасть из клетки start в клетку end.
+     * Описание ходов короля см. предыдущую задачу.
+     * Список всегда включает в себя клетку start. Клетка end включается, если она не совпадает со start.
+     * Между ними должны находиться промежуточные клетки, по порядку от start до end.
+     * Примеры: kingTrajectory(Square(3, 3), Square(3, 3)) = listOf(Square(3, 3))
+     *          (здесь возможны другие варианты)
+     *          kingTrajectory(Square(3, 1), Square(6, 3)) = listOf(Square(3, 1), Square(4, 2), Square(5, 2), Square(6, 3))
+     *          (здесь возможен единственный вариант)
+     *          kingTrajectory(Square(3, 5), Square(6, 2)) = listOf(Square(3, 5), Square(4, 4), Square(5, 3), Square(6, 2))
+     * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
+     */
+    fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
 
-/**
- * Сложная
- *
- * Определить число ходов, за которое шахматный конь пройдёт из клетки start в клетку end.
- * Шахматный конь одним ходом вначале передвигается ровно на 2 клетки по горизонтали или вертикали,
- * а затем ещё на 1 клетку под прямым углом, образуя букву "Г".
- * Ниже точками выделены возможные ходы коня, а крестиками -- невозможные:
- *
- * .xxx.xxx
- * xxKxxxxx
- * .xxx.xxx
- * x.x.xxxx
- * xxxxxxxx
- * xxxxxxxx
- * xxxxxxxx
- * xxxxxxxx
- *
- * Если клетки start и end совпадают, вернуть 0.
- * Если любая из клеток некорректна, бросить IllegalArgumentException().
- *
- * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
- * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
- */
-fun knightMoveNumber(start: Square, end: Square): Int = TODO()
+    /**
+     * Сложная
+     *
+     * Определить число ходов, за которое шахматный конь пройдёт из клетки start в клетку end.
+     * Шахматный конь одним ходом вначале передвигается ровно на 2 клетки по горизонтали или вертикали,
+     * а затем ещё на 1 клетку под прямым углом, образуя букву "Г".
+     * Ниже точками выделены возможные ходы коня, а крестиками -- невозможные:
+     *
+     * .xxx.xxx
+     * xxKxxxxx
+     * .xxx.xxx
+     * x.x.xxxx
+     * xxxxxxxx
+     * xxxxxxxx
+     * xxxxxxxx
+     * xxxxxxxx
+     *
+     * Если клетки start и end совпадают, вернуть 0.
+     * Если любая из клеток некорректна, бросить IllegalArgumentException().
+     *
+     * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
+     * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
+     */
+    fun knightMoveNumber(start: Square, end: Square): Int = TODO()
 
-/**
- * Очень сложная
- *
- * Вернуть список из клеток, по которым шахматный конь может быстрее всего попасть из клетки start в клетку end.
- * Описание ходов коня см. предыдущую задачу.
- * Список всегда включает в себя клетку start. Клетка end включается, если она не совпадает со start.
- * Между ними должны находиться промежуточные клетки, по порядку от start до end.
- * Примеры:
- *
- * knightTrajectory(Square(3, 3), Square(3, 3)) = listOf(Square(3, 3))
- * здесь возможны другие варианты)
- * knightTrajectory(Square(3, 1), Square(6, 3)) = listOf(Square(3, 1), Square(5, 2), Square(4, 4), Square(6, 3))
- * (здесь возможен единственный вариант)
- * knightTrajectory(Square(3, 5), Square(5, 6)) = listOf(Square(3, 5), Square(5, 6))
- * (здесь опять возможны другие варианты)
- * knightTrajectory(Square(7, 7), Square(8, 8)) =
- *     listOf(Square(7, 7), Square(5, 8), Square(4, 6), Square(6, 7), Square(8, 8))
- *
- * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
- */
-fun knightTrajectory(start: Square, end: Square): List<Square> = TODO()
+    /**
+     * Очень сложная
+     *
+     * Вернуть список из клеток, по которым шахматный конь может быстрее всего попасть из клетки start в клетку end.
+     * Описание ходов коня см. предыдущую задачу.
+     * Список всегда включает в себя клетку start. Клетка end включается, если она не совпадает со start.
+     * Между ними должны находиться промежуточные клетки, по порядку от start до end.
+     * Примеры:
+     *
+     * knightTrajectory(Square(3, 3), Square(3, 3)) = listOf(Square(3, 3))
+     * здесь возможны другие варианты)
+     * knightTrajectory(Square(3, 1), Square(6, 3)) = listOf(Square(3, 1), Square(5, 2), Square(4, 4), Square(6, 3))
+     * (здесь возможен единственный вариант)
+     * knightTrajectory(Square(3, 5), Square(5, 6)) = listOf(Square(3, 5), Square(5, 6))
+     * (здесь опять возможны другие варианты)
+     * knightTrajectory(Square(7, 7), Square(8, 8)) =
+     *     listOf(Square(7, 7), Square(5, 8), Square(4, 6), Square(6, 7), Square(8, 8))
+     *
+     * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
+     */
+    fun knightTrajectory(start: Square, end: Square): List<Square> = TODO()
+

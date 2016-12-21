@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,19 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = str.split(" ")
+    if ((parts.size != 3) || (parts[1] !in months)) return "" else
+        try {
+            val day = parts[0].toInt()
+            val month = months.indexOf(parts[1]) + 1
+            val year = parts[2].toInt()
+            return String.format("%02d.%02d.%d", day, month, year)
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+}
 
 /**
  * Средняя
@@ -69,7 +80,22 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val d = parts[0].toInt()
+        val m1 = parts[1].toInt()
+        val y = parts[2].toInt()
+        if (m1 in 1..12) {
+            val m = months[parts[1].toInt() - 1]
+            return String.format("%d %s %d", d, m, y)
+        } else return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -83,7 +109,12 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if ((phone.contains(Regex("""[^\s\d()+-]"""))) || (phone.contains(Regex("""(\+(?![\d\s()+-]))""")))) return ""
+    else return Regex("""[^\d+]""").replace(phone, "")
+
+}
+
 
 /**
  * Средняя
@@ -97,6 +128,7 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  */
 fun bestLongJump(jumps: String): Int = TODO()
 
+
 /**
  * Сложная
  *
@@ -107,7 +139,20 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if ((jumps.contains(Regex("""[^\s\d\%\+\-]""")))) return -1
+    val luckyTry: MutableList<String> = mutableListOf()
+    val parts = jumps.split(" ")
+    for (i in 1..parts.size - 1) {
+        if ('+' in parts[i]) luckyTry += parts[i - 1]
+    }
+    var max = -1
+    for (element in luckyTry) {
+        if (element.toInt() > max) max = element.toInt()
+    }
+    return max
+}
+
 
 /**
  * Сложная
@@ -118,7 +163,18 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if ((expression.contains(Regex("""[^\s\d\+\-]"""))) || (expression == "")) throw IllegalArgumentException()
+    val parts = expression.split(" ")
+    var result = parts[0].toInt()
+    for (i in 1..parts.size - 2) {
+        if ('+' in parts[i]) result += parts[i + 1].toInt()
+        if ('-' in parts[i]) result -= parts[i + 1].toInt()
+    }
+    return result
+
+
+}
 
 /**
  * Сложная

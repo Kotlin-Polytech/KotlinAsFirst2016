@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -55,14 +56,19 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        if (center.distance(other.center) <= radius + other.radius) return 0.0
+        else return center.distance(other.center) - (radius + other.radius)
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        return (center.distance(p) <= radius)
+    }
 }
 
 /**
@@ -76,7 +82,22 @@ data class Segment(val begin: Point, val end: Point)
  * Дано множество точек. Вернуть отрезок, соединяющий две наиболее удалённые из них.
  * Если в множестве менее двух точек, бросить IllegalArgumentException
  */
-fun diameter(vararg points: Point): Segment = TODO()
+fun diameter(vararg points: Point): Segment {
+    var length = 0.0
+    var maxSegment = Segment(points.first(), points.last())
+    if (points.size < 2) throw IllegalArgumentException()
+    else for (i in 0..points.size - 1) {
+        for (j in 0..points.size - 1) {
+            if (length < points[i].distance(points[j])) {
+                length = points[i].distance(points[j])
+                maxSegment = Segment(points[i], points[j])
+            }
+
+        }
+    }
+    return maxSegment
+
+}
 
 /**
  * Простая
@@ -105,14 +126,21 @@ data class Line(val point: Point, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    val distX = s.end.x - s.begin.x
+    val distY = s.end.y - s.begin.y
+    val angle = Math.atan(distY / distX)
+    return Line(Point(s.begin.x, s.begin.y), angle)
+}
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line {
+    return lineBySegment(Segment(a, b))
+}
 
 /**
  * Сложная

@@ -1,5 +1,8 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
+
+import java.lang.Math.*
 
 /**
  * Пример
@@ -34,7 +37,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -57,7 +60,15 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var count = 0
+    var number = abs(n)
+    do {
+        number /= 10
+        count += 1
+    } while (number > 0)
+    return  count
+}
 
 /**
  * Простая
@@ -73,7 +84,18 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var m1 = m
+    var n1 = n
+    while (m1 != n1) {
+        if (m1 > n1) m1 %= n1
+        if (m1 < n1) n1 %= m1
+    }
+    val multiple = m1 + n1
+    if (n == m) return n else
+        return multiple
+}
+
 
 /**
  * Простая
@@ -137,10 +159,18 @@ fun revert(n: Int): Int = TODO()
  * Средняя
  *
  * Проверить, является ли заданное число n палиндромом:
- * первая цифра равна последней, вторая -- предпоследней и так далее.
+ * первая цифра равна последней , вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean {
+    var number = n
+    var invertedNumber = 0
+    while (number > 0) {
+        invertedNumber = ((invertedNumber * 10) + (number % 10))
+        number /= 10
+    }
+    return (invertedNumber == n)
+}
 
 /**
  * Средняя
@@ -167,3 +197,4 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
 fun fibSequenceDigit(n: Int): Int = TODO()
+

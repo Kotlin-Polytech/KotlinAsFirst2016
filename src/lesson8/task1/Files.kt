@@ -54,20 +54,40 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
-}
-/*
     val resultMap = mutableMapOf<String, Int>()
     val text = File(inputName).readText().toLowerCase()
     for (string in substrings) {
-        var count = 0
-        if (string.toLowerCase() in text) count += text.split(string.toLowerCase()).size - 1
-        resultMap.put(string, count)
+        var countSrtings = 0
+        for (i in 0..text.length - string.length) {
+            var countDigits = 0
+            val lowString = string.toLowerCase()
+            for (j in 0..lowString.length - 1) {
+                if (text[i + j] == lowString[j]) countDigits++ else break
+                if (countDigits == lowString.length) countSrtings++
+            }
+            resultMap.put(string, countSrtings)
+        }
+    }
+    return resultMap
+}
+/*fun countSubstrings(inputName: String, testick: List<String>): Map<String, Int> {
+    val resultMap = mutableMapOf<String, Int>()
+    val text = File(inputName).readText().toLowerCase()
+    for (string in testick) {
+        var countSrtings = 0
+        for (i in 0..text.length - string.length) {
+            var countDigits = 0
+            val lowString = string.toLowerCase()
+            for (j in 0..lowString.length - 1) {
+                if (text[i + j] == lowString[j]) countDigits++ else break
+                    if (countDigits == lowString.length) countSrtings++
+            }
+            resultMap.put(string, countSrtings)
+        }
     }
     return resultMap
 }
 */
-
 /**
  * Средняя
  *

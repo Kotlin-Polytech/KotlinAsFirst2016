@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER", "unused")
 package lesson7.task1
 
+
+import java.util.Arrays
+
 /**
  * Ячейка матрицы: row = ряд, column = колонка
  */
@@ -101,18 +104,8 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
         }
         return true
 
-        /*
         // Не работает
-        for(i in 0..height - 1) {
-            if (storage[i] != other.storage[i]) return false
-        }
-        return true
-        */
-
-        /*
-        // Не работает
-        return storage == other.storage
-        */
+        // return Arrays.deepEquals(storage, other as Array<Array<E>>)
     }
 
     override fun hashCode(): Int {

@@ -54,7 +54,22 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val result = mutableMapOf<String, Int>()
+    val inputStream = File(inputName).readText().toLowerCase()
+
+    for (subStr in substrings) {
+        var sequencesNum = 0
+        if (subStr.toLowerCase() in inputStream) {
+            var currentIndex = inputStream.indexOf(subStr.toLowerCase())
+            while (currentIndex != -1) {
+                ++sequencesNum
+                currentIndex = inputStream.indexOf(subStr.toLowerCase(), ++currentIndex)
+            }
+        }
+        result.put(subStr, sequencesNum)
+    }
+
+    return result;
 }
 
 
@@ -71,9 +86,17 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  * Исключения (жюри, брошюра, парашют) в рамках данного задания обрабатывать не нужно
  *
  */
-fun sibilants(inputName: String, outputName: String) {
-    TODO()
-}
+fun sibilants(inputName: String, outputName: String) = TODO() /*{
+    var inputStream = File(inputName).readText()
+
+    while (Regex(""".*[ЖЧШЩжчшщ][ЫЯЮыяю].*""").matches(inputStream
+    }
+
+
+        //val target = Regex("""[ЖЧШЩжчшщ]""")
+        //inputStream = inputStream.replace(target, inputStream)
+    }
+}*/
 
 /**
  * Средняя

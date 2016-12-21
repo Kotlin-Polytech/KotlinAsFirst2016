@@ -29,6 +29,7 @@ class Tests {
         assertEquals("18.11.2018", dateStrToDigit("18 ноября 2018"))
         assertEquals("", dateStrToDigit("23"))
         assertEquals("03.04.2011", dateStrToDigit("3 апреля 2011"))
+        assertEquals("02.03.0", dateStrToDigit("02 марта 0"))
     }
 
     @Test
@@ -39,6 +40,7 @@ class Tests {
         assertEquals("", dateDigitToStr("28.00.2000"))
         assertEquals("3 апреля 2011", dateDigitToStr("03.04.2011"))
         assertEquals("", dateDigitToStr("ab.cd.ef"))
+
     }
 
     @Test
@@ -49,6 +51,8 @@ class Tests {
         assertEquals("", flattenPhoneNumber("ab-123"))
         assertEquals("+12345", flattenPhoneNumber("+12 (3) 4-5"))
         assertEquals("", flattenPhoneNumber("134_+874"))
+        assertEquals("", flattenPhoneNumber("     "))
+        assertEquals("", flattenPhoneNumber("\t"))
     }
 
     @Test
@@ -73,7 +77,7 @@ class Tests {
     @Tag("Hard")
     fun plusMinus() {
         assertEquals(0, plusMinus("0"))
-        assertEquals(4, plusMinus("2 + 2"))
+        assertEquals(6, plusMinus("3 + 3"))
         assertEquals(6, plusMinus("2 + 31 - 40 + 13"))
         assertEquals(-1, plusMinus("0 - 1"))
     }
@@ -93,6 +97,8 @@ class Tests {
         assertEquals("", mostExpensive(""))
         assertEquals("Курица", mostExpensive("Хлеб 39.9; Молоко 62.5; Курица 184.0; Конфеты 89.9"))
         assertEquals("Вино", mostExpensive("Вино 255.0"))
+        assertEquals("", mostExpensive("Blabla"))
+        assertEquals("!@#$!@KASD", mostExpensive("!@#$!@KASD 21464837.46"))
     }
 
     @Test

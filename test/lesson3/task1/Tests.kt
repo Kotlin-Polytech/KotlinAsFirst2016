@@ -124,12 +124,20 @@ class Tests {
         assertTrue(squareBetweenExists(21, 28))
         assertFalse(squareBetweenExists(51, 61))
         assertFalse(squareBetweenExists(999, 1001))
+        assertTrue(squareBetweenExists(-14, 0))
+        assertFalse(squareBetweenExists(-5, -1))
     }
 
     @Test
     @Tag("Easy")
     fun sin() {
         assertEquals(0.0, sin(0.0, 1e-5), 1e-5)
+        assertEquals(0.0, sin(1000.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(0.0, sin(100.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(0.0, sin(101.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(0.0, sin(-1000.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(0.0, sin(-100.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(0.0, sin(-101.0 * Math.PI, 1e-5), 1e-5)
         assertEquals(1.0, sin(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(0.0, sin(Math.PI, 1e-5), 1e-5)
         assertEquals(-1.0, sin(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
@@ -139,8 +147,13 @@ class Tests {
     @Tag("Easy")
     fun cos() {
         assertEquals(1.0, cos(0.0, 1e-5), 1e-5)
+        assertEquals(1.0, cos(1000.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(1.0, cos(-1000.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(1.0, cos(-100.0 * Math.PI, 1e-5), 1e-5)
+        assertEquals(-1.0, cos(-101.0 * Math.PI, 1e-5), 1e-5)
         assertEquals(0.0, cos(Math.PI / 2.0, 1e-5), 1e-5)
         assertEquals(-1.0, cos(Math.PI, 1e-5), 1e-5)
+        assertEquals(-1.0, cos(101.0 * Math.PI, 1e-5), 1e-5)
         assertEquals(0.0, cos(3.0 * Math.PI / 2.0, 1e-5), 1e-5)
     }
 
@@ -153,6 +166,10 @@ class Tests {
         assertEquals(111, revert(111))
         assertEquals(17571, revert(17571))
         assertEquals(123456789, revert(987654321))
+        assertEquals(-111, revert(-111))
+        assertEquals(-17571, revert(-17571))
+        assertEquals(-123456789, revert(-987654321))
+
     }
 
     @Test
@@ -160,8 +177,10 @@ class Tests {
     fun isPalindrome() {
         assertTrue(isPalindrome(3))
         assertFalse(isPalindrome(3653))
-        assertTrue(isPalindrome(15751))
         assertTrue(isPalindrome(24688642))
+        assertTrue(isPalindrome(121))
+        assertTrue(isPalindrome(15751))
+
     }
 
     @Test

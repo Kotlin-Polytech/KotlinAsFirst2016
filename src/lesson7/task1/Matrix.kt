@@ -49,31 +49,21 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  *
  * Реализация интерфейса "матрица"
  */
-class MatrixImpl<E> : Matrix<E> {
-    val cells = mutableMapOf<Cell,E>()
-    override val height: Int
+class MatrixImpl<E>// convert'нул в primary constructor по подсказке IDE
+(override val height: Int, override val width: Int, e: E) : Matrix<E> {
+    val cells = mutableMapOf<Cell, E>()
 
-    override val width: Int
-    constructor(height: Int, width: Int, e: E){
-        this.height = height
-        this.width =  width
-        for (i in 0..height - 1){
-            for (j in 0..width - 1){
-                cells.put(Cell(i,j),e)
-            }
-        }
-    }
-    fun checher(cell: Cell): Boolean = cell.row in 0..height - 1 && cell.column in 0..width - 1
+    fun checker(cell: Cell): Boolean = cell.row in 0..height - 1 && cell.column in 0..width - 1
     override fun get(row: Int, column: Int): E {
-        if (!checher(Cell(row, column))) throw IllegalArgumentException()
+        if (!checker(Cell(row, column))) throw IllegalArgumentException()
         return cells[Cell(row, column)]!!
     }
 
-    override fun get(cell: Cell): E  = get(cell.row, cell.column)
+    override fun get(cell: Cell): E = get(cell.row, cell.column)
 
     override fun set(row: Int, column: Int, value: E) {
-        if (!checher(Cell(row, column))) throw IllegalArgumentException()
-        cells.put(Cell(row,column), value)
+        if (!checker(Cell(row, column))) throw IllegalArgumentException()
+        cells.put(Cell(row, column), value)
     }
 
     override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
@@ -81,14 +71,29 @@ class MatrixImpl<E> : Matrix<E> {
     override fun equals(other: Any?) = other is MatrixImpl<*> && cells == other.cells
 
     override fun toString(): String {
-        val stringbuild = StringBuilder()
+        val builder = StringBuilder()
         for (i in 0..height - 1) {
             for (j in 0..width - 1) {
-                stringbuild.append("\t${cells[Cell(i,j)]}")
+                builder.append("\t${cells[Cell(i, j)]}")
             }
-            stringbuild.appendln()
+            builder.appendln()
         }
-        return stringbuild.toString()
+        return builder.toString()
+    }
+
+    override fun hashCode(): Int {
+        var result = cells.hashCode()
+        result = 31 * result + height
+        result = 31 * result + width
+        return result
+    }
+
+    init {
+        for (i in 0..height - 1) {
+            for (j in 0..width - 1) {
+                cells.put(Cell(i, j), e)
+            }
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
-import java.util.*
 
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
@@ -67,7 +67,7 @@ fun square(notation: String): Square {
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int {
+fun rookMoveNumber(start: Square, end: Square): Int { // TODO (cм ниже)
     if (!start.inside() || !end.inside()) throw IllegalArgumentException()
     if (start == end) return 0
     if (start.column == end.column || start.row == end.row) return 1
@@ -93,7 +93,7 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
     val center = Square(start.column, end.row)
     if (movements == 0) return listOf(start)
     if (movements == 1) return listOf(start, end)
-    return (listOf(start,center, end))
+    return (listOf(start, center, end))
 }
 
 /**
@@ -119,7 +119,15 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int { // TODO отдельная ф-ция проверки корректности всех точек (и для других ф-ций)
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException("Клетка некорректна")
+    return when {
+        start == end -> 0
+        (start.column + start.row) % 2 != (end.column + end.row) % 2 -> -1 //  соседние диагонали -> недостижимая клетка
+        Math.abs(end.column - start.column) == Math.abs(end.row - start.row) -> 1 // диагональ --> 1 ход
+        else -> 2
+    }
+}
 
 /**
  * Сложная
@@ -161,7 +169,15 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
+fun kingMoveNumber(start: Square, end: Square): Int { // TODO аналогично (см выше)
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException("Клетка некорректна")
+    val columnDifference = Math.abs(start.column - end.column)
+    val rowDifference = Math.abs(start.row - end.row)
+    return when {
+        columnDifference <= rowDifference -> rowDifference
+        else -> columnDifference //
+    }
+}
 
 /**
  * Сложная

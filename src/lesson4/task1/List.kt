@@ -318,6 +318,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
+//для проверки
 fun decimalFromString(str: String, base: Int): Int
 {
     var result = 0

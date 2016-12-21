@@ -202,7 +202,7 @@ fun cos(x: Double, eps: Double): Double = TODO()
  */
 // функция для revert
 fun countNumber (x: Int): Int = if (x < 10) 1 else 1 +  countNumber (x / 10)
-
+//проверка
 fun powInt (x: Int , y: Int): Int {
     var result = 1
     for (i in 1..y step 1)

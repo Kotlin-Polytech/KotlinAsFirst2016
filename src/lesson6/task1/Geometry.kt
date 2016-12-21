@@ -125,7 +125,7 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-
+    //для проверки
     fun crossPoint(other: Line): Point {
         var x = 0.0
         var y = 0.0

@@ -124,7 +124,24 @@ data class Line(val point: Point, val angle: Double) {
      * Найти точку пересечения с другой линией.
      * Для этого необходимо составить и решить систему из двух уравнений (каждое для своей прямой)
      */
-    fun crossPoint(other: Line): Point = TODO()
+    fun crossPoint(other: Line): Point {
+        val x1 = point.x
+        val y1 = point.y
+        val x2 = other.point.x
+        val y2 = other.point.y
+        val ang = other.angle
+
+        if (Math.tan(angle) == Math.tan(ang)) throw IllegalArgumentException()
+
+        val x3 = (x1*Math.tan(angle) - x2*Math.tan(ang) + y2 - y1)/(Math.tan(angle) - Math.tan(ang))
+
+        val y3 = when {
+            (Math.abs(Math.cos(ang)) < 1.0E-5) -> ((x3 - x1) * Math.tan(angle) + y1)
+            else -> ((x3 - x2) * Math.tan(ang) + y2)
+        }
+
+        return Point(x3, y3)
+    }
 }
 
 /**
@@ -199,7 +216,11 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> {
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    if (lineByPoints(a, b).angle == lineByPoints(a, c).angle) throw IllegalArgumentException()
+    val center = bisectorByPoints(a, b).crossPoint(bisectorByPoints(a, c))
+    return Circle(center, center.distance(a))
+}
 
 /**
  * Очень сложная
@@ -212,5 +233,6 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
  * три точки данного множества, либо иметь своим диаметром отрезок,
  * соединяющий две самые удалённые точки в данном множестве.
  */
+
 fun minContainingCircle(vararg points: Point): Circle = TODO()
 

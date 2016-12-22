@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,15 +43,16 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
+
+
+//var month = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
 
 /**
  * Средняя
@@ -60,7 +62,72 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun formatStringToDateStrToDigit(str: String): Boolean {
+    val parts = str.split(" ")
+    var n = 0
+    var temp = ""
+    var temp2 = ""
+    for (part in parts) {
+        if (n == 3) n += 100
+        if ((n == 2) && (part >= "0")) {
+            n += 1
+            if ((part.toInt() % 4 != 0) && (temp2 == "февраля") && (temp == "29")) n += 100
+        }
+        if (n == 1) {
+            when {
+                (part == "января") && ((temp <= "31")) -> n += 1
+                (part == "февраля") && ((temp <= "29")) -> n += 1
+                (part == "марта") && ((temp <= "31")) -> n += 1
+                (part == "апреля") && ((temp <= "30")) -> n += 1
+                (part == "мая") && ((temp <= "31")) -> n += 1
+                (part == "июня") && ((temp <= "30")) -> n += 1
+                (part == "июля") && ((temp <= "31")) -> n += 1
+                (part == "августа") && ((temp <= "31")) -> n += 1
+                (part == "сентября") && ((temp <= "30")) -> n += 1
+                (part == "октября") && ((temp <= "31")) -> n += 1
+                (part == "ноября") && ((temp <= "30")) -> n += 1
+                (part == "декабря") && ((temp <= "31")) -> n += 1
+            }
+            temp2 = part
+        }
+        if ((n == 0) && ((part >= "1") || (part >= "01")) && (part < "32")) {
+            n += 1
+            temp = part
+        }
+    }
+    return if (n == 3) true
+    else false
+}
+
+
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    var result = ""
+    var f = 0
+    if (formatStringToDateStrToDigit(str)) {
+        for (part in parts) {
+            f += 1
+            val number = part
+            result += when {
+                (f <= 2) && ((number == "января") || (number == "1") || (number == "01")) -> "01."
+                (f <= 2) && ((number == "февраля") || (number == "2") || (number == "02")) -> "02."
+                (f <= 2) && ((number == "марта") || (number == "3") || (number == "03")) -> "03."
+                (f <= 2) && ((number == "апреля") || (number == "4") || (number == "04")) -> "04."
+                (f <= 2) && ((number == "мая") || (number == "5") || (number == "05")) -> "05."
+                (f <= 2) && ((number == "июня") || (number == "6") || (number == "06")) -> "06."
+                (f <= 2) && ((number == "июля") || (number == "7") || (number == "07")) -> "07."
+                (f <= 2) && ((number == "августа") || (number == "8") || (number == "08")) -> "08."
+                (f <= 2) && ((number == "сентября") || (number == "9") || (number == "09")) -> "09."
+                (number == "октября") -> "10."
+                (number == "ноября") -> "11."
+                (number == "декабря") -> "12."
+                ((number >= "10") && (f == 1)) -> "$number."
+                else -> "$number"
+            }
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Средняя
@@ -69,7 +136,82 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+
+fun formatStringToDateDigitToStr(str: String): Boolean {
+    val parts = str.split(".")
+    var n = 0
+    var temp = ""
+    var temp2 = ""
+    for (part in parts) {
+        if (n == 3) n += 100
+        if ((n == 2) && (part >= "0")) {
+            n += 1
+            if ((part.toInt() % 4 != 0) && (temp2 == "02") && (temp == "29")) n += 100
+        }
+        if (n == 1) {
+            when {
+                (part == "01") && (temp <= "31") -> n += 1
+                (part == "02") && (temp <= "29") -> n += 1
+                (part == "03") && (temp <= "31") -> n += 1
+                (part == "04") && (temp <= "30") -> n += 1
+                (part == "05") && (temp <= "31") -> n += 1
+                (part == "06") && (temp <= "30") -> n += 1
+                (part == "07") && (temp <= "31") -> n += 1
+                (part == "08") && (temp <= "31") -> n += 1
+                (part == "09") && (temp <= "30") -> n += 1
+                (part == "10") && (temp <= "31") -> n += 1
+                (part == "11") && (temp <= "30") -> n += 1
+                (part == "12") && (temp <= "31") -> n += 1
+            }
+            temp2 = part
+        }
+        if ((n == 0) && (part >= "01") && (part < "32")) {
+            n += 1
+            temp = part
+        }
+    }
+    return if (n == 3) true
+    else false
+}
+
+
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    var result = ""
+    var f = 0
+    if (formatStringToDateDigitToStr(digital)) {
+        for (part in parts) {
+            f += 1
+            val number = part
+            result += when {
+                (number == "01") && (f == 2) -> " января "
+                (number == "02") && (f == 2) -> " февраля "
+                (number == "03") && (f == 2) -> " марта "
+                (number == "04") && (f == 2) -> " апреля "
+                (number == "05") && (f == 2) -> " мая "
+                (number == "06") && (f == 2) -> " июня "
+                (number == "07") && (f == 2) -> " июля "
+                (number == "08") && (f == 2) -> " августа "
+                (number == "09") && (f == 2) -> " сентября "
+                (number == "10") && (f == 2) -> " октября "
+                (number == "11") && (f == 2) -> " ноября "
+                (number == "12") && (f == 2) -> " декабря "
+                (number == "01") && (f == 1) -> "1"
+                (number == "02") && (f == 1) -> "2"
+                (number == "03") && (f == 1) -> "3"
+                (number == "04") && (f == 1) -> "4"
+                (number == "05") && (f == 1) -> "5"
+                (number == "06") && (f == 1) -> "6"
+                (number == "07") && (f == 1) -> "7"
+                (number == "08") && (f == 1) -> "8"
+                (number == "09") && (f == 1) -> "9"
+                else -> "$number"
+            }
+        }
+        return result
+    } else return ""
+}
+
 
 /**
  * Сложная
@@ -83,7 +225,31 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+var phoneList = listOf<Char>('0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ' ', '+', '-', '(', ')')
+
+fun formatStringForFlattenPhoneNumber(phone: String): Boolean {
+    var n = 0
+    for (i in 0..phone.length - 1)
+        if (phone[i] in phoneList) {
+            n += 1
+        } else break
+    return if (n == phone.length) true
+    else false
+}
+
+fun flattenPhoneNumber(phone: String): String {
+    var f = 0
+    var result = ""
+    if (formatStringForFlattenPhoneNumber(phone)) {
+        for (i in 0..phone.length - 1) {
+            if ((phone[i] in '0'..'9') || ((phone[i] == '+') && (f == 0))) {
+                result += phone[i]
+                f = 1
+            }
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Средняя
@@ -95,7 +261,64 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+
+
+fun formatStringForBestLongJump(jumps: String): Boolean {
+    var numbers = 0
+    var f = 0
+    for (i in 0..jumps.length - 1) {
+        if (jumps[i] in '0'..'9') {
+            numbers += 1
+        } else if ((jumps[i] != ' ') && (jumps[i] != '%') && (jumps[i] != '-')) {
+            f = -1
+            break
+        }
+    }
+    return if ((f == -1) || (numbers == 0)) false
+    else true
+}
+
+fun comparison(str1: String, str2: String): Boolean {
+    var f1 = 0
+    if (str1.length == str2.length) {
+        for (i in 0..str1.length - 1) {
+            if (str1[i] >= str2[i]) {
+                if (str1[i] > str2[i]) {
+                    f1 += 1
+                    break
+                }
+            } else {
+                if (f1 == 0){
+                    break
+                }
+            }
+        }
+        return if (f1 == 0) false
+        else true
+    } else return if (str1.length > str2.length) true
+    else false
+}
+
+fun bestLongJump(jumps: String): Int {
+    var number = ""
+    var numberTemp = ""
+    var f = 0
+    if (formatStringForBestLongJump(jumps)) {
+        for (i in 0..jumps.length - 1) {
+            if (jumps[i] in '0'..'9') numberTemp += jumps[i]
+            else f = 1
+            if ((i == jumps.length - 1) && (jumps[i] in '0'..'9')) f = 1
+            if (comparison(numberTemp, number)) {
+                if (f == 1) {
+                    number = numberTemp
+                    numberTemp = ""
+                }
+            } else if (f == 1) numberTemp = ""
+            f = 0
+        }
+        return number.toInt()
+    } else return -1
+}
 
 /**
  * Сложная

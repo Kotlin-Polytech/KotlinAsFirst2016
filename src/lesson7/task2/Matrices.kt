@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -75,7 +76,15 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val result = createMatrix(height = height, width = width, e = 1)
+    for (i in 0..height - 1) {
+        for (j in 0..width - 1) {
+            result[i, j] = Math.min(Math.min(width - 1 - j, j), Math.min(height - 1 - i, i)) + 1
+        }
+    }
+    return result
+}
 
 /**
  * Сложная

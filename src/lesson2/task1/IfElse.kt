@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -33,7 +34,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    val ten = age % 10
+    val oneHundred = age % 100
+    return when {
+        (ten == 1) && (oneHundred != 11) -> "$age год"
+        (oneHundred in 12..14) -> "$age лет"
+        (ten in 2..4) -> "$age года"
+        else -> "$age лет"
+    }
+}
 
 /**
  * Простая
@@ -44,7 +54,22 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val s12 = s1 + s2
+    val sAll = (s1 + s2 + t3 * v3) / 2
+    //В прошлом сообщении, Вы написали: "Вот эту проверку лучше, наоборот, вытащить наружу (так как она проверяет входные данные на допустимость) в виде отдельного if с return"
+    if (sAll > 0) {
+        return when {
+            (sAll <= s1) -> sAll / v1
+            (sAll <= s12) -> (t1 + (sAll - s1) / v2)
+            (sAll > s12) -> (t1 + t2 + (sAll - s12) / v3)
+            else -> 0.0
+        }
+    } else return 0.0
+}
+
 
 /**
  * Простая
@@ -56,7 +81,17 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+    val rook1Danger = (rookX1 == kingX) || (rookY1 == kingY)
+    val rook2Danger = (rookX2 == kingX) || (rookY2 == kingY)
+    return when {
+        (rook1Danger && rook2Danger) -> 3
+        (!rook2Danger && rook1Danger) -> 1
+        (!rook1Danger && rook2Danger) -> 2
+        else -> 0
+    }
+}
+
 
 /**
  * Простая
@@ -69,7 +104,17 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val bishopDanger = ((kingX - kingY) == (bishopX - bishopY)) || ((bishopX - kingX) == (bishopY - kingY)) || (bishopX - kingX == -(bishopY - kingY))
+    val rookDanger = (rookX == kingX) || (rookY == kingY)
+    return when {
+        bishopDanger && rookDanger -> 3
+        bishopDanger && !rookDanger -> 2
+        !bishopDanger && rookDanger -> 1
+        else -> 0
+    }
+}
+
 
 /**
  * Простая
@@ -79,7 +124,37 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double)
+        : Int {
+    var max = 0.0
+    var min1 = 0.0
+    var min2 = 0.0
+    when {((a >= b) && (a >= c)) -> {
+        max = a
+        min1 = b
+        min2 = c
+
+    }
+        ((b >= c) && (a <= b)) -> {
+            max = b
+            min1 = a
+            min2 = c
+        }
+        else -> {
+            max = c
+            min1 = a
+            min2 = b
+        }
+    }
+    val cosMax = (min1 * min1 + min2 * min2 - max * max) / 2 * min1 * min2
+    return when { (min1 + min2 > max) -> when {
+        (cosMax > 0.0) -> 0
+        (cosMax == 0.0) -> 1
+        else -> 2
+    }
+        else -> -1
+    }
+}
 
 /**
  * Средняя
@@ -89,4 +164,13 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
+    (a > d) || ((a < d) && (c > b)) -> -1
+    (d <= b) && (c < a) -> (d - a)
+    (d <= b) && (c >= a) -> (d - c)
+    (d > b) && (c < a) -> b - a
+    (d > b) && (c >= a) -> b - c
+    else -> 0
+}
+
+

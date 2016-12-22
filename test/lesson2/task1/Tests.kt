@@ -19,6 +19,7 @@ class Tests {
     @Test
     @Tag("Easy")
     fun ageDescription() {
+        assertEquals("11 лет", ageDescription(11))
         assertEquals("21 год", ageDescription(21))
         assertEquals("132 года", ageDescription(132))
         assertEquals("12 лет", ageDescription(12))
@@ -31,6 +32,7 @@ class Tests {
         assertEquals(2.5, timeForHalfWay(1.0, 5.0, 2.0, 4.0, 3.0, 3.0), 1e-2)
         assertEquals(3.67, timeForHalfWay(4.0, 3.0, 1.0, 4.0, 1.0, 6.0), 1e-2)
         assertEquals(4.4, timeForHalfWay(3.0, 0.0, 1.0, 6.0, 2.0, 5.0), 1e-2)
+        assertEquals(1.0666666666666667, timeForHalfWay(0.016666666666666666, 1.0, 1.05, 1.0, 1.0666666666666667, 1.0), 1e-2)
     }
 
     @Test
@@ -63,6 +65,12 @@ class Tests {
     @Test
     @Tag("Normal")
     fun segmentLength() {
+        assertEquals(0, segmentLength(101,150 , 40, 101))
+        assertEquals(0, segmentLength(15, 20, 20, 35))
+        assertEquals(5, segmentLength(30, 35, 30, 40))
+        assertEquals(1, segmentLength(1, 2, 1, 2))
+        assertEquals(0, segmentLength(1, 1, 1, 1))
+        assertEquals(1, segmentLength(482574, 482575, 457908, 482575))
         assertEquals(-1, segmentLength(1, 2, 3, 4))
         assertEquals(-1, segmentLength(5, 7, 1, 3))
         assertEquals(0, segmentLength(1, 2, 2, 4))

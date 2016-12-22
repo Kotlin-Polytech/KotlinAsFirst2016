@@ -103,7 +103,16 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.height != matrix.width) throw IllegalArgumentException()
+    val newMatrix = createMatrix(matrix.height, matrix.width, matrix[0, 0])
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
+            newMatrix[i, j] = matrix[matrix.width - j - 1, i]
+        }
+    }
+    return newMatrix
+}
 
 /**
  * Сложная
@@ -205,7 +214,14 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..this.height - 1) {
+        for (j in 0..this.width - 1) {
+            this[i, j] *= -1
+        }
+    }
+    return this
+}
 
 /**
  * Средняя

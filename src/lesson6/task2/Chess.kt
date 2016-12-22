@@ -121,6 +121,7 @@ fun bishopMoveNumber(start: Square, end: Square): Int = when {
     (start.column + start.row) % 2 != (end.column + end.row) % 2 -> -1
     else -> 2
 }
+
 /**
  * Сложная
  *

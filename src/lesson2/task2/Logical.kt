@@ -11,6 +11,7 @@ import lesson1.task1.sqr
 fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
         sqr(x - x0) + sqr(y - y0) <= sqr(r)
 
+
 /**
  * Простая
  *
@@ -47,13 +48,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean {
-    return if (Math.sqrt(x1 - x2) + Math.sqrt(y1 - y2) < Math.sqrt(r2)) {
-        val d: Double = Math.sqrt(Math.pow((x2 - x1), 2.0) + Math.pow(y2 - y1, 2.0))
-        if (r2 - d >= r1) return true
-        else false
-    } else false
-}
+                 x2: Double, y2: Double, r2: Double): Boolean =((Math.sqrt((sqr(x1 - x2) + sqr(y1 - y2))) + r1) <= r2)
 
 /**
  * Средняя

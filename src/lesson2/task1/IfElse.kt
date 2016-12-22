@@ -1,7 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson2.task1
 
-import lesson1.task1.discriminant
+
 
 /**
  * Пример
@@ -17,7 +17,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
         return -Math.sqrt(bc)
         // Дальше функция при a == 0.0 не идёт
     }
-    val d = discriminant(a, b, c)   // 2
+    val d = 10.0   // 2
     if (d < 0.0) return Double.NaN  // 3
     // 4
     val y1 = (-b + Math.sqrt(d)) / (2 * a)
@@ -34,7 +34,7 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    return if ((age in (5..20)) || (age in (115..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
+    return if ((age in (5..20)) || (age in (111..120)) || (age % 10 > 4) || (age % 10 == 0)) "$age лет"
     else {
         if ((age % 10 < 5) && (age % 10 > 1)) "$age года"
         else "$age год"
@@ -55,11 +55,11 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t3: Double, v3: Double): Double {
 
     val halfWay: Double = (t1 * v1 + t2 * v2 + t3 * v3) / 2
-    if  (halfWay / (t1 * v1) < 1)
+    if (halfWay / (t1 * v1) < 1)
         return halfWay / v1
-       else
-        if (halfWay / (t1 * v1 + t2 * v2) < 1)  return (halfWay - v1 * t1) / v2 + t1
-            else
+    else
+        if (halfWay / (t1 * v1 + t2 * v2) < 1) return (halfWay - v1 * t1) / v2 + t1
+        else
             return ((halfWay - (v1 * t1 + v2 * t2)) / v3 + t1 + t2)
 }
 
@@ -119,10 +119,10 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
         else return 0
     }
 
-    /**
-     * Средняя
-     *
-     * Даны четыре точки на одной прямой: A, B, C и D.
+/**
+ * Средняя
+ *
+ * Даны четыре точки на одной прямой: A, B, C и D.
      * Координаты точек a, b, c, d соответственно, b >= a, d >= c.
      * Найти длину пересечения отрезков AB и CD.
      * Если пересечения нет, вернуть -1.

@@ -35,22 +35,23 @@ fun timeSecondsToStr(seconds: Int): String {
 
 /**
  * Пример: консольный ввод
-
-fun main(args: Array<String>) {
-println("Введите время в формате ЧЧ:ММ:СС")
-val line = readLine()
-if (line != null) {
-val seconds = timeStrToSeconds(line)
-if (seconds == -1) {
-println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-} else {
-println("Прошло секунд с начала суток: $seconds")
-}
-} else {
-println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
-}
-}
  */
+fun main(args: Array<String>) {
+    println("Введите время в формате ЧЧ:ММ:СС")
+    val line = readLine()
+    if (line != null) {
+        val seconds = timeStrToSeconds(line)
+        if (seconds == -1) {
+            println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
+        }
+        else {
+            println("Прошло секунд с начала суток: $seconds")
+        }
+    }
+    else {
+        println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
+    }
+}
 
 /**
  * Средняя
@@ -60,37 +61,7 @@ println("Достигнут <конец файла> в процессе чтен
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String {
-    val parse = str.split(" ")
-    var result = ""
-    if (parse.size == 3) {
-        try {
-            if (parse[0].toInt() in 1..9)
-                result += "0" + parse[0].toInt().toString() + "."
-            else result += parse[0].toString() + "."
-            result += when (parse[1]) {
-                "января" -> "01"
-                "февраля" -> "02"
-                "марта" -> "03"
-                "апреля" -> "04"
-                "мая" -> "05"
-                "июня" -> "06"
-                "июля" -> "07"
-                "августа" -> "08"
-                "сентября" -> "09"
-                "октября" -> "10"
-                "ноября" -> "11"
-                "декабря" -> "12"
-                else -> return ""
-            }
-            result += "." + parse[2].toInt().toString()
-        } catch (e: NumberFormatException) {
-            return ""
-        }
-        return result
-    } else return ""
-}
-
+fun dateStrToDigit(str: String): String = TODO()
 
 /**
  * Средняя
@@ -322,3 +293,135 @@ fun main(args: Array<String>) {
     val x = firstDuplicateIndex(f)
     println(x)
 }
+
+
+fun exam(examResults: List<String>, thresherhold: Double): List<String> {
+    if (examResults.size == 0) throw IllegalArgumentException()
+    var resultList = listOf<String>()
+    var string: List<String>
+    var stringLittle: List<String>
+    var stringLittleLittle: List<String>
+    for (i in 0..examResults.size - 1) {
+        var sr = 0.0
+        var number = 0
+        string = examResults[i].split("-")
+        if (string.size != 2) throw IllegalArgumentException()
+        if (string[0].split(" ").size != 3) throw IllegalArgumentException()
+        stringLittle = string[1].split(",")
+        for (j in 0..stringLittle.size - 1) {
+            stringLittleLittle = stringLittle[j].split(" ")
+            if (stringLittleLittle.size != 3) throw IllegalArgumentException()
+            try {
+                sr += stringLittleLittle[2].toString().toDouble()
+            } catch (e: NumberFormatException) {
+                throw IllegalArgumentException()
+            }
+
+            number++
+        }
+        if (sr / number >= thresherhold) {
+            resultList += (string[0].substring(0, string[0].length - 1))
+        }
+    }
+    return resultList
+}
+
+fun beststudents(examResults: List<String>, threshold: Double): List<String> {
+    if (examResults.size == 0) throw IllegalAccessException()
+    val result = mutableListOf<String>()
+    var parse = listOf<String>()
+    var part = listOf<String>()
+    for (i in 0..examResults.size - 1) {
+        parse = examResults[i].split(" - ")
+        if (parse.size != 2) throw IllegalArgumentException()
+        part = parse[1].split(", ")
+        if (part.size < 1)
+            IllegalArgumentException()
+        var averagemark = 0.0
+        var mark = 0.0
+        var marks = listOf<String>()
+        for (j in 0..part.size - 1) {
+            marks = part[j].split(" ")
+            mark = marks[1].toDouble()
+            if (mark < 2.0 || mark > 5.0)
+                throw IllegalArgumentException()
+            averagemark += mark
+        }
+        if (averagemark / part.size >= threshold)
+            result.add(parse[0])
+    }
+    return result
+}
+
+fun student(examResults: List<String>, threshold: Double): List<String> {
+    if (examResults.size == 0) throw IllegalAccessException()
+    val result = mutableListOf<String>()
+    var parse = listOf<String>()
+    var part = listOf<String>()
+    for (i in 0..examResults.size - 1) {
+        parse = examResults[i].split(" - ")
+        if (parse.size != 2) throw IllegalArgumentException()
+        part = parse[1].split(", ")
+        if (part.size < 1)
+            IllegalArgumentException()
+        var averagemark = 0.0
+        var mark = 0.0
+        var marks = listOf<String>()
+        for (j in 0..part.size - 1) {
+            marks = part[j].split(" ")
+            mark = marks[1].toDouble()
+            if (mark < 2.0 || mark > 5.0)
+                throw IllegalArgumentException()
+            averagemark += mark
+        }
+        if (averagemark / part.size >= threshold)
+            result.add(parse[0])
+    }
+    return result
+}
+
+fun birthdays(text: String): List<String> {
+    if (text.length == 0) throw IllegalAccessException()
+    var result = mutableListOf<String>()
+
+    var part = listOf<String>()
+
+    val parse = text.split(", ")
+    for (j in 0..parse.size - 1) {
+        part = parse[j].split(" ")
+        var month = when (part[2]) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> 0
+
+        }
+        val listnumbers1 = listOf(1, 3, 5, 7, 8, 10, 12)
+        val listnumbers2 = listOf(4, 6, 9, 11)
+        if ((((month in listnumbers1) && (part[1].toDouble() > 31)) || ((month in listnumbers2) && (part[1].toDouble() > 30))
+                || (month == 2) && (part[1].toDouble() > 29))
+                || (part[1].toDouble() < 1))
+        result.add(parse[j])
+        if (month == 0) throw IllegalArgumentException()
+
+    }
+
+    return result
+}
+
+
+
+
+
+
+
+

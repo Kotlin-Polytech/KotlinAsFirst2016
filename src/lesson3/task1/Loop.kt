@@ -1,5 +1,4 @@
 @file:Suppress("UNUSED_PARAMETER")
-
 package lesson3.task1
 
 import lesson1.task1.sqr
@@ -162,14 +161,14 @@ fun maxDivisor(n: Int): Int {
 
 
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (result in m..n) {
-        val sqrtResult = Math.sqrt(result.toDouble())
-        if (sqrtResult % 1 == 0.0) {
-            if (sqrtResult * sqrtResult in m..n) return true
-        }
-    }
-    return false
+    val a= Math.sqrt(n.toDouble())
+    val b= Math.sqrt(m.toDouble())
+    return Math.floor(a)-Math.ceil(b)==0.0
+
 }
+
+
+
 
 
 /**

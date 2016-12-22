@@ -27,9 +27,9 @@ data class Square(val column: Int, val row: Int) {
     fun notation(): String {
         if (!inside()) return ""
         else {
-            val array = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
-            val char = array[column - 1]
-            return ("$char$row")
+            val letters = listOf('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+            val column = letters[column - 1]
+            return ("$column$row")
         }
     }
 }
@@ -42,7 +42,21 @@ data class Square(val column: Int, val row: Int) {
  * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
  * Если нотация некорректна, бросить IllegalArgumentException
  */
-fun square(notation: String): Square = TODO()
+fun square(notation: String): Square {
+    if ((notation.length != 2) || (notation == "")) throw IllegalArgumentException()
+    val column = when (notation[0]) {
+        'a' -> 1
+        'b' -> 2
+        'c' -> 3
+        'd' -> 4
+        'e' -> 5
+        'f' -> 6
+        'g' -> 7
+        'h' -> 8
+        else -> throw IllegalArgumentException()    }
+    val row = notation[1].toString().toInt()
+    return Square(column, row)
+}
 
 /**
  * Простая
@@ -67,7 +81,15 @@ fun square(notation: String): Square = TODO()
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int = TODO()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    return when {
+        start == end -> 0
+        start.column == end.column -> 1
+        start.row == end.row -> 1
+        else -> 2
+    }
+}
 
 /**
  * Средняя
@@ -83,7 +105,14 @@ fun rookMoveNumber(start: Square, end: Square): Int = TODO()
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    val move = rookMoveNumber(start, end)
+    return when (move) {
+        0 -> listOf(start)
+        1 -> listOf(start, end)
+        else -> listOf(start, Square(start.column, end.row), end)
+    }
+}
 
 /**
  * Простая
@@ -108,7 +137,17 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    val abscol = Math.abs(start.column - end.column)
+    val absrow = Math.abs(start.row - end.row)
+    return when {
+        start == end -> 0
+        (abscol == absrow) -> 1
+        ((start.column+start.row)%2==(end.column+end.row)%2) -> 2
+        else -> -1
+    }
+}
 
 /**
  * Сложная
@@ -128,7 +167,20 @@ fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
  *          bishopTrajectory(Square(1, 3), Square(6, 8)) = listOf(Square(1, 3), Square(6, 8))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
+fun bishopTrajectory(start: Square, end: Square): List<Square> {
+    val move = bishopMoveNumber(start, end)
+    when (move) {
+        2 -> for (i in 1..8)
+            for (j in 1..8)
+                if ((Math.abs(start.column - i) == Math.abs(start.row - j))
+                        && (Math.abs(end.column - i) == Math.abs(end.row - j)))
+                    return listOf(start, Square(column = i, row = j), end)
+        0 -> return (listOf(start))
+        1 -> return (listOf(start, end))
+        else -> return (listOf())
+    }
+    return (listOf())
+}
 
 /**
  * Средняя

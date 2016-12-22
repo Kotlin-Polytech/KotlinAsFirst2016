@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -69,7 +70,34 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    var result = ""
+    val parse = digital.split(".")
+    if (parse.size == 3) {
+        try {
+            result += parse[0].toInt().toString() + " "
+            result += when (parse[1]) {
+                "01" -> "января"
+                "02" -> "февраля"
+                "03" -> "марта"
+                "04" -> "апреля"
+                "05" -> "мая"
+                "06" -> "июня"
+                "07" -> "июля"
+                "08" -> "августа"
+                "09" -> "сентября"
+                "10" -> "октября"
+                "11" -> "ноября"
+                "12" -> "декабря"
+                else -> return ""
+            }
+            result += " " + parse[2].toInt().toString()
+        } catch (e: NumberFormatException) {
+            return ""
+        }
+        return result
+    } else return ""
+}
 
 /**
  * Сложная
@@ -83,7 +111,23 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone == "") return ""
+    for (i in 0..phone.length - 1) {
+        if ((phone[i] != '+') && (phone[i] != '-') && (phone[i] != ' ')
+                && (phone[i] !in '0'..'9') && (phone[i] != '(') && (phone[i] != ')'))
+            return ""
+    }
+    var string = phone.filter { (it in '0'..'9') || (it == '+') }
+    val firstel = string[0]
+    var result = ""
+    for (i in 1..string.length - 1) {
+        if (string [i] != '+') result += string[i]
+    }
+
+    return firstel + result
+
+}
 
 /**
  * Средняя
@@ -95,7 +139,23 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    for (i in 0..jumps.length - 1) {
+        if ((jumps[i] != '%') && (jumps[i] != '-') && (jumps[i] != ' ')
+                && (jumps[i] !in '0'..'9'))
+            return -1
+    }
+    val parse = jumps.filter { (it in '0'..'9') || (it == ' ') }.split(" ")
+    var max = -1
+    for (i in 0..parse.size - 1)
+        try {
+            if (parse[i].toInt() > max) max = parse[i].toInt()
+        } catch (e: NumberFormatException) {
+            null
+        }
+    return max
+}
+
 
 /**
  * Сложная
@@ -107,7 +167,18 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    try {
+        var parse = jumps.split(" ")
+        var max = -1
+        for (i in 0..parse.size - 1 step 2) {
+            if ((parse[i].toInt() > max) && ('+' in parse[i + 1])) max = parse [i].toInt()
+        }
+        return max
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+}
 
 /**
  * Сложная
@@ -118,7 +189,24 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    for (i in 0..expression.length - 1) {
+        if ((expression == "") || !((expression[i] == '+') || (expression[i] == '-') || (expression[i] in '0'..'9') || (expression[i] == ' ')))
+            throw IllegalArgumentException("")
+    }
+    var result = 0
+    val foo = expression.split(" ")
+    try {
+        result += foo[0].toInt()
+        for (i in 2..foo.size - 1 step 2)
+            if (foo[i - 1] == "-") result -= foo[i].toInt()
+            else result += foo[i].toInt()
+    } catch (e: IllegalArgumentException) {
+        throw IllegalArgumentException("")
+    }
+    return result
+}
+
 
 /**
  * Сложная
@@ -129,7 +217,18 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val string = str.toLowerCase()
+    val parse = string.split(" ")
+    var result = 0
+    for (i in 0..parse.size - 2) {
+        if ((parse[i] == parse[i + 1]) && (parse[i] != "")) return result
+        result += parse[i].length + 1
+    }
+
+    return -1
+}
+
 
 /**
  * Сложная
@@ -188,3 +287,141 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+fun main(args: Array<String>) {
+    val f = "Он пошёл в в школу"
+    val x = firstDuplicateIndex(f)
+    println(x)
+}
+
+
+fun exam(examResults: List<String>, thresherhold: Double): List<String> {
+    if (examResults.size == 0) throw IllegalArgumentException()
+    var resultList = listOf<String>()
+    var string: List<String>
+    var stringLittle: List<String>
+    var stringLittleLittle: List<String>
+    for (i in 0..examResults.size - 1) {
+        var sr = 0.0
+        var number = 0
+        string = examResults[i].split("-")
+        if (string.size != 2) throw IllegalArgumentException()
+        if (string[0].split(" ").size != 3) throw IllegalArgumentException()
+        stringLittle = string[1].split(",")
+        for (j in 0..stringLittle.size - 1) {
+            stringLittleLittle = stringLittle[j].split(" ")
+            if (stringLittleLittle.size != 3) throw IllegalArgumentException()
+            try {
+                sr += stringLittleLittle[2].toString().toDouble()
+            } catch (e: NumberFormatException) {
+                throw IllegalArgumentException()
+            }
+
+            number++
+        }
+        if (sr / number >= thresherhold) {
+            resultList += (string[0].substring(0, string[0].length - 1))
+        }
+    }
+    return resultList
+}
+
+fun beststudents(examResults: List<String>, threshold: Double): List<String> {
+    if (examResults.size == 0) throw IllegalAccessException()
+    val result = mutableListOf<String>()
+    var parse = listOf<String>()
+    var part = listOf<String>()
+    for (i in 0..examResults.size - 1) {
+        parse = examResults[i].split(" - ")
+        if (parse.size != 2) throw IllegalArgumentException()
+        part = parse[1].split(", ")
+        if (part.size < 1)
+            IllegalArgumentException()
+        var averagemark = 0.0
+        var mark = 0.0
+        var marks = listOf<String>()
+        for (j in 0..part.size - 1) {
+            marks = part[j].split(" ")
+            mark = marks[1].toDouble()
+            if (mark < 2.0 || mark > 5.0)
+                throw IllegalArgumentException()
+            averagemark += mark
+        }
+        if (averagemark / part.size >= threshold)
+            result.add(parse[0])
+    }
+    return result
+}
+
+fun student(examResults: List<String>, threshold: Double): List<String> {
+    if (examResults.size == 0) throw IllegalAccessException()
+    val result = mutableListOf<String>()
+    var parse = listOf<String>()
+    var part = listOf<String>()
+    for (i in 0..examResults.size - 1) {
+        parse = examResults[i].split(" - ")
+        if (parse.size != 2) throw IllegalArgumentException()
+        part = parse[1].split(", ")
+        if (part.size < 1)
+            IllegalArgumentException()
+        var averagemark = 0.0
+        var mark = 0.0
+        var marks = listOf<String>()
+        for (j in 0..part.size - 1) {
+            marks = part[j].split(" ")
+            mark = marks[1].toDouble()
+            if (mark < 2.0 || mark > 5.0)
+                throw IllegalArgumentException()
+            averagemark += mark
+        }
+        if (averagemark / part.size >= threshold)
+            result.add(parse[0])
+    }
+    return result
+}
+
+fun birthdays(text: String): List<String> {
+    if (text.length == 0) throw IllegalAccessException()
+    var result = mutableListOf<String>()
+
+    var part = listOf<String>()
+
+    val parse = text.split(", ")
+    for (j in 0..parse.size - 1) {
+        part = parse[j].split(" ")
+        var month = when (part[2]) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> 0
+
+        }
+        val listnumbers1 = listOf(1, 3, 5, 7, 8, 10, 12)
+        val listnumbers2 = listOf(4, 6, 9, 11)
+        if ((((month in listnumbers1) && (part[1].toDouble() > 31)) || ((month in listnumbers2) && (part[1].toDouble() > 30))
+                || (month == 2) && (part[1].toDouble() > 29))
+                || (part[1].toDouble() < 1))
+        result.add(parse[j])
+        if (month == 0) throw IllegalArgumentException()
+
+    }
+
+    return result
+}
+
+
+
+
+
+
+
+

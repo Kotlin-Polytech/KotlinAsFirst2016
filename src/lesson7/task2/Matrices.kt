@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson7.task2
 
 import lesson7.task1.Matrix
@@ -137,7 +138,18 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
  *
  * 42 ===> 0
  */
-fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumNeighbours(matrix: Matrix<Int>): Matrix<Int> {
+    var matrix2 = createMatrix(matrix.height + 2, matrix.width + 2, 0)
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width) matrix2[i, j] = matrix[i - 1, j - 1]
+    for (i in 1..matrix.height)
+        for (j in 1..matrix.width) {
+            matrix[i - 1, j - 1] =
+                    matrix2[i - 1, j - 1] + matrix2[i - 1, j] + matrix2[i - 1, j + 1] + matrix2[i, j - 1] +
+                            matrix2[i, j + 1] + matrix2[i + 1, j - 1] + matrix2[i + 1, j] + matrix2[i + 1, j + 1]
+        }
+    return matrix
+}
 
 /**
  * Средняя
@@ -205,7 +217,10 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..height - 1) for (j in 0..width - 1) this[i, j] = -this[i, j]
+    return this
+}
 
 /**
  * Средняя

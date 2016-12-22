@@ -60,7 +60,26 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+        val fullDate = str.split(" ")
+        if (fullDate.size != 3) {
+            return ""
+        }
+        try {
+                val allMonths = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+                if (fullDate[1] in allMonths) {
+                    val day = fullDate[0].toInt()
+                    val year = fullDate[2].toInt()
+                    return String.format("%02d.%02d.%d", day, allMonths.indexOf(fullDate[1]) + 1, year)
+                    }
+                else {
+                    return ""
+                }
+            }
+        catch (e: NumberFormatException) {
+                return ""
+        }
+}
 
 /**
  * Средняя
@@ -107,7 +126,25 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    if (jumps.contains(Regex("""[^+\-%0123456789\s]"""))){
+        return -1
+    }
+    val jumpsParts = jumps.split(" ")
+    var maxJump = -1
+    for (i in 1..jumpsParts.size - 1) {
+        if ('+' in jumpsParts[i]) {
+            try {
+                if (maxJump < jumpsParts[i - 1].toInt()) {
+                    maxJump = jumpsParts[i - 1].toInt()
+                }
+            } catch (e: NumberFormatException) {
+                return -1
+            }
+        }
+    }
+    return maxJump
+}
 
 /**
  * Сложная

@@ -2,6 +2,7 @@
 package lesson7.task2
 
 import lesson7.task1.Matrix
+import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -175,7 +176,21 @@ data class Holes(val rows: List<Int>, val columns: List<Int>)
  *
  * К примеру, центральный элемент 12 = 1 + 2 + 4 + 5, элемент в левом нижнем углу 12 = 1 + 4 + 7 и так далее.
  */
-fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
+fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> {
+    val result = createMatrix(matrix.height, matrix.width, 0)
+    for (i in 0..matrix.height-1){
+        for (j in 0..matrix.width-1){
+            var resultNumber = 0
+            for (k in 0..i){
+                for (l in 0..j){
+                    resultNumber += matrix[k, l]
+                }
+            }
+            result[i, j] = resultNumber
+        }
+    }
+    return result
+}
 
 /**
  * Сложная

@@ -1,8 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson4.task1
 
-import lesson1.task1.discriminant
+
+import lesson3.task1.isPrime
 import lesson3.task1.minDivisor
+import lesson3.task1.pow
 
 /**
  * Пример
@@ -29,7 +31,7 @@ fun biRoots(a: Double, b: Double, c: Double): List<Double> {
         if (b == 0.0) return listOf()
         else return sqRoots(-c / b)
     }
-    val d = discriminant(a, b, c)
+    val d = 10.0
     if (d < 0.0) return listOf()
     if (d == 0.0) return sqRoots(-b / (2 * a))
     val y1 = (-b + Math.sqrt(d)) / (2 * a)
@@ -197,16 +199,15 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     var n1 = n
-    var list = listOf<Int>()
-    while (n1>1)
-        list +=  minDivisor(n1)
-          n1 /= minDivisor(n1)
-
-        return list.sorted()
+    var result = listOf<Int>()
+    while (n1 > 1) {
+        result += minDivisor(n1)
+        n1 /= minDivisor(n1)
+    }
+        return result
 }
-
-/**
- * Сложная
+    /**
+     * Сложная
  *
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
@@ -249,10 +250,10 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
 fun decimal(digits: List<Int>, base: Int): Int {
-    var p = digits.size.toDouble() - 1
+    var p = digits.size - 1
     var result = 0
     for (element in digits) {
-        result += (element * Math.pow(base.toDouble(), p)).toInt()
+        result += (element * pow(base, p))
         p--
     }
     return result
@@ -270,7 +271,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
 fun decimalFromString(str: String, base: Int): Int {
     var list = listOf<Int>()
     for (char in str) {
-        if (char.toInt() in 48..57) list += (char.toInt() - 48)
+        if (char in '0'..'9') list += char - '0'
         else list += (char.toInt() - 87)
     }
     return decimal(list, base)

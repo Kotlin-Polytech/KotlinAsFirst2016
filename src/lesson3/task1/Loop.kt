@@ -1,6 +1,11 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+fun pow (a:Int,b:Int): Int {
+    var result = 1
+    for (i in 1..b) result *= a
+    return result
+}
 /**
  * Пример
  *
@@ -124,15 +129,12 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var a = 0
-    var z = 0
-    for (i in n downTo 1) {
-        if (n % i == 0)
-            z = n / i
-        if (z > a && z < n)
-            a = z
+    var del = n
+    for (i in 1..n) {
+        if (n % i == 0 && i < n)
+            del = i
     }
-    return a
+    return del
 }
 
 /**
@@ -244,7 +246,7 @@ fun hasDifferentDigits(n: Int): Boolean {
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int):Int {
+fun squareSequenceDigit(n: Int): Int {
     var i = 1
     var k = 0
     var m = 0
@@ -254,7 +256,7 @@ fun squareSequenceDigit(n: Int):Int {
         i += 1
     }
     i = m - n
-    return k / Math.pow(10.0, i*1.0).toInt() % 10
+    return k / pow(10, i) % 10
 }
 
 /**
@@ -274,6 +276,7 @@ fun fibSequenceDigit(n: Int): Int {
         i += 1
     }
     i = m - n
-    return k / Math.pow(10.0, i*1.0).toInt() % 10
+    return k / pow(10, i) % 10
+
 
 }

@@ -70,7 +70,7 @@ fun dateStrToDigit(str: String): String {
         val month = months.indexOf(list[1]) + 1
         if (month == 0) return ""
         val year = list[2].toInt()
-        return String.format("%02d.%02d.%04d", date, month, year)
+        return String.format("%02d.%02d.%4d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -91,7 +91,7 @@ fun dateDigitToStr(digital: String): String {
         if (list[1].toInt() - 1 !in 0..11) return ""
         val month = months[list[1].toInt() - 1]
         val year = list[2].toInt()
-        return String.format("%d %s %04d", date, month, year)
+        return String.format("%d %s %4d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -127,13 +127,13 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    val par = jumps.split(" ", "%", "-").toMutableList()
-    for (i in 0..par.size - 1) {
-        par.remove("")
+    val parts = jumps.split(" ", "%", "-").toMutableList()
+    for (i in 0..parts.size - 1) {
+        parts.remove("")
     }
     var max = -1
     try {
-        for (part in par) {
+        for (part in parts) {
             if (part.toInt() > max) max = part.toInt()
         }
     } catch (e: NumberFormatException) {
@@ -141,6 +141,9 @@ fun bestLongJump(jumps: String): Int {
     }
     return max
 }
+
+
+
 
 /**
  * Сложная
@@ -154,19 +157,19 @@ fun bestLongJump(jumps: String): Int {
  */
 fun bestHighJump(jumps: String): Int {
     val parts = jumps.split(" ")
-        val list:MutableList<String> = mutableListOf()
-        for (i in 1..parts.size-1){
-                if ('+' in parts[i]) list += parts[i-1]
-            }
-        var max = -1
-        try {
-                for (element in list) {
-                        if (element.toInt() > max) max = element.toInt()
-                    }
-            } catch (e: NumberFormatException){
-                return -1
-            }
-        return max
+    val list: MutableList<String> = mutableListOf()
+    for (i in 1..parts.size - 1) {
+        if ('+' in parts[i]) list += parts[i - 1]
+    }
+    var max = -1
+    try {
+        for (element in list) {
+            if (element.toInt() > max) max = element.toInt()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
 }
 
 /**

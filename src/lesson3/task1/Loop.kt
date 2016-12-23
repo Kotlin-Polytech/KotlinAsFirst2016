@@ -2,8 +2,6 @@
 
 package lesson3.task1
 
-import java.lang.Math.pow
-
 /**
  * Пример
  *
@@ -120,13 +118,13 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var x = 2
+    var x = 1
     var t = 1
     while (t != 0) {
-        t = n % x
+        t = n % (x + 1)
         x++
     }
-    x--
+
     return x
 }
 
@@ -153,20 +151,7 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
-fun isCoPrime(m: Int, n: Int): Boolean {
-    var m1 = m
-    var n1 = n
-    while (m1 != n1) {
-        if (m1 > n1) {
-            m1 -= n1
-        }
-        if (m1 < n1) {
-            n1 -= m1
-        }
-    }
-    val x = n1 == 1
-    return x
-}
+fun isCoPrime(m: Int, n: Int): Boolean = m * n / lcm(m, n) == 1
 
 /**
  * Простая
@@ -176,7 +161,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var k = 0
+    var k = 1
     while (k * k <= n) {
         if (k * k >= m) return true
         k++
@@ -195,7 +180,7 @@ fun sin(x: Double, eps: Double): Double {
     var index = 1
     var ind = 1
     var sin = 0.0
-    var new = x % (Math.PI * 2)
+    val new = x % (Math.PI * 2)
     while (Math.abs(new) >= eps) {
         sin += index * new
         ind += 2
@@ -223,7 +208,6 @@ fun cos(x: Double, eps: Double): Double = TODO()
 fun revert(n: Int): Int {
     var number = n
     var results = 0
-    var i = 1
     while (number != 0) {
         results = (results + number % 10) * 10
         number = number / 10
@@ -275,7 +259,7 @@ fun squareSequenceDigit(n: Int): Int {
         x++
     }
     l = Math.abs(l)
-    m = m / pow(10.0, l * 1.0).toInt() % 10
+    m = m / Math.pow(10.0, l * 1.0).toInt() % 10
     return m
 }
 
@@ -293,7 +277,7 @@ fun fibSequenceDigit(n: Int): Int {
     var l = n
     var count = 1
     while (l > 0) {
-        m = ((Math.sqrt(5.0) / 5) * (pow((1 + Math.sqrt(5.0)) / 2, x) - pow((1 - Math.sqrt(5.0)) / 2, x))).toInt()
+        m = ((Math.sqrt(5.0) / 5) * (Math.pow((1 + Math.sqrt(5.0)) / 2, x) - Math.pow((1 - Math.sqrt(5.0)) / 2, x))).toInt()
         t = m
         while (t >= 10) {
             count++
@@ -304,6 +288,6 @@ fun fibSequenceDigit(n: Int): Int {
         x++
     }
     l = Math.abs(l)
-    m = m / pow(10.0, l * 1.0).toInt() % 10
+    m = m / Math.pow(10.0, l * 1.0).toInt() % 10
     return m
 }

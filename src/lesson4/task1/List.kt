@@ -3,7 +3,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import java.lang.Math.*
+import java.lang.Math.pow
 
 /**
  * Пример
@@ -135,16 +135,14 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return mutableListOf()
-    else {
-        var m=0
-        val x=list.sum() / list.size
-        while (m in 0..list.size-1) {
-            list[m]-=x
-            m++
+    if (list.isNotEmpty()) {
+        val means = mean(list)
+        for (i in 0..list.size - 1) {
+            val element = list[i]
+            list[i] = element - means
         }
         return list
-    }
+    } else return list
 }
 
 /**
@@ -190,10 +188,10 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var t = 0.0
-    var i=0
-    while(i in 0..list.size-1) {
-        t +=list[i]
-        list[i]=t
+    var i = 0
+    while (i in 0..list.size - 1) {
+        t += list[i]
+        list[i] = t
         i++
     }
     return list
@@ -215,9 +213,7 @@ fun factorize(n: Int): List<Int> {
         if (n1 % t == 0) {
             x.add(t)
             n1 /= t
-            t--
-        }
-        t++
+        } else t++
     }
     return x
 

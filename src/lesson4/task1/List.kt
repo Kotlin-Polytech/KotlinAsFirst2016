@@ -19,6 +19,7 @@ fun sqRoots(y: Double) =
             listOf(-root, root)
         }
 
+
 /**
  * Пример
  *

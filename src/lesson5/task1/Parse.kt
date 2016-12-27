@@ -207,9 +207,9 @@ fun firstDuplicateIndex(str: String): Int {
     val strNew = str.toLowerCase()
     val parts = strNew.split(" ")
     var index = 0
-    for (i in 0..parts.size - 2) {
-        if (parts[i] == parts [i + 1]) return index
-        index += parts[i].length + 1
+    for (l in 0..parts.size - 2) {
+        if (parts[l] == parts [l + 1]) return index
+        index += parts[l].length + 1
 
     }
     return -1

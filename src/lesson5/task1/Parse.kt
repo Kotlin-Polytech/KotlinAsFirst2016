@@ -73,7 +73,7 @@ fun dateStrToDigit(str: String): String {
             month = (months.indexOf(splited[1]) + 1)
         } else return ""
         val year = splited[2].toInt()
-        return String.format("%02d.%02d.%4d", date, month, year)
+        return String.format("%02d.%02d.%04d", date, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -91,12 +91,12 @@ fun dateDigitToStr(digital: String): String {
     if (splited.size != 3) return ""
     val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     try {
-        val date = splited[0].toInt()
-        val month: String
-        if (splited[1].toInt() in 1..12) month = months[splited[1].toInt() - 1]
-        else return ""
+        if (splited[0].toInt() !in 1..31) return ""
+        val date = splited[0].toInt().toString()
+        if (splited[1].toInt() !in 1..12) return ""
+        val month = months[splited[1].toInt()-1]
         val year = splited[2].toInt()
-        return "$date $month $year"
+        return date+" "+month+" "+splited[2]
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -115,7 +115,7 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    val matchResult = Regex("""[^-\d+()\s]""").find(phone)
+    val matchResult = Regex("""[^-\d+() ]""").find(phone)
     if (matchResult != null) return ""
     if (phone.indexOf("+") > 0) return ""
     val phoneList = phone.split(" ", "-", "(", ")")
@@ -140,6 +140,7 @@ fun bestLongJump(jumps: String): Int {
         return jumpsList.max() ?: -1
     } catch (e: NumberFormatException) {
         return -1
+
     }
 }
 

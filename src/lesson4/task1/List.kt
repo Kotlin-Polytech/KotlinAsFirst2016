@@ -2,6 +2,7 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson3.task1.isPrime
 
 /**
  * Пример
@@ -116,7 +117,7 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
-    return (list.sum() / list.size)
+    return list.sum()/list.size
 }
 
 /**
@@ -127,9 +128,9 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return list
-    val st = mean(list)
-    for (i in 0..list.size - 1) {
-        list[i] -= st
+    val ss = mean(list)
+    for (i in 0..list.size-1) {
+        list[i] -= ss
     }
     return list
 }
@@ -142,12 +143,12 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    if ((a.isEmpty()) && (b.isEmpty())) return 0.0
-    var sum = 0.0
-    for (i in 0..a.size - 1) {
-        sum += a[i] * b[i]
+    if (a.isEmpty() && b.isEmpty()) return 0.0
+    var result = 0.0
+    for (i in 0..a.size-1){
+        result += a[i]*b[i]
     }
-    return sum
+    return result
 }
 
 /**
@@ -159,11 +160,10 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
+    if (p.isEmpty()) return 0.0
     var result = 0.0
-    for (i in 0..p.size - 1) {
-        if (p[i] != 0.0) {
-            result += p[i] * Math.pow(x, i.toDouble())
-        }
+    for (i in 0..p.size-1){
+        result += p[i]*Math.pow(x, i.toDouble())
     }
     return result
 }
@@ -175,7 +175,13 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.isEmpty()) return list
+    for (i in 1..list.size-1){
+        list[i] += list[i-1]
+    }
+    return list
+}
 /**
  * Средняя
  *
@@ -184,18 +190,19 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> {
-    val result = mutableListOf<Int>()
-    var no = n
-    var st = 2
-    while (no > 1) {
-        while (no % st != 0) {
-            st++
+    var result = mutableListOf<Int>()
+    var numb = n
+    var del = 2
+    while (numb > 1) {
+        if (numb % del == 0) {
+            result.add(del)
+            numb /= del
+        } else {
+            del++
+            while (!isPrime(del)) del++
         }
-        result.add(st)
-        no /= st
-        st = 2
     }
-    return result.sorted()
+    return result
 }
 /**
  * Сложная

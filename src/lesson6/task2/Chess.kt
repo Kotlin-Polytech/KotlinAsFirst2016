@@ -26,9 +26,9 @@ data class Square(val column: Int, val row: Int) {
      */
 
     fun notation(): String {
-        val letters = "abcdefgh"
-        if (inside() == true) {
-            return letters[column - 1] + row.toString()
+        val kol = "abcdefgh"
+        if (column in 1..8 && row in 1..8 == true) {
+            return kol [column - 1] + row.toString()
         }
         return ""
     }

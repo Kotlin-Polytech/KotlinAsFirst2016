@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 import java.lang.Math.abs
@@ -40,7 +41,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -64,13 +65,12 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
 fun digitNumber(n: Int): Int {
-    if(n<10&&n>-10) return 1
-    var count=0
-var a=n
-    while(a!=0)
-    {
-     a/=10
-     count++
+    if (n < 10 && n > -10) return 1
+    var count = 0
+    var a = n
+    while (a != 0) {
+        a /= 10
+        count++
     }
     return count
 }
@@ -81,21 +81,18 @@ var a=n
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int
-{
+fun fib(n: Int): Int {
     val sq = sqrt(5.0)
     val doubleN = n.toDouble()
     val result: Double
-    if (n > 10)
-    {
-    result = (1 / sq * (pow((1 + sq) / 2, doubleN)))
+    if (n > 10) {
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN)))
+    } else {
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
     }
-    else
-    {
-    result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
-    }
-return round(result).toInt()
+    return round(result).toInt()
 }
+
 /**
  * Простая
  *
@@ -103,11 +100,10 @@ return round(result).toInt()
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var i=1
-    while(true)
-    {
+    var i = 1
+    while (true) {
         i++
-        if(i%m==0&&i%n==0) return i
+        if (i % m == 0 && i % n == 0) return i
     }
 
 }
@@ -118,9 +114,9 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var a=2
-    while(true){
-        if(n%a==0) break
+    var a = 2
+    while (true) {
+        if (n % a == 0) break
         else a++
     }
     return a
@@ -132,9 +128,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var nok=1
-    for(i in 1..n-1 ){
-        if(n%i==0) nok=i
+    var nok = 1
+    for (i in 1..n - 1) {
+        if (n % i == 0) nok = i
     }
     return nok
 }
@@ -147,15 +143,14 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var a=m
-    var b=n
-    while (b!=0)
-    {
-        val c=a%b
-        a=b
-        b=c
+    var a = m
+    var b = n
+    while (b != 0) {
+        val c = a % b
+        a = b
+        b = c
     }
-    return a==1
+    return a == 1
 }
 
 /**
@@ -166,9 +161,9 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    var i=m
-    while(i<=n){
-       if((sqrt(i.toDouble()).toInt()*sqrt(i.toDouble()).toInt()) ==i)  return true else i++
+    var i = m
+    while (i <= n) {
+        if ((sqrt(i.toDouble()).toInt() * sqrt(i.toDouble()).toInt()) == i) return true else i++
 
     }
     return false
@@ -176,12 +171,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean {
 
 
 /**
-* Простая
-*
-* Для заданного x рассчитать с заданной точностью eps
-* sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
-* Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
-*/
+ * Простая
+ *
+ * Для заданного x рассчитать с заданной точностью eps
+ * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
+ * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
+ */
 fun sin(x: Double, eps: Double): Double {
     var a = 1
     var k = 2
@@ -258,10 +253,8 @@ fun hasDifferentDigits(n: Int): Boolean {
     var k = n
     if (k in 0..10)
         return false
-        else
-        {
-        while (k >= 10)
-        {
+    else {
+        while (k >= 10) {
             if (k % 10 != (k / 10) % 10)
                 return true
             else k /= 10

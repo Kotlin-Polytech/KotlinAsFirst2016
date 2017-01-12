@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -111,13 +112,14 @@ fun abs(v: List<Double>): Double {
     }
     return (Math.sqrt(sum))
 }
+
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    return if(list.size == 0)0.0 else(list.sum()/list.size)
+    return if (list.size == 0) 0.0 else (list.sum() / list.size)
 }
 
 /**
@@ -143,9 +145,9 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
 fun times(a: List<Double>, b: List<Double>): Double {
-    var result=0.0
-    for(i in 0..a.size-1)
-        result +=a[i]*b[i]
+    var result = 0.0
+    for (i in 0..a.size - 1)
+        result += a[i] * b[i]
     return result
 }
 
@@ -163,6 +165,7 @@ fun polynom(p: List<Double>, x: Double): Double {
         result += p[i] * Math.pow(x, i.toDouble())
     return result
 }
+
 /**
  * Средняя
  *
@@ -187,17 +190,15 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
-    var b=n
-    for(i in 2..n)
-    {
-        while(b%i==0)
-        {
-            b=b/i
+    var b = n
+    for (i in 2..n) {
+        while (b % i == 0) {
+            b = b / i
             result.add(i)
         }
 
     }
-return result
+    return result
 }
 
 /**

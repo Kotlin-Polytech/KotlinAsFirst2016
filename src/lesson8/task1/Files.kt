@@ -121,6 +121,7 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
+    var count = 0
     val str = mutableListOf<String>()
     var probelles = ""
     var prob = 0
@@ -132,11 +133,12 @@ fun centerFile(inputName: String, outputName: String) {
         if (line.trim().length > maxLength) maxLength = line.trim().length
     }
     for (line in str){
+        count ++
         prob = (maxLength - line.length) / 2
         probelles = ""
         for (i in 0..prob-1) probelles += " "
         writer.write(probelles+line)
-        writer.newLine()
+        if (count != str.size) writer.newLine()
     }
     writer.close()
 }

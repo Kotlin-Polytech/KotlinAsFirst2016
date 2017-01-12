@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -136,15 +135,16 @@ fun flattenPhoneNumber(phone: String): String {
 fun bestLongJump(jumps: String): Int {
     val parts = jumps.split(" ")
     var max = parts[0].toInt()
-    for (i in 1..parts.size - 1)
-    {if (max == parts[i].toInt()) return -1}
-            for (part in 1..parts.size - 1) {
+    for (i in 1..parts.size - 1) {
+        if (max == parts[i].toInt()) return -1
+    }
+    for (part in 1..parts.size - 1) {
 
-                if (max < parts[part - 1].toInt()) max = parts[part - 1].toInt()
+        if (max < parts[part - 1].toInt()) max = parts[part - 1].toInt()
 
-            }
-            return max
-        }
+    }
+    return max
+}
 
 
 /**

@@ -88,7 +88,6 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     }
     return matrix
 }
-
 /**
  * Сложная
  *

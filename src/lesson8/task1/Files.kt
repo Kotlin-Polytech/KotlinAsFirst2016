@@ -54,7 +54,20 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val outcome = mutableMapOf<String, Int>()
+    var count = 0
+    for (number in substrings){
+        val document = File(inputName).readText().toLowerCase()
+        val bottom = number.toLowerCase()
+        for (a in 0..document.length - bottom.length) {
+            if(document.substring(a, a + bottom.length) == bottom) {
+                count++
+            }
+        }
+        outcome.put(number,count)
+        count=0
+    }
+    return outcome
 }
 
 
@@ -92,8 +105,33 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
+fun maxLength(input: String): Int{
+    var maxLength = 0
+    for (range in File(input).readLines()){
+        if(range.trim().length > maxLength)
+            maxLength = range.trim().length
+    }
+    return maxLength
+}
+
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val maxLength = maxLength(inputName)
+    fun central(range:String, maxLength: Int): String{
+        if(range.length == maxLength)
+            return range
+        var withoutSpaces = range.trim()//удачение начальных и конечных пробелов
+        val number = (maxLength - withoutSpaces.length)/2
+        withoutSpaces = " ".repeat(number) + withoutSpaces
+        return withoutSpaces
+    }
+    var newRange = false
+    for(range in File(inputName).readLines()){
+        if (newRange == true) writer.newLine()
+        else newRange = true
+        writer.write(central(range, maxLength))
+    }
+    writer.close()
 }
 
 /**

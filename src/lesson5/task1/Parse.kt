@@ -135,7 +135,7 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     val parts = jumps.split(" ")
-    var max = -1
+    var max = 0
     var total = 0
     for (i in parts) {
         var l = 0

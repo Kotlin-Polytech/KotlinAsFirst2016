@@ -56,8 +56,8 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t3: Double, v3: Double): Double {
     val s = (t1 * v1 + t2 * v2 + t3 * v3) / 2
     return when {
-        (s < v1 * t1) -> (s / v1)
-        (s < (v1 * t1 + v2 * t2)) -> (((s - v1 * t1) / v2) + t1)
+        (s <= v1 * t1) -> (s / v1)
+        (s <= (v1 * t1 + v2 * t2)) -> (((s - v1 * t1) / v2) + t1)
         else -> (((s - v1 * t1 - v2 * t2) / v3) + t1 + t2)
 
     }
@@ -110,18 +110,15 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    var p = -1
-    if (a + b <= c || b + c <= a || a + c <= b) return p
+    if (a + b <= c || b + c <= a || a + c <= b) return -1
     var cosy: Double = 0.0
     var d = max(max(a, b), c)
     if (d == c) cosy = ((a * a + b * b - c * c))
     if (d == b) cosy = ((a * a + c * c - b * b))
     if (d == a) cosy = ((c * c + b * b - a * a))
-    if (cosy > 0) p = 0
-    if (cosy == 0.0) p = 1
-    if (cosy < 0) p = 2
-    return p
-
+    if (cosy > 0) return 0
+    if (cosy == 0.0) return 1
+    return 2
 }
 
 /**

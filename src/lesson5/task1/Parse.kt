@@ -113,8 +113,9 @@ fun dateDigitToStr(digital: String): String {
  */
 fun flattenPhoneNumber(phone: String): String {
     var result = ""
+    if (phone.isNullOrEmpty()) return ""
     for (i in phone) {
-        if ((i.toInt() < 58) && (i.toInt() > 47) || (i.toInt() == 43)) result += i
+        if ((i <= '9') && (i >= '0') || (i == '+')) result += i
         else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
     }
     if (result.first() == '+' && result.length == 1) return ""
@@ -134,15 +135,20 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     val parts = jumps.split(" ")
-    var max = parts[0].toInt()
-    for (i in 1..parts.size - 1) {
-        if (max == parts[i].toInt()) return -1
-    }
-    for (part in 1..parts.size - 1) {
+    var max = -1
+    var total = 0
+    for (i in parts) {
+        var l = 0
+        var b = 0
+        for (j in i) {
+            if ((j <= '9') && (j >= '0')) l += 1 else if (j != '%' && j != '-') return -1
+        }
+        if (l == i.length && i.first() != '0') b = i.toInt() else total += 1
 
-        if (max < parts[part - 1].toInt()) max = parts[part - 1].toInt()
+        if (b > max) max = b
 
     }
+    if (total == parts.count()) return -1
     return max
 }
 

@@ -54,7 +54,19 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val count = mutableMapOf<String,Int>()
+    val file = File(inputName).bufferedReader()
+    var txt = ""
+    var match = 0
+    for (line in file.readLines()) txt += line.toLowerCase()+ ' '
+    for (string in substrings){
+        match = 0
+        for (i in 0..txt.length-string.length){
+            if (txt.substring(i,i+string.length) == string.toLowerCase()) match ++
+        }
+        count[string] = match
+    }
+    return count
 }
 
 
@@ -72,9 +84,25 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    var preChar = ' '
+    val writer = File(outputName).bufferedWriter()
+    val file = File(inputName).bufferedReader()
+    for (line in file.readText()) {
+        if (line in "ыяюЫЯЮ" && preChar in "жчшщЖЧШЩ") {
+            when (line) {
+                'ы' -> writer.write("и")
+                'Ы' -> writer.write("И")
+                'я' -> writer.write("а")
+                'Я' -> writer.write("А")
+                'ю' -> writer.write("у")
+                'Ю' -> writer.write("У")
+            }
+        }
+        else writer.write(line.toString())
+        preChar = line
+    }
+    writer.close()
 }
-
 /**
  * Средняя
  *
@@ -93,7 +121,26 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    var count = 0
+    val str = mutableListOf<String>()
+    var probelles = ""
+    var prob = 0
+    var maxLength= 0
+    val writer = File(outputName).bufferedWriter()
+    val file = File(inputName).bufferedReader()
+    for (line in file.readLines()){
+        str.add(line.trim())
+        if (line.trim().length > maxLength) maxLength = line.trim().length
+    }
+    for (line in str){
+        count ++
+        prob = (maxLength - line.length) / 2
+        probelles = ""
+        for (i in 0..prob-1) probelles += " "
+        writer.write(probelles+line)
+        if (count != str.size) writer.newLine()
+    }
+    writer.close()
 }
 
 /**
@@ -119,7 +166,43 @@ fun centerFile(inputName: String, outputName: String) {
  *
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    var prob = 0
+    val str = mutableListOf<String>()
+    var maxLength= 0
+    val writer = File(outputName).bufferedWriter()
+    val file = File(inputName).bufferedReader()
+    for (line in file.readLines()) str.add(line.trim())
+    for (line in str) {
+        val words = line.split(" ").filter { it != "" }
+        if (words.joinToString(separator = " ").length > maxLength ) {
+            maxLength = words.joinToString(separator = " ").length
+        }
+    }
+    for (line in str){
+        if (line.trim().isEmpty()) writer.newLine()
+        else{
+            val word = mutableListOf<String>()
+            val words = line.split(" ").filter { it != "" }
+            if (words.size == 1) {
+                writer.write(line.trim())
+                writer.newLine()
+            }
+            else{
+                for (element in words) word.add(element)
+                for (i in 0..word.size-2) word[i] += " "
+                while (word.joinToString(separator = "").length < maxLength){
+                    for (i in 0..word.size-2){
+                        if (word.joinToString(separator = "").length < maxLength){
+                            word[i] += " "
+                        }
+                    }
+                }
+                writer.write(word.joinToString (separator = ""))
+                writer.newLine()
+            }
+        }
+    }
+    writer.close()
 }
 
 /**

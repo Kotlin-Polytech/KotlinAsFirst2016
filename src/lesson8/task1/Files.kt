@@ -166,7 +166,43 @@ fun centerFile(inputName: String, outputName: String) {
  *
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    var prob = 0
+    val str = mutableListOf<String>()
+    var maxLength= 0
+    val writer = File(outputName).bufferedWriter()
+    val file = File(inputName).bufferedReader()
+    for (line in file.readLines()) str.add(line.trim())
+    for (line in str) {
+        val words = line.split(" ").filterNotNull()
+        if (words.joinToString(separator = " ").length > maxLength ) {
+            maxLength = words.joinToString(separator = " ").length
+        }
+    }
+    for (line in str){
+        if (line.trim().isEmpty()) writer.newLine()
+        else{
+            val word = mutableListOf<String>()
+            val words = line.split(" ").filterNotNull()
+            if (words.size == 1) {
+                writer.write(line.trim())
+                writer.newLine()
+            }
+            else{
+                for (element in words) word.add(element)
+                for (i in 0..word.size-2) word[i] += " "
+                while (word.joinToString(separator = "").length < maxLength){
+                    for (i in 0..word.size-2){
+                        if (word.joinToString(separator = "").length < maxLength){
+                            word[i] += " "
+                        }
+                    }
+                }
+                writer.write(word.joinToString (separator = ""))
+                writer.newLine()
+            }
+        }
+    }
+    writer.close()
 }
 
 /**

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -121,22 +122,25 @@ fun maxDivisor(n: Int): Int {
  * Взаимно простые числа не имеют общих делителей, кроме 1.
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
+
+fun gcd(a: Int, b: Int): Int {
+    var m = a
+    var n = b
+    if ((m != 0) and (n != 0)) {
+        while (m != n) {
+            if (m > n)
+                m -= n
+
+            if (n > m)
+                n -= m
+        }
+    } else return a + b
+    return m
+}
+
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var i = 2
-    if (m > n) {
-        for (i in 2..n) {
-            if ((m % i == 0) && (n % i == 0))
-                return false
-        }
-    }
-    else
-    {
-        for (i in 2..m) {
-            if ((m % i == 0) && (n % i == 0))
-                return false
-        }
-    }
-    return true
+    if (gcd(m, n) == 1) return true
+    else return false
 }
 
 /**
@@ -147,8 +151,10 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean {
-    for (i in 1..n) {
-        if (((i * i) >= m) && ((i * i) <= n)) return true
+    var a = 0
+    while (a <= n) {
+        if ((a * a >= m) and (a * a <= n)) return true
+        a += 1
     }
     return false
 }
@@ -183,7 +189,7 @@ fun revert(n: Int): Int {
     var a = n
     while (a > 0) {
         rev = (rev * 10) + (a % 10)
-        a /=10
+        a /= 10
     }
     return rev
 }

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -107,7 +108,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var a = 0.0
-    for(i in 0..v.size - 1){
+    for (i in 0..v.size - 1) {
         a += sqr(v[i])
     }
     return Math.sqrt(a)
@@ -119,7 +120,7 @@ fun abs(v: List<Double>): Double {
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
 fun mean(list: List<Double>): Double {
-    if (list.isEmpty() == true) return 0.0
+    if (list.isEmpty()) return 0.0
     else return list.sum() / list.size
 }
 
@@ -131,8 +132,10 @@ fun mean(list: List<Double>): Double {
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val average = list.sum() / list.size
-    for (i in 0..list.size - 1) {
-        list[i] -= average
+    if (list.isEmpty()) return list
+    else
+        for (i in 0..list.size - 1) {
+            list[i] -= average
         }
     return list
 }
@@ -166,7 +169,7 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     var sum = 0.0
-    for (i in 0..list.size - 1){
+    for (i in 0..list.size - 1) {
         sum += list[i]
         list[i] = sum
     }
@@ -227,19 +230,26 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int {
-    var min = 1
-    var result = 0
-    for (i in str.length - 1 downTo 0) {
-        if (str[i] <= '9') {
-            result += (str[i] - '0') * min
-        }
-        else {
-            result += (str[i] - ('a' - 10)) * min
-        }
-        min *= base
+fun power(a: Int, b: Int): Int {
+    var c = 1
+    for (i in 1..b) {
+        c *= a
     }
-    return result
+    return c
+}
+
+fun decimalFromString(str: String, base: Int): Int {
+    val lettersToInt = mapOf<Char, Int>('0' to 0, '1' to 1, '2' to 2, '3' to 3, '4' to 4, '5' to 5, '6' to 6, '7' to 7, '8' to 8, '9' to 9, 'a' to 10,
+            'b' to 11, 'c' to 12, 'd' to 13, 'e' to 14, 'f' to 15, 'g' to 16, 'h' to 17, 'i' to 18, 'j' to 19, 'k' to 20,
+            'l' to 21, 'm' to 22, 'n' to 23, 'o' to 24, 'p' to 25, 'q' to 26, 'r' to 27, 's' to 28, 't' to 29, 'u' to 30,
+            'v' to 31, 'w' to 32, 'x' to 33, 'y' to 34, 'z' to 35)
+    var number = 0
+    var i = str.length - 1
+    for (char in str) {
+        number += lettersToInt[char]!! * power(base, i)
+        i -= 1
+    }
+    return number
 }
 
 /**

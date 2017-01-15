@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson2.task1
 
 import lesson1.task1.discriminant
@@ -36,10 +37,9 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    val a = age % 10
     return when {
         ((age % 10 == 0) || (age / 10 == 1) || (age / 10 == 11) || (age % 10 in 5..9)) -> "$age лет"
-        (a == 1) -> "$age год"
+        (age % 10 == 1) -> "$age год"
         else -> "$age года"
     }
 }
@@ -92,7 +92,7 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
     val bishopThreaten = (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
-    val rookThreaten  = (kingX == rookX) || (kingY == rookY)
+    val rookThreaten = (kingX == rookX) || (kingY == rookY)
     return when {
         rookThreaten && !bishopThreaten -> 1
         !rookThreaten && bishopThreaten -> 2
@@ -110,18 +110,14 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    return when {
-        (a + b <= c) || (a + c <= b) || (b + c <= a) -> -1
-        ((a * a + b * b > c * c) && (c >= a) && (c >= b))
-                || ((a * a + c * c > b * b) && (b >= a) && (b >= c))
-                || ((b * b + c * c > a * a) && (a >= b) && (a >= c)) -> 0
-        ((a * a + b * b == c * c) && (c >= a) && (c >= b))
-                || ((a * a + c * c == b * b) && (b >= a) && (b >= c))
-                || ((b * b + c * c == a * a) && (a >= b) && (a >= c)) -> 1
-        ((a * a + b * b < c * c) && (c >= a) && (c >= b))
-                || ((a * a + c * c < b * b) && (b >= a) && (b >= c))
-                || ((b * b + c * c < a * a) && (a >= b) && (a >= c)) -> 2
-        else -> -1
+    if (((a + b) <= c) || ((b + c) <= a) || ((a + c) <= b)) return -1
+    else {
+        val cosa = (b * b + c * c - a * a) / (2 * b * c)
+        val cosb = (a * a + c * c - b * b) / (2 * a * c)
+        val cosc = (a * a + b * b - c * c) / (2 * a * b)
+        if ((Math.abs(cosa) < 0.00001) || (Math.abs(cosb) < 0.00001) || (Math.abs(cosc) < 0.00001)) return 1 else
+            if ((cosa < 0) || (cosb < 0) || (cosc < 0)) return 2
+            else return 0
     }
 }
 
@@ -133,12 +129,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    return when {
-        ((c >= a) && (c <= b)) && (d <= b) -> d-c
-        ((a >= c) && (c <= d)) && (b <= d) -> b-a
-        !(((b >= c) && (b <= d)) || ((c >= a) && (c <= b)) || ((d >= a) && (d <= b)) || ((a >= c) && (a <= d))) -> -1
-        (b - c) <= (d - a) -> b-c
-        else -> d-a
-    }
-}
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int =
+        when {
+            ((c >= a) && (c <= b)) && (d <= b) -> d - c
+            ((a >= c) && (c <= d)) && (b <= d) -> b - a
+            !(((b >= c) && (b <= d)) || ((c >= a) && (c <= b)) || ((d >= a) && (d <= b)) || ((a >= c) && (a <= d))) -> -1
+            (b - c) <= (d - a) -> b - c
+            else -> d - a
+        }

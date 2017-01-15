@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -62,31 +61,17 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
-    var stringBuilder = ""
-    if (parts.size == 3){
+    if (parts.size != 3) return ""
+    try {
         val day = parts[0].toInt()
-        if (day in 1..9)
-            stringBuilder = '0' + day.toString() + "."
-                else stringBuilder = day.toString() + "."
-        stringBuilder += when (parts[1]) {
-            "января" -> "01."
-            "февраля" -> "02."
-            "марта" -> "03."
-            "апреля" -> "04."
-            "мая" -> "05."
-            "июня" -> "06."
-            "июля" -> "07."
-            "августа" -> "08."
-            "сентября" -> "09."
-            "октября" -> "10."
-            "ноября" -> "11."
-            "декабря" -> "12."
-            else -> return ""
-        }
+        val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        val month = months.indexOf(parts[1]) + 1
+        if (month == 0) return ""
+        val year = parts[2].toInt()
+        return String.format("%02d.%02d.%d", day, month, year)
+    } catch (e: NumberFormatException) {
+        return ""
     }
-    else return ""
-    stringBuilder += parts[2].toInt()
-    return stringBuilder
 }
 
 /**
@@ -98,35 +83,19 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    var stringBuilder = ""
-    if (parts.size == 3){
-        try {
-            val day = parts[0].toInt()
-            if (day in 1..31){
-                stringBuilder = day.toString()
-                stringBuilder += when(parts[1]){
-                    "01" -> " января "
-                    "02" -> " февраля "
-                    "03" -> " марта "
-                    "04" -> " апреля "
-                    "05" -> " мая "
-                    "06" -> " июня "
-                    "07" -> " июля "
-                    "08" -> " августа "
-                    "09" -> " сентября "
-                    "10" -> " октября "
-                    "11" -> " ноября "
-                    "12" -> " декабря "
-                    else -> return ""
-                }
-            }
-            else return ""
-            stringBuilder += parts[2]
-        } catch (e: NumberFormatException){
-            return ""
-        }
-        return stringBuilder
-    } else return ""
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        val monthToInt = parts[1].toInt()
+        if (monthToInt !in 1..12) return ""
+        val month = months[monthToInt - 1]
+        val year = parts[2].toInt()
+        return String.format("%d %s %d", day, month, year)
+
+    } catch (e: NumberFormatException) {
+        return ""
+    }
 }
 
 /**
@@ -205,7 +174,7 @@ fun firstDuplicateIndex(str: String): Int {
     val parts = str.toLowerCase().split(" ")
     var i = 0
     var result = 0
-    while (i < parts.size - 1 && parts[i] != parts[i + 1]){
+    while (i < parts.size - 1 && parts[i] != parts[i + 1]) {
         result += (parts[i].length + 1)
         i++
     }

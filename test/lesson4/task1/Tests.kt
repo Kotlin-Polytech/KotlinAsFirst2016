@@ -95,8 +95,8 @@ class Tests {
     @Test
     @Tag("Normal")
     fun times() {
-        assertEquals(0.0, times(listOf(), listOf()), 1e-5)
-        assertEquals(-5.0, times(listOf(1.0, -4.0), listOf(3.0, 2.0)), 1e-5)
+        assertEquals(0.0,  times(listOf(), listOf()), 1e-5)
+        assertEquals(-5.0,  times(listOf(1.0, -4.0), listOf(3.0, 2.0)), 1e-5)
         assertEquals(-19.0, times(listOf(-1.0, 2.0, -3.0), listOf(3.0, -2.0, 4.0)), 1e-5)
     }
 

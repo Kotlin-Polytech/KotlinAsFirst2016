@@ -2,9 +2,6 @@
 
 package lesson3.task1
 
-import com.sun.xml.internal.ws.runtime.config.TubelineFeatureReader
-import java.lang.Math.*
-import kotlin.concurrent.timer
 
 /**
  * Пример
@@ -166,8 +163,7 @@ fun isCoPrime(m: Int, n: Int): Boolean {
             n1 -= m1
         }
     }
-    val x = n1 == 1
-    return x
+    return n1 == 1
 }
 
 /**
@@ -215,12 +211,12 @@ fun revert(n: Int): Int {
     var n1 = n
     while (n1 >= 10) {
         count++
-        n1 = n1 / 10
+        n1 /= 10
     }
     var t = 0
     var nn = 0
     while (count != 0) {
-        nn = n / pow(10.0, (count * 1.0 - 1)).toInt() % 10 * pow(10.0, t * 1.0).toInt() + nn
+        nn += n / Math.pow(10.0, (count * 1.0 - 1)).toInt() % 10 * Math.pow(10.0, t * 1.0).toInt()
         t++
         count--
     }
@@ -269,7 +265,7 @@ fun squareSequenceDigit(n: Int): Int {
         x++
     }
     l = Math.abs(l)
-    m = m / pow(10.0, l * 1.0).toInt() % 10
+    m = m / Math.pow(10.0, l * 1.0).toInt() % 10
     return m
 }
 
@@ -280,4 +276,24 @@ fun squareSequenceDigit(n: Int): Int {
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var x = 1
+    var m = 1
+    var t: Int
+    var l = n
+    var count = 1
+    while (l > 0) {
+        m = fib(x)
+        t = m
+        while (t >= 10) {
+            count++
+            t /= 10
+        }
+        l -= count
+        count = 1
+        x++
+    }
+    l = Math.abs(l)
+    m = m / Math.pow(10.0, l * 1.0).toInt() % 10
+    return m
+}

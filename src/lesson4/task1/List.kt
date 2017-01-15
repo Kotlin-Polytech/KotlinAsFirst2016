@@ -3,7 +3,6 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
-import java.lang.Math.*
 
 /**
  * Пример
@@ -109,10 +108,9 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
 fun abs(v: List<Double>): Double {
     var x = 0.0
     for (element in v) {
-        x += pow(element, 2.0)
+        x += element * element
     }
-    val t = Math.sqrt(x * 1.0)
-    return t
+    return Math.sqrt(x)
 }
 
 /**
@@ -123,8 +121,7 @@ fun abs(v: List<Double>): Double {
 fun mean(list: List<Double>): Double {
     if (list.isEmpty()) return 0.0
     else {
-        val t = list.sum() / list.size * 1.0
-        return t
+        return list.sum() / list.size
     }
 }
 
@@ -135,16 +132,15 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return mutableListOf()
-    else {
-        var m = 0
-        val x = list.sum() / list.size
-        while (m in 0..list.size - 1) {
-            list[m] -= x
-            m++
-        }
-        return list
+
+    var m = 0
+    val x = list.sum() / list.size
+    while (m in 0..list.size - 1) {
+        list[m] -= x
+        m++
     }
+    return list
+
 }
 
 /**
@@ -174,10 +170,10 @@ fun polynom(p: List<Double>, x: Double): Double {
     var p1 = 0.0
     var x1 = 0.0
     for (element in p) {
-        p1 = (p1 + element * pow(x, x1))
+        p1 = (p1 + element * Math.pow(x, x1))
         x1++
     }
-    return p1 * 1.0
+    return p1
 }
 
 /**
@@ -229,7 +225,17 @@ fun factorize(n: Int): List<Int> {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String {
+    val x: List<Int>
+    x = factorize(n)
+    var m = ""
+    m += x[0]
+    for (i in 1..x.size - 1) {
+        m += "*"
+        m += x[i]
+    }
+    return m
+}
 
 /**
  * Средняя
@@ -238,7 +244,16 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val x = mutableListOf<Int>()
+    var b = n
+    if (n == 0) return listOf(0)
+    while (b > 0) {
+        x.add(b % base)
+        b /= base
+    }
+    return x.reversed()
+}
 
 /**
  * Сложная

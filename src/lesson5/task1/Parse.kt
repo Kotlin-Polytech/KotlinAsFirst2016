@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,20 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        val month = months.indexOf(parts[1]) + 1
+        if (month == 0) return ""
+        val year = parts[2].toInt()
+        return String.format("%02d.%02d.%d", day, month, year)
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +81,22 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    try {
+        val day = parts[0].toInt()
+        val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        val monthToInt = parts[1].toInt()
+        if (monthToInt !in 1..12) return ""
+        val month = months[monthToInt - 1]
+        val year = parts[2].toInt()
+        return String.format("%d %s %d", day, month, year)
+
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Сложная
@@ -83,7 +110,11 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.matches(Regex("^[+]?[-()0-9 ]+"))) {
+        return phone.replace(Regex("[-() ]+"), "")
+    } else return ""
+}
 
 /**
  * Средняя
@@ -107,7 +138,17 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    var maxHigh = -1
+    for (i in 1..parts.size - 1 step 2) {
+        if ('+' in parts[i]) {
+            if (maxHigh < parts[i - 1].toInt())
+                maxHigh = parts[i - 1].toInt()
+        }
+    }
+    return maxHigh
+}
 
 /**
  * Сложная
@@ -129,7 +170,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val parts = str.toLowerCase().split(" ")
+    var i = 0
+    var result = 0
+    while (i < parts.size - 1 && parts[i] != parts[i + 1]) {
+        result += (parts[i].length + 1)
+        i++
+    }
+    if (i == parts.size - 1) return -1
+    else return result
+}
 
 /**
  * Сложная

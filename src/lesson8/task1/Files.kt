@@ -132,7 +132,7 @@ fun sibilants(inputName: String, outputName: String) {
  */
 fun centerFile(inputName: String, outputName: String) {
 
-    fun center(line: String,maxLength: Int): String{
+    fun center(line: String, maxLength: Int): String {
         if(line.length == maxLength) return line
         var result = line.trim()
         val Spaces = (maxLength - result.length)/2
@@ -140,10 +140,17 @@ fun centerFile(inputName: String, outputName: String) {
 
         return result
     }
+    fun maxLength(inputName: String): Int{ // длина максимальной строки
+        var maxLength = 0
+        for (line in File(inputName).readLines()){
+            if(line.trim().length > maxLength) maxLength = line.trim().length
+        }
+        return maxLength
+    }
 
     fun centerFile(inputName: String, outputName: String) {
         val writer = File(outputName).bufferedWriter()
-        val maxLength = maxLength (inputName)
+        val maxLength = maxLength(inputName)
 
         var NewLine = false
         for(line in File(inputName).readLines()){

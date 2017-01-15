@@ -240,7 +240,7 @@ fun mostExpensive(description: String): String {
             maxP = t
             nom = trounom.find(i)?.value ?: return ""
         }
-        
+
     }
     return nom
 }

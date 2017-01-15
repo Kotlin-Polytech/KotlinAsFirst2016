@@ -234,10 +234,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
+val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+
 fun convertToString(n: Int, base: Int): String {
     val middleResult = convert(n, base)
     var result = ""
-    val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
     for (m in middleResult) {
         if (m < 10) result += m
         else result += ALPHABET[m - 10]

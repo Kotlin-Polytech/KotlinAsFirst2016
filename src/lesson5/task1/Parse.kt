@@ -61,10 +61,10 @@ fun main(args: Array<String>) {
  */
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
     if (parts.size == 3) {
         try {
             val day = parts[0].toInt()
-            val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
             val year = parts[2].toInt()
             if ((parts[1] in months) && (day in 1..31)) {
                 val month = months.indexOf(parts[1]) + 1

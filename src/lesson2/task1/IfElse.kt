@@ -111,11 +111,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     if (a + b <= c || b + c <= a || a + c <= b) return -1
-    var cosy: Double = 0.0
+    var cosy = 0.0
     var d = max(max(a, b), c)
-    if (d == c) cosy = ((a * a + b * b - c * c))
-    if (d == b) cosy = ((a * a + c * c - b * b))
-    if (d == a) cosy = ((c * c + b * b - a * a))
+    if (d == c) cosy = (a * a + b * b - c * c)
+    if (d == b) cosy = (a * a + c * c - b * b)
+    if (d == a) cosy = (c * c + b * b - a * a)
     if (cosy > 0) return 0
     if (cosy == 0.0) return 1
     return 2
@@ -130,11 +130,14 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    var p = -1
-    if (c > b || a > d) return p else
-        if (a >= c && b >= d) p = (d - a) else
-            if (c >= a && d >= b) p = (b - c) else
-                if (c >= a && d <= b) p = (d - c) else
-                    if (a >= c && b <= d) p = (b - a)
-    return p
+    // var p = -1
+    return when {(c > b || a > d) -> -1
+        (a >= c && b >= d) -> (d - a)
+        (c >= a && d >= b) -> (b - c)
+        (c >= a && d <= b) -> (d - c)
+        else -> {
+            (b - a)
+        }
+    }
+
 }

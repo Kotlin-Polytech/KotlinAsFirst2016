@@ -86,7 +86,7 @@ fun fib(n: Int): Int {
     val doubleN = n.toDouble()
     val result: Double
     if (n > 10) {
-        result = (1 / sq * (pow((1 + sq) / 2, doubleN)))
+        result = (1 / sq * (pow((1 + sq) / 2, doubleN))) //Замкнутая формула Фибоначчи
     } else {
         result = (1 / sq * (pow((1 + sq) / 2, doubleN) - pow((1 - sq) / 2, doubleN)))
     }
@@ -101,9 +101,11 @@ fun fib(n: Int): Int {
  */
 fun lcm(m: Int, n: Int): Int {
     var i = 0
+    if (m < n) i = n
+    else i = m
     while (true) {
-        i++
         if (i % m == 0 && i % n == 0) return i
+        i++
     }
 
 }
@@ -128,9 +130,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var nok = 1
-    for (i in 1..n - 1) {
-        if (n % i == 0) nok = i
+    var nok = n - 1
+    while (n % nok > 0) {
+        nok--
     }
     return nok
 }
@@ -184,8 +186,7 @@ fun sin(x: Double, eps: Double): Double {
     var e = x
     var z = x
     if (Math.abs(x) > 2 * Math.PI) z = x % (2 * Math.PI)
-    while (Math.abs(e) >=
-            Math.abs(eps)) {
+    while (Math.abs(e) >= Math.abs(eps)) {
         e = Math.pow(z, a.toDouble()) / factorial(a)
         if (k % 2 == 0) s += e else s -= e
         a += 2

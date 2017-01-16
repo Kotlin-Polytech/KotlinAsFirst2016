@@ -38,7 +38,18 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    if (height <= 0 || width <= 0) {
+        throw IllegalArgumentException("IllegalArgumentException")
+    }
+    val matrix = MatrixImpl<E>(height, width, e)
+    for (row in 0..height - 1) {
+        for (column in 0..width - 1) {
+            matrix[row, column] = e
+        }
+    }
+    return matrix
+}
 
 /**
  * Средняя сложность

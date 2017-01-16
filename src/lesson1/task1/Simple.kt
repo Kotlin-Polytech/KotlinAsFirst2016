@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson1.task1
 
 import java.lang.Math.*
@@ -9,6 +10,7 @@ import java.lang.Math.*
  * Вычисление квадрата вещественного числа
  */
 fun sqr(x: Double) = x * x
+
 
 /**
  * Пример
@@ -51,7 +53,7 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int = seconds + minutes * 60 + hours * 3600
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
 
 /**
  * Тривиальная
@@ -60,7 +62,9 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = seconds + minutes * 6
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double{ return sagenes * 48 * 4.445 / 100 + arshins * 16 * 4.445 / 100 + vershoks * 4.445 / 100}
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+        sagenes * 48 * 4.445 / 100 + arshins * 16 * 4.445 / 100 + vershoks * 4.445 / 100
+
 /**
  * Тривиальная
  *

@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -117,7 +118,9 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.size == 0) 0.0 else (list.sum() / list.size)
+fun mean(list: List<Double>): Double {
+    return if (list.size == 0) 0.0 else (list.sum() / list.size)
+}
 
 /**
  * Средняя
@@ -144,7 +147,7 @@ fun center(list: MutableList<Double>): MutableList<Double> {
 fun times(a: List<Double>, b: List<Double>): Double {
     var result = 0.0
     for (i in 0..a.size - 1)
-        result += a[i] * b [i]
+        result += a[i] * b[i]
     return result
 }
 
@@ -162,6 +165,7 @@ fun polynom(p: List<Double>, x: Double): Double {
         result += p[i] * Math.pow(x, i.toDouble())
     return result
 }
+
 /**
  * Средняя
  *
@@ -186,12 +190,13 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  */
 fun factorize(n: Int): List<Int> {
     val result = mutableListOf<Int>()
-    var m = n
+    var b = n
     for (i in 2..n) {
-        while (m % i == 0) {
-            m = m / i
+        while (b % i == 0) {
+            b = b / i
             result.add(i)
         }
+
     }
     return result
 }
@@ -211,7 +216,6 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString(separator = "*
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-
 fun convert(n: Int, base: Int): List<Int> {
     val result1 = mutableListOf<Int>()
     var m = n
@@ -230,10 +234,11 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
+val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
+
 fun convertToString(n: Int, base: Int): String {
     val middleResult = convert(n, base)
     var result = ""
-    val ALPHABET = "abcdefghijklmnopqrstuvwxyz"
     for (m in middleResult) {
         if (m < 10) result += m
         else result += ALPHABET[m - 10]

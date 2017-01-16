@@ -103,7 +103,19 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
  * 4 5 6      8 5 2
  * 7 8 9      9 6 3
  */
-fun <E> rotate(matrix: Matrix<E>): Matrix<E> = TODO()
+fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
+    if (matrix.width != matrix.height) throw IllegalArgumentException()
+    if (matrix.width in 0..1) return matrix
+    else {
+        val newMatrix = createMatrix(matrix.width, matrix.width, matrix[0, 0])
+        for (i in 0..matrix.width - 1) {
+            for (j in 0..matrix.width - 1) {
+                newMatrix[j, matrix.width - i - 1] = matrix[i, j]
+            }
+        }
+        return newMatrix
+    }
+}
 
 /**
  * Сложная
@@ -205,7 +217,15 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    val myMatrix = createMatrix(this.height, this.width, 0)
+    for (i in 0..this.height - 1) {
+        for (j in 0..this.width - 1) {
+            myMatrix[i, j] = -this[i, j]
+        }
+    }
+    return myMatrix
+}
 
 /**
  * Средняя
@@ -215,7 +235,18 @@ operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
  * В противном случае бросить IllegalArgumentException.
  * Подробно про порядок умножения см. статью Википедии "Умножение матриц".
  */
-operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.times(other: Matrix<Int>): Matrix<Int> {
+    if (this.width != other.height) throw IllegalArgumentException()
+    val multiplicationMatrix = createMatrix(this.height, other.width, 0)
+    for (i in 0..this.height - 1) {
+        for (j in 0..other.width - 1) {
+            for (g in 0..other.height - 1) {
+                multiplicationMatrix[i, j] += this[i, g] * other[g, j]
+            }
+        }
+    }
+    return multiplicationMatrix
+}
 
 /**
  * Сложная

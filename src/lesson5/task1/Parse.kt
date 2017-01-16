@@ -69,7 +69,12 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val phoneFilter = phone.filter { it != ' ' && it != '-' }
+    val phoneResult = Regex("""(?:\+\d+)?(?:\(\d+\))?\d+""")
+    if (!phoneResult.matches(phoneFilter)) return ""
+    return phoneFilter.filter { it !in '('..')' }
+}
 
 /**
  * Сложная

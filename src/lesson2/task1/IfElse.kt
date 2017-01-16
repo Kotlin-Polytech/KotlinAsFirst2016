@@ -33,7 +33,16 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String = TODO()
+fun ageDescription(age: Int): String {
+    val lastDigit = age % 10
+    val lastTwo = age % 100
+
+    return when {
+        (lastDigit == 0 || lastDigit > 4 || lastTwo in 10..20) -> "$age лет"
+        (lastDigit == 1) -> "$age год"
+        else -> "$age года"
+    }
+}
 
 /**
  * Простая
@@ -44,7 +53,12 @@ fun ageDescription(age: Int): String = TODO()
  */
 fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
-                   t3: Double, v3: Double): Double = TODO()
+                   t3: Double, v3: Double): Double {
+    val s1 = t1 * v1
+    val s2 = t2 * v2
+    val tfhw = s1 / v1 + s2 / (2 * v2)
+    return tfhw
+}
 
 /**
  * Простая
@@ -56,7 +70,14 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = TODO()
+                       rookX2: Int, rookY2: Int): Int {
+
+    if ((kingX == rookX1) or (kingY == rookY1) and (kingX == rookX2) or (kingY == rookY2)) return 3
+    else if ((kingX != rookX1) and (kingY != rookY1)) return 0
+    else if ((kingX == rookX1) or (kingY == rookY1)) return 1
+    else return 2
+
+}
 
 /**
  * Простая
@@ -69,7 +90,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+
+    val Lad = ((kingX == rookX) || (kingY == rookY))
+    val Lad1 = Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY)
+
+    if (Lad && Lad1) return 3
+    else if (Lad) return 1
+    else if (Lad1) return 2
+    else return 0
+}
 
 /**
  * Простая
@@ -89,4 +119,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    if (b == c) return 0
+    else if (c <= b && c >= a && b <= d) return b - c
+    else if (a >= c && a <= d && b >= d) return d - a
+    else if (a <= c && d <= b) return d - c
+    else if (c <= a && b <= d) return b - a
+    else return -1
+}

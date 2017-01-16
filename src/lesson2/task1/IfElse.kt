@@ -3,6 +3,7 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
 import lesson4.task1.abs
 
 /**
@@ -36,7 +37,8 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
 fun ageDescription(age: Int): String {
-    return when {(age % 100 in 5..20) -> "$age лет"
+    return when {
+        (age % 100 in 5..20) -> "$age лет"
         (age % 10 == 1) -> "$age год"
         (age % 10 in 2..4) -> "$age года"
         else -> "$age лет"
@@ -110,8 +112,8 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
     return when { (a + b < c || a + c < b || b + c < a) -> -1
-        (a * a == b * b + c * c || b * b == a * a + c * c || c * c == b * b + a * a) -> 1
-        (a * a > b * b + c * c || b * b > c * c + a * a || c * c > b * b + a * a) -> 2
+        (sqr(a) == sqr(b) + sqr(c) || sqr(b) == sqr(a) + sqr(c) || sqr(c) == sqr(b) + sqr(a)) -> 1
+        (sqr(a) > sqr(b) + sqr(c) || sqr(b) > sqr(c) + sqr(a) || sqr(c) > sqr(b) + sqr(a)) -> 2
         else -> 0
     }
 }

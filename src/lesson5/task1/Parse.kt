@@ -112,14 +112,16 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
+
 fun flattenPhoneNumber(phone: String): String {
+    if (phone.length == 0) return ""
     var result = ""
-    if (phone.length==0) return ""
     for (i in phone) {
         if ((i <= '9') && (i >= '0') || (i == '+')) result += i
         else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
     }
-    if (result.first() == '+' && result.length == 1) return ""
+    if (result.isEmpty()) return ""
+    else if (result.first() == '+' && result.length == 1) return ""
     else return result
 }
 

@@ -72,8 +72,7 @@ fun dateStrToDigit(str: String): String {
         val checkForResult = result.split(".")
         if ((checkForResult.size == 3) && (checkForDate(parts[0]) != "") && (checkForMonth(parts[1]) != "") && (checkForYear(parts[2]) != "")) return result
         else return ""
-    }
-    catch (e: java.lang.NumberFormatException){
+    } catch (e: java.lang.NumberFormatException) {
         return ""
     }
 }
@@ -81,14 +80,14 @@ fun dateStrToDigit(str: String): String {
 fun checkForDate(n: String): String {
     val c = n.toInt()
     if (c in 1..31) {
-        if ((c in 1..9)&& (n[0] != '0')) return "0" + n + "."
-        else return  n + "."
+        if ((c in 1..9) && (n[0] != '0')) return "0" + n + "."
+        else return n + "."
     } else return ""
 }
 
 fun checkForYear(n: String): String {
     var c: Boolean = false
-    for (i in 0..n.length-1) {
+    for (i in 0..n.length - 1) {
         c = (n[i] in '0'..'9')
     }
     if (c == true) return n
@@ -96,22 +95,11 @@ fun checkForYear(n: String): String {
 }
 
 fun checkForMonth(n: String): String {
-    var c: String = ""
-    when {
-        n == "января" -> c = "01."
-        n == "февраля" -> c = "02."
-        n == "марта" -> c = "03."
-        n == "апреля" -> c = "04."
-        n == "мая" -> c = "05."
-        n == "июня" -> c = "06."
-        n == "июля" -> c = "07."
-        n == "августа" -> c = "08."
-        n == "сентября" -> c = "09."
-        n == "октября" -> c = "10."
-        n == "ноября" -> c = "11."
-        n == "декабря" -> c = "12."
-    }
-    return c
+    val value = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val result = listOf<String>("01.", "02.", "03.", "04.", "05.", "06.", "07.", "08.", "09.", "10.", "11.", "12.")
+    val c = value.indexOf(n)
+    if (c != -1 ) return result[c]
+    else return ""
 }
 
 /**

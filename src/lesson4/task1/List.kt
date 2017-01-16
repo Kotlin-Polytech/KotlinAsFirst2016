@@ -250,12 +250,12 @@ fun russian(n: Int): String {
     else {
         while (numberOfThousands > 19) {
             forFunFrom = numberOfThousands / del * del
-            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToNameT(forFunFrom) + " "
-            numberOfThousands = numberOfThousands - numberOfThousands / del * del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,false) + " "
+            numberOfThousands = numberOfThousands%del
             del = del / 10
         }
         forFunFrom = numberOfThousands
-        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToNameT(forFunFrom) + " "
+        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,false) + " "
         when {
             (((numberOfThousands > 4) || (numberOfThousands == 0)) && (n / 1000 != 0)) -> nameOfNumber = nameOfNumber + "тысяч"
             ((numberOfThousands < 5) && (numberOfThousands > 1)) -> nameOfNumber = nameOfNumber + "тысячи"
@@ -265,17 +265,17 @@ fun russian(n: Int): String {
         del = 100
         while (numberOfElse > 19) {
             forFunFrom = numberOfElse / del * del
-            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom) + " "
-            numberOfElse = numberOfElse - numberOfElse / del * del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,true) + " "
+            numberOfElse = numberOfElse%del
             del = del / 10
         }
         forFunFrom = numberOfElse
-        nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom)
+        nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,true)
     }
     return nameOfNumber.trim()
 }
 
-fun fromNumberToName(n: Int): String {
+fun fromNumberToName(n: Int,c: Boolean): String {
     var nameOf: String = ""
     when {
         n == 900 -> nameOf = "девятьсот"
@@ -312,53 +312,20 @@ fun fromNumberToName(n: Int): String {
         n == 5 -> nameOf = "пять"
         n == 4 -> nameOf = "четыре"
         n == 3 -> nameOf = "три"
-        n == 2 -> nameOf = "два"
-        n == 1 -> nameOf = "один"
-        n == 0 -> nameOf = ""
     }
-    return nameOf
-}
-
-fun fromNumberToNameT(n: Int): String {
-    var nameOf: String = ""
-    when {
-        n == 900 -> nameOf = "девятьсот"
-        n == 800 -> nameOf = "восемьсот"
-        n == 700 -> nameOf = "семьсот"
-        n == 600 -> nameOf = "шестьсот"
-        n == 500 -> nameOf = "пятьсот"
-        n == 400 -> nameOf = "четыреста"
-        n == 300 -> nameOf = "триста"
-        n == 200 -> nameOf = "двести"
-        n == 100 -> nameOf = "сто"
-        n == 90 -> nameOf = "девяносто"
-        n == 80 -> nameOf = "восемьдесят"
-        n == 70 -> nameOf = "семьдесят"
-        n == 60 -> nameOf = "шестьдесят"
-        n == 50 -> nameOf = "пятьдесят"
-        n == 40 -> nameOf = "сорок"
-        n == 30 -> nameOf = "тридцать"
-        n == 20 -> nameOf = "двадцать"
-        n == 19 -> nameOf = "девятнадцать"
-        n == 18 -> nameOf = "восемнадцать"
-        n == 17 -> nameOf = "семнадцать"
-        n == 16 -> nameOf = "шестнадцать"
-        n == 15 -> nameOf = "пятнадцать"
-        n == 14 -> nameOf = "четырнадцать"
-        n == 13 -> nameOf = "тринадцать"
-        n == 12 -> nameOf = "двенадцать"
-        n == 11 -> nameOf = "одиннадцать"
-        n == 10 -> nameOf = "десять"
-        n == 9 -> nameOf = "девять"
-        n == 8 -> nameOf = "восемь"
-        n == 7 -> nameOf = "семь"
-        n == 6 -> nameOf = "шесть"
-        n == 5 -> nameOf = "пять"
-        n == 4 -> nameOf = "четыре"
-        n == 3 -> nameOf = "три"
-        n == 2 -> nameOf = "две"
-        n == 1 -> nameOf = "одна"
-        n == 0 -> nameOf = ""
+    if (c == true) {
+        when{
+            n == 2 -> nameOf = "два"
+            n == 1 -> nameOf = "один"
+            n == 0 -> nameOf = ""
+        }
+    }
+    else {
+        when {
+            n == 2 -> nameOf = "две"
+            n == 1 -> nameOf = "одна"
+            n == 0 -> nameOf = ""
+        }
     }
     return nameOf
 }

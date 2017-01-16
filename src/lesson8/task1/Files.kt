@@ -54,7 +54,20 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val outcome = mutableMapOf<String, Int>()
+    val document = File(inputName).readText().toLowerCase()
+    for (number in substrings){
+        var count = 0
+        val bottom = number.toLowerCase()
+        for (a in 0..document.length - bottom.length) {
+            if(document.substring(a, a + bottom.length) == bottom) {
+                count++
+            }
+        }
+        outcome.put(number,count)
+        count=0
+    }
+    return outcome
 }
 
 
@@ -92,8 +105,33 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
+fun maxLength(input: String): Int{
+    var maxLength = 0
+    for (range in File(input).readLines()){
+        if(range.trim().length > maxLength)
+            maxLength = range.trim().length
+    }
+    return maxLength
+}
+
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val maxLength = maxLength(inputName)
+    fun central(range:String, maxLength: Int): String{
+        if(range.length == maxLength)
+            return range
+        var withoutSpaces = range.trim()//удачение начальных и конечных пробелов
+        val number = (maxLength - withoutSpaces.length)/2
+        withoutSpaces = " ".repeat(number) + withoutSpaces
+        return withoutSpaces
+    }
+    var newRange = false
+    for(range in File(inputName).readLines()){
+        if (newRange) writer.newLine()
+        else newRange = true
+        writer.write(central(range, maxLength))
+    }
+    writer.close()
 }
 
 /**
@@ -193,9 +231,42 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
-fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+fun notRepeated (range: String): Boolean {// поиск повторяющихся букв в слове
+    var word = listOf<Char>()
+    for (rangeLetter in range) {
+        for (idenity in word) {
+            if (rangeLetter == idenity)
+               return false
+
+        }
+        word += rangeLetter
+    }
+    return  true
 }
+
+fun chooseLongestChaoticWord(inputName: String, outputName: String) {
+    val writer = File(outputName).bufferedWriter()
+    var finalLine = ""
+    var topLength = 0
+
+    for(range in File(inputName).readLines()){
+        val lower = range.toLowerCase()
+        if(range.length > topLength && notRepeated(lower) == true){
+            finalLine = range
+            topLength = range.length
+        }
+        else
+            if(range.length == topLength && notRepeated(lower) == true){
+            finalLine = finalLine +", $range"
+        }
+    }
+    writer.write(finalLine)
+
+    writer.close()
+}
+
+
+
 
 /**
  * Сложная

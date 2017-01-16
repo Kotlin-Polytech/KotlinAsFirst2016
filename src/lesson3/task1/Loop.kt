@@ -1,5 +1,7 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "VARIABLE_WITH_REDUNDANT_INITIALIZER")
 package lesson3.task1
+
+
 
 /**
  * Пример
@@ -57,7 +59,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    if(n == 0) return 1
+    else {
+        var number = Math.abs(n)
+        var count = 0
+        while (number > 0) {
+            number /= 10
+            count++
+        }
+        return count
+    }
+}
 
 /**
  * Простая
@@ -65,7 +78,17 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var f1 = 1
+    var f2 = 0
+    var result = 1
+    for (i in 3..n) {
+        f2 = result
+        result = result + f1
+        f1 = f2
+    }
+    return result
+}
 
 /**
  * Простая
@@ -98,6 +121,15 @@ fun maxDivisor(n: Int): Int = TODO()
  */
 fun isCoPrime(m: Int, n: Int): Boolean = TODO()
 
+fun gcd(x: Int, y: Int): Int {
+    var a = x
+    var b = y
+    while ((a != 0) && (b != 0)) {
+        if (a > b) a = a % b
+        else b = b % a
+    }
+    return a + b
+}
 /**
  * Простая
  *
@@ -123,8 +155,8 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
 
+fun cos(x: Double, eps: Double): Double = TODO()
 /**
  * Средняя
  *
@@ -142,6 +174,7 @@ fun revert(n: Int): Int = TODO()
  */
 fun isPalindrome(n: Int): Boolean = TODO()
 
+
 /**
  * Средняя
  *
@@ -157,7 +190,27 @@ fun hasDifferentDigits(n: Int): Boolean = TODO()
  * 149162536496481100121144...
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
-fun squareSequenceDigit(n: Int): Int = TODO()
+fun pow(number: Int, degree: Int): Int {
+    var result = 1
+    for (a in 1..degree.toInt()) {
+        result *= number
+    }
+    return result
+}
+
+fun squareSequenceDigit(n: Int): Int {
+    var square = 0
+    var sum = 0
+    var count = 1
+    while (sum < n) {
+        square = count * count
+        count++
+        sum += digitNumber(square)
+    }
+    count = sum - n
+    return (square / pow(10, count) % 10)
+
+}
 
 /**
  * Сложная

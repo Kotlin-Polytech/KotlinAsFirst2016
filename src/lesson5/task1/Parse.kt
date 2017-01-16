@@ -60,8 +60,22 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
-
+fun dateStrToDigit(str: String): String {
+    val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    try {
+        val parts = str.split(" ")
+        if (parts.size != 3) throw IndexOutOfBoundsException()
+        val day = parts[0].toInt()
+        val month = list.indexOf(parts[1])
+        val year = parts[2].toInt()
+        if ((month == -1) || (year < 0) || (day !in 1..31)) throw NumberFormatException()
+        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.${year}"
+    } catch (e: NumberFormatException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    }
+}
 /**
  * Средняя
  *
@@ -70,6 +84,7 @@ fun dateStrToDigit(str: String): String = TODO()
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String = TODO()
+
 
 /**
  * Сложная
@@ -95,7 +110,21 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    val part1 = jumps.split(" ", "%", "-").toMutableList()
+    for (i in 0..part1.size - 1) {
+        part1.remove("")
+    }
+    var maxim = -1
+    try {
+        for (part2 in part1) {
+            if (part2.toInt() > maxim) maxim = part2.toInt()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return maxim
+}
 
 /**
  * Сложная
@@ -107,7 +136,22 @@ fun bestLongJump(jumps: String): Int = TODO()
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int = TODO()
+fun bestHighJump(jumps: String): Int {
+    val parts = jumps.split(" ")
+    val list: MutableList<String> = mutableListOf()
+    for (i in 1..parts.size - 1) {
+        if ('+' in parts[i]) list += parts[i - 1]
+    }
+    var max = -1
+    try {
+        for (element in list) {
+            if (element.toInt() > max) max = element.toInt()
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+    return max
+}
 
 /**
  * Сложная
@@ -119,7 +163,6 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int = TODO()
-
 /**
  * Сложная
  *
@@ -129,7 +172,17 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val part = str.split(" ").toMutableList()
+    var sum = 0
+    for (i in 0..part.size - 2) {
+        part[i + 1] = part[i + 1].toLowerCase()
+        if (part[i] == part[i + 1]) return sum
+        sum += part[i].length + 1
+
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -142,8 +195,7 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
-
+fun mostExpensive(description: String): String = TODO ()
 /**
  * Сложная
  *

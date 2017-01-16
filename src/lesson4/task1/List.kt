@@ -1,4 +1,5 @@
-@file:Suppress("UNUSED_PARAMETER")
+@file:Suppress("UNUSED_PARAMETER", "ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE", "UNUSED_VALUE", "UNUSED_VALUE")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -128,7 +129,13 @@ fun center(list: MutableList<Double>): MutableList<Double> = TODO()
  * представленные в виде списков a и b. Скалярное произведение считать по формуле:
  * C = a1b1 + a2b2 + ... + aNbN. Произведение пустых векторов считать равным 0.0.
  */
-fun times(a: List<Double>, b: List<Double>): Double = TODO()
+fun times(a: List<Double>, b: List<Double>): Double {
+    var z = 0.0
+    for (i in 0..a.size - 1) {
+        z += a[i] * b[i]
+    }
+    return z
+}
 
 /**
  * Средняя
@@ -174,7 +181,15 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var number = n
+    var result = listOf<Int>()
+    do {
+        result += number % base
+        number /= base
+    } while (number > 0)
+    return result.asReversed()
+}
 
 /**
  * Сложная
@@ -184,7 +199,15 @@ fun convert(n: Int, base: Int): List<Int> = TODO()
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val c = convert(n, base)
+    val result = StringBuilder()
+    for (element in c) {
+        if (element > 9) result.append('a' + element - 10)
+        else result.append(element)
+    }
+    return result.toString()
+}
 
 /**
  * Средняя
@@ -214,7 +237,17 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    var num = n
+    val first = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M").toSortedMap()
+    val res = StringBuilder()
+    while (num > 0) {
+        val parse = first.entries.findLast { it.key <= num } ?: continue
+        res.append(parse.value)
+        num -= parse.key
+    }
+    return res.toString()
+}
 
 /**
  * Очень сложная
@@ -223,4 +256,42 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val Units = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val Tens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val FromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val Hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val Result = mutableListOf<String>()
+
+    val lastDigit = n % 10
+    val thousand = when (n / 1000 % 10) {
+        1 -> "тысяча"
+        in 2..4 -> "тысячи"
+        else -> "тысяч"
+    }
+    val unit = when (lastDigit) {
+        1 -> "один"
+        2 -> "два"
+        else -> Units[lastDigit]
+    }
+    if (n > 999) {
+        Result.add(Hundreds[n / 100000 % 10])
+        if (n / 1000 % 100 in 11..19) {
+            Result.add(FromTenToTwenty[n / 1000 % 10])
+            Result.add("тысяч")
+        } else {
+            Result.add(Tens[n / 10000 % 10])
+            Result.add(Units[n / 1000 % 10])
+            Result.add(thousand)
+        }
+    }
+    Result.add(Hundreds[n / 100 % 10])
+    if (n % 100 in 11..19) Result.add(FromTenToTwenty[lastDigit])
+    else {
+        Result.add(Tens[n / 10 % 10])
+        Result.add(unit)
+    }
+    val newListResult = Result.filter { it != "" }
+
+    return newListResult.joinToString(" ")
+}

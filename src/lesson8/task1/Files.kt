@@ -55,9 +55,9 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     val outcome = mutableMapOf<String, Int>()
-    var count = 0
+    val document = File(inputName).readText().toLowerCase()
     for (number in substrings){
-        val document = File(inputName).readText().toLowerCase()
+        var count = 0
         val bottom = number.toLowerCase()
         for (a in 0..document.length - bottom.length) {
             if(document.substring(a, a + bottom.length) == bottom) {
@@ -127,7 +127,7 @@ fun centerFile(inputName: String, outputName: String) {
     }
     var newRange = false
     for(range in File(inputName).readLines()){
-        if (newRange == true) writer.newLine()
+        if (newRange) writer.newLine()
         else newRange = true
         writer.write(central(range, maxLength))
     }
@@ -231,9 +231,42 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  *
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
-fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+fun notRepeated (range: String): Boolean {// поиск повторяющихся букв в слове
+    var word = listOf<Char>()
+    for (rangeLetter in range) {
+        for (idenity in word) {
+            if (rangeLetter == idenity)
+               return false
+
+        }
+        word += rangeLetter
+    }
+    return  true
 }
+
+fun chooseLongestChaoticWord(inputName: String, outputName: String) {
+    val writer = File(outputName).bufferedWriter()
+    var finalLine = ""
+    var topLength = 0
+
+    for(range in File(inputName).readLines()){
+        val lower = range.toLowerCase()
+        if(range.length > topLength && notRepeated(lower) == true){
+            finalLine = range
+            topLength = range.length
+        }
+        else
+            if(range.length == topLength && notRepeated(lower) == true){
+            finalLine = finalLine +", $range"
+        }
+    }
+    writer.write(finalLine)
+
+    writer.close()
+}
+
+
+
 
 /**
  * Сложная

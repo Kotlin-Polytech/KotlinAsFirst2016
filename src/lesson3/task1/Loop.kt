@@ -35,7 +35,7 @@ fun isPrime(n: Int): Boolean {
 
 /**
  * Пример
- *
+ **
  * Проверка числа на совершенность -- результат true, если число совершенное
  */
 fun isPerfect(n: Int): Boolean {

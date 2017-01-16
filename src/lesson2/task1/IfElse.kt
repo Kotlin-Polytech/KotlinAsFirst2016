@@ -8,15 +8,15 @@ import lesson4.task1.abs
 
 /**
  * Пример
- *
+ **
  * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
 fun minBiRoot(a: Double, b: Double, c: Double): Double {
     // 1: в главной ветке if выполняется НЕСКОЛЬКО операторов
     if (a == 0.0) {
-        if (b == 0.0) return Double.NaN // ... и ничего больше не делать
+        if (b == 0.0) return Double.NaN // ... и ничего больше не делать 0
         val bc = -c / b
-        if (bc < 0.0) return Double.NaN // ... и ничего больше не делать
+        if (bc < 0.0) return Double.NaN // ... и ничего больше не делать 0
         return -Math.sqrt(bc)
         // Дальше функция при a == 0.0 не идёт
     }

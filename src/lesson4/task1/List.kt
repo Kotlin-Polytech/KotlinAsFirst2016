@@ -54,7 +54,7 @@ fun negativeList(list: List<Int>): List<Int> {
 
 /**
  * Пример
- *
+ **
  * Изменить знак для всех положительных элементов списка
  */
 fun invertPositives(list: MutableList<Int>) {

@@ -149,7 +149,15 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.size < 2) return list
+    else {
+        for (i in 1..list.size - 1){
+            list[i]=list[i-1] + list[i]
+        }
+        return list
+    }
+}
 
 /**
  * Средняя
@@ -250,12 +258,12 @@ fun russian(n: Int): String {
     else {
         while (numberOfThousands > 19) {
             forFunFrom = numberOfThousands / del * del
-            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,false) + " "
-            numberOfThousands = numberOfThousands%del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, false) + " "
+            numberOfThousands = numberOfThousands % del
             del = del / 10
         }
         forFunFrom = numberOfThousands
-        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,false) + " "
+        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, false) + " "
         when {
             (((numberOfThousands > 4) || (numberOfThousands == 0)) && (n / 1000 != 0)) -> nameOfNumber = nameOfNumber + "тысяч"
             ((numberOfThousands < 5) && (numberOfThousands > 1)) -> nameOfNumber = nameOfNumber + "тысячи"
@@ -265,17 +273,17 @@ fun russian(n: Int): String {
         del = 100
         while (numberOfElse > 19) {
             forFunFrom = numberOfElse / del * del
-            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,true) + " "
-            numberOfElse = numberOfElse%del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, true) + " "
+            numberOfElse = numberOfElse % del
             del = del / 10
         }
         forFunFrom = numberOfElse
-        nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom,true)
+        nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, true)
     }
     return nameOfNumber.trim()
 }
 
-fun fromNumberToName(n: Int,c: Boolean): String {
+fun fromNumberToName(n: Int, c: Boolean): String {
     var nameOf: String = ""
     when {
         n == 900 -> nameOf = "девятьсот"
@@ -314,13 +322,12 @@ fun fromNumberToName(n: Int,c: Boolean): String {
         n == 3 -> nameOf = "три"
     }
     if (c == true) {
-        when{
+        when {
             n == 2 -> nameOf = "два"
             n == 1 -> nameOf = "один"
             n == 0 -> nameOf = ""
         }
-    }
-    else {
+    } else {
         when {
             n == 2 -> nameOf = "две"
             n == 1 -> nameOf = "одна"

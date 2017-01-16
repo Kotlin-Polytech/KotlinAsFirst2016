@@ -86,21 +86,35 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val x = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
-            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
     val parts = digital.split(".")
+    val rd: Int
+    val rm: String
+    val ry: Int
     if (parts.size != 3) return ""
     try {
-        val d = parts[0].toInt()
-        val m1 = parts[1].toInt()
-        val y = parts[2].toInt()
-        if ((d in 1..31) && (m1 in 1..12)) {
-            val m = x[parts[1].toInt() - 1]
-            return String.format("%d %s %d", d, m, y)
-        } else return ""
+        rd = parts[0].toInt()
+        ry = parts[2].toInt()
     } catch (e: NumberFormatException) {
         return ""
     }
+    if (rd !in 1..31 || ry < 0) return ""
+    rm = when (parts[1]) {
+        "01" -> "января"
+        "02" -> "февраля"
+        "03" -> "марта"
+        "04" -> "апреля"
+        "05" -> "мая"
+        "06" -> "июня"
+        "07" -> "июля"
+        "08" -> "августа"
+        "09" -> "сентября"
+        "10" -> "октября"
+        "11" -> "ноября"
+        "12" -> "декабря"
+        else -> return ""
+    }
+    return "$rd $rm $ry"
 }
 
 /**
@@ -144,12 +158,12 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     var x = -1
-    var t: String
+    val t: String
     var u: Int
     try {
         if (jumps.matches(Regex("[-% 0-9]"))) {
             t = jumps.replace(Regex("[-%]"), "")
-            var y = t.split(" ").toMutableList()
+            val y = t.split(" ").toMutableList()
             y.remove("")
             for (element in y) {
                 u = element.toInt()
@@ -214,7 +228,15 @@ fun plusMinus(expression: String): Int {
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var count = 0
+    val parts = str.toLowerCase().split(" ")
+    for (i in 0..parts.size - 2) {
+        if (parts[i] == parts[i + 1]) return count
+        count += parts[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная

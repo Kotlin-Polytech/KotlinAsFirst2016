@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson3.task1
 
 /**
@@ -34,7 +35,7 @@ fun isPrime(n: Int): Boolean {
  */
 fun isPerfect(n: Int): Boolean {
     var sum = 1
-    for (m in 2..n/2) {
+    for (m in 2..n / 2) {
         if (n % m > 0) continue
         sum += m
         if (sum > n) break
@@ -65,7 +66,18 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var x1: Int = 1
+    var x2: Int = 1
+    if (n < 3) return 1
+    else {
+        for (i in 1..(n - 2)) {
+            x2 = x2 + x1
+            x1 = x2 - x1
+        }
+    }
+    return x2
+}
 
 /**
  * Простая
@@ -131,7 +143,19 @@ fun cos(x: Double, eps: Double): Double = TODO()
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var del: Int = 1
+    var result: Int = 0
+    var value = n
+    while (n % del != n) {
+        result = result*10
+        val preDel=del
+        del = del * 10
+        result+=(value%del)/preDel
+        value=value - value%del
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -166,4 +190,15 @@ fun squareSequenceDigit(n: Int): Int = TODO()
  * 1123581321345589144...
  * Например, 2-я цифра равна 1, 9-я 2, 14-я 5.
  */
-fun fibSequenceDigit(n: Int): Int = TODO()
+fun fibSequenceDigit(n: Int): Int {
+    var numbers = listOf<Int>()
+    var toString: String = ""
+    var i: Int = 0
+    while (toString.length < n) {
+        i = i + 1
+        numbers = numbers + fib(i)
+        toString = numbers.joinToString(separator = "", prefix = "", postfix = "", limit = -1, truncated = "")
+    }
+    val c = (toString[n-1]-'0').toInt()
+    return c
+}

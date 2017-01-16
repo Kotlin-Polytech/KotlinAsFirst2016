@@ -1,7 +1,11 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
+import lesson1.task1.trackLength
+import java.lang.Math.*
+
 
 /**
  * Точка на плоскости
@@ -55,14 +59,22 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val distanceBetweenCenters = trackLength(center.x, center.y, other.center.x, other.center.y)
+        if (distanceBetweenCenters <= (radius + other.radius)) return 0.0
+        else return (distanceBetweenCenters - (radius + other.radius))
+    }
 
     /**
      * Тривиальная
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean {
+        val distanceBetweenCenterAndPoint = sqrt(sqr(p.x - center.x) + sqr(p.y - center.y))
+        if (distanceBetweenCenterAndPoint <= radius) return true
+        else return false
+    }
 }
 
 /**
@@ -138,7 +150,14 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    val xOfCenter = -1 * ((a.y - b.y) * ((c.x * c.x) + (c.y * c.y)) + (b.y - c.y) * ((a.x * a.x) + (a.y * a.y)) + (c.y - a.y) * ((b.y * b.y) + (b.x * b.x))) / (2 * ((a.x - b.x) * (c.y - a.y) - (a.y - b.y) * (c.x - a.x)))
+    val yOfCenter = ((a.x - b.x) * ((c.x * c.x) + (c.y * c.y)) + (b.x - c.x) * ((a.x * a.x) + (a.y * a.y)) + (c.x - a.x) * ((b.y * b.y) + (b.x * b.x))) / (2 * ((a.x - b.x) * (c.y - a.y) - (a.y - b.y) * (c.x - a.x)))
+    val centerOf = Point(xOfCenter, yOfCenter)
+    val radiusOf = sqrt(sqr(xOfCenter - a.x) + sqr(yOfCenter - a.y))
+    val ourCircle = Circle(centerOf, radiusOf)
+    return ourCircle
+}
 
 /**
  * Очень сложная

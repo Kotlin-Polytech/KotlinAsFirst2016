@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,48 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    try {
+        val parts = str.split(" ")
+        var result = ""
+        if (parts.size != 3) return ""
+        else {
+            result += checkForDate(parts[0])
+            result += checkForMonth(parts[1])
+            result += checkForYear(parts[2])
+        }
+        val checkForResult = result.split(".")
+        if ((checkForResult.size == 3) && (checkForDate(parts[0]) != "") && (checkForMonth(parts[1]) != "") && (checkForYear(parts[2]) != "")) return result
+        else return ""
+    } catch (e: java.lang.NumberFormatException) {
+        return ""
+    }
+}
+
+fun checkForDate(n: String): String {
+    val c = n.toInt()
+    if (c in 1..31) {
+        if ((c in 1..9) && (n[0] != '0')) return "0" + n + "."
+        else return n + "."
+    } else return ""
+}
+
+fun checkForYear(n: String): String {
+    var c: Boolean = false
+    for (i in 0..n.length - 1) {
+        c = (n[i] in '0'..'9')
+    }
+    if (c == true) return n
+    else return ""
+}
+
+fun checkForMonth(n: String): String {
+    val value = listOf<String>("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val result = listOf<String>("01.", "02.", "03.", "04.", "05.", "06.", "07.", "08.", "09.", "10.", "11.", "12.")
+    val c = value.indexOf(n)
+    if (c != -1 ) return result[c]
+    else return ""
+}
 
 /**
  * Средняя

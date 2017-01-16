@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -148,7 +149,15 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    if (list.size < 2) return list
+    else {
+        for (i in 1..list.size - 1){
+            list[i]=list[i-1] + list[i]
+        }
+        return list
+    }
+}
 
 /**
  * Средняя
@@ -174,7 +183,23 @@ fun factorizeToString(n: Int): String = TODO()
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    val result = mutableListOf<Int>()
+    var number = n
+    if (n < base) {
+        result.add(n)
+        return result
+    } else {
+        while (number > base - 1) {
+            val forList: Int = number % base
+            result.add(forList)
+            number = number / base
+        }
+        result.add(number)
+        result.reverse()
+        return result
+    }
+}
 
 /**
  * Сложная
@@ -223,4 +248,61 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    var nameOfNumber: String = ""
+    var numberOfThousands: Int = n / 1000
+    var numberOfElse: Int = n - n / 1000 * 1000
+    var del: Int = 100
+    var forFunFrom: Int = 0
+    if (n == 0) return "нуль"
+    else {
+        while (numberOfThousands > 19) {
+            forFunFrom = numberOfThousands / del * del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, false) + " "
+            numberOfThousands = numberOfThousands % del
+            del = del / 10
+        }
+        forFunFrom = numberOfThousands
+        if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, false) + " "
+        when {
+            (((numberOfThousands > 4) || (numberOfThousands == 0)) && (n / 1000 != 0)) -> nameOfNumber = nameOfNumber + "тысяч"
+            ((numberOfThousands < 5) && (numberOfThousands > 1)) -> nameOfNumber = nameOfNumber + "тысячи"
+            numberOfThousands == 1 -> nameOfNumber = nameOfNumber + "тысяча"
+        }
+        if ((numberOfElse != 0) && (n / 1000 != 0)) nameOfNumber = nameOfNumber + " "
+        del = 100
+        while (numberOfElse > 19) {
+            forFunFrom = numberOfElse / del * del
+            if (forFunFrom != 0) nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, true) + " "
+            numberOfElse = numberOfElse % del
+            del = del / 10
+        }
+        forFunFrom = numberOfElse
+        nameOfNumber = nameOfNumber + fromNumberToName(forFunFrom, true)
+    }
+    return nameOfNumber.trim()
+}
+
+fun fromNumberToName(n: Int, c: Boolean): String {
+    var nameOf: String = ""
+    val value = listOf(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900)
+    val name=  listOf("три","четыре","пять","шесть","семь","восемь","девять","десять","одиннадцать","двенадцать","тринадцать","четырнадцать","пятнадцать","шестнадцать","семнадцать","восемнадцать","девятнадцать","двадцать","тридцать","сорок","пятьдесят","шестьдесят","семьдесят","восемьдесят","девяносто","сто","двести","триста","четыреста","пятьсот","шестьсот","семьсот","восемьсот","девятьсот")
+    val i = value.indexOf(n)
+    if (i != -1) return name[i]
+    else {
+        if (c == true) {
+            when {
+                n == 2 -> nameOf = "два"
+                n == 1 -> nameOf = "один"
+                n == 0 -> nameOf = ""
+            }
+        } else {
+            when {
+                n == 2 -> nameOf = "две"
+                n == 1 -> nameOf = "одна"
+                n == 0 -> nameOf = ""
+            }
+        }
+        return nameOf
+    }
+}

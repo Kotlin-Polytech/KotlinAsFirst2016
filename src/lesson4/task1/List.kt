@@ -4,7 +4,6 @@ package lesson4.task1
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
 import lesson3.task1.minDivisor
-import org.jetbrains.annotations.Mutable
 
 /**
  * Пример
@@ -133,10 +132,12 @@ fun mean(list: List<Double>): Double {
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    val a = (list.sum() / list.size)
     if (list.isEmpty()) return list
-    else for (i in 0..list.size-1) {
-        list[i] = list[i] - a
+    else {
+        val a = (list.sum() / list.size)
+        for (i in 0..list.size-1) {
+            list[i] = list[i] - a
+        }
     }
     return list
 }
@@ -166,12 +167,9 @@ fun times(a: List<Double>, b: List<Double>): Double {
  */
 fun polynom(p: List<Double>, x: Double): Double {
     var pforx = 0.0
-    if (p.isEmpty()) return 0.0
-    else {
         for (i in 0..p.size - 1) {
-            pforx = pforx + p[i] * Math.pow(x, i.toDouble())
+            pforx += p[i] * Math.pow(x, i.toDouble())
         }
-    }
     return pforx
 }
 
@@ -201,11 +199,14 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
 fun factorize(n: Int): List<Int> {
     var N = n
     val list = mutableListOf<Int>()
+    var divisor = 2
     while (N > 1) {
-            list += minDivisor(N)
-            N /= minDivisor(N)
+        if (N % divisor == 0) {
+            list.add(divisor)
+            N /= divisor
         }
-
+        else divisor ++
+    }
     return list.sorted()
 }
 
@@ -282,5 +283,40 @@ fun roman(n: Int): String = TODO()
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val units = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val tens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val tenTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+    val hundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val result = mutableListOf<String>()
+    val lastDigit = n % 10
+    val thousand = when (n / 1000 % 10) {
+        1 -> "тысяча"
+        in 2..4 -> "тысячи"
+        else -> "тысяч"
+    }
+    val unit = when (lastDigit) {
+        1 -> "один"
+        2 -> "два"
+        else -> units[lastDigit]
+    }
+    if (n > 999) {
+        result.add(hundreds[n / 100000 % 10])
+        if (n / 1000 % 100 in 11..19) {
+            result.add(tenTwenty[n / 1000 % 10])
+            result.add("тысяч")
+        } else {
+            result.add(tens[n / 10000 % 10])
+            result.add(units[n / 1000 % 10])
+            result.add(thousand)
+        }
+    }
+    result.add(hundreds[n / 100 % 10])
+    if (n % 100 in 11..19) result.add(tenTwenty[lastDigit])
+    else {
+        result.add(tens[n / 10 % 10])
+        result.add(unit)
+    }
+    return result.filter { it != "" }.joinToString(" ")
+}
 

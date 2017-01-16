@@ -1,9 +1,10 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
  * Пример
- *
+ **
  * Время представлено строкой вида "11:34:45", содержащей часы, минуты и секунды, разделённые двоеточием.
  * Разобрать эту строку и рассчитать количество секунд, прошедшее с начала дня.
  */
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +59,24 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
+    try {
+        val d = parts[0].toInt()
+        val y = parts[2].toInt()
+
+        val x = listOf("января", "февраля", "марта", "апреля",
+                "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        if ((d in 1..31) && (parts[1] in x)) {
+            val m = x.indexOf(parts[1]) + 1
+            return String.format("%02d.%02d.%d", d, m, y)
+        } else return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +85,37 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+
+    val parts = digital.split(".")
+    val rd: Int
+    val rm: String
+    val ry: Int
+    if (parts.size != 3) return ""
+    try {
+        rd = parts[0].toInt()
+        ry = parts[2].toInt()
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    if (rd !in 1..31 || ry < 0) return ""
+    rm = when (parts[1]) {
+        "01" -> "января"
+        "02" -> "февраля"
+        "03" -> "марта"
+        "04" -> "апреля"
+        "05" -> "мая"
+        "06" -> "июня"
+        "07" -> "июля"
+        "08" -> "августа"
+        "09" -> "сентября"
+        "10" -> "октября"
+        "11" -> "ноября"
+        "12" -> "декабря"
+        else -> return ""
+    }
+    return "$rd $rm $ry"
+}
 
 /**
  * Сложная
@@ -83,7 +129,22 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+
+    var n = mutableListOf<String>()
+    if (phone[0] == '+') n.add("+")
+    val x = phone.split(" ", "-", "(", ")", "+", "")
+    val c = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "")
+    for (element in x) {
+        if (element in c) n.add(element)
+        else {
+            n = mutableListOf("")
+            break
+        }
+    }
+    return n.joinToString(separator = "")
+
+}
 
 /**
  * Средняя
@@ -95,7 +156,27 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    var x = -1
+    val t: String
+    var u: Int
+    try {
+        if (jumps.matches(Regex("[-% 0-9]"))) {
+            t = jumps.replace(Regex("[-%]"), "")
+            val y = t.split(" ").toMutableList()
+            y.remove("")
+            for (element in y) {
+                u = element.toInt()
+                if (u > x) x = u
+
+            }
+        }
+    } catch (e: NumberFormatException) {
+        return -1
+    }
+
+    return x
+}
 
 /**
  * Сложная
@@ -118,7 +199,25 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    try {
+        val x = expression.split(" ")
+        var i = 0
+        var n = x[0].toInt()
+        while (i in 0..x.size - 3) {
+            if (x[i + 1] == "+") {
+                n += x[i + 2].toInt()
+            }
+            if (x[i + 1] == "-") {
+                n -= x[i + 2].toInt()
+            }
+            i++
+        }
+        return n
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Сложная
@@ -129,7 +228,15 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    var count = 0
+    val parts = str.toLowerCase().split(" ")
+    for (i in 0..parts.size - 2) {
+        if (parts[i] == parts[i + 1]) return count
+        count += parts[i].length + 1
+    }
+    return -1
+}
 
 /**
  * Сложная
@@ -142,7 +249,24 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
+fun mostExpensive(description: String): String {
+    val g = description.split("; ")
+    var maxP: Double = 0.0
+    var nom: String = ""
+    val trouver = Regex("""\d+.\d{1,2}$""")
+    val trounom = Regex(""".+(?= \d+.\d{1,2}$)""")
+
+    for (i in g) {
+        val t = trouver.find(i)?.value?.toDouble() ?: return ""
+        if (t > maxP) {
+            maxP = t
+            nom = trounom.find(i)?.value ?: return ""
+        }
+
+    }
+    return nom
+}
+
 
 /**
  * Сложная

@@ -191,7 +191,7 @@ fun convert(n: Int, base: Int): List<Int> {
         return result
     } else {
         while (number > base - 1) {
-            val forList: Int = number - number / base * base
+            val forList: Int = number % base
             result.add(forList)
             number = number / base
         }
@@ -285,54 +285,24 @@ fun russian(n: Int): String {
 
 fun fromNumberToName(n: Int, c: Boolean): String {
     var nameOf: String = ""
-    when {
-        n == 900 -> nameOf = "девятьсот"
-        n == 800 -> nameOf = "восемьсот"
-        n == 700 -> nameOf = "семьсот"
-        n == 600 -> nameOf = "шестьсот"
-        n == 500 -> nameOf = "пятьсот"
-        n == 400 -> nameOf = "четыреста"
-        n == 300 -> nameOf = "триста"
-        n == 200 -> nameOf = "двести"
-        n == 100 -> nameOf = "сто"
-        n == 90 -> nameOf = "девяносто"
-        n == 80 -> nameOf = "восемьдесят"
-        n == 70 -> nameOf = "семьдесят"
-        n == 60 -> nameOf = "шестьдесят"
-        n == 50 -> nameOf = "пятьдесят"
-        n == 40 -> nameOf = "сорок"
-        n == 30 -> nameOf = "тридцать"
-        n == 20 -> nameOf = "двадцать"
-        n == 19 -> nameOf = "девятнадцать"
-        n == 18 -> nameOf = "восемнадцать"
-        n == 17 -> nameOf = "семнадцать"
-        n == 16 -> nameOf = "шестнадцать"
-        n == 15 -> nameOf = "пятнадцать"
-        n == 14 -> nameOf = "четырнадцать"
-        n == 13 -> nameOf = "тринадцать"
-        n == 12 -> nameOf = "двенадцать"
-        n == 11 -> nameOf = "одиннадцать"
-        n == 10 -> nameOf = "десять"
-        n == 9 -> nameOf = "девять"
-        n == 8 -> nameOf = "восемь"
-        n == 7 -> nameOf = "семь"
-        n == 6 -> nameOf = "шесть"
-        n == 5 -> nameOf = "пять"
-        n == 4 -> nameOf = "четыре"
-        n == 3 -> nameOf = "три"
-    }
-    if (c == true) {
-        when {
-            n == 2 -> nameOf = "два"
-            n == 1 -> nameOf = "один"
-            n == 0 -> nameOf = ""
+    val value = listOf(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900)
+    val name=  listOf("три","четыре","пять","шесть","семь","восемь","девять","десять","одиннадцать","двенадцать","тринадцать","четырнадцать","пятнадцать","шестнадцать","семнадцать","восемнадцать","девятнадцать","двадцать","тридцать","сорок","пятьдесят","шестьдесят","семьдесят","восемьдесят","девяносто","сто","двести","триста","четыреста","пятьсот","шестьсот","семьсот","восемьсот","девятьсот")
+    val i = value.indexOf(n)
+    if (i != -1) return name[i]
+    else {
+        if (c == true) {
+            when {
+                n == 2 -> nameOf = "два"
+                n == 1 -> nameOf = "один"
+                n == 0 -> nameOf = ""
+            }
+        } else {
+            when {
+                n == 2 -> nameOf = "две"
+                n == 1 -> nameOf = "одна"
+                n == 0 -> nameOf = ""
+            }
         }
-    } else {
-        when {
-            n == 2 -> nameOf = "две"
-            n == 1 -> nameOf = "одна"
-            n == 0 -> nameOf = ""
-        }
+        return nameOf
     }
-    return nameOf
 }

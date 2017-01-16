@@ -2,6 +2,10 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
+import java.lang.Math.PI
+import java.lang.Math.abs
+
 
 /**
  * Пример
@@ -119,6 +123,13 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
+    var d: Int = 0
+    for (i in 2..n - 1) {
+        if (n % i == 0) d++
+    }
+    if (d == 0) {
+        println("no divisor")
+    }
     var x = 2
     var t = 1
     while (t != 0) {
@@ -135,6 +146,13 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
+    var d: Int = 0
+    for (i in 2..n - 1) {
+        if (n % i == 0) d++
+    }
+    if (d == 0) {
+        println("no divisor")
+    }
     var x = n - 1
     var t = 1
     while (t != 0) {
@@ -198,7 +216,19 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+
+    var s = 1.0
+    var n = 0.0
+    val m = (x % (2 * PI))
+    var t = 1.0
+    while (abs(t / s) > eps) {
+        n = n + 2
+        t = -t * m * m / n * (n - 1)
+        s = s + t
+    }
+    return s
+}
 
 /**
  * Средняя

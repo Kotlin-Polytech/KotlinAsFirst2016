@@ -107,8 +107,8 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>): Double {
     var x = 0.0
-    for (element in v) {
-        x += element * element
+    for (i in v) {
+        x += i * i
     }
     return Math.sqrt(x)
 }
@@ -263,7 +263,17 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String = TODO()
+fun convertToString(n: Int, base: Int): String {
+    val s: List<Int>
+    var st1: String = ""
+    if (n == 0) st1 = ""
+    s = convert(n, base)
+    for (i in 0..s.size - 1) {
+        if (s[i] > 9) st1 += (87 + s[i]).toChar()
+        else st1 += (s[i]).toString()
+    }
+    return st1
+}
 
 
 /**

@@ -199,18 +199,6 @@ fun fibSequenceDigit(n: Int): Int {
         numbers = numbers + fib(i)
         toString = numbers.joinToString(separator = "", prefix = "", postfix = "", limit = -1, truncated = "")
     }
-    var c = 0
-    when {
-        toString[n - 1] == '0' -> c = 0
-        toString[n - 1] == '1' -> c = 1
-        toString[n - 1] == '2' -> c = 2
-        toString[n - 1] == '3' -> c = 3
-        toString[n - 1] == '4' -> c = 4
-        toString[n - 1] == '5' -> c = 5
-        toString[n - 1] == '6' -> c = 6
-        toString[n - 1] == '7' -> c = 7
-        toString[n - 1] == '8' -> c = 8
-        toString[n - 1] == '9' -> c = 9
-    }
+    val c = (toString[n-1]-'0').toInt()
     return c
 }

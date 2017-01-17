@@ -130,38 +130,22 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
-fun centerFile(inputName: String, outputName: String) {
-
-    fun center(line: String, maxLength: Int): String {
-        if(line.length == maxLength) return line
-        var result = line.trim()
-        val Spaces = (maxLength - result.length)/2
-        result = " ".repeat(Spaces)+ result
-
-        return result
+fun  centerFile(inputName: String, outputName: String) {
+    var input5 = listOf<String>()
+    var maxLength = 0
+    val outputStream = File(outputName).bufferedWriter()
+    for (line in File(inputName).readLines()) {
+        input5 += line.trim()
+        if (line.trim().length >= maxLength) maxLength = line.length
     }
-    fun maxLength(inputName: String): Int{ // длина максимальной строки
-        var maxLength = 0
-        for (line in File(inputName).readLines()){
-            if(line.trim().length > maxLength) maxLength = line.trim().length
-        }
-        return maxLength
+    for (line in input5) {
+        for (i in 0..(maxLength - line.length) / 2 - 1)
+            outputStream.write(" ")
+        outputStream.write("$line\n")
     }
-
-    fun centerFile(inputName: String, outputName: String) {
-        val writer = File(outputName).bufferedWriter()
-        val maxLength = maxLength(inputName)
-
-        var NewLine = false
-        for(line in File(inputName).readLines()){
-            if(NewLine == true) writer.newLine()
-            else NewLine = true
-            writer.write(center(line, maxLength))
-        }
-
-        writer.close()
-    }
+    outputStream.close()
 }
+
 
 /**
  * Сложная
@@ -261,29 +245,26 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    fun noRepetition(line: String): Boolean{
+    fun noRepetition(line: String): Boolean {
         var letters = listOf<Char>()
-        for (lineLetter in line){
-            for (letter in letters){
-                if(lineLetter == letter) return false
+        for (lineLetter in line) {
+            for (letter in letters) {
+                if (lineLetter == letter) return false
             }
             letters = letters + lineLetter
         }
         return true
     }
-
-
     fun chooseLongestChaoticWord(inputName: String, outputName: String) {
         val writer = File(outputName).bufferedWriter()
         var maxLength = 0
         var result = ""
-        for(line in File(inputName).readLines()){
-            if(line.length > maxLength && noRepetition(line.toLowerCase()) == true){
+        for (line in File(inputName).readLines()) {
+            if (line.length > maxLength && noRepetition(line.toLowerCase()) == true) {
                 result = line
                 maxLength = line.length
-            }
-            else if(line.length == maxLength && noRepetition(line.toLowerCase()) == true){
-                result = result +", $line"
+            } else if (line.length == maxLength && noRepetition(line.toLowerCase()) == true) {
+                result = result + ", $line"
             }
         }
         writer.write(result)

@@ -82,13 +82,13 @@ fun fib(n: Int): Int {
  * минимальное число k, которое делится и на m и на n без остатка
  */
 fun lcm(m: Int, n: Int): Int {
-    var k = 1
+    var g = 1
     for (i in m * n downTo 1) {
-        if (((k % m) != 0) || ((k % n) != 0)) {
-            k = k + 1
+        if (((g % m) != 0) || ((g % n) != 0)) {
+            g = g + 1
         } else break
     }
-    return k
+    return g
 }
 
 /**
@@ -97,11 +97,11 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var k = 2
-    while (n % k != 0) {
-        k = k + 1
+    var g = 2
+    while (n % g != 0) {
+        g = g + 1
     }
-    return k
+    return g
 }
 
 /**
@@ -110,11 +110,11 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var k = n - 1
-    while (n % k != 0) {
-        k = k - 1
+    var g = n - 1
+    while (n % g != 0) {
+        g = g - 1
     }
-    return k
+    return g
 }
 
 /**
@@ -125,13 +125,13 @@ fun maxDivisor(n: Int): Int {
  * Например, 25 и 49 взаимно простые, а 6 и 8 -- нет.
  */
 fun isCoPrime(m: Int, n: Int): Boolean {
-    var k = 2
+    var g = 2
     var bool = true
     for (i in 2..Math.min(m, n)) {
-        if ((n % k == 0) && (m % k == 0)) {
+        if ((n % g == 0) && (m % g == 0)) {
             bool = false
             break
-        } else k = k + 1
+        } else g = g + 1
     }
     return bool
 }
@@ -145,11 +145,11 @@ fun isCoPrime(m: Int, n: Int): Boolean {
  * Например, для интервала 21..28 21 <= 5*5 <= 28, а для интервала 51..61 квадрата не существует.
  */
 fun squareBetweenExists(m: Int, n: Int): Boolean  {
-    var bool = false
+    var b = false
     for (i in m..n) {
-        if ((Math.sqrt(i.toDouble()) % 1) == 0.0) bool = true
+        if ((Math.sqrt(i.toDouble()) % 1) == 0.0) b = true
     }
-    return bool
+    return b
 }
 
 /**
@@ -167,9 +167,8 @@ fun sin(x: Double, eps: Double):  Double {
     while (Math.abs(term) >= eps) {
         i++
         term = Math.pow(arg, i * 2.0 + 1) / factorial(i * 2 + 1)
-        if (i % 2 == 1) fsin -= term
+        if (i % 2 == 1) jsin -= term
         else fsin += term
-
     }
     return fsin
 }
@@ -181,7 +180,7 @@ fun sin(x: Double, eps: Double):  Double {
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double  = sin(Math.PI / 2 - x, eps)
+fun cos(x: Double, eps: Double): Double = sin(Math.PI / 2 - x, eps)
 
 /**
  * Средняя
@@ -189,7 +188,7 @@ fun cos(x: Double, eps: Double): Double  = sin(Math.PI / 2 - x, eps)
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int  {
+fun revert(n: Int): Int {
     var number = n
     var results = 0
     while (number > 9) {
@@ -218,13 +217,13 @@ fun isPalindrome(n: Int) = n == revert(n)
  */
 fun hasDifferentDigits(n: Int): Boolean {
     var a = n
-    var flag: Boolean = true
+    var flaq: Boolean = true
     var digit = a % 10
     while (a > 0) {
-        if (a % 10 != digit) flag = false
+        if (a % 10 != digit) flaq = false
         a /= 10
     }
-    return (flag == false)
+    return (flaq == false)
 }
 
 /**
@@ -235,20 +234,20 @@ fun hasDifferentDigits(n: Int): Boolean {
  * Например, 2-я цифра равна 4, 7-я 5, 12-я 6.
  */
 fun squareSequenceDigit(n: Int): Int {
-    var i = 1
+    var x = 1
     var count = 0
     var number = 0
     var nn = 0
     var dif = 0
     var result = 0
     while (n > count) {
-        number = i * i
+        number = x * x
         nn = number
         while (number > 0) {
             number /= 10
             count++
         }
-        i++
+        x++
 
     }
     dif = count - n

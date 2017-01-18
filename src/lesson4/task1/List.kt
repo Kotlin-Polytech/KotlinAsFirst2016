@@ -106,7 +106,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  */
 fun abs(v: List<Double>):  Double {
     var sqr = 0.0
-    for (element in v) sqr += element * element
+    for (element in v)0y sqr += element * element
     return Math.sqrt(sqr)
 }
 
@@ -122,8 +122,8 @@ fun mean(list: List<Double>): Double  {
 
 /**
  * Средняя
- *
- * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
+
+ * Центрирова*ть заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
@@ -229,7 +229,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int>  {
+fun convert(n: Int, base: Int): List<Int> {
     var number = n
     var result = listOf<Int>()
     do {
@@ -277,7 +277,7 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int {
+fun decimalFromString(str: String, base: Int) : Int {
     var result = listOf<Int>()
     for (char in str) {
         if (char in '0'..'9') result += char - '0'

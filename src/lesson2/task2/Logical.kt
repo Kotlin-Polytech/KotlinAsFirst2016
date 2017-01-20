@@ -39,7 +39,7 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int):Boolean =
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
                  x2: Double, y2: Double, r2: Double): Boolean =
-        ((Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)) + r1) <= r2)
+        sqrt(sqr(x2-x1) + sqr(y2-y1))+ r1 <= r2
 /**
  * Средняя
  *

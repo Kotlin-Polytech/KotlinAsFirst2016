@@ -245,32 +245,7 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    fun noRepetition(line: String): Boolean {
-        var letters = listOf<Char>()
-        for (lineLetter in line) {
-            for (letter in letters) {
-                if (lineLetter == letter) return false
-            }
-            letters = letters + lineLetter
-        }
-        return true
-    }
-    fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-        val writer = File(outputName).bufferedWriter()
-        var maxLength = 0
-        var result = ""
-        for (line in File(inputName).readLines()) {
-            if (line.length > maxLength && noRepetition(line.toLowerCase()) == true) {
-                result = line
-                maxLength = line.length
-            } else if (line.length == maxLength && noRepetition(line.toLowerCase()) == true) {
-                result = result + ", $line"
-            }
-        }
-        writer.write(result)
-
-        writer.close()
-    }
+    TODO()
 }
 
 /**
@@ -428,6 +403,61 @@ fun markdownToHtmlLists(inputName: String, outputName: String) {
 fun markdownToHtml(inputName: String, outputName: String) {
     TODO()
 }
+/**
+ * Средняя
+ *
+ * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
+ *
+ * Пример (для lhv == 19935, rhv == 111):
+19935
+ *    111
+--------
+19935
++ 19935
++19935
+--------
+2212785
+ * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
+ * Нули в множителе обрабатывать так же, как и остальные цифры:
+235
+ *  10
+-----
+0
++235
+-----
+2350
+ *
+ */
+fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
+    TODO()
+}
+
+
+/**
+ * Очень сложная
+ *
+ * Вывести в выходной файл процесс деления столбиком числа lhv (> 0) на число rhv (> 0).
+ *
+ * Пример (для lhv == 19935, rhv == 22):
+19935 | 22
+-198     906
+----
+13
+-0
+--
+135
+-132
+----
+3
+
+ * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
+ *
+ */
+fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
+    TODO()
+}
+//test
+
 
 
 

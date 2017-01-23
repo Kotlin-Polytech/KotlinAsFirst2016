@@ -155,7 +155,12 @@ fun polynom(p: List<Double>, x: Double): Double = p.mapIndexed { i, d -> d * pow
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>): MutableList<Double> {
+    for (i in 1..list.size-1) {
+        list[i] += list[i+1]
+    }
+    return list
+}
 
 /**
  * Средняя

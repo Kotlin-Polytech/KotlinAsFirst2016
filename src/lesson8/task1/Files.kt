@@ -171,7 +171,8 @@ fun top20Words(inputName: String): Map<String, Int> {
         count = words.count { word.value == it.value }
         resultMap.put(word.value, count)
     }
-    return resultMap.toList().sortedByDescending { it.second }.subList(0, 20).toMap()
+    val list = resultMap.toList().sortedByDescending { it.second }
+    return list.take(20).toMap()
 }
 
 /**

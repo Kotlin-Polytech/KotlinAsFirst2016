@@ -166,9 +166,10 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 fun top20Words(inputName: String): Map<String, Int> {
     val resultMap = mutableMapOf<String, Int>()
     val words = Regex("""[a-zа-яё]+""").findAll(File(inputName).readText().toLowerCase())
+    var count: Int
     for (word in words) {
-        val value = word.value
-        resultMap.put(value, (resultMap[value] ?: 0) + 1)
+        count = words.count { word.value == it.value }
+        resultMap.put(word.value, count)
     }
     return resultMap.toList().sortedByDescending { it.second }.subList(0, 20).toMap()
 }

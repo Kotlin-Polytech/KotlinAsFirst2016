@@ -54,9 +54,18 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val resultMap = mutableMapOf<String, Int>()
+    val text = File(inputName).readText().toLowerCase()
+    for (i in substrings) {
+        var count = 0
+        for (j in 0..text.length - i.length) {
+            if (text.substring(j, j + i.length) == i.toLowerCase())
+                count++
+        }
+        resultMap[i] = count
+    }
+    return resultMap
 }
-
 
 /**
  * Средняя
@@ -72,8 +81,19 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val writer = File(outputName).bufferedWriter()
+    val map = mapOf<Char, Char>('ы' to 'и', 'Ы' to 'И', 'я' to 'а', 'Я' to 'А', 'ю' to 'у', 'Ю' to 'У')
+    for (line in File(inputName).readLines()) {
+        writer.write(line[0].toString())
+        for (i in 1..line.length - 1) {
+            if ((line[i] in map.keys) && (line[i - 1] in "ЖжЧчШшЩщ")) writer.write(map[line[i]].toString())
+            else writer.write(line[i].toString())
+            }
+        writer.newLine()
+    }
+    writer.close()
 }
+
 
 /**
  * Средняя
@@ -93,7 +113,16 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines().map { it.trim() }
+    var max = 0
+    for (line in lines) if (line.length >= max) max = line.length
+    val writer = File(outputName).bufferedWriter()
+    for (i in 0..lines.size-1) {
+        for (j in 1..(max-lines[i].length)/2) writer.write(" ")
+        writer.write(lines[i])
+        if (i != lines.size - 1) writer.newLine()
+    }
+    writer.close()
 }
 
 /**
@@ -103,7 +132,6 @@ fun centerFile(inputName: String, outputName: String) {
  * Вывести его в выходной файл с именем outputName, выровняв по левому и правому краю относительно
  * самой длинной строки.
  * Выравнивание производить, вставляя дополнительные пробелы между словами: равномерно по всей строке
- *
  * Слова внутри строки отделяются друг от друга одним или более пробелом.
  *
  * Следующие правила должны быть выполнены:
@@ -136,7 +164,13 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+    val resultMap = mutableMapOf<String, Int>()
+    val words = Regex("""[a-zа-яё]+""").findAll(File(inputName).readText().toLowerCase())
+    for (word in words) {
+        val value = word.value
+        resultMap.put(value, (resultMap[value] ?: 0) + 1)
+    }
+    return resultMap.toList().sortedByDescending { it.second }.subList(0, 20).toMap()
 }
 
 /**

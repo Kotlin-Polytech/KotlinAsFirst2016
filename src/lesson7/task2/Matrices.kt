@@ -59,7 +59,37 @@ operator fun Matrix<Int>.plus(other: Matrix<Int>): Matrix<Int> {
  * 10 11 12  5
  *  9  8  7  6
  */
-fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateSpiral(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    var count = 1
+
+    var x = 0
+    var y = 0
+    val moves = listOf(Pair(1, 0), Pair(0, 1), Pair(-1, 0), Pair(0, -1))
+    var dir = 0
+
+    while (true) {
+        matrix[y, x] = count
+        count++
+
+        val nextX = x + moves[dir].first
+        val nextY = y + moves[dir].second
+        if (nextX < 0 || nextX == matrix.width || nextY < 0 ||
+                nextY == matrix.height || matrix[nextY, nextX] != 0) {
+            dir = (dir + 1) % 4
+        }
+
+        x += moves[dir].first
+        y += moves[dir].second
+
+        if (x < 0 || x == matrix.width || y < 0 ||
+                y == matrix.height || matrix[y, x] != 0) {
+            break
+        }
+    }
+
+    return matrix
+}
 
 /**
  * Сложная
@@ -75,7 +105,17 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> = TODO()
  *  1  2  2  2  2  1
  *  1  1  1  1  1  1
  */
-fun generateRectangles(height: Int, width: Int): Matrix<Int> = TODO()
+fun generateRectangles(height: Int, width: Int): Matrix<Int> {
+    val matrix = createMatrix(height, width, 0)
+    var border = 0
+    do {
+        for (i in border..height-border-1) for (j in border..width-border-1) {
+            matrix[i, j]++
+        }
+        border++
+    } while(border*2 < width && border*2 < height)
+    return matrix
+}
 
 /**
  * Сложная
@@ -197,7 +237,20 @@ fun sumSubMatrix(matrix: Matrix<Int>): Matrix<Int> = TODO()
  * Вернуть тройку (Triple) -- (да/нет, требуемый сдвиг по высоте, требуемый сдвиг по ширине).
  * Если наложение невозможно, то первый элемент тройки "нет" и сдвиги могут быть любыми.
  */
-fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> = TODO()
+fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> {
+    for (shiftY in 0..lock.height-key.height)
+        loop@ for (shiftX in 0..lock.width-key.width) {
+            for (row in shiftY..shiftY+key.height-1)
+                for (column in shiftX..shiftX+key.width-1)
+                    if (lock[row, column] == key[row - shiftY, column - shiftX] ||
+                            lock[row, column] !in 0..1 ||
+                            key[row - shiftY, column - shiftX] !in 0..1) {
+                        continue@loop
+                    }
+            return Triple(true, shiftY, shiftX)
+        }
+    return Triple(false, 0, 0)
+}
 
 /**
  * Простая
@@ -205,7 +258,12 @@ fun canOpenLock(key: Matrix<Int>, lock: Matrix<Int>): Triple<Boolean, Int, Int> 
  * Инвертировать заданную матрицу.
  * При инвертировании знак каждого элемента матрицы следует заменить на обратный
  */
-operator fun Matrix<Int>.unaryMinus(): Matrix<Int> = TODO(this.toString())
+operator fun Matrix<Int>.unaryMinus(): Matrix<Int> {
+    for (i in 0..this.height - 1)
+        for (j in 0..this.width - 1)
+            this[i, j] = -this[i, j]
+    return this
+}
 
 /**
  * Средняя

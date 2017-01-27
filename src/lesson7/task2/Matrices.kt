@@ -2,9 +2,7 @@
 
 package lesson7.task2
 
-import lesson7.task1.Matrix
-import lesson7.task1.createMatrix
-import lesson7.task1.Cell
+import lesson7.task1.*
 import java.lang.Math.*
 
 // Все задачи в этом файле требуют наличия реализации интерфейса "Матрица" в Matrix.kt
@@ -489,4 +487,306 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
  *
  * Перед решением этой задачи НЕОБХОДИМО решить предыдущую
  */
-fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> = TODO()
+
+fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
+    val result = mutableListOf<Int>()
+    /**
+    поиск в матрице числа и вывод полложения Cell
+     */
+
+    fun Int.search(): Cell {
+        for (i in 0..3)
+            for (j in 0..3)
+                if (matrix[i, j] == this) return Cell(i, j)
+        throw IllegalArgumentException("fun search")
+    }
+
+    /**
+    переход клетки 0 в другую кдетку и запись хода клетки в result
+    в дальнейшем нет необходимости использовать переменную result
+    1  2  3  4             1  2  3  4
+    10 7  8  11            10 7  8  11
+    12 14 13 6     --->    12 14 13 6
+    5  0 9  15             0  5  9  15
+     */
+    fun Cell.moving(other: Cell) {   //this необходимо присвоить кдетку 0 всегда
+        if (matrix[this] != 0) throw IllegalArgumentException("ошибка в использовании fun moving")
+        matrix[this] = matrix[other]
+        matrix[other] = 0
+        result.add(matrix[this])
+    }
+
+    /**
+     * осуществление одного шага клетки, возврат нуля для следующего шага
+     * 1  2  3  4             1  2  3  4
+     * 10 7  8  11            10 7  8  11
+     * 12 14 13 6     --->    14 13 15 6
+     * 5  0  15 9             12 5  0  9
+     * если клетка находится в нижнем ряду нужно реализовать переход нуля сверху, при движении по горизонтали,
+     * иначе снизу
+     * при движении по вертикали нужно реализовать переход нуля слева
+     */
+
+    fun Cell.inccorect(): Boolean = this.row !in 0..3 || this.column !in 0..3
+
+    fun step(start: Cell, finish: Cell) {  //finish необходимо присвоить клетку 0 всегда
+        if (start.inccorect() || finish.inccorect()) return
+        if (matrix[finish] != 0) {
+            println( "$matrix error")
+            throw IllegalArgumentException("ошибка в использовании fun step (0)")
+        }
+        if (Math.abs(start.row - finish.row) !in 0..1 || Math.abs(finish.column - start.column) !in 0..1)
+            throw IllegalArgumentException("ошибка в использовании fun step")
+        if (start == finish) return
+        val label = if (start.row == 3) 1 else -1
+        when {
+            start.row == finish.row -> {
+                finish.moving(start)
+                start.moving(Cell(start.row - label, start.column))
+                Cell(start.row - label, start.column).moving(Cell(finish.row - label, finish.column))
+                if (Cell(finish.row - label, finish.column + 1).inccorect()) return
+                Cell(finish.row - label, finish.column).moving(Cell(finish.row - label, finish.column + 1))
+                Cell(finish.row - label, finish.column + 1).moving(Cell(finish.row, finish.column + 1))
+            }
+            start.column == finish.column -> {
+                finish.moving(start)
+                start.moving(Cell(start.row, start.column - 1))
+                Cell(start.row, start.column - 1).moving(Cell(finish.row, finish.column - 1))
+                if (Cell(finish.row - 1, finish.column - 1).inccorect()) return
+                Cell(finish.row, finish.column - 1).moving(Cell(finish.row - 1, finish.column - 1))
+                Cell(finish.row - 1, finish.column - 1).moving(Cell(finish.row - 1, finish.column))
+            }
+            else -> throw IllegalArgumentException("ошибка в использовании fun step")
+        }
+    }
+
+    fun stepLeft(start: Cell, finish: Cell) {  //finish необходимо присвоить клетку 0 всегда
+        if (start.inccorect() || finish.inccorect()) return
+        if (matrix[finish] != 0) throw IllegalArgumentException("ошибка в использовании fun step (0)")
+        if (Math.abs(start.row - finish.row) !in 0..1 || Math.abs(finish.column - start.column) !in 0..1)
+            throw IllegalArgumentException("ошибка в использовании fun step")
+        if (start == finish) return
+        val label = if (start.row == 3) 1 else -1
+        val labelLeft = -1
+        finish.moving(start)
+        start.moving(Cell(start.row - label, start.column))
+        Cell(start.row - label, start.column).moving(Cell(finish.row - label, finish.column))
+        if (Cell(finish.row - label, finish.column + labelLeft).inccorect()) return
+        Cell(finish.row - label, finish.column).moving(Cell(finish.row - label, finish.column + labelLeft))
+        Cell(finish.row - label, finish.column + labelLeft).moving(Cell(finish.row, finish.column + labelLeft))
+    }
+
+    /**
+     * осуществление перемещения нуля из точки this в точку other, при использовании функции необходимо учитывать, что
+     * все точки на пути нуля будут изменять своё положение, перемещени нуля должно сначала идти по вертикали,
+     * а потом по горизонтали
+     */
+
+    fun Cell.nullMoving(finish: Cell) { //this - клетка с 0
+        if (this == finish) return
+        if (matrix[this] != 0) throw IllegalArgumentException("ошибка в использовании fun nullMoving")
+        var temp = this
+        while (temp.row != finish.row) {
+            temp.moving(Cell(temp.row + finish.row.compareTo(temp.row), temp.column))
+            temp = Cell(temp.row + finish.row.compareTo(temp.row), temp.column)
+        }
+        while (temp.column != finish.column) {
+            temp.moving(Cell(temp.row, temp.column + finish.column.compareTo(temp.column)))
+            temp = Cell(temp.row, temp.column + finish.column.compareTo(temp.column))
+        }
+    }
+
+    /**
+     * необходимо осуществить перемещение точки из положения this в положение other
+     * чтобы не задевать уже выстроенные точки нужно перемещать точку сначала в самую правую колонку, далее вверх,
+     * затем влево
+     * необходимо внимательно смотреть за положением нуля
+     */
+
+    fun Cell.way(other: Cell) {  //переделать
+        val number = matrix[this]
+        if (matrix[other] == number) return
+        0.search().nullMoving(Cell(3, 3))
+        var temp = number.search()
+
+        if (temp.row == other.row && other.column < temp.column){
+            println(matrix)
+            Cell(3, 3).nullMoving(Cell(3, temp.column - 1))
+            Cell(3, temp.column - 1).nullMoving(Cell(temp.row, temp.column - 1))
+            while (matrix[other] != number){
+                println(matrix)/////////////////////////////////////////////////////////////////////////////////////
+                stepLeft(temp, Cell(temp.row, temp.column - 1))
+                temp = Cell(temp.row, temp.column - 1)
+            }
+            return
+        }
+
+        if (temp.column != 3) {
+            Cell(3, 3).nullMoving(Cell(temp.row, temp.column + 1))
+            for (i in 0..3) {
+                step(temp, Cell(temp.row, temp.column + 1))
+                temp = Cell(temp.row, temp.column + 1)
+            }
+            temp = 0.search()
+            if (number.search().row < temp.row) {
+                temp.moving(Cell(temp.row, temp.column - 1))
+                if (temp.row > 1) Cell(temp.row, temp.column - 1).nullMoving(Cell(temp.row - 2, temp.column))
+                else Cell(temp.row, temp.column - 1).moving(Cell(temp.row - 1, temp.column - 1))
+            } else if (temp == Cell(0, 2)) {
+                Cell(0, 2).nullMoving(Cell(1, 3))
+            }
+        }else {
+                Cell(3, 3).moving(Cell(3, 2))
+                if (this.row != 0) Cell(3, 2).nullMoving(Cell(temp.row - 1, temp.column))
+                else Cell(3, 2).nullMoving(Cell(temp.row, temp.column - 1))
+            }
+
+        if (this.row != other.row) {
+            temp = number.search()
+            println(number) ////////////////////////////////////////////////////////////////////////////////////////////
+            while (temp.row != other.row) {
+                step(temp, Cell(temp.row - 1, temp.column))
+                temp = Cell(temp.row - 1, temp.column)
+            }
+        } else temp = number.search()
+        if (temp.row != 0) {
+            Cell(temp.row - 1, 3).moving(Cell(temp.row - 1, 2))
+            Cell(temp.row - 1, 2).moving(Cell(temp.row, 2))
+        }
+
+        temp = number.search()
+
+        if (matrix[other] == number) return
+
+        for (i in 0..3) {
+            stepLeft(temp, Cell(temp.row, temp.column - 1))
+            temp = Cell(temp.row, temp.column - 1)
+            if (matrix[other] == number) return
+        }
+    }
+
+    /**
+     * осуществление перемещений цифр внутри маленького квадрата, до попадания цифры condition в cell.
+     * для корректной работы нуль должени находиться внутри квадрата.
+     * квадрат строится вправо вниз от cell и имеет стороны a = 2
+     */
+    fun miniLoop(cell: Cell, condition: Int) {
+        0.search().nullMoving(Cell(cell.row, cell.column + 1))
+        while (matrix[cell] != condition) {
+            Cell(cell.row, cell.column + 1).moving(cell)
+            cell.moving(Cell(cell.row + 1, cell.column))
+            Cell(cell.row + 1, cell.column).moving(Cell(cell.row + 1, cell.column + 1))
+            Cell(cell.row + 1, cell.column + 1).moving(Cell(cell.row, cell.column + 1))
+        }
+    }
+    /**
+     * основная часть функции
+     * необходимо переместить клетки по своим местам согласно алгоритму решения задачи пятнашки
+     * необходимо уделить большее внимание функции way и её использованию, так как все цифры перемещаются в разные
+     * положения, а также не должны задевать при перемещении уже выстроенные цифры
+     */
+    if (matrix[Cell(0, 0)] != 1) 1.search().way(Cell(0, 0))
+
+    if (matrix[Cell(0, 1)] != 2) 2.search().way(Cell(0, 1))
+
+    if (matrix[Cell(0, 2)] != 3 && matrix[Cell(0, 3)] != 4) {
+        if (matrix[Cell(0, 3)] != 3) 3.search().way(Cell(0, 3))
+        4.search().way(Cell(0, 3))
+    }
+
+    if (matrix[1, 0] != 5) 5.search().way(Cell(1, 0))
+
+    if (matrix[Cell(1, 1)] != 6) {
+        6.search().way(Cell(1, 1))
+    }
+
+    if (matrix[Cell(1, 2)] != 7 && matrix[Cell(1, 3)] != 8) {
+        if (matrix[Cell(1, 3)] != 7) 7.search().way(Cell(1, 3))
+        if (matrix[Cell(2, 3)] != 8) 8.search().way(Cell(2, 3))
+
+        0.search().nullMoving(Cell(0.search().row, 2))
+        0.search().nullMoving(Cell(1, 2))
+        Cell(1, 2).moving(Cell(1, 3))
+        Cell(1, 3).moving(Cell(2, 3))
+    }
+
+    /***************************************************************************************************************
+     *
+     */
+
+    if (matrix[Cell(2, 0)] != 9 && matrix[Cell(3, 0)] != 13) {
+        if (matrix[Cell(2, 3)] != 9) 9.search().way(Cell(2, 3))
+        0.search().nullMoving(Cell(3, 2))
+        if (matrix[Cell(3, 3)] == 13) {
+            Cell(3, 2).moving(Cell(3, 3))
+            Cell(3, 3).moving(Cell(2, 3))
+            Cell(2, 3).moving(Cell(2, 2))
+            miniLoop(Cell(2, 1), 13)
+            miniLoop(Cell(2, 2), 9)
+        } else {
+            if (13.search().column == 0) {
+                0.search().nullMoving(Cell(13.search().row, 1))
+                Cell(13.search().row, 1).moving(13.search())
+                if (13.search().row == 3) {
+                    Cell(3, 0).nullMoving(Cell(2, 0))
+                    Cell(2, 0).nullMoving(Cell(2, 1))
+                } else Cell(2, 0).nullMoving(Cell(3, 1))
+            }
+            miniLoop(Cell(2, 1), 13)
+            Cell(2, 2).moving(Cell(2, 3))
+        }
+        Cell(2, 3).nullMoving(Cell(3, 0))
+        Cell(3, 0).moving(Cell(2, 0))
+        Cell(2, 0).nullMoving(Cell(2, 2))
+        Cell(2, 2).nullMoving(Cell(3, 0))
+        Cell(3, 0).moving(Cell(2, 0))
+        Cell(2, 0).moving(Cell(2, 1))
+    }
+
+
+    if (matrix[Cell(2, 1)] != 10 || matrix[Cell(3, 1)] != 14) {
+        if (matrix[Cell(2, 3)] != 10) 10.search().way(Cell(2, 3)) ///клон
+        0.search().nullMoving(Cell(3, 2))
+        if (matrix[Cell(3, 3)] == 14) {
+            Cell(3, 2).moving(Cell(3, 3))
+            Cell(3, 3).moving(Cell(2, 3))
+            Cell(2, 3).moving(Cell(2, 2))
+            miniLoop(Cell(2, 1), 14)
+            miniLoop(Cell(2, 2), 10)
+        } else {
+            miniLoop(Cell(2, 1), 14)
+            Cell(2, 2).moving(Cell(2, 3))
+        }
+        Cell(2, 3).nullMoving(Cell(3, 1))
+        Cell(3, 1).moving(Cell(2, 1))
+        Cell(2, 1).moving(Cell(2, 2))
+    }
+    miniLoop(Cell(2, 2), 11)
+    Cell(2, 3).moving(Cell(3, 3))
+    if (matrix[2, 3] != 12) {
+        if (matrix[Cell(2, 1)] != 10 || matrix[Cell(3, 1)] != 15) {    ///клон
+            if (matrix[Cell(2, 3)] != 10) 10.search().way(Cell(2, 3)) ///клон
+            0.search().nullMoving(Cell(3, 2))
+            if (matrix[Cell(3, 3)] == 15) {
+                Cell(3, 2).moving(Cell(3, 3))
+                Cell(3, 3).moving(Cell(2, 3))
+                Cell(2, 3).moving(Cell(2, 2))
+                miniLoop(Cell(2, 1), 15)
+                miniLoop(Cell(2, 2), 10)
+            } else {
+                println(matrix)
+                miniLoop(Cell(2, 1), 15)
+                Cell(2, 2).moving(Cell(2, 3))
+            }
+            Cell(2, 3).nullMoving(Cell(3, 1))
+            Cell(3, 1).moving(Cell(2, 1))
+            Cell(2, 1).moving(Cell(2, 2))
+        }
+        miniLoop(Cell(2, 2), 11)
+        Cell(2, 3).moving(Cell(3, 3))
+    }
+    return result
+}
+
+
+

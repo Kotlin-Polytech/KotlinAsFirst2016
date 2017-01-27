@@ -2,6 +2,7 @@
 
 package lesson7.task1
 
+import lesson8.task1.spaceConstructor
 /**
  * Ячейка матрицы: row = ряд, column = колонка
  */
@@ -73,14 +74,24 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
     override fun equals(other: Any?) = other is MatrixImpl<*> && height == other.height && width == other.width
             && list == other.list
 
-    override fun toString(): String {
+    override fun toString(): String { //+
         val sb = StringBuilder()
+        var max = -1
+        for (row in 0..height - 1)
+            for (column in 0..width - 1){
+                if (this[row,column].toString().length > max) max = this[row,column].toString().length
+            }
         for (row in 0..height-1){
-            sb.append("[")
-            for (column in 0..width-1) sb.append(this[row,column])
-            sb.append("]")
+            sb.append("*")
+            for (column in 0..width-1) {
+                sb.append(this[row,column])
+                val temp = spaceConstructor(max - this[row, column].toString().length + 1)
+                sb.append(temp)
+            }
+            sb.append("*")
+            sb.append("\r\n")
         }
-        return sb.toList().joinToString(separator = ",", prefix = "[", postfix = "]").split(",]").joinToString(separator = "]").split("[,").joinToString(separator = "[")
+        return sb.toString()
     }
 }
 

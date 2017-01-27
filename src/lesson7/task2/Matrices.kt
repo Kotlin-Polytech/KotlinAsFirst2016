@@ -435,7 +435,7 @@ fun fifteenGameMoves(matrix: Matrix<Int>, moves: List<Int>): Matrix<Int> {
         stepLoop@ for (i in -1..1) {
             for (j in -1..1) {
                 if (cursor.row + i != -1 && cursor.row + i != matrix.height && cursor.column + j != -1 && cursor.column + j != matrix.width
-                   && move == matrix[cursor.row + i, cursor.column + j] && abs(i + j) != 2) {
+                   && move == matrix[cursor.row + i, cursor.column + j] && abs(i + j) != 2 && abs(i + j) != 0) {
                     matrix[cursor] = move
                     cursor = Cell(cursor.row + i, cursor.column + j)
                     matrix[cursor] = 0
@@ -610,11 +610,9 @@ fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
         var temp = number.search()
 
         if (temp.row == other.row && other.column < temp.column){
-            println(matrix)
             Cell(3, 3).nullMoving(Cell(3, temp.column - 1))
             Cell(3, temp.column - 1).nullMoving(Cell(temp.row, temp.column - 1))
             while (matrix[other] != number){
-                println(matrix)/////////////////////////////////////////////////////////////////////////////////////
                 stepLeft(temp, Cell(temp.row, temp.column - 1))
                 temp = Cell(temp.row, temp.column - 1)
             }
@@ -643,7 +641,6 @@ fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
 
         if (this.row != other.row) {
             temp = number.search()
-            println(number) ////////////////////////////////////////////////////////////////////////////////////////////
             while (temp.row != other.row) {
                 step(temp, Cell(temp.row - 1, temp.column))
                 temp = Cell(temp.row - 1, temp.column)
@@ -774,7 +771,6 @@ fun fifteenGameSolution(matrix: Matrix<Int>): List<Int> {
                 miniLoop(Cell(2, 1), 15)
                 miniLoop(Cell(2, 2), 10)
             } else {
-                println(matrix)
                 miniLoop(Cell(2, 1), 15)
                 Cell(2, 2).moving(Cell(2, 3))
             }

@@ -101,6 +101,13 @@ class Tests {
     }
 
     @Test
+    fun stepDouble() {
+        assertEquals(1.0, stepDouble(5.0, 0))
+        assertEquals(10000.0, stepDouble(100.0, 2))
+        assertEquals(1024.0, stepDouble(2.0, 10))
+    }
+
+    @Test
     @Tag("Normal")
     fun polynom() {
         assertEquals(0.0, polynom(listOf(), 1000.0), 1e-5)
@@ -124,6 +131,7 @@ class Tests {
         assertEquals(listOf(2), factorize(2))
         assertEquals(listOf(3, 5, 5), factorize(75))
         assertEquals(listOf(2, 3, 3, 19), factorize(342))
+        assertEquals(listOf(2, 2, 2, 3, 3, 3, 3, 3, 251), factorize(487944))
     }
 
     @Test
@@ -132,6 +140,7 @@ class Tests {
         assertEquals("2", factorizeToString(2))
         assertEquals("3*5*5", factorizeToString(75))
         assertEquals("2*3*3*19", factorizeToString(342))
+        assertEquals("2*2*2*3*3*3*3*3*251", factorizeToString(487944))
     }
 
     @Test
@@ -141,6 +150,7 @@ class Tests {
         assertEquals(listOf(1, 2, 1, 0), convert(100, 4))
         assertEquals(listOf(1, 3, 12), convert(250, 14))
         assertEquals(listOf(2, 14, 12), convert(1000, 19))
+        assertEquals(listOf(0), convert(0, 3))
     }
 
     @Test
@@ -151,6 +161,14 @@ class Tests {
         assertEquals("13c", convertToString(250, 14))
         assertEquals("2ec", convertToString(1000, 19))
         assertEquals("z", convertToString(35, 36))
+        assertEquals("0", convertToString(0, 25))
+    }
+    @Test
+    fun step() {
+        assertEquals(1, step(8,0))
+        assertEquals(100, step(10,2))
+        assertEquals(1024, step(2,10))
+        assertEquals(81, step(9,2))
     }
 
     @Test
@@ -192,5 +210,8 @@ class Tests {
         assertEquals("двести тысяч два", russian(200002))
         assertEquals("девятьсот тысяч", russian(900000))
         assertEquals("двенадцать", russian(12))
+        assertEquals("девятьсот тридцать одна тысяча сто два", russian(931102))
+        assertEquals("триста двенадцать тысяч шестьсот семьдесят два", russian(312672))
+        assertEquals("восемьсот тринадцать тысяч сто девяносто пять", russian(813195))
     }
 }

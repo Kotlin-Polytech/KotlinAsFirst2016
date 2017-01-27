@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson8.task1
 
 import java.io.File
@@ -31,8 +32,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
                 if (word.length + currentLineLength >= lineLength) {
                     outputStream.newLine()
                     currentLineLength = 0
-                }
-                else {
+                } else {
                     outputStream.write(" ")
                     currentLineLength++
                 }
@@ -54,7 +54,19 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val map = mutableMapOf<String, Int>()
+    var j = 0
+    val fileText = File(inputName).readText().toLowerCase()
+    for (string in substrings) {
+        j = 0
+        if (string.toLowerCase() in fileText)
+            loop@ for (i in 0..fileText.length - string.length){
+                for (k in 0..string.length - 1) if (fileText[i + k] != string.toLowerCase()[k]) continue@loop
+                j++
+            }
+        map.put(string, j)
+    }
+    return map
 }
 
 
@@ -93,7 +105,17 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+    var maxLength = -1
+    val lines = File(inputName).readLines()
+    for (line in lines) if (line.trim().length > maxLength) maxLength = line.trim().length
+    val outputStream = File(outputName).bufferedWriter()
+    for (i in 0..lines.size - 1) {
+        val lineLength = lines[i].trim().length
+        for (j in 1..(maxLength - lineLength) / 2) outputStream.write(" ")
+        outputStream.write(lines[i].trim())
+        if (i != lines.size - 1) outputStream.newLine()
+    }
+    outputStream.close()
 }
 
 /**
@@ -240,8 +262,39 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
+fun markdownToHtmlSimpleConstructor(lines: List<String>):String {
+    val keys = listOf(Triple("**", "<b>", "</b>"), Triple("*", "<i>", "</i>"),Triple("~~", "<s>", "</s>"))
+    var text = lines.joinToString(separator = "\n").split("\n\n").joinToString(separator = "</p><p>")
+    for (key in keys) {
+        val temp = text.split(key.first).toMutableList()
+        if (temp.size == 1) continue
+        if (temp.size % 2 == 0) {
+            temp[temp.size - 2] += key.first + temp[temp.size - 1]
+            temp.removeAt(temp.size - 1)
+        }
+        val sb = StringBuilder()
+        var k = true
+        for (i in 0..temp.size - 2) {
+            if (k) {
+                sb.append((listOf(temp[i], temp[i + 1])).joinToString(separator = key.second))
+                k = false
+            } else {
+                sb.append(key.third)
+                k = true
+            }
+        }
+        sb.append(temp[temp.size - 1])
+        text = sb.toString()
+    }
+    return text
+}
+
 fun markdownToHtmlSimple(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines()
+    val text = markdownToHtmlSimpleConstructor(lines)
+    val outputStream = File(outputName).bufferedWriter()
+    outputStream.write("<html><body><p>$text</p></body></html>")
+    outputStream.close()
 }
 
 /**
@@ -337,8 +390,41 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
  */
+fun markdownToHtmlListsConstructor (lines: List<String>, index: Int): String{
+    val sb = StringBuilder()
+    if (lines[0][index] == '*') sb.append("<ul>")
+    if (lines[0][index] in '1'..'9') sb.append("<ol>")
+    var label = true
+    for (i in 0..lines.size - 1){
+        val temp = lines[i].filter {it !in "123456890. "}
+        if (lines[i][index] != ' '){
+            label = true
+            sb.append("<li>$temp")
+            if (i == lines.size - 1 || lines[i + 1][index] != ' ') sb.append("</li>")
+        }
+        if (lines[i][index] == ' ' && label) {
+            val list = mutableListOf(lines[i])
+            var k = i + 1
+            while (k <= lines.size - 1 && lines[k][index] == ' ') {
+                list.add(lines[k])
+                k++
+            }
+            label = false
+            sb.append(markdownToHtmlListsConstructor(list, index + 4))
+            sb.append("</li>")
+        }
+    }
+    if (lines[0][index] == '*') sb.append("</ul>")
+    if (lines[0][index] in '1'..'9') sb.append("</ol>")
+    return sb.toString().split("<li>*").joinToString(separator = "<li>")
+}
+
 fun markdownToHtmlLists(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines()
+    val outputStream = File(outputName).bufferedWriter()
+    val text = markdownToHtmlListsConstructor(lines, 0)
+    outputStream.write("<html><body>$text</body></html>")
+    outputStream.close()
 }
 
 /**
@@ -350,7 +436,48 @@ fun markdownToHtmlLists(inputName: String, outputName: String) {
  *
  */
 fun markdownToHtml(inputName: String, outputName: String) {
-    TODO()
+    val lines = File(inputName).readLines()
+    val outputStream = File(outputName).bufferedWriter()
+    outputStream.write("<html><body>")
+    var labelLists = true
+    var labelSimple = true
+    for (i in 0..lines.size - 1){
+        when{
+            lines[i].isEmpty() && i != lines.size - 1-> {
+                outputStream.newLine()
+                labelLists = true
+                labelSimple = true
+            }
+            lines[i].trim()[0] != '*' && lines[i].trim()[0] !in '1'..'9' && labelSimple-> {
+                labelSimple = false
+                labelLists = true
+                val list = mutableListOf(lines[i])
+                var k = i + 1
+                while (k <= lines.size - 1 && lines[k].isNotEmpty() &&
+                        (lines[k][0] != '*' && lines[k][0] !in '1'..'9')) {
+                    list.add(lines[k])
+                    k++
+                }
+                outputStream.write("<p>")
+                outputStream.write(markdownToHtmlSimpleConstructor(list))
+                outputStream.write("</p>")
+            }
+            (lines[i][0] == '*' || lines[i][0] in '1'..'9') && labelLists -> {
+                labelLists = false
+                labelSimple = true
+                val list = mutableListOf(lines[i])
+                var k = i + 1
+                while (k <= lines.size - 1 && lines[k].isNotEmpty() && (lines[k][0] in "* " || lines[k][0] in '0'..'9')) {
+                    list.add(lines[k])
+                    k++
+                }
+                outputStream.write(markdownToHtmlListsConstructor(list, 0))
+                if (k != lines.size - 1) outputStream.newLine()
+            }
+        }
+    }
+    outputStream.write("</body></html>")
+    outputStream.close()
 }
 
 /**
@@ -378,8 +505,44 @@ fun markdownToHtml(inputName: String, outputName: String) {
  2350
  *
  */
+fun spaceConstructor(number: Int): String{
+    val sb = StringBuilder()
+    for (i in 1..number){
+        sb.append(" ")
+    }
+    return sb.toString()
+}
+fun lineConstructor(number: Int): String{
+    val sb = StringBuilder()
+    for (i in 1..number){
+        sb.append("-")
+    }
+    return sb.toString()
+}
+
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
-    TODO()
+    val length = (lhv * rhv).toString().length + 1
+    val outputStream = File(outputName).bufferedWriter()
+    val rhvString = rhv.toString()
+    outputStream.write(spaceConstructor(length - lhv.toString().length))
+    outputStream.write("$lhv\n*")
+    outputStream.write(spaceConstructor(length - 1 - rhvString.length))
+    outputStream.write("$rhv\n")
+    outputStream.write(lineConstructor(length))
+    outputStream.newLine()
+    var k = 1
+    for (i in rhvString.length - 1 downTo 0){
+        if (i == rhvString.length - 1)outputStream.write(" ") else outputStream.write("+")
+        outputStream.write(spaceConstructor(length - k - (lhv * rhvString[i].toString().toInt()).toString().length))
+        outputStream.write((lhv * rhvString[i].toString().toInt()).toString())
+        outputStream.newLine()
+        k++
+    }
+    outputStream.write(lineConstructor(length))
+    outputStream.newLine()
+    outputStream.write(" ")
+    outputStream.write((lhv * rhv).toString())
+    outputStream.close()
 }
 
 

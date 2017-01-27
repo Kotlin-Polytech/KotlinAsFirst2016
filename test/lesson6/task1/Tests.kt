@@ -89,6 +89,8 @@ class Tests {
         assertEquals(Line(Point(0.0, 0.0), 0.0), lineBySegment(Segment(Point(0.0, 0.0), Point(7.0, 0.0))))
         assertEquals(Line(Point(0.0, 0.0), Math.PI / 2), lineBySegment(Segment(Point(0.0, 0.0), Point(0.0, 8.0))))
         assertEquals(Line(Point(1.0, 1.0), Math.PI / 4), lineBySegment(Segment(Point(1.0, 1.0), Point(3.0, 3.0))))
+        assertEquals(Line(Point(-999.9763418307268, -999.0036779069227), 2.4251824715625756),
+                lineBySegment(Segment(Point(-999.9763418307268, -999.0036779069227), Point(-999.0992344225273, -999.7674073666238))))
     }
 
     @Test
@@ -102,6 +104,9 @@ class Tests {
     fun bisectorByPoints() {
         assertEquals(Line(Point(2.0, 0.0), Math.PI / 2), bisectorByPoints(Point(0.0, 0.0), Point(4.0, 0.0)))
         assertEquals(Line(Point(1.0, 2.0), 0.0), bisectorByPoints(Point(1.0, 5.0), Point(1.0, -1.0)))
+        assertEquals(Line(Point(0.0, 1.0), 0.0), bisectorByPoints(Point(0.0, 0.0), Point(0.0, 2.0)))
+        assertEquals( Line(Point(-999.9001358205003, -999.3475355087663), 0.2960392013167721),
+                bisectorByPoints(Point(-1000.0,- 999.0201138313881), Point(-999.8002716410006, - 999.6749571861445)))
     }
 
     @Test
@@ -113,8 +118,6 @@ class Tests {
         val c4 = Circle(Point(0.0, 7.0), 3.0)
         val c5 = Circle(Point(0.0, -6.0), 4.0)
         assertEquals(Pair(c1, c5), findNearestCirclePair(c1, c3, c4, c5))
-        assertEquals(Pair(c2, c4), findNearestCirclePair(c2, c4, c5))
-        assertEquals(Pair(c1, c2), findNearestCirclePair(c1, c2, c4, c5))
     }
 
     @Test
@@ -135,8 +138,9 @@ class Tests {
         val p5 = Point(-3.0, -2.0)
         val p6 = Point(0.0, 5.0)
         val result = minContainingCircle(p1, p2, p3, p4, p5, p6)
+        assertEquals(2.5, minContainingCircle(p1, Point(3.0, 4.0)).radius , 0.02)
         assertEquals(4.0, result.radius, 0.02)
-        for (p in listOf(p1, p2, p3, p4, p5, p6)) {
+        for (p in listOf(p1, p2, p3, p4, p5, p6))  {
             assertTrue(result.contains(p))
         }
     }

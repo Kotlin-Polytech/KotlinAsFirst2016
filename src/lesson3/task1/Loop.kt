@@ -220,15 +220,14 @@ fun cos(x: Double, eps: Double): Double {
  * Не использовать строки при решении задачи.
  */
 fun revert(n: Int): Int {
-    var number = n
-    var results = 0
-    while (number != 0) {
-        results = (results + number % 10) * 10
-        number = number / 10
+    var numb = 0
+    var m = n
+    while (m > 0) {
+        val digit = m % 10
+        numb = 10 * numb + digit
+        m = m / 10
     }
-    results = results / 10
-    return results
-
+    return numb
 }
 
 /**

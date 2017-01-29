@@ -54,20 +54,11 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    var oneString = ""
-    substrings.toMutableList()
-    val result = mutableMapOf<String, Int>()
-    for (line in File(inputName).readLines())
-        oneString += line + "\n"
-    oneString = oneString.toLowerCase()
-    substrings.forEach { i ->
-        result[i] = 0
-        (0..oneString.length - i.length)
-                .filter { oneString.substring(it, it + i.length) == i.toLowerCase() }
-                .forEach { result[i] = result[i]!! + 1 }
-    }
-    return result
+   TODO()
 }
+
+
+
 
 
 
@@ -87,28 +78,7 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    val inputText = File(inputName).bufferedReader()
-    val outputFile = File(outputName).writer()
-
-    var lastChar = '\n'
-
-    for (char in inputText.readText()) {
-        if (char in "ЫЯЮыюя" && lastChar in "ЖЧШЩжчшщ") {
-            when (char) {
-                'Ы' -> outputFile.append('И')
-                'Я' -> outputFile.append('А')
-                'Ю' -> outputFile.append('У')
-                'ы' -> outputFile.append('и')
-                'я' -> outputFile.append('а')
-                'ю' -> outputFile.append('у')
-            }
-        }
-        else outputFile.append(char)
-        lastChar = char
-    }
-
-    outputFile.close()
-
+    TODO()
 
 }
 
@@ -130,20 +100,9 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun  centerFile(inputName: String, outputName: String) {
-    var input5 = listOf<String>()
-    var maxLength = 0
-    val outputStream = File(outputName).bufferedWriter()
-    for (line in File(inputName).readLines()) {
-        input5 += line.trim()
-        if (line.trim().length >= maxLength) maxLength = line.length
-    }
-    for (line in input5) {
-        for (i in 0..(maxLength - line.length) / 2 - 1)
-            outputStream.write(" ")
-        outputStream.write("$line\n")
-    }
-    outputStream.close()
+    TODO()
 }
+
 
 
 /**
@@ -186,8 +145,11 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+    val text = File(inputName).readText().toLowerCase()
+    val wordMap = Regex("[a-zа-яё]+").findAll(text).map { it.value }.groupBy { it }.map { it -> it.value.size to it.key }
+    return wordMap.sortedByDescending { it.first }.subList(0, 20).map { it -> it.second to it.first }.toMap()
 }
+
 
 /**
  * Средняя
@@ -244,8 +206,21 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    val words = File(inputName).readLines().sortedByDescending { it.length }
+    val maxLength = words[0].length
+    val list = mutableListOf<String>()
+    for (word in words) {
+        println(word)
+        val lower = word.toLowerCase()
+        if (word.length < maxLength) break
+        if (lower.split("").sorted().takeLast(word.length).groupBy { it }.size == word.length)
+            list.add(word)
+    }
+    val writer = File(outputName).writer()
+    writer.write(list.joinToString (separator=", "))
+    writer.close()
 }
+
 
 /**
  * Сложная
@@ -412,7 +387,7 @@ fun markdownToHtml(inputName: String, outputName: String) {
  *    111
 --------
 19935
-+ 19935
++19935
 +19935
 --------
 2212785

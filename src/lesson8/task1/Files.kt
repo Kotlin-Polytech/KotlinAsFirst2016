@@ -92,7 +92,8 @@ fun sibilants(inputName: String, outputName: String) {
     for (line in text) {
         val newLine = line.mapIndexed { i, c -> if (i > 0 && glasnie.containsKey(c) && soglasnie.contains(line[i - 1])) glasnie[c]!! else c }
         writer.write(newLine.joinToString(separator = ""))
-        writer.newLine()
+        if (text.last() != line)
+            writer.newLine()
     }
     writer.close()
 }

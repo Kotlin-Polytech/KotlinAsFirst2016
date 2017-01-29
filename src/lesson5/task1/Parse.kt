@@ -18,7 +18,7 @@ fun timeStrToSeconds(str: String): Int {
     return result
 }
 
-fun twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
+fun    twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
 
 /**
  * Пример
@@ -115,20 +115,21 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
+
 fun flattenPhoneNumber(phone: String): String {
 
-    var n = mutableListOf<String>()
-    if (phone[0] == '+') n.add("+")
+    var num = mutableListOf<String>()
+    if (phone[0] == '+') num.add("+")
     val x = phone.split(" ", "-", "(", ")", "+", "")
     val c = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "")
     for (element in x) {
-        if (element in c) n.add(element)
+        if (element in c) num.add(element)
         else {
-            n = mutableListOf("")
+            num = mutableListOf("")
             break
         }
     }
-    return n.joinToString(separator = "")
+    return num.joinToString(separator = "")
 
 }
 
@@ -144,8 +145,9 @@ fun flattenPhoneNumber(phone: String): String {
  */
 fun bestLongJump(jumps: String): Int {
     var x = -1
-    val t: String
+    var t: String
     var u: Int
+
     try {
         if (jumps.matches(Regex("[-% 0-9]"))) {
             t = jumps.replace(Regex("[-%]"), "")

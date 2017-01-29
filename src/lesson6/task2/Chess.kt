@@ -2,8 +2,6 @@
 
 package lesson6.task2
 
-import java.util.*
-
 /**
  * Клетка шахматной доски. Шахматная доска квадратная и имеет 8 х 8 клеток.
  * Поэтому, обе координаты клетки (горизонталь row, вертикаль column) могут находиться в пределах от 1 до 8.
@@ -123,17 +121,18 @@ fun rookTrajectory(start: Square, end: Square): List<Square> {
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
 fun bishopMoveNumber(start: Square, end: Square): Int {
-    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
-    else {
+    if ((start.column in 1..8) && (start.row in 1..8) && (end.column in 1..8) && (end.row in 1..8)) {
+        var index = 10
+        when {
+            (start == end) -> index = 0
+            (Math.abs(start.column - end.column) == (Math.abs(start.row - end.row))) -> index = 1
+            (start.column + start.row) % 2 != (end.column + end.row) % 2 -> index = -1
+            else -> index = 2
 
-        return when {
-            start == end -> 0
-            (start.column + start.row + end.column + end.row) % 2 == 1 -> -1
-            (start.column + start.row + end.column + end.row) % 2 == 0
-                    && Math.abs((start.column - end.column) / (start.row - end.row)) == 1 -> 1
-            else -> 2
         }
-    }
+        return index
+    } else throw IllegalAccessException()
+
 }
 
 /**
@@ -160,7 +159,7 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> {
     if (moveNumb == -1) return listOf()
     if (moveNumb == 0) return list
     val column1 = (start.row - end.row + start.column + end.column) / 2
-    val row1 = (start.column -end.column + start.row + end.row) / 2
+    val row1 = (start.column - end.column + start.row + end.row) / 2
     val column2 = (start.column + end.column + end.row - start.row) / 2
     val row2 = (end.column - start.column + start.row + end.row) / 2
     if (moveNumb == 2) {
@@ -217,13 +216,13 @@ fun kingTrajectory(start: Square, end: Square): List<Square> {
     var squar = start
     while (squar != end) {
         squar = when {
-            squar.row < end.row && squar.column <end.column -> Square(squar.column + 1, squar.row + 1) //
+            squar.row < end.row && squar.column < end.column -> Square(squar.column + 1, squar.row + 1) //
             squar.row == end.row && squar.column < end.column -> Square(squar.column + 1, squar.row)
-            squar.row < end.row && squar.column > end.column -> Square(squar.column -1, squar.row + 1) //
-            squar.row == end.row && squar.column > end.column -> Square(squar.column -1, squar.row)
-            squar.row > end.row && squar.column < end.column -> Square(squar.column +1, squar.row -1)
-            squar.row > end.row && squar.column >end.column -> Square(squar.column - 1, squar.row -1)
-            squar.row > end.row && squar.column == end.column -> Square(squar.column, squar.row -1)
+            squar.row < end.row && squar.column > end.column -> Square(squar.column - 1, squar.row + 1) //
+            squar.row == end.row && squar.column > end.column -> Square(squar.column - 1, squar.row)
+            squar.row > end.row && squar.column < end.column -> Square(squar.column + 1, squar.row - 1)
+            squar.row > end.row && squar.column > end.column -> Square(squar.column - 1, squar.row - 1)
+            squar.row > end.row && squar.column == end.column -> Square(squar.column, squar.row - 1)
             else -> Square(squar.column, squar.row + 1)
         }
         result.add(squar)
@@ -271,7 +270,7 @@ fun knightMoveNumber(start: Square, end: Square): Int {
             val curX = element.column
             val curY = element.row
 
-            for (i in 0..signX.size-1) {
+            for (i in 0..signX.size - 1) {
                 val curSq = Square(curX + signX[i], curY + signY[i])
                 if (curSq == end) log = false
                 if (curSq.inside() && curSq !in allList) {
@@ -285,7 +284,7 @@ fun knightMoveNumber(start: Square, end: Square): Int {
     }
 
     return turnNum
-    }
+}
 
 /**
  * Очень сложная

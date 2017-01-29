@@ -147,7 +147,10 @@ fun alignFileByWidth(inputName: String, outputName: String) {
 fun top20Words(inputName: String): Map<String, Int> {
     val text = File(inputName).readText().toLowerCase()
     val wordMap = Regex("[a-zа-яё]+").findAll(text).map { it.value }.groupBy { it }.map { it -> it.value.size to it.key }
-    return wordMap.sortedByDescending { it.first }.subList(0, 20).map { it -> it.second to it.first }.toMap()
+    if (wordMap.size >= 20)
+        return wordMap.sortedByDescending { it.first }.subList(0, 20).map { it -> it.second to it.first }.toMap()
+    else
+        return wordMap.sortedByDescending { it.first }.map { it -> it.second to it.first }.toMap()
 }
 
 
@@ -207,10 +210,10 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val words = File(inputName).readLines().sortedByDescending { it.length }
+    if (words.isEmpty()) return
     val maxLength = words[0].length
     val list = mutableListOf<String>()
     for (word in words) {
-        println(word)
         val lower = word.toLowerCase()
         if (word.length < maxLength) break
         if (lower.split("").sorted().takeLast(word.length).groupBy { it }.size == word.length)

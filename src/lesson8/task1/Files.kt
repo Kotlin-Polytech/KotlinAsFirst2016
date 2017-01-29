@@ -211,13 +211,14 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val words = File(inputName).readLines().sortedByDescending { it.length }
     if (words.isEmpty()) return
-    val maxLength = words[0].length
+    var maxLength = words[0].length
     val list = mutableListOf<String>()
     for (word in words) {
         val lower = word.toLowerCase()
         if (word.length < maxLength && list.isNotEmpty()) break
         if (lower.split("").sorted().takeLast(word.length).groupBy { it }.size == word.length)
             list.add(word)
+        maxLength = word.length
     }
     val writer = File(outputName).writer()
     writer.write(list.joinToString (separator=", "))

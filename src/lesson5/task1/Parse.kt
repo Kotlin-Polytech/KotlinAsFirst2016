@@ -18,7 +18,7 @@ fun timeStrToSeconds(str: String): Int {
     return result
 }
 
-fun    twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
+fun twoDigitStr(n: Int) = if (n in 0..9) "0$n" else "$n"
 
 /**
  * Пример
@@ -117,19 +117,11 @@ fun dateDigitToStr(digital: String): String {
  */
 
 fun flattenPhoneNumber(phone: String): String {
-
-    var num = mutableListOf<String>()
-    if (phone[0] == '+') num.add("+")
-    val x = phone.split(" ", "-", "(", ")", "+", "")
-    val c = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "")
-    for (element in x) {
-        if (element in c) num.add(element)
-        else {
-            num = mutableListOf("")
-            break
-        }
-    }
-    return num.joinToString(separator = "")
+    var x = ""
+    for (k in phone)
+        if ((k.toInt() < 58) and (k.toInt() > 47) or (k.toInt() == 43)) x += k
+        else if ((k != '(') and (k != ')') and (k != ' ') and (k != '-')) return ""
+    return x
 
 }
 
@@ -144,26 +136,19 @@ fun flattenPhoneNumber(phone: String): String {
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
 fun bestLongJump(jumps: String): Int {
-    var x = -1
-    var t: String
-    var u: Int
-
-    try {
-        if (jumps.matches(Regex("[-% 0-9]"))) {
-            t = jumps.replace(Regex("[-%]"), "")
-            val y = t.split(" ").toMutableList()
-            y.remove("")
-            for (element in y) {
-                u = element.toInt()
-                if (u > x) x = u
-
-            }
+    var x = jumps.split(" ")
+    var cur = 0
+    var maxium = -1
+    for (k in x) {
+        try {
+            cur = k.toInt()
+            if (cur > maxium) maxium = cur
+        } catch (e: NumberFormatException) {
+            if ((k != "%") and (k != "-")) return -1
         }
-    } catch (e: NumberFormatException) {
-        return -1
     }
 
-    return x
+    return maxium
 }
 
 

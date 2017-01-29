@@ -95,4 +95,10 @@ class Tests {
         assertEquals(874, numberRevert(478))
         assertEquals(201, numberRevert(102))
     }
+
+    @Test
+    fun myFun() {
+        assertEquals(listOf("Егор -> #f5f5f6"), myFun(listOf("Илья #cococo", "Егор #f5f5f6", "Игорь #cococo")))
+        assertEquals(listOf("Илья -> #cococo"), myFun(listOf("Илья #cococo")))
+    }
 }

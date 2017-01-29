@@ -54,8 +54,21 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  *
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
-    TODO()
+    val text = File(inputName).readText().toLowerCase()
+    val substrs = mutableMapOf<String, Int>()
+    for (substring in substrings) {
+        val count = (text.length - text.replace(substring.toLowerCase(), "").length) / substring.length
+        substrs.put(substring, count)
+    }
+    return substrs
 }
+
+
+
+
+
+
+
 
 
 /**
@@ -72,8 +85,21 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val text = File(inputName).readLines()
+    val writer = File(outputName).bufferedWriter()
+    val soglasnie = listOf('ж', 'Ж', 'ш', 'Ш', 'ч', 'Ч', 'щ', 'Щ')
+    val glasnie = mapOf('ы' to 'и', 'Ы' to 'И', 'ю' to 'у', 'Ю' to 'У', 'я' to 'а', 'Я' to 'А')
+    val str = StringBuilder()
+    for (line in text) {
+        val newLine = line.mapIndexed { i, c -> if (i > 0 && glasnie.containsKey(c) && soglasnie.contains(line[i - 1])) glasnie[c]!! else c }
+        str.appendln(newLine.joinToString(separator = ""))
+
+    }
+    writer.write(str.toString())
+    writer.close()
 }
+
+
 
 /**
  * Средняя
@@ -92,9 +118,12 @@ fun sibilants(inputName: String, outputName: String) {
  * 4) Число строк в выходном файле должно быть равно числу строк во входном (в т. ч. пустых)
  *
  */
-fun centerFile(inputName: String, outputName: String) {
+fun  centerFile(inputName: String, outputName: String) {
     TODO()
 }
+
+
+
 
 /**
  * Сложная
@@ -136,8 +165,14 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+    val text = File(inputName).readText().toLowerCase()
+    val wordMap = Regex("[a-zа-яё]+").findAll(text).map { it.value }.groupBy { it }.map { it -> it.value.size to it.key }
+    if (wordMap.size >= 20)
+        return wordMap.sortedByDescending { it.first }.subList(0, 20).map { it -> it.second to it.first }.toMap()
+    else
+        return wordMap.sortedByDescending { it.first }.map { it -> it.second to it.first }.toMap()
 }
+
 
 /**
  * Средняя
@@ -194,8 +229,23 @@ fun transliterate(inputName: String, dictionary: Map<Char, String>, outputName: 
  * Обратите внимание: данная функция не имеет возвращаемого значения
  */
 fun chooseLongestChaoticWord(inputName: String, outputName: String) {
-    TODO()
+    if (!File(inputName).exists() || !File(outputName).exists()) return
+    val words = File(inputName).readLines().sortedByDescending { it.length }
+    if (words.isEmpty()) return
+    var maxLength = words[0].length
+    val list = mutableListOf<String>()
+    for (word in words) {
+        val lower = word.toLowerCase()
+        if (word.length < maxLength && list.isNotEmpty()) break
+        if (lower.split("").sorted().takeLast(word.length).groupBy { it }.size == word.length)
+            list.add(word)
+        maxLength = word.length
+    }
+    val writer = File(outputName).writer()
+    writer.write(list.joinToString (separator=", "))
+    writer.close()
 }
+
 
 /**
  * Сложная
@@ -352,30 +402,29 @@ fun markdownToHtmlLists(inputName: String, outputName: String) {
 fun markdownToHtml(inputName: String, outputName: String) {
     TODO()
 }
-
 /**
  * Средняя
  *
  * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 111):
-   19935
-*    111
+19935
+ *    111
 --------
-   19935
-+ 19935
+19935
++19935
 +19935
 --------
- 2212785
+2212785
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  * Нули в множителе обрабатывать так же, как и остальные цифры:
-  235
-*  10
+235
+ *  10
 -----
-    0
+0
 +235
 -----
- 2350
+2350
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
@@ -389,16 +438,16 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Вывести в выходной файл процесс деления столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 22):
-  19935 | 22
- -198     906
- ----
-    13
-    -0
-    --
-    135
-   -132
-   ----
-      3
+19935 | 22
+-198     906
+----
+13
+-0
+--
+135
+-132
+----
+3
 
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *
@@ -406,4 +455,10 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
 fun printDivisionProcess(lhv: Int, rhv: Int, outputName: String) {
     TODO()
 }
+//test
+
+
+
+
+
 

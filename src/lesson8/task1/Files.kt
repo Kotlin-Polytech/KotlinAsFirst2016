@@ -89,12 +89,13 @@ fun sibilants(inputName: String, outputName: String) {
     val writer = File(outputName).bufferedWriter()
     val soglasnie = listOf('ж', 'Ж', 'ш', 'Ш', 'ч', 'Ч', 'щ', 'Щ')
     val glasnie = mapOf('ы' to 'и', 'Ы' to 'И', 'ю' to 'у', 'Ю' to 'У', 'я' to 'а', 'Я' to 'А')
+    val str = StringBuilder()
     for (line in text) {
         val newLine = line.mapIndexed { i, c -> if (i > 0 && glasnie.containsKey(c) && soglasnie.contains(line[i - 1])) glasnie[c]!! else c }
-        writer.write(newLine.joinToString(separator = ""))
-        if (text.last() != line)
-            writer.newLine()
+        str.appendln(newLine.joinToString(separator = ""))
+
     }
+    writer.write(str.toString())
     writer.close()
 }
 

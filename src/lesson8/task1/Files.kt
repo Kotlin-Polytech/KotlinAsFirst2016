@@ -215,7 +215,7 @@ fun chooseLongestChaoticWord(inputName: String, outputName: String) {
     val list = mutableListOf<String>()
     for (word in words) {
         val lower = word.toLowerCase()
-        if (word.length < maxLength) break
+        if (word.length < maxLength && list.isNotEmpty()) break
         if (lower.split("").sorted().takeLast(word.length).groupBy { it }.size == word.length)
             list.add(word)
     }

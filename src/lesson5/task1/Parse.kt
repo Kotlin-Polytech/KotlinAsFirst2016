@@ -115,15 +115,32 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-
 fun flattenPhoneNumber(phone: String): String {
-    var x = ""
-    for (k in phone)
-        if ((k.toInt() < 58) and (k.toInt() > 47) or (k.toInt() == 43)) x += k
-        else if ((k != '(') and (k != ')') and (k != ' ') and (k != '-')) return ""
-    return x
+    var x = 0
+    val result = phone.filter { (it in '0'..'9') || (it == '+') }
+    if (phone.isEmpty())
+        return ""
+    for (char in phone) {
+        if ((char != '(')
+                && (char != ')')
+                && (char != '-')
+                && (char != ' ')
+                && (char != '+')
+                && (char !in '0'..'9'))
+            return ""
+    }
+    if (result[0] == '+')
+        x = 1
+    else
+        x = 0
+    for (i in x..result.length - 1)
+        if (result[i] !in '0'..'9') return ""
+
+    return result
 
 }
+
+
 
 /**
  * Средняя

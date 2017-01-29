@@ -85,9 +85,19 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
-
+    val text = File(inputName).readLines()
+    val writer = File(outputName).bufferedWriter()
+    val soglasnie = listOf('ж', 'Ж', 'ш', 'Ш', 'ч', 'Ч', 'щ', 'Щ')
+    val glasnie = mapOf('ы' to 'и', 'Ы' to 'И', 'ю' to 'у', 'Ю' to 'У', 'я' to 'а', 'Я' to 'А')
+    for (line in text) {
+        val newLine = line.mapIndexed { i, c -> if (i > 0 && glasnie.containsKey(c) && soglasnie.contains(line[i - 1])) glasnie[c]!! else c }
+        writer.write(newLine.joinToString(separator = ""))
+        writer.newLine()
+    }
+    writer.close()
 }
+
+
 
 /**
  * Средняя

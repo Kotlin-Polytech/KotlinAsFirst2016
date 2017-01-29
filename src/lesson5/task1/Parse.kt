@@ -166,6 +166,7 @@ fun bestLongJump(jumps: String): Int {
     return x
 }
 
+
 /**
  * Сложная
  *

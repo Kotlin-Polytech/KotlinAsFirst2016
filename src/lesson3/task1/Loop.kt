@@ -177,7 +177,13 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean {
+    when {
+        n % 10 != n / 10 % 10 && n / 10 != 0 -> return true
+        n / 10 == 0 -> return false
+        else -> return hasDifferentDigits(n / 10)
+    }
+}
 
 /**
  * Сложная

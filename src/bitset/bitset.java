@@ -1,4 +1,4 @@
-package lesson1;
+package bitset;
 
 /**
  * Created by Илья on 09.02.2017.

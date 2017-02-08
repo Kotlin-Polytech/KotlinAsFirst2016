@@ -1,5 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
+
 
 /**
  * Пример
@@ -42,12 +44,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,7 +60,21 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+val monthStr = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+
+fun dateStrToDigit(str: String): String {
+    try {
+        val parts = str.split(" ")
+        if (parts.size != 3) return ""
+        val day = parts[0].toInt()
+        val month = monthStr.indexOf(parts[1])
+        val year = parts[2].toInt()
+        if (month == -1 || day !in 1..31) return ""
+        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.$year"
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -69,7 +83,20 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    try {
+        val parts = digital.split(".")
+        if (parts.size != 3) return ""
+        val day = parts[0].toInt()
+        val month = parts[1].toInt()
+        val year = parts[2].toInt()
+        if (month !in 1..12 || day !in 1..31) return ""
+        return "$day ${monthStr[month - 1]} $year"
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+}
+
 
 /**
  * Сложная
@@ -83,7 +110,14 @@ fun dateDigitToStr(digital: String): String = TODO()
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    if (phone.any { it !in "+0123456789-() " } || phone == "") return ""
+    val correct = phone.filter { it in "+0123456789" }
+    return when {
+        (correct.indexOf('+', 1) == -1 && ((phone.first() == '+' && phone.length > 1) || (phone.first() != '+' && phone.length > 0))) -> correct
+        else -> ""
+    }
+}
 
 /**
  * Средняя

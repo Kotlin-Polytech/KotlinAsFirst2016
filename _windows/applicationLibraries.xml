@@ -1,12 +1,10 @@
 <application>
   <component name="libraryTable">
-    <library name="KotlinAsFirst2016">
-      <CLASSES>
-        <root url="file://$USER_HOME$/Desktop/kotlin/KotlinAsFirst2016" />
-      </CLASSES>
+    <library name="src">
+      <CLASSES />
       <JAVADOC />
       <SOURCES>
-        <root url="file://$USER_HOME$/Desktop/kotlin/KotlinAsFirst2016" />
+        <root url="file://$USER_HOME$/OneDrive/Учеба/Информатика/java/java/src" />
       </SOURCES>
     </library>
   </component>

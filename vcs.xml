@@ -14,6 +14,10 @@
           <option name="url" value="git@github.com:Kazachenko1998/java.git" />
           <option name="userName" value="" />
         </UrlAndUserName>
+        <UrlAndUserName>
+          <option name="url" value="https://github.com/Kazachenko1998/java.git" />
+          <option name="userName" value="" />
+        </UrlAndUserName>
       </list>
     </option>
     <option name="cloneParentDir" value="C:\Users\MAK\OneDrive\Учеба\Информатика\java" />

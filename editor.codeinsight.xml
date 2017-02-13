@@ -1,5 +1,7 @@
 <application>
   <component name="CodeInsightSettings">
+    <option name="USE_INSTANCEOF_ON_EQUALS_PARAMETER" value="true" />
+    <option name="USE_ACCESSORS_IN_EQUALS_HASHCODE" value="true" />
     <EXCLUDED_PACKAGE NAME="java.awt.List" />
     <EXCLUDED_PACKAGE NAME="java.util.List" />
   </component>

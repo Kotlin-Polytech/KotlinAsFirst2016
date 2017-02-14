@@ -1,7 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import java.lang.Math.*
 
 /**
  * Пример
@@ -104,11 +106,13 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>):  Double {
-    var sqr = 0.0
-    if (v.isNotEmpty()) {
-    for (element in v) sqr += element * element
-    return Math.abs.sqrt(sqr)
+fun abs(v: List<Double>): Double {
+    var x = 0.0
+    for (element in v) {
+        x += pow(element, 2.0)
+    }
+    val t = Math.sqrt(x * 1.0)
+    return t
 }
 
 /**
@@ -116,26 +120,31 @@ fun abs(v: List<Double>):  Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double  {
-    if (list.isNotEmpty()) return list.sum() / list.size
-    else return 0.0
+fun mean(list: List<Double>): Double {
+    if (list.isEmpty()) return 0.0
+    else {
+        val t = list.sum() / list.size * 1.0
+        return t
+    }
 }
 
 /**
  * Средняя
-
- * Центрирова*ть заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
+ *
+ * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
-    if (list.isNotEmpty()) {
-        val mean = mean(list)
-        for (i in 0..list.size - 1) {
-            val element = list[i]
-            list[i] = element - mean
+    if (list.isEmpty()) return mutableListOf()
+    else {
+        var m=0
+        val x=list.sum() / list.size
+        while (m in 0..list.size-1) {
+            list[m]-=x
+            m++
         }
         return list
-    } else return list
+    }
 }
 
 /**
@@ -147,14 +156,10 @@ fun center(list: MutableList<Double>): MutableList<Double> {
  */
 fun times(a: List<Double>, b: List<Double>): Double {
     var c = 0.0
-    if (a.isNotEmpty() and b.isNotEmpty()) {
-        for (i in 0..a.size - 1) {
-            val elementA = a[i]
-            val elementB = b[i]
-            c += elementA * elementB
-        }
-        return c
-    } else return 0.0
+    for (i in 0..a.size - 1) {
+        c += a[i] * b[i]
+    }
+    return c
 }
 
 /**
@@ -166,15 +171,13 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double {
-    if (p.isNotEmpty()) {
-        var mean = p[0]
-        var sqr = 1.0
-        for (i in 1..p.size - 1) {
-            sqr *= x
-            mean += sqr * p[i]
-        }
-        return mean
-    } else return 0.0
+    var p1 = 0.0
+    var x1 = 0.0
+    for (element in p) {
+        p1 = (p1 + element * pow(x, x1))
+        x1++
+    }
+    return p1 * 1.0
 }
 
 /**
@@ -186,12 +189,15 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.size > 1) {
-        for (i in 1..list.size - 1) {
-            list[i] = list[i] + list[i - 1]
-        }
-        return list
-    } else return list
+    var t = 0.0
+    var i=0
+    while(i in 0..list.size-1) {
+        t +=list[i]
+        list[i]=t
+        i++
+    }
+    return list
+
 }
 
 /**
@@ -201,19 +207,21 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Результат разложения вернуть в виде списка множителей, например 75 -> (3, 5, 5).
  * Множители в списке должны располагаться по возрастанию.
  */
-fun factorize(n: Int): List<Int>  {
-    var number = n
-    var count = 2
-    val result = mutableListOf<Int>()
-    while (number != 1) {
-        if (number % count == 0) {
-            result.add(count)
-            number /= count
-        } else count++
+fun factorize(n: Int): List<Int> {
+    var t = 2
+    val x = mutableListOf<Int>()
+    var n1 = n
+    while (t <= n1) {
+        if (n1 % t == 0) {
+            x.add(t)
+            n1 /= t
+            t--
+        }
+        t++
     }
-    return result
-}
+    return x
 
+}
 
 /**
  * Сложная
@@ -221,7 +229,26 @@ fun factorize(n: Int): List<Int>  {
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
+fun factorizeToString(n: Int): String {
+    var t = 2
+    val x = mutableListOf<Int>()
+    var n1 = n
+    while (t <= n1) {
+        if (n1 % t == 0) {
+            x.add(t)
+            n1 /= t
+            t--
+        }
+        t++
+    }
+    var m = ""
+    m += x[0]
+    for (i in 1..x.size - 1) {
+        m += "*"
+        m += x[i]
+    }
+    return m
+}
 
 /**
  * Средняя
@@ -231,15 +258,21 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var number = n
-    var result = listOf<Int>()
-    do {
-        result += number % base
-        number /= base
-    } while (number > 0)
-    return result.asReversed()
+    val x = mutableListOf<Int>()
+    var b = n
+    if (n == 0) return listOf(0)
+    while (b > 0) {
+        x.add(b % base)
+        b /= base
+    }
+    val s = mutableListOf<Int>()
+    var t = 1
+    while (t <= x.size) {
+        s.add(x[x.size - t])
+        t++
+    }
+    return s
 }
-
 
 /**
  * Сложная
@@ -249,15 +282,8 @@ fun convert(n: Int, base: Int): List<Int> {
  * строчными буквами: 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: n = 100, base = 4 -> 1210, n = 250, base = 14 -> 13c
  */
-fun convertToString(n: Int, base: Int): String {
-    val convert = convert(n, base)
-    val result = StringBuilder()
-    for (element in convert) {
-        if (element > 9) result.append('a' + element - 10)
-        else result.append(element)
-    }
-    return result.toString()
-}
+fun convertToString(n: Int, base: Int): String = TODO()
+
 
 /**
  * Средняя
@@ -268,7 +294,6 @@ fun convertToString(n: Int, base: Int): String {
  */
 fun decimal(digits: List<Int>, base: Int): Int = TODO()
 
-
 /**
  * Сложная
  *
@@ -278,14 +303,7 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int) : Int {
-    var result = listOf<Int>()
-    for (char in str) {
-        if (char in '0'..'9') result += char - '0'
-        else result += char + 10 - 'a'
-    }
-    return decimal(result, base)
-}
+fun decimalFromString(str: String, base: Int): Int = TODO()
 
 /**
  * Сложная
@@ -295,19 +313,7 @@ fun decimalFromString(str: String, base: Int) : Int {
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String  {
-    var number = n
-    val map1 = mapOf(4 to "IV", 1 to "I", 5 to "V", 9 to "IX", 10 to "X", 40 to "XL", 50 to "L", 90 to "XC", 100 to "C", 400 to "CD", 500 to "D", 900 to "CM", 1000 to "M").toSortedMap()
-    val result = StringBuilder()
-    while (number > 0) {
-        val parse = map1.keys.findLast {it <= number}
-        if (parse != null) parse.toInt()
-        else continue
-        number -= parse
-        result.append(map1[parse])
-    }
-    return result.toString()
-}
+fun roman(n: Int): String = TODO()
 
 /**
  * Очень сложная
@@ -316,39 +322,4 @@ fun roman(n: Int): String  {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String  {
-    val listUnits = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    val listTens = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-    val listFromTenToTwenty = listOf("", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
-    val listHundreds = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-    val listResult = mutableListOf<String>()
-    val lastDigit = n % 10
-    val thousand = when (n / 1000 % 10) {
-        1 -> "тысяча"
-        in 2..4 -> "тысячи"
-        else -> "тысяч"
-    }
-    val unit = when (lastDigit) {
-        1 -> "один"
-        2 -> "два"
-        else -> listUnits[lastDigit]
-    }
-    if (n > 999) {
-        listResult.add(listHundreds[n / 100000 % 10])
-        if (n / 1000 % 100 in 11..19) {
-            listResult.add(listFromTenToTwenty[n / 1000 % 10])
-            listResult.add("тысяч")
-        } else {
-            listResult.add(listTens[n / 10000 % 10])
-            listResult.add(listUnits[n / 1000 % 10])
-            listResult.add(thousand)
-        }
-    }
-    listResult.add(listHundreds[n / 100 % 10])
-    if (n % 100 in 11..19) listResult.add(listFromTenToTwenty[lastDigit])
-    else {
-        listResult.add(listTens[n / 10 % 10])
-        listResult.add(unit)
-    }
-    return listResult.filter { it != "" }.joinToString(" ")
-}
+fun russian(n: Int): String = TODO()

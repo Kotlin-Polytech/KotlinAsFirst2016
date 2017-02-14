@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task2
 
 import java.util.*
@@ -23,13 +24,15 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String  {
-        val str = "abcdefgh"
+    fun notation(): String {
         if (!inside()) return ""
-        else return "${str[column - 1]}$row"
+        else {
+            val a = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+            val x = a[column - 1]
+            return "$x$row"
+        }
     }
 }
-
 
 /**
  * Простая
@@ -39,11 +42,10 @@ data class Square(val column: Int, val row: Int) {
  * Если нотация некорректна, бросить IllegalArgumentException
  */
 fun square(notation: String): Square {
-    val column = notation[0]
-    val row = notation[1].toInt()-48
-    val result = Square(column.toInt()-96, row)
-    if (!result.inside()) throw IllegalArgumentException()
-    else return result
+    val a = listOf("a", "b", "c", "d", "e", "f", "g", "h")
+    if (notation.length == 2 && notation[0].toString() in a && notation[1] in '1'..'8') {
+        return Square(a.indexOf(notation[0].toString()) + 1, (notation[1]).toInt() - 48)
+    } else throw IllegalArgumentException()
 }
 
 /**
@@ -69,14 +71,13 @@ fun square(notation: String): Square {
  * Пример: rookMoveNumber(Square(3, 1), Square(6, 3)) = 2
  * Ладья может пройти через клетку (3, 3) или через клетку (6, 1) к клетке (6, 3).
  */
-fun rookMoveNumber(start: Square, end: Square): Int  {
-    if (start.inside() && end.inside())
-        return when {
-            start == end -> 0
-            start.column == end.column || start.row == end.row -> 1
-            else -> 2
-        }
-    else throw IllegalArgumentException()
+fun rookMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    return when {
+        start == end -> 0
+        start.column != end.column && start.row != end.row -> 2
+        else -> 1
+    }
 }
 
 /**
@@ -93,11 +94,9 @@ fun rookMoveNumber(start: Square, end: Square): Int  {
  *          rookTrajectory(Square(3, 5), Square(8, 5)) = listOf(Square(3, 5), Square(8, 5))
  * Если возможно несколько вариантов самой быстрой траектории, вернуть любой из них.
  */
-fun rookTrajectory(start: Square, end: Square): List<Square>  {
-    val rookMoveNumber = rookMoveNumber(start, end)
-    return when (rookMoveNumber) {
-        0 -> listOf(start)
-        1 -> listOf(start, end)
+fun rookTrajectory(start: Square, end: Square): List<Square> {
+    return when {(rookMoveNumber(start, end) == 0) -> listOf(start)
+        rookMoveNumber(start, end) == 1 -> listOf(start, end)
         else -> listOf(start, Square(start.column, end.row), end)
     }
 }
@@ -125,22 +124,18 @@ fun rookTrajectory(start: Square, end: Square): List<Square>  {
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int  {
-    var result = false
-    if (start.inside() && end.inside()) {
-        for (i in 1..8) {
-            if (start.column == end.column + i && start.row == end.row + i){
-                result = true
-                break
-            }
-        }
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+    else {
+
         return when {
             start == end -> 0
-            start.column - end.column == start.row - end.row -> 1
-            result -> 2
-            else -> -1
+            (start.column + start.row + end.column + end.row) % 2 == 1 -> -1
+            (start.column + start.row + end.column + end.row) % 2 == 0
+                    && Math.abs((start.column - end.column) / (start.row - end.row)) == 1 -> 1
+            else -> 2
         }
-    } else throw IllegalArgumentException()
+    }
 }
 
 /**

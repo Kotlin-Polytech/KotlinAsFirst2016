@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -42,12 +43,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -60,21 +59,24 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String  {
-    val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+fun dateStrToDigit(str: String): String {
+
+    val parts = str.split(" ")
+    if (parts.size != 3) return ""
     try {
-        val parts = str.split(" ")
-        if (parts.size != 3) return ""
-        val day = parts[0].toInt()
-        val month = list.indexOf(parts[1])
-        val year = parts[2].toInt()
-        if (month == -1 || day !in 1..31) return ""
-        return "${twoDigitStr(day)}.${twoDigitStr(month + 1)}.$year"
-    } catch (e: Exception) {
+        val d = parts[0].toInt()
+        val y = parts[2].toInt()
+
+        val x = listOf("января", "февраля", "марта", "апреля",
+                "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+        if ((d in 1..31) && (parts[1] in x)) {
+            val m = x.indexOf(parts[1]) + 1
+            return String.format("%02d.%02d.%d", d, m, y)
+        } else return ""
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
-
 
 /**
  * Средняя
@@ -84,16 +86,19 @@ fun dateStrToDigit(str: String): String  {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val list = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val x = listOf("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
     try {
-        val parts = digital.split(".")
-        if (parts.size != 3) return ""
-        val day = parts[0].toInt()
-        val month = parts[1].toInt()
-        val year = parts[2].toInt()
-        if (month !in 1..12 || day !in 1..31) return ""
-        return "${(day)} ${list[month - 1]} ${year}"
-    } catch (e: Exception) {
+        val d = parts[0].toInt()
+        val m1 = parts[1].toInt()
+        val y = parts[2].toInt()
+        if ((d in 1..31) && (m1 in 1..12)) {
+            val m = x[parts[1].toInt() - 1]
+            return String.format("%d %s %d", d, m, y)
+        } else return ""
+    } catch (e: NumberFormatException) {
         return ""
     }
 }
@@ -111,12 +116,20 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    var result = ""
-    for (i in phone) {
-        if ((i.toInt() < 58) && (i.toInt() > 47) || (i.toInt() == 43)) result += i
-        else if (i != '(' && i != ')' && (i != ' ') && (i != '-')) return ""
+
+    var n = mutableListOf<String>()
+    if (phone[0] == '+') n.add("+")
+    val x = phone.split(" ", "-", "(", ")", "+", "")
+    val c = listOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "")
+    for (element in x) {
+        if (element in c) n.add(element)
+        else {
+            n = mutableListOf("")
+            break
+        }
     }
-    return result
+    return n.joinToString(separator = "")
+
 }
 
 /**
@@ -129,17 +142,26 @@ fun flattenPhoneNumber(phone: String): String {
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int  {
-    val parts = jumps.split(" ")
-    var best = -1
+fun bestLongJump(jumps: String): Int {
+    var x = -1
+    var t: String
+    var u: Int
     try {
-        for (part in parts) {
-            if ((part != "-") && (part != "%") && (part.toInt() > best)) best = part.toInt()
+        if (jumps.matches(Regex("[-% 0-9]"))) {
+            t = jumps.replace(Regex("[-%]"), "")
+            var y = t.split(" ").toMutableList()
+            y.remove("")
+            for (element in y) {
+                u = element.toInt()
+                if (u > x) x = u
+
+            }
         }
-        return best
     } catch (e: NumberFormatException) {
         return -1
     }
+
+    return x
 }
 
 /**
@@ -152,22 +174,7 @@ fun bestLongJump(jumps: String): Int  {
  * Прочитать строку и вернуть максимальную взятую высоту (230 в примере).
  * При нарушении формата входной строки вернуть -1.
  */
-fun bestHighJump(jumps: String): Int  {
-    try {
-        val newList = mutableListOf<Int>()
-        val list = jumps.split(" ").filter { it != "" }
-        for (jump in list) {
-            if (jump != "-" && jump != "%")
-                newList.add(jump.toInt())
-        }
-        if (newList.isEmpty()) return -1
-        if (newList.max() == 0) return 0
-        else return newList.max()?.toInt()!!
-    } catch (e: Exception) {
-        return -1
-    }
-}
-
+fun bestHighJump(jumps: String): Int = TODO()
 
 /**
  * Сложная
@@ -178,7 +185,25 @@ fun bestHighJump(jumps: String): Int  {
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    try {
+        val x = expression.split(" ")
+        var i = 0
+        var n = x[0].toInt()
+        while (i in 0..x.size - 3) {
+            if (x[i + 1] == "+") {
+                n += x[i + 2].toInt()
+            }
+            if (x[i + 1] == "-") {
+                n -= x[i + 2].toInt()
+            }
+            i++
+        }
+        return n
+    } catch (e: NumberFormatException) {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Сложная

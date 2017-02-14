@@ -1,11 +1,11 @@
 @file:Suppress("UNUSED_PARAMETER")
-
 package lesson2.task1
 
 import lesson1.task1.discriminant
+import lesson4.task1.abs
 
 /**
- * Пример1
+ * Пример
  *
  * Найти наименьший корень биквадратного уравнения ax^4 + bx^2 + c = 0
  */
@@ -34,55 +34,47 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
  * Мой возраст. Для заданного 0 < n < 200, рассматриваемого как возраст человека,
  * вернуть строку вида: «21 год», «32 года», «12 лет».
  */
-fun ageDescription(age: Int): String  {
-    return when {
-        age % 10 == 1 && age != 11 && age != 111 -> "$age год"
-        age % 10 in 2..4 && age !in 12..14 && age !in 112..114 -> "$age года"
-        else -> "$age лет"
-    }
+fun ageDescription(age: Int): String {
+    if (age%100 in 5..20) return "$age лет"
+    else if (age % 10 == 1) return "$age год"
+    else if (age%10 in 2..4) return "$age года"
+    else return "$age лет"
 }
 
-    /**
-     * Простая
-     *
-     * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
-     * и t3 часов — со скоростью v3 км/час.
-     * Определить, за какое время он одолел первую половину пути?
-     */
-        fun timeForHalfWay(t1: Double, v1: Double,
-                           t2: Double, v2: Double,
-                           t3: Double, v3: Double): Double {
-        val s1 = v1 * t1
-        val s2 = v2 * t2
-        val s3 = v3 * t3
-        val s = s1 + s2 + s3
-        return when {
-            s / 2 <= s1 -> s / (2 * v1)
-            s / 2 <= s1 + s2 -> (s / 2 - s1) / v2 + t1
-            else -> (s / 2 - (s1 + s2)) / v3 + t1 + t2
-        }
-    }
+/**
+ * Простая
+ *
+ * Путник двигался t1 часов со скоростью v1 км/час, затем t2 часов — со скоростью v2 км/час
+ * и t3 часов — со скоростью v3 км/час.
+ * Определить, за какое время он одолел первую половину пути?
+ */
+fun timeForHalfWay(t1: Double, v1: Double,
+                   t2: Double, v2: Double,
+                   t3: Double, v3: Double): Double {
+    val s0 = (t1*v1+t2*v2+t3*v3)/2.0
+    val s1 =t1*v1
+    val s2=t2*v2
+    if (s0<s1) return s0/v1
+    else if(s0 in s1..(s1+s2)) return t1+(s0-s1)/v2
+    else return t1+t2+(s0-s1-s2)/v3
+}
 
-    /**
-     * Простая
-     * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
-     * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
-     * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
-     * и 3, если угроза от обеих ладей.
-     */
-    fun whichRookThreatens(kingX: Int, kingY: Int,
-                           rookX1: Int, rookY1: Int,
-                           rookX2: Int, rookY2: Int): Int {
-        val hazard1 = (kingX == rookX1 || kingY == rookY1)
-        val hazard2 = (kingX == rookX2 || kingY == rookY2)
-        return when {
-            hazard1 && hazard2 -> 3
-            hazard2 -> 2
-            hazard1 -> 1
-            else -> 0
-        }
-    }
-
+/**
+ * Простая
+ *
+ * Нa шахматной доске стоят черный король и две белые ладьи (ладья бьет по горизонтали и вертикали).
+ * Определить, не находится ли король под боем, а если есть угроза, то от кого именно.
+ * Вернуть 0, если угрозы нет, 1, если угроза только от первой ладьи, 2, если только от второй ладьи,
+ * и 3, если угроза от обеих ладей.
+ */
+fun whichRookThreatens(kingX: Int, kingY: Int,
+                       rookX1: Int, rookY1: Int,
+                       rookX2: Int, rookY2: Int): Int {
+    if ((kingX == rookX1 ||kingX == rookX2) &&(kingY==rookY1 || kingY==rookY2)) return 3
+    else if ((kingX ==rookX1||kingY==rookY1)&&(kingX!=rookX2&&kingY!=rookY2)) return 1
+    else if ((kingX ==rookX2||kingY==rookY2)&&(kingX!=rookX1&&kingY!=rookY1)) return 2
+    else  return 0
+}
 
 /**
  * Простая
@@ -96,16 +88,11 @@ fun ageDescription(age: Int): String  {
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
                           bishopX: Int, bishopY: Int): Int {
-    val hazardRook = (Math.abs(kingX - bishopX) == Math.abs(kingY - bishopY))
-    val hazardBishop = ((kingX == rookX) || (kingY == rookY))
-    return when {
-        hazardRook && hazardBishop -> 3
-        hazardRook -> 2
-        hazardBishop -> 1
-        else -> 0
-    }
+    if ((kingX == rookX ||kingY == rookY)&& (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY))) return 3
+    else if ((kingX == rookX ||kingY == rookY)&& (Math.abs(kingX-bishopX)!=Math.abs(kingY-bishopY))) return 1
+    else if (Math.abs(kingX-bishopX)==Math.abs(kingY-bishopY)&&(kingX!= rookX&&kingY!= rookY)) return 2
+    else return 0
 }
-
 
 /**
  * Простая
@@ -116,17 +103,11 @@ fun rookOrBishopThreatens(kingX: Int, kingY: Int,
  * Если такой треугольник не существует, вернуть -1.
  */
 fun triangleKind(a: Double, b: Double, c: Double): Int {
-    val maxSide = Math.max(Math.max(a, b), c)
-    val minSide = Math.min(Math.min(a, b), c)
-    val anotherSide = (a + b + c) - (minSide + maxSide)
-    return when {
-        maxSide > (minSide + anotherSide) -> -1
-        maxSide == Math.sqrt((minSide * minSide + anotherSide * anotherSide)) -> 1
-        maxSide < Math.sqrt((minSide * minSide + anotherSide * anotherSide)) -> 0
-        else -> 2
-    }
+    if (a+b<c||a+c<b||b+c<a) return -1
+    else if (a*a==b*b+c*c||b*b==a*a+c*c||c*c==b*b+a*a) return 1
+    else if(a*a>b*b+c*c||b*b>c*c+a*a||c*c>b*b+a*a) return 2
+    else return 0
 }
-
 
 /**
  * Средняя
@@ -137,11 +118,9 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
  * Если пересечения нет, вернуть -1.
  */
 fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
-    val condition = (b >= c) && (d >= a)
-    val condition2 = (b != c) && (d != a)
-    return when {
-        condition && condition2 -> Math.min(b, d) - Math.max(a, c)
-        condition -> 0
-        else -> -1
-    }
+    if (b>=c&&a<=c&&b<=d) return b-c
+    else if (a<=d&&c<=a&&b>=d) return d-a
+    else if(a>=c&&b<=d) return b-a
+    else if (a<=c&&b>=d) return d-c
+    else return -1
 }

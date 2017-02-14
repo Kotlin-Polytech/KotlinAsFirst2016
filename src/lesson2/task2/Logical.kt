@@ -17,8 +17,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean =
-        (number / 1000 + (number / 100) % 10) == ((number / 10 ) % 10 + number % 10)
+fun isNumberHappy(number: Int): Boolean =((number/1000+number/100%10)==(number%10+number/10%10))
 
 /**
  * Простая
@@ -26,9 +25,7 @@ fun isNumberHappy(number: Int): Boolean =
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int):Boolean =
-         (x1 == x2)||(y1 == y2)||(Math.abs(x2 - x1)== Math.abs(y2 - y1))
-
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean =((x1==x2)||(y1==y2)||(Math.abs(x1-x2)==Math.abs(y1-y2)))
 
 /**
  * Средняя
@@ -38,11 +35,11 @@ fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int):Boolean =
  * Вернуть true, если утверждение верно
  */
 fun circleInside(x1: Double, y1: Double, r1: Double,
-                 x2: Double, y2: Double, r2: Double): Boolean =
-        sqrt(sqr(x2-x1) + sqr(y2-y1))+ r1 <= r2
+                 x2: Double, y2: Double, r2: Double): Boolean =Math.sqrt(sqr(x1-x2)+sqr(y1-y2))+r1<=r2
+
 /**
  * Средняя
- *
+ * 
  * Определить, пройдет ли кирпич со сторонами а, b, c сквозь прямоугольное отверстие в стене со сторонами r и s.
  * Стороны отверстия должны быть параллельны граням кирпича.
  * Считать, что совпадения длин сторон достаточно для прохождения кирпича, т.е., например,
@@ -50,8 +47,6 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    val type1 = (b <= r) && ((a <= s) || (c <= s))
-    val type2 = (a <= r) && ((b <= s) || (c <= s))
-    val type3 = (c <= r) && ((a <= s) || (b <= s))
-    return type1 || type2 || type3
+    val b1 = (a <= r && b <= s) || (b <= r && a <= s) || (a <= r && c <= s) || (a <= s && c <= r) || (b <= r && c <= s) || (c <= r && b <= s)
+    return b1
 }

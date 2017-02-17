@@ -65,16 +65,13 @@ fun dateStrToDigit(str: String): String {
             "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
     try {
         if (partsOfDate.size != 3) throw IllegalArgumentException()
-
         val date = partsOfDate[0].toInt()
         var month = partsOfDate[1]
         val year = partsOfDate[2].toInt()
-
         if (date.toInt() !in 1..31) throw IllegalArgumentException()
         if (months.indexOf(month.capitalize()) == -1) throw IllegalArgumentException()
         else month = (months.indexOf(month.capitalize()) + 1).toString()
         val monthInt = month.toInt()
-
         return String.format("%02d.%02d.%s", date, monthInt, year)
     } catch (e: IllegalArgumentException) {
         return ""
@@ -93,21 +90,21 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val months = listOf("Января", "Февраля", "Марта", "Апреля", "Мая", "Июня", "Июля", "Августа", "Сентября", "Октября", "Ноября", "Декабря")
-try {
-    val partsOfDate = digital.split(".")
-    if (partsOfDate.size > 3) throw IllegalArgumentException()
-    val date = partsOfDate[0].toInt()
-    val month = months[partsOfDate[1].toInt() + -1].toLowerCase()
-    val year = partsOfDate[2].toInt()
+    try {
+        val partsOfDate = digital.split(".")
+        if (partsOfDate.size != 3) throw IllegalArgumentException()
+        val date = partsOfDate[0].toInt()
+        val month = months[partsOfDate[1].toInt() + -1].toLowerCase()
+        val year = partsOfDate[2].toInt()
 
-    return String.format("%d %s %d", date, month, year)
-} catch (e: IllegalArgumentException) {
-    return ""
-} catch (e: NumberFormatException) {
-    return ""
-} catch (e: IndexOutOfBoundsException) {
-    return ""
-}
+        return String.format("%d %s %d", date, month, year)
+    } catch (e: IllegalArgumentException) {
+        return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    }
 }
 
 /**
@@ -122,7 +119,12 @@ try {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String {
+    val rg = Regex("""\+?[-0-9() ]+""")
+    if (phone.matches(rg)) {
+        return phone.replace(Regex("[- ()]"), "")
+    } else return ""
+}
 
 /**
  * Средняя
@@ -134,7 +136,31 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if ("7" in jumps == true) println(1)
+    val list = jumps.split(" ")
+    val work = mutableListOf<String>()
+    val result = mutableListOf<Int>()
+    for (element in list) {
+        if (element == "+") return -1
+    }
+    for (element in list) {
+        work.add(element)
+    }
+    for (element in list) {
+        if ((element == "-") || (element == "%")) {
+            work.remove(element)
+        }
+    }
+
+    for (i in 0..work.size - 1) {
+        result.add(work[i].toInt())
+    }
+    for (element in list) {
+        if (result.isEmpty() == true) return -1
+    }
+    return listOf(result.max()).filterNotNull().joinToString().toInt()
+}
 
 /**
  * Сложная
@@ -227,3 +253,23 @@ fun fromRoman(roman: String): Int = TODO()
  * Например, для 10 ячеек и командной строки +>+>+>+>+ результат должен быть 0,0,0,0,0,1,1,1,1,1
  */
 fun computeDeviceCells(cells: Int, commands: String): List<Int> = TODO()
+
+
+fun phoneKeyboard(text: String): String {
+    val digits = mutableListOf<String>()
+    for (i in 0..text.length - 1) {
+        when (text[i]) {
+            in 'A'..'C' -> digits.add("2")
+            in 'D'..'F' -> digits.add("3")
+            in 'G'..'I' -> digits.add("4")
+            in 'J'..'L' -> digits.add("5")
+            in 'M'..'O' -> digits.add("6")
+            in 'P'..'S' -> digits.add("7")
+            in 'T'..'V' -> digits.add("8")
+            in 'W'..'Z' -> digits.add("9")
+            in '0'..'9' -> digits.add(text[i].toString())
+        }
+        if (text[i] == '-') digits.add("-")
+    }
+    return digits.joinToString(separator = "")
+}

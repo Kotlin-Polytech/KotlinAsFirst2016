@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson4.task1
 
 import lesson1.task1.discriminant
@@ -104,14 +105,21 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    var abs = 0.0
+    for (i in 0..v.size-1)
+        abs +=  v[i] * v[i]
+    return Math.sqrt(abs)
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
+fun mean(list: List<Double>): Double =
+        if (list.isEmpty() == true) 0.0
+        else list.sum() / list.size
 
 /**
  * Средняя
@@ -119,7 +127,15 @@ fun mean(list: List<Double>): Double = TODO()
  * Центрировать заданный список list, уменьшив каждый элемент на среднее арифметическое всех элементов.
  * Если список пуст, не делать ничего. Вернуть изменённый список.
  */
-fun center(list: MutableList<Double>): MutableList<Double> = TODO()
+fun center(list: MutableList<Double>): MutableList<Double> {
+    if (mean(list) == 0.0) return list
+    val averageEqual = list.sum() / list.size
+    for (i in 0..list.size - 1) {
+        list[i] -= averageEqual
+    }
+    return list
+}
+
 
 /**
  * Средняя
@@ -139,7 +155,6 @@ fun times(a: List<Double>, b: List<Double>): Double = TODO()
  * Значение пустого многочлена равно 0.0 при любом x.
  */
 fun polynom(p: List<Double>, x: Double): Double = TODO()
-
 /**
  * Средняя
  *
@@ -159,13 +174,28 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
  */
 fun factorize(n: Int): List<Int> = TODO()
 
+
 /**
  * Сложная
  *
  * Разложить заданное натуральное число n > 1 на простые множители.
  * Результат разложения вернуть в виде строки, например 75 -> 3*5*5
  */
-fun factorizeToString(n: Int): String = TODO()
+fun factorizeToString(n: Int): String  {
+    var result = listOf<Int>()
+    val list = mutableListOf<Int>()
+    var number = n
+    var x = 2
+    while (number > 1) {
+        if (number % x == 0) {
+            number /= x
+            list.add(x)
+        }
+        else x ++
+    }
+    result =  list.sorted()
+    return result.joinToString ("*")
+}
 
 /**
  * Средняя

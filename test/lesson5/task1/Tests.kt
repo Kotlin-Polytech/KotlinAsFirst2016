@@ -107,6 +107,15 @@ class Tests {
     }
 
     @Test
+    @Tag("Test")
+    fun phoneKeyboard() {
+        assertEquals("3245", phoneKeyboard("FAIL"))
+        assertEquals("1-800-33284", phoneKeyboard("1-800-DEATH"))
+        assertEquals("568546-27-34778", phoneKeyboard("KOTLIN-AS-FIRST"))
+        assertEquals("", phoneKeyboard(""))
+    }
+
+    @Test
     @Tag("Hard")
     fun computeDeviceCells() {
         assertEquals(listOf(0, 0, 0, 0, 0, 1, 1, 1, 1, 1), computeDeviceCells(10, "+>+>+>+>+"))
@@ -116,3 +125,5 @@ class Tests {
                 computeDeviceCells(11, "<<<<< + >>>>>>>>>> --[<-] >+[>+] >++{--< <[<] >+[>+] >++}"))
     }
 }
+
+

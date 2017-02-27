@@ -268,8 +268,8 @@ fun phoneKeyboard(text: String): String {
             in 'T'..'V' -> digits.add("8")
             in 'W'..'Z' -> digits.add("9")
             in '0'..'9' -> digits.add(text[i].toString())
+            '-' -> digits.add("-")
         }
-        if (text[i] == '-') digits.add("-")
     }
     return digits.joinToString(separator = "")
 }

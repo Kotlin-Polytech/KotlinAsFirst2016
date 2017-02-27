@@ -1,6 +1,6 @@
 package lesson8.task1
 
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import java.io.File
@@ -82,6 +82,12 @@ Basic, Ruby, Swift.
  * жИ шИ ЖИ Ши ЖА шА Жа ша жу шу жу щу ча шу щу ща жа жи жи жу чу ча
  */""")
         File("temp.txt").delete()
+    }
+
+    @Test
+    fun airport() {
+        assertEquals (1, airport("input/blt5.txt", "Petersburg", "Frankfurt"))
+        assertEquals (0, airport("input/blt5.txt", "Nice", "Paris"))
     }
 
     @Test

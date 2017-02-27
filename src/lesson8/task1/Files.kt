@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson8.task1
 
 import java.io.File
@@ -31,8 +32,7 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
                 if (word.length + currentLineLength >= lineLength) {
                     outputStream.newLine()
                     currentLineLength = 0
-                }
-                else {
+                } else {
                     outputStream.write(" ")
                     currentLineLength++
                 }
@@ -55,6 +55,76 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  */
 fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
     TODO()
+}
+
+fun myFunction(inputName: String, query: String): String {
+    val list = File(inputName).readLines()
+    val req = query.split(" ")
+    var V = ""
+    val reqNumb = req[0]
+    val reqV = req[1].toInt()
+    val numb = mutableListOf<String>()
+    var result = ""
+    val numbData = mutableListOf<String>()
+    for (element in list) {
+        val x = element.split(": ")
+        numbData.add(x[1])
+        numb.add(x.first())
+    }
+    for (i in 0..numb.size - 1) {
+        if (numb[i] == reqNumb) {
+            val data = numbData[i].split(", ")
+            if (data[2].substring(0, 2).toString().toInt() >= reqV) V = "достаточно" else V = "недостаточно"
+            val cost = data[2].substring(0, 2).toString().toInt() * data[1].substring(0, 2).toString().toInt()
+            result = data[0] + (", ") + V + (", ") + "общая стоимость $cost"
+        }
+    }
+    println(result)
+    return result
+}
+
+fun airport(inputName: String, src: String, dst: String): Int {
+    var result = 0
+    val srcName = mutableListOf<String>()
+    val timesrc = mutableListOf<String>()
+    val timedst = mutableListOf<String>()
+    val dstName = mutableListOf<String>()
+    val numsrc = mutableListOf<String>()
+    val numdst = mutableListOf<String>()
+    for (line in File(inputName).readLines()) {
+        val part = line.split(" ")
+        if (part[2] == "<-") {
+            dstName.add(part[1])
+            timedst.add(part[3])
+            numdst.add(part[0])
+        } else {
+            srcName.add(part[1])
+            timesrc.add(part[3])
+            numsrc.add(part[0])
+
+        }
+    }
+    if (src in srcName && dst in dstName) {
+        for (i in 0..srcName.size - 1) {
+            if (src in srcName[i]) {
+                for (j in 0..dstName.size - 1) {
+                    if (dst in dstName[j]) {
+                        val h1 = timesrc[i].split(":")[0].toInt()
+                        val m1 = timesrc[i].split(":")[1].toInt()
+                        val h2 = timedst[j].split(":")[0].toInt()
+                        val m2 = timedst[j].split(":")[1].toInt()
+                        if (((m1 + h1 * 60) > (h2 * 60 + m2))) {
+                            result += 1
+                            println(result)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (src in srcName) println(5)
+    println(result)
+    return result
 }
 
 
@@ -227,15 +297,15 @@ Suspendisse ~~et elit in enim tempus iaculis~~.
  *
  * Соответствующий выходной файл:
 <html>
-    <body>
-        <p>
-            Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
-            Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
-        </p>
-        <p>
-            Suspendisse <s>et elit in enim tempus iaculis</s>.
-        </p>
-    </body>
+<body>
+<p>
+Lorem ipsum <i>dolor sit amet</i>, consectetur <b>adipiscing</b> elit.
+Vestibulum lobortis. <s>Est vehicula rutrum <i>suscipit</i></s>, ipsum <s>lib</s>ero <i>placerat <b>tortor</b></i>.
+</p>
+<p>
+Suspendisse <s>et elit in enim tempus iaculis</s>.
+</p>
+</body>
 </html>
  *
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -278,61 +348,61 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
  *
  * Пример входного файла:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
-* Утка по-пекински
-    * Утка
-    * Соус
-* Салат Оливье
-    1. Мясо
-        * Или колбаса
-    2. Майонез
-    3. Картофель
-    4. Что-то там ещё
-* Помидоры
-* Фрукты
-    1. Бананы
-    23. Яблоки
-        1. Красные
-        2. Зелёные
+ * Утка по-пекински
+ * Утка
+ * Соус
+ * Салат Оливье
+1. Мясо
+ * Или колбаса
+2. Майонез
+3. Картофель
+4. Что-то там ещё
+ * Помидоры
+ * Фрукты
+1. Бананы
+23. Яблоки
+1. Красные
+2. Зелёные
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  *
  *
  * Соответствующий выходной файл:
 ///////////////////////////////начало файла/////////////////////////////////////////////////////////////////////////////
 <html>
-  <body>
-    <ul>
-      <li>
-        Утка по-пекински
-        <ul>
-          <li>Утка</li>
-          <li>Соус</li>
-        </ul>
-      </li>
-      <li>
-        Салат Оливье
-        <ol>
-          <li>Мясо
-            <ul>
-              <li>
-                  Или колбаса
-              </li>
-            </ul>
-          </li>
-          <li>Майонез</li>
-          <li>Картофель</li>
-          <li>Что-то там ещё</li>
-        </ol>
-      </li>
-      <li>Помидоры</li>
-      <li>
-        Яблоки
-        <ol>
-          <li>Красные</li>
-          <li>Зелёные</li>
-        </ol>
-      </li>
-    </ul>
-  </body>
+<body>
+<ul>
+<li>
+Утка по-пекински
+<ul>
+<li>Утка</li>
+<li>Соус</li>
+</ul>
+</li>
+<li>
+Салат Оливье
+<ol>
+<li>Мясо
+<ul>
+<li>
+Или колбаса
+</li>
+</ul>
+</li>
+<li>Майонез</li>
+<li>Картофель</li>
+<li>Что-то там ещё</li>
+</ol>
+</li>
+<li>Помидоры</li>
+<li>
+Яблоки
+<ol>
+<li>Красные</li>
+<li>Зелёные</li>
+</ol>
+</li>
+</ul>
+</body>
 </html>
 ///////////////////////////////конец файла//////////////////////////////////////////////////////////////////////////////
  * (Отступы и переносы строк в примере добавлены для наглядности, при решении задачи их реализовывать не обязательно)
@@ -359,23 +429,23 @@ fun markdownToHtml(inputName: String, outputName: String) {
  * Вывести в выходной файл процесс умножения столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 111):
-   19935
-*    111
+19935
+ *    111
 --------
-   19935
+19935
 + 19935
 +19935
 --------
- 2212785
+2212785
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  * Нули в множителе обрабатывать так же, как и остальные цифры:
-  235
-*  10
+235
+ *  10
 -----
-    0
+0
 +235
 -----
- 2350
+2350
  *
  */
 fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
@@ -389,16 +459,16 @@ fun printMultiplicationProcess(lhv: Int, rhv: Int, outputName: String) {
  * Вывести в выходной файл процесс деления столбиком числа lhv (> 0) на число rhv (> 0).
  *
  * Пример (для lhv == 19935, rhv == 22):
-  19935 | 22
- -198     906
- ----
-    13
-    -0
-    --
-    135
-   -132
-   ----
-      3
+19935 | 22
+-198     906
+----
+13
+-0
+--
+135
+-132
+----
+3
 
  * Используемые пробелы, отступы и дефисы должны в точности соответствовать примеру.
  *

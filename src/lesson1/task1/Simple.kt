@@ -65,10 +65,10 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
 fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val x = sagenes*48*0.04445
-    val y = arshins*16*0.04445
-    val z = vershoks*0.4445
-    return x+y+z
+    val x = sagenes*48*4.445
+    val y = arshins*16*4.445
+    val z = vershoks*4.445
+    return (x+y+z)/100
 }
 
 /**
@@ -81,7 +81,7 @@ fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
     val x = min/60
     val y = sec/3600
     val z = x + y + grad
-    return z*PI/180
+    return z*3.141/180
 }
 
 /**

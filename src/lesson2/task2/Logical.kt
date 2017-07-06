@@ -17,7 +17,8 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Четырехзначное число назовем счастливым, если сумма первых двух ее цифр равна сумме двух последних.
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
-fun isNumberHappy(number: Int): Boolean = TODO()
+fun isNumberHappy(number: Int) =
+        (number%10000)/1000 + (number%1000)/100 == (number%100)/10 + number % 10
 
 /**
  * Простая
@@ -25,7 +26,9 @@ fun isNumberHappy(number: Int): Boolean = TODO()
  * На шахматной доске стоят два ферзя (ферзь бьет по вертикали, горизонтали и диагоналям).
  * Определить, угрожают ли они друг другу. Вернуть true, если угрожают.
  */
-fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean = TODO()
+fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) =
+        y1 - x1 == y2 - x2 || x1 == x2 || y1 == y2 || x1 + y1 == x2 + y2
+
 
 /**
  * Средняя

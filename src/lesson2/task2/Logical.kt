@@ -29,7 +29,6 @@ fun isNumberHappy(number: Int) =
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int) =
         y1 - x1 == y2 - x2 || x1 == x2 || y1 == y2 || x1 + y1 == x2 + y2
 
-
 /**
  * Средняя
  *

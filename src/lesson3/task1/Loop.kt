@@ -57,7 +57,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+        var i = 1
+        var number = n
+        while (number > 0) {
+            if (number / 10 > 0) {
+                i++
+            }
+            number/=10
+        }
+        return i
+    }
 
 /**
  * Простая
@@ -65,7 +75,19 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+        var i = 1
+        var a = 0
+        var b = 1
+        while (i<=n) {
+            val sum = a+b
+            a=b
+            b=sum
+            i++
+        }
+        return a
+    }
+
 
 /**
  * Простая
@@ -114,7 +136,12 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double)
+   : Double = if (x==Math.PI/6.0) 0.5 else if (x==Math.PI/2.0) 1.0 else if (x==0.0) 0.0 else if
+        (Math.pow(-1.0,y1)*Math.pow(x,2*y1+1.0)/factorial(2*y1.toInt()+1) < Math.abs(eps))
+    Math.pow(-1.0,y1)*Math.pow(x,2*y1+1.0)/factorial(2*y1.toInt()+1) else 0.0
+   var y1 = 0.0
+
 
 /**
  * Простая

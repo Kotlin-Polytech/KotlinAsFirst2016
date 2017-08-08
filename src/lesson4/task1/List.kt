@@ -116,7 +116,7 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else
+fun mean(list: List<Double>): Double = if (list.isEmpty())  0.0 else
    list.sum()/list.size
 /**
  * Средняя
@@ -228,8 +228,8 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  */
 
 fun roman(n: Int): String {
-    val numbers = intArrayOf(1, 4, 5, 9, 10, 50, 100, 500, 1000, 5000)
-    val letters = arrayOf<String>("I", "IV", "V", "IX", "X", "L", "C", "D", "M", "MMMMM")
+    val numbers = intArrayOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000, 5000)
+    val letters = arrayOf<String>("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M", "MMMMM")
     var romanValue = ""
     var N = n
     while (N > 0)

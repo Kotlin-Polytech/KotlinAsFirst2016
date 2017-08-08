@@ -104,15 +104,20 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double = TODO()
+fun abs(v: List<Double>): Double {
+    if (v.isEmpty()) return 0.0
+    val y = v.map { it * it }
+    val z = y.sum()
+    return Math.sqrt(z)
+}
 
 /**
  * Простая
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double = TODO()
-
+fun mean(list: List<Double>): Double = if (list.isEmpty()) 0.0 else
+   list.sum()/list.size
 /**
  * Средняя
  *
@@ -148,7 +153,14 @@ fun polynom(p: List<Double>, x: Double): Double = TODO()
  * Например: 1, 2, 3, 4 -> 1, 3, 6, 10.
  * Пустой список не следует изменять. Вернуть изменённый список.
  */
-fun accumulate(list: MutableList<Double>): MutableList<Double> = TODO()
+fun accumulate(list: MutableList<Double>) :List<Double> {
+    if (list.isEmpty()) return list
+    for (i in 1..list.size-1) {
+        list[i] =  list[i] + list[i-1]
+    }
+    return list
+}
+
 
 /**
  * Средняя
@@ -214,7 +226,26 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+
+fun roman(n: Int): String {
+    val numbers = intArrayOf(1, 4, 5, 9, 10, 50, 100, 500, 1000, 5000)
+    val letters = arrayOf<String>("I", "IV", "V", "IX", "X", "L", "C", "D", "M", "MMMMM")
+    var romanValue = ""
+    var N = n
+    while (N > 0)
+    {
+        for (i in 0..numbers.size - 1)
+        {
+            if (N < numbers[i])
+            {
+                N -= numbers[i - 1]
+                romanValue += letters[i - 1]
+                break
+            }
+        }
+    }
+    return romanValue
+}
 
 /**
  * Очень сложная

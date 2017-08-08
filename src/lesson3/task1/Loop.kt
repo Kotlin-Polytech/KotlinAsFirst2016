@@ -77,17 +77,15 @@ fun digitNumber(n: Int): Int {
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
 fun fib(n: Int): Int {
-        var i = 1
-        var a = 0
-        var b = 1
-        while (i<=n) {
-            val sum = a+b
-            a=b
-            b=sum
-            i++
-        }
-        return a
+    var a = 0
+    var b = 1
+    for (i in 1..n) {
+        val sum = a+b
+        a=b
+        b=sum
     }
+    return a
+}
 
 
 /**
@@ -137,11 +135,7 @@ fun squareBetweenExists(m: Int, n: Int): Boolean = TODO()
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double)
-   : Double = if (x==Math.PI/6.0) 0.5 else if (x==Math.PI/2.0) 1.0 else if (x==0.0) 0.0 else if
-        (Math.pow(-1.0,y1)*Math.pow(x,2*y1+1.0)/factorial(2*y1.toInt()+1) < Math.abs(eps))
-    Math.pow(-1.0,y1)*Math.pow(x,2*y1+1.0)/factorial(2*y1.toInt()+1) else 0.0
-   var y1 = 0.0
+fun sin(x: Double, eps: Double): Double = TODO()
 
 
 /**

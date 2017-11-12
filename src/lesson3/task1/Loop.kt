@@ -88,6 +88,11 @@ fun fib(n: Int): Int {
 }
 
 
+fun fib2 (n: Int): Int {
+        if (n in 1..2) return 1
+        else return fib(n-2) + fib(n-1)
+    }
+
 /**
  * Простая
  *

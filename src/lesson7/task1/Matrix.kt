@@ -38,7 +38,10 @@ interface Matrix<E> {
  * height = высота, width = ширина, e = чем заполнить элементы.
  * Бросить исключение IllegalArgumentException, если height или width <= 0.
  */
-fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
+fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
+    if ((height <=0) || (width <=0))  throw IllegalArgumentException()
+    else return MatrixImpl(height, width, e)
+}
 
 /**
  * Средняя сложность
@@ -46,24 +49,65 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> = TODO()
  * Реализация интерфейса "матрица"
  */
 class MatrixImpl<E> : Matrix<E> {
-    override val height: Int = TODO()
 
-    override val width: Int = TODO()
 
-    override fun get(row: Int, column: Int): E  = TODO()
+    private val cellsValue: MutableMap<Cell, E> = mutableMapOf()
 
-    override fun get(cell: Cell): E  = TODO()
+    override val height: Int
+
+
+    override val width: Int
+
+    constructor(height: Int, width: Int, e: E) {
+                this.height = height
+                this.width = width
+                for (i in 0..height - 1) {
+                        for (j in 0..width - 1) {
+                                cellsValue.put(Cell(i, j), e)
+                            }
+                    }
+    }
+
+
+    //private val map = mutableMapOf<Cell, E>()
+
+    override fun get(row: Int, column: Int): E  = cellsValue[Cell(row, column)]!!
+    override fun get(cell: Cell): E = cellsValue[cell]!!
+
+
+    fun inside (row: Int, column: Int) : Boolean = row in 0..height - 1 && column in 0.. width - 1
+    fun inside (cell: Cell) : Boolean = cell.row in 0..height - 1 && cell.column in 0..width - 1
+
 
     override fun set(row: Int, column: Int, value: E) {
-        TODO()
+        if (inside(row, column)) {
+            cellsValue.put(Cell(row, column), value)
+        } else throw IllegalArgumentException()
     }
 
-    override fun set(cell: Cell, value: E) {
-        TODO()
+
+    override fun set(cell: Cell, value: E) = set(cell.row, cell.column, value)
+
+
+    override fun equals(other: Any?) =
+            other is MatrixImpl<*> &&
+                    height == other.height &&
+                    width == other.width
+
+    override fun toString(): String {
+        val sb = StringBuilder()
+        sb.append("[")
+        for (row in 0..height - 1) {
+            sb.append("[")
+            for (column in 0..width - 1) {
+                sb.append(this[row, column])
+                // Подумайте здесь про запятые и пробелы, или попробуйте использовать joinToString
+            }
+            sb.append("]")
+        }
+        sb.append("]")
+        return "$sb" // or, sb.toString()
     }
-
-    override fun equals(other: Any?) = TODO()
-
-    override fun toString(): String = TODO()
 }
+
 

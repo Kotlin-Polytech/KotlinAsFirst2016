@@ -60,7 +60,37 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    try {
+    val letters = arrayOf<String>("января", "февраля", "марта", "апреля", "мая", "июня",
+            "июля", "августа", "сентября", "октября", "ноября", "декабря")
+    val parts = str.split(" ")
+    val r = 12
+
+    val day = parts[0].toInt()
+        if (day <= 0 || day > 31) {
+            return ""
+        }
+    var month = parts[1]
+    if (month !in letters.toList()) {
+        return ""
+    }
+    val year = parts[2].toInt()
+    if (year <= 0) {
+        return ""
+    }
+
+        for (i in 1..r) {
+            if (month == letters[i - 1]) {
+                month = i.toString()
+            }
+        }
+        return String.format("%02d.%02d.%02d", day, month.toInt(), year)
+    } catch (e: NumberFormatException) {
+        return ""
+
+    }
+}
 
 /**
  * Средняя
@@ -142,8 +172,25 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть положительными
  */
-fun mostExpensive(description: String): String = TODO()
-
+fun mostExpensive(description: String): String {
+      val goods = description.split("; ")
+       var separator = 0
+       var name = ""
+        var currentPrice = 0.0
+        var maxPrice = 0.0
+       try {
+                for (element in goods) {
+                       separator = element.lastIndexOf(" ")
+                        currentPrice = element.drop(separator + 1).toDouble()
+                       if (currentPrice >= maxPrice) {
+                               name = element.dropLast(element.length - separator)
+                               maxPrice = currentPrice
+                           }
+                   }
+           }
+       catch(e: NumberFormatException) { return "" }
+        return name
+    }
 /**
  * Сложная
  *

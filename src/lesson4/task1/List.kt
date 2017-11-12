@@ -216,7 +216,51 @@ fun decimal(digits: List<Int>, base: Int): Int = TODO()
  * 10 -> a, 11 -> b, 12 -> c и так далее.
  * Например: str = "13c", base = 14 -> 250
  */
-fun decimalFromString(str: String, base: Int): Int = TODO()
+
+
+fun sqr(a: Int, b: Int): Int {
+        var result = 1
+        for (i in 1..b) result *= a
+        return result
+    }
+
+
+fun decimalFromString(str: String, base: Int): Int {
+       var result = 0
+       for (i in 0..str.length - 1) {
+               val number = str[str.length - 1 - i]
+               result += when (number) {
+                     'a' -> (lesson4.task1.sqr(base, i) * 10)
+                        'b' -> (lesson4.task1.sqr(base, i) * 11)
+                        'c' -> (lesson4.task1.sqr(base, i) * 12)
+                        'd' -> (lesson4.task1.sqr(base, i) * 13)
+                        'e' -> (lesson4.task1.sqr(base, i) * 14)
+                        'f' -> (lesson4.task1.sqr(base, i) * 15)
+                        'g' -> (lesson4.task1.sqr(base, i) * 16)
+                        'h' -> (lesson4.task1.sqr(base, i) * 17)
+                        'i' -> (lesson4.task1.sqr(base, i) * 18)
+                        'j' -> (lesson4.task1.sqr(base, i) * 19)
+                        'k' -> (lesson4.task1.sqr(base, i) * 20)
+                        'l' -> (lesson4.task1.sqr(base, i) * 21)
+                        'm' -> (lesson4.task1.sqr(base, i) * 22)
+                        'n' -> (lesson4.task1.sqr(base, i) * 23)
+                        'o' -> (lesson4.task1.sqr(base, i) * 24)
+                        'p' -> (lesson4.task1.sqr(base, i) * 25)
+                        'q' -> (lesson4.task1.sqr(base, i) * 26)
+                       'r' -> (lesson4.task1.sqr(base, i) * 27)
+                        's' -> (lesson4.task1.sqr(base, i) * 28)
+                        't' -> (lesson4.task1.sqr(base, i) * 29)
+                        'u' -> (lesson4.task1.sqr(base, i) * 30)
+                        'v' -> (lesson4.task1.sqr(base, i) * 31)
+                        'w' -> (lesson4.task1.sqr(base, i) * 32)
+                        'x' -> (lesson4.task1.sqr(base, i) * 33)
+                        'y' -> (lesson4.task1.sqr(base, i) * 34)
+                        'z' -> (lesson4.task1.sqr(base, i) * 35)
+                        else -> (lesson4.task1.sqr(base, i) * (number - 48).toInt())
+                    }
+           }
+        return result
+    }
 
 /**
  * Сложная
@@ -254,4 +298,66 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val hundreds = listOf<String>("сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
+    val ten = listOf<String>("двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
+    val fromTenToNineteen = listOf<String>("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать",
+            "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать")
+
+
+    val resultLine = StringBuilder()
+            if (n / 100000 > 0) {
+                    resultLine.append(hundreds[n / 100000 - 1])
+                    resultLine.append(" ")
+                }
+
+            if (n / 10000 % 10 > 1) {
+                    resultLine.append(ten[n / 10000 % 10 - 2])
+                    resultLine.append(" ")
+                }
+
+            if (n / 1000 % 100 > 9 && n / 1000 % 100 < 20) {
+                    resultLine.append(fromTenToNineteen[n / 1000 % 100 - 10])
+                   resultLine.append(" ")
+                    if (fromTenToNineteen[n / 1000 % 100 - 10] != "десять") resultLine.append("тысяч")
+                }
+
+            if (n / 10000 % 10 != 1)
+                    resultLine.append(when (n / 1000 % 10) {
+                            1 -> "одна тысяча"
+                            2 -> "две тысячи"
+                            3 -> "три тысячи"
+                            4 -> "четыре тысячи"
+                            5 -> "пять тысяч"
+                            6 -> "шесть тысяч"
+                            7 -> "семь тысяч"
+                            8 -> "восемь тысяч"
+                            9 -> "девять тысяч"
+                            else -> ""
+                        })
+            if ((n / 10000 != 0) && (n / 1000 % 10 == 0)) resultLine.append("тысяч")
+
+            if ((n % 1000 / 100 != 0) && (n / 1000 != 0)) resultLine.append(" ")
+
+            if (n % 1000 / 100 > 0) resultLine.append(hundreds[n % 1000 / 100 - 1])
+           if ((n % 100 / 10 != 0) && (n / 100 != 0)) resultLine.append(" ")
+
+            if (n % 100 > 9 && n % 100 < 20) resultLine.append(fromTenToNineteen[n % 100 - 10])
+
+            if (n % 100 / 10 > 1) resultLine.append(ten[n % 100 / 10 - 2])
+            if ((n % 10 != 0) && (n / 10 != 0) && (n % 100 / 10 != 1)) resultLine.append(" ")
+            if (n % 100 / 10 != 1)       //единицы
+                    resultLine.append(when (n % 10) {
+                            1 -> "один"
+                            2 -> "два"
+                            3 -> "три"
+                            4 -> "четыре"
+                            5 -> "пять"
+                            6 -> "шесть"
+                            7 -> "семь"
+                            8 -> "восемь"
+                            9 -> "девять"
+                            else -> ""
+                        })
+            return resultLine.toString()
+        }

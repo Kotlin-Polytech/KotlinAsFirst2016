@@ -72,8 +72,20 @@ fun countSubstrings(inputName: String, substrings: List<String>): Map<String, In
  *
  */
 fun sibilants(inputName: String, outputName: String) {
-    TODO()
+    val outputStream = File(outputName).bufferedWriter()
+    val map = mapOf<Char, Char>('ы' to 'и', 'Ы' to 'И', 'я' to 'а', 'Я' to 'А', 'ю' to 'у', 'Ю' to 'У')
+    for (line in File(inputName).readLines()) {
+        for (l in 0..line.length - 1) {
+            if ((line[l] in map.keys) && (line[l - 1] in "ЖжЧчШшЩщ")) outputStream.write(map[line[l]].toString())
+            else outputStream.write(line[l].toString())
+        }
+        outputStream.newLine()
+    }
+    outputStream.close()
 }
+
+
+
 
 /**
  * Средняя
@@ -93,7 +105,16 @@ fun sibilants(inputName: String, outputName: String) {
  *
  */
 fun centerFile(inputName: String, outputName: String) {
-    TODO()
+        val lines = File(inputName).readLines().map { it.trim() }
+        var max = 0
+        for (line in lines) if (line.length >= max) max = line.length
+        val writer = File(outputName).bufferedWriter()
+        for (i in 0..lines.size-1) {
+                for (j in 1..(max-lines[i].length)/2) writer.write(" ")
+                writer.write(lines[i])
+                if (i != lines.size - 1) writer.newLine()
+            }
+        writer.close()
 }
 
 /**
@@ -136,8 +157,15 @@ fun alignFileByWidth(inputName: String, outputName: String) {
  *
  */
 fun top20Words(inputName: String): Map<String, Int> {
-    TODO()
+        val resultMap = mutableMapOf<String, Int>()
+        val words = Regex("""[a-zа-яё]+""").findAll(File(inputName).readText().toLowerCase())
+        for (word in words) {
+                val value = word.value
+                resultMap.put(value, (resultMap[value] ?: 0) + 1)
+            }
+        return resultMap.toList().sortedByDescending { it.second }.subList(0, 20).toMap()
 }
+
 
 /**
  * Средняя

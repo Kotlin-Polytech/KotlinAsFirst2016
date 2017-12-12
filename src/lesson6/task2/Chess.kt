@@ -16,6 +16,7 @@ data class Square(val column: Int, val row: Int) {
      */
     fun inside(): Boolean = column in 1..8 && row in 1..8
 
+
     /**
      * Простая
      *
@@ -23,17 +24,35 @@ data class Square(val column: Int, val row: Int) {
      * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
      * Для клетки не в пределах доски вернуть пустую строку
      */
-    fun notation(): String = TODO()
+    fun notation(): String {
+        if (inside()) {
+            if (column == 1) return "a" + "${row}"
+            else if (column == 2) return "b" + "${row}"
+            else if (column == 3) return "c" + "${row}"
+            else if (column == 4) return "d" + "${row}"
+            else if (column == 5) return "e" + "${row}"
+            else if (column == 6) return "f" + "${row}"
+            else if (column == 7) return "g" + "${row}"
+            else if (column == 8) return "h" + "${row}"
+            else return ""
+        } else return ""
+    }
 }
 
-/**
- * Простая
- *
- * Создаёт клетку по строковой нотации.
- * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
- * Если нотация некорректна, бросить IllegalArgumentException
- */
-fun square(notation: String): Square = TODO()
+    /**
+     * Простая
+     *
+     * Создаёт клетку по строковой нотации.
+     * В нотации, колонки обозначаются латинскими буквами от a до h, а ряды -- цифрами от 1 до 8.
+     * Если нотация некорректна, бросить IllegalArgumentException
+     */
+    fun square(notation: String): Square {
+        val columnNotation = listOf<Char>('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h')
+        val row = listOf<Char>('1', '2', '3', '4', '5', '6', '7', '8')
+        if (notation.length != 2 || notation[0] !in columnNotation || notation[1] !in row) throw IllegalArgumentException()
+        return Square(columnNotation.indexOf(notation[0]) + 1, row.indexOf(notation[1]) + 1)
+    }
+
 
 /**
  * Простая
@@ -99,7 +118,16 @@ fun rookTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Примеры: bishopMoveNumber(Square(3, 1), Square(6, 3)) = -1; bishopMoveNumber(Square(3, 1), Square(3, 7)) = 2.
  * Слон может пройти через клетку (6, 4) к клетке (3, 7).
  */
-fun bishopMoveNumber(start: Square, end: Square): Int = TODO()
+fun bishopMoveNumber(start: Square, end: Square): Int {
+    val count = 0
+        if (start == end) return count
+        if (!start.inside() || !end.inside()) throw IllegalArgumentException()
+        if (Math.abs(start.column - end.column) == Math.abs(start.row - end.row)) return count + 1
+        if (start.column == end.column || start.row == end.row) return count + 2
+        return -1
+    }
+
+
 
 /**
  * Сложная
@@ -141,8 +169,12 @@ fun bishopTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: kingMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Король может последовательно пройти через клетки (4, 2) и (5, 2) к клетке (6, 3).
  */
-fun kingMoveNumber(start: Square, end: Square): Int = TODO()
-
+fun kingMoveNumber(start: Square, end: Square): Int {
+        when {
+            (start.inside() && end.inside()) -> return Math.max(Math.abs(end.column - start.column), Math.abs(end.row - start.row))
+            else -> throw IllegalArgumentException()
+            }
+    }
 /**
  * Сложная
  *
